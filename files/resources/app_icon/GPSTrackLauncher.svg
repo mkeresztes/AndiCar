@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"
+    xmlns:bx="https://boxy-svg.com">
+    <g transform="matrix(0.854176, 0, 0, 0.853894, 3.500406, 3.480929)">
+        <ellipse cx="24" cy="24" rx="7.299" ry="7.299" style="fill: rgb(173, 20, 86);" />
+        <g>
+            <path
+                d="M 24 24 m -17.557 0 a 17.557 17.557 0 1 0 35.114 0 a 17.557 17.557 0 1 0 -35.114 0 Z M 24 24 m -13.219 0 a 13.219 13.219 0 0 1 26.438 0 a 13.219 13.219 0 0 1 -26.438 0 Z"
+                style="fill: rgb(253, 216, 53);"
+                bx:shape="ring 24 24 13.219 13.219 17.557 17.557 1@f5ed7e24" />
+            <rect x="22.253" y="1.779" width="3.493" height="4.796"
+                style="fill: rgb(253, 216, 53);" />
+            <rect x="22.254" y="41.485" width="3.493" height="4.796"
+                style="fill: rgb(253, 216, 53);" />
+            <rect x="6.441" y="37.881" width="3.493" height="4.796"
+                transform="matrix(0, -1, 1, 0, -36.125408, 32.1875)"
+                style="fill: rgb(253, 216, 53);" />
+            <rect x="6.441" y="37.881" width="3.493" height="4.796"
+                transform="matrix(0, -1, 1, 0, 3.565922, 32.1875)"
+                style="fill: rgb(253, 216, 53);" />
+        </g>
+    </g>
+</svg>

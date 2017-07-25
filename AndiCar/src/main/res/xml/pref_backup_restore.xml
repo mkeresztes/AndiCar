@@ -1,0 +1,98 @@
+<!--
+  ~ AndiCar
+  ~
+  ~  Copyright (c) 2016 Miklos Keresztes (miklos.keresztes@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="@string/pref_key_backup_now"
+        android:summary="@string/pref_backup_now_description"
+        android:title="@string/pref_backup_now_title"/>
+
+    <Preference
+        android:key="@string/pref_key_list_backups"
+        android:summary="@string/pref_backup_list_description"
+        android:title="@string/pref_backup_list_title"/>
+
+    <ListPreference
+        android:key="@string/pref_key_restore_data"
+        android:summary="@string/pref_restore_description"
+        android:title="@string/pref_restore_title"/>
+
+    <PreferenceCategory android:title="@string/pref_backup_service_category">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_key_backup_service_enabled"
+            android:summary="@string/pref_backup_service_description"
+            android:title="@string/pref_backup_service_title"/>
+
+        <Preference
+            android:key="@string/pref_key_backup_service_schedule"
+            android:title="@string/pref_backup_service_schedule_title"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_key_backup_service_show_notification"
+            android:summary="@string/pref_show_notification_on_success_description"
+            android:title="@string/pref_show_notification_on_success_title"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="@string/pref_key_secure_backup_category"
+        android:title="@string/pref_category_secure_backup">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/pref_key_secure_backup_enabled"
+            android:summary="@string/pref_securebackup_description"
+            android:title="@string/pref_securebackup_title"/>
+
+        <Preference
+            android:key="@string/pref_key_google_account"
+            android:summary="@string/pref_google_account_description"
+            android:title="@string/pref_title_google_account"/>
+
+        <EditTextPreference
+            android:inputType="textEmailAddress"
+            android:key="@string/pref_key_secure_backup_emailTo"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/pref_securebackup_email_to_title"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_key_secure_backup_only_wifi"
+            android:title="@string/pref_securebackup_only_on_wifi_title"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/pref_key_secure_backup_send_tracks"
+            android:summary="@string/pref_securebackup_send_tracks_description"
+            android:title="@string/pref_securebackup_send_tracks_title"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_key_secure_backup_show_notification"
+            android:summary="@string/pref_show_notification_on_success_description"
+            android:title="@string/pref_show_notification_on_success_title"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

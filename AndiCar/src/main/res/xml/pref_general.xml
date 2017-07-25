@@ -1,0 +1,69 @@
+<!--
+  ~ AndiCar
+  ~
+  ~  Copyright (c) 2016 Miklos Keresztes (miklos.keresztes@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/pref_car_driver_category_title">
+        <Preference
+            android:key="@string/pref_key_cars"
+            android:summary="@string/pref_car_summary"
+            android:title="@string/pref_car_title"/>
+
+        <Preference
+            android:key="@string/pref_key_fuel_type"
+            android:summary="@string/pref_fuel_type_summary"
+            android:title="@string/pref_fuel_type_title"/>
+
+        <Preference
+            android:key="@string/pref_key_drivers"
+            android:summary="@string/pref_driver_summary"
+            android:title="@string/pref_driver_title"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_uom_category_title">
+        <Preference
+            android:key="@string/pref_key_uom"
+            android:summary="@string/pref_uom_summary"
+            android:title="@string/pref_uom_title"/>
+
+        <Preference
+            android:key="@string/pref_key_uom_conversions"
+            android:summary="@string/pref_uom_conversion_summary"
+            android:title="@string/pref_uom_conversion_title"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_reminder_category_title">
+        <Preference
+            android:key="@string/pref_key_task_type"
+            android:summary="@string/pref_todo_type_summary"
+            android:title="@string/pref_todo_type_title"/>
+
+        <Preference
+            android:key="@string/pref_key_task"
+            android:summary="@string/pref_todo_summary"
+            android:title="@string/pref_todo_title"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/gen_other">
+        <Preference
+            android:key="@string/pref_key_tag"
+            android:summary="@string/pref_tag_summary"
+            android:title="@string/pref_tag_title"/>
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ AndiCar
+  ~
+  ~  Copyright (c) 2016 Miklos Keresztes (miklos.keresztes@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_trip"
+            android:icon="@drawable/ic_menu_trip_black"
+            android:title="@string/gen_trips"/>
+        <item
+            android:id="@+id/nav_refuel"
+            android:icon="@drawable/ic_menu_fillup_black"
+            android:title="@string/gen_fillups" />
+        <item
+            android:id="@+id/nav_expense"
+            android:icon="@drawable/ic_menu_payment_black"
+            android:title="@string/gen_expenses"/>
+        <item
+            android:id="@+id/nav_gpstrack"
+            android:icon="@drawable/ic_menu_gps_black"
+            android:title="@string/gen_gps_tracks"/>
+        <item
+            android:id="@+id/nav_todo"
+            android:icon="@drawable/ic_menu_today_black"
+            android:title="@string/gen_todo_list"/>
+    </group>
+
+    <item android:title="@string/gen_other">
+        <menu>
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_menu_settings_black"
+                android:title="@string/gen_settings"/>
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_menu_info_outline_black"
+                android:title="@string/gen_about"/>
+            <item
+                android:id="@+id/nav_report_issue"
+                android:icon="@drawable/ic_menu_bug_report"
+                android:title="@string/gen_report_issue"/>
+            <item
+                android:id="@+id/nav_rate"
+                android:icon="@drawable/ic_menu_star"
+                android:title="@string/gen_menu_rate_app"
+                android:visible="false"/>
+        </menu>
+    </item>
+
+</menu>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="com.shehabic.droppy_samples.MainActivity">
+    <group android:enabled="true">
+
+        <item
+            android:id="@+id/mnuTrip"
+            android:icon="@drawable/ic_drop_down_menu_trip_black_24dp_pad2dp"
+            android:title="@string/gen_trip"/>
+
+        <item
+            android:id="@+id/mnuRefuel"
+            android:icon="@drawable/ic_drop_down_menu_fillup_black_24dp_pad2dp"
+            android:title="@string/gen_fillup"/>
+
+        <item
+            android:id="@+id/mnuExpense"
+            android:icon="@drawable/ic_drop_down_menu_payment_black_24dp_pad2dp"
+            android:title="@string/gen_expense"/>
+
+        <item
+            android:id="@+id/mnuGPSTrack"
+            android:icon="@drawable/ic_drop_down_menu_gps_black_24dp_pad2dp"
+            android:title="@string/gen_gps_track"/>
+
+    </group>
+</menu>

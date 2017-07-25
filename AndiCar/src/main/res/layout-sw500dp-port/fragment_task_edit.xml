@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ AndiCar
+  ~
+  ~  Copyright (c) 2017 Miklos Keresztes (miklos.keresztes@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/vgRoot"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:paddingRight="10dp"
+            android:paddingEnd="10dp"
+            android:scrollbars="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvDebugInfo"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="sw500-port: "
+            tools:ignore="HardcodedText"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/AndiCarLabelStyle"
+                android:text="@string/gen_type_label"/>
+
+            <Spinner
+                android:id="@+id/spnTaskType"
+                style="@style/AndiCarSpinnerStyle"
+                android:layout_width="140dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvNameLabel"
+                style="@style/AndiCarLabelStyle"
+                android:text="@string/gen_name_label"/>
+
+            <EditText
+                android:id="@+id/etName"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/gen_required"
+                android:tag="@string/gen_required"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvUserCommentLabel"
+            style="@style/AndiCarLabelStyle"
+            android:layout_marginTop="5dp"
+            android:text="@string/gen_description"/>
+
+        <AutoCompleteTextView
+            android:id="@+id/acUserComment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+
+        <CheckBox
+            android:id="@+id/ckIsActive"
+            style="@style/AndiCarCheckBox"
+            android:layout_marginTop="5dp"
+            android:text="@string/gen_is_active"/>
+
+        <TextView
+            style="@style/AndiCarSeparatorView"
+            android:layout_marginTop="5dp"/>
+
+        <RadioGroup
+            android:id="@+id/rgRepeating"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbRecurrent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/task_edit_recurrent"
+                android:textSize="17sp"
+                android:typeface="sans"/>
+
+            <RadioButton
+                android:id="@+id/rbOneTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginStart="40dp"
+                android:text="@string/task_edit_one_time"
+                android:textSize="17sp"
+                android:typeface="sans"/>
+        </RadioGroup>
+
+        <TextView
+            style="@style/AndiCarLabelStyle"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:text="@string/task_edit_scheduled"
+            android:textSize="17sp"
+            android:textStyle="bold|italic"/>
+
+        <RadioGroup
+            android:id="@+id/rgScheduleType"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbTimeDriven"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gen_time"
+                android:textSize="17sp"
+                android:typeface="sans"/>
+
+            <RadioButton
+                android:id="@+id/rbMileageDriven"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/task_edit_mileage_driven"
+                android:textSize="17sp"
+                android:typeface="sans"/>
+
+            <RadioButton
+                android:id="@+id/rbTimeAndMileageDriven"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/task_edit_both_driven"
+                android:textSize="17sp"
+                android:typeface="sans"/>
+        </RadioGroup>
+
+        <TextView style="@style/AndiCarSeparatorView"/>
+
+        <LinearLayout
+            android:id="@+id/llTimingZone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical|end"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/ckIsDifferentStartingTime"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/task_edit_first_run_depend_on_car"
+                android:textSize="17sp"
+                android:typeface="sans"/>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/llRecurrentTimeSettings"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/AndiCarLabelStyle"
+                        android:text="@string/task_edit_recurrent_every_label"/>
+
+                    <EditText
+                        android:id="@+id/etFrequency"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:digits="1234567890"
+                        android:inputType="numberDecimal"
+                        android:tag="@string/task_edit_recurrent_frequency_label"
+                        android:text="1"
+                        tools:ignore="HardcodedText"/>
+
+                    <Spinner
+                        android:id="@+id/spnScheduleFrequency"
+                        style="@style/AndiCarSpinnerStyle"
+                        android:layout_width="150dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:entries="@array/recurrent_periods"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvFirstTimeRunExplanation"
+                    style="@style/AndiCarLabelStyle"
+                    android:gravity="center_horizontal"
+                    android:text="@string/task_edit_first_time_run_explanation"/>
+
+                <LinearLayout
+                    android:id="@+id/llStartingTime"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvStartingTimeLbl"
+                        style="@style/AndiCarLabelStyle"/>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/spnLastDayMonth"
+                            style="@style/AndiCarSpinnerStyle"
+                            android:layout_width="150dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:entries="@array/months"/>
+
+                        <TextView
+                            android:id="@+id/tvDateTimeValue"
+                            style="@style/AndiCarDateTimeTextView"
+                            android:gravity="center_vertical"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llLastMonthDay"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvOrLastDay"
+                        style="@style/AndiCarLabelStyle"
+                        android:gravity="center_vertical"
+                        android:text="@string/gen_or"/>
+
+                    <CheckBox
+                        android:id="@+id/ckOnLastDay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/gen_last_day"
+                        android:textSize="17sp"
+                        android:typeface="sans"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llTimeReminder"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AndiCarLabelStyle"
+                    android:text="@string/task_edit_reminder_start_label"/>
+
+                <EditText
+                    android:id="@+id/etTimeReminder"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:digits="1234567890"
+                    android:inputType="number"
+                    android:text="3"
+                    tools:ignore="HardcodedText"/>
+
+                <TextView
+                    android:id="@+id/tvTimeReminderUnitLbl"
+                    style="@style/AndiCarLabelStyle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvOr"
+            style="@style/AndiCarLabelStyle"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:text="@string/gen_or"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:id="@+id/llMileageZone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/llMileageSettings"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvMileageLabelOn"
+                    style="@style/AndiCarLabelStyle"
+                    android:gravity="center_vertical"
+                    android:text="@string/gen_on"/>
+
+                <TextView
+                    android:id="@+id/tvMileageLabelEvery"
+                    style="@style/AndiCarLabelStyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/task_edit_recurrent_every_label"/>
+
+                <EditText
+                    android:id="@+id/etMileage"
+                    style="@style/AndiCarLabelStyle"
+                    android:layout_width="140dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:digits="1234567890"
+                    android:inputType="number"/>
+
+                <TextView
+                    style="@style/AndiCarLabelStyle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/task_edit_mileage_uom_text"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvFirstMileageRunExplanation"
+                style="@style/AndiCarLabelStyle"
+                android:gravity="center_horizontal"
+                android:text="@string/task_edit_first_mileage_run_explanation"/>
+
+            <LinearLayout
+                android:id="@+id/llMileageReminder"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AndiCarLabelStyle"
+                    android:text="@string/task_edit_reminder_start_label"/>
+
+                <EditText
+                    android:id="@+id/etReminderMileage"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:digits="1234567890"
+                    android:inputType="number"
+                    android:text="300"
+                    tools:ignore="HardcodedText"/>
+
+                <TextView
+                    android:id="@+id/tvReminderMileageCode"
+                    style="@style/AndiCarLabelStyle"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/task_edit_mileage_uom_text"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView style="@style/AndiCarSeparatorView"/>
+
+        <LinearLayout
+            android:id="@+id/llToDoCountZone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/AndiCarLabelStyle"
+                    android:text="@string/task_edit_generated_todo_count_label"/>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/etNoOfNextToDo"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
+                        android:digits="1234567890"
+                        android:inputType="number"
+                        android:text="3"
+                        tools:ignore="HardcodedText"/>
+
+                    <TextView
+                        style="@style/AndiCarLabelStyle"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/gen_todo"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                style="@style/AndiCarLabelStyle"
+                android:gravity="center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/task_edit_todo_count_help"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llLinkedCarsZone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+            <TextView style="@style/AndiCarSeparatorView"/>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AndiCarLabelStyle"
+                    android:layout_marginTop="7dp"
+                    android:text="@string/task_edit_linked_cars_label"
+                    android:textStyle="bold"/>
+
+                <ImageButton
+                    android:id="@+id/btnLinkCar"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@null"
+                    android:src="@drawable/ic_button_add_black_dark_selector"
+                    android:contentDescription="@string/gen_add_new"/>
+            </RelativeLayout>
+
+            <TextView style="@style/AndiCarSeparatorView"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvLinkedCarsHelp"
+            style="@style/AndiCarLabelStyle"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:text="@string/task_edit_linked_cars_options_help"/>
+
+        <ListView
+            android:id="@+id/lvLinkedCarsList"
+            android:layout_width="fill_parent"
+            android:layout_height="400dp"
+            android:layout_marginTop="5dp"
+            android:drawSelectorOnTop="false"
+            tools:ignore="NestedScrolling"/>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ AndiCar - a car management software for Android powered devices.
+
+ Copyright (C) 2010 Miklos Keresztes (miklos.keresztes@gmail.com)
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- Error messages -->
+
+<resources>
+    <string name="ERR_000">"Database error."</string>
+    <string name="ERR_001">"The start index is within an existing mileage"</string>
+    <string name="ERR_002">"Stop/New index is within an existing mileage"</string>
+    <string name="ERR_003">"New mileage overlap an existing mileage"</string>
+    <string name="ERR_004">"Stop/New index must be greater than start index"</string>
+    <string name="ERR_005">"Conversion rate already exist"</string>
+    <string name="ERR_008">"Invalid date/time format!"</string>
+    <string name="ERR_009">"This driver can not be deleted because it is used in mileage(s)."</string>
+    <string name="ERR_010">"This driver can not be deleted because it is used in refuel(s)."</string>
+    <string name="ERR_011">"This car can not be deleted because it is used in mileage(s)."</string>
+    <string name="ERR_012">"This car can not be deleted because it is used in refuel(s)."</string>
+    <string name="ERR_013">"This UOM can not be deleted because it is used in mileage(s)."</string>
+    <string name="ERR_014">"This UOM can not be deleted because it is used in refuel(s)."</string>
+    <string name="ERR_015">"This UOM can not be deleted because it is used in UOM conversion(s)."</string>
+    <string name="ERR_016">"This currency can not be deleted because it is used in car definition(s)."</string>
+    <string name="ERR_017">"This currency can not be deleted because it is used in refuel(s)."</string>
+    <string name="ERR_018">"This expense type can not be deleted because it is used in mileage(s)."</string>
+    <string name="ERR_019">"This expense type can not be deleted because it is used in refuel(s)."</string>
+    <string name="ERR_020">"SDCARD not found. You can not create reports, gps tracks and database backups!"</string>
+    <string name="ERR_021">"Report folder (/sdcard/andicar/reports) can not be created. You can not save the reports locally until you create this folder on your device."</string>
+    <string name="ERR_022">"Can not create report file!"</string>
+    <string name="ERR_023">"File writing error!"</string>
+    <string name="ERR_024">"Backup folder (/sdcard/andicar/backup) can not be created. You can not backup your database until you create this folder on your device."</string>
+    <string name="ERR_025">"The UOM can not be inactivated because it is used in an active car definition."</string>
+    <string name="ERR_026">"The currency can not be inactivated because it is used in an active car definition."</string>
+    <string name="ERR_027">"This category can not be deleted because it is used in refuel(s)."</string>
+    <string name="ERR_028">"This category can not be deleted because it is used in expense(s)."</string>
+    <string name="ERR_029">"The conversion rate is already defined between these currencies."</string>
+    <string name="ERR_030">"This expense can not be deleted because it was created by a refuel.\n You should delete the refuel."</string>
+    <string name="ERR_031">"You can not define conversion between the same UOMs."</string>
+    <string name="ERR_032">"You can not define conversion between the same currencies."</string>
+    <string name="ERR_033">"GPS track folder (/sdcard/andicar/gpstrack) can not be created. You can not save the gps track files until you create this folder on your device."</string>
+    <string name="ERR_034">"File system error!\n Check your SDCARD."</string>
+    <string name="ERR_035">"Invalid report."</string>
+    <string name="ERR_036">"Track file not found or is empty!"</string>
+    <string name="ERR_038">"This currency can not be deleted because it is used in expense(s)."</string>
+    <string name="ERR_039">"This driver can not be deleted because it is used in expense(s)."</string>
+    <string name="ERR_040">"This car can not be deleted because it is used in expense(s)."</string>
+    <string name="ERR_041">"This expense type can not be deleted because it is used in expense(s)."</string>
+    <string name="ERR_042">"This partner can not be deleted because it is used in refuel(s)."</string>
+    <string name="ERR_043">"This partner can not be deleted because it is used in expense(s)."</string>
+    <string name="ERR_044">"This location can not be deleted because it is used in refuel(s)."</string>
+    <string name="ERR_045">"This location can not be deleted because it is used in expense(s)."</string>
+
+    <string name="ERR_046">"This tag can not be deleted because it is used in mileage(s)."</string>
+    <string name="ERR_047">"This tag can not be deleted because it is used in refuel(s)."</string>
+    <string name="ERR_048">"This tag can not be deleted because it is used in expense(s)."</string>
+    <string name="ERR_049">"This tag can not be deleted because it is used in gps track(s)."</string>
+
+    <string name="ERR_051">"No car selected!\n Please choose a car in the main screen."</string>
+
+    <string name="ERR_052">"SMTP authentication not configured (no username)!"</string>
+    <string name="ERR_053">"SMTP authentication not configured (no password)!"</string>
+    <string name="ERR_054">"SMTP authentication not configured (no destination email)!"</string>
+    <string name="ERR_055">"Failed to send mail."</string>
+    <string name="ERR_056">"Unknown error."</string>
+    <string name="ERR_057">"Failed to compress the database backup!"</string>
+
+    <string name="ERR_058">"Temporary folder (/sdcard/andicar/temp) can not be created. You can not use the SecureBackup service until you create this folder on your device."</string>
+    <string name="ERR_059">"Duplicate record."</string>
+    <string name="ERR_060">"This type can not be deleted because it is used in task(s)."</string>
+    <string name="ERR_061">"Unknown To-Do!\nProbably the task was modified and the To-Do list recreated."</string>
+
+    <string name="ERR_063">"AddOn database error."</string>
+    <string name="ERR_064">"Your device does not have Bluetooth support!"</string>
+    
+    <string name="ERR_065">"Invalid number. Too big."</string>
+    <string name="ERR_067">"Cannot share report. No application found with sharing capabilities!"</string>
+
+    <string name="ERR_068">"No GPS provider found!"</string>
+
+    <string name="ERR_069">"Please give permission for accessing location!"</string>
+    <string name="ERR_070">Access denied to external storage!</string>
+</resources>

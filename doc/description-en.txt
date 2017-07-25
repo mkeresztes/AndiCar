@@ -1,0 +1,36 @@
+AndiCar is a car / fleet management and maintenance software designed for peoples who want a single application to track their trips / mileages, expenses, fillups, To-Do List, GPS tracks of their car/vehicle.
+    The csv export of the records let you to create any kind of graphical statistics or special computations (like tax reporting) in Microsoft Office Excel or OpenOffice / LibreOffice Spreadshet.
+
+Main features:
+* business/personal/etc. trip recording
+* fill up
+* other expenses (service, insurance, etc.)
+* GPS tracking with automatic trip recording based on the GPS data
+* work with multiple cars, drivers, currencies, conversion rates, measurement units, etc.
+* multiple expense types (for example business or personal)
+* multiple expense and fuel categories
+* Task / To-Do / Reminders based on date, mileage or both
+* statistics (avg./last fuel efficiency in MPG or l/100km, TCO, mileage expense in $/100 km or mi)
+* all records can be exported as csv or html file and can be send as email attachments or upload to Google Docs / Dropbox (if Docs / Dropbox client are installed)
+* configurable main screen
+* manual database backup and restore
+
+AddOns:
+* automatic (scheduled) database backup
+* secure database backup (automatically send the backup to a specified email address).
+* user configurable templates for easy data entry
+* Bluetooth connection detector. Automatically launch the GPS Track Controller when a Bluetooth connection with a car is created; require Android 2+ 
+
+AndiCar is an open source software, licensed under the terms of the GNU General Public License, version 3.
+
+Supported languages: English, Chinese, Russian, Deutch, Hungarian, Spanish, Romanian
+
+IF YOU LIKE IT RATE / COMMENT IT!
+IF YOU FIND A BUG GO TO www.andicar.org -> Issues!
+
+See www.andicar.org -> "How To" to learn about HOW TO USE AndiCar!
+
+Thank you for using AndiCar!
+Miklos Keresztes
+
+tags: car vehicle fuel log mileage fill-up fillup maintenance service expense trip mileage gps tracker manager management mpg cost statistics report to-do todo task

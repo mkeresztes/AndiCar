@@ -1,0 +1,196 @@
+<!--
+  ~ AndiCar
+  ~
+  ~  Copyright (c) 2016 Miklos Keresztes (miklos.keresztes@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/primary_accent</item>
+        <item name="android:textColorPrimary">@android:color/primary_text_light</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="AndiCarDialog" parent="Theme.AppCompat.Light.Dialog.Alert"/>
+
+    <style name="AndiCarDialogMessage" parent="@style/TextAppearance.AppCompat.Medium">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:paddingLeft">@dimen/dialog_content_horizontal_spacing</item>
+        <item name="android:paddingRight">@dimen/dialog_content_horizontal_spacing</item>
+        <item name="android:textColor">@android:color/primary_text_light</item>
+
+        <!--<item name="android:textSize">12sp</item>-->
+        <!--<item name="android:textStyle">bold</item>-->
+    </style>
+
+    <!--<style name="AndiCarDialogMessage" parent="@style/TextAppearance.AppCompat.Medium">-->
+    <!--<item name="android:layout_width">fill_parent</item>-->
+    <!--<item name="android:layout_height">wrap_content</item>-->
+    <!--<item name="android:layout_gravity">center_vertical</item>-->
+    <!--<item name="android:textColor">@android:color/primary_text_light</item>-->
+    <!--</style>-->
+
+    <style name="AndiCarDialogDetail" parent="@style/TextAppearance.AppCompat.Medium">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@android:color/primary_text_light</item>
+        <item name="android:paddingBottom">@dimen/dialog_content_vertical_spacing</item>
+        <item name="android:paddingTop">@dimen/dialog_content_vertical_spacing</item>
+    </style>
+
+    <style name="AndiCarDialogDate" parent="@style/TextAppearance.AppCompat.Small">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@android:color/primary_text_light</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="GPSTrackController" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">false</item>
+    </style>
+
+    <style name="ListItem.FirstLine" parent="@style/TextAppearance.AppCompat.Small">
+        <!--<item name="android:textSize">12sp</item>-->
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/primary_text_light</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ListItem.SecondLine" parent="@style/TextAppearance.AppCompat.Small">
+        <!--<item name="android:textSize">12sp</item>-->
+        <item name="android:textColor">@android:color/primary_text_light</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ListItem.ThirdLine" parent="@style/TextAppearance.AppCompat.Small">
+        <!--<item name="android:textSize">10sp</item>-->
+        <item name="android:textColor">@android:color/primary_text_light</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="AndiCarDateTimeTextView" parent="android:Widget.Holo.Light.Spinner">
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textColor">@android:color/primary_text_light</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="AndiCarTextViewStyle">
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textColor">@android:color/primary_text_light</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="AndiCarLabelStyle" parent="AndiCarTextViewStyle">
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginEnd" tools:targetApi="jelly_bean_mr1">5dp</item>
+    </style>
+
+    <style name="AndiCarAutocompleteTextStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginStart" tools:targetApi="jelly_bean_mr1">5dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@android:color/primary_text_light</item>
+    </style>
+    <!--        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    -->
+    <style name="AndiCarSpinnerStyle">
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginStart" tools:targetApi="jelly_bean_mr1">5dp</item>
+        <item name="android:gravity">start</item>
+        <item name="android:drawSelectorOnTop">true</item>
+        <item name="android:prompt">@string/gen_choose_one</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textColor">@android:color/primary_text_light</item>
+    </style>
+    <!--<item name="android:layout_alignParentEnd" tools:targetApi="jelly_bean_mr1">true</item>-->
+    <!--<item name="android:layout_alignParentRight">true</item>-->
+
+    <style name="AndiCarCheckBox">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">start</item>
+        <!--<item name="android:layout_gravity">center_horizontal</item>-->
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textColor">@android:color/primary_text_light</item>
+    </style>
+
+    <style name="AndiCarSeparatorView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <!--<item name="android:layout_marginTop">5dp</item>-->
+        <!--<item name="android:layout_marginBottom">5dp</item>-->
+        <item name="android:background">@android:color/background_dark</item>
+    </style>
+
+    <style name="AndiCarDialogButtonSeparatorView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/primary_accent</item>
+    </style>
+
+    <style name="AndiCarChartFooter" parent="@style/TextAppearance.AppCompat.Small">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center_horizontal</item>
+        <!--<item name="android:textSize">18sp</item>-->
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/primary_text_light</item>
+    </style>
+
+    <style name="AndiCarChartHeader" parent="@style/TextAppearance.AppCompat.Small">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center_horizontal</item>
+        <!--<item name="android:textSize">16sp</item>-->
+        <!--<item name="android:textStyle">bold</item>-->
+        <item name="android:textColor">@android:color/primary_text_light</item>
+    </style>
+
+</resources>

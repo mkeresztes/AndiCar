@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ AndiCar
+  ~
+  ~  Copyright (c) 2017 Miklos Keresztes (miklos.keresztes@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_show_gpstrack_on_map"
+        android:icon="@drawable/ic_menu_map_white"
+        android:title="@string/gen_gpstrack_map"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_send"
+        android:icon="@drawable/ic_menu_send_white"
+        android:title="@string/gen_share"
+        app:showAsAction="ifRoom"/>
+
+    <!--the position of this item is important'-->
+    <!--it is used for hiding the item in case of no mileage created based on the gps track-->
+    <!--see GPSTrackEditFragment:onCreateOptionsMenu()-->
+    <item
+        android:id="@+id/action_show_mileag_edit"
+        android:icon="@drawable/ic_menu_trip_white"
+        android:title="@string/gen_trip_detail"
+        app:showAsAction="ifRoom"/>
+</menu>

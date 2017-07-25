@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ AndiCar - Aplicación de administración de Automóviles para dispositivos Android.
+
+ Derechos de autor (C) 2010-2011 Miklos Keresztes (miklos.keresztes@gmail.com)
+
+ Este programa es una aplicación libre: La puedes re distribuir y/o modificar 
+ bajo los términos de  GNU Licencia Pública General como ha sido publicado por 
+ la Fundación del Software Libre, tanto la versión 3 de el Licencia, o
+ (en forma opcional) cualquier versión posterior.
+
+ este programa es distribuido en la fe de que sera útil,
+ pero SIN NINGUNA GARANTÍA; si siquiera la garantía de
+ COMERCIALIZACIÓN o buen estado para un USO  PARTICULAR.
+ Ver GNU Licencia Pública General para mas detalles.
+
+ Deberías haber recibido una copia de la Licencia Pública General, GNU
+ con este programa. De no ser así,la puedes encontrar en <http://www.gnu.org/licenses/>.
+--><!--Inicio de cadenas de la base de datos-->
+<resources>
+    <!-- UOM's -->
+    <string name="DB_UOM_KmName">Kilómetro</string>
+    <string name="DB_UOM_KmComment">Kilómetro</string>
+    <string name="DB_UOM_MiName">Milla</string>
+    <string name="DB_UOM_MiComment">Milla</string>
+    <string name="DB_UOM_LName">Liter</string>
+    <string name="DB_UOM_LComment">Liter</string>
+    <string name="DB_UOM_USGName">Galón USA</string>
+    <string name="DB_UOM_USGComment">Galón Americano</string>
+    <string name="DB_UOM_GBGName">Galón Imperial</string>
+    <string name="DB_UOM_GBGComment">Galón Imperial</string>
+    <!-- UOM Conversions -->
+    <string name="DB_UOMConversion_MiToKmName">millas a kilómetros</string>
+    <string name="DB_UOMConversion_MiToKmComment">Millas a Kilómetros</string>
+    <string name="DB_UOMConversion_KmToMiName">kilómetros a millas</string>
+    <string name="DB_UOMConversion_KmToMiComment">kilómetros a Millas</string>
+    <string name="DB_UOMConversion_USGToLName">Galones USA a litros</string>
+    <string name="DB_UOMConversion_USGToLComment">Galones a Litros</string>
+    <string name="DB_UOMConversion_LToUSGName">litros A Galones Americanos</string>
+    <string name="DB_UOMConversion_LToUSGComment">Litros a Galones Americanos</string>
+    <string name="DB_UOMConversion_GBGToLName">Galones GB a litros</string>
+    <string name="DB_UOMConversion_GBGToLComment">Galón Imperial a Litros</string>
+    <string name="DB_UOMConversion_LToGBGName">litros a Galones GB</string>
+    <string name="DB_UOMConversion_LToGBGComment">Litros a Galón Imperial</string>
+    <string name="DB_UOMConversion_GBGToUSGName">Galón Imperial a Galón Americano</string>
+    <string name="DB_UOMConversion_GBGToUSGComment">Galón Imperial a Galón Americano</string>
+    <string name="DB_UOMConversion_USGToGBGName">Galón Americano a Galón Imperial</string>
+    <string name="DB_UOMConversion_USGToGBGComment">Galón Americano a Galón Imperial</string>
+    <!-- expense types -->
+    <string name="DB_ExpType_PersonalName">Personal</string>
+    <string name="DB_ExpType_PersonalComment">Gastos Personales</string>
+    <string name="DB_ExpType_EmployerName">Negocios</string>
+    <string name="DB_ExpType_EmployerComment">Gastos de Negocio</string>
+    <!-- expense categories -->
+    <string name="DB_ExpCat_ServiceName">Servicio</string>
+    <string name="DB_ExpCat_ServiceComment">Gastos del Servicio</string>
+    <string name="DB_ExpCat_InsuranceName">Seguro</string>
+    <string name="DB_ExpCat_InsuranceComment">Gastos del Seguro</string>
+    <string name="DB_ExpCat_RoadTollName">Peaje</string>
+    <string name="DB_ExpCat_RoadTollComment">Peaje</string>
+    <string name="DB_ExpCat_PenaltyName">Penalización :(</string>
+    <string name="DB_ExpCat_PenaltyComment">Penalización :(</string>
+
+    <!-- fuel types -->
+    <string name="DB_FuelType_Diesel1D">Diésel 1D</string>
+    <string name="DB_FuelType_Diesel1DComment">Preferido en bajas temperaturas</string>
+    <string name="DB_FuelType_Diesel2D">Diésel 2D</string>
+    <string name="DB_FuelType_Diesel2DComment">Preferido en altas temperaturas</string>
+    <string name="DB_FuelType_DieselBio">Diésel Biológico</string>
+    <string name="DB_FuelType_DieselBioComment">Obtenido de aceites vegetales o grasas animales</string>
+    <string name="DB_FuelType_DieselSynthetic">Diésel Sintético</string>
+    <string name="DB_FuelType_DieselSyntheticComment">Derivado de varias fuentes como madera, maiz y posiblemente desperdicios</string>
+    <string name="DB_FuelType_GasolineRegular">Gasolina Regular</string>
+    <string name="DB_FuelType_GasolineRegularComment">Gasolina 87 Octanos</string>
+    <string name="DB_FuelType_GasolineMidgrade">Gasolina moderada</string>
+    <string name="DB_FuelType_GasolineMidgradeComment">Gasolina 89 Octanos</string>
+    <string name="DB_FuelType_GasolinePremium">Gasolina Especial</string>
+    <string name="DB_FuelType_GasolinePremiumComment">Gasolina 91 – 93 Octanos</string>
+    <string name="DB_FuelType_GasolinePremium2">Gasolina Super Especial</string>
+    <string name="DB_FuelType_GasolinePremiumComment2">Gasolina 94 – 98 Octanos</string>
+    <string name="DB_FuelType_LPG">GNC</string>
+    <string name="DB_FuelType_LPGComment">Gas Natural Comprimido</string>
+
+    <!-- currencies -->
+    <string name="DB_Curr_EUR">Euro</string>
+    <string name="DB_Curr_USD">Dolar Americano</string>
+    <string name="DB_Curr_HUF">Florín húngaro</string>
+    <string name="DB_Curr_RON">Leu Rumano</string>
+    <string name="DB_Curr_CAD">Dolares Canadiense</string>
+    <string name="DB_Curr_GBP">libra Esterlina</string>
+
+    <string name="DB_TaskType_ServiceName">Servicio</string>
+    <string name="DB_TaskType_ServiceComment">Mantenimiento Recurrente</string>
+    <string name="DB_TaskType_ReminderName">Recordatorio</string>
+    <string name="DB_TaskType_ReminderComment">Recordatorio de Tareas Generales</string>
+</resources>

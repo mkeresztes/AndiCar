@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ AndiCar
+  ~
+  ~  Copyright (c) 2016 Miklos Keresztes (miklos.keresztes@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<!-- Database initialization strings-->
+
+<resources>
+    <!-- UOM -->
+    <string name="DB_UOM_KmName">Kilometer</string>
+    <string name="DB_UOM_KmComment">Kilometer</string>
+    <string name="DB_UOM_MiName">Mile</string>
+    <string name="DB_UOM_MiComment">Mile</string>
+    <string name="DB_UOM_LName">Liter</string>
+    <string name="DB_UOM_LComment">Liter</string>
+    <string name="DB_UOM_USGName">US gallon</string>
+    <string name="DB_UOM_USGComment">U.S. liquid gallon</string>
+    <string name="DB_UOM_GBGName">Imperial gallon</string>
+    <string name="DB_UOM_GBGComment">Imperial (UK) gallon</string>
+    <!-- UOM Conversions -->
+    <string name="DB_UOMConversion_MiToKmName">mi to km</string>
+    <string name="DB_UOMConversion_MiToKmComment">Mile to Kilometer</string>
+    <string name="DB_UOMConversion_KmToMiName">km to mi</string>
+    <string name="DB_UOMConversion_KmToMiComment">Kilometer to Mile</string>
+    <string name="DB_UOMConversion_USGToLName">US gal to l</string>
+    <string name="DB_UOMConversion_USGToLComment">US gallon to Liter</string>
+    <string name="DB_UOMConversion_LToUSGName">l to US gal</string>
+    <string name="DB_UOMConversion_LToUSGComment">Liter to US gallon</string>
+    <string name="DB_UOMConversion_GBGToLName">GB gal to l</string>
+    <string name="DB_UOMConversion_GBGToLComment">Imperial gallon to Liter</string>
+    <string name="DB_UOMConversion_LToGBGName">l to GB gal</string>
+    <string name="DB_UOMConversion_LToGBGComment">Liter to Imperial gallon</string>
+    <string name="DB_UOMConversion_GBGToUSGName">GB gal to US gal</string>
+    <string name="DB_UOMConversion_GBGToUSGComment">Imperial gallon to US gallon</string>
+    <string name="DB_UOMConversion_USGToGBGName">US gal to GB gal</string>
+    <string name="DB_UOMConversion_USGToGBGComment">US gallon to Imperial gallon</string>
+    <!-- expense types -->
+    <string name="DB_ExpType_PersonalName">Personal</string>
+    <string name="DB_ExpType_PersonalComment">Expenses supported by you</string>
+    <string name="DB_ExpType_EmployerName">Business</string>
+    <string name="DB_ExpType_EmployerComment">Expenses supported by your employer</string>
+    <!-- expense categories -->
+    <string name="DB_ExpCat_ServiceName">Service</string>
+    <string name="DB_ExpCat_ServiceComment">Expenses with services</string>
+    <string name="DB_ExpCat_InsuranceName">Insurance</string>
+    <string name="DB_ExpCat_InsuranceComment">Expenses with insurance</string>
+    <string name="DB_ExpCat_RoadTollName">Road toll</string>
+    <string name="DB_ExpCat_RoadTollComment">Road tolls</string>
+    <string name="DB_ExpCat_PenaltyName">Penalty :(</string>
+    <string name="DB_ExpCat_PenaltyComment">Penalty :(</string>
+    <!-- fuel types -->
+    <string name="DB_FuelType_Diesel1D">Diesel 1D</string>
+    <string name="DB_FuelType_Diesel1DComment">Preferred for cold weather</string>
+    <string name="DB_FuelType_Diesel2D">Diesel 2D</string>
+    <string name="DB_FuelType_Diesel2DComment">Used in warmer weather</string>
+    <string name="DB_FuelType_DieselBio">Biodiesel</string>
+    <string name="DB_FuelType_DieselBioComment">Obtained from vegetable oil or animal fats</string>
+    <string name="DB_FuelType_DieselSynthetic">Synthetic Diesel</string>
+    <string name="DB_FuelType_DieselSyntheticComment">Derived from various sources such as wood, straw, corn and even garbage and food scraps</string>
+    <string name="DB_FuelType_GasolineRegular">Regular gasoline</string>
+    <string name="DB_FuelType_GasolineRegularComment">Octane rating 87</string>
+    <string name="DB_FuelType_GasolineMidgrade">Midgrade gasoline</string>
+    <string name="DB_FuelType_GasolineMidgradeComment">Octane rating 89</string>
+    <string name="DB_FuelType_GasolinePremium">Premium gasoline</string>
+    <string name="DB_FuelType_GasolinePremiumComment">Octane rating 91 – 93</string>
+    <string name="DB_FuelType_GasolinePremium2">Super premium gasoline</string>
+    <string name="DB_FuelType_GasolinePremiumComment2">Octane rating 94 – 98</string>
+    <string name="DB_FuelType_LPG">LPG</string>
+    <string name="DB_FuelType_LPGComment">Liquefied petroleum gas</string>
+
+    <!-- currencies -->
+    <string name="DB_Curr_EUR">Euro</string>
+    <string name="DB_Curr_USD">US Dollar</string>
+    <string name="DB_Curr_HUF">Hungary Forint</string>
+    <string name="DB_Curr_RON">Romania Lei</string>
+    <string name="DB_Curr_CAD">Canada Dollar</string>
+    <string name="DB_Curr_GBP">United Kingdom Pounds</string>
+
+    <string name="DB_TaskType_ServiceName">Service</string>
+    <string name="DB_TaskType_ServiceComment">Recurrent maintenance</string>
+    <string name="DB_TaskType_ReminderName">Reminder</string>
+    <string name="DB_TaskType_ReminderComment">Reminder for general tasks</string>
+</resources>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ AndiCar - a car management software for Android powered devices.
+
+ Copyright (C) 2010 Miklos Keresztes (miklos.keresztes@gmail.com)
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- Database initialization strings-->
+
+<resources>
+    <!-- UOM's -->
+    <string name="DB_UOM_KmName">Kilometri</string>
+    <string name="DB_UOM_KmComment">Kilometri</string>
+    <string name="DB_UOM_MiName">Mile</string>
+    <string name="DB_UOM_MiComment">Mile</string>
+    <string name="DB_UOM_LName">Litri</string>
+    <string name="DB_UOM_LComment">Litri</string>
+    <string name="DB_UOM_USGName">US gallon</string>
+    <string name="DB_UOM_USGComment">U.S. liquid gallon</string>
+    <string name="DB_UOM_GBGName">Imperial gallon</string>
+    <string name="DB_UOM_GBGComment">Imperial (UK) gallon</string>
+    <!-- UOM Conversions -->
+    <string name="DB_UOMConversion_MiToKmName">mi la km</string>
+    <string name="DB_UOMConversion_MiToKmComment">Mile la Kilometri</string>
+    <string name="DB_UOMConversion_KmToMiName">km la mi</string>
+    <string name="DB_UOMConversion_KmToMiComment">Kilometri to Mile</string>
+    <string name="DB_UOMConversion_USGToLName">US gal la l</string>
+    <string name="DB_UOMConversion_USGToLComment">US gallon la Litri</string>
+    <string name="DB_UOMConversion_LToUSGName">l la US gal</string>
+    <string name="DB_UOMConversion_LToUSGComment">Litri l US gallon</string>
+    <string name="DB_UOMConversion_GBGToLName">GB gal la l</string>
+    <string name="DB_UOMConversion_GBGToLComment">Imperial gallon la Litri</string>
+    <string name="DB_UOMConversion_LToGBGName">l la GB gal</string>
+    <string name="DB_UOMConversion_LToGBGComment">Litri la Imperial gallon</string>
+    <string name="DB_UOMConversion_GBGToUSGName">GB gal la US gal</string>
+    <string name="DB_UOMConversion_GBGToUSGComment">Imperial gallon la US gallon</string>
+    <string name="DB_UOMConversion_USGToGBGName">US gal la GB gal</string>
+    <string name="DB_UOMConversion_USGToGBGComment">US gallon la Imperial gallon</string>
+    <!-- expense types -->
+    <string name="DB_ExpType_PersonalName">Personal</string>
+    <string name="DB_ExpType_PersonalComment">Cheltuieli suportate de tine</string>
+    <string name="DB_ExpType_EmployerName">Business</string>
+    <string name="DB_ExpType_EmployerComment">Cheltuieli suportate de angajator</string>
+    <!-- expense categories -->
+    <string name="DB_ExpCat_ServiceName">Service</string>
+    <string name="DB_ExpCat_ServiceComment">Cheltuieli de service auto</string>
+    <string name="DB_ExpCat_InsuranceName">Asigurare</string>
+    <string name="DB_ExpCat_InsuranceComment">Cheltuieli de asigurare</string>
+    <string name="DB_ExpCat_RoadTollName">Taxă de drum</string>
+    <string name="DB_ExpCat_RoadTollComment">Taxă de drum</string>
+    <string name="DB_ExpCat_PenaltyName">Amendă :(</string>
+    <string name="DB_ExpCat_PenaltyComment">Amendă :(</string>
+
+    <!-- fuel types -->
+    <string name="DB_FuelType_Diesel1D">Diesel 1D</string>
+    <string name="DB_FuelType_Diesel1DComment">Preferat pentru vreme rece</string>
+    <string name="DB_FuelType_Diesel2D">Diesel 2D</string>
+    <string name="DB_FuelType_Diesel2DComment">Folosită vara</string>
+    <string name="DB_FuelType_DieselBio">Biodiesel</string>
+    <string name="DB_FuelType_DieselBioComment">Obţinută din ulei vegetal sau grăsimi animale</string>
+    <string name="DB_FuelType_DieselSynthetic">Sintetic Diesel</string>
+    <string name="DB_FuelType_DieselSyntheticComment">Derivat din variate surse: lemn, paie, porumb şi chiar resturi alimentare</string>
+    <string name="DB_FuelType_GasolineRegular">Benzină Regular</string>
+    <string name="DB_FuelType_GasolineRegularComment">Cifra octanică 87</string>
+    <string name="DB_FuelType_GasolineMidgrade">Benzină Midgrade</string>
+    <string name="DB_FuelType_GasolineMidgradeComment">Cifra octanică 89</string>
+    <string name="DB_FuelType_GasolinePremium">Benzină Premium</string>
+    <string name="DB_FuelType_GasolinePremiumComment">Cifra octanică 91 – 93</string>
+    <string name="DB_FuelType_GasolinePremium2">Benzină Super Premium</string>
+    <string name="DB_FuelType_GasolinePremiumComment2">Cifra octanică 94 – 98</string>
+    <string name="DB_FuelType_LPG">LPG</string>
+    <string name="DB_FuelType_LPGComment">Gaz petrolifer lichefiat</string>
+
+    <!-- currencies -->
+    <string name="DB_Curr_EUR">Euro</string>
+    <string name="DB_Curr_USD">Dolari americani</string>
+    <string name="DB_Curr_HUF">Forinţi</string>
+    <string name="DB_Curr_RON">Lei româneşti</string>
+    <string name="DB_Curr_CAD">Dolari canadieni</string>
+    <string name="DB_Curr_GBP">Liră sterlină</string>
+
+    <string name="DB_TaskType_ServiceName">Service</string>
+    <string name="DB_TaskType_ServiceComment">Mentenanta recurenta</string>
+    <string name="DB_TaskType_ReminderName">Notificare</string>
+    <string name="DB_TaskType_ReminderComment">Notificare pentru actiuni generale</string>
+</resources>

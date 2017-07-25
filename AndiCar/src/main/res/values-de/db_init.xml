@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ AndiCar - a car management software for Android powered devices.
+
+ Copyright (C) 2010 Miklos Keresztes (miklos.keresztes@gmail.com)
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+ Translated zu german by frank dreesbach, frank.dreesbach@mail.de
+-->
+
+<!-- Database initialization strings-->
+
+<resources>
+    <!-- UOM's -->
+    <string name="DB_UOM_KmName">Kilometer</string>
+    <string name="DB_UOM_KmComment">Kilometer</string>
+    <string name="DB_UOM_MiName">Meile</string>
+    <string name="DB_UOM_MiComment">Meile</string>
+    <string name="DB_UOM_LName">Liter</string>
+    <string name="DB_UOM_LComment">Liter</string>
+    <string name="DB_UOM_USGName">US gallon</string>
+    <string name="DB_UOM_USGComment">U.S. fl. gallon</string>
+    <string name="DB_UOM_GBGName">Imperial gallon</string>
+    <string name="DB_UOM_GBGComment">Imperial (UK) gallon</string>
+    <!-- UOM Conversions -->
+    <string name="DB_UOMConversion_MiToKmName">mi zu km</string>
+    <string name="DB_UOMConversion_MiToKmComment">Meile zu Kilometer</string>
+    <string name="DB_UOMConversion_KmToMiName">km zu mi</string>
+    <string name="DB_UOMConversion_KmToMiComment">Kilometer zu Meile</string>
+    <string name="DB_UOMConversion_USGToLName">US gal zu l</string>
+    <string name="DB_UOMConversion_USGToLComment">US gallon zu Liter</string>
+    <string name="DB_UOMConversion_LToUSGName">l zu US gal</string>
+    <string name="DB_UOMConversion_LToUSGComment">Liter zu US gallon</string>
+    <string name="DB_UOMConversion_GBGToLName">GB gal zu l</string>
+    <string name="DB_UOMConversion_GBGToLComment">Imperial gallon zu Liter</string>
+    <string name="DB_UOMConversion_LToGBGName">l zu GB gal</string>
+    <string name="DB_UOMConversion_LToGBGComment">Liter zu Imperial gallon</string>
+    <string name="DB_UOMConversion_GBGToUSGName">GB gal zu US gal</string>
+    <string name="DB_UOMConversion_GBGToUSGComment">Imperial gallon zu US gallon</string>
+    <string name="DB_UOMConversion_USGToGBGName">US gal zu GB gal</string>
+    <string name="DB_UOMConversion_USGToGBGComment">US gallon zu Imperial gallon</string>
+    <!-- expense types -->
+    <string name="DB_ExpType_PersonalName">Persönlich</string>
+    <string name="DB_ExpType_PersonalComment">Eigene Ausgaben</string>
+    <string name="DB_ExpType_EmployerName">Business</string>
+    <string name="DB_ExpType_EmployerComment">Ausgaben eines Mitarbeiters</string>
+    <!-- expense categories -->
+    <string name="DB_ExpCat_ServiceName">Service</string>
+    <string name="DB_ExpCat_ServiceComment">Ausgaben für Service services</string>
+    <string name="DB_ExpCat_InsuranceName">Insurance</string>
+    <string name="DB_ExpCat_InsuranceComment">Ausgaben für Versicherung</string>
+    <string name="DB_ExpCat_RoadTollName">Wegegeld</string>
+    <string name="DB_ExpCat_RoadTollComment">Wegegeld</string>
+    <string name="DB_ExpCat_PenaltyName">Elfmeter :(</string>
+    <string name="DB_ExpCat_PenaltyComment">Elfmeter :(</string>
+
+    <!-- fuel types -->
+    <string name="DB_FuelType_Diesel1D">Winterdiesel</string>
+    <string name="DB_FuelType_Diesel1DComment">Bevorzugt für kaltes Wetter</string>
+    <string name="DB_FuelType_Diesel2D">Diesel</string>
+    <string name="DB_FuelType_Diesel2DComment">Benutzt bei warmem Wetter</string>
+    <string name="DB_FuelType_DieselBio">Biodiesel</string>
+    <string name="DB_FuelType_DieselBioComment">Erzeugt aus pflanzlichen oder tierischen Fetten</string>
+    <string name="DB_FuelType_DieselSynthetic">Synthetischer Diesel</string>
+    <string name="DB_FuelType_DieselSyntheticComment">Gewonnen aus verschiedenen Quellen wie Holz, Stroh, Mais oder sogar Müll und Lebensmittelabfällen</string>
+    <string name="DB_FuelType_GasolineRegular">Normalbenzin</string>
+    <string name="DB_FuelType_GasolineRegularComment">Oktanzahl 87</string>
+    <string name="DB_FuelType_GasolineMidgrade">Premium</string>
+    <string name="DB_FuelType_GasolineMidgradeComment">Oktanzahl 91 – 93</string>
+    <string name="DB_FuelType_GasolinePremium">Super premium</string>
+    <string name="DB_FuelType_GasolinePremiumComment">Oktanzahl 94 – 98</string>
+    <string name="DB_FuelType_LPG">LPG</string>
+    <string name="DB_FuelType_LPGComment">Autogas</string>
+
+    <!-- currencies -->
+    <string name="DB_Curr_EUR">Euro</string>
+    <string name="DB_Curr_USD">US Dollar</string>
+    <string name="DB_Curr_HUF">Ungarischer Forint</string>
+    <string name="DB_Curr_RON">Rümänische Lei</string>
+    <string name="DB_Curr_CAD">Kanada Dollar</string>
+    <string name="DB_Curr_GBP">Britisches Pfund</string>
+
+    <string name="DB_TaskType_ServiceName">Service</string>
+    <string name="DB_TaskType_ServiceComment">Wiederkehrende Wartung</string>
+    <string name="DB_TaskType_ReminderName">Erinnerung</string>
+    <string name="DB_TaskType_ReminderComment">Erinnerung für allgemeine Aufgaben</string>
+</resources>

@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ AndiCar
+  ~
+  ~  Copyright (c) 2016 Miklos Keresztes (miklos.keresztes@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="pref_general_title">Setări generale</string>
+    <string name="pref_car_driver_category_title">Mașini și șoferi</string>
+    <string name="pref_car_title">Mașini</string>
+    <string name="pref_car_summary">Adaugă, șterge, modifică mașini.</string>
+    <string name="pref_driver_title">Șoferi</string>
+    <string name="pref_driver_summary">Adaugă, șterge, modifică șoferi.</string>
+    <string name="pref_uom_category_title">Unităţi de măsura</string>
+    <string name="pref_uom_title">UM</string>
+    <string name="pref_uom_summary">Adaugă, şterge, modifică unităţi de măsură</string>
+    <string name="pref_uom_conversion_title">Conversie UM</string>
+    <string name="pref_uom_conversion_summary">Adaugă, şterge, modifică rata de conversie între UM</string>
+    <string name="pref_financial_title">Setări financiare</string>
+    <string name="pref_expense_type_title">Tipuri de kilometraje şi cheltuieli</string>
+    <string name="pref_expense_type_summary">Adaugă, şterge, modifică tipuri de kilometraje şi cheltuieli</string>
+    <string name="pref_expense_category_title">Categorii cheltuieli</string>
+    <string name="pref_expense_category_summary">Adaugă, şterge, modifică categorii cheltuieli</string>
+    <string name="pref_reimbursement_rate_title">Rambursări</string>
+    <string name="pref_fuel_type_title">Tipuri de combustibil</string>
+    <string name="pref_fuel_type_summary">Adaugă, şterge, modifică tipuri de combustibil</string>
+    <string name="pref_currency_title">Monede</string>
+    <string name="pref_currency_summary">"Adaugă, şterge, modifică monedă"</string>
+    <string name="pref_currency_rate_title">"Rate de schimb implicite"</string>
+    <string name="pref_currency_rate_summary">"Adaugă, şterge, modifică rate de schimb implicite</string>
+    <string name="pref_partner_category_title">Benzinării, Furnizori şi locaţii</string>
+    <string name="pref_partner_title">Benzinării &amp; Furnizori</string>
+    <string name="pref_partner_summary">Adaugă, şterge, modifică benzinării, parteneri şi locaţii</string>
+    <string name="pref_reminder_category_title">Memento</string>
+    <string name="pref_todo_type_title">Tipuri de sarcini</string>
+    <string name="pref_todo_type_summary">Adaugă, şterge, modifică tipuri de sarcini"</string>
+    <string name="pref_todo_title">Sarcină</string>
+    <string name="pref_todo_summary">Adaugă, şterge, modifică sarcină</string>
+    <string name="pref_tag_title">Etichete</string>
+    <string name="pref_tag_summary">Adaugă, şterge, modifică etichete</string>
+
+    <string name="pref_backup_restore_title">Copie de siguranţă &amp; restaurare date</string>
+
+    <string name="pref_backup_now_title">Creează copie de siguranţă</string>
+    <string name="pref_backup_now_description">Creează acum o copie de siguranţă.</string>
+    <string name="pref_backup_success_message">Copia de siguranță a fost creată.</string>
+
+    <string name="pref_backup_list_title">Fișiere backup existente</string>
+    <string name="pref_backup_list_description">Vizualizare, ştergere şi trimiter copii de siguranţă existente.</string>
+    <string name="pref_backup_list_delete_confirmation">Sigur vrei să ștergi fișierul de backup selectat?</string>
+
+    <string name="pref_restore_backup_not_found_summary">Nu există copii de siguranță.</string>
+    <string name="pref_restore_list_title">Alegeți un backup</string>
+    <string name="pref_restore_other">Alegeți altul</string>
+    <string name="pref_restore_title">Restaurare date …</string>
+    <string name="pref_restore_description">Această acţiune va suprascrie datele existente!</string>
+    <string name="pref_restore_confirmation">Sigur vrei refacerea bazei de date? Această acțiune va suprascrie datele existente cu cele din fișerul selectat!</string>
+    <string name="pref_restore_success_message">Baza de date a fost recreată.</string>
+
+    <string name="pref_backup_service_category">Serviciu de backup</string>
+    <string name="pref_backup_service_title">Activare serviciu de backup</string>
+    <string name="pref_backup_service_description">Acest serviciu permite programarea automată zilnică/săptămânală pentru backup.</string>
+    <string name="pref_backup_service_frequency">"Frecvență:"</string>
+    <string name="pref_backup_service_no_of_backups1">Păstrează doar ultimele</string>
+    <string name="pref_backup_service_no_of_backups2">copii.</string>
+    <string name="pref_backup_service_schedule_title">Programare execuție</string>
+    <string name="pref_backup_service_schedule_summary_daily">Zilnic la ora %1$s</string>
+    <string name="pref_backup_service_schedule_summary_weekly">În fiecare %1$s la ora %2$s</string>
+    <string name="pref_backup_service_choose_a_day">Alegeți măcar o zi</string>
+
+    <string name="pref_securebackup_authorization_required">Autorizarea este obligatoriu.</string>
+    <string name="pref_securebackup_email_to_title">Destinatar</string>
+    <string name="pref_securebackup_only_on_wifi_title">Numai peste WiFi</string>
+    <string name="pref_securebackup_send_tracks_title">Trimite și fișierele GPS</string>
+    <string name="pref_securebackup_send_tracks_description">Împreună cu baza de date, trimite și fișierele de urmărire GPS.</string>
+
+    <string name="pref_category_secure_backup">Backup sigur</string>
+    <string name="pref_securebackup_title">Activare backup sigur</string>
+    <string name="pref_securebackup_description">La fiecare backup al bazei de date, acest serviciu o va trimite ca atașament către o adresă preconfigurată. În acest fel datele dvs. vor fi disponibile chiar dacă veți pierde telefonul.</string>
+
+    <string name="pref_category_gps_tracking">Preferințe trasee GPS</string>
+    <string name="pref_gps_track__file_format">Alege formatul pentru stocarea traseelor GPS</string>
+    <string name="pref_gps_track_use_kml_title">KML</string>
+    <string name="pref_gps_track_use_kml_summary">Keyhole Markup Language</string>
+    <string name="pref_gps_track_use_gpx_title">GPX</string>
+    <string name="pref_gps_track_use_gpx_summary">GPs eXchange format</string>
+    <string name="pref_gps_track_use_csv_title">CSV</string>
+    <string name="pref_gps_track_use_csv_summary">Valori separate prin virgulă</string>
+    <string name="pref_gps_track_minimum_time_title">Timpul min. între două puncte</string>
+    <string name="pref_gps_track_file_location">Fișierele cu trasee sunt în locația %1$s</string>
+    <string name="pref_gps_track_accuracy_title">Precizie</string>
+    <string name="pref_bt_link_title">Detector legatură Bluetooth</string>
+    <string name="pref_bt_link_description">Pornire automată a GPS Track la detectarea unei conexiuni Bluetooth.</string>
+    <string name="pref_bt_link_on_disconnect_label">La terminarea conexiunii Bluetooth:</string>
+
+    <string name="pref_title_google_account">Selectaţi un cont Google</string>
+    <string name="pref_google_account_description">Acest cont se va utiliza pentru trimiterea de emailuri.</string>
+
+    <string name="pref_show_notification_on_success_title">Notificare</string>
+    <string name="pref_show_notification_on_success_description">Notificare în caz de succes. Indiferent de această opțiune, în caz de eroare se va afișa o notificare.</string>
+
+    <string name="gen_confirm">Confirmare</string>
+    <string name="gen_ok">OK</string>
+    <string name="gen_cancel">Renunț</string>
+    <string name="gen_yes">Da</string>
+    <string name="gen_no">Nu</string>
+    <string name="gen_error">Eroare</string>
+    <string name="gen_info">Info</string>
+    <string name="gen_warning">Atenție</string>
+    <string name="gen_share">Partajare …</string>
+    <string name="gen_other">Alte</string>
+    <string name="gen_required">Necesar</string>
+    <string name="gen_is_active">Activ</string>
+    <string name="gen_choose_one">Alege</string>
+    <string name="gen_fill_mandatory">Completați câmpul obligatoriu</string>
+    <string name="gen_reimbursement">Rambursare:</string>
+    <string name="gen_fuel_efficiency">Consum: </string>
+    <string name="gen_template">Şablon</string>
+    <string name="gen_car_label">Maşina:</string>
+    <string name="gen_driver_label">Şofer:</string>
+    <string name="gen_type_label">Tip:</string>
+    <string name="gen_start_label">Plecare:</string>
+    <string name="gen_index_label">Odometru:</string>
+    <string name="gen_index_label2">Odometru</string>
+    <string name="gen_stop_label">Sosire:</string>
+    <string name="gen_tag">Etichetă:</string>
+    <string name="gen_tag_hint">Indiciu. Scrie comentariul mai jos.</string>
+    <string name="gen_comment_label">Comentariu:</string>
+    <string name="gen_invalid_number">Număr invalid</string>
+    <string name="gen_duration">Durată:</string>
+    <string name="gen_delete">Şterge</string>
+    <string name="gen_add_new">Adaugă</string>
+    <string name="gen_edit">Editează</string>
+    <string name="gen_mail_sent">Email trimis</string>
+    <string name="gen_internet_access_required">Configurarea acestui serviciu necesită conexiune la Internet.</string>
+    <string name="gen_trips">Kilometraje</string>
+    <string name="gen_fillups">Alimentări</string>
+    <string name="gen_expenses">Cheltuieli</string>
+    <string name="gen_gps_tracks">Trasee GPS</string>
+    <string name="gen_todo_detail">Detaliu sarcină</string>
+
+    <string name="gen_trip">Kilometraj</string>
+    <string name="gen_fillup">Alimentare</string>
+    <string name="gen_expense">Cheltuială</string>
+    <string name="gen_gps_track">Traseu GPS</string>
+
+    <string name="gen_todo_list">Listă de sarcini</string>
+    <string name="gen_report_issue">Raportează o problemă</string>
+    <string name="gen_about">Despre</string>
+    <string name="gen_settings">Setări</string>
+    <string name="gen_hour">Ora:</string>
+    <string name="gen_done">Gata</string>
+    <string name="gen_set_date">Setare data/ora</string>
+    <string name="gen_trip_detail">Detaliile cursei</string>
+    <string name="gen_fillup_detail">Detaliile alimentării</string>
+    <string name="gen_expense_detail">Detaliile cheltuielii</string>
+    <string name="gen_gps_track_detail">Detaliile înregistrării GPS</string>
+
+    <string name="gen_menu">Meniu</string>
+    <string name="gen_save">Salvare</string>
+    <string name="gen_delete_confirmation">Sigur vrei să ştergi înregistrarea?</string>
+    <string name="gen_search">Caută/filtrează</string>
+    <string name="gen_date_time_label">Data și ora</string>
+    <string name="gen_quantity_label">Cantitate:</string>
+    <string name="gen_currency_label">Moneda:</string>
+    <string name="gen_rate_label">Rată:</string>
+    <string name="gen_amount_label">Valoare</string>
+    <string name="gen_price_label">Preț:</string>
+    <string name="gen_address">Adresa:</string>
+    <string name="gen_bpartner_address_info"><![CDATA[Detalii în Preferințe -> Setări financiare -> Benzinării …]]></string>
+    <string name="gen_document_no_label">Nr. document:</string>
+    <string name="gen_converted_amount_label">Cant. %1$s</string>
+    <string name="gen_converted_price_label">Preț %1$s</string>
+    <string name="gen_name_label">Nume:</string>
+    <string name="gen_valid_from_label">Valabil de la:</string>
+    <string name="gen_valid_to_label">Valabil până la:</string>
+    <string name="gen_validating_google_account">Se validează contul Google …</string>
+    <string name="gen_test_email_subject">AndiCar email test</string>
+    <string name="gen_test_email_body">Acesta este un email de test pentru validarea contului Google.</string>
+    <string name="gen_code_label">Cod:</string>
+    <string name="gen_bpartner">Vânzător:</string>
+    <string name="gen_city">Orasş:</string>
+    <string name="geb_region">Judeţ:</string>
+    <string name="gen_country">Ţara:</string>
+    <string name="gen_contact">Contact:</string>
+    <string name="gen_phone">Tel:</string>
+    <string name="gen_phone2">Tel 2:</string>
+    <string name="gen_fax">Fax:</string>
+    <string name="gen_email">Email:</string>
+    <string name="gen_postal">Cod poştal:</string>
+    <string name="gen_last_day">ultima zi</string>
+    <string name="gen_description">Descriere</string>
+    <string name="gen_or">Sau:</string>
+    <string name="gen_time">Timp</string>
+    <string name="gen_on">La</string> <!-- example on Monday -->
+    <string name="gen_todo">Sarcină</string>
+    <string name="gen_days">zile</string>
+    <string name="gen_minutes">minute</string>
+    <string name="gen_category">Categorie:</string>
+    <string name="gen_created_on">"Creat in"</string>
+    <string name="gen_current_index">Odometru curent:</string>
+    <string name="gen_menu_rate_app">Evaluați aplicația</string>
+
+    <string name="mileage_draft_edit">Schiță. Completați datele de sosire pentru a termina.</string>
+    <string name="mileage_edit_option_mileage_label">Distanţa</string>
+    <string name="mileage_edit_insert_ok_message">Kilometraj adăugat.</string>
+    <string name="mileage_edit_update_ok_message">Kilometraj actualizat.</string>
+    <string name="mileage_type">Tip kilometraj:</string>
+
+    <string name="fillup_type">Tip alimentare:</string>
+    <string name="fillup_category">Tip combustibil:</string>
+    <string name="fillup_edit_is_full_label">Plin</string>
+    <string name="fillup_edit_qty_in_base_uom_label">Cantitate în UM bază:</string>
+    <string name="fillup_edit_no_conversion_rate_message">Nu sunt definite conversii pentru aceste UM</string>
+    <string name="fillup_edit_gas_station">Stație:</string>
+
+    <string name="gps_track_detail_var_1">Distanța:</string>
+    <string name="gps_track_detail_var_2">Viteza max.:</string>
+    <string name="gps_track_detail_var_3">Viteza medie:</string>
+    <string name="gps_track_detail_var_4">Viteza medie de deplasare:</string>
+    <string name="gps_track_detail_var_5">Timp total:</string>
+    <string name="gps_track_detail_var_6">Timp deplasare:</string>
+    <string name="gps_track_detail_var_7">Acuratețe maximă:</string>
+    <string name="gps_track_detail_var_8">Acuratețe minimă:</string>
+    <string name="gps_track_detail_var_9">Acuratețe medie:</string>
+    <string name="gps_track_detail_var_10">Alt.min.:</string>
+    <string name="gps_track_detail_var_11">Alt.max.:</string>
+    <string name="gps_track_detail_var_12">Timp de pauză:</string>
+    <string name="gps_track_detail_var_13">Timp de așteptare:</string>
+    <string name="gps_controller_start_track">Porneşte înregistrarea GPS</string>
+
+    <string name="gps_track_edit_track_files_header_caption">Fișiere trasee</string>
+    <string name="gps_track_edit_track_statistics">Statistici</string>
+
+    <!--<string name="GPSTrackControllerActivity_FileFormatLabel">Format fișier traseu:</string>-->
+    <string name="gps_track_controller_create_mileage_label">Crează kilometraj</string>
+
+    <string name="gps_track_service_gps_disabled_message">GPS-ul este dezactivat!\n Activează-l!.</string>
+    <string name="gps_track_service_gps_out_of_service">Nu există furnizor de semnal GPS!</string>
+    <string name="gps_track_service_track_in_progress_title">Înregistrare GPS AndiCar </string>
+    <string name="gps_track_service_track_in_progress_message">Înregistrare în curs</string>
+    <!--<string name="gps_track_service_accuracy_problem_title">AndiCar GPS în alarmă!</string>-->
+    <!--<string name="gps_track_service_accuracy_problem_message">Acuratețea este în afara limitei!</string>-->
+    <string name="gps_track_service_auto_shut_down_title">AndiCar GPS Oprit!</string>
+    <!--<string name="gps_track_service_auto_shut_down_message">Înregistrarea GPS oprită deoarece procentul punctelor invalide (%1$s) este peste limită (%2$s)!\n Poți ajusta limita din Preferințe -> Limită auto-stop.</string>-->
+    <!--<string name="GPSTrackService_FileSystemErrorTitle">Eroare sistem de fișiere!</string>-->
+    <string name="gps_track_service_tracking_paused_title">AndiCar GPS suspendat</string>
+    <string name="gps_track_service_tracking_paused_message">Înregistrarea în pauză</string>
+    <string name="gps_track_pause">Pauză</string>
+    <string name="gps_track_resume">Continuare</string>
+    <string name="gps_track_stop">Terminare</string>
+    <string name="gps_track_start">Începe</string>
+
+    <string name="gen_gpstrack_map">Hartă</string>
+    <string name="gps_track_map_trip_start_title">Plecare</string>
+    <string name="gps_track_map_trip_end_title">Sosire</string>
+    <string name="gps_track_map_trip_pause_title">Pauză</string>
+    <string name="gps_track_map_trip_start_date">Data plecării:</string>
+    <string name="gps_track_map_trip_end_date">Data sosirii:</string>
+    <string name="gps_track_map_pause_info">Pauză de la %1$s\n\tpână la %2$s\n\nDurata: %3$s</string>
+
+    <string name="activity_driver_edit">Editare șofer</string>
+    <string name="activity_car_edit">Editare mașină</string>
+    <string name="activity_expense_category_edit">Editare categorii cheltuieli</string>
+    <string name="activity_expense_type_edit">Editare tipuri cheltuieli</string>
+    <string name="activity_uom_edit">Editare UM</string>
+    <string name="activity_uom_conversion_edit">Editare conversie UM</string>
+    <string name="activity__currency_edit">Editare monedă</string>
+    <string name="activity_currency_rate_edit">Editare rate de schimb</string>
+    <string name="activity_bpartner_edit">Editare partener, locație</string>
+    <string name="activity_bpartner_location_edit">Editare locație</string>
+    <string name="activity_task_type_edit">Editare tip sarcină</string>
+    <string name="activity_fuel_category_edit">Editare categorie combustibil</string>
+    <string name="activity_reimbursement_rate_edit">Editare rată rambursare</string>
+    <string name="activity_bt_starter_device_link_edit">Aparat BT conectat la mașină</string>
+    <string name="activity_tag_edit">Editare etichetă</string>
+
+    <string name="car_edit_model_label">Model:</string>
+    <string name="car_edit_license_plate_label">Nr.înmatriculare:</string>
+    <string name="car_edit_uom_length_label">UM pentru distanță:</string>
+    <string name="car_edit_uom_volume_label">UM pentru volum:</string>
+    <string name="car_edit_index_start_label">Odometru inițial:</string>
+    <string name="car_edit_currency_label">Moneda implicită:</string>
+
+    <string name="driver_edit_license_no_label">Nr. permis:</string>
+
+    <string name="uom_conversion_edit_from_uom_label">Din um:</string>
+    <string name="uom_conversion_edit_to_uom_label">În um:</string>
+    <string name="uom_conversion_edit_convertion_factor_label">Factor de conversie:</string>
+
+    <string name="expense_category_edit_exclude_label">Exclude din costul per Km</string>
+
+    <string name="currency_rate_edit_currency_from_label">Din moneda</string>
+    <string name="currency_rate_edit_currency_to_label">În moneda</string>
+    <string name="currency_rate_edit_rate_label">Rata: 1 %1$s = </string>
+    <string name="currency_rate_edit_inverse_rate_label">Rata inversă: 1 %1$s = %2$s %3$s</string>
+
+    <string name="bpartner_edit_locations_header_caption">Adrese</string>
+
+    <string name="task_edit_one_time">O singură dată</string>
+    <string name="task_edit_recurrent">Recurent</string>
+    <string name="task_edit_recurrent_every_label">La fiecare</string>
+    <string name="task_edit_recurrent_frequency_label">Repetare</string>
+    <string name="task_edit_first_run_depend_on_car">Timp de pornire diferit pentru fiecare mașină</string>
+    <string name="task_edit_scheduled">Programat pentru:</string>
+    <string name="task_edit_mileage_driven">Kilometraj</string>
+    <string name="task_edit_both_driven">Ambele</string>
+    <string name="task_edit_first_time_run_explanation">Timpul de pornire va fi specificat pentru fiecare mașină</string>
+    <string name="task_edit_first_mileage_run_explanation">Kilometrajul de pornire va fi specificat pentru fiecare mașină</string>
+    <string name="task_edit_reminder_start_label">Pornește memento înainte cu</string>
+    <string name="task_edit_linked_cars_label">Mașini active</string>
+    <string name="task_edit_mileage_uom_text">mi sau km</string>
+    <string name="task_edit_fill_mileage">Completează kilometrajul!</string>
+    <string name="task_edit_fill_frequency">Completează frecvența!</string>
+    <string name="task_edit_linked_cars_options_help">Pentru opțiuni apasă lung pe mașină</string>
+    <string name="task_edit_all_cars_linked_message">Toate mașinile active sunt legate la această sarcină.</string>
+    <string name="task_edit_no_linked_car_message">Cel puțin o mașină trebuie legată la această sarcină.</string>
+    <string name="task_edit_no_cars_available_message">Nu sunt mașini active cu kilometrajul curent mai mic decât cel al sarcinii!\n Crește kilometrajul sarcinii.</string>
+    <string name="task_edit_starting_time_in_future_message">Timpul de pornire al sarcinii trebuie să fie în viitor!</string>
+    <string name="task_edit_starting_time_label">Moment pornire:</string>
+    <string name="task_edit_mileage_frequency_smaller_than_reminder">Intervalul de kilometraj trebuie să fie mai mare decât cel pentru memento.</string>
+    <string name="task_edit_generated_todo_count_label">Generează automat următoarele</string>
+    <string name="task_edit_todo_count">contor sarcini</string>
+    <string name="task_edit_todo_count_help">Când se termină o sarcină, una nouă va fi automat adăgată la lista de sarcini.</string>
+
+    <string name="task_car_edit_start_date">Data pornire:</string>
+    <string name="task_car_edit_start_mileage">Kilometraj plecare:</string>
+
+    <string name="todo_alert_title">Alertă sarcină</string>
+    <string name="todo_status_label">Status:</string>
+    <string name="todo_mileage">kilometri:</string>
+    <string name="todo_overdue_label">Restantă</string>
+    <string name="todo_scheduled_label">Programat</string>
+    <string name="todo_done_label">Executat</string>
+    <string name="todo_scheduled_date_label">Programat pentru:</string>
+    <string name="todo_scheduled_mileage_label">Programare kilometraj:</string>
+    <string name="todo_estimated_mileage_date">estimat pentru:</string>
+    <string name="todo_estimated_mileage_date_no_data">înregistrări insuficiente pentru o dată estimată</string>
+    <string name="todo_estimated_mileage_date_too_far">prea departe pentru a face o estimare</string>
+    <string name="todo_action_hdr">Acțiune</string>
+    <string name="todo_post_pone_label">Amintește-mi după:</string>
+    <string name="todo_is_done_caption">Această sarcină s-a executat</string>
+    <string name="todo_days_left">Zile rămase:</string>
+    <string name="todo_minutes_left">Minute rămase:</string>
+    <string name="todo_mileage_left">Kilometri rămași:</string>
+    <string name="todo_is_done">Executat</string>
+
+    <string name="main_activity_no_car">Nu există mașină definită</string>
+    <string name="main_activity_no_to_do">Nu există sarcină</string>
+    <string name="main_activity_statistics_header_caption">Statistici </string>
+    <string name="main_activity_statistics_last_odometer_label">Ultimul odometru introdus: </string>
+    <string name="main_activity_statistics_avg_cons_label">Consum mediu: </string>
+    <string name="main_activity_statistics_last_cons_label">Ultimul consum: </string>
+    <string name="main_activity_statistics_total_expense_label">Total cheltuieli:</string>
+    <string name="main_activity_statistics_mileage_expense_label">Cost per kilometru.:</string>
+    <string name="main_activity_app_version">Versiune aplicație: %1$s (DB %2$s)</string>
+
+    <string name="bt_car_link_activity_title">Bluetooth conectate</string>
+    <!--<string name="AddOn_BTStarter_DeviceLinkActivityTitle">Bluetooth conectat la mașina</string>-->
+    <string name="bt_link_paired_devices_label">Maşini disponibile:</string>
+    <!--<string name="AddOn_BTStarter_LinkedTo">Legat cu:</string>-->
+    <!--<string name="AddOn_BTStarter_NoLinkedCar">Nu se poate conecta la mașină.\nLegătura trebuie ștearsă.</string>-->
+    <string name="bt_link_link_to_car">Legatură cu mașina:</string>
+    <string name="bt_link_link_to_car_bt_disabled_title">Bluetooth este dezacivat</string>
+    <string name="bt_link_link_to_car_bt_disabled_message">Bluetooth este dezacivat. Actvează-l pentru o legătură nouă.</string>
+
+    <string name="day_of_week_0">Duminică</string>
+    <string name="day_of_week_1">Luni</string>
+    <string name="day_of_week_2">Marți</string>
+    <string name="day_of_week_3">Miercuri</string>
+    <string name="day_of_week_4">Joi</string>
+    <string name="day_of_week_5">Vineri</string>
+    <string name="day_of_week_6">Sâmbătă</string>
+
+    <string name="gen_close">Închide</string>
+    <string name="gen_report_to_dev">Raportează-l</string>
+
+    <string name="backup_service_success_message">Copia de siguranță a bazei de date a fost creată cu succes.</string>
+
+    <string name="secure_backup_mail_subject">Fisierele de backup AndiCar au fost atasate.</string>
+    <string name="secure_backup_mail_body">Pentru restaurarea bazei de date, vizitați link-ul http://www.andicar.org/howto#TOC-Modify-existing-records. &lt;br&gt; &lt;br&gt; Sent by AndiCar - http://www.andicar.org"</string>
+    <string name="secure_backup_success_message">Fișierul de backup a fost trimis.</string>
+
+    <string name="data_template_updated_msg">Șablon actualizat</string>
+    <string name="data_template_created_msg">A fost creat un nou șablon pe baza valorilor curente</string>
+    <string name="data_template_new">Şablon nou …</string>
+    <string name="data_template_new_msg">Se va crea un şablon nou pe baza valorilor curente.\n\nNumele şablonului:</string>
+    <string name="data_template_update">Modifică şablonul</string>
+
+    <string name="search_dialog_title">Introdu criteriile</string>
+    <string name="gen_date_from_label">De la:</string>
+    <string name="gen_date_to_label">Până la:</string>
+    <string name="search_dialog_note" tools:ignore="StringFormatCount">Notă: % înseamnă orice șir de caracter</string>
+    <string name="share_dialog_title">Opțiuni raport</string>
+    <string name="share_dialog_format_label">Format raport:</string>
+    <string name="report_creation_in_progress_message">Crearea raportului e în desfășurare. Așteptați…</string>
+
+    <string name="chart_filter_all">Toate</string>
+    <string name="chart_filter_current_month">Luna curentă</string>
+    <string name="chart_filter_previous_month">Luna precedentă</string>
+    <string name="chart_filter_current_year">Anul curent</string>
+    <string name="chart_filter_previous_year">Anul precedent</string>
+    <string name="chart_filter_custom_period">Altă perioadă</string>
+    <string name="chart_label_others">Alte (%1$.2f%2$s)</string> <!--Others 32.45%-->
+    <string name="chart_filter_all_header_caption">Toate înregistrările</string>
+    <string name="chart_filter_current_month_header_caption">Înregistrările lunii curente</string>
+    <string name="chart_filter_previous_month_header_caption">Înregistrările lunii precedente</string>
+    <string name="chart_filter_current_year_header_caption">Înregistrările anului curent</string>
+    <string name="chart_filter_previous_year_header_caption">Înregistrările anului precedent</string>
+    <string name="chart_filter_custom_period_header_caption">De la %1$s până %2$s</string>
+    <string name="chart_filter_custom_period_header_caption_value_beginning">început</string>
+    <string name="chart_filter_custom_period_header_caption_value_now">acum</string>
+    <string name="chart_no_data">Nu există date</string>
+
+    <string name="progress_restoring_data">Restaurarea e în curs … </string>
+
+    <string name="app_short_about">
+        <![CDATA[
+        <b><i>AndiCar</i></b>este un produs gratuit, Open Source licențiat sub termenii GNU General Public License.<br>
+        Pentru mai multe detalii, vezi pagina Despre.<br>
+        Copyright © 2010-%1$s Miklós Keresztes.<br>
+        Mulțumim că folosiți <b><i>AndiCar</i></b>!
+        ]]>
+    </string>
+
+    <string name="app_about1_html">
+        <![CDATA[
+        <b><i>AndiCar</i></b> este un software gratuit Open Source de management auto pentru dispozitivele ce rulează sistemul Android.
+        Este licențiat sub termenii GNU General Public License.<br><br>
+
+        *  Pentru mai multe informații (cum să, noutăți, etc.) vizitați pagina proiectului la
+        <a href="http://www.andicar.org">www.andicar.org</a>.<br>
+        <small>Reîncărcați pagina dacă vă apare mesajul\"Pagina web indisponibilă\".</small><br>
+
+        *  Pentru întrebări vă rog să accesați pagina de la <b><i>AndiCar</i></b>
+        <a href="http://groups.google.com/group/andicar">http://groups.google.com/group/andicar</a>.<br>
+
+        *  Pentru probleme de soft sau îmbunătățiri nu ezitați să folosiți sistemul de tichete <b><i>AndiCar</i></b>, disponibil la
+        <a href="https://github.com/mkeresztes/AndiCar/issues">https://github.com/mkeresztes/AndiCar/issues</a>.<br>
+
+        *  Codul sursă este disponibil la:
+        <a href="https://github.com/mkeresztes/AndiCar">https://github.com/mkeresztes/AndiCar</a>.<br>
+
+        *  Pentru orice alte probleme, scrieți la <a href="mailto:andicar.support@gmail.com">andicar.support@gmail.com</a>.
+        ]]>
+    </string>
+
+    <string name="app_about2_html">
+        <![CDATA[
+        <br><b><i>Au contribuit:</i></b><br>
+		*  Traducere în Germană de Frank Dreesbach - frank.dreesbach@mail.de (traducere inițială: Andy Haubenschmid - andy@haubenschmid.li)<br>
+		*  Traducere în Maghiară de Péter Nagy - microbilab@gmail.com<br>
+        *  Traducere în Spaniolă de Daniel Iozzi - danieliozzi@gmail.com<br>
+        *  Traducere în Română de Doru Butnaru - budo8002@gmail.com<br>
+
+        <br>AndCar utilizează următoarele <b><i>biblioteci</i></b>i:<br>
+		*  Droppy - <a href="https://github.com/shehabic/Droppy">https://github.com/shehabic/Droppy</a><br>
+		*  MPAndroidChart - <a href="https://github.com/PhilJay/MPAndroidChart">https://github.com/PhilJay/MPAndroidChart</a><br>
+		*  Android-SwitchDateTimePicker - <a href="https://github.com/PhilJay/MPAndroidChart">https://github.com/PhilJay/MPAndroidChart</a><br>
+		*  android-file-chooser - <a href="https://github.com/hedzr/android-file-chooser">https://github.com/hedzr/android-file-chooser</a><br>
+		*  JavaMail for Android - <a href="https://javaee.github.io/javamail/Android">https://javaee.github.io/javamail/Android</a><br>
+
+        <br><b><i>Drepturi de autor</i></b>:<br>
+        Copyright © 2010-%1$s Miklós Keresztes (miklos.keresztes@gmail.com)<br><br>
+
+        Acest program este liber; îl puteți redistribui și/sau modifica
+        în conformitate cu termenii Licenței Publice Generale GNU,
+        așa cum este publicată de către Free Software Foundation;
+        fie versiunea 3 a Licenței, fie (la latitudinea dumneavoastră) orice versiune ulterioară.<br><br>
+
+        Acest program este distribuit cu speranța că va fi util, dar FĂRĂ NICIO GARANȚIE; fără macar garanția implicită de
+        vandabilitate sau CONFORMITATE UNUI ANUMIT SCOP.
+        A se vedea Licența Publică Generală GNU pentru detalii (<a href="http://www.gnu.org/licenses">http://www.gnu.org/licenses</a>).<br>
+
+        <br>Mulțumim că utilizați <b><i>AndiCar</i></b>.<br><br>
+        ]]>
+    </string>
+
+    <!--chart headers-->
+    <!--11 = row 1, column 1-->
+    <string name="chart11Title">Kilometraje după tipuri (top 3)</string>
+    <string name="chart12Title">Kilometraje după etichete (top 3)</string>
+    <string name="chart13Title">Kilometraje după șofer (top 3)</string>
+    <string name="chart21Title">Alimentări după tipuri - cantitate (top 3)</string>
+    <string name="chart22Title">Alimentări după etichete - cantitate (top 3)</string>
+    <string name="chart23Title">Alimentări după combustibil - cantitate (top 3)</string>
+    <string name="chart31Title">Alimentări după tipuri - valoare (top 3)</string>
+    <string name="chart32Title">Alimentări după etichete - valoare (top 3)</string>
+    <string name="chart33Title">Alimentări după combustibil - valoare (top 3)</string>
+    <string name="chart41Title">Cheltuieli după tipuri (top 3)</string>
+    <string name="chart42Title">Cheltuieli după categorii (top 3)</string>
+    <string name="chart43Title">Cheltuieli după etichete (top 3)</string>
+    <string name="chartFooterText">Total: %1$s</string>
+    <string name="title_list_activity" tools:ignore="PluralsCandidate">%1$s: %2$s înregistrări</string>
+    <string name="error_sorry">Scuze! A apărut o eroare\nneașteptată :(</string>
+    <string name="error_report_sent">Mulțumesc că ați ajutat la îmbunătățirea AndiCar!</string>
+    <string name="error_000">Eroare la baza de date.</string>
+    <string name="error_001">Indexul de start este inclus într-un kilometraj existent</string>
+    <string name="error_002">Indexul de stop este inclus într-un kilometraj existent</string>
+    <string name="error_003">Kilometrajul se suprapune cu unul existent</string>
+    <string name="error_004">Indexul de stop trebuie să fie mai mare decât cel de start</string>
+    <string name="error_005">Rata de conversie există deja</string>
+    <string name="error_009">Acest conducător nu poate fi șters deoarece este folosit în kilometraj(e).</string>
+    <string name="error_010">Acest conducător nu poate fi șters deoarece este folosit în alimentări.</string>
+    <string name="error_011">Această mașină nu poate fi ștearsă deoarece este folosită în kilometraj(e).</string>
+    <string name="error_012">Această mașină nu poate fi ștearsă deoarece este folosită în alimentări.</string>
+    <string name="error_013">Această unitate de măsura nu poate fi ștearsă deoarece este folosită în kilometraj(e).</string>
+    <string name="error_014">Această unitate de măsura nu poate fi ștearsă deoarece este folosită în alimentări.</string>
+    <string name="error_015">Această unitate de măsura nu poate fi ștearsă deoarece este folosită în conversii de unități de măsură.</string>
+    <string name="error_016">Această monedă nu poate fi ștearsă deoarece este folosită de cel puțin o mașină.</string>
+    <string name="error_017">Această monedă nu poate fi ștearsă deoarece este folosită în alimentări.</string>
+    <string name="error_018">Această monedă nu poate fi șterasă deoarece este folosită in kilometraj(e).</string>
+    <string name="error_019">Această monedă nu poate fi șterasă deoarece este folosită in alimentări.</string>
+    <string name="error_056">Eroare necunoscută.</string>
+    <string name="error_021">Nu se poate crea locația pentru rapoarte (%1s). Nu se poate crea rapoarte până când nu este creat acest director.</string>
+    <string name="error_022">Nu se poate crea fișierul cu raportul!</string>
+    <string name="error_023">Eroare la scrierea fișierului!</string>
+    <string name="error_024">Nu se poate crea locația pentru copii de siguranță (%1s). Nu se poate crea o copie a bazei de date până când nu este creat acest director.</string>
+    <string name="error_025">UM nu poate fi dezactivată deoarece este folosită în definirea unei maşini active.</string>
+    <string name="error_026">Moneda nu poate fi dezactivată deoarece este folosită în definirea unei maşini active.</string>
+    <string name="error_027">Această categorie nu poate fi ştearsă deoarece este folosită în alimentări.</string>
+    <string name="error_028">Această categorie nu poate fi ştearsă deoarece este folosită în cheltuieli.</string>
+    <string name="error_029">Rata de conversie este deja definită pentru aceste monede."</string>
+    <string name="error_030">Această plată nu poate fi ştearsă deoarece a fost creată din alimentare.\n Trebuie ştearsă alimentarea.</string>
+    <string name="error_031">Nu se poate defini rată de conversie între aceleaşi UM.</string>
+    <string name="error_032">Nu se pot defini conversii între acealeaşi monede.</string>
+    <string name="error_033">Nu se poate crea locația pentru fișierele de traseu GPS (%1s). Nu se poate salva fișierul cu trasee GPS până când nu este creat acest director.</string>
+    <string name="error_034">Eroare de sistem de fișiere!</string>
+    <string name="error_035">Raport invalid.</string>
+    <string name="error_036">Fișierul de traseu nu există sau este gol!</string>
+    <string name="error_038">Această plată nu poate fi ștearsă deoarece este folosită în cheltuieli.</string>
+    <string name="error_039">Acest conducător auto nu poate fi șters deoarece este folosit în cheltuieli.</string>
+    <string name="error_040">Această masină nu poate fi ștearsă deoarece este folosită în cheltuieli.</string>
+    <string name="error_041">Acest tip de plată nu poate fi ștears deoarece este folosit în cheltuieli.</string>
+    <string name="error_042">Acest partener nu poate fi șters deoarece este folosit în alimentari.</string>
+    <string name="error_043">Acest partener nu poate fi șters deoarece este folosit în cheltuieli.</string>
+    <string name="error_044">Această locație nu poate fi ștearsă deoarece este folosită în alimentari.</string>
+    <string name="error_045">Această locație nu poate fi ștearsă deoarece este folosită în cheltuieli.</string>
+    <string name="error_046">Această etichetă nu poate fi ștearsă deoarece este folosită în kilometraje.</string>
+    <string name="error_047">Această etichetă nu poate fi ștearsă deoarece este folosită în alimentari.</string>
+    <string name="error_048">Această etichetă nu poate fi ștearsă deoarece este folosită în cheltuieli.</string>
+    <string name="error_049">Această etichetă nu poate fi ștearsă deoarece este folosită în trasee GPS.</string>
+    <string name="error_058">Nu se poate crea locația pentru fișierele temporare (%1s). Nu poți folosi serviciul SecureBecup până când nu este creat acest director.</string>
+    <string name="error_059">Înregistrare dublă.</string>
+    <string name="error_060">Acest tip nu poate fi şters deoarece este folosit în sarcini.</string>
+    <string name="error_061">Programare necunoscută!\nProbabil că acțiunea a fost modificată iar lista de programări recreată.</string>
+    <string name="error_064">Dispozitivul dvs. nu suportă Bluetooth!</string>
+    <string name="error_065">Număr invalid.</string>
+    <string name="error_067">Nu se poate partaja. Nu există nicio aplicație instalată pentru această operație.</string>
+    <string name="error_068">Nu este disponibil niciun serviciu de localizare.</string>
+    <string name="error_069">Este necesar accesul la datele de locație!</string>
+    <string name="error_070">Nu este permis accesul la spațiul de stocare!</string>
+    <string name="error_071">Bază de date invalidă.</string>
+    <string name="error_072">Tip fișier backup necunoscut.</string>
+    <string name="error_073">%1$s nu există.</string>
+    <string name="error_074">%1$s nu e director.</string>
+    <string name="error_075">Conţinutul %1$s nu se poate afişa.</string>
+    <string name="error_076">Nu se poate şterge directorul %1$s.</string>
+    <string name="error_077">Nu se poate redenumi directorul destinaţie.</string>
+    <string name="error_078">Nu se poate crea directorul destinaţie %1$s.</string>
+    <string name="error_079">Nu se poate scrie în directorul destinaţie %1$s.</string>
+    <string name="error_080">Arhiva zip e goală. Restaurarea a fost abandonată.</string>
+    <string name="error_081">Nu se găseşte baza de date în arhivă. Restaurarea a fost abandonată.</string>
+
+    <string name="error_100">Fișier inexistent%1s!</string>
+    <string name="error_102">Nu există drept de acces pentru spațiul de stocare adițional!</string>
+    <string name="error_103">Nu se poate crea folderul de log (%1s).</string>
+    <string name="error_105">Nu se poate șterge %1s!</string>
+    <string name="error_106">Configurat incomplet: nu este completat destinatarul</string>.
+    <string name="error_107">Configurat incomplet: nu s-a ales niciun cont Google.</string>
+    <string name="error_108">AndiCar nu este autorizat să trimită emailuri în numele tău. Din acest motiv Secure Backup a fost dezactivat. Se poate reactiva din Configurări -> Backup &amp; Restore.</string>
+    <string name="error_109">Nu este permis accesul la dispozitivul de stocare extern. Această funcționalitate necesită acest acces!</string>
+    <string name="error_111">Alegeți o unitate de pornire!</string>
+    <string name="error_112">Alegeți unitatea în care doriți conversia!</string>
+    <string name="error_113">Tip fereastră invalid (%1s)!</string>
+</resources>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ AndiCar - a car management software for Android powered devices.
+
+ Copyright (C) 2010 Miklos Keresztes (miklos.keresztes@gmail.com)
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!--
+        < = <
+-->
+
+<resources>
+    <string name="LM_MAIN_ACTIVITY_WELCOME_MESSAGE2">
+        AndiCar is a free and open source car management software for Android powered devices.\n
+        It is licensed under the terms of the GNU General Public License, version 3.\n
+        See the About page for more details.\n
+        Thank you for using AndiCar!
+    </string>
+
+    <string name="LM_MAIN_ACTIVITY_USABILITY_MESSAGE">
+    	Below are some general usability rules for AndiCar:\n
+    	* press your device Menu key to see the options applicable to a specific screen\n
+    	* in the lists tap a record to edit it. Long press it for more options\n\n
+    	** visit www.andicar.org -> \"How To\" to learn about how to use AndiCar **\n\n
+    	Thank you.
+    </string>
+
+    <string name="LM_MAIN_ACTIVITY_SHORT_ABOUT">
+        <b><i>AndiCar</i></b> is a free and open source car management software for Android powered devices.
+        It is licensed under the terms of the GNU General Public License, version 3.\n
+        See the About page for more details.\n Copyright © 2010-%1$s Miklós Keresztes.\n
+        Thank you for using <b><i>AndiCar</i></b>!
+    </string>
+
+    <string name="LM_COPYRIGHT_HTML1">
+        <b><i>AndiCar</i></b> is a free and open source car management software for Android powered devices. 
+        It is licensed under the terms of the GNU General Public License.\n
+        *  For more information (how to, latest news, etc.) please visit the project home page at
+        <a href="http://www.andicar.org">www.andicar.org</a>.\n
+        <small>Refresh the page in your browser if you get a \"Web page not available\" message.</small>\n
+        *  For questions you are welcome to the <b><i>AndiCar</i></b> discussion list at
+        <a href="http://groups.google.com/group/andicar">http://groups.google.com/group/andicar</a>.\n
+        *  For bug reports or enhancement requests do not hesitate to use the <b><i>AndiCar</i></b> issue system at
+        <a href="https://bitbucket.org/mkeresztes/andicar/issues">https://bitbucket.org/mkeresztes/andicar/issues</a>.\n
+        *  For other things you can send an email to andicar.support@gmail.com.\n
+    </string>
+
+    <string name="LM_COPYRIGHT_HTML2">
+        Thank you for using <b><i>AndiCar</i></b>.\n\n
+        <b><i>Credits:</i></b>\n
+        *  Chinese translation by <a href="http://goapk.com/">goapk.com</a> \n
+        *  Russian translation by Andrey Demin - andde@rambler.ru\n
+		*  German translation by Frank Dreesbach - frank.dreesbach@mail.de
+		<small> (Initial translation by Andy Haubenschmid)</small>\n
+		*  Hungarian translation by Péter Nagy - microbilab@gmail.com\n
+        *  Spanish translation by Daniel Iozzi - danieliozzi@gmail.com\n
+        *  Romanian translation by Doru Butnaru - budo8002@gmail.com\n
+        \n<b><i>Copyright notice</i></b>:\n\n
+        Copyright © 2010-%1$s Miklós Keresztes (miklos.keresztes@gmail.com)\n\n
+        This program is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\n
+        This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+        without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+        See the GNU General Public License for more details.\n\n
+        You should have received a copy of the GNU General Public License along with this program.
+        If not, see <a href="http://www.gnu.org/licenses">http://www.gnu.org/licenses</a>.\n
+    </string>
+
+    <string name="LM_UPDATE_MSG" translatable="false">
+        <i><b>Version 4.4.0:</b></i>\n
+            * Custom permission support for Android Marshmallow\n
+            * Google Map update and track info enhancements\n
+            * Separate launcher for managing GPS tracking. It can be placed to the home screen.\n
+            * Bug fixes\n
+    </string>
+</resources>

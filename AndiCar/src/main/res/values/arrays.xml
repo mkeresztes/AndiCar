@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ AndiCar
+  ~
+  ~  Copyright (c) 2016 Miklos Keresztes (miklos.keresztes@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- report file formats  -->
+    <!--no translation needs-->
+    <string-array name="report_formats" tools:ignore="MissingTranslation">
+        <item>csv</item>
+        <item>html</item>
+    </string-array>
+
+    <string-array name="backup_schedule_type_entries">
+        <item>Daily</item>
+        <item>Weekly</item>
+    </string-array>
+
+    <string-array name="uom_type_entries">
+        <item>Length</item>
+        <item>Volume</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="recurrent_periods">
+        <item>Day(s)</item>
+        <item>Week(s)</item>
+        <item>Month(s)</item>
+        <item>Year(s)</item>
+    </string-array>
+
+    <string-array name="months">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+
+    <string-array name="todo_is_done_status">
+        <!--suppress CheckTagEmptyBody -->
+        <item></item>
+        <item>@string/gen_yes</item>
+        <item>@string/gen_no</item>
+    </string-array>
+
+    <!-- Used in gps track (minimum time between 2 recording points) -->
+    <!--no translation needs-->
+    <string-array name="gpstrack_preference_min_time_entries" tools:ignore="MissingTranslation">
+        <item>Highest</item>
+        <item>3 s</item>
+        <item>5 s</item>
+        <item>10 s</item>
+        <item>30 s</item>
+        <item>1 min</item>
+        <item>3 min</item>
+        <item>5 min</item>
+        <item>10 min</item>
+    </string-array>
+
+    <!-- values in seconds -->
+    <!--do not translate-->
+    <string-array name="gpstrack_preference_min_time_values" tools:ignore="MissingTranslation">
+        <item>0</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>300</item>
+        <item>600</item>
+    </string-array>
+
+    <!-- Used in gps track (maximum value of accuracy) -->
+    <string-array name="gpstrack_preference_maxaccuracy_entries">
+        <item>10 m / 10.94 yd</item>
+        <item>20 m / 21.87 yd</item>
+        <item>50 m / 54.68 yd</item>
+        <item>100 m / 109.36 yd</item>
+        <item>250 m / 273.40 yd</item>
+        <item>500 m / 546.80 yd</item>
+        <item>Do not use</item>
+    </string-array>
+
+    <!-- values in meter -->
+    <!--do not translate-->
+    <string-array name="gpstrack_preference_maxaccuracy_values" tools:ignore="MissingTranslation">
+        <item>10</item>
+        <item>20</item>
+        <item>50</item>
+        <item>100</item>
+        <item>250</item>
+        <item>500</item>
+        <item>9999999</item>
+    </string-array>
+
+    <!--TODO DE/ES translation-->
+    <string-array name="bt_link_disconnect_entries">
+        <item>Do nothing</item>
+        <item>Pause / Resume (when reconnected)</item>
+        <item>Stop tracking</item>
+    </string-array>
+
+    <string-array name="bt_link_disconnect_values" tools:ignore="MissingTranslation">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+</resources>

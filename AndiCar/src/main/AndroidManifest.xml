@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ AndiCar
+  ~
+  ~  Copyright (c) 2016 Miklos Keresztes (miklos.keresztes@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="org.andicar2.activity"
+          android:versionCode="170701"
+          android:versionName="17.07">
+
+    <!-- ************************************************************************************************* -->
+    <!-- Normal Permissions (https://developer.android.com/guide/topics/security/normal-permissions.html) -->
+    <!-- ************************************************************************************************* -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- need by notifications -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <!-- need by secure backup -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- need by reminders (To-Dos) -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <!-- need by BlueTooth link detector AddOn -->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <!-- need by secure backup -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <!-- need by GPS tracking -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!-- need by db backup, GPS tracking (track files), app logging, etc. -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <!-- <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" /> -->
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"/>
+
+    <uses-feature
+        android:name="android.hardware.location"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.bluetooth"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.location.network"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false"/>
+
+    <application
+        android:name=".AndiCar"
+        android:allowBackup="true"
+        android:fullBackupContent="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="false"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:supportsRtl">
+
+        <uses-library android:name="com.google.android.maps"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version"/>
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1"/>
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="f81b6f48650b05d047c8f5224cdc68e53175a973" />
+
+        <!-- Google Analytics services -->
+        <!-- <service android:name="com.google.android.gms.analytics.AnalyticsService" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="false"/> -->
+        <!-- <service android:name="com.google.android.gms.analytics.CampaignTrackingService" /> -->
+        <!-- End Google Analytics services -->
+
+        <activity
+            android:name="org.andicar2.activity.MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="andicar.n.activity.preference.PreferenceActivity"
+            android:label="@string/gen_settings"
+            android:parentActivityName="org.andicar2.activity.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.andicar2.activity.MainActivity" />
+        </activity>
+
+        <activity
+            android:name="andicar.n.activity.miscellaneous.BackupListActivity"
+            android:label="@string/pref_backup_list_title"
+            android:parentActivityName="andicar.n.activity.preference.PreferenceActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="andicar.n.activity.preference.PreferenceActivity"/>
+        </activity>
+
+        <activity
+            android:name="andicar.n.activity.dialogs.GeneralNotificationDialogActivity"
+            android:theme="@style/AndiCarDialog">
+        </activity>
+
+        <activity
+            android:name="andicar.n.activity.dialogs.ToDoNotificationDialogActivity"
+            android:theme="@style/AndiCarDialog">
+        </activity>
+
+        <activity
+            android:name="andicar.n.activity.dialogs.GPSTrackControllerDialogActivity"
+            android:theme="@style/GPSTrackController"
+            android:label="@string/activity_gps_track_controller"
+            android:icon="@mipmap/ic_launcher_gpstrack"
+            android:taskAffinity="andicar.n.activity.dialogs.GPSTrackControllerDialogActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="andicar.n.activity.miscellaneous.BackupScheduleActivity"
+            android:theme="@style/AndiCarDialog">
+        </activity>
+
+        <activity
+            android:name="andicar.n.activity.miscellaneous.TaskCarLinkActivity"
+            android:theme="@style/AndiCarDialog">
+        </activity>
+
+        <activity
+            android:name="andicar.n.activity.dialogs.ChartDetailDialog"
+            android:theme="@style/AndiCarDialog">
+        </activity>
+
+        <activity
+            android:name="andicar.n.activity.CommonListActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName="org.andicar2.activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.andicar2.activity.MainActivity" />
+        </activity>
+
+        <activity
+            android:name="andicar.n.activity.CommonDetailActivity"
+            android:parentActivityName="andicar.n.activity.CommonListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="andicar.n.activity.CommonListActivity"/>
+        </activity>
+
+        <activity
+            android:name="andicar.n.activity.miscellaneous.GPSTrackMap"
+            android:label="@string/gen_gpstrack_map">
+        </activity>
+
+        <activity
+            android:name="andicar.n.activity.miscellaneous.AboutActivity"
+            android:label="About AndiCar">
+        </activity>
+
+        <service
+            android:name="andicar.n.service.SecureBackupService"
+            android:enabled="true">
+        </service>
+
+        <service
+            android:name="andicar.n.service.BackupService"
+            android:enabled="true">
+        </service>
+
+        <service
+            android:name="andicar.n.service.ToDoManagementService"
+            android:enabled="true">
+        </service>
+
+        <service
+            android:name="andicar.n.service.GPSTrackService"
+            android:enabled="true">
+        </service>
+
+        <service
+            android:name="andicar.n.service.ToDoNotificationService"
+            android:enabled="true">
+        </service>
+
+        <service
+            android:exported="false"
+            android:name="andicar.n.service.FBJobService">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+            </intent-filter>
+        </service>
+
+        <receiver android:name="andicar.n.broadcastreceiver.ServiceStarter">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.DATE_CHANGED"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="andicar.n.broadcastreceiver.BTConnectionListener">
+            <intent-filter>
+                <action android:name="android.bluetooth.device.action.ACL_CONNECTED"/>
+                <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED"/>
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

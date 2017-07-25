@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ AndiCar
+  ~
+  ~  Copyright (c) 2017 Miklos Keresztes (miklos.keresztes@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/pref_gps_track__file_format">
+
+        <Preference
+            android:enabled="true"
+            android:key="@string/pref_key_gps_track_file_location"
+            android:summary="@string/pref_gps_track_file_location"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_key_gps_track_is_use_kml"
+            android:summary="@string/pref_gps_track_use_kml_summary"
+            android:title="@string/pref_gps_track_use_kml_title"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_key_gps_track_is_use_gpx"
+            android:summary="@string/pref_gps_track_use_gpx_summary"
+            android:title="@string/pref_gps_track_use_gpx_title"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/pref_key_gps_track_is_use_csv"
+            android:summary="@string/pref_gps_track_use_csv_summary"
+            android:title="@string/pref_gps_track_use_csv_title"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_bt_link_title">
+
+        <Preference
+            android:enabled="true"
+            android:key="@string/pref_key_bt_device_link"
+            android:summary="@string/pref_bt_link_description"
+            android:title="@string/bt_car_link_activity_title"/>
+
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/bt_link_disconnect_entries"
+            android:entryValues="@array/bt_link_disconnect_values"
+            android:key="@string/pref_key_bt_on_disconnect"
+            android:title="@string/pref_bt_link_on_disconnect_label"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/gen_other">
+
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/gpstrack_preference_min_time_entries"
+            android:entryValues="@array/gpstrack_preference_min_time_values"
+            android:key="@string/pref_key_gps_track_min_time"
+            android:title="@string/pref_gps_track_minimum_time_title"/>
+
+        <ListPreference
+            android:defaultValue="20"
+            android:entries="@array/gpstrack_preference_maxaccuracy_entries"
+            android:entryValues="@array/gpstrack_preference_maxaccuracy_values"
+            android:key="@string/pref_key_gps_track_min_accuracy"
+            android:title="@string/pref_gps_track_accuracy_title"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_key_gps_track_create_mileage"
+            android:title="@string/gps_track_controller_create_mileage_label"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

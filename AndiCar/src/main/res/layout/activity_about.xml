@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~
+  ~ AndiCar
+  ~
+  ~ Copyright (c) 2017 Miklos Keresztes (miklos.keresztes@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  ~
+  -->
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="vertical"
+    android:id="@+id/vgRoot"
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/llAbout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:gravity="center_horizontal"
+        >
+
+        <ImageView
+            android:id="@+id/aboutDialogPicture"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_description"
+            />
+
+        <TextView
+            style="@style/AndiCarSeparatorView"
+            />
+
+
+        <TextView
+            android:id="@+id/tvAbout1"
+            android:layout_marginTop="2dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="fill"
+            android:textIsSelectable="true"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            />
+
+
+        <TextView
+            android:id="@+id/tvAbout2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="fill"
+            android:textIsSelectable="true"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            />
+    </LinearLayout>
+</ScrollView>

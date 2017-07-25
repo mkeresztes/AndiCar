@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ AndiCar - a car management software for Android powered devices.
+
+ Copyright (C) 2010 Miklos Keresztes (miklos.keresztes@gmail.com)
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- Database initialization strings-->
+
+<resources>
+    <!-- UOM's -->
+    <string name="DB_UOM_KmName">Kilométer</string>
+    <string name="DB_UOM_KmComment">Kilométer</string>
+    <string name="DB_UOM_MiName">Mérföld</string>
+    <string name="DB_UOM_MiComment">Mérföld</string>
+    <string name="DB_UOM_LName">Liter</string>
+    <string name="DB_UOM_LComment">Liter</string>
+    <string name="DB_UOM_USGName">US gallon</string>
+    <string name="DB_UOM_USGComment">U.S. gallon</string>
+    <string name="DB_UOM_GBGName">UK gallon</string>
+    <string name="DB_UOM_GBGComment">UK gallon</string>
+    <!-- UOM Conversions -->
+    <string name="DB_UOMConversion_MiToKmName">mi - km</string>
+    <string name="DB_UOMConversion_MiToKmComment">Mérföld - Kilométer</string>
+    <string name="DB_UOMConversion_KmToMiName">km - mi</string>
+    <string name="DB_UOMConversion_KmToMiComment">Kilométer - Mérföld</string>
+    <string name="DB_UOMConversion_USGToLName">US gal - l</string>
+    <string name="DB_UOMConversion_USGToLComment">US gallon - Liter</string>
+    <string name="DB_UOMConversion_LToUSGName">l - US gal</string>
+    <string name="DB_UOMConversion_LToUSGComment">Liter - US gallon</string>
+    <string name="DB_UOMConversion_GBGToLName">UK gal - l</string>
+    <string name="DB_UOMConversion_GBGToLComment">UK gallon - Liter</string>
+    <string name="DB_UOMConversion_LToGBGName">l - UK gal</string>
+    <string name="DB_UOMConversion_LToGBGComment">Liter - UK gallon</string>
+    <string name="DB_UOMConversion_GBGToUSGName">UK gal - US gal</string>
+    <string name="DB_UOMConversion_GBGToUSGComment">UK gallon - US gallon</string>
+    <string name="DB_UOMConversion_USGToGBGName">US gal - UK gal</string>
+    <string name="DB_UOMConversion_USGToGBGComment">US gallon - UK gallon</string>
+    <!-- expense types -->
+    <string name="DB_ExpType_PersonalName">Személyes</string>
+    <string name="DB_ExpType_PersonalComment">Személyes költségek</string>
+    <string name="DB_ExpType_EmployerName">Üzleti</string>
+    <string name="DB_ExpType_EmployerComment">Üzleti költségek</string>
+    <!-- expense categories -->
+    <string name="DB_ExpCat_ServiceName">Szervíz</string>
+    <string name="DB_ExpCat_ServiceComment">Szervíz költségek</string>
+    <string name="DB_ExpCat_InsuranceName">Biztosítás</string>
+    <string name="DB_ExpCat_InsuranceComment">Biztosítás költségei</string>
+    <string name="DB_ExpCat_RoadTollName">Útdíj</string>
+    <string name="DB_ExpCat_RoadTollComment">Útdíj</string>
+    <string name="DB_ExpCat_PenaltyName">Büntetés :(</string>
+    <string name="DB_ExpCat_PenaltyComment">Büntetés :(</string>
+
+    <!-- fuel types -->
+    <!-- fuel types -->
+    <string name="DB_FuelType_Diesel1D">Dízel 1D</string>
+    <string name="DB_FuelType_Diesel1DComment">Téli dízel</string>
+    <string name="DB_FuelType_Diesel2D">Dízel 2D</string>
+    <string name="DB_FuelType_Diesel2DComment">Nyári dízel</string>
+    <string name="DB_FuelType_DieselBio">Biodízel</string>
+    <string name="DB_FuelType_DieselBioComment">Biodízel</string>
+    <string name="DB_FuelType_DieselSynthetic">Szintétikus dízel</string>
+    <string name="DB_FuelType_DieselSyntheticComment">Szintétikus dízel</string>
+    <string name="DB_FuelType_GasolineRegular">E85</string>
+    <string name="DB_FuelType_GasolineRegularComment">E85 szabványos alkoholbázisú üzemanyag</string>
+    <string name="DB_FuelType_GasolineMidgrade">Normál (89)</string>
+    <string name="DB_FuelType_GasolineMidgradeComment">89-öe benzin</string>
+    <string name="DB_FuelType_GasolinePremium">Prémium (91 – 93)</string>
+    <string name="DB_FuelType_GasolinePremiumComment">91 – 93-as benzin</string>
+    <string name="DB_FuelType_GasolinePremium2">Prémium (94 – 98)</string>
+    <string name="DB_FuelType_GasolinePremiumComment2">94 – 98-as benzin</string>
+    <string name="DB_FuelType_LPG">LPG</string>
+    <string name="DB_FuelType_LPGComment">Autógáz</string>
+
+    <!-- 
+    <string name="DB_ExpCat_FuelName">Üzemanyag</string>
+    <string name="DB_ExpCat_FuelComment">Tankolás költségei</string>
+    -->
+    <!-- currencies -->
+    <string name="DB_Curr_EUR">Euró</string>
+    <string name="DB_Curr_USD">US Dollár</string>
+    <string name="DB_Curr_HUF">Magyar Forint</string>
+    <string name="DB_Curr_RON">Román Lej</string>
+    <string name="DB_Curr_CAD">Kanadai Dollár</string>
+    <string name="DB_Curr_GBP">Angol Font</string>
+
+    <string name="DB_TaskType_ServiceName">Szervíz</string>
+    <string name="DB_TaskType_ServiceComment">Időszakos karbantartás</string>
+    <string name="DB_TaskType_ReminderName">Emlékeztető</string>
+    <string name="DB_TaskType_ReminderComment">Emlékeztető az általános feladatokhoz</string>
+</resources>

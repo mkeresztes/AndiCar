@@ -1,0 +1,4 @@
+ldpi: 18x18
+mdpi: 24x24
+hdpi: 36x36
+xhdpi: 48x48

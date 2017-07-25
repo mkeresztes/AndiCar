@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ AndiCar - Aplicación de administración de Automóviles para dispositivos Android.
+
+ Derechos de autor (C) 2010-2011 Miklos Keresztes (miklos.keresztes@gmail.com)
+
+ este programa es una aplicación libre: La puedes re distribuir y/o modificar 
+ bajo los términos de  GNU Licencia Pública General como ha sido publicado por 
+ la Fundación del Software Libre, tanto la versión 3 de el Licencia, o
+ (en forma opcional) cualquier versión posterior.
+
+ este programa es distribuido en la fe de que sera útil,
+ pero SIN NINGUNA GARANTÍA; si siquiera la garantía de
+ COMERCIALIZACIÓN o buen estado para un USO  PARTICULAR.
+ Ver GNU Licencia Pública General para mas detalles.
+
+ Deberías haber recibido una copia de la Licencia Pública General, GNU
+ con este programa. De no ser así,la puedes encontrar en <http://www.gnu.org/licenses/>.
+--><!--
+        < = <
+--><!-- spinner cadenas de inicio--><!--
+    !!!Para traductores!!!:
+    Solo algunos elementos deben traducirse. Por ejemplo el elemento con "Do not use"
+-->
+<resources>
+    <string-array name="backup_schedule_type_entries">
+        <item>Diario</item>
+        <item>Mensual</item>
+    </string-array>
+
+    <string-array name="uom_type_entries">
+        <item>Largo</item>
+        <item>Volume</item>
+        <item>Otro</item>
+    </string-array>
+
+    <string-array name="recurrent_periods">
+        <item>Día(s)</item>
+        <item>Semana(s)</item>
+        <item>Mes(s)</item>
+        <item>Año(s)</item>
+    </string-array>
+
+    <string-array name="months">
+        <item>Enero</item>
+        <item>Febrero</item>
+        <item>Marzo</item>
+        <item>Abril</item>
+        <item>Mayo</item>
+        <item>Junio</item>
+        <item>Julio</item>
+        <item>Agosto</item>
+        <item>Septiembre</item>
+        <item>Octubre</item>
+        <item>Noviembre</item>
+        <item>Diciembre</item>
+    </string-array>
+
+    <string-array name="gpstrack_preference_maxaccuracy_entries">
+        <item>10 m / 10.94 yd</item>
+        <item>20 m / 21.87 yd</item>
+        <item>50 m / 54.68 yd</item>
+        <item>100 m / 109.36 yd</item>
+        <item>250 m / 273.40 yd</item>
+        <item>500 m / 546.80 yd</item>
+        <item>No usar</item>
+    </string-array>
+</resources>

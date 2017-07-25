@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ AndiCar
+  ~
+  ~  Copyright (c) 2017 Miklos Keresztes (miklos.keresztes@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:key="@string/pref_key_expense_category"
+        android:summary="@string/pref_expense_category_summary"
+        android:title="@string/pref_expense_category_title"/>
+
+    <Preference
+        android:key="@string/pref_key_expense_type"
+        android:summary="@string/pref_expense_type_summary"
+        android:title="@string/pref_expense_type_title"/>
+
+    <Preference
+        android:key="@string/pref_key_reimbursement_rate"
+        android:summary="@string/pref_reimbursement_rate_title"
+        android:title="@string/pref_reimbursement_rate_title"/>
+
+    <Preference
+        android:key="@string/pref_key_currency"
+        android:summary="@string/pref_currency_summary"
+        android:title="@string/pref_currency_title"/>
+
+    <Preference
+        android:key="@string/pref_key_currency_rate"
+        android:summary="@string/pref_currency_rate_summary"
+        android:title="@string/pref_currency_rate_title"/>
+
+    <Preference
+        android:key="@string/pref_key_bpartner"
+        android:summary="@string/pref_partner_summary"
+        android:title="@string/pref_partner_category_title"/>
+</PreferenceScreen>

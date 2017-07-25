@@ -1,0 +1,12 @@
+colors: 
+    red: #ad1457
+    yellow: #fdd835
+    
+sizes (canvas : image):
+    mdpi: 48x48 : 38x38
+    hdpi: 72x72 : 58x58
+    xhdpi: 96x96 : 76x76
+    xxhdpi: 144x144 : 114x114
+    xxxhdpi: 192x192 : 152x152
+
+    web: 512x512 : 406x406

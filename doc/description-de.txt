@@ -1,0 +1,36 @@
+AndiCar ist eine Fahrzeug/Flottenmanagement Software für Menschen, die eine einzige App zur Aufzeichnung ihrer Fahrten, Ausgaben, Tankvorgänge, To-Do Listen, GPS tracks ihres Fahrzeugs wollen.
+Der CSV-Export der Aufzeichnungen erlaubt die Erstellung jeglicher grafischer Darstellung oder spezieller Berechnungen (wie steuerliche Berichte) in Microsoft Office Excel oder OpenOffice / LibreOffice Calc.
+
+Hauptfunktionen
+* Geschäftliche/private etc. Fahrtaufzeichnung
+* Tanken
+* Andere Ausgaben (Wartung, Versicherung, etc.)
+* GPS tracking mit automatischer Fahrtaufzeichnung auf GPS-Basis
+* Funktioniert mit mehreren Fahrzeugen, Fahrern, Währungen, Umrechnungseinheiten, Maßeinheiten, etc.
+* Mehrere Ausgabenarten (z.B. geschäftlich, privat)
+* Mehrere Ausgaben- und Kraftstoffkategorien
+* Ausfgabe / To-Do / Erinnerung nach Datum oder Strecke oder beidem.
+* Statistiken (durchschnittlicher/letzrer Kraftstoffverbrauch in MPG oderr l/100km, TCO, Fahrtkosten in EUR/100 km oder mi)
+* Alle Aufzeichnungen können als csv oder html-Datei exportiert und als Email-Anhang gesendet oder zu Google Docs / Dropbox exportiert werden (falls Google/Dropbox-Konto existiert)
+* Einstellbarer Hauptbildschirm
+* Manuelle Datenbanksicherung und Wiederherstellung
+
+AddOns:
+* Automatisches geplantes Datenbank-Backup
+* secure database backup (automatisches Senden an angegebene Email-Adresse).
+* Benutzerkonfigrierte Vorlagen für vereinfachte Dateneingabe
+* Bluetooth-Erkennung. Automatischer Start der GPS-Aufzeichnung, wenn eine Bluetooth-Verbindung zu einem Fahrzeug hergestellt wird; benötigt Android 2+ 
+
+AndiCar ist eine Open Source Software, lizensiert unter den Bedingungen der GNU General Public License, version 3.
+
+Unterstützte Sprachen: Englisch, Chinesisch, Russisch, Deutsch, Ungarisch, Spanisch, Rumänisch
+
+When es Dir gefällt, BEWERTE / KOMMENTIERE!
+Für BUGS gehe zu www.andicar.org -> Issues!
+
+Unter www.andicar.org -> "How To" lernst Du, die Funktionen von AndiCar effizient zu nutzen!
+
+Danke für das Nutzen von AndiCar!
+Miklos Keresztes
+
+tags: car vehicle fuel log mileage fill-up fillup maintenance service expense trip mileage gps tracker manager management mpg cost statistics report to-do todo task

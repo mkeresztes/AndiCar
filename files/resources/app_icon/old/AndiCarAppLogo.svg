@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" xmlns:bx="http://www.boxy-svg.com/bx">
+  <g transform="matrix(0.1979166716337204, 0, 0, 0.1979166716337204, 4.999980926513729, 5.000003103580781)">
+    <path d="M 30.43383026123047 25.339587211608887 L 44.423404693603516 0.05753096703074336 L 47.9804573059082 47.99879455566406 L 32.099491119384766 47.99879455566406 L 30.43383026123047 25.339587211608887 Z " style="fill: rgb(252, 210, 7); stroke-width: 0; stroke: rgb(0, 0, 0);" transform="matrix(4.0016303062438965, 0, 0, 4.004800319671631, -0.00005295469964039512, -0.23039978742599487)" bx:origin="0.5479655861854553 0.005982949398458004"/>
+    <path d="M 28.18842315673828 7.76362419128418 H 46.02548789978027 V 55.69489097595215 H 28.18842315673828 V 7.76362419128418 Z" style="fill: rgb(234, 67, 53); stroke-width: 0; stroke: rgb(167, 116, 116);" transform="matrix(4.0016303062438965, 0, -2.21811580657959, 4.004800319671631, 10.738081932067871, -31.04693031311035)" bx:origin="0.5479655861854553 0.005982949398458004"/>
+  </g>
+  <path d="M 89.19596099853516 146.87388610839844 Z " style="stroke: black; fill: none;"/>
+  <path d="M 89.19596099853516 146.87388610839844 Z " style="stroke: black; fill: none;"/>
+  <path d="M 89.19596099853516 146.87388610839844 Z " style="stroke: black; fill: none;"/>
+  <path d="M 89.19596099853516 146.87388610839844 Z " style="stroke: black; fill: none;"/>
+  <path style="stroke: black; fill: none;"/>
+  <path style="stroke: black; fill: none;"/>
+  <path style="stroke: black; fill: none;"/>
+  <path style="stroke: black; fill: none;"/>
+</svg>

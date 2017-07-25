@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ AndiCar
+  ~
+  ~  Copyright (c) 2016 Miklos Keresztes (miklos.keresztes@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="pref_general_title">Általános beállítások</string>
+    <string name="pref_car_driver_category_title">Autók és vezetők</string>
+    <string name="pref_car_title">Autók</string>
+    <string name="pref_car_summary">Autók szerkesztése.</string>
+    <string name="pref_driver_title">Vezetők</string>
+    <string name="pref_driver_summary">Vezetők szerkesztése.</string>
+    <string name="pref_uom_category_title">Mértékegységek</string>
+    <string name="pref_uom_title">Mértékegység</string>
+    <string name="pref_uom_summary">Mértékegység szerkesztése</string>
+    <string name="pref_uom_conversion_title">Mértékegység átváltás</string>
+    <string name="pref_uom_conversion_summary">Mértékegységek átváltásának szerkesztése</string>
+    <string name="pref_financial_title">Pénzügyi beállítások</string>
+    <string name="pref_expense_type_title">Fuvar és költség típusok</string>
+    <string name="pref_expense_type_summary">Fuvar és költség típusok szerkesztése</string>
+    <string name="pref_expense_category_title">Költség kategóriák</string>
+    <string name="pref_expense_category_summary">Költség kategóriák szerkesztése</string>
+    <string name="pref_reimbursement_rate_title">Visszafizetések</string>
+    <string name="pref_fuel_type_title">Üzemanyag tipusok</string>
+    <string name="pref_fuel_type_summary">Üzemanyag tipusok szerkesztése</string>
+    <string name="pref_currency_title">Pénznemek</string>
+    <string name="pref_currency_summary">Pénznemek szerkesztése</string>
+    <string name="pref_currency_rate_title">Alapértelmezett árfolyamok</string>
+    <string name="pref_currency_rate_summary">Alapértelmezett árfolyamok szerkesztése</string>
+    <string name="pref_partner_category_title">Benzinkutak, Szolgáltatók és címek</string>
+    <string name="pref_partner_title">Benzinkutak &amp; Szolgáltatók</string>
+    <string name="pref_partner_summary">Benzinkutak, Szolgáltatók és címeik szerkesztése</string>
+    <string name="pref_reminder_category_title">Emlékeztetők</string>
+    <string name="pref_todo_type_title">Feladat típusok</string>
+    <string name="pref_todo_type_summary">Feladat típusok szerkesztése</string>
+    <string name="pref_todo_title">Feladatok</string>
+    <string name="pref_todo_summary">Feladatok szerkesztése</string>
+    <string name="pref_tag_title">Címkék</string>
+    <string name="pref_tag_summary">Címkék szerkesztése</string>
+
+    <string name="pref_backup_restore_title">Biztonsági mentés &amp; visszaállítás</string>
+
+    <string name="pref_backup_now_title">Biztonsági mentés</string>
+    <string name="pref_backup_now_description">Készítsen biztonsági mentést most.</string>
+    <string name="pref_backup_success_message">A biztonsági mentés elkészült.</string>
+
+    <string name="pref_backup_list_title">Meglévő biztonsági mentések</string>
+    <string name="pref_backup_list_description">Lássa, törölje vagy küldje el a meglévő mentéseket.</string>
+    <string name="pref_backup_list_delete_confirmation">Biztos, hogy törlöd a kijelölt biztonsági mentést?</string>
+
+    <string name="pref_restore_backup_not_found_summary">Nincs biztonsági mentés.</string>
+    <string name="pref_restore_list_title">Válasszon egy mentést</string>
+    <string name="pref_restore_other">Válasszon másat</string>
+    <string name="pref_restore_title">Adatok visszaállítása …</string>
+    <string name="pref_restore_description">Ez a művelet lecseréli a meglévő adatokat!</string>
+    <string name="pref_restore_confirmation">Biztos, hogy vissza akarod állítani a kijelölt biztonsági mentést? Ez a művelet lecseréli a meglévő adatokat!</string>
+    <string name="pref_restore_success_message">Az adatbázis helyreállt.</string>
+
+    <string name="pref_backup_service_category">Automatikus mentés</string>
+    <string name="pref_backup_service_title">Aktiválja az automatikus mentés</string>
+    <string name="pref_backup_service_description">Ez a szolgáltatás lehetőségat ad arra, hogy napi/heti időzitett automatikus mentés készüljön az adatbázisról.</string>
+    <string name="pref_backup_service_frequency">"Gyakoriasság:"</string>
+    <string name="pref_backup_service_no_of_backups1">Csak az utolsó</string>
+    <string name="pref_backup_service_no_of_backups2">mentés megtartása.</string>
+    <string name="pref_backup_service_schedule_title">Időzítés</string>
+    <string name="pref_backup_service_schedule_summary_daily">Minden nap, %1$s-kor</string>
+    <string name="pref_backup_service_schedule_summary_weekly">Minden %1$s, %2$s-kor</string>
+    <string name="pref_backup_service_choose_a_day">Válasszon legalább egy napot ki</string>
+
+    <string name="pref_securebackup_authorization_required">Az engedélyezés szükséges.</string>
+    <string name="pref_securebackup_email_to_title">Cimzett</string>
+    <string name="pref_securebackup_only_on_wifi_title">Csak WiFi-n keresztül</string>
+    <string name="pref_securebackup_send_tracks_title">Küld el a GPS nyomkövetéseket is</string>
+    <string name="pref_securebackup_send_tracks_description">Az adatbázissal együtt, küld el a GPS nyomkövetéseket is.</string>
+
+    <string name="pref_category_secure_backup">Biztonságos mentés</string>
+    <string name="pref_securebackup_title">Aktiválja a biztonságos mentést</string>
+    <string name="pref_securebackup_description">Minden alkalommal mikor biztonsági mentés készül, ez a szolgáltatás mellékletként elküldi az előre megadott e-mail címre. Ez esetben az adatok akkor is megmaradnak, ha a telefonját ellopják.</string>
+
+    <string name="pref_category_gps_tracking">GPS nyomkövetés beállításai</string>
+    <string name="pref_gps_track__file_format">Válassz fájl formátum(okat) a nyom követéshez</string>
+    <string name="pref_gps_track_use_kml_title">KML</string>
+    <string name="pref_gps_track_use_kml_summary">Keyhole Markup Language</string>
+    <string name="pref_gps_track_use_gpx_title">GPX</string>
+    <string name="pref_gps_track_use_gpx_summary">GPs eXchange típus</string>
+    <string name="pref_gps_track_use_csv_title">CSV</string>
+    <string name="pref_gps_track_use_csv_summary">Vesszővel elválasztott értékek</string>
+    <string name="pref_gps_track_minimum_time_title">Min. idő a pontok között</string>
+    <string name="pref_gps_track_file_location">A nyomkövetési fájlai megtalálhatóak a(z) %1$s könyvtárban</string>
+    <string name="pref_gps_track_accuracy_title">Pontosság</string>
+    <string name="pref_bt_link_title">Bluetooth csatlakozás érzékelő</string>
+    <string name="pref_bt_link_description">A GPS Követő Kezelő automatikus indítása amikor Bluetooth kapcsolat egy autóval létrejött.</string>
+    <string name="pref_bt_link_on_disconnect_label">A Bluetooth kapcsolat megszünésekor:</string>
+
+    <string name="pref_title_google_account">Válasszon ki egy Google fiókot</string>
+    <string name="pref_google_account_description">Ez a fiók lesz használva az emailek küldéséhez.</string>
+
+    <string name="pref_show_notification_on_success_title">Értesítések megjelenítése</string>
+    <string name="pref_show_notification_on_success_description">Értsítés megjelenítése siker esetén. Függetlenül ettől a beálítástol, hiba esetén az értesítés meg fog jelenni.</string>
+
+    <string name="gen_confirm">Megerősítés</string>
+    <string name="gen_ok">OK</string>
+    <string name="gen_cancel">Mégse</string>
+    <string name="gen_yes">Igen</string>
+    <string name="gen_no">Nem</string>
+    <string name="gen_error">Hiba</string>
+    <string name="gen_info">Infó</string>
+    <string name="gen_warning">Figyelem</string>
+    <string name="gen_share">Megosztás …</string>
+    <string name="gen_other">Egyebek</string>
+    <string name="gen_required">Szükséges</string>
+    <string name="gen_is_active">Aktív</string>
+    <string name="gen_choose_one">Válassz egyet</string>
+    <string name="gen_fill_mandatory">Töltsd ki a kötelező mezőt</string>
+    <string name="gen_reimbursement">Visszafizetés:</string>
+    <string name="gen_fuel_efficiency">Fogyasztás: </string>
+    <string name="gen_template">Sablon</string>
+    <string name="gen_car_label">Autó:</string>
+    <string name="gen_driver_label">Vezető:</string>
+    <string name="gen_type_label">Típus:</string>
+    <string name="gen_start_label">Indulás:</string>
+    <string name="gen_index_label">Kilométeróra:</string>
+    <string name="gen_index_label2">Kilométeróra</string>
+    <string name="gen_stop_label">Érkezés:</string>
+    <string name="gen_tag">Címke:</string>
+    <string name="gen_tag_hint">Rövid címke. Megjegyzés alább.</string>
+    <string name="gen_comment_label">Megjegyzés:</string>
+    <string name="gen_invalid_number">Érvénytelen szám</string>
+    <string name="gen_duration">Időtartam:</string>
+    <string name="gen_delete">Törlés</string>
+    <string name="gen_add_new">Új létrehozása</string>
+    <string name="gen_edit">Szerkesztés</string>
+    <string name="gen_mail_sent">Email elküldve</string>
+    <string name="gen_internet_access_required">Internet kapcsolat sükséges a konfiguráláshoz.</string>
+    <string name="gen_trips">Utazások</string>
+    <string name="gen_fillups">Tankolások</string>
+    <string name="gen_expenses">Költségek</string>
+    <string name="gen_gps_tracks">GPS nyomkövetések</string>
+    <string name="gen_todo_detail">A feladat részletei</string>
+
+    <string name="gen_trip">Utazás</string>
+    <string name="gen_fillup">Tankolás</string>
+    <string name="gen_expense">Költség</string>
+    <string name="gen_gps_track">GPS nyomkövetés</string>
+
+    <string name="gen_todo_list">Feladatlista</string>
+    <string name="gen_report_issue">Jelents egy problémát</string>
+    <string name="gen_about">Az AndiCarról</string>
+    <string name="gen_settings">Beállítások</string>
+    <string name="gen_hour">Óra:</string>
+    <string name="gen_done">Kész</string>
+    <string name="gen_set_date">Dátum/idő beállítása</string>
+    <string name="gen_trip_detail">Az utazás részletei</string>
+    <string name="gen_fillup_detail">A tankolás részletei</string>
+    <string name="gen_expense_detail">Költség részletei</string>
+    <string name="gen_gps_track_detail">GPS nyomkövetés részletei</string>
+
+    <string name="gen_menu">Menü</string>
+    <string name="gen_save">Mentés</string>
+    <string name="gen_delete_confirmation">Biztosan törlöd a rekordot?</string>
+    <string name="gen_search">Keresés/Szűrés</string>
+    <string name="gen_date_time_label">Dátum és idő:</string>
+    <string name="gen_quantity_label">Mennyiség:</string>
+    <string name="gen_currency_label">Pénznem:</string>
+    <string name="gen_rate_label">Árfolyam:</string>
+    <string name="gen_amount_label">Öszeg</string>
+    <string name="gen_price_label">Ár:</string>
+    <string name="gen_address">Cím:</string>
+    <string name="gen_bpartner_address_info"><![CDATA[További részletek a Beállítások -> Pénzügyi beállítások -> Benzinkutak …]]></string>
+    <string name="gen_document_no_label">Nyugta szám:</string>
+    <string name="gen_converted_amount_label">Öszeg. %1$s</string>
+    <string name="gen_converted_price_label">Ár %1$s</string>
+    <string name="gen_name_label">Név:</string>
+    <string name="gen_valid_from_label">Érvényesség kezdete:</string>
+    <string name="gen_valid_to_label">Érvényesség lejárta:</string>
+
+    <string name="gen_validating_google_account">A Google fiók ellenőrzése folyamatban …</string>
+    <string name="gen_test_email_subject">AndiCar teszt email</string>
+    <string name="gen_test_email_body">Ez egy teszt email a Google fiók ellenőrzésére.</string>
+    <string name="gen_code_label">Kód:</string>
+    <string name="gen_bpartner">Eladó:</string>
+    <string name="gen_city">Város:</string>
+    <string name="geb_region">Megye:</string>
+    <string name="gen_country">Ország:</string>
+    <string name="gen_contact">Kapcsolat:</string>
+    <string name="gen_phone">Telefon:</string>
+    <string name="gen_phone2">Telefon 2:</string>
+    <string name="gen_fax">Fax:</string>
+    <string name="gen_email">Email:</string>
+    <string name="gen_postal">Postai irányítószám:</string>
+    <string name="gen_last_day">utolsó nap</string>
+    <string name="gen_description">Leírás</string>
+    <string name="gen_or">Vagy:</string>
+    <string name="gen_time">Idő</string>
+    <string name="gen_on">" "</string> <!-- example on Monday -->
+    <string name="gen_todo">Tennivaló</string>
+    <string name="gen_days">nap</string>
+    <string name="gen_minutes">perc</string>
+    <string name="gen_category">Kategória:</string>
+    <string name="gen_created_on">"Létrehozva"</string>
+    <string name="gen_current_index">Jelenlegi km állás:</string>
+    <string name="gen_menu_rate_app">Értékelje az alkalmazást</string>
+
+    <string name="mileage_draft_edit">Vázlat. Töltsd ki az érkezési adatokat, hogy befelyezd.</string>
+    <string name="mileage_edit_option_mileage_label">Táv</string>
+    <string name="mileage_edit_insert_ok_message">Fuvar hozzáadva.</string>
+    <string name="mileage_edit_update_ok_message">Fuvar frissítve.</string>
+    <string name="mileage_type">Fuvar típusa:</string>
+
+    <string name="fillup_type">Tankolás típusa:</string>
+    <string name="fillup_category">Üzemanyag típus:</string>
+    <string name="fillup_edit_is_full_label">Tele</string>
+    <string name="fillup_edit_qty_in_base_uom_label">Mennyiség alap megységben:</string>
+    <string name="fillup_edit_no_conversion_rate_message">Nincs átváltás a mértékegységekhez</string>
+    <string name="fillup_edit_gas_station">Töltőállomás:</string>
+
+    <string name="gps_track_detail_var_1">Távolság:</string>
+    <string name="gps_track_detail_var_2">Max. sebesség:</string>
+    <string name="gps_track_detail_var_3">Átl. sebesség:</string>
+    <string name="gps_track_detail_var_4">Átl. közlekedési sebesség:</string>
+    <string name="gps_track_detail_var_5">Teljes idő:</string>
+    <string name="gps_track_detail_var_6">Közlekedési idő:</string>
+    <string name="gps_track_detail_var_7">Max. pontosság:</string>
+    <string name="gps_track_detail_var_8">Min. pontosság:</string>
+    <string name="gps_track_detail_var_9">Átl. pontosság:</string>
+    <string name="gps_track_detail_var_10">Min. mag.:</string>
+    <string name="gps_track_detail_var_11">Max. mag.:</string>
+    <string name="gps_track_detail_var_12">Szünetelési idő:</string>
+    <string name="gps_track_detail_var_13">Várakozási idő:</string>
+
+    <string name="gps_controller_start_track">Új nyomkövetés indítása</string>
+
+    <string name="gps_track_edit_track_files_header_caption">Nyomkövetési fájlok</string>
+    <string name="gps_track_edit_track_statistics">Statisztikák</string>
+    <!--<string name="GPSTrackControllerActivity_FileFormatLabel">Nyomkövetési fájl formátum:</string>-->
+    <string name="gps_track_controller_create_mileage_label">Fuvar létrehozása</string>
+    <string name="gps_track_service_gps_disabled_message">Az Ön gps vevője le van tiltva!\n Kérjük engedélyezze azt.</string>
+    <string name="gps_track_service_gps_out_of_service">GPS üzemen kívül!</string>
+    <string name="gps_track_service_track_in_progress_title">AndiCar GPS nyomkövetés</string>
+    <string name="gps_track_service_track_in_progress_message">Nyomkövetés folyamatban</string>
+    <!--<string name="gps_track_service_accuracy_problem_title">AndiCar GPS Figyelmeztetés!</string>-->
+    <!--<string name="gps_track_service_accuracy_problem_message">A pontosság a határ alatt!</string>-->
+    <string name="gps_track_service_auto_shut_down_title">AndiCar GPS megállt!</string>
+    <!--<string name="gps_track_service_auto_shut_down_message">A GPS követés leállt, mert a kihagyott pontok százaléka (%1$s) meghaladja a határértéket (%2$s)!\n  A határértéket átálíthatja a Beállítások -> Saját stop határ.</string>-->
+    <!--<string name="GPSTrackService_FileSystemErrorTitle">Fájlrendszer hiba!</string>-->
+    <string name="gps_track_service_tracking_paused_title">AndiCar GPS nyomkövetés szünetel</string>
+    <string name="gps_track_service_tracking_paused_message">A nyomkövetés szünetel</string>
+    <string name="gps_track_pause">Szünetelés</string>
+    <string name="gps_track_resume">Folytatás</string>
+    <string name="gps_track_stop">Vége</string>
+    <string name="gps_track_start">Indítsd meg</string>
+
+    <string name="gps_track_map_trip_pause_title">Szünet</string>
+    <string name="gen_gpstrack_map">Térkép</string>
+    <string name="gps_track_map_trip_start_title">Indulás</string>
+    <string name="gps_track_map_trip_end_title">Érkezés</string>
+    <string name="gps_track_map_trip_start_date">Indulási időpont:</string>
+    <string name="gps_track_map_trip_end_date">Érkezési időpont:</string>
+    <string name="gps_track_map_pause_info">Szünet %1$s-töl\n\t%2$s-ig\n\nIdőtartam: %3$s</string>
+
+    <string name="activity_driver_edit">Vezető szerkesztése</string>
+    <string name="activity_car_edit">Autó szerkesztése</string>
+    <string name="activity_expense_category_edit">Költségkategóriák szerkesztése</string>
+    <string name="activity_expense_type_edit">Költségtípusok szerkesztése</string>
+    <string name="activity_uom_edit">Mértékegységek szerkesztése</string>
+    <string name="activity_uom_conversion_edit">Mértékegység konverzió szerkesztése</string>
+    <string name="activity__currency_edit">Pénznem szerkesztése</string>
+    <string name="activity_currency_rate_edit">Valuta árfolyamok létrehozása vagy szerkesztése</string>
+    <string name="activity_bpartner_edit">Partner szerkesztése, címek</string>
+    <string name="activity_bpartner_location_edit">Címek szerkesztése</string>
+    <string name="activity_task_type_edit">Feladat típus szerkesztése</string>
+    <string name="activity_fuel_category_edit">Üzemanyag tipusok szerkesztése</string>
+    <string name="activity_reimbursement_rate_edit">Visszajáró díj szerkesztése</string>
+    <string name="activity_bt_starter_device_link_edit">BT Eszköz párosítása autóhoz</string>
+    <string name="activity_tag_edit">Címke szerkesztése</string>
+
+    <string name="car_edit_model_label">Tipus:</string>
+    <string name="car_edit_license_plate_label">Rendszámtábla:</string>
+    <string name="car_edit_uom_length_label">Távolsági mértékegység:</string>
+    <string name="car_edit_uom_volume_label">Térfogat mértékegység:</string>
+    <string name="car_edit_index_start_label">Kezdő kilométer állás:</string>
+    <string name="car_edit_currency_label">Alap pénznem:</string>
+
+    <string name="driver_edit_license_no_label">Licenc szám.:</string>
+
+    <string name="uom_conversion_edit_from_uom_label">megységről:</string>
+    <string name="uom_conversion_edit_to_uom_label">megységre:</string>
+    <string name="uom_conversion_edit_convertion_factor_label">Váltószám:</string>
+
+    <string name="expense_category_edit_exclude_label">Kizárás az fuvarköltség számításából</string>
+
+    <string name="currency_rate_edit_currency_from_label">Pénznemről</string>
+    <string name="currency_rate_edit_currency_to_label">Pénznemre</string>
+    <string name="currency_rate_edit_rate_label">Árfolyam: 1 %1$s = </string>
+    <string name="currency_rate_edit_inverse_rate_label">Fordított árfolyam: 1 %1$s = %2$s %3$s</string>
+
+    <string name="bpartner_edit_locations_header_caption">Címek</string>
+
+    <string name="task_edit_one_time">Egyszeri</string>
+    <string name="task_edit_recurrent">Ismétlődő</string>
+    <string name="task_edit_recurrent_every_label">Minden</string>
+    <string name="task_edit_recurrent_frequency_label">Gyakran</string>
+    <string name="task_edit_first_run_depend_on_car">Különböző kezdő időpont minden kapcsolt autónak</string>
+    <string name="task_edit_scheduled">Tervezett:</string>
+    <string name="task_edit_mileage_driven">Megtett táv</string>
+    <string name="task_edit_both_driven">Mindkettő</string>
+    <string name="task_edit_first_time_run_explanation">A kezdő időpont minden kapcsolodó autónak külön lesz beállítva</string>
+    <string name="task_edit_first_mileage_run_explanation">A kezdő kilométer minden kapcsolodó autónak külön lesz beállítva</string>
+    <string name="task_edit_reminder_start_label">Emlékeztető indulása</string>
+    <string name="task_edit_linked_cars_label">Kapcsolodó autók</string>
+    <string name="task_edit_mileage_uom_text">mérföld vagy km</string>
+    <string name="task_edit_fill_mileage">Adja meg a megtett távolságot!</string>
+    <string name="task_edit_fill_frequency">Adja meg a gyakoriságot!</string>
+    <string name="task_edit_linked_cars_options_help">További opciók az adott autóra hosszan nyomva</string>
+    <string name="task_edit_all_cars_linked_message">Az összes aktív autó a feladathoz kapcsolva.</string>
+    <string name="task_edit_no_linked_car_message">Legalább egy autónak kapcsolódnia kell a feladathoz.</string>
+    <string name="task_edit_no_cars_available_message">Nincs aktív autó melynek az aktuális km állása kisebb mint a feladatban szereplő távolság!\n Kérjük emelje meg feladatban szereplő távolságot!</string>
+    <string name="task_edit_starting_time_in_future_message">"A kezdés időpontja jövőbe mutató legyen!"</string>
+    <string name="task_edit_starting_time_label">Kezdés:</string>
+    <string name="task_edit_mileage_frequency_smaller_than_reminder">A megtett távolság gyakoriságának nagyobbnak kell lennie, mint a figyelmeztetésben.</string>
+    <string name="task_edit_generated_todo_count_label">A generált teendők száma:</string>
+    <string name="task_edit_todo_count">teendő számláló</string>
+    <string name="task_edit_todo_count_help">Amikor egy teendő késznek lesz jelölve, automatikusan hozzáadódik egy új a teendők listájához.</string>
+    <string name="task_car_edit_start_date">Kezdés dátuma:</string>
+    <string name="task_car_edit_start_mileage">Kezdő kilométer</string>
+
+    <string name="todo_alert_title">Tennivaló riasztás</string>
+    <string name="todo_status_label">Státusz:</string>
+    <string name="todo_mileage">Megtett táv:</string>
+    <string name="todo_overdue_label">Lejárt</string>
+    <string name="todo_scheduled_label">Ütemezett</string>
+    <string name="todo_done_label">Kész</string>
+    <string name="todo_scheduled_date_label">Ütemezve:</string>
+    <string name="todo_scheduled_mileage_label">Ütemezett kilóméteróra:</string>
+    <string name="todo_estimated_mileage_date">becsült dátum:</string>
+    <string name="todo_estimated_mileage_date_no_data">nincs elegendő adat a dátum megbecsüléséhez!</string>
+    <string name="todo_estimated_mileage_date_too_far">Túl messze van, hogy becsülhető legyen</string>
+    <string name="todo_action_hdr">Válasz</string>
+    <string name="todo_post_pone_label">Még</string>
+    <string name="todo_is_done_caption">Ez a teendő kész</string>
+    <string name="todo_days_left">Hátralévő nap:</string>
+    <string name="todo_minutes_left">Hátralévő perc:</string>
+    <string name="todo_mileage_left">Hátralévő kilométer</string>
+    <string name="todo_is_done">Kész</string>
+
+    <string name="main_activity_no_car">Nincs autó meghatározva</string>
+    <string name="main_activity_no_to_do">Nincs tennivaló</string>
+    <string name="main_activity_statistics_header_caption">Statisztikák  - </string>
+    <string name="main_activity_statistics_last_odometer_label">Utolsó ismert kilométeróra állás: </string>
+    <string name="main_activity_statistics_avg_cons_label">Átl. üzemanyag fogy.: </string>
+    <string name="main_activity_statistics_last_cons_label">Utolsó üzemanyag fogy.: </string>
+    <string name="main_activity_statistics_total_expense_label">Teljes költség:</string>
+    <string name="main_activity_statistics_mileage_expense_label">Fuvarköltség:</string>
+    <string name="main_activity_app_version">Alkalmazás verzió: %1$s (DB %2$s)</string>
+
+    <string name="bt_car_link_activity_title">Kapcsolt eszközök</string>
+    <!--<string name="AddOn_BTStarter_DeviceLinkActivityTitle">Eszköz párosítása autóhoz</string>-->
+    <string name="bt_link_paired_devices_label">Párosított autók:</string>
+    <!--<string name="AddOn_BTStarter_LinkedTo">Párosítva:</string>-->
+    <!--<string name="AddOn_BTStarter_NoLinkedCar">Nincs párosított autó.\nEzt a kpcsolatot törölni kellene.</string>-->
+    <string name="bt_link_link_to_car">Párosítás autóhoz:</string>
+
+    <string name="bt_link_link_to_car_bt_disabled_title">A Bluetooth ki van kapcsolva</string>
+    <string name="bt_link_link_to_car_bt_disabled_message">A Bluetooth ki van kapcsolva. Kapcsold be.</string>
+
+    <string name="day_of_week_0">Vasárnap</string>
+    <string name="day_of_week_1">Hétfő</string>
+    <string name="day_of_week_2">Kedd</string>
+    <string name="day_of_week_3">Szerda</string>
+    <string name="day_of_week_4">Csütörtök</string>
+    <string name="day_of_week_5">Péntek</string>
+    <string name="day_of_week_6">Szombat</string>
+
+    <string name="gen_close">Zárd be</string>
+    <string name="gen_report_to_dev">Küld el</string>
+
+    <string name="backup_service_success_message">A biztonsági mentés sikeresen elkészült.</string>
+
+    <string name="secure_backup_mail_subject">Az AndiCar biztonsági mentés csatolva van.</string>
+    <string name="secure_backup_mail_body">Az adatbázis visszaálításához nézze meg a http://www.andicar.org/howto#TOC-Modify-existing-records linket. &lt;br&gt; &lt;br&gt; Sent by AndiCar - http://www.andicar.org"</string>
+    <string name="secure_backup_success_message">A biztonságos mentés sikerült.</string>
+
+    <string name="data_template_updated_msg">Sablon frissítve</string>
+    <string name="data_template_created_msg">Új sablon létrehozva a jelenlegi értékek alapján</string>
+    <string name="data_template_new">Új sablon …</string>
+    <string name="data_template_new_msg">A jelenlegi adatok alapján, egy új sablon lesz létrehozva.\n\nSablon neve:</string>
+    <string name="data_template_update">Sablon módosítása</string>
+
+    <string name="search_dialog_title">Kritérium megadása</string>
+    <string name="gen_date_from_label">Dátumtól:</string>
+    <string name="gen_date_to_label">Dátumig:</string>
+    <string name="search_dialog_note" tools:ignore="StringFormatCount,StringFormatInvalid">Megjegyzés: % bármely kifejezést jelent</string>
+    <string name="share_dialog_title">Opciók</string>
+    <string name="share_dialog_format_label">Formátum:</string>
+    <string name="report_creation_in_progress_message">A riport létrehozása elkezdődött. Kérem várjon…</string>
+
+    <string name="chart_filter_all">Összes</string>
+    <string name="chart_filter_current_month">E hónapi</string>
+    <string name="chart_filter_previous_month">Múlt hónapi</string>
+    <string name="chart_filter_current_year">Ez évi</string>
+    <string name="chart_filter_previous_year">Múlt évi</string>
+    <string name="chart_filter_custom_period">Más időszak</string>
+    <string name="chart_label_others">Egyéb (%1$.2f%2$s)</string> <!--Others 32.45%-->
+    <string name="chart_filter_all_header_caption">Az összes adat</string>
+    <string name="chart_filter_current_month_header_caption">E hónapi adatok</string>
+    <string name="chart_filter_previous_month_header_caption">Múlt hónapi adatok</string>
+    <string name="chart_filter_current_year_header_caption">Ez évi adatok</string>
+    <string name="chart_filter_previous_year_header_caption">Múlt évi adatok</string>
+    <string name="chart_filter_custom_period_header_caption">%1$s > %2$s</string>
+    <string name="chart_filter_custom_period_header_caption_value_beginning">Az elejétől</string>
+    <string name="chart_filter_custom_period_header_caption_value_now">mostanig</string>
+    <string name="chart_no_data">Nincs adat</string>
+
+    <string name="progress_restoring_data">A helyreállítás folyamatban … </string>
+
+    <string name="app_short_about">
+        <![CDATA[
+        Az <b><i>AndiCar</i></b> egy ingyenes és nyílt foráskódú software. Licencelése a General Public License alapján történik.<br>
+        További részletekért lásd az AndiCarról oldalt.<br>
+        Copyright © 2010-%1$s Keresztes Miklós.<br>
+        Köszönjük, hogy az <b><i>AndiCar</i></b> alkalmazást használja!
+        ]]>
+    </string>
+
+    <string name="app_about1_html">
+        <![CDATA[
+        Az <b><i>AndiCar</i></b> egy ingyenes és nyílt foráskódú autó menedzselő alkalmazás Android készülékekre.
+        Licencelése a General Public License 3-as verziója alapján történik.<br><br>
+
+        *  További információért (Hogyanok, Legújabb hírek, stb.) látogasd meg a projekt web oldalát
+        <a href="http://www.andicar.org">www.andicar.org</a>.<br>
+        <small>Nyomd meg az oldal frissítése gombot, ha a követkző üzenetet kapod: \"Web page not available\".</small><br>
+
+        *  Kérdéseidet az <b><i>AndiCar</i></b>-ral kapcsolatban tedd fel a következő forumon:
+        <a href="http://groups.google.com/group/andicar">http://groups.google.com/group/andicar</a>.<br>
+
+        *  Hiba bejelentés esetén vagy kérések esetén ne habozz használni az <b><i>AndiCar</i></b> hiba bejelentő rendszerét:
+        <a href="https://github.com/mkeresztes/AndiCar/issues">https://github.com/mkeresztes/AndiCar/issues</a>.<br>
+
+        *  A forráskód a következő c1men érhető el:
+        <a href="https://github.com/mkeresztes/AndiCar">https://github.com/mkeresztes/AndiCar</a>.<br>
+
+        *  Egyéb esetben üzenj az <a href="mailto:andicar.support@gmail.com">andicar.support@gmail.com</a> címre.
+        ]]>
+    </string>
+
+    <string name="app_about2_html">
+        <![CDATA[
+        <br><b><i>További résztvevők:</i></b><br>
+        *  Német fordítás Frank Dreesbach - frank.dreesbach@mail.de (eredeti fordítás: Andy Haubenschmid - andy@haubenschmid.li)<br>
+		*  Magyar fordítás Nagy Péter - microbilab@gmail.com<br>
+		*  Spanyol fordítás Daniel Iozzi - danieliozzi@gmail.com<br>
+		*  Román fordítás Doru Butnaru - budo8002@gmail.com<br>
+
+        <br>Az AndCar az alábbi <b><i>harmadik féltől származó könyvtárak</i></b>at használja:<br>
+		*  Droppy - <a href="https://github.com/shehabic/Droppy">https://github.com/shehabic/Droppy</a><br>
+		*  MPAndroidChart - <a href="https://github.com/PhilJay/MPAndroidChart">https://github.com/PhilJay/MPAndroidChart</a><br>
+		*  Android-SwitchDateTimePicker - <a href="https://github.com/PhilJay/MPAndroidChart">https://github.com/PhilJay/MPAndroidChart</a><br>
+		*  android-file-chooser - <a href="https://github.com/hedzr/android-file-chooser">https://github.com/hedzr/android-file-chooser</a><br>
+		*  JavaMail for Android - <a href="https://javaee.github.io/javamail/Android">https://javaee.github.io/javamail/Android</a><br>
+
+        <br><b><i>Copyright notice</i></b>:<br>
+        Copyright © 2010-%1$s Keresztes Miklós (miklos.keresztes@gmail.com)<br><br>
+
+        Ez a program szabad szoftver; terjeszthető illetve módosítható a Free Software
+        Foundation által kiadott GNU General Public License dokumentumában leírtak;
+        akár a licenc 3-as, akár (tetszőleges) későbbi változata szerint.<br><br>
+
+        Ez a program abban a reményben kerül közreadásra, hogy hasznos lesz, de minden
+        egyéb GARANCIA NÉLKÜL, az ELADHATÓSÁGRA vagy VALAMELY CÉLRA VALÓ
+        ALKALMAZHATÓSÁGRA való származtatott garanciát is beleértve. További
+        részleteket a GNU General Public License tartalmaz (<a href="http://www.gnu.org/licenses">http://www.gnu.org/licenses</a>).<br>
+
+        <br>Köszönjük, hogy az <b><i>AndiCar</i></b> alkalmazást használja.<br><br>
+        ]]>
+    </string>
+
+    <!--chart headers-->
+    <!--11 = row 1, column 1-->
+    <string name="chart11Title">Utak típusok szerint (top 3)</string>
+    <string name="chart12Title">Utak címkék szerint (top 3)</string>
+    <string name="chart13Title">Utak vezető szerint (top 3)</string>
+    <string name="chart21Title">Tankolások típusok szerint - mennyiség (top 3)</string>
+    <string name="chart22Title">Tankolások címkék szerint - mennyiség (top 3)</string>
+    <string name="chart23Title">Tankolások üzemanyag szerint - mennyiség (top 3)</string>
+    <string name="chart31Title">Tankolások típusok szerint - érték (top 3)</string>
+    <string name="chart32Title">Tankolások címkék szerint - érték (top 3)</string>
+    <string name="chart33Title">Tankolások üzemanyag szerint - érték (top 3)</string>
+    <string name="chart41Title">Költségek típusok szerint (top 3)</string>
+    <string name="chart42Title">Költségek kategóriák szerint (top 3)</string>
+    <string name="chart43Title">Költségek címkék szerint (top 3)</string>
+    <string name="chartFooterText">Összesen: %1$s</string>
+    <string name="title_list_activity" tools:ignore="PluralsCandidate">%1$s: %2$s rekord</string>
+    <string name="error_sorry">Bocsi! Egy váratlan hiba\ncsúszott be :(</string>
+    <string name="error_report_sent">Köszi, hogy segítesz AndiCart jobbá tenni!</string>
+    <string name="error_000">Adatbázis hiba.</string>
+    <string name="error_001">A kezdő index benne van egy megtett távban</string>
+    <string name="error_002">A stop index benne van egy megtett távban</string>
+    <string name="error_003">A megtett táv átföd egy másik megtett távot</string>
+    <string name="error_004">A stop index-nek nagyobbnak kell lennie mint a kezdő indexnek</string>
+    <string name="error_005">Konverziós ráta már létezik</string>
+    <string name="error_009">Ez a vezető nem törölhető, mert létező fuvar hivatkozik rá.</string>
+    <string name="error_010">Ez a vezető nem törölhető, mert létező tankolás hivatkozik rá.</string>
+    <string name="error_011">Ez az autó nem törölhető, mert létező fuvar hivatkozik rá.</string>
+    <string name="error_012">Ez az autó nem törölhető, mert létező tankolás hivatkozik rá.</string>
+    <string name="error_013">Ez az mértékegység nem törölhető, mert létező fuvar hivatkozik rá.</string>
+    <string name="error_014">Ez az mértékegység nem törölhető, mert létező tankolás hivatkozik rá.</string>
+    <string name="error_015">Ez az mértékegység nem törölhető, mert mértékegység konvertálás hivatkozik rá.</string>
+    <string name="error_016">Ez a valuta nem törölhető, mert létező autó hivatkozik rá.</string>
+    <string name="error_017">Ez a valuta nem törölhető, mert létező tankolás hivatkozik rá.</string>
+    <string name="error_018">Ez a tipus nem törölhető, mert létező fuvar hivatkozik rá.</string>
+    <string name="error_019">Ez a tipus nem törölhető, mert létező tankolás hivatkozik rá.</string>
+    <string name="error_056">Ismeretlen hiba.</string>
+    <string name="error_021">A riportok könyvtára (%1s) nem hozható létre. Nem mentheted el a riportokat addig, amíg nem hozod létre ezt a könyvtárat.</string>
+    <string name="error_022">Riport fájl nem hozható létre!</string>
+    <string name="error_023">Fájlírási hiba!</string>
+    <string name="error_024">A biztonsági mentések könyvtára nem hozható létre (%1s). Amíg nem hozod létre ezt a könyvtárat nem csinálhatsz biztonsági másolatot addig.</string>
+    <string name="error_025">A mértékegység nem deaktiválható, mert egy aktív autó használja.</string>
+    <string name="error_026">Az árfolyam nem deaktiválható, mert egy aktív autó használja</string>
+    <string name="error_027">Ez a kategória nem törölhető, mert tankolási adatok hivatkoznak rá.</string>
+    <string name="error_028">Ez a kategória nem törölhető, mert költségek hivatkoznak rá.</string>
+    <string name="error_029">Ez a konverziós ráta már létezik ezekre a pénznemekre.</string>
+    <string name="error_030">Ez a költség nem törölhető, mert tankolás által lett létrehozva.\n A tankolás adatait kell törölni.</string>
+    <string name="error_031">Nem hozhatsz létre konverziót ugyanazokkal a mértékegységekkel.</string>
+    <string name="error_032">Nem hozhatsz létre konverziót ugyanazokkal a valutákkal.</string>
+    <string name="error_033">A GPS nyomkövetés könyvtára nem hozható létre (%1s). Amíg nem hozod létre ezt a könyvtárat nem használhatod a gps nyomkövetést addig.</string>
+    <string name="error_034">Fájlrendszer hiba!"</string>
+    <string name="error_035">Érvénytelen riport.</string>
+    <string name="error_036">A nyomkövetési fájl nem található vagy üres!</string>
+    <string name="error_038">Ez az árfolyam nen törölhető, mert használva van a költségekben.</string>
+    <string name="error_039">Ez a vezető nem törölhető, mert használva van a költségekben.</string>
+    <string name="error_040">Ez az autó nem törölhető, mert használva van a költségekben.</string>
+    <string name="error_041">Ez a költség típus nem törölhető, használva van a költségekben.</string>
+    <string name="error_042">Ez a partner nem törölhető, mert használva van a tankolásokban.</string>
+    <string name="error_043">Ez a partner nem törölhető, mert használva van a költségekben.</string>
+    <string name="error_044">Ez a hely nem törölhető, mert használva van a tankolásokban.</string>
+    <string name="error_045">Ez a hely nem törölhető, mert használva van a költségekben.</string>
+    <string name="error_046">Ez a címke nem törölhető, mert használva van a fuvarokban.</string>
+    <string name="error_047">Ez a címke nem törölhető, mert használva van a tankolásokban.</string>
+    <string name="error_048">Ez a címke nem törölhető, mert használva van a költségekben.</string>
+    <string name="error_049">Ez a címke nem törölhető, mert használva van a gps nyomkövetésekben.</string>
+    <string name="error_058">Az ideiglenes könyvtár nem hozható létre (%1s). Amíg nem hozod létre a könyvtárat nem használható a SecureBecup szolgáltatás.</string>
+    <string name="error_059">Dupla rekord.</string>
+    <string name="error_060">Ez a típus nem törölhető, mert a feladatokban hivatkozás található rá.</string>
+    <string name="error_061">Ismeretlen feladat!\nValószínüleg a feladat módosítva lett és a feladat lista újra létre lett hozva.</string>
+    <string name="error_064">Az eszközöd nem támogatja a Bluetooth-t!</string>
+    <string name="error_065">Helytelen szám.</string>
+    <string name="error_067">A megosztás nem lehetséges. Nincs olyan app instalálva ami erre képes.</string>
+    <string name="error_068">Nincs helymeghatározó szolgáltatás!</string>
+    <string name="error_069">Szükséges a helyadatokhoz való hozzáférés!</string>
+    <string name="error_070">Nem engedélyezett az adattárolóhoz való hozzáférés!</string>
+    <string name="error_071">Az adatbázis nem elérhető.</string>
+    <string name="error_072">Ismeretlen fájltípus.</string>
+    <string name="error_073">%1$s nem létezik.</string>
+    <string name="error_074">%1$s nem mappa.</string>
+    <string name="error_075">Nem lehet listázni a %1$s tartalmát.</string>
+    <string name="error_076">Nem lehet letörölni a %1$s mappát.</string>
+    <string name="error_077">Nem lehet átnevezni a cél mappát.</string>
+    <string name="error_078">Nem lehet létrehozni a cél mappát %1$s.</string>
+    <string name="error_079">A cél mappa %1$s nem írható.</string>
+    <string name="error_080">Üres zip arhívum. A visszáaálítás megszakadt.</string>
+    <string name="error_081">A zip arhívumban nem található adatbázis. A visszáaálítás megszakadt.</string>
+
+    <string name="error_100">A fájl nem található%1s!</string>
+    <string name="error_102">Nincs hozzáférési jog a külső tárhelyhez!</string>
+    <string name="error_103">Nem lehet létrehozni a napló mappát (%1s).</string>
+    <string name="error_105">Nem lehet törölni a %1s!</string>
+    <string name="error_106">Hiányosan van konfigurálva: nincs cimzett</string>
+    <string name="error_107">Hiányosan van konfigurálva: nincs kiválasztott Google fiók.</string>
+    <string name="error_108">Az AndiCarnak nincs hozzáférése az Ön Google fiókjához, hogy email-t küldjön az Ön nevében. Emiatt a biztonságos mentés kikapcsolódott. Visszkapcsolhatja a Beálításoknál a Biztonságos mentés opciónál.</string>
+    <string name="error_109">Nincs engedélyezve a hozzáférés a külső adattározóhoz. Ennek a funkciónak szüksége van ehez az engedélyhez!</string>
+    <string name="error_111">Válasszon egy kezdő mértékegységet!</string>
+    <string name="error_112">Válassza ki, hogy mílyen mértékegységre alakít!</string>
+    <string name="error_113">Ismeretlen ablaktípus (%1s)!</string>
+</resources>

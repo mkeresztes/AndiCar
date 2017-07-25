@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ AndiCar - a car management software for Android powered devices.
+
+ Copyright (C) 2010 Miklos Keresztes (miklos.keresztes@gmail.com)
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/vgRoot"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvDebugInfo"
+        style="@style/TextAppearance.AppCompat.Small"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="default size"
+        tools:ignore="HardcodedText"/>
+
+    <LinearLayout
+        android:id="@+id/fakeFocus"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"/>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+
+            <include
+                layout="@layout/data_entry_template"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:id="@+id/lCarZone"
+                android:layout_width="fill_parent"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvCarLabel"
+                    style="@style/AndiCarLabelStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/gen_car_label"/>
+
+                <Spinner
+                    android:id="@+id/spnCar"
+                    style="@style/AndiCarSpinnerStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:tag="spnCar"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lDriverZone"
+                android:layout_width="fill_parent"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvDriverLabel"
+                    style="@style/AndiCarLabelStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/gen_driver_label"/>
+
+                <Spinner
+                    android:id="@+id/spnDriver"
+                    style="@style/AndiCarSpinnerStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:tag="spnDriver"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lExpTypeZone"
+                android:layout_width="fill_parent"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvExpenseTypeLabel"
+                    style="@style/AndiCarLabelStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/fillup_type" />
+
+                <Spinner
+                    android:id="@+id/spnExpType"
+                    style="@style/AndiCarSpinnerStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:tag="spnDriver"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lExpCatZone"
+                android:layout_width="fill_parent"
+                android:gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvExpenseCategoryLabel"
+                    style="@style/AndiCarLabelStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/fillup_category" />
+
+                <Spinner
+                    android:id="@+id/spnExpCategory"
+                    style="@style/AndiCarSpinnerStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:tag="spnDriver"/>
+            </LinearLayout>
+
+            <TextView style="@style/AndiCarSeparatorView" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvDateTimeLabel"
+                    style="@style/AndiCarLabelStyle"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/gen_date_time_label"/>
+
+                <TextView
+                    android:id="@+id/tvDateTimeValue"
+                    style="@style/AndiCarDateTimeTextView"
+                    android:layout_width="185dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="23/10/2017 11:30 PM"
+                    tools:ignore="HardcodedText"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvIndexLabel"
+                    style="@style/AndiCarLabelStyle"
+                    android:text="@string/gen_index_label"/>
+
+                <EditText
+                    android:id="@+id/etIndex"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:digits=".1234567890"
+                    android:inputType="numberDecimal"
+                    android:hint="@string/gen_required"
+                    android:tag="@string/gen_required"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvQuantityLabel"
+                    style="@style/AndiCarLabelStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/gen_quantity_label"/>
+
+                <EditText
+                    android:id="@+id/etQuantity"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:digits=".1234567890"
+                    android:inputType="numberDecimal"
+                    android:hint="@string/gen_required"
+                    android:tag="@string/gen_required"/>
+
+                <Spinner
+                    android:id="@+id/spnUomVolume"
+                    style="@style/AndiCarSpinnerStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:prompt="@string/gen_choose_one"/>
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/ckIsFullRefuel"
+                style="@style/AndiCarCheckBox"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/fillup_edit_is_full_label" />
+
+            <LinearLayout
+                android:id="@+id/llBaseUOMQtyZone"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvBaseUOMQtyLabel"
+                    style="@style/AndiCarLabelStyle"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/fillup_edit_qty_in_base_uom_label" />
+
+                <TextView
+                    android:id="@+id/tvBaseUOMQtyValue"
+                    style="@style/AndiCarLabelStyle"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:id="@+id/rgExpenseInsertMode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkedButton="@+id/rbInsertModeAmount"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbInsertModeAmount"
+                        style="@style/AndiCarCheckBox"
+                        android:text="@string/gen_amount_label" />
+
+                    <RadioButton
+                        android:id="@+id/rbInsertModePrice"
+                        style="@style/AndiCarCheckBox"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/gen_price_label" />
+                </RadioGroup>
+
+                <EditText
+                    android:id="@+id/etUserInput"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:digits=".1234567890"
+                    android:inputType="numberDecimal"
+                    android:hint="@string/gen_required"
+                    android:tag="@string/gen_required" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvCurrencyLabel"
+                    style="@style/AndiCarLabelStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/gen_currency_label"/>
+
+                <Spinner
+                    android:id="@+id/spnCurrency"
+                    style="@style/AndiCarSpinnerStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llConversionRateZone"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvConversionRateLabel"
+                    style="@style/AndiCarLabelStyle"
+                    android:text="@string/gen_rate_label"/>
+
+                <EditText
+                    android:id="@+id/etConversionRate"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:digits=".1234567890"
+                    android:hint="@string/gen_required"
+                    android:tag="@string/gen_required"
+                    android:inputType="numberDecimal"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvCalculatedTextLabel"
+                    style="@style/AndiCarLabelStyle"/>
+
+                <TextView
+                    android:id="@+id/tvCalculatedTextContent"
+                    style="@style/AndiCarLabelStyle"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llConvertedAmountZone"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvConvertedAmountLabel"
+                    style="@style/AndiCarLabelStyle"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+            </LinearLayout>
+
+            <TextView style="@style/AndiCarSeparatorView" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvBPartnerLabel"
+                    style="@style/AndiCarLabelStyle"
+                    android:text="@string/fillup_edit_gas_station" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/acBPartner"
+                    style="@style/AndiCarAutocompleteTextStyle"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvBPartnerAddressLabel"
+                    style="@style/AndiCarLabelStyle"
+                    android:text="@string/gen_address"/>
+
+                <AutoCompleteTextView
+                    android:id="@+id/acAddress"
+                    style="@style/AndiCarAutocompleteTextStyle"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvBPartnerAddressInfoLabel"
+                style="@style/AndiCarLabelStyle"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:enabled="false"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="@string/gen_bpartner_address_info"
+                android:textStyle="italic"
+                android:typeface="sans"/>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvDocumentNoLabel"
+                    style="@style/AndiCarLabelStyle"
+                    android:text="@string/gen_document_no_label"/>
+
+                <EditText
+                    android:id="@+id/etDocumentNo"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:inputType="text"/>
+            </LinearLayout>
+
+            <TextView style="@style/AndiCarSeparatorView" />
+
+            <TextView
+                android:id="@+id/tvTagLabel"
+                style="@style/AndiCarLabelStyle"
+                android:text="@string/gen_tag"/>
+
+            <AutoCompleteTextView
+                android:id="@+id/acTag"
+                style="@style/AndiCarAutocompleteTextStyle"
+                android:hint="@string/gen_tag_hint"/>
+
+            <TextView
+                android:id="@+id/tvUserCommentLabel"
+                style="@style/AndiCarLabelStyle"
+                android:text="@string/gen_comment_label"/>
+
+            <AutoCompleteTextView
+                android:id="@+id/acUserComment"
+                style="@style/AndiCarAutocompleteTextStyle"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

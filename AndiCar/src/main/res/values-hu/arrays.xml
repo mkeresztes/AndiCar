@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ AndiCar - a car management software for Android powered devices.
+
+ Copyright (C) 2010 Miklos Keresztes (miklos.keresztes@gmail.com)
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- spinner initialization arrays-->
+
+<!--
+    !!!For translators!!!:
+    Only some items must be translated. For example the items with the "Do not use" text
+-->
+
+<resources>
+    <string-array name="backup_schedule_type_entries">
+        <item>Napi</item>
+        <item>Heti</item>
+    </string-array>
+
+    <string-array name="uom_type_entries">
+        <item>Hossz</item>
+        <item>Térfogat</item>
+        <item>Más</item>
+    </string-array>
+
+    <string-array name="recurrent_periods">
+        <item>Nap</item>
+        <item>Hét</item>
+        <item>Hónap</item>
+        <item>Év</item>
+    </string-array>
+
+    <string-array name="months">
+        <item>Január</item>
+        <item>Február</item>
+        <item>Március</item>
+        <item>Április</item>
+        <item>Május</item>
+        <item>Június</item>
+        <item>Július</item>
+        <item>Augusztus</item>
+        <item>Szeptember</item>
+        <item>Október</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+
+    <string-array name="gpstrack_preference_min_time_entries">
+        <item>Leghamarabb</item>
+        <item>3 s</item>
+        <item>5 s</item>
+        <item>10 s</item>
+        <item>30 s</item>
+        <item>1 min</item>
+        <item>3 min</item>
+        <item>5 min</item>
+        <item>10 min</item>
+    </string-array>
+
+    <string-array name="gpstrack_preference_maxaccuracy_entries">
+        <item>10 m / 10.94 yd</item>
+        <item>20 m / 21.87 yd</item>
+        <item>50 m / 54.68 yd</item>
+        <item>100 m / 109.36 yd</item>
+        <item>250 m / 273.40 yd</item>
+        <item>500 m / 546.80 yd</item>
+        <item>Nem használom</item>
+    </string-array>
+
+    <string-array name="bt_link_disconnect_entries">
+        <item>Ne csinálj semmit</item>
+        <item>Szüneteld / Folytasd (mikor újracsatlakozik)</item>
+        <item>Álitsd le a nyomkövetést</item>
+    </string-array>
+
+</resources>
+

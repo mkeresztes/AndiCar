@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+ AndiCar - a car management software for Android powered devices.
+
+ Copyright (C) 2010 Miklos Keresztes (miklos.keresztes@gmail.com)
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/vgRoot"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:paddingLeft="@dimen/dialog_horizontal_margin"
+              android:paddingRight="@dimen/dialog_horizontal_margin"
+              android:paddingTop="@dimen/dialog_vertical_margin"
+              tools:context="andicar.n.activity.miscellaneous.BackupScheduleActivity">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvFrequencyLabel"
+                    style="@style/AndiCarLabelStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/pref_backup_service_frequency"/>
+
+                <Spinner
+                    android:id="@+id/spnScheduleFrequency"
+                    style="@style/AndiCarSpinnerStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llDayList"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/ckDayOfWeek0"
+                        style="@style/AndiCarCheckBox"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/day_of_week_0"/>
+
+                    <CheckBox
+                        android:id="@+id/ckDayOfWeek1"
+                        style="@style/AndiCarCheckBox"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/day_of_week_1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/ckDayOfWeek2"
+                        style="@style/AndiCarCheckBox"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/day_of_week_2"/>
+
+                    <CheckBox
+                        android:id="@+id/ckDayOfWeek3"
+                        style="@style/AndiCarCheckBox"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/day_of_week_3"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/ckDayOfWeek4"
+                        style="@style/AndiCarCheckBox"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/day_of_week_4"/>
+
+                    <CheckBox
+                        android:id="@+id/ckDayOfWeek5"
+                        style="@style/AndiCarCheckBox"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/day_of_week_5"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/ckDayOfWeek6"
+                        style="@style/AndiCarCheckBox"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/day_of_week_6"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/dialog_content_vertical_spacing">
+
+                <TextView
+                    android:id="@+id/tvHourLabel"
+                    style="@style/AndiCarLabelStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/gen_hour"/>
+
+                <TextView
+                    android:id="@+id/tvDateTimeValue"
+                    style="@style/AndiCarDateTimeTextView"
+                    android:paddingEnd="24dp"
+                    android:paddingRight="24dp"
+                    android:paddingLeft="24dp"
+                    android:paddingStart="24dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/dialog_content_vertical_spacing">
+
+                <TextView
+                    android:id="@+id/tvKeepLastLabel1"
+                    style="@style/AndiCarLabelStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pref_backup_service_no_of_backups1"/>
+
+                <EditText
+                    android:id="@+id/etKeepLastNo"
+                    style="@style/AndiCarTextViewStyle"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:digits="1234567890"
+                    android:inputType="number"
+                    android:paddingEnd="@dimen/dialog_content_horizontal_spacing"
+                    android:paddingLeft="@dimen/dialog_content_horizontal_spacing"
+                    android:paddingStart="@dimen/dialog_content_horizontal_spacing"
+                    android:tag="@string/gen_required"/>
+
+                <TextView
+                    android:id="@+id/tvKeepLastLabel2"
+                    style="@style/AndiCarLabelStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pref_backup_service_no_of_backups2"
+                    android:gravity="center"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        style="@style/AndiCarDialogButtonSeparatorView"
+        android:paddingTop="@dimen/dialog_content_vertical_spacing"/>
+
+    <LinearLayout
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnCancel"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gen_cancel"
+            android:textColor="@color/primary_accent"/>
+
+        <Button
+            android:id="@+id/btnDone"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gen_done"
+            android:textColor="@color/primary_accent"/>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ AndiCar
+  ~
+  ~  Copyright (c) 2016 Miklos Keresztes (miklos.keresztes@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="title_list_activity" tools:ignore="PluralsCandidate">%1$s: %2$s registros</string>
+    <string name="pref_general_title">Configuración general</string>
+    <string name="pref_car_driver_category_title">Automóviles y Conductores</string>
+    <string name="pref_car_title">Automóviles</string>
+    <string name="pref_car_summary">Agregar, borrar, modificar Automóviles.</string>
+    <string name="pref_driver_title">Conductores</string>
+    <string name="pref_driver_summary">Agregar, borrar, modificar Conductores.</string>
+    <string name="pref_uom_category_title">Unidades de medida</string>
+    <string name="pref_uom_title">UM</string>
+    <string name="pref_uom_summary">Agregar, borrar, modificar unidades de medida</string>
+    <string name="pref_uom_conversion_title">UM conversión</string>
+    <string name="pref_uom_conversion_summary">Agregar, borrar, modificar conversiones entre unidades de medida</string>
+    <string name="pref_financial_title">Configuración financiera</string>
+    <string name="pref_expense_type_title">Tipo de viaje &amp; gastos</string>
+    <string name="pref_expense_type_summary">Agregar, borrar, modificar tipo de viaje &amp; gastos</string>
+    <string name="pref_expense_category_title">Categorías de gastos</string>
+    <string name="pref_expense_category_summary">Agregar, borrar, modificar categorías de gastos</string>
+    <string name="pref_fuel_type_title">Tipo de combustible</string>
+    <string name="pref_fuel_type_summary">Agregar, borrar, modificar tipo de combustible</string>
+    <string name="pref_currency_title">Monedas de Cambio</string>
+    <string name="pref_currency_summary">Agregar, borrar, modificar Monedas de Cambio</string>
+    <string name="pref_currency_rate_title">Relacion de moneda de cambio</string>
+    <string name="pref_currency_rate_summary">Agregar, borrar, modificar relación de moneda de cambio</string>
+    <string name="pref_partner_category_title">Estaciones de servicio, Vendedores y ubicaciones</string>
+    <string name="pref_partner_title">Estaciones de servicio &amp; Vendedores</string>
+    <string name="pref_partner_summary">Agregar, borrar, modificar Estaciones de servicio, vendedores y ubicaciones</string>
+    <string name="pref_reminder_category_title">Recordatorios</string>
+    <string name="pref_todo_type_title">Tipo de tareas</string>
+    <string name="pref_todo_type_summary">Agregar, borrar, modificar tipo de tareas</string>
+    <string name="pref_todo_title">Tareas</string>
+    <string name="pref_todo_summary">Agregar, borrar, modificar tareas</string>
+    <string name="pref_tag_title">Etiquetas</string>
+    <string name="pref_tag_summary">Agregar, borrar, modificar Etiquetas</string>
+
+    <string name="pref_backup_restore_title">Copia de seguridad &amp; restaurar</string>
+
+    <string name="pref_backup_success_message">Copia de seguridad creada.</string>
+
+    <string name="pref_backup_list_title">Copias de seguridad existentes</string>
+    <string name="pref_backup_list_delete_confirmation">Estas seguro que quieres  borrar la copia de seguridad seleccionada?</string>
+
+    <string name="pref_restore_other">Elegir otro</string>
+    <string name="pref_restore_title">Restaurar …</string>
+    <string name="pref_restore_description">Esta acción reemplazara los datos existentes!</string>
+    <string name="pref_restore_confirmation">Estas seguro que quieres restaurar la copia de seguridad seleccionada? Esta acción reemplazara los datos existentes!</string>
+    <string name="pref_restore_success_message">Tu base de datos ha sido restaurada.</string>
+
+    <string name="pref_backup_service_category">Copias de seguridad programadas</string>
+    <string name="pref_backup_service_title">Habilitar el servicio de copia de seguridad</string>
+    <string name="pref_backup_service_description">Este Servicio te permite planear una tarea automática de copia de seguridad de base de datos diario/semanal.</string>
+    <string name="pref_backup_service_frequency">"Frecuencia:"</string>
+    <string name="pref_backup_service_no_of_backups1">Solo guardar el Último</string>
+    <string name="pref_backup_service_no_of_backups2">copias de seguridad.</string>
+    <string name="pref_backup_service_schedule_title">Programar</string>
+
+    <string name="pref_category_secure_backup">Copia de seguridad segura</string>
+    <string name="pref_securebackup_title">Habilitalo copia de seguridad segura</string>
+    <string name="pref_securebackup_description">Cada vez que una copia de seguridad de base de datos es creada, este Servicio automáticamente lo enviara como un correo adjunto a una pre configurada casilla de correo. De esta manera tu datos guardados estarán disponibles inclusive si pierdes tu teléfono.</string>
+
+    <string name="pref_category_gps_tracking">Preferencias de Seguimiento GPS</string>
+    <string name="pref_gps_track__file_format">Escoge el formato de archivo(s) usado para el seguimiento gps</string>
+    <string name="pref_gps_track_use_kml_title">KML</string>
+    <string name="pref_gps_track_use_kml_summary">Keyhole Markup Language</string>
+    <string name="pref_gps_track_use_gpx_title">GPX</string>
+    <string name="pref_gps_track_use_gpx_summary">GPs eXchange format</string>
+    <string name="pref_gps_track_use_csv_title">CSV</string>
+    <string name="pref_gps_track_use_csv_summary">Valores Separados por Comas</string>
+    <string name="pref_gps_track_minimum_time_title">Mínimo tiempo entre puntos</string>
+    <string name="pref_gps_track_file_location">Tus archivos de shuimiento están ubicados en %1$s folder</string>
+    <string name="pref_gps_track_accuracy_title">Precisión</string>
+    <string name="pref_bt_link_title">Detector de enlace de Bluetooth</string>
+    <string name="pref_bt_link_description">Automáticamente comenzar el Seguimiento GPS cuando una coneccion Bluetooth al un Automóvil es creada.</string>
+
+    <string name="pref_title_google_account">Elija una cuenta de Google</string>
+
+    <string name="pref_show_notification_on_success_title">Mostrar notificación</string>
+
+    <string name="gen_confirm">Confirmación</string>
+    <string name="gen_ok">OK</string>
+    <string name="gen_cancel">Cancelar</string>
+    <string name="gen_yes">Yes</string>
+    <string name="gen_no">No</string>
+    <string name="gen_error">Error</string>
+    <string name="gen_info">Información</string>
+    <string name="gen_warning">Cuidado</string>
+    <string name="gen_share">Comparte …</string>
+    <string name="gen_other">Otros</string>
+    <string name="gen_required">Requerido</string>
+    <string name="gen_is_active">Activo</string>
+    <string name="gen_choose_one">Elige Uno</string>
+    <string name="gen_fill_mandatory">Completar campos obligatorios</string>
+    <string name="gen_reimbursement">Reembolso:</string>
+    <string name="gen_fuel_efficiency">Eficiencia de combustible: </string>
+    <string name="gen_template">Plantilla</string>
+    <string name="gen_car_label">Automóvil:</string>
+    <string name="gen_driver_label">Conductor:</string>
+    <string name="gen_type_label">Tipo:</string>
+    <string name="gen_start_label">Salida:</string>
+    <string name="gen_index_label">Odómetro:</string>
+    <string name="gen_index_label2">Odómetro</string>
+    <string name="gen_stop_label">Llegada:</string>
+    <string name="gen_tag">Etiqueta:</string>
+    <string name="gen_tag_hint">Etiqueta Breve. Escribe debajo el comentario.</string>
+    <string name="gen_comment_label">Comentario:</string>
+    <string name="gen_invalid_number">Numero Invalido</string>
+    <string name="gen_duration">Duración:</string>
+    <string name="gen_delete">Borrar</string>
+    <string name="gen_add_new">Agregar nuevo</string>
+    <string name="gen_edit">Editar</string>
+    <string name="gen_trips">Kilometrajes</string>
+    <string name="gen_fillups">Recargas</string>
+    <string name="gen_expenses">Gastos</string>
+    <string name="gen_gps_tracks">Registro GPS</string>
+
+    <string name="gen_trip">Kilometraje</string>
+    <string name="gen_fillup">Recarga</string>
+    <string name="gen_expense">Gasto</string>
+    <string name="gen_gps_track">Registro GPS</string>
+
+    <string name="gen_todo_list">Lista de quehaceres</string>
+    <string name="gen_report_issue">Reportar un problema</string>
+    <string name="gen_about">Acerca de</string>
+    <string name="gen_settings">Preferencias</string>
+    <string name="gen_hour">Hora:</string>
+    <string name="gen_done">Completado</string>
+    <string name="gen_set_date">Cambiar fecha/hora</string>
+    <string name="gen_delete_confirmation">Estas seguro que quieres borrar el registro seleccionado?</string>
+    <string name="gen_search">Buscar/filtros</string>
+    <string name="gen_date_time_label">Fecha/Hora:</string>
+    <string name="gen_quantity_label">Cantidad:</string>
+    <string name="gen_currency_label">Moneda:</string>
+    <string name="gen_rate_label">Relación:</string>
+    <string name="gen_amount_label">Total</string>
+    <string name="gen_price_label">Unidad:</string>
+    <string name="gen_address">Dirección:</string>
+    <string name="gen_bpartner_address_info"><![CDATA[Mas detalles en Preferencias -> Financiera -> Estaciones de servicio …]]></string>
+    <string name="gen_document_no_label">Documento no.:</string>
+    <string name="gen_converted_amount_label">Cantidad. %1$s</string>
+    <string name="gen_converted_price_label">Precio %1$s</string>
+    <string name="gen_name_label">Nombre:</string>
+    <string name="gen_valid_from_label">Válido desde:</string>
+    <string name="gen_valid_to_label">Válido hasta:</string>
+    <string name="gen_code_label">Codigo:</string>
+    <string name="gen_bpartner">Vendedor:</string>
+    <string name="gen_city">Ciudad:</string>
+    <string name="geb_region">Región:</string>
+    <string name="gen_country">País:</string>
+    <string name="gen_contact">Contacto:"</string>
+    <string name="gen_phone">Teléfono:</string>
+    <string name="gen_phone2">Teléfono 2:</string>
+    <string name="gen_fax">Fax:</string>
+    <string name="gen_email">Email:</string>
+    <string name="gen_postal">Postal:</string>
+    <string name="gen_last_day">Último día</string>
+    <string name="gen_description">Descripción</string>
+    <string name="gen_or">O:</string>
+    <string name="gen_time">Tiempo</string>
+    <string name="gen_on">en</string> <!-- example en Monday -->
+    <string name="gen_todo">Tareas</string>
+    <string name="gen_days">Días</string>
+    <string name="gen_minutes">Minutos</string>
+    <string name="gen_category">Categoría:</string>
+    <string name="gen_created_on">"Creado en"</string>
+    <string name="gen_current_index">Odómetro actual:</string>
+    <string name="gen_menu_rate_app">Califica esta aplicación</string>
+
+    <string name="mileage_edit_option_mileage_label">Distancia</string>
+    <string name="mileage_edit_insert_ok_message">Kilómetros agregados.</string>
+    <string name="mileage_edit_update_ok_message">Kilómetros actualizados.</string>
+
+    <string name="fillup_edit_is_full_label">Esta lleno</string>
+    <string name="fillup_edit_qty_in_base_uom_label">Cantidad en base UM:</string>
+    <string name="fillup_edit_no_conversion_rate_message">No hay relacion de conversion definida para estos UM\'s</string>
+    <string name="fillup_edit_gas_station">Estación:</string>
+
+    <string name="gps_track_detail_var_1">Distancia:</string>
+    <string name="gps_track_detail_var_2">Velocidad máxima:</string>
+    <string name="gps_track_detail_var_3">Velocidad promedio:</string>
+    <string name="gps_track_detail_var_4">Velocidad de movimiento promedio:</string>
+    <string name="gps_track_detail_var_5">Tiempo total:</string>
+    <string name="gps_track_detail_var_6">Tiempo en movimiento:</string>
+    <string name="gps_track_detail_var_7">Máxima precisión:</string>
+    <string name="gps_track_detail_var_8">Mínima precisión:</string>
+    <string name="gps_track_detail_var_9">Precisión promedio:</string>
+    <string name="gps_track_detail_var_10">Mínima altitud.:</string>
+    <string name="gps_track_detail_var_11">Máxima altitud.:</string>
+
+    <string name="gps_track_edit_track_files_header_caption">Archivos de Rutas</string>
+    <string name="gps_track_edit_track_statistics">Estadísticas</string>
+
+    <!--<string name="GPSTrackControllerActivity_FileFormatLabel">Formato:</string>-->
+    <string name="gps_track_controller_create_mileage_label">Crear kilómetros</string>
+    <string name="gps_track_service_gps_disabled_message">Tu gps esta deshabilitado!\n Por favor habilitalo.</string>
+    <string name="gps_track_service_gps_out_of_service">Proveedor de GPS fuera de Servicio!</string>
+    <string name="gps_track_service_track_in_progress_title">AndiCar Seguimiento GPS</string>
+    <string name="gps_track_service_track_in_progress_message">Seguimiento en progreso</string>
+    <!--<string name="gps_track_service_accuracy_problem_title">AndiCar GPS Alerta!</string>-->
+    <!--<string name="gps_track_service_accuracy_problem_message">Precisión fuera de limite!</string>-->
+    <string name="gps_track_service_auto_shut_down_title">AndiCar GPS detenido!</string>
+    <!--<string name="gps_track_service_auto_shut_down_message">Seguimiento GPS se ha detenido porque el porcentaje de puntos perdidos (%1$s) esta fuera de limite (%2$s)!\n Puedes ajustar el limite en  Preferencias -> Detenimiento automático de limite.</string>-->
+    <!--<string name="GPSTrackService_FileSystemErrorTitle">Error de Sistema de Archivos AndiCar!</string>-->
+    <string name="gps_track_pause">Interrumpirse</string>
+    <string name="gps_track_resume">Reanudar</string>
+
+
+    <string name="activity_driver_edit">Editar conductor</string>
+    <string name="activity_car_edit">Editar automóvil</string>
+    <string name="activity_expense_category_edit">Editar Categorías de expensas</string>
+    <string name="activity_expense_type_edit">Editar Tipos de Expensas</string>
+    <string name="activity_uom_edit">Editar UM</string>
+    <string name="activity_uom_conversion_edit">Editar UM Conversión</string>
+    <string name="activity__currency_edit">Editar monedas</string>
+    <string name="activity_currency_rate_edit">Agregar o Editar moneda, relación de cambio</string>
+    <string name="activity_bpartner_edit">Editar socios, ubicación</string>
+    <string name="activity_bpartner_location_edit">Editar ubicación</string>
+    <string name="activity_task_type_edit">Editar tipo de tarea</string>
+    <string name="activity_fuel_category_edit">Editar categorías de combustible</string>
+    <string name="activity_reimbursement_rate_edit">Editar tasa</string>
+    <string name="activity_bt_starter_device_link_edit">Asociar dispositivo al automóvil</string>
+    <string name="activity_tag_edit">Editar Etiqueta</string>
+
+    <string name="car_edit_model_label">Modelo:</string>
+    <string name="car_edit_license_plate_label">Licencia:</string>
+    <string name="car_edit_uom_length_label">UM, distancia:</string>
+    <string name="car_edit_uom_volume_label">UM, volumen:</string>
+    <string name="car_edit_index_start_label">Odómetro inicial:</string>
+    <string name="car_edit_currency_label">Moneda por defecto:</string>
+
+    <string name="driver_edit_license_no_label">Licencia No.:</string>
+
+    <string name="uom_conversion_edit_from_uom_label">Desde UM:</string>
+    <string name="uom_conversion_edit_to_uom_label">A UM:</string>
+    <string name="uom_conversion_edit_convertion_factor_label">Relación de Conversión:</string>
+
+    <string name="expense_category_edit_exclude_label">Excluir de los kilómetros el costo calculado</string>
+
+    <string name="currency_rate_edit_currency_from_label">Desde Moneda</string>
+    <string name="currency_rate_edit_currency_to_label">A moneda</string>
+    <string name="currency_rate_edit_rate_label">Relación: 1 %1$s = </string>
+    <string name="currency_rate_edit_inverse_rate_label">Relación inversa: 1 %1$s = %2$s %3$s</string>
+
+    <string name="bpartner_edit_locations_header_caption">Ubicaciones</string>
+
+    <string name="task_edit_one_time">Una ves</string>
+    <string name="task_edit_recurrent">Recurrente</string>
+    <string name="task_edit_recurrent_every_label">Cada</string>
+    <string name="task_edit_recurrent_frequency_label">Frecuencia</string>
+    <string name="task_edit_first_run_depend_on_car">Tiempo de partida diferente para cada automóvil asociado</string>
+    <string name="task_edit_scheduled">Programado para:</string>
+    <string name="task_edit_mileage_driven">km</string>
+    <string name="task_edit_both_driven">Ambos</string>
+    <string name="task_edit_first_time_run_explanation">El tiempo de partida será especificado para cada automóvil asociado</string>
+    <string name="task_edit_first_mileage_run_explanation">Los kilómetros de partida serán especificados para cada automóvil asociado</string>
+    <string name="task_edit_reminder_start_label">Iniciar previos</string>
+    <string name="task_edit_linked_cars_label">Automóviles asociados</string>
+    <string name="task_edit_mileage_uom_text">mi or km</string>
+    <string name="task_edit_fill_mileage">Complete los kilómetros!</string>
+    <string name="task_edit_fill_frequency">Complete la frecuencia!</string>
+    <string name="task_edit_linked_cars_options_help">Presiona y sostiene en el automóvil para mas opciones</string>
+    <string name="task_edit_all_cars_linked_message">Todos los automóviles activos están asociados a esta tarea.</string>
+    <string name="task_edit_no_linked_car_message">Por lo menos un automóvil debe estar asociado a esta  tarea.</string>
+    <string name="task_edit_no_cars_available_message">No hay automóvil activo asociado con los kilómetros actuales menores que los kilómetros de la tarea!\n Por favor aumente los kilómetros de la tarea.</string>
+    <string name="task_edit_starting_time_in_future_message">Tiempo inicial debe estar en el futuro!</string>
+    <string name="task_edit_starting_time_label">Tiempo inicial:</string>
+    <string name="task_edit_mileage_frequency_smaller_than_reminder">La frecuencia inicial de los kilómetros debe ser mayor que el recordatorio.</string>
+    <string name="task_edit_generated_todo_count_label">Generar las siguientes</string>
+    <string name="task_edit_todo_count">No. De tareas</string>
+    <string name="task_edit_todo_count_help">Cuando una Tarea esta marcada como completa , una nueva será automáticamente agregada a la lista de tareas.</string>
+
+    <string name="task_car_edit_start_date">Fecha inicial:</string>
+    <string name="task_car_edit_start_mileage">kilómetros iniciales:</string>
+
+    <string name="todo_alert_title">Alerta de Tareas</string>
+    <string name="todo_status_label">Estado:</string>
+    <string name="todo_mileage">Kilómetros</string>
+    <string name="todo_overdue_label">Sobrepasado</string>
+    <string name="todo_scheduled_label">Programado</string>
+    <string name="todo_done_label">Completado</string>
+    <string name="todo_scheduled_date_label">Programado para:</string>
+    <string name="todo_scheduled_mileage_label">kilómetros programados:</string>
+    <string name="todo_estimated_mileage_date">Estimado para:</string>
+    <string name="todo_estimated_mileage_date_no_data">no hay suficientes registros para una fecha estimada</string>
+    <string name="todo_estimated_mileage_date_too_far">Muy lejos para estimar</string>
+    <string name="todo_action_hdr">Acción</string>
+    <string name="todo_post_pone_label">Recuerdame en:</string>
+    <string name="todo_is_done_caption">Tarea completa!</string>
+    <string name="todo_days_left">Días remanentes:</string>
+    <string name="todo_minutes_left">Minutes remanentes:</string>
+    <string name="todo_mileage_left">Kilómetros remanentes:</string>
+    <string name="todo_is_done">Completo</string>
+
+    <string name="main_activity_no_to_do">No tarea</string>
+
+    <string name="main_activity_statistics_header_caption">Estadísticas para lo registrado</string>
+    <string name="main_activity_statistics_last_odometer_label">Último odómetro conocido: </string>
+    <string name="main_activity_statistics_avg_cons_label">Promedio de eficiencia de combustible: </string>
+    <string name="main_activity_statistics_last_cons_label">ultima eficiencia de combustible.: </string>
+    <string name="main_activity_statistics_total_expense_label">Gastos Total:</string>
+    <string name="main_activity_statistics_mileage_expense_label">Costo por kilómetro:</string>
+    <string name="main_activity_app_version">Versión de aplicación: %1$s (DB %2$s)</string>
+
+    <string name="bt_car_link_activity_title">Dispositivos asociados</string>
+    <!--<string name="AddOn_BTStarter_DeviceLinkActivityTitle">Asociar dispositivo al automóvil</string>-->
+    <string name="bt_link_paired_devices_label">Dispositivos asociados:</string>
+    <!--<string name="AddOn_BTStarter_LinkedTo">Asociado a:</string>-->
+    <!--<string name="AddOn_BTStarter_NoLinkedCar">Imposible obtener el automóvil asociado.\nEste registro debería ser eliminado.</string>-->
+    <string name="bt_link_link_to_car">Enlazar al automóvil:</string>
+
+    <string name="day_of_week_0">Domingo</string>
+    <string name="day_of_week_1">Lunes</string>
+    <string name="day_of_week_2">Martes</string>
+    <string name="day_of_week_3">Miércoles</string>
+    <string name="day_of_week_4">Jueves</string>
+    <string name="day_of_week_5">Viernes</string>
+    <string name="day_of_week_6">Sábado</string>
+
+    <string name="backup_service_success_message">La copia de seguridad fue creada satisfactoriamente</string>
+
+    <string name="secure_backup_mail_subject">AndiCar: Tu archivo(s) de copia de seguridad adjunto.</string>
+    <string name="secure_backup_success_message">El archivo de copia de seguridad ha sido enviado.</string>
+
+    <string name="data_template_updated_msg">plantilla actualizada</string>
+    <string name="data_template_created_msg">Nueva plantilla creada basada en valores actuales</string>
+
+    <string name="search_dialog_title">Ingrese criterio</string>
+    <string name="gen_date_from_label">Desde:</string>
+    <string name="gen_date_to_label">Ha:</string>
+    <string name="share_dialog_title">Reportar opciones</string>
+    <string name="share_dialog_format_label">Formato de reporte:</string>
+    <string name="report_creation_in_progress_message">La creación del reporte ha comenzado. Por favor espere</string>
+
+    <string name="chart_filter_all">Todos</string>
+    <string name="chart_filter_current_month">Mes actual</string>
+    <string name="chart_filter_previous_month">Mes anterior</string>
+    <string name="chart_filter_current_year">Año corriente</string>
+    <string name="chart_filter_previous_year">Año anterior</string>
+    <string name="chart_filter_custom_period">Otro periodo</string>
+    <string name="chart_label_others">Otros (%1$.2f%2$s)</string> <!--Others 32.45%-->
+    <string name="chart_filter_all_header_caption">Mostrando todos los datos</string>
+    <string name="chart_filter_current_month_header_caption">Datos del mes actual</string>
+    <string name="chart_filter_previous_month_header_caption">Datos del mes anterior</string>
+    <string name="chart_filter_current_year_header_caption">Datos del año actual</string>
+    <string name="chart_filter_previous_year_header_caption">Datos del año anterior</string>
+    <string name="chart_filter_custom_period_header_caption">%1$s > %2$s</string>
+    <string name="chart_filter_custom_period_header_caption_value_beginning">Desde el principio</string>
+    <string name="chart_filter_custom_period_header_caption_value_now">ahora</string>
+    <string name="chart_no_data">Sin datos</string>
+
+    <string name="progress_restoring_data">Restauración en progreso … </string>
+
+    <string name="app_short_about">
+        <![CDATA[
+        <b><i>AndiCar</i></b> es una aplicación de código abierto para la administración de vehículos. Esta licenciada bajo los términos de la GNU Licencia Pública General.<br>
+        Mas detalles en la página "Acerca de".<br>
+        Derechos de autor© 2010-%1$s Miklós Keresztes.<br>
+        Gracias por usar<b><i>AndiCar</i></b>!
+        ]]>
+    </string>
+
+    <string name="app_about1_html">
+        <![CDATA[
+        <b><i>AndiCar</i></b> es una aplicación de código abierto para el manejo de vehículos para dispositivos Android.
+         Esta licenciada bajo los términos de la GNU Licencia Pública General, versión 3.<br><br>
+
+        *  Para mas información (Como hacer, últimas noticias, etc.) por favor visita la página inicial del projecto en
+        <a href="http://www.andicar.org">www.andicar.org</a>.<br>
+        <small>Refresca la página en tu navegador si obtienes el message\"página web no disponible\" .</small><br>
+
+        *  Para preguntas eres bienvenido a la lista de discusión de <b><i>AndiCar</i></b>
+        <a href="http://groups.google.com/group/andicar">http://groups.google.com/group/andicar</a>.<br>
+
+        *  Para reportar problemas o pedidos de mejoras on nuevas funciones no dudes en usar el sistema de reporte de <b><i>AndiCar</i></b> en
+        <a href="https://github.com/mkeresztes/AndiCar/issues">https://github.com/mkeresztes/AndiCar/issues</a>.<br>
+
+        *  El código fuente está disponible en
+        <a href="https://github.com/mkeresztes/AndiCar">https://github.com/mkeresztes/AndiCar</a>.<br>
+
+        *  Para cualquier otra pregunta puedes enviar un email a <a href="mailto:andicar.support@gmail.com">andicar.support@gmail.com</a>.
+        ]]>
+    </string>
+
+    <string name="app_about2_html">
+        <![CDATA[
+        <br><b><i>Créditos:</i></b><br>
+		*  Traducción Al Aleman: Frank Dreesbach - frank.dreesbach@mail.de (inicial Al Aleman: Andy Haubenschmid - andy@haubenschmid.li)<br>
+		*  Traducción al Hungaro: Péter Nagy - microbilab@gmail.com<br>
+		*  Traducción al Español: Daniel Iozzi- danieliozzi@gmail.com<br>
+		*  Traducción al Rumano: Doru Butnaru - budo8002@gmail.com<br>
+
+        <br>AndCar utiliza las siguientes <b><i>bibliotecas de terceros</i></b>:<br>
+		*  Droppy - <a href="https://github.com/shehabic/Droppy">https://github.com/shehabic/Droppy</a><br>
+		*  MPAndroidChart - <a href="https://github.com/PhilJay/MPAndroidChart">https://github.com/PhilJay/MPAndroidChart</a><br>
+		*  Android-SwitchDateTimePicker - <a href="https://github.com/PhilJay/MPAndroidChart">https://github.com/PhilJay/MPAndroidChart</a><br>
+		*  android-file-chooser - <a href="https://github.com/hedzr/android-file-chooser">https://github.com/hedzr/android-file-chooser</a><br>
+		*  JavaMail for Android - <a href="https://javaee.github.io/javamail/Android">https://javaee.github.io/javamail/Android</a><br>
+
+        <br><b><i>Detalle de derechos de autor</i></b>:<br>
+        Derechos de autor© 2010-%1$s Miklós Keresztes (miklos.keresztes@gmail.com)<br><br>
+
+        Este programa es software libre: puede redistribuirlo y/o modificarlo bajo
+        los términos de la Licencia General Pública de GNU publicada por la Free
+        Software Foundation, ya sea la versión 3 de la Licencia, o (a su elección)
+        cualquier versión posterior.<br><br>
+
+        Este programa se distribuye con la esperanza de que sea útil pero SIN
+        NINGUNA GARANTÍA; incluso sin la garantía implícita de MERCANTIBILIDAD o
+        CALIFICADA PARA UN PROPÓSITO EN PARTICULAR. Vea la Licencia General Pública
+        de GNU para más detalles (<a href="http://www.gnu.org/licenses">http://www.gnu.org/licenses</a>).<br>
+
+        <br>Gracias por usar <b><i>AndiCar</i></b>.<br><br>
+        ]]>
+    </string>
+
+    <string name="error_000">Error de base de datos.</string>
+    <string name="error_001">El comienzo del índice esta entre los kilómetros existentes</string>
+    <string name="error_002">Comenzar índice entre los kilómetros existentes</string>
+    <string name="error_003">Nuevos kilómetros superponen kilómetros existente</string>
+    <string name="error_004">Comenzar índice debe ser mayor que el primer índice</string>
+    <string name="error_005">Parámetro de Conversión existente</string>
+    <string name="error_009">Este conductor no puede ser borrado porque esta siendo usado en kilómetros.</string>
+    <string name="error_010">Este conductor no puede ser borrado porque esta siendo usado en Regarga(s).</string>
+    <string name="error_011">Este vehículo no puede ser borrado porque esta siendo usado en kilómetros.</string>
+    <string name="error_012">Este vehículo no puede ser borrado porque esta siendo usado en recarga(s).</string>
+    <string name="error_013">Este UOM no puede ser borrado porque esta siendo usado en kilómetros.</string>
+    <string name="error_014">Este UOM no puede ser borrado porque esta siendo usado en recarga(s).</string>
+    <string name="error_015">Este UOM no puede ser borrado porque esta siendo usado en UM conversión(es).</string>
+    <string name="error_016">Esta moneda no puede ser borrado porque esta siendo usado en definiciones de vehículo(s).</string>
+    <string name="error_017">Esta moneda no puede ser borrado porque esta siendo usado en recarga(s).</string>
+    <string name="error_018">Esta gasto type no puede ser borrado porque esta siendo usado en kilómetros.</string>
+    <string name="error_019">Esta gasto type no puede ser borrado porque esta siendo usado en recarga(s).</string>
+    <string name="error_056">Error desconocido.</string>
+    <string name="error_021">Directorio de Reportes (%1s) no puede ser creado. no puedes salvar los reportes localmente hasta quehaya creado este directorio en tu dispositivo.</string>
+    <string name="error_022">No se puede crear el archivo de reporte!</string>
+    <string name="error_023">Error escribiendo archivo!</string>
+    <string name="error_024">Directorio de copia de seguridad (%1s) no puede ser creado. no puedes crear copia de seguridad de tu base de datos hasta que no hayas creado el directorio en tu dispositivo.</string>
+    <string name="error_025">The UOM no puede ser activado porque esta siendo usado en definiciones activas de vehículo.</string>
+    <string name="error_026">La moneda no puede ser activada porque esta siendo usada en definiciones activas de vehículo.</string>
+    <string name="error_027">Este categoría no puede ser borrada porque esta siendo usado en recarga(s).</string>
+    <string name="error_028">Este categoría no puede ser borrada porque esta siendo usado en gasto(s).</string>
+    <string name="error_029">The conversión de cambio ha sido definida anteriormente entre estas monedas de cambio.</string>
+    <string name="error_030">Este gasto no puede ser borrado porque fue creado por una recarga.\n Deberías borrar la recarga.</string>
+    <string name="error_031">No puedes definir conversión entre los mismos UM\'s.</string>
+    <string name="error_032">No puedes define conversión entre las mismas monedas.</string>
+    <string name="error_033">Directorio de seguimiento gps (%1s) no puede ser creado. no puedes salvar los archivos de la ruta de gps  hasta que hayas creado el directorio en tu dispositivo.</string>
+    <string name="error_034">Erro de sistema de archivos!</string>
+    <string name="error_035">El reporte no es válido.</string>
+    <string name="error_036">Archivo de ruta no ha sido encontrado o esta vacío!</string>
+    <string name="error_038">Esta moneda no puede ser borrada porque esta siendo usado en gasto(s).</string>
+    <string name="error_039">Este conductor no puede ser borrado porque esta siendo usado en gasto(s).</string>
+    <string name="error_040">Este vehículo no puede ser borrado porque esta siendo usado en gasto(s).</string>
+    <string name="error_041">Este tipo de gasto no puede ser borrado porque esta siendo usado en gasto(s).</string>
+    <string name="error_042">Este socio no puede ser borrado porque esta siendo usado en recarga(s).</string>
+    <string name="error_043">Este socio no puede ser borrado porque esta siendo usado en gasto(s).</string>
+    <string name="error_044">Esta ubicación no puede ser borrada porque esta siendo usado en recarga(s).</string>
+    <string name="error_045">Esta ubicación no puede ser borrada porque esta siendo usado en gasto(s).</string>
+    <string name="error_046">Este etiqueta no puede ser borrado porque esta siendo usado en kilómetros.</string>
+    <string name="error_047">Este etiqueta no puede ser borrado porque esta siendo usado en recarga(s).</string>
+    <string name="error_048">Este etiqueta no puede ser borrado porque esta siendo usado en gasto(s).</string>
+    <string name="error_049">Este etiqueta no puede ser borrado porque esta siendo usado en gps track(s).</string>
+    <string name="error_058">Directorio Temporal (%1s) no puede ser creado. no puedes usar el servicio copia de seguridad segura hasta que hallas creado el directorio en tu dispositivo.</string>
+    <string name="error_060">Este tipo no puede ser borrado porque esta siendo usado en tarea(s).</string>
+    <string name="error_061">Tarea! desconocida\nProbablemente la tarea fue modificada y la lista de tareas recreada.</string>
+    <string name="error_064">Tu dispositivo no soporta Bluetooth!</string>
+    <string name="error_059">Registro duplicado.</string>
+    <string name="error_065">Número invalido.</string>
+    <string name="error_071">Base de datos no válida.</string>
+    <string name="error_072">Tipo de archivo de copia de seguridad desconocido.</string>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <g transform="matrix(1.093174, 0, 0, 1.093174, -2.236178, -2.236177)">
+    <path d="M 29.103 25.039 L 40.183 5 L 43 42.999 L 30.422 42.999 L 29.103 25.039 Z" style="stroke-width: 0; stroke: rgb(0, 0, 0); fill: rgb(255, 255, 255);" bx:origin="0.548 0.006"/>
+    <path d="M 26.042 5.009 L 40.169 5.009 L 19.127 43 L 5 43 L 26.042 5.009 Z" style="stroke-width: 0; stroke: rgb(167, 116, 116); fill: rgb(255, 255, 255);" bx:origin="0.5479655861854553 0.005982949398458004"/>
+  </g>
+  <path d="M 89.19596099853516 146.87388610839844 Z " style="stroke: black; fill: none;"/>
+  <path d="M 89.19596099853516 146.87388610839844 Z " style="stroke: black; fill: none;"/>
+  <path d="M 89.19596099853516 146.87388610839844 Z " style="stroke: black; fill: none;"/>
+  <path d="M 89.19596099853516 146.87388610839844 Z " style="stroke: black; fill: none;"/>
+  <path style="stroke: black; fill: none;"/>
+  <path style="stroke: black; fill: none;"/>
+  <path style="stroke: black; fill: none;"/>
+  <path style="stroke: black; fill: none;"/>
+</svg>
