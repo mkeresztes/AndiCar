@@ -163,7 +163,7 @@ public class ChartDetailDialog extends AppCompatActivity {
             yVals1.add(new BarEntry(i * spaceForBar, cd.value));
 
             LegendEntry entry = new LegendEntry();
-            entry.formColor = ConstantValues.CHART_COLORS.get(i);
+            entry.formColor = ConstantValues.CHART_COLORS.get(i % ConstantValues.CHART_COLORS.size());
             entry.label = cd.label + " (" + String.format(Locale.getDefault(), "%.2f", cd.value2) + "%)";
             entry.formSize = (mChartLegend.getTextSize() / Utils.getScreenDensity(this)) * 0.9f;
             tmpLegendEntries.add(entry);

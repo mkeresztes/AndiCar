@@ -43,6 +43,10 @@ public class SettingsDefaultViewAdapter extends BaseViewAdapter {
         String line2Content;
         String line3Content;
 
+        //TODO see why this can be happened https://github.com/mkeresztes/AndiCar/issues/1
+        if(mCursor == null || mCursor.isClosed())
+            return;
+
         mCursor.moveToPosition(position);
 
         holder.mRecordID = mCursor.getLong(0);

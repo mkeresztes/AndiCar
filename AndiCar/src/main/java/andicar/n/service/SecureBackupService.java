@@ -235,7 +235,7 @@ public class SecureBackupService extends Service implements OnAsyncTaskListener 
                 }
                 else {
                     //TODO move condition to instanceof
-                    if (e.getMessage().equals("connect timed out")) {
+                    if (e.getMessage() != null && e.getMessage().equals("connect timed out")) {
                         if (retryCount < RETRY_COUNT_LIMIT) {
                             retryCount++;
                             //TODO remove this
@@ -261,14 +261,14 @@ public class SecureBackupService extends Service implements OnAsyncTaskListener 
                         AndiCarCrashReporter.sendCrash(e);
                         AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_REPORTABLE_ERROR, (int) System.currentTimeMillis(), getString(R.string.pref_category_secure_backup),
                                 e.getLocalizedMessage(), null, e);
-                        debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Error: ").append(e.getMessage());
+                        debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Error: ").append(e.getMessage() != null ? e.getMessage() : "");
                         debugLogFileWriter.append("\n").append("====Exception Stack Trace====");
                         debugLogFileWriter.append("\n").append(Utils.getStackTrace(e));
                         debugLogFileWriter.append("\n").append("=======End Stack Trace=======");
                         debugLogFileWriter.flush();
                     }
                 }
-                Log.e(LogTag, e.getMessage(), e);
+//                Log.e(LogTag, e.getMessage() != null ? e.getMessage() : "", e);
             }
 
             debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Removing temporary files");
