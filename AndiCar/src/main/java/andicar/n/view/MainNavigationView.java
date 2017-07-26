@@ -154,9 +154,9 @@ public class MainNavigationView extends android.support.design.widget.Navigation
         //end
         Bundle savedState = new Bundle();
         savedState.putInt("mMenuType", mMenuType);
-        savedState.putCharSequence("mHeaderTitle", mDrawerTitle.getText());
-        savedState.putCharSequence("mHeaderLabel1", mLabel1.getText());
-        savedState.putCharSequence("mHeaderLabel2", mLabel2.getText());
+        savedState.putString("mHeaderTitle", mDrawerTitle.getText().toString());
+        savedState.putString("mHeaderLabel1", mLabel1.getText().toString());
+        savedState.putString("mHeaderLabel2", mLabel2.getText().toString());
         ss.savedState = savedState;
 
         return ss;
