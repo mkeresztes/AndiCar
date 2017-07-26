@@ -141,6 +141,10 @@ public abstract class BaseViewAdapter
     public void onBindViewHolder(final DefaultViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
         //bind the cursor data to the ui views
+        //TODO see why this can be happened https://github.com/mkeresztes/AndiCar/issues/3
+        if (mCursor == null || mCursor.isClosed())
+            return;
+
         cursorViewBinder(holder, position);
 
         holder.mView.setSelected(false);
