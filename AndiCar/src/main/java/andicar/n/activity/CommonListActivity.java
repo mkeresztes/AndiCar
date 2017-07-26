@@ -302,7 +302,10 @@ public class CommonListActivity extends AppCompatActivity
         }
 
         if (mCursor != null) {
-            mCursor.close();
+            try {
+                mCursor.close();
+            } catch (Exception ignored) {
+            }
             mCursor = null;
         }
 
