@@ -1,4 +1,4 @@
-# AndiCar - Free Trip log & Expense tracker
+# AndiCar - Free Trip log & Expense tracker for Android devices
 
 AndiCar is a free vehicle management, trip log, and expense tracker for Android devices.
 
