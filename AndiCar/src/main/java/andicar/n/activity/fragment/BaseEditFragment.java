@@ -1161,9 +1161,13 @@ public abstract class BaseEditFragment extends Fragment {
     }
 
     protected void sendAnalyticsEvent(String screenName, Bundle params) {
-        FirebaseAnalytics firebaseAnalytics;
-        firebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
-        firebaseAnalytics.logEvent(screenName, params);
+
+        if (!BuildConfig.DEBUG) {
+            FirebaseAnalytics firebaseAnalytics;
+            firebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+            firebaseAnalytics.logEvent(screenName, params);
+        }
+
     }
 
 }
