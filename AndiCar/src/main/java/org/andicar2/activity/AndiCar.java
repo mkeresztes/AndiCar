@@ -30,6 +30,7 @@ import android.support.multidex.MultiDexApplication;
 import android.support.v4.content.ContextCompat;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
 
 import java.util.Calendar;
 
@@ -57,7 +58,12 @@ public class AndiCar extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+
+        // Set up Crashlytics, disabled for debug builds
+        Crashlytics crashlyticsKit = new Crashlytics.Builder()
+                .core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build();
+        Fabric.with(this, crashlyticsKit);
+
         AndiCar.appResources = getResources();
         AndiCar.appPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         AndiCar.mCtx = getApplicationContext();
@@ -76,6 +82,7 @@ public class AndiCar extends MultiDexApplication {
         ConstantValues.LOG_FOLDER = ConstantValues.BASE_FOLDER + "/" + ConstantValues.LOG_FOLDER_NAME + "/";
 
         initPreferences();
+
     }
 
     @SuppressLint("WrongConstant")
