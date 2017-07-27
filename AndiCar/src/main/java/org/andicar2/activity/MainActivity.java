@@ -93,21 +93,18 @@ import andicar.n.view.MainNavigationView;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DateRangeSearchDialogFragment.DateRangeSearchDialogFragmentListener {
 
-    //used to simulate onClick via onTouch (pie chart not detect the standard onClick event)
-    private long mLastTouchDown;
     private static final int CLICK_ACTION_THRESHOLD = 200;
-
     private static final int REQUEST_CODE_ADD_CAR = 1;
     private static final int REQUEST_CODE_SETTINGS = 2;
     private static final int REQUEST_CODE_CHART_DETAIL = 3;
-
     private static final int CHART_FILTER_ALL = 1;
     private static final int CHART_FILTER_CURRENT_MONTH = 2;
     private static final int CHART_FILTER_PREVIOUS_MONTH = 3;
     private static final int CHART_FILTER_CURRENT_YEAR = 4;
     private static final int CHART_FILTER_PREVIOUS_YEAR = 5;
     private static final int CHART_FILTER_CUSTOM_PERIOD = 6;
-
+    //used to simulate onClick via onTouch (pie chart not detect the standard onClick event)
+    private long mLastTouchDown;
     private boolean mRedrawCharts = true;
     private int mChartFilterType = 1;
     private long mChartPeriodStartInSeconds = -1;
@@ -1498,6 +1495,8 @@ public class MainActivity extends AppCompatActivity
 
         try {
             appVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            if (BuildConfig.DEBUG)
+                appVersion = appVersion + " (Debug)";
         }
         catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
