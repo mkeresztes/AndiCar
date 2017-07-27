@@ -63,7 +63,7 @@ public class ConstantValues {
     public static final String SERVICE_STARTER_START_TODO_MANAGEMENT_SERVICE = "ToDoNotificationService";
     public static final int DECIMALS_QUANTITY = 2;
     public static final RoundingMode ROUNDING_MODE_QUANTITY = RoundingMode.HALF_UP;
-    public static final int DECIMALS_LENGTH = 0;
+    public static final int DECIMALS_LENGTH = 2;
     public static final RoundingMode ROUNDING_MODE_LENGTH = RoundingMode.HALF_UP;
     public static final int DECIMALS_AMOUNT = 2;
     public static final RoundingMode ROUNDING_MODE_AMOUNT = RoundingMode.HALF_UP;
