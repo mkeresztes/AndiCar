@@ -20,9 +20,6 @@
 package andicar.n.view;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.LayoutRes;
 import android.util.AttributeSet;
 import android.view.Menu;
@@ -30,7 +27,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.andicar2.activity.AndiCar;
 import org.andicar2.activity.R;
 
 import java.util.ArrayList;
@@ -45,12 +41,12 @@ public class MainNavigationView extends android.support.design.widget.Navigation
     public static final int MENU_ADD_ID = -9999;
     private static final int MENU_TYPE_PRIMARY = 0;
     private final ArrayList<SecondaryMenuEntry> mSecondaryMenuEntryList = new ArrayList<>();
+    public boolean mForceSecondary = false; //used to force showing only the secondary menu if no car exists
     private int mMenuType = MENU_TYPE_PRIMARY;
     private ImageView mArrowIcon;
     private TextView mDrawerTitle;
     private TextView mLabel1;
     private TextView mLabel2;
-    public boolean mForceSecondary = false; //used to force showing only the secondary menu if no car exists
 
     public MainNavigationView(Context context) {
         super(context);
@@ -141,44 +137,46 @@ public class MainNavigationView extends android.support.design.widget.Navigation
         }
     }
 
-    @Override
-    protected Parcelable onSaveInstanceState() {
-        /*
-         * don't ask me what's this.
-         * See http://stackoverflow.com/questions/3542333/how-to-prevent-custom-views-from-losing-state-across-screen-orientation-changes
-         */
-        //begin boilerplate code that allows parent classes to save state
-        Parcelable superState = super.onSaveInstanceState();
 
-        SavedState ss = new SavedState(superState);
-        //end
-        Bundle savedState = new Bundle();
-        savedState.putInt("mMenuType", mMenuType);
-        savedState.putString("mHeaderTitle", mDrawerTitle.getText().toString());
-        savedState.putString("mHeaderLabel1", mLabel1.getText().toString());
-        savedState.putString("mHeaderLabel2", mLabel2.getText().toString());
-        ss.savedState = savedState;
+    //commented out because frequent crashes (see https://issuetracker.google.com/issues/37073849)
+//    @Override
+//    protected Parcelable onSaveInstanceState() {
+//        /*
+//         * don't ask me what's this.
+//         * See http://stackoverflow.com/questions/3542333/how-to-prevent-custom-views-from-losing-state-across-screen-orientation-changes
+//         */
+//        //begin boilerplate code that allows parent classes to save state
+//        Parcelable superState = super.onSaveInstanceState();
+//
+//        SavedState ss = new SavedState(superState);
+//        //end
+//        Bundle savedState = new Bundle();
+//        savedState.putInt("mMenuType", mMenuType);
+//        savedState.putString("mHeaderTitle", mDrawerTitle.getText().toString());
+//        savedState.putString("mHeaderLabel1", mLabel1.getText().toString());
+//        savedState.putString("mHeaderLabel2", mLabel2.getText().toString());
+//        ss.savedState = savedState;
+//
+//        return ss;
+//
+//    }
 
-        return ss;
-
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Parcelable savedState) {
-        //begin boilerplate code so parent classes can restore state
-        if (!(savedState instanceof SavedState)) {
-            super.onRestoreInstanceState(savedState);
-            return;
-        }
-
-        SavedState ss = (SavedState) savedState;
-        super.onRestoreInstanceState(ss.getSuperState());
-        //end
-
-        changeMenuLayout(ss.savedState.getInt("mMenuType"));
-        setHeaderLabels(ss.savedState.getString("mHeaderTitle"), ss.savedState.getString("mHeaderLabel1"), ss.savedState.getString("mHeaderLabel2"));
-
-    }
+//    @Override
+//    protected void onRestoreInstanceState(Parcelable savedState) {
+//        //begin boilerplate code so parent classes can restore state
+//        if (!(savedState instanceof SavedState)) {
+//            super.onRestoreInstanceState(savedState);
+//            return;
+//        }
+//
+//        SavedState ss = (SavedState) savedState;
+//        super.onRestoreInstanceState(ss.getSuperState());
+//        //end
+//
+//        changeMenuLayout(ss.savedState.getInt("mMenuType"));
+//        setHeaderLabels(ss.savedState.getString("mHeaderTitle"), ss.savedState.getString("mHeaderLabel1"), ss.savedState.getString("mHeaderLabel2"));
+//
+//    }
 
     public void setHeaderLabels(String title, String label1, String label2) {
         mDrawerTitle.setText(title);
@@ -200,41 +198,43 @@ public class MainNavigationView extends android.support.design.widget.Navigation
      * don't ask me what's this.
      * See http://stackoverflow.com/questions/3542333/how-to-prevent-custom-views-from-losing-state-across-screen-orientation-changes
      */
-    private static class SavedState extends BaseSavedState {
-        //required field that makes Parcelables from a Parcel
-        public static final Parcelable.Creator<SavedState> CREATOR =
-                new Parcelable.Creator<SavedState>() {
-                    public SavedState createFromParcel(Parcel in) {
-                        try {
-                            return new SavedState(in);
-                        } catch (Exception e) {
-                            Utils.showReportableErrorDialog(AndiCar.getAppContext(), e.getMessage(), null, e, false);
-                            return null;
-                        }
-                    }
 
-                    public SavedState[] newArray(int size) {
-                        return new SavedState[size];
-                    }
-                };
-        Bundle savedState = new Bundle();
-
-        SavedState(Parcelable superState) {
-            super(superState);
-        }
-
-        private SavedState(Parcel in) {
-            super(in);
-            this.savedState = in.readBundle(getClass().getClassLoader());
-        }
-
-        @Override
-        public void writeToParcel(Parcel out, int flags) {
-            super.writeToParcel(out, flags);
-            out.writeBundle(this.savedState);
-        }
-    }
-
+    //commented out because frequent crashes (see https://issuetracker.google.com/issues/37073849)
+//    private static class SavedState extends BaseSavedState {
+//        //required field that makes Parcelables from a Parcel
+//        public static final Parcelable.Creator<SavedState> CREATOR =
+//                new Parcelable.Creator<SavedState>() {
+//                    public SavedState createFromParcel(Parcel in) {
+//                        try {
+//                            return new SavedState(in);
+//                        } catch (Exception e) {
+//                            Utils.showReportableErrorDialog(AndiCar.getAppContext(), e.getMessage(), null, e, false);
+//                            return null;
+//                        }
+//                    }
+//
+//                    public SavedState[] newArray(int size) {
+//                        return new SavedState[size];
+//                    }
+//                };
+//        Bundle savedState = new Bundle();
+//
+//        SavedState(Parcelable superState) {
+//            super(superState);
+//        }
+//
+//        private SavedState(Parcel in) {
+//            super(in);
+//            this.savedState = in.readBundle(getClass().getClassLoader());
+//        }
+//
+//        @Override
+//        public void writeToParcel(Parcel out, int flags) {
+//            super.writeToParcel(out, flags);
+//            out.writeBundle(this.savedState);
+//        }
+//    }
+//
     @SuppressWarnings("WeakerAccess")
     private class SecondaryMenuEntry {
         final int menuItemId;
