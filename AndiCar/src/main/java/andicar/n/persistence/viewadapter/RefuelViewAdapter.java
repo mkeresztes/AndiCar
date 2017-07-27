@@ -129,14 +129,14 @@ public class RefuelViewAdapter extends BaseViewAdapter {
             String consStr;
             try {
                 consStr = Utils.numberToString(fuelQty.multiply(new BigDecimal("100")).divide(distance, 10, RoundingMode.HALF_UP), true,
-                        ConstantValues.DECIMALS_QUANTITY, ConstantValues.ROUNDING_MODE_QUANTITY)
+                        ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF)
                         + " "
                         + mCursor.getString(14)
                         + "/100"
                         + mCursor.getString(15)
                         + "; "
-                        + Utils.numberToString(distance.divide(fuelQty, 10, RoundingMode.HALF_UP), true, ConstantValues.DECIMALS_LENGTH,
-                        ConstantValues.ROUNDING_MODE_LENGTH) + " " + mCursor.getString(15) + "/" + mCursor.getString(14);
+                        + Utils.numberToString(distance.divide(fuelQty, 10, RoundingMode.HALF_UP), true, ConstantValues.DECIMALS_FUEL_EFF,
+                        ConstantValues.ROUNDING_MODE_FUEL_EFF) + " " + mCursor.getString(15) + "/" + mCursor.getString(14);
             }
             catch (Exception e) {
                 text = String.format(text, "Error#3! Please contact me at andicar.support@gmail.com");

@@ -74,6 +74,8 @@ public class ConstantValues {
     public static final String DATE_DECODE_TO_ZERO = "0";
     public static final RoundingMode ROUNDING_MODE_VOLUME = RoundingMode.HALF_UP;
     public static final int DECIMALS_VOLUME = 2;
+    public static final RoundingMode ROUNDING_MODE_FUEL_EFF = RoundingMode.HALF_UP;
+    public static final int DECIMALS_FUEL_EFF = 2;
 
     public static final int CONTEXT_MENU_EDIT_ID = 31;
     public static final int CONTEXT_MENU_DELETE_ID = 33;

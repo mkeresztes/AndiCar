@@ -1366,15 +1366,15 @@ public class MainActivity extends AppCompatActivity
                             BigDecimal avgCons;
                             avgCons = totalFuelQty.multiply(new BigDecimal("100"));
                             avgCons = avgCons.divide(lastFullRefuelIndex.subtract(tmpFullRefuelIndex), 10, RoundingMode.HALF_UP).setScale(10,
-                                    ConstantValues.ROUNDING_MODE_AMOUNT);
-                            fuelEffStr = Utils.numberToString(avgCons, true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " "
+                                    ConstantValues.ROUNDING_MODE_FUEL_EFF);
+                            fuelEffStr = Utils.numberToString(avgCons, true, ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF) + " "
                                     + carUOMVolumeCode + "/100" + carUOMLengthCode;
                             // efficiency: x uom length (km or mi) / uom volume (l or gallon)
                             if (avgCons != null && avgCons.signum() != 0) {
                                 BigDecimal avgEff = (new BigDecimal("100")).divide(avgCons, 10, RoundingMode.HALF_UP).setScale(10,
-                                        ConstantValues.ROUNDING_MODE_VOLUME);
+                                        ConstantValues.ROUNDING_MODE_FUEL_EFF);
                                 fuelEffStr = fuelEffStr + "; "
-                                        + Utils.numberToString(avgEff, true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) + " "
+                                        + Utils.numberToString(avgEff, true, ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF) + " "
                                         + carUOMLengthCode + "/" + carUOMVolumeCode;
                             }
                         }
@@ -1424,15 +1424,15 @@ public class MainActivity extends AppCompatActivity
                                 BigDecimal avgCons;
                                 avgCons = totalFuelQty.multiply(new BigDecimal("100"));
                                 avgCons = avgCons.divide(lastFullRefuelIndex.subtract(tmpFullRefuelIndex), 10, RoundingMode.HALF_UP).setScale(10,
-                                        ConstantValues.ROUNDING_MODE_AMOUNT);
-                                lastFuelEffStr = Utils.numberToString(avgCons, true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " "
+                                        ConstantValues.ROUNDING_MODE_FUEL_EFF);
+                                lastFuelEffStr = Utils.numberToString(avgCons, true, ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF) + " "
                                         + carUOMVolumeCode + "/100" + carUOMLengthCode;
                                 // //efficiency: x uom length (km or mi) / uom volume (l or gallon)
                                 if (avgCons != null && avgCons.signum() != 0) {
                                     BigDecimal avgEff = (new BigDecimal("100")).divide(avgCons, 10, RoundingMode.HALF_UP).setScale(10,
-                                            ConstantValues.ROUNDING_MODE_AMOUNT);
+                                            ConstantValues.ROUNDING_MODE_FUEL_EFF);
                                     lastFuelEffStr = lastFuelEffStr + "; "
-                                            + Utils.numberToString(avgEff, true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) + " "
+                                            + Utils.numberToString(avgEff, true, ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF) + " "
                                             + carUOMLengthCode + "/" + carUOMVolumeCode;
                                 }
                             }
