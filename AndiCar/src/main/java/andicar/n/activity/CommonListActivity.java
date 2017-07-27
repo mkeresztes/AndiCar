@@ -255,8 +255,8 @@ public class CommonListActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
 
         if (mCursor != null && !mCursor.isClosed()) {
             mCursor.close();
@@ -268,6 +268,21 @@ public class CommonListActivity extends AppCompatActivity
             mReportDb = null;
         }
     }
+
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//
+//        if (mCursor != null && !mCursor.isClosed()) {
+//            mCursor.close();
+//            mCursor = null;
+//        }
+//
+//        if (mReportDb != null) {
+//            mReportDb.close();
+//            mReportDb = null;
+//        }
+//    }
 
     @Override
     protected void onResume() {
@@ -287,7 +302,10 @@ public class CommonListActivity extends AppCompatActivity
         }
 
         if (mCursor != null) {
-            mCursor.close();
+            try {
+                mCursor.close();
+            } catch (Exception ignored) {
+            }
             mCursor = null;
         }
 
