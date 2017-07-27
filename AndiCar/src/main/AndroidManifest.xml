@@ -20,8 +20,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="org.andicar2.activity"
-    android:versionCode="170704"
-    android:versionName="17.07-04">
+          android:versionCode="170704"
+          android:versionName="17.07-05">
 
     <!-- ************************************************************************************************* -->
     <!-- Normal Permissions (https://developer.android.com/guide/topics/security/normal-permissions.html) -->
@@ -145,10 +145,10 @@
 
         <activity
             android:name="andicar.n.activity.dialogs.GPSTrackControllerDialogActivity"
-            android:theme="@style/GPSTrackController"
-            android:label="@string/activity_gps_track_controller"
             android:icon="@mipmap/ic_launcher_gpstrack"
-            android:taskAffinity="andicar.n.activity.dialogs.GPSTrackControllerDialogActivity">
+            android:label="@string/activity_gps_track_controller"
+            android:taskAffinity="andicar.n.activity.dialogs.GPSTrackControllerDialogActivity"
+            android:theme="@style/GPSTrackController">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -225,8 +225,8 @@
         </service>
 
         <service
-            android:exported="false"
-            android:name="andicar.n.service.FBJobService">
+            android:name="andicar.n.service.FBJobService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
             </intent-filter>
