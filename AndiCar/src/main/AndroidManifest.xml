@@ -20,7 +20,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="org.andicar2.activity"
-          android:versionCode="170704"
+          android:versionCode="170705"
           android:versionName="17.07-05">
 
     <!-- ************************************************************************************************* -->
