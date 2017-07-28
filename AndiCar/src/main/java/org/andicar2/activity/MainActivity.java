@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity
     //used to simulate onClick via onTouch (pie chart not detect the standard onClick event)
     private long mLastTouchDown;
     private boolean mRedrawCharts = true;
+    private boolean mErrorInDrawCharts = false;
     private int mChartFilterType = 1;
     private long mChartPeriodStartInSeconds = -1;
     private long mChartPeriodEndInSeconds = -1;
@@ -625,6 +626,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void drawCharts() {
+        if (mErrorInDrawCharts) {
+            return;
+        }
+
         DBReportAdapter dbReportAdapter = new DBReportAdapter(getApplicationContext(), null, null);
 
         ArrayList<String> selArgs = new ArrayList<>();
@@ -648,163 +653,169 @@ public class MainActivity extends AppCompatActivity
         ArrayList<DBReportAdapter.chartData> chartData;
         String chartFooter;
 
-        //mileage charts
-        LinearLayout ll = (LinearLayout) findViewById(R.id.line1Charts);
-        AndiCarPieChart pChart;
-        String title;
-        String carUOMLengthCode = dbReportAdapter.getUOMCode(dbReportAdapter.getCarUOMLengthID(mLastSelectedCarID));
-        if (ll != null) {
-            chartData = dbReportAdapter.getMileageByTypeChartData(chartArguments);
-            if (chartData.size() > 0) {
-                setChartBandHeight(ll, false);
-                chartFooter =
-                        String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
-                                + " " + carUOMLengthCode);
-            }
-            else {
-                setChartBandHeight(ll, true);
-                chartFooter = null;
-            }
-            pChart = (AndiCarPieChart) findViewById(R.id.chart11);
-            if (pChart != null) {
-                title = getString(R.string.chart11Title);
-                title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
-                drawPieChart(ll, pChart, chartData, title, (TextView) findViewById(R.id.line1ChartFooterText), chartFooter);
+        try {
+            //mileage charts
+            LinearLayout ll = (LinearLayout) findViewById(R.id.line1Charts);
+            AndiCarPieChart pChart;
+            String title;
+            String carUOMLengthCode = dbReportAdapter.getUOMCode(dbReportAdapter.getCarUOMLengthID(mLastSelectedCarID));
+            if (ll != null) {
+                chartData = dbReportAdapter.getMileageByTypeChartData(chartArguments);
+                if (chartData.size() > 0) {
+                    setChartBandHeight(ll, false);
+                    chartFooter =
+                            String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
+                                    + " " + carUOMLengthCode);
+                }
+                else {
+                    setChartBandHeight(ll, true);
+                    chartFooter = null;
+                }
+                pChart = (AndiCarPieChart) findViewById(R.id.chart11);
+                if (pChart != null) {
+                    title = getString(R.string.chart11Title);
+                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
+                    drawPieChart(ll, pChart, chartData, title, (TextView) findViewById(R.id.line1ChartFooterText), chartFooter);
+                }
+
+                pChart = (AndiCarPieChart) findViewById(R.id.chart12);
+                if (pChart != null) {
+                    title = getString(R.string.chart12Title);
+                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
+                    drawPieChart(ll, pChart, dbReportAdapter.getMileageByTagsChartData(chartArguments), title, null, null);
+                }
+
+                pChart = (AndiCarPieChart) findViewById(R.id.chart13);
+                if (pChart != null) {
+                    title = getString(R.string.chart13Title);
+                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
+                    drawPieChart(ll, pChart, dbReportAdapter.getMileageByDriverChartData(chartArguments), title, null, null);
+                }
             }
 
-            pChart = (AndiCarPieChart) findViewById(R.id.chart12);
-            if (pChart != null) {
-                title = getString(R.string.chart12Title);
-                title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
-                drawPieChart(ll, pChart, dbReportAdapter.getMileageByTagsChartData(chartArguments), title, null, null);
+            String carUOMVolume = dbReportAdapter.getUOMCode(dbReportAdapter.getCarUOMVolumeID(mLastSelectedCarID));
+            if (carUOMVolume == null || carUOMVolume.length() <= 1) {
+                carUOMVolume = dbReportAdapter.getUOMName(dbReportAdapter.getCarUOMVolumeID(mLastSelectedCarID));
             }
 
-            pChart = (AndiCarPieChart) findViewById(R.id.chart13);
-            if (pChart != null) {
-                title = getString(R.string.chart13Title);
-                title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
-                drawPieChart(ll, pChart, dbReportAdapter.getMileageByDriverChartData(chartArguments), title, null, null);
+            //fill-up charts (quantity)
+            ll = (LinearLayout) findViewById(R.id.line2Charts);
+            if (ll != null) {
+                chartData = dbReportAdapter.getRefuelsByTypeChartData(chartArguments, false);
+                if (chartData.size() > 0) {
+                    setChartBandHeight(ll, false);
+                    chartFooter = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
+                            + " " + carUOMVolume);
+                }
+                else {
+                    setChartBandHeight(ll, true);
+                    chartFooter = null;
+                }
+                pChart = (AndiCarPieChart) findViewById(R.id.chart21);
+                if (pChart != null) {
+                    title = getString(R.string.chart21Title);
+                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMVolume + "]";
+                    drawPieChart(ll, pChart, chartData, title, (TextView) findViewById(R.id.line2ChartFooterText), chartFooter);
+                }
+
+                pChart = (AndiCarPieChart) findViewById(R.id.chart22);
+                if (pChart != null) {
+                    title = getString(R.string.chart22Title);
+                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMVolume + "]";
+                    drawPieChart(ll, pChart, dbReportAdapter.getRefuelsByTagChartData(chartArguments, false), title, null, null);
+                }
+
+                pChart = (AndiCarPieChart) findViewById(R.id.chart23);
+                if (pChart != null) {
+                    title = getString(R.string.chart23Title);
+                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMVolume + "]";
+                    drawPieChart(ll, pChart, dbReportAdapter.getRefuelsByFuelTypeChartData(chartArguments, false), title, null, null);
+                }
+            }
+
+            String carCurrencyCode = dbReportAdapter.getCurrencyCode(dbReportAdapter.getCarCurrencyID(mLastSelectedCarID));
+            //fill-up charts (value)
+            ll = (LinearLayout) findViewById(R.id.line3Charts);
+            if (ll != null) {
+                chartData = dbReportAdapter.getRefuelsByTypeChartData(chartArguments, true);
+                if (chartData.size() > 0) {
+                    setChartBandHeight(ll, false);
+                    chartFooter = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
+                            + " " + carCurrencyCode);
+                }
+                else {
+                    setChartBandHeight(ll, true);
+                    chartFooter = null;
+                }
+
+                pChart = (AndiCarPieChart) findViewById(R.id.chart31);
+                if (pChart != null) {
+                    title = getString(R.string.chart31Title);
+                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
+                    drawPieChart(ll, pChart, chartData, title, (TextView) findViewById(R.id.line3ChartFooterText), chartFooter);
+                }
+
+                pChart = (AndiCarPieChart) findViewById(R.id.chart32);
+                if (pChart != null) {
+                    title = getString(R.string.chart32Title);
+                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
+                    drawPieChart(ll, pChart, dbReportAdapter.getRefuelsByTagChartData(chartArguments, true), title, null, null);
+                }
+
+                pChart = (AndiCarPieChart) findViewById(R.id.chart33);
+                if (pChart != null) {
+                    title = getString(R.string.chart33Title);
+                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
+                    drawPieChart(ll, pChart, dbReportAdapter.getRefuelsByFuelTypeChartData(chartArguments, true), title, null, null);
+                }
+            }
+
+            //expense charts
+            ll = (LinearLayout) findViewById(R.id.line4Charts);
+            if (ll != null) {
+                chartData = dbReportAdapter.getExpensesByTypeChartData(chartArguments);
+                if (chartData.size() > 0) {
+                    setChartBandHeight(ll, false);
+                    chartFooter = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
+                            + " " + carCurrencyCode);
+                }
+                else {
+                    setChartBandHeight(ll, true);
+                    chartFooter = null;
+                }
+
+                pChart = (AndiCarPieChart) findViewById(R.id.chart41);
+                if (pChart != null) {
+                    title = getString(R.string.chart41Title);
+                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
+                    drawPieChart(ll, pChart, chartData, title, (TextView) findViewById(R.id.line4ChartFooterText), chartFooter);
+                }
+
+                pChart = (AndiCarPieChart) findViewById(R.id.chart42);
+                if (pChart != null) {
+                    title = getString(R.string.chart42Title);
+                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
+                    drawPieChart(ll, pChart, dbReportAdapter.getExpensesByCategoryChartData(chartArguments), title, null, null);
+                }
+
+                pChart = (AndiCarPieChart) findViewById(R.id.chart43);
+                if (pChart != null) {
+                    title = getString(R.string.chart43Title);
+                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
+                    drawPieChart(ll, pChart, dbReportAdapter.getExpensesByTagChartData(chartArguments), title, null, null);
+                }
             }
         }
-
-        String carUOMVolume = dbReportAdapter.getUOMCode(dbReportAdapter.getCarUOMVolumeID(mLastSelectedCarID));
-        if (carUOMVolume == null || carUOMVolume.length() <= 1) {
-            carUOMVolume = dbReportAdapter.getUOMName(dbReportAdapter.getCarUOMVolumeID(mLastSelectedCarID));
-        }
-
-        //fill-up charts (quantity)
-        ll = (LinearLayout) findViewById(R.id.line2Charts);
-        if (ll != null) {
-            chartData = dbReportAdapter.getRefuelsByTypeChartData(chartArguments, false);
-            if (chartData.size() > 0) {
-                setChartBandHeight(ll, false);
-                chartFooter = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
-                        + " " + carUOMVolume);
-            }
-            else {
-                setChartBandHeight(ll, true);
-                chartFooter = null;
-            }
-            pChart = (AndiCarPieChart) findViewById(R.id.chart21);
-            if (pChart != null) {
-                title = getString(R.string.chart21Title);
-                title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMVolume + "]";
-                drawPieChart(ll, pChart, chartData, title, (TextView) findViewById(R.id.line2ChartFooterText), chartFooter);
-            }
-
-            pChart = (AndiCarPieChart) findViewById(R.id.chart22);
-            if (pChart != null) {
-                title = getString(R.string.chart22Title);
-                title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMVolume + "]";
-                drawPieChart(ll, pChart, dbReportAdapter.getRefuelsByTagChartData(chartArguments, false), title, null, null);
-            }
-
-            pChart = (AndiCarPieChart) findViewById(R.id.chart23);
-            if (pChart != null) {
-                title = getString(R.string.chart23Title);
-                title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMVolume + "]";
-                drawPieChart(ll, pChart, dbReportAdapter.getRefuelsByFuelTypeChartData(chartArguments, false), title, null, null);
-            }
-        }
-
-        String carCurrencyCode = dbReportAdapter.getCurrencyCode(dbReportAdapter.getCarCurrencyID(mLastSelectedCarID));
-        //fill-up charts (value)
-        ll = (LinearLayout) findViewById(R.id.line3Charts);
-        if (ll != null) {
-            chartData = dbReportAdapter.getRefuelsByTypeChartData(chartArguments, true);
-            if (chartData.size() > 0) {
-                setChartBandHeight(ll, false);
-                chartFooter = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
-                        + " " + carCurrencyCode);
-            }
-            else {
-                setChartBandHeight(ll, true);
-                chartFooter = null;
-            }
-
-            pChart = (AndiCarPieChart) findViewById(R.id.chart31);
-            if (pChart != null) {
-                title = getString(R.string.chart31Title);
-                title = title.substring(0, title.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                drawPieChart(ll, pChart, chartData, title, (TextView) findViewById(R.id.line3ChartFooterText), chartFooter);
-            }
-
-            pChart = (AndiCarPieChart) findViewById(R.id.chart32);
-            if (pChart != null) {
-                title = getString(R.string.chart32Title);
-                title = title.substring(0, title.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                drawPieChart(ll, pChart, dbReportAdapter.getRefuelsByTagChartData(chartArguments, true), title, null, null);
-            }
-
-            pChart = (AndiCarPieChart) findViewById(R.id.chart33);
-            if (pChart != null) {
-                title = getString(R.string.chart33Title);
-                title = title.substring(0, title.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                drawPieChart(ll, pChart, dbReportAdapter.getRefuelsByFuelTypeChartData(chartArguments, true), title, null, null);
-            }
-        }
-
-        //expense charts
-        ll = (LinearLayout) findViewById(R.id.line4Charts);
-        if (ll != null) {
-            chartData = dbReportAdapter.getExpensesByTypeChartData(chartArguments);
-            if (chartData.size() > 0) {
-                setChartBandHeight(ll, false);
-                chartFooter = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
-                        + " " + carCurrencyCode);
-            }
-            else {
-                setChartBandHeight(ll, true);
-                chartFooter = null;
-            }
-
-            pChart = (AndiCarPieChart) findViewById(R.id.chart41);
-            if (pChart != null) {
-                title = getString(R.string.chart41Title);
-                title = title.substring(0, title.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                drawPieChart(ll, pChart, chartData, title, (TextView) findViewById(R.id.line4ChartFooterText), chartFooter);
-            }
-
-            pChart = (AndiCarPieChart) findViewById(R.id.chart42);
-            if (pChart != null) {
-                title = getString(R.string.chart42Title);
-                title = title.substring(0, title.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                drawPieChart(ll, pChart, dbReportAdapter.getExpensesByCategoryChartData(chartArguments), title, null, null);
-            }
-
-            pChart = (AndiCarPieChart) findViewById(R.id.chart43);
-            if (pChart != null) {
-                title = getString(R.string.chart43Title);
-                title = title.substring(0, title.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                drawPieChart(ll, pChart, dbReportAdapter.getExpensesByTagChartData(chartArguments), title, null, null);
-            }
+        catch (Exception e) {
+            mErrorInDrawCharts = true;
+            Utils.showReportableErrorDialog(this, null, e.getMessage(), e, false);
         }
 
         dbReportAdapter.close();
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private void drawPieChart(View parent, AndiCarPieChart pieChart, ArrayList<DBReportAdapter.chartData> chartData, String title, TextView footerTextView, String footerText) {
+    private void drawPieChart(View parent, AndiCarPieChart pieChart, ArrayList<DBReportAdapter.chartData> chartData, String title, TextView footerTextView, String footerText) throws Exception {
         if (pieChart == null) {
             return;
         }
@@ -815,7 +826,7 @@ public class MainActivity extends AppCompatActivity
                 footerTextView.setText("");
             }
             return;
-        }
+            }
 
         setDefaultPieChartProperties(parent, pieChart);
         setChartData(pieChart, title, chartData);
@@ -848,7 +859,7 @@ public class MainActivity extends AppCompatActivity
                                 startActivityForResult(i, REQUEST_CODE_CHART_DETAIL);
                                 return true;
                             }
-                        }
+                            }
                         break;
                 }
                 return true;
