@@ -526,9 +526,9 @@ public class MileageEditFragment extends BaseEditFragment {
         data.put(DBAdapter.COL_NAME_MILEAGE__DATE, mlDateTimeInMillis / 1000);
         data.put(DBAdapter.COL_NAME_MILEAGE__CAR_ID, mCarId);
         data.put(DBAdapter.COL_NAME_MILEAGE__DRIVER_ID, mDriverId);
-        data.put(DBAdapter.COL_NAME_MILEAGE__INDEXSTART, mStartIndex.toString());
+        data.put(DBAdapter.COL_NAME_MILEAGE__INDEXSTART, mStartIndex.setScale(ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH).toString());
         if (etUserInput.getText().toString().trim().length() > 0) {
-            data.put(DBAdapter.COL_NAME_MILEAGE__INDEXSTOP, mNewIndex.toString());
+            data.put(DBAdapter.COL_NAME_MILEAGE__INDEXSTOP, mNewIndex.setScale(ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH).toString());
         }
         else {
             mNewIndex = null;
