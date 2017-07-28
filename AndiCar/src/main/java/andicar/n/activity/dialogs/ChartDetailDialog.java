@@ -61,90 +61,95 @@ public class ChartDetailDialog extends AppCompatActivity {
     @SuppressWarnings("unchecked")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        float chartBarHeight = 50 * Utils.getScreenDensity(this);
-        float chartLegendHeight = 70 * Utils.getScreenDensity(this);
+        try {
+            float chartBarHeight = 50 * Utils.getScreenDensity(this);
+            float chartLegendHeight = 70 * Utils.getScreenDensity(this);
 
-        super.onCreate(savedInstanceState);
+            super.onCreate(savedInstanceState);
 
-        ArrayList<DBReportAdapter.chartData> cdList = null;
-        //prevent keyboard from automatic pop up
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            ArrayList<DBReportAdapter.chartData> cdList = null;
+            //prevent keyboard from automatic pop up
+            this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            cdList = (ArrayList<DBReportAdapter.chartData>) extras.getSerializable(CHART_DATA_EXTRAS_KEY);
-            setTitle(extras.getString(CHART_TITLE_KEY));
-        }
-
-
-        setFinishOnTouchOutside(true);
-
-        setContentView(R.layout.dialog_chart_details);
-
-        Button btnClose = (Button) findViewById(R.id.btnClose);
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //close the dialog
-                finish();
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                cdList = (ArrayList<DBReportAdapter.chartData>) extras.getSerializable(CHART_DATA_EXTRAS_KEY);
+                setTitle(extras.getString(CHART_TITLE_KEY));
             }
-        });
 
-        mChart = (HorizontalBarChart) findViewById(R.id.horizontalBarChart);
-        if (mChart == null) {
-            return;
-        }
 
-        LinearLayout llChartContainer = (LinearLayout) findViewById(R.id.llChartContainer);
+            setFinishOnTouchOutside(true);
 
-        if (cdList != null) {
-            llChartContainer.getLayoutParams().height = Math.round((cdList.size() * chartBarHeight) + chartLegendHeight);
-            llChartContainer.requestLayout();
-        }
+            setContentView(R.layout.dialog_chart_details);
 
-        mChart.setDrawBarShadow(false);
-        mChart.setDrawGridBackground(false);
-        mChart.setDrawValueAboveBar(true);
-        mChart.getDescription().setEnabled(false);
-        mChart.setHighlightPerTapEnabled(false);
-        // if more than 60 entries are displayed in the chart, no values will be
-        // drawn
-        mChart.setMaxVisibleValueCount(60);
-        // scaling can now only be done on x- and y-axis separately
-        mChart.setPinchZoom(false);
-        // draw shadows for each bar that show the maximum value
-        // mChart.setDrawBarShadow(true);
-        mChart.setDrawGridBackground(false);
+            Button btnClose = (Button) findViewById(R.id.btnClose);
+            btnClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //close the dialog
+                    finish();
+                }
+            });
 
-        XAxis xl = mChart.getXAxis();
-        xl.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xl.setDrawAxisLine(true);
-        xl.setDrawGridLines(false);
-        xl.setDrawLabels(false);
-        xl.setGranularity(10f);
+            mChart = (HorizontalBarChart) findViewById(R.id.horizontalBarChart);
+            if (mChart == null) {
+                return;
+            }
 
-        YAxis yl = mChart.getAxisLeft();
-        yl.setDrawAxisLine(true);
-        yl.setDrawGridLines(false);
-        yl.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+            LinearLayout llChartContainer = (LinearLayout) findViewById(R.id.llChartContainer);
+
+            if (cdList != null) {
+                llChartContainer.getLayoutParams().height = Math.round((cdList.size() * chartBarHeight) + chartLegendHeight);
+                llChartContainer.requestLayout();
+            }
+
+            mChart.setDrawBarShadow(false);
+            mChart.setDrawGridBackground(false);
+            mChart.setDrawValueAboveBar(true);
+            mChart.getDescription().setEnabled(false);
+            mChart.setHighlightPerTapEnabled(false);
+            // if more than 60 entries are displayed in the chart, no values will be
+            // drawn
+            mChart.setMaxVisibleValueCount(60);
+            // scaling can now only be done on x- and y-axis separately
+            mChart.setPinchZoom(false);
+            // draw shadows for each bar that show the maximum value
+            // mChart.setDrawBarShadow(true);
+            mChart.setDrawGridBackground(false);
+
+            XAxis xl = mChart.getXAxis();
+            xl.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xl.setDrawAxisLine(true);
+            xl.setDrawGridLines(false);
+            xl.setDrawLabels(false);
+            xl.setGranularity(10f);
+
+            YAxis yl = mChart.getAxisLeft();
+            yl.setDrawAxisLine(true);
+            yl.setDrawGridLines(false);
+            yl.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 //        yl.setInverted(true);
 
-        YAxis yr = mChart.getAxisRight();
-        yr.setDrawLabels(false);
+            YAxis yr = mChart.getAxisRight();
+            yr.setDrawLabels(false);
 
-        mChartLegend = mChart.getLegend();
-        mChartLegend.setWordWrapEnabled(true);
-        mChartLegend.setYOffset(15f); //the Y space bellow the legends
-        mChartLegend.setTextSize(14f);
+            mChartLegend = mChart.getLegend();
+            mChartLegend.setWordWrapEnabled(true);
+            mChartLegend.setYOffset(15f); //the Y space bellow the legends
+            mChartLegend.setTextSize(14f);
 //        mChartLegend.setYEntrySpace(10f); //the Y space between the labels
-        setData(cdList);
+            setData(cdList);
 
-        mChart.setFitBars(true);
+            mChart.setFitBars(true);
 //        mChart.animateY(200);
+        }
+        catch (Exception e) {
+            Utils.showReportableErrorDialog(this, null, e.getMessage(), e, false);
+        }
     }
 
     //    private void setData(int count, float range) {
-    private void setData(ArrayList<DBReportAdapter.chartData> cdList) {
+    private void setData(ArrayList<DBReportAdapter.chartData> cdList) throws Exception {
         if (cdList == null || cdList.size() == 0) {
             mChart.clear();
             return;
