@@ -25,12 +25,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAuthIOException;
+
 import org.andicar2.activity.AndiCar;
 import org.andicar2.activity.R;
 
 import java.io.File;
 
 import andicar.n.service.SecureBackupService;
+import andicar.n.utils.AndiCarCrashReporter;
 import andicar.n.utils.Utils;
 
 /**
@@ -62,7 +66,9 @@ public class NetworkChangeListener extends BroadcastReceiver {
                 context.startService(intent);
             }
             catch (Exception e) {
-                Log.e(LogTag, e.getMessage(), e);
+                if (!(e.getClass().equals(GoogleAuthIOException.class) || e.getClass().equals(GoogleAuthException.class))) {
+                    AndiCarCrashReporter.sendCrash(e);
+                }
             }
         }
     }

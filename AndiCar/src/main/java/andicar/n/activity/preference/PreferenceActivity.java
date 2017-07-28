@@ -52,9 +52,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAuthIOException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.util.ExponentialBackOff;
@@ -144,6 +146,16 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 AndiCar.getDefaultSharedPreferences().getString(preference.getKey(), ""));
     }
 
+    /**
+     * Helper method to determine if the device has an large screen.
+     * Large screens are with width >= 900dp
+     */
+    private static boolean isLargeScreen(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        return dpWidth >= 900;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,16 +191,6 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
     @Override
     public boolean onIsMultiPane() {
         return isLargeScreen(this);
-    }
-
-    /**
-     * Helper method to determine if the device has an large screen.
-     * Large screens are with width >= 900dp
-     */
-    private static boolean isLargeScreen(Context context) {
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        return dpWidth >= 900;
     }
 
     /**
@@ -485,12 +487,10 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class BackupRestorePreferenceFragment extends PreferenceFragment implements OnAsyncTaskListener, Runnable {
 
+        public static final String SUCCESS_MSG_KEY = "Success";
+        public static final String ERROR_MSG_KEY = "ErrorMsg";
         private static final String LogTag = "BackupRestorePref";
-
-        private boolean accessToStorageJustAsked = false;
-        private boolean accessToAccountsJustAsked = false;
-        private boolean accountChoserIsShown = false;
-
+        private final Handler handler;
         SwitchPreference backupService;
         Preference backupServiceSchedule;
         SwitchPreference backupServiceShowNotification;
@@ -510,7 +510,31 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         GoogleAccountCredential googleCredential;
 
         ProgressDialog mProgress;
+        private boolean accessToStorageJustAsked = false;
+        private boolean accessToAccountsJustAsked = false;
+        private boolean accountChoserIsShown = false;
         private String fPath;
+
+        {
+            handler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    try {
+                        mProgress.dismiss();
+                        if (msg.peekData() != null) {
+                            if (msg.peekData().containsKey(ERROR_MSG_KEY)) {
+                                Utils.showNotReportableErrorDialog(getActivity(), msg.peekData().getString(ERROR_MSG_KEY), null, false);
+                            }
+                            else if (msg.peekData().containsKey(SUCCESS_MSG_KEY)) {
+                                Utils.showInfoDialog(getActivity(), msg.peekData().getString(SUCCESS_MSG_KEY), null);
+                            }
+                        }
+                    }
+                    catch (Exception ignored) {
+                    }
+                }
+            };
+        }
 
         @Override
         public void onResume() {
@@ -996,8 +1020,10 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                                 intent.putExtra("attachName", bkFileName);
                                 BackupRestorePreferenceFragment.this.getActivity().startService(intent);
                             } catch (Exception e) {
-                                AndiCarCrashReporter.sendCrash(e);
-                                Log.e(LogTag, e.getMessage(), e);
+                                if (!(e.getClass().equals(GoogleAuthIOException.class) || e.getClass().equals(GoogleAuthException.class))) {
+                                    AndiCarCrashReporter.sendCrash(e);
+                                }
+//                                Log.e(LogTag, e.getMessage(), e);
                             }
 
                         }
@@ -1130,29 +1156,6 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                     break;
             }
         }
-
-        public static final String SUCCESS_MSG_KEY = "Success";
-        public static final String ERROR_MSG_KEY = "ErrorMsg";
-        private final Handler handler;
-
-        {
-            handler = new Handler() {
-                @Override
-                public void handleMessage(Message msg) {
-                    try {
-                        mProgress.dismiss();
-                        if (msg.peekData() != null) {
-                            if (msg.peekData().containsKey(ERROR_MSG_KEY))
-                                Utils.showNotReportableErrorDialog(getActivity(), msg.peekData().getString(ERROR_MSG_KEY), null, false);
-                            else if (msg.peekData().containsKey(SUCCESS_MSG_KEY))
-                                Utils.showInfoDialog(getActivity(), msg.peekData().getString(SUCCESS_MSG_KEY), null);
-                        }
-                    } catch (Exception ignored) {
-                    }
-                }
-            };
-        }
-
 
         @Override
         public void run() {

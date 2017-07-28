@@ -46,7 +46,6 @@ import java.util.Properties;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
-import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
@@ -70,7 +69,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
     private ArrayList<String> mAttachments = null;
     private Exception mLastException = null;
 
-    private FileWriter debugLogFileWriter;
+    private FileWriter debugLogFileWriter = null;
 
 
     /**
@@ -106,7 +105,14 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
             mTaskCompleteListener = listener;
         }
         catch (IOException e) {
-            e.printStackTrace();
+            if (debugLogFileWriter != null) {
+                try {
+                    debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" An error occured: ").append(e.getMessage()).append(Utils.getStackTrace(e));
+                    debugLogFileWriter.flush();
+                }
+                catch (IOException ignored) {
+                }
+            }
         }
     }
 
@@ -123,6 +129,12 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
             return sendGMail();
         }
         catch (Exception e) {
+            try {
+                debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" An error occured: ").append(e.getMessage()).append(Utils.getStackTrace(e));
+                debugLogFileWriter.flush();
+            }
+            catch (IOException ignored) {
+            }
             mLastException = e;
             cancel(true);
             return null;
@@ -134,7 +146,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
      *
      * @return List of Strings labels.
      */
-    private List<String> sendGMail() throws IOException, MessagingException {
+    private List<String> sendGMail() throws Exception {
         List<String> retVal = new ArrayList<>();
         debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" sendGMail begin");
         debugLogFileWriter.flush();
@@ -172,17 +184,12 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
                 MimeBodyPart mimeBodyAttachments = new MimeBodyPart();
                 String fileName = attach.getName();
                 FileInputStream is = new FileInputStream(attach);
-                try {
-                    DataSource source = new ByteArrayDataSource(is, "application/zip");
-                    mimeBodyAttachments.setDataHandler(new DataHandler(source));
-                    mimeBodyAttachments.setFileName(fileName);
-                    mimeBodyAttachments.setHeader("Content-Type", "application/zip" + "; name=\"" + fileName + "\"");
-                    mimeBodyAttachments.setDisposition(MimeBodyPart.ATTACHMENT);
-                    mp.addBodyPart(mimeBodyAttachments);
-                }
-                catch (IOException e) {
-                    throw new MessagingException(e.getMessage());
-                }
+                DataSource source = new ByteArrayDataSource(is, "application/zip");
+                mimeBodyAttachments.setDataHandler(new DataHandler(source));
+                mimeBodyAttachments.setFileName(fileName);
+                mimeBodyAttachments.setHeader("Content-Type", "application/zip" + "; name=\"" + fileName + "\"");
+                mimeBodyAttachments.setDisposition(MimeBodyPart.ATTACHMENT);
+                mp.addBodyPart(mimeBodyAttachments);
             }
 //            mimeBodyAttachments.setHeader("Content-Transfer-Encoding", "base64");
         }
