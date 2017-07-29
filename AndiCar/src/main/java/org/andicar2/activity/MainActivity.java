@@ -1204,7 +1204,7 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressLint("SetTextI18n")
     private void fillStatisticsZone() {
-        View llStatisticsZoneBottom;
+        View llStatisticsZone;
         TextView tvStatisticsHdr;
         TextView tvStatisticsLastKnownOdometer;
         TextView tvStatisticsAvgFuelEff;
@@ -1212,7 +1212,7 @@ public class MainActivity extends AppCompatActivity
         TextView tvStatisticsTotalExpenses;
         TextView tvStatisticsMileageExpense;
 
-        llStatisticsZoneBottom = findViewById(R.id.llStatisticsZoneBottom);
+        llStatisticsZone = findViewById(R.id.llStatisticsZone);
         tvStatisticsHdr = (TextView) findViewById(R.id.tvStatisticsHdr);
         tvStatisticsLastKnownOdometer = (TextView) findViewById(R.id.tvStatisticsLastKnownOdometer);
         tvStatisticsAvgFuelEff = (TextView) findViewById(R.id.tvStatisticsAvgFuelEff);
@@ -1345,7 +1345,7 @@ public class MainActivity extends AppCompatActivity
                 //@formatter:on
                 c = reportDb.execSelectSql(sql, null);
                 if (c.moveToFirst()) {
-                    llStatisticsZoneBottom.setVisibility(View.VISIBLE);
+                    llStatisticsZone.setVisibility(View.VISIBLE);
                     lastFullRefuelIndex = new BigDecimal(c.getDouble(0)).setScale(ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH);
                     c.close();
                     if (lastFullRefuelIndex != null && lastFullRefuelIndex.subtract(tmpFullRefuelIndex).signum() != 0) {
@@ -1489,7 +1489,7 @@ public class MainActivity extends AppCompatActivity
             }
 
         } else {
-            llStatisticsZoneBottom.setVisibility(View.GONE);
+            llStatisticsZone.setVisibility(View.GONE);
         }
 
         try {

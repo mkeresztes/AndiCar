@@ -54,12 +54,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!--<TextView-->
-                <!--android:id="@+id/tvToDoHdr"-->
-                <!--style="@style/ListItem.FirstLine"-->
-                <!--android:gravity="center_horizontal"-->
-                <!--android:text="@string/main_activity_to_do_header_caption"/>-->
-
                 <TextView
                     android:id="@+id/tvToDoText1"
                     style="@style/ListItem.FirstLine"
@@ -70,15 +64,68 @@
                     style="@style/ListItem.SecondLine"
                     android:gravity="center_horizontal" />
 
-                <!--<TextView-->
-                <!--android:id="@+id/tvToDoText3"-->
-                <!--style="@style/ListItem.ThirdLine"-->
-                <!--android:gravity="center_horizontal" />-->
             </LinearLayout>
 
             <TextView
                 style="@style/AndiCarSeparatorView"
                 android:layout_marginTop="16dp"/>
+
+            <LinearLayout
+                android:id="@+id/llStatisticsZone"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvStatisticsHdr"
+                    style="@style/ListItem.FirstLine"
+                    android:gravity="center_horizontal"
+                    android:text="@string/main_activity_statistics_header_caption"
+                    android:textSize="14sp"
+                    android:paddingBottom="3dp"
+                    android:layout_marginTop="8dp" />
+                <!--android:background="@color/main_activity_headers_background"-->
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvStatisticsLastKnownOdometer"
+                        style="@style/ListItem.SecondLine"
+                        android:text="@string/main_activity_statistics_last_odometer_label"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvStatisticsAvgFuelEff"
+                        style="@style/ListItem.SecondLine"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvStatisticsLastFuelEff"
+                        style="@style/ListItem.SecondLine"
+                        android:textSize="14sp"
+                        tools:ignore="InconsistentLayout" />
+
+                    <TextView
+                        android:id="@+id/tvStatisticsTotalExpenses"
+                        style="@style/ListItem.SecondLine"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvStatisticsMileageExpense"
+                        style="@style/ListItem.SecondLine"
+                        android:textSize="14sp"
+                        tools:ignore="InconsistentLayout" />
+                </LinearLayout>
+
+                <TextView
+                    style="@style/AndiCarSeparatorView"
+                    android:layout_marginTop="16dp" />
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/tvChartsHdr"
                 style="@style/ListItem.FirstLine"
@@ -295,61 +342,6 @@
             <TextView
                 android:id="@+id/line4ChartFooterText"
                 style="@style/AndiCarChartFooter" />
-
-            <LinearLayout
-                android:id="@+id/llStatisticsZoneBottom"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/AndiCarSeparatorView"
-                    android:layout_marginTop="16dp"/>
-
-                <TextView
-                    android:id="@+id/tvStatisticsHdr"
-                    style="@style/ListItem.FirstLine"
-                    android:gravity="center_horizontal"
-                    android:text="@string/main_activity_statistics_header_caption"
-                    android:textSize="14sp"
-                    android:paddingBottom="3dp"
-                    android:layout_marginTop="8dp"/>
-                <!--android:background="@color/main_activity_headers_background"-->
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvStatisticsLastKnownOdometer"
-                        style="@style/ListItem.SecondLine"
-                        android:text="@string/main_activity_statistics_last_odometer_label"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tvStatisticsAvgFuelEff"
-                        style="@style/ListItem.SecondLine"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tvStatisticsLastFuelEff"
-                        style="@style/ListItem.SecondLine"
-                        android:textSize="14sp"
-                        tools:ignore="InconsistentLayout"/>
-
-                    <TextView
-                        android:id="@+id/tvStatisticsTotalExpenses"
-                        style="@style/ListItem.SecondLine"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tvStatisticsMileageExpense"
-                        style="@style/ListItem.SecondLine"
-                        android:textSize="14sp"
-                        tools:ignore="InconsistentLayout"/>
-                </LinearLayout>
-            </LinearLayout>
 
             <TextView
                 style="@style/AndiCarSeparatorView"
