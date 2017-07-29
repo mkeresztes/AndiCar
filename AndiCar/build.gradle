@@ -91,23 +91,25 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     //need by SendGMailTask (secure BK)
     //https://javaee.github.io/javamail/Android
-    compile 'com.sun.mail:android-mail:1.5.5'
-    compile 'com.sun.mail:android-activation:1.5.5'
+    //    compile 'com.sun.mail:android-mail:1.5.5'
+    //    compile 'com.sun.mail:android-activation:1.5.5'
     //https://material.uplabs.com/posts/android-switchdatetimepicker
     compile 'com.github.Kunzisoft:Android-SwitchDateTimePicker:1.7'
     //https://github.com/hedzr/android-file-chooser
     compile 'com.obsez.android.lib.filechooser:filechooser:1.1.5'
-
     compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
     compile 'com.android.support:design:26.0.0-alpha1'
     compile 'com.android.support:support-v4:26.0.0-alpha1'
     compile 'com.android.support:support-v13:26.0.0-alpha1'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.android.gms:play-services-auth:11.0.2'
-    compile 'com.google.android.gms:play-services-maps:11.0.2'
+    compile 'com.google.android.gms:play-services-auth:11.0.4'
+    compile 'com.google.android.gms:play-services-maps:11.0.4'
     compile 'com.firebase:firebase-jobdispatcher:0.7.0'
     compile 'com.google.firebase:firebase-core:10.0.1'
+    compile files('src/main/lib/activation.jar')
+    compile files('src/main/lib/additionnal.jar')
+    compile files('src/main/lib/mail.jar')
 }
 
 apply plugin: 'com.google.gms.google-services'
