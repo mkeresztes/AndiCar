@@ -230,7 +230,7 @@ public class CurrencyRateEditFragment extends BaseEditFragment {
     }
 
     private void calculateShowInverseRate() {
-        if (mCurrencyRate != null && !mCurrencyRate.equals(BigDecimal.ZERO)) {
+        if (mCurrencyRate != null && mCurrencyRate.compareTo(BigDecimal.ZERO) != 0) {
             tvInverseRateLabel.setText(String.format(getString(R.string.currency_rate_edit_inverse_rate_label), mDbAdapter.getCurrencyCode(mCurrencyToId),
                     BigDecimal.ONE.divide(mCurrencyRate, 10, RoundingMode.HALF_UP).setScale(ConstantValues.DECIMALS_RATES, ConstantValues.ROUNDING_MODE_RATES).toString(),
                     mDbAdapter.getCurrencyCode(mCurrencyId)));
