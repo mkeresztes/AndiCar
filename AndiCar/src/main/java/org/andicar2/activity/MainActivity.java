@@ -1233,6 +1233,9 @@ public class MainActivity extends AppCompatActivity
         DBReportAdapter reportDb = new DBReportAdapter(this, DBReportAdapter.STATISTICS_SELECT_NAME, whereConditions);
         listCursor = reportDb.fetchReport(1);
         if (listCursor != null && listCursor.moveToFirst()) {
+
+            llStatisticsZone.setVisibility(View.VISIBLE);
+
             BigDecimal startIndex = null;
             BigDecimal stopIndex = null;
             BigDecimal mileage;
