@@ -348,164 +348,94 @@ public class DBReportAdapter extends DBAdapter {
             + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__TAG_ID) + "=" + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID)
             + " WHERE 1=1 ";
     //used in main activity and refuel list activity
-    private static final String refuelListViewSelect = "SELECT "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_GEN_ROWID)
-            + ", "
-            + //#0
-            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME)
-            + " || '; ' || "
-            + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME)
-            + " || '; %1$s'"
-            + " AS "
-            + FIRST_LINE_LIST_NAME
-            + ", "
-            //#1
-            + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME)
-            + " || '; %1$s ' || "
-            + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE)
-            + " || "
-            + " CASE WHEN "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUME_ID)
-            + " <> "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUMEENTERED_ID)
-            + " "
-            + " THEN "
-            + "' (%2$s'"
-            + " || ' ' || "
-            + sqlConcatTableColumn("DefaultVolumeUOM", COL_NAME_UOM__CODE)
-            + " || ')' "
-            + " ELSE "
-            + "'' "
-            + " END "
-            + " || ' x %3$s ' || "
-            + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE)
-            + " || "
-            + " CASE WHEN "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCY_ID)
-            + " <> "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCYENTERED_ID)
-            + " "
-            + " THEN "
-            + "' (%4$s ' || "
-            + sqlConcatTableColumn("DefaultCurrency", COL_NAME_CURRENCY__CODE)
-            + " || ')' "
-            + " ELSE "
-            + "'' "
-            + " END "
-            +
+    private static final String refuelListViewSelect =
+        "SELECT "
+            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_GEN_ROWID) + ", " + //#0
 
-            " || ' = %5$s ' || "
-            + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE)
-            + " || "
-            + " CASE WHEN "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCY_ID)
-            + " <> "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCYENTERED_ID)
-            + " "
-            + " THEN "
-            + "' (%6$s ' || "
-            + sqlConcatTableColumn("DefaultCurrency", COL_NAME_CURRENCY__CODE)
-            + " || ')' "
-            + " ELSE "
-            + "'' "
-            + " END "
-            + " || ' at %7$s ' || "
-            + sqlConcatTableColumn("CarLengthUOM", COL_NAME_UOM__CODE)
-            + " || ' (' || "
-            + sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_NAME)
-            + " || ')' "
-            +
-            " AS "
-            + SECOND_LINE_LIST_NAME
-            + ", "
-            + //#2
-            " COALESCE( "
-            + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME)
-            + " || '; ', '') || "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_GEN_USER_COMMENT)
-            + " || '%1$s' "
-            + " AS "
-            + THIRD_LINE_LIST_NAME
-            + ", "
-            + //#3
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__DATE)
-            + " AS Seconds, "
-            + //#4
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITYENTERED)
-            + " AS QtyEntered, "
-            + //#5
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY)
-            + " AS Qty, "
-            + //#6
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__PRICEENTERED)
-            + " AS PriceEntered, "
-            + //#7
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__PRICE)
-            + " AS Price, "
-            + //#8
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__AMOUNTENTERED)
-            + " AS AmountEntered, "
-            + //#9
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__AMOUNT)
-            + " AS Amount, "
-            + //#10
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX)
-            + " AS CarIndex, "
-            + //#11
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__ISFULLREFUEL)
-            + ", "
-            + //#12
-            "COALESCE("
-            + "(SELECT "
-            + COL_NAME_REFUEL__INDEX
-            + " "
-            + " FROM "
-            + TABLE_NAME_REFUEL
-            + " AS pr "
-            + " WHERE 1 = 1 "
-            + WHERE_CONDITION_ISACTIVE
-            + " AND pr."
-            + COL_NAME_REFUEL__ISFULLREFUEL
-            + " = 'Y' "
-            + " AND pr."
-            + COL_NAME_REFUEL__CAR_ID
-            + " = "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID)
-            + " AND pr."
-            + COL_NAME_REFUEL__INDEX
-            + " < "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX)
-            + " ORDER BY pr."
-            + COL_NAME_REFUEL__INDEX
-            + " DESC "
-            + " LIMIT 1 "
-            + "), -1) AS PreviousFullRefuelIndex,"
-            + //#13
-            sqlConcatTableColumn("DefaultVolumeUOM", COL_NAME_UOM__CODE)
-            + " AS CarUOMVolume, "
-            + //#14
-            sqlConcatTableColumn("CarLengthUOM", COL_NAME_UOM__CODE)
-            + " AS CarUOMLength, "
-            + //#15
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID)
-            + //#16
-            " FROM " + TABLE_NAME_REFUEL + " JOIN " + TABLE_NAME_EXPENSECATEGORY + " ON "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__EXPENSECATEGORY_ID) + "="
-            + sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_ROWID) + " JOIN " + TABLE_NAME_EXPENSETYPE + " ON "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__EXPENSETYPE_ID) + "=" + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID)
-            + " JOIN " + TABLE_NAME_DRIVER + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__DRIVER_ID) + "="
-            + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_ROWID) + " JOIN " + TABLE_NAME_UOM + " ON "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUMEENTERED_ID) + "=" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID)
-            + " JOIN " + TABLE_NAME_UOM + " AS DefaultVolumeUOM " + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUME_ID) + "="
-            + sqlConcatTableColumn("DefaultVolumeUOM", COL_NAME_GEN_ROWID) + " JOIN " + TABLE_NAME_CAR + " ON "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + "=" + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) + " JOIN "
-            + TABLE_NAME_UOM + " AS CarLengthUOM " + " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) + "="
-            + sqlConcatTableColumn("CarLengthUOM", COL_NAME_GEN_ROWID) + " JOIN " + TABLE_NAME_CURRENCY + " ON "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCYENTERED_ID) + "="
-            + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) + " JOIN " + TABLE_NAME_CURRENCY + " AS DefaultCurrency " + " ON "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCY_ID) + "=" + sqlConcatTableColumn("DefaultCurrency", COL_NAME_GEN_ROWID)
-            + " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__TAG_ID) + "="
-            + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) + " WHERE 1=1 ";
+            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + " || '; ' || " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) +
+                " || '; %1$s'" + " AS " + FIRST_LINE_LIST_NAME + ", " //#1
+
+            + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + " || '; %1$s ' || " + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) +
+                " || " +
+                    " CASE WHEN " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUME_ID) +
+                                        " <> " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUMEENTERED_ID) +
+                            " THEN " +
+                                "' (%2$s' || ' ' || " + sqlConcatTableColumn("DefaultVolumeUOM", COL_NAME_UOM__CODE) + " || ')' " +
+                        " ELSE '' " +
+                    " END " +
+                " || ' x %3$s ' || " + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) +
+                " || " +
+                    " CASE WHEN " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCY_ID) +
+                                    " <> " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCYENTERED_ID) +
+                            " THEN ' (%4$s ' || " + sqlConcatTableColumn("DefaultCurrency", COL_NAME_CURRENCY__CODE) + " || ')' " +
+                        " ELSE '' " +
+                    " END || ' = %5$s ' || " + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) +
+                " || " +
+                    " CASE WHEN " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCY_ID) +
+                                    " <> " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCYENTERED_ID) +
+                            " THEN ' (%6$s ' || " + sqlConcatTableColumn("DefaultCurrency", COL_NAME_CURRENCY__CODE) + " || ')' " +
+                        " ELSE '' " +
+                    " END || ' at %7$s ' || " + sqlConcatTableColumn("CarLengthUOM", COL_NAME_UOM__CODE) +
+                            " || ' (' || " + sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_NAME) + " || ')' " + " AS " + SECOND_LINE_LIST_NAME + ", " + //#2
+
+            " COALESCE( " + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + " || '; ', '') || " +
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_GEN_USER_COMMENT) + " || '[#01]' AS " + THIRD_LINE_LIST_NAME + ", " + //#3
+
+            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__DATE) + " AS Seconds, " + //#4
+
+            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITYENTERED) + " AS QtyEntered, " + //#5
+
+            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY) + " AS Qty, " + //#6
+
+            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__PRICEENTERED) + " AS PriceEntered, " + //#7
+
+            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__PRICE) + " AS Price, " + //#8
+
+            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__AMOUNTENTERED) + " AS AmountEntered, " + //#9
+
+            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__AMOUNT) + " AS Amount, " + //#10
+
+            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX) + " AS CarIndex, " + //#11
+
+            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__ISFULLREFUEL) + ", " + //#12
+
+            "COALESCE( (SELECT " + COL_NAME_REFUEL__INDEX + " " +
+                        " FROM " + TABLE_NAME_REFUEL + " AS pr " +
+                        " WHERE 1 = 1 " + WHERE_CONDITION_ISACTIVE +
+                                " AND pr." + COL_NAME_REFUEL__ISFULLREFUEL + " = 'Y' " +
+                                " AND pr." + COL_NAME_REFUEL__CAR_ID + " = " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) +
+                                " AND pr." + COL_NAME_REFUEL__INDEX + " < " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX) +
+                        " ORDER BY pr." + COL_NAME_REFUEL__INDEX + " DESC " +
+                        " LIMIT 1 ), -1) AS PreviousFullRefuelIndex," + //#13
+
+            sqlConcatTableColumn("DefaultVolumeUOM", COL_NAME_UOM__CODE) + " AS CarUOMVolume, " + //#14
+
+            sqlConcatTableColumn("CarLengthUOM", COL_NAME_UOM__CODE) + " AS CarUOMLength, " + //#15
+
+            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + //#16
+
+        " FROM " + TABLE_NAME_REFUEL +
+                " JOIN " + TABLE_NAME_EXPENSECATEGORY + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__EXPENSECATEGORY_ID) +
+                                    "=" + sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_ROWID) +
+                " JOIN " + TABLE_NAME_EXPENSETYPE + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__EXPENSETYPE_ID) +
+                                    "=" + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) +
+                " JOIN " + TABLE_NAME_DRIVER + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__DRIVER_ID) +
+                                    "=" + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_ROWID) +
+                " JOIN " + TABLE_NAME_UOM + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUMEENTERED_ID) +
+                                    "=" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
+                " JOIN " + TABLE_NAME_UOM + " AS DefaultVolumeUOM ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUME_ID) +
+                                "=" + sqlConcatTableColumn("DefaultVolumeUOM", COL_NAME_GEN_ROWID) +
+                " JOIN " + TABLE_NAME_CAR + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) +
+                                "=" + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_UOM + " AS CarLengthUOM " + " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) +
+                                    "=" + sqlConcatTableColumn("CarLengthUOM", COL_NAME_GEN_ROWID) +
+                " JOIN " + TABLE_NAME_CURRENCY + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCYENTERED_ID) +
+                                "=" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
+                " JOIN " + TABLE_NAME_CURRENCY + " AS DefaultCurrency " + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCY_ID) +
+                                "=" + sqlConcatTableColumn("DefaultCurrency", COL_NAME_GEN_ROWID) +
+                " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__TAG_ID) +
+                                "=" + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
+        " WHERE 1=1 ";
 
     //used in exported report
     private static final String refuelListReportSelect = "SELECT "
@@ -794,78 +724,6 @@ public class DBReportAdapter extends DBAdapter {
             + "=" + sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_GEN_ROWID) + " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON "
             + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__TAG_ID) + "=" + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID)
             + " WHERE 1=1 ";
-
-    private final String statisticsMainViewSelect =
-            "SELECT " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) + ", " + //#0
-                " COALESCE( " + sqlConcatTableColumn("CarIndex", "CarMinIndex") + ", " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__INDEXSTART) + "), " + //#1
-                " COALESCE( " + sqlConcatTableColumn("CarIndex", "CarMaxIndex") + ", " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__INDEXCURRENT) + "), " + //#2
-                sqlConcatTableColumn("UomLength", COL_NAME_UOM__CODE) + " AS UOMLength, " + //#3
-                sqlConcatTableColumn("TotalExpenses", "Expense") + " AS TotalExpense, " + //#4
-                sqlConcatTableColumn("TotalMileageExpenses", "Expense") + " AS TotalMileageExpense, " + //#5
-                sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + ", " + //#6
-                sqlConcatTableColumn("UomVolume", COL_NAME_UOM__CODE) + " AS UOMVolume " + //#7
-
-            " FROM " +
-                    TABLE_NAME_CAR + " " +
-                        "JOIN " + TABLE_NAME_UOM + " AS UomLength " + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) + "=" +
-                                    sqlConcatTableColumn("UomLength", COL_NAME_GEN_ROWID)
-                        + " JOIN " + TABLE_NAME_UOM + " AS UomVolume " + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMVOLUME_ID) + "=" +
-                                    sqlConcatTableColumn("UomVolume", COL_NAME_GEN_ROWID)
-                        + " JOIN " + TABLE_NAME_CURRENCY + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + "=" +
-                                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
-                        //total expenses
-                        " LEFT OUTER JOIN ( SELECT SUM( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__AMOUNT) + ") AS Expense, " +
-                                                    COL_NAME_EXPENSE__CAR_ID + " " +
-                                            " FROM " + TABLE_NAME_EXPENSE + " " +
-                                            " WHERE " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_GEN_ISACTIVE) + " = 'Y' " +
-                                                    "mExpenseStatisticsPeriodCondition" +
-                                            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__CAR_ID) + " ) AS TotalExpenses " +
-                                " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) + "=" +
-                                    sqlConcatTableColumn("TotalExpenses", COL_NAME_EXPENSE__CAR_ID) +
-
-                        //total expenses for mileage cost (exclude exp. category which have "Is exclude from mileage cost" attribute
-                        " LEFT OUTER JOIN ( SELECT SUM( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__AMOUNT) + ") AS Expense, " +
-                                                COL_NAME_EXPENSE__CAR_ID + " " +
-                                            " FROM " + TABLE_NAME_EXPENSE +
-                                                " JOIN " + TABLE_NAME_EXPENSECATEGORY + " ON " +
-                                                    sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__EXPENSECATEGORY_ID) + " = " +
-                                                        sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_ROWID) +
-                                            " WHERE " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_GEN_ISACTIVE) + " = 'Y' " +
-                                                " AND " + sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_EXPENSECATEGORY__ISEXCLUDEFROMMILEAGECOST) + " = 'N' " +
-                                                    "mExpenseStatisticsPeriodCondition" +
-                                            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__CAR_ID) + " ) AS TotalMileageExpenses " +
-                                " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) + "=" + sqlConcatTableColumn("TotalMileageExpenses", COL_NAME_EXPENSE__CAR_ID) +
-                        " JOIN ( SELECT MIN (CarMinIndex) AS CarMinIndex, MAX (CarMaxIndex) AS CarMaxIndex, MCarID " +
-                                            " FROM " +
-                                                    "( SELECT MIN( " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + ") AS CarMinIndex, " +
-                                                            "MAX( " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + ") AS CarMaxIndex, " +
-                                                            sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID) + " AS MCarID " +
-                                                    " FROM " + TABLE_NAME_MILEAGE +
-                                                    " WHERE 1=1 " + "mMinIndexStatisticsPeriodCondition" +
-                                                    " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID) +
-                                                    " UNION " +
-                                                    " SELECT MIN( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX) + "),  " +
-                                                            "MAX( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX) + "), " +
-                                                            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) +
-                                                    " FROM " + TABLE_NAME_REFUEL +
-                                                    " WHERE 1=1 " + "mMinIndexStatisticsPeriodCondition" +
-                                                    " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) +
-                                                    " UNION " +
-                                                    " SELECT MIN( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__INDEX) + "),  " +
-                                                            "MAX( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__INDEX) + "), " +
-                                                            sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__CAR_ID) +
-                                                    " FROM " + TABLE_NAME_EXPENSE +
-                                                    " WHERE " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__INDEX) + " IS NOT NULL " +
-                                                            " AND " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__INDEX) + " <> '' " +
-                                                            "mMinIndexStatisticsPeriodCondition" +
-                                                    " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__CAR_ID) + ") " +
-                                            " GROUP BY MCarID " + ") AS CarIndex " +
-                                " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) + "=" + sqlConcatTableColumn("CarIndex", "MCarID") +
-            " WHERE 1=1 ";
-
     //used in main activity and GPS Track list activity
     private static final String gpsTrackListViewSelect =
             "SELECT " +
@@ -933,7 +791,6 @@ public class DBReportAdapter extends DBAdapter {
                                 "=" + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) +
                     //exclude the track in progress (the no. of trackpoints is updated after terminating the tracking)
             " WHERE " + sqlConcatTableColumn(TABLE_NAME_GPSTRACK, COL_NAME_GPSTRACK__TOTALTRACKPOINTS) + " IS NOT NULL ";
-
     //used in exported report
     private static final String gpsTrackListReportSelect = "SELECT " + sqlConcatTableColumn(TABLE_NAME_GPSTRACK, COL_NAME_GEN_ROWID) + " AS TrackId, "
             + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + " AS CarName, " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME)
@@ -1100,7 +957,6 @@ public class DBReportAdapter extends DBAdapter {
                     + " GROUP BY " + COL_NAME_EXPENSE__CAR_ID + " ) "
                     + " GROUP BY CAR_ID ) AS Minimums ON Minimums.CAR_ID = " + sqlConcatTableColumn(TABLE_NAME_TODO, COL_NAME_TODO__CAR_ID)
             + " WHERE 1=1 ";
-
     //used in exported reports
     private static final String todoListReportSelect = "SELECT "
             + sqlConcatTableColumn(TABLE_NAME_TODO, COL_NAME_GEN_ROWID)
@@ -1292,6 +1148,76 @@ public class DBReportAdapter extends DBAdapter {
             + COL_NAME_EXPENSE__DATE + ") AS Date, " + " MIN(" + COL_NAME_EXPENSE__INDEX + ") AS Mileage, " + COL_NAME_EXPENSE__CAR_ID + " AS CAR_ID "
             + " FROM " + TABLE_NAME_EXPENSE + " WHERE " + COL_NAME_GEN_ISACTIVE + " = 'Y' " + " GROUP BY " + COL_NAME_EXPENSE__CAR_ID + " ) "
             + " GROUP BY CAR_ID ) AS Minimums ON Minimums.CAR_ID = " + sqlConcatTableColumn(TABLE_NAME_TODO, COL_NAME_TODO__CAR_ID) + " WHERE 1=1 ";
+    private final String statisticsMainViewSelect =
+            "SELECT " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) + ", " + //#0
+                " COALESCE( " + sqlConcatTableColumn("CarIndex", "CarMinIndex") + ", " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__INDEXSTART) + "), " + //#1
+                " COALESCE( " + sqlConcatTableColumn("CarIndex", "CarMaxIndex") + ", " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__INDEXCURRENT) + "), " + //#2
+                sqlConcatTableColumn("UomLength", COL_NAME_UOM__CODE) + " AS UOMLength, " + //#3
+                sqlConcatTableColumn("TotalExpenses", "Expense") + " AS TotalExpense, " + //#4
+                sqlConcatTableColumn("TotalMileageExpenses", "Expense") + " AS TotalMileageExpense, " + //#5
+                sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + ", " + //#6
+                sqlConcatTableColumn("UomVolume", COL_NAME_UOM__CODE) + " AS UOMVolume " + //#7
+
+            " FROM " +
+                    TABLE_NAME_CAR + " " +
+                        "JOIN " + TABLE_NAME_UOM + " AS UomLength " + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) + "=" +
+                                    sqlConcatTableColumn("UomLength", COL_NAME_GEN_ROWID)
+                        + " JOIN " + TABLE_NAME_UOM + " AS UomVolume " + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMVOLUME_ID) + "=" +
+                                    sqlConcatTableColumn("UomVolume", COL_NAME_GEN_ROWID)
+                        + " JOIN " + TABLE_NAME_CURRENCY + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + "=" +
+                                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
+                        //total expenses
+                        " LEFT OUTER JOIN ( SELECT SUM( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__AMOUNT) + ") AS Expense, " +
+                                                    COL_NAME_EXPENSE__CAR_ID + " " +
+                                            " FROM " + TABLE_NAME_EXPENSE + " " +
+                                            " WHERE " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_GEN_ISACTIVE) + " = 'Y' " +
+                                                    "mExpenseStatisticsPeriodCondition" +
+                                            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__CAR_ID) + " ) AS TotalExpenses " +
+                                " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) + "=" +
+                                    sqlConcatTableColumn("TotalExpenses", COL_NAME_EXPENSE__CAR_ID) +
+
+                        //total expenses for mileage cost (exclude exp. category which have "Is exclude from mileage cost" attribute
+                        " LEFT OUTER JOIN ( SELECT SUM( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__AMOUNT) + ") AS Expense, " +
+                                                COL_NAME_EXPENSE__CAR_ID + " " +
+                                            " FROM " + TABLE_NAME_EXPENSE +
+                                                " JOIN " + TABLE_NAME_EXPENSECATEGORY + " ON " +
+                                                    sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__EXPENSECATEGORY_ID) + " = " +
+                                                        sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_ROWID) +
+                                            " WHERE " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_GEN_ISACTIVE) + " = 'Y' " +
+                                                " AND " + sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_EXPENSECATEGORY__ISEXCLUDEFROMMILEAGECOST) + " = 'N' " +
+                                                    "mExpenseStatisticsPeriodCondition" +
+                                            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__CAR_ID) + " ) AS TotalMileageExpenses " +
+                                " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) + "=" + sqlConcatTableColumn("TotalMileageExpenses", COL_NAME_EXPENSE__CAR_ID) +
+                        " JOIN ( SELECT MIN (CarMinIndex) AS CarMinIndex, MAX (CarMaxIndex) AS CarMaxIndex, MCarID " +
+                                            " FROM " +
+                                                    "( SELECT MIN( " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + ") AS CarMinIndex, " +
+                                                            "MAX( " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + ") AS CarMaxIndex, " +
+                                                            sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID) + " AS MCarID " +
+                                                    " FROM " + TABLE_NAME_MILEAGE +
+                                                    " WHERE 1=1 " + "mMinIndexStatisticsPeriodCondition" +
+                                                    " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID) +
+                                                    " UNION " +
+                                                    " SELECT MIN( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX) + "),  " +
+                                                            "MAX( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX) + "), " +
+                                                            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) +
+                                                    " FROM " + TABLE_NAME_REFUEL +
+                                                    " WHERE 1=1 " + "mMinIndexStatisticsPeriodCondition" +
+                                                    " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) +
+                                                    " UNION " +
+                                                    " SELECT MIN( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__INDEX) + "),  " +
+                                                            "MAX( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__INDEX) + "), " +
+                                                            sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__CAR_ID) +
+                                                    " FROM " + TABLE_NAME_EXPENSE +
+                                                    " WHERE " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__INDEX) + " IS NOT NULL " +
+                                                            " AND " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__INDEX) + " <> '' " +
+                                                            "mMinIndexStatisticsPeriodCondition" +
+                                                    " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__CAR_ID) + ") " +
+                                            " GROUP BY MCarID " + ") AS CarIndex " +
+                                " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) + "=" + sqlConcatTableColumn("CarIndex", "MCarID") +
+            " WHERE 1=1 ";
     private String mReportSqlName;
     private Bundle mSearchCondition;
 
@@ -1514,14 +1440,6 @@ public class DBReportAdapter extends DBAdapter {
         }
 
         return mDb.rawQuery(reportSql, null);
-    }
-
-    //selects used in charts
-    public static class chartData implements Serializable{
-        public float value; //base value
-        public float value2; //another representation of the base value. for ex. percent
-        public float totalValue;
-        public String label;
     }
 
     public ArrayList<chartData> getMileageByTypeChartData(String[] selectionArgs) {
@@ -2025,6 +1943,14 @@ public class DBReportAdapter extends DBAdapter {
         }
         c.close();
         return retVal;
+    }
+
+    //selects used in charts
+    public static class chartData implements Serializable{
+        public float value; //base value
+        public float value2; //another representation of the base value. for ex. percent
+        public float totalValue;
+        public String label;
     }
 }
 //@formatter:on

@@ -55,8 +55,14 @@ public class MileageViewAdapter extends BaseViewAdapter {
 
         holder.mRecordID = mCursor.getLong(0);
 
-        line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(5) * 1000, false)
+        try {
+            line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(5) * 1000, false)
                 + (mCursor.getLong(14) != 0L ? " (" + Utils.getDaysHoursMinutesFromSec(mCursor.getLong(14)) + ")" : ""));
+        }
+        catch (Exception e) {
+            line1Content = "Error#1! Please contact me at andicar.support@gmail.com";
+        }
+
         try {
             reimbursementRate = new BigDecimal(mCursor.getDouble(12));
         }
@@ -74,7 +80,8 @@ public class MileageViewAdapter extends BaseViewAdapter {
             mileageStr = Utils.numberToString(mCursor.getDouble(8), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH);
         }
 
-        line2Content = String.format(mCursor.getString(2),
+        try {
+            line2Content = String.format(mCursor.getString(2),
                 Utils.numberToString(mCursor.getDouble(6), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH),
                 stopIndexStr,
                 mileageStr,
@@ -83,6 +90,10 @@ public class MileageViewAdapter extends BaseViewAdapter {
                         + " "
                         + Utils.numberToString(reimbursementRate.multiply(new BigDecimal(mCursor.getDouble(8))), true,
                         ConstantValues.DECIMALS_RATES, ConstantValues.ROUNDING_MODE_RATES) + " " + mCursor.getString(11) + ")");
+        }
+        catch (Exception e) {
+            line2Content = "Error#2! Please contact me at andicar.support@gmail.com";
+        }
 
         if (mileageStr.equals("Draft")) {
             line2Content = line2Content.substring(0, line2Content.indexOf("Draft") + "Draft".length());

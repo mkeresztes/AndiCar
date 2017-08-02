@@ -27,13 +27,24 @@ public class ExpenseViewAdapter extends BaseViewAdapter {
         mCursor.moveToPosition(position);
 
         holder.mRecordID = mCursor.getLong(0);
-        line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(4) * 1000, false));
 
-        line2Content = String.format(mCursor.getString(2),
+        try {
+            line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(4) * 1000, false));
+        }
+        catch (Exception e) {
+            line1Content = "Error#1! Please contact me at andicar.support@gmail.com";
+        }
+
+        try {
+            line2Content = String.format(mCursor.getString(2),
                 Utils.numberToString(mCursor.getDouble(5), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
                 Utils.numberToString(mCursor.getDouble(6), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
                 Utils.numberToString(mCursor.getDouble(8), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
                 Utils.numberToString(mCursor.getDouble(7), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH));
+        }
+        catch (Exception e) {
+            line2Content = "Error#2! Please contact me at andicar.support@gmail.com";
+        }
 
         line3Content = mCursor.getString(3);
 

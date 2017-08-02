@@ -59,8 +59,16 @@ public class GPSTrackViewAdapter extends BaseViewAdapter {
         mCursor.moveToPosition(position);
 
         holder.mRecordID = mCursor.getLong(0);
-        line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(7) * 1000, false));
-        line2Content = String.format(mCursor.getString(2),
+
+        try {
+            line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(7) * 1000, false));
+        }
+        catch (Exception e) {
+            line1Content = "Error#1! Please contact me at andicar.support@gmail.com";
+        }
+
+        try {
+            line2Content = String.format(mCursor.getString(2),
                 mCtx.getString(R.string.gps_track_detail_var_1),
                 mCtx.getString(R.string.gps_track_detail_var_2),
                 mCtx.getString(R.string.gps_track_detail_var_3),
@@ -74,6 +82,10 @@ public class GPSTrackViewAdapter extends BaseViewAdapter {
                 mCtx.getString(R.string.gps_track_detail_var_11),
                 mCtx.getString(R.string.gps_track_detail_var_12) + " " + Utils.getTimeString(mCursor.getLong(8)),
                 mCtx.getString(R.string.gps_track_detail_var_13) + " " + Utils.getTimeString(mCursor.getLong(4) - mCursor.getLong(8) - mCursor.getLong(5)));
+        }
+        catch (Exception e) {
+            line2Content = "Error#2! Please contact me at andicar.support@gmail.com";
+        }
         line3Content = mCursor.getString(3);
 
         if (holder.mSecondLine != null) { //three line lists
