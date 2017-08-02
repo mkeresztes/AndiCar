@@ -20,8 +20,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="org.andicar2.activity"
-          android:versionCode="17080000"
-          android:versionName="17.08">
+          android:versionCode="17080200"
+          android:versionName="17.08-02">
 
     <!-- ************************************************************************************************* -->
     <!-- Normal Permissions (https://developer.android.com/guide/topics/security/normal-permissions.html) -->
