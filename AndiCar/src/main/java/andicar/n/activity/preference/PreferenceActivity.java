@@ -502,6 +502,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         SwitchPreference secureBkOnlyWiFiPreference;
         SwitchPreference secureBkSendTrackFilesPreference;
         SwitchPreference secureBkShowNotification;
+        Preference revalidateAccountPreference;
 
         Preference backupPreference;
         ListPreference restorePreference;
@@ -740,6 +741,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             if (mProgress != null && mProgress.isShowing()) {
                 mProgress.hide();
             }
+            Toast.makeText(getActivity(), R.string.gen_done, Toast.LENGTH_SHORT).show();
         }
 
         /*
@@ -809,6 +811,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             secureBkOnlyWiFiPreference = (SwitchPreference) findPreference(getString(R.string.pref_key_secure_backup_only_wifi));
             secureBkShowNotification = (SwitchPreference) findPreference(getString(R.string.pref_key_secure_backup_show_notification));
             secureBkSendTrackFilesPreference = (SwitchPreference) findPreference(getString(R.string.pref_key_secure_backup_send_tracks));
+            revalidateAccountPreference = findPreference(getString(R.string.pref_key_revalidate_google_account));
 
             backupPreference = findPreference(getString(R.string.pref_key_backup_now));
             restorePreference = (ListPreference) findPreference(getString(R.string.pref_key_restore_data));
@@ -1032,6 +1035,28 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 }
             });
 
+            revalidateAccountPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    mProgress = new ProgressDialog(getActivity());
+                    mProgress.setMessage(getResources().getString(R.string.gen_validating_google_account));
+                    mProgress.show();
+                    try {
+                        new SendGMailTask(getActivity(), getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), null),
+                                getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), null),
+                                getResources().getString(R.string.gen_test_email_subject), getResources().getString(R.string.gen_test_email_body), null,
+                                BackupRestorePreferenceFragment.this).execute();
+                    }
+                    catch (Exception e) {
+                        AndiCarCrashReporter.sendCrash(e);
+                        Log.e("AndiCar", e.getMessage(), e);
+                        mProgress.hide();
+                    }
+
+                    return true;
+                }
+            });
+
             if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                 accessToStorageJustAsked = true;
                 ActivityCompat.requestPermissions(this.getActivity(),
@@ -1139,7 +1164,6 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                                 Log.e("AndiCar", e.getMessage(), e);
                                 mProgress.hide();
                             }
-
                         }
                     }
                     break;

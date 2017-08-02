@@ -92,6 +92,7 @@
     <string name="pref_bt_link_description">Automáticamente comenzar el Seguimiento GPS cuando una coneccion Bluetooth al un Automóvil es creada.</string>
 
     <string name="pref_title_google_account">Elija una cuenta de Google</string>
+    <string name="pref_title_revalidate_google_account">Revalidar su cuenta de Google</string>
 
     <string name="pref_show_notification_on_success_title">Mostrar notificación</string>
 

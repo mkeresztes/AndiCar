@@ -61,6 +61,7 @@
     <string name="pref_key_secure_backup_only_wifi">secure_backup_only_wifi</string>
     <string name="pref_key_secure_backup_send_tracks">secure_backup_send_tracks</string>
     <string name="pref_key_secure_backup_show_notification">secure_backup_show_notification</string>
+    <string name="pref_key_revalidate_google_account">revalidate_google_account</string>
     <string name="pref_key_postponed_secure_backupfile">postponed_secure_backupfile</string>
 
     <string name="pref_key_backup_service_enabled">backup_service_enabled</string>

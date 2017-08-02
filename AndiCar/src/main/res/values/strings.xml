@@ -299,6 +299,7 @@
 
     <!--Google translate-->
     <string name="pref_title_google_account">Choose a Google account</string>
+    <string name="pref_title_revalidate_google_account">Revalidate your Google account</string>
 
     <string name="pref_show_notification_on_success_title">Show notification</string>
 

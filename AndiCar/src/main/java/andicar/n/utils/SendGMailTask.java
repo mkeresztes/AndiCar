@@ -252,8 +252,10 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
         try {
             if (debugLogFileWriter != null) {
                 debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" onCancelled(result) called with result:");
-                for (String s : result) {
-                    debugLogFileWriter.append("\n\t").append(s);
+                if (result != null) {
+                    for (String s : result) {
+                        debugLogFileWriter.append("\n\t").append(s);
+                    }
                 }
                 debugLogFileWriter.flush();
                 debugLogFileWriter.close();
@@ -269,22 +271,22 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
         }
     }
 
-    @Override
-    protected void onCancelled() {
-        try {
-            if (debugLogFileWriter != null) {
-                debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" onCancelled called");
-                debugLogFileWriter.flush();
-                debugLogFileWriter.close();
-                debugLogFileWriter = null;
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-        //callback to the listener
-        if (mTaskCompleteListener != null) {
-            mTaskCompleteListener.onCancelled(mLastException);
-        }
-    }
+//    @Override
+//    protected void onCancelled() {
+//        try {
+//            if (debugLogFileWriter != null) {
+//                debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" onCancelled called");
+//                debugLogFileWriter.flush();
+//                debugLogFileWriter.close();
+//                debugLogFileWriter = null;
+//            }
+//        }
+//        catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        //callback to the listener
+//        if (mTaskCompleteListener != null) {
+//            mTaskCompleteListener.onCancelled(mLastException);
+//        }
+//    }
 }

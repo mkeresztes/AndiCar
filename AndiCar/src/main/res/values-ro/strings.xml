@@ -108,6 +108,7 @@
 
     <string name="pref_title_google_account">Selectaţi un cont Google</string>
     <string name="pref_google_account_description">Acest cont se va utiliza pentru trimiterea de emailuri.</string>
+    <string name="pref_title_revalidate_google_account">Revalidare cont Google</string>
 
     <string name="pref_show_notification_on_success_title">Notificare</string>
     <string name="pref_show_notification_on_success_description">Notificare în caz de succes. Indiferent de această opțiune, în caz de eroare se va afișa o notificare.</string>
