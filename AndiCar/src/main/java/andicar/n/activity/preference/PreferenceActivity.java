@@ -601,6 +601,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 secureBkShowNotification.setEnabled(false);
                 secureBkEmailToPreference.setEnabled(false);
                 secureBkSendTrackFilesPreference.setEnabled(false);
+                revalidateAccountPreference.setEnabled(false);
             } else {
                 secureBkPreference.setSummary(R.string.pref_securebackup_description);
 
@@ -624,6 +625,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                         secureBkShowNotification.setEnabled(true);
                         secureBkEmailToPreference.setEnabled(true);
                         secureBkSendTrackFilesPreference.setEnabled(true);
+                        revalidateAccountPreference.setEnabled(true);
                     } else {
                         SharedPreferences.Editor editor = getPreferenceManager().getSharedPreferences().edit();
                         editor.putString(getString(R.string.pref_key_google_account), null);
@@ -634,6 +636,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                         secureBkShowNotification.setEnabled(false);
                         secureBkEmailToPreference.setEnabled(false);
                         secureBkSendTrackFilesPreference.setEnabled(false);
+                        revalidateAccountPreference.setEnabled(false);
                     }
                 }
             }
@@ -973,6 +976,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                         secureBkOnlyWiFiPreference.setEnabled(true);
                         secureBkShowNotification.setEnabled(true);
                         secureBkSendTrackFilesPreference.setEnabled(true);
+                        revalidateAccountPreference.setEnabled(true);
                     } else {
                         SharedPreferences.Editor editor = BackupRestorePreferenceFragment.this.getPreferenceManager().getSharedPreferences().edit();
                         editor.putString(BackupRestorePreferenceFragment.this.getString(R.string.pref_key_google_account), null);
@@ -983,6 +987,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                         secureBkOnlyWiFiPreference.setEnabled(false);
                         secureBkShowNotification.setEnabled(false);
                         secureBkSendTrackFilesPreference.setEnabled(false);
+                        revalidateAccountPreference.setEnabled(false);
                     }
                     return true;
                 }
