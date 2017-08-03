@@ -581,7 +581,15 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                         e.putBoolean(getString(R.string.pref_key_backup_service_show_notification), true);
                         e.apply();
                         backupService.setChecked(true);
+                        try {
+                            ServiceStarter.startServices(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
+                        }
+                        catch (Exception ex) {
+                            AndiCarCrashReporter.sendCrash(ex);
+                            Log.d(LogTag, ex.getMessage(), ex);
+                        }
                         backupServiceShowNotification.setChecked(true);
+                        BackupRestorePreferenceFragment.this.setBackupServiceScheduleSummary(null);
                     }
                     backupServiceSchedule.setEnabled(true);
                     backupServiceShowNotification.setEnabled(true);
