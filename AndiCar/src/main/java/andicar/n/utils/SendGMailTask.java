@@ -200,7 +200,8 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
         //encode in base64url string
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         mimeMessage.writeTo(bytes);
-        String encodedEmail = Base64.encodeBase64URLSafeString(bytes.toByteArray());
+//        String encodedEmail = Base64.encodeBase64URLSafeString(bytes.toByteArray());
+        String encodedEmail = Base64.encodeBase64String(bytes.toByteArray());
 
         //create the message
         Message message = new Message();
