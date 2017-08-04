@@ -35,22 +35,6 @@ public class ServiceStarter extends BroadcastReceiver {
 
     private static final String LOG_TAG = "ServiceStarter";
 
-    @Override
-    public void onReceive(Context context, Intent rIntent) {
-        try {
-            if (rIntent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
-                //start services
-                startServices(context, ConstantValues.SERVICE_STARTER_START_ALL);
-            }
-            else if (rIntent.getAction().equals(Intent.ACTION_DATE_CHANGED)) {
-                startServices(context, ConstantValues.SERVICE_STARTER_START_ALL);
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void startServices(Context context, String whatService) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent;
@@ -72,6 +56,22 @@ public class ServiceStarter extends BroadcastReceiver {
             intent.putExtra(ConstantValues.BACKUP_SERVICE_OPERATION, ConstantValues.BACKUP_SERVICE_OPERATION_SET_NEXT_RUN);
             pIntent = PendingIntent.getService(context, ConstantValues.BACKUP_SERVICE_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_DAY, pIntent);
+            Log.i(LOG_TAG, "Done");
+        }
+    }
+
+    @Override
+    public void onReceive(Context context, Intent rIntent) {
+        try {
+            if (rIntent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)
+                    || rIntent.getAction().equals(Intent.ACTION_DATE_CHANGED)
+                    || rIntent.getAction().equals(Intent.ACTION_MY_PACKAGE_REPLACED)) {
+                //start services
+                startServices(context, ConstantValues.SERVICE_STARTER_START_ALL);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

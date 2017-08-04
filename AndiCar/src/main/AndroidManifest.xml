@@ -20,8 +20,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="org.andicar2.activity"
-          android:versionCode="17080300"
-          android:versionName="17.08-03">
+          android:versionCode="17080400"
+          android:versionName="17.08-04">
 
     <!-- ************************************************************************************************* -->
     <!-- Normal Permissions (https://developer.android.com/guide/topics/security/normal-permissions.html) -->
@@ -232,14 +232,21 @@
             </intent-filter>
         </service>
 
-        <receiver android:name="andicar.n.broadcastreceiver.ServiceStarter">
+        <receiver
+            android:name="andicar.n.broadcastreceiver.ServiceStarter"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.DATE_CHANGED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+
+                <data android:scheme="package"/>
             </intent-filter>
         </receiver>
 
-        <receiver android:name="andicar.n.broadcastreceiver.BTConnectionListener">
+        <receiver
+            android:name="andicar.n.broadcastreceiver.BTConnectionListener"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.bluetooth.device.action.ACL_CONNECTED"/>
                 <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED"/>
