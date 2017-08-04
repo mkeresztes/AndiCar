@@ -34,6 +34,7 @@ import com.crashlytics.android.core.CrashlyticsCore;
 
 import java.util.Calendar;
 
+import andicar.n.broadcastreceiver.ServiceStarter;
 import andicar.n.utils.ConstantValues;
 import io.fabric.sdk.android.Fabric;
 
@@ -82,6 +83,23 @@ public class AndiCar extends MultiDexApplication {
         ConstantValues.LOG_FOLDER = ConstantValues.BASE_FOLDER + "/" + ConstantValues.LOG_FOLDER_NAME + "/";
 
         initPreferences();
+
+        //check if the app was updated
+        int appVersion = 0;
+
+        try {
+            appVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+            if (appPreferences.getInt("appVersionCode", 0) != appVersion) {
+                ServiceStarter.startServices(getApplicationContext(), ConstantValues.SERVICE_STARTER_START_ALL);
+                SharedPreferences.Editor e = appPreferences.edit();
+                e.putInt("appVersionCode", appVersion);
+                e.apply();
+            }
+
+        }
+        catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
     }
 
