@@ -80,7 +80,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
      * @param attachments the list of attachments if any
      * @param listener    a callback listener for task cancellation / execution completed
      */
-    public SendGMailTask(Context ctx, String fromAccount, String emailTo, String subject, String message, ArrayList<String> attachments, OnAsyncTaskListener listener) {
+    public SendGMailTask(Context ctx, String fromAccount, String emailTo, String subject, String message, ArrayList<String> attachments, OnAsyncTaskListener listener) throws Exception {
         try {
             FileUtils.createFolderIfNotExists(ctx, ConstantValues.LOG_FOLDER);
             File debugLogFile = new File(ConstantValues.LOG_FOLDER + "SendGMailTask.log");
@@ -104,7 +104,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
             mAttachments = attachments;
             mTaskCompleteListener = listener;
         }
-        catch (IOException e) {
+        catch (Exception e) {
             if (debugLogFileWriter != null) {
                 try {
                     debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" An error occured: ").append(e.getMessage()).append(Utils.getStackTrace(e));
@@ -113,6 +113,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
                 catch (IOException ignored) {
                 }
             }
+            throw e;
         }
     }
 

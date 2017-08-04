@@ -49,11 +49,11 @@ import andicar.n.utils.notification.AndiCarNotification;
 public class SecureBackupService extends Service implements OnAsyncTaskListener {
     private static final String LogTag = "AndiCar SecureBackup";
     private static final int RETRY_COUNT_LIMIT = 5;
+    private static int retryCount = 0;
     private final SharedPreferences mPreferences;
+    private final ArrayList<String> mFilesToSend = new ArrayList<>();
     private String zippedBk;
     private FileWriter debugLogFileWriter;
-    private static int retryCount = 0;
-    private final ArrayList<String> mFilesToSend = new ArrayList<>();
 
     public SecureBackupService() {
         mPreferences = AndiCar.getDefaultSharedPreferences();
@@ -174,8 +174,17 @@ public class SecureBackupService extends Service implements OnAsyncTaskListener 
             debugLogFileWriter.flush();
             return START_STICKY;
         }
-        catch (IOException e) {
-            e.printStackTrace();
+        catch (Exception e) {
+            try {
+                debugLogFileWriter.append("\n").append("====Exception Catches on onStartCommand() method====");
+                debugLogFileWriter.append("\n").append("====Stack Trace====");
+                debugLogFileWriter.append("\n").append(Utils.getStackTrace(e));
+                debugLogFileWriter.append("\n").append("=======End Stack Trace=======");
+                debugLogFileWriter.flush();
+                Utils.showReportableErrorDialog(this, null, e.getMessage(), e, true);
+            }
+            catch (IOException ignored) {
+            }
         }
         return START_NOT_STICKY;
     }
@@ -281,8 +290,17 @@ public class SecureBackupService extends Service implements OnAsyncTaskListener 
             debugLogFileWriter.flush();
             stopSelf();
         }
-        catch (IOException e1) {
-            e1.printStackTrace();
+        catch (Exception e1) {
+            try {
+                debugLogFileWriter.append("\n").append("====Exception Catches on onCancelled() method====");
+                debugLogFileWriter.append("\n").append("====Stack Trace====");
+                debugLogFileWriter.append("\n").append(Utils.getStackTrace(e1));
+                debugLogFileWriter.append("\n").append("=======End Stack Trace=======");
+                debugLogFileWriter.flush();
+            }
+            catch (IOException e2) {
+                e2.printStackTrace();
+            }
         }
     }
 
