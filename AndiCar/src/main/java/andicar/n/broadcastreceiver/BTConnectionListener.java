@@ -31,11 +31,17 @@ import android.util.Log;
 import org.andicar2.activity.AndiCar;
 import org.andicar2.activity.R;
 
+import java.io.File;
+import java.io.FileWriter;
+
 import andicar.n.activity.dialogs.GPSTrackControllerDialogActivity;
 import andicar.n.activity.fragment.BaseEditFragment;
 import andicar.n.activity.fragment.GPSTrackControllerFragment;
 import andicar.n.persistence.DBAdapter;
 import andicar.n.service.GPSTrackService;
+import andicar.n.utils.ConstantValues;
+import andicar.n.utils.FileUtils;
+import andicar.n.utils.Utils;
 import andicar.n.utils.notification.AndiCarNotification;
 
 public class BTConnectionListener extends BroadcastReceiver {
@@ -50,6 +56,17 @@ public class BTConnectionListener extends BroadcastReceiver {
         Log.d(LOG_TAG, "onReceive: BTConnectionReceiver started");
 
         try {
+            try {
+                FileUtils.createFolderIfNotExists(context, ConstantValues.LOG_FOLDER);
+                File debugLogFile = new File(ConstantValues.LOG_FOLDER + "BTCBroadcast.log");
+                FileWriter debugLogFileWriter = new FileWriter(debugLogFile, true);
+                debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" onReceive called for: ").append(intent.getAction());
+                debugLogFileWriter.flush();
+                debugLogFileWriter.close();
+            }
+            catch (Exception ignored) {
+            }
+
             DBAdapter mDb = new DBAdapter(context);
 
             IBinder binder = peekService(context, new Intent(context, GPSTrackService.class));

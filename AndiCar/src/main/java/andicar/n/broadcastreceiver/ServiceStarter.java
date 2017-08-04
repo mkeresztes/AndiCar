@@ -26,14 +26,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileWriter;
+
 import andicar.n.service.BackupService;
 import andicar.n.service.ToDoManagementService;
 import andicar.n.service.ToDoNotificationService;
 import andicar.n.utils.ConstantValues;
+import andicar.n.utils.FileUtils;
+import andicar.n.utils.Utils;
 
 public class ServiceStarter extends BroadcastReceiver {
 
     private static final String LOG_TAG = "ServiceStarter";
+
 
     public static void startServices(Context context, String whatService) {
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -63,6 +69,17 @@ public class ServiceStarter extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent rIntent) {
         try {
+            try {
+                FileUtils.createFolderIfNotExists(context, ConstantValues.LOG_FOLDER);
+                File debugLogFile = new File(ConstantValues.LOG_FOLDER + "SSBroadcast.log");
+                FileWriter debugLogFileWriter = new FileWriter(debugLogFile, true);
+                debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" onReceive called for: ").append(rIntent.getAction());
+                debugLogFileWriter.flush();
+                debugLogFileWriter.close();
+            }
+            catch (Exception ignored) {
+            }
+
             if (rIntent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)
                     || rIntent.getAction().equals(Intent.ACTION_DATE_CHANGED)
                     || rIntent.getAction().equals(Intent.ACTION_MY_PACKAGE_REPLACED)) {
