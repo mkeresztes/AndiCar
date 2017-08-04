@@ -1061,9 +1061,14 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                                 BackupRestorePreferenceFragment.this).execute();
                     }
                     catch (Exception e) {
-                        AndiCarCrashReporter.sendCrash(e);
-                        Log.e("AndiCar", e.getMessage(), e);
                         mProgress.hide();
+                        if (!(e instanceof GoogleAuthException)) {
+                            AndiCarCrashReporter.sendCrash(e);
+                            Log.e("AndiCar", e.getMessage(), e);
+                        }
+                        else {
+                            Utils.showReportableErrorDialog(getActivity(), null, e.getMessage(), e, false);
+                        }
                     }
 
                     return true;
@@ -1173,9 +1178,14 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                                         getResources().getString(R.string.gen_test_email_subject), getResources().getString(R.string.gen_test_email_body), null,
                                         BackupRestorePreferenceFragment.this).execute();
                             } catch (Exception e) {
-                                AndiCarCrashReporter.sendCrash(e);
-                                Log.e("AndiCar", e.getMessage(), e);
                                 mProgress.hide();
+                                if (!(e instanceof GoogleAuthException)) {
+                                    AndiCarCrashReporter.sendCrash(e);
+                                    Log.e("AndiCar", e.getMessage(), e);
+                                }
+                                else {
+                                    Utils.showReportableErrorDialog(getActivity(), null, e.getMessage(), e, false);
+                                }
                             }
                         }
                     }
