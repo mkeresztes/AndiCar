@@ -27,6 +27,7 @@ import android.support.v7.app.NotificationCompat;
 import org.andicar2.activity.R;
 
 import andicar.n.activity.dialogs.GPSTrackControllerDialogActivity;
+import andicar.n.service.GPSTrackService;
 
 /**
  * Created by Miklos Keresztes on 16.03.2017.
@@ -44,19 +45,19 @@ class GPSTrackNotificationBuilder extends NotificationCompat.Builder {
             this.setTicker(context.getString(R.string.gps_track_service_track_in_progress_message));
             this.setWhen(System.currentTimeMillis());
 
-//            Intent i = new Intent(context, GPSTrackService.class);
-//            i.setAction(GPSTrackService.ACTION_PAUSE);
-//            PendingIntent pi = PendingIntent.getService(context, 0, i, 0);
-//            NotificationCompat.Action actionPause = new NotificationCompat.Action.Builder(R.drawable.ic_button_gps_pause_black_24dp_pad4dp,
-//                    context.getString(R.string.gps_track_pause), pi).build();
-//
-//            i.setAction(GPSTrackService.ACTION_STOP);
-//            pi = PendingIntent.getService(context, 0, i, 0);
-//            NotificationCompat.Action actionStop = new NotificationCompat.Action.Builder(R.drawable.ic_button_gps_stop_black_24dp_pad4dp,
-//                    context.getString(R.string.gps_track_stop), pi).build();
-//
-//            this.addAction(actionPause);
-//            this.addAction(actionStop);
+            Intent i = new Intent(context, GPSTrackService.class);
+            i.setAction(GPSTrackService.ACTION_PAUSE);
+            PendingIntent pi = PendingIntent.getService(context, 0, i, 0);
+            NotificationCompat.Action actionPause = new NotificationCompat.Action.Builder(R.drawable.ic_button_gps_pause_black_24dp_pad4dp,
+                    context.getString(R.string.gps_track_pause), pi).build();
+
+            i.setAction(GPSTrackService.ACTION_STOP);
+            pi = PendingIntent.getService(context, 0, i, 0);
+            NotificationCompat.Action actionStop = new NotificationCompat.Action.Builder(R.drawable.ic_button_gps_stop_black_24dp_pad4dp,
+                    context.getString(R.string.gps_track_stop), pi).build();
+
+            this.addAction(actionPause);
+            this.addAction(actionStop);
         }
         else if (what == AndiCarNotification.NOTIF_GPS_PAUSED_ID) {
             this.setContentTitle(context.getText(R.string.gps_track_service_tracking_paused_title));
@@ -65,19 +66,19 @@ class GPSTrackNotificationBuilder extends NotificationCompat.Builder {
             this.setTicker(context.getString(R.string.gps_track_service_tracking_paused_message));
             this.setWhen(System.currentTimeMillis());
 
-//            Intent i = new Intent(context, GPSTrackService.class);
-//            i.setAction(GPSTrackService.ACTION_RESUME);
-//            PendingIntent pi = PendingIntent.getService(context, 0, i, 0);
-//            NotificationCompat.Action actionResume = new NotificationCompat.Action.Builder(R.drawable.ic_button_gps_play_black_24dp_pad4dp,
-//                    context.getString(R.string.gps_track_resume), pi).build();
-//
-//            i.setAction(GPSTrackService.ACTION_STOP);
-//            pi = PendingIntent.getService(context, 0, i, 0);
-//            NotificationCompat.Action actionStop = new NotificationCompat.Action.Builder(R.drawable.ic_button_gps_stop_black_24dp_pad4dp,
-//                    context.getString(R.string.gps_track_stop), pi).build();
-//
-//            this.addAction(actionResume);
-//            this.addAction(actionStop);
+            Intent i = new Intent(context, GPSTrackService.class);
+            i.setAction(GPSTrackService.ACTION_RESUME);
+            PendingIntent pi = PendingIntent.getService(context, 0, i, 0);
+            NotificationCompat.Action actionResume = new NotificationCompat.Action.Builder(R.drawable.ic_button_gps_play_black_24dp_pad4dp,
+                    context.getString(R.string.gps_track_resume), pi).build();
+
+            i.setAction(GPSTrackService.ACTION_STOP);
+            pi = PendingIntent.getService(context, 0, i, 0);
+            NotificationCompat.Action actionStop = new NotificationCompat.Action.Builder(R.drawable.ic_button_gps_stop_black_24dp_pad4dp,
+                    context.getString(R.string.gps_track_stop), pi).build();
+
+            this.addAction(actionResume);
+            this.addAction(actionStop);
         }
         else if (what == AndiCarNotification.NOTIF_GPS_DISABLED_ID) {
             this.setContentTitle(context.getText(R.string.gps_track_service_auto_shut_down_title));
