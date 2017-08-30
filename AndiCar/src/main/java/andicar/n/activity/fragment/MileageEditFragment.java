@@ -367,8 +367,12 @@ public class MileageEditFragment extends BaseEditFragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (editable.toString().length() > 0) {
-                    mUserInputValue = new BigDecimal(editable.toString());
+                if (editable.toString().trim().length() > 0) {
+                    try {
+                        mUserInputValue = new BigDecimal(editable.toString().trim());
+                    } catch (Exception ignored) {
+                        mUserInputValue = new BigDecimal("0");
+                    }
                 }
                 else {
                     mUserInputValue = new BigDecimal("0");
