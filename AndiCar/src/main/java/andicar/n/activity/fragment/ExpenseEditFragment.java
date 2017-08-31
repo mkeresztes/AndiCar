@@ -491,19 +491,38 @@ public class ExpenseEditFragment extends BaseEditFragment {
         if (etIndex.getText().toString().length() > 0) {
             data.put(DBAdapter.COL_NAME_EXPENSE__INDEX, etIndex.getText().toString());
         }
+        else {
+            data.put(DBAdapter.COL_NAME_EXPENSE__INDEX, (String) null);
+        }
 
         //        data.put( MainDbAdapter.EXPENSE_COL_AMOUNTENTERED_NAME, etUserInput.getText().toString());
         if (mEnteredAmount != null) {
             data.put(DBAdapter.COL_NAME_EXPENSE__AMOUNTENTERED, mEnteredAmount.toString());
         }
+        else {
+            data.put(DBAdapter.COL_NAME_EXPENSE__AMOUNTENTERED, (String) null);
+        }
+
         if (mEnteredPrice != null) {
             data.put(DBAdapter.COL_NAME_EXPENSE__PRICEENTERED, mEnteredPrice.toString());
         }
+        else {
+            data.put(DBAdapter.COL_NAME_EXPENSE__PRICEENTERED, (String) null);
+        }
+
         if (etQuantity.getText().toString().trim().length() > 0) {
             data.put(DBAdapter.COL_NAME_EXPENSE__QUANTITY, etQuantity.getText().toString());
         }
+        else {
+            data.put(DBAdapter.COL_NAME_EXPENSE__QUANTITY, (String) null);
+        }
+
+
         if (mUOMId != -1) {
             data.put(DBAdapter.COL_NAME_EXPENSE__UOM_ID, mUOMId);
+        }
+        else {
+            data.put(DBAdapter.COL_NAME_EXPENSE__UOM_ID, (Long) null);
         }
 
         data.put(DBAdapter.COL_NAME_EXPENSE__CURRENCYENTERED_ID, mCurrencyId);
@@ -530,6 +549,10 @@ public class ExpenseEditFragment extends BaseEditFragment {
             if (mEnteredPrice != null) {
                 data.put(DBAdapter.COL_NAME_EXPENSE__PRICE, mEnteredPrice.toString());
             }
+            else {
+                data.put(DBAdapter.COL_NAME_EXPENSE__PRICE, (String) null);
+            }
+
             data.put(DBAdapter.COL_NAME_EXPENSE__CURRENCYRATE, "1");
         }
         else {
@@ -537,6 +560,10 @@ public class ExpenseEditFragment extends BaseEditFragment {
             if (mConvertedPrice != null) {
                 data.put(DBAdapter.COL_NAME_EXPENSE__PRICE, mConvertedPrice.toString());
             }
+            else {
+                data.put(DBAdapter.COL_NAME_EXPENSE__PRICE, (String) null);
+            }
+
             data.put(DBAdapter.COL_NAME_EXPENSE__CURRENCYRATE, mConversionRate.toString());
             analyticsParams.putInt(ConstantValues.ANALYTICS_IS_MULTI_CURRENCY, 1);
         }
@@ -567,9 +594,8 @@ public class ExpenseEditFragment extends BaseEditFragment {
             }
 
             if (acAddress.getText().toString().length() > 0) {
-                selection = "UPPER (" + DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS + ") = ? AND " + DBAdapter.COL_NAME_BPARTNERLOCATION__BPARTNER_ID
-                        + " = ?";
                 String[] selectionArgs2 = {acAddress.getText().toString().toUpperCase(), Long.toString(mBPartnerId)};
+                selection = "UPPER (" + DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS + ") = ? AND " + DBAdapter.COL_NAME_BPARTNERLOCATION__BPARTNER_ID + " = ?";
                 c = mDbAdapter.query(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_LIST_GEN_ROWID_NAME, selection, selectionArgs2,
                         null);
                 String addressIdStr = null;
