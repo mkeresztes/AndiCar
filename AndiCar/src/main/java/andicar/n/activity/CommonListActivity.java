@@ -19,18 +19,23 @@
 
 package andicar.n.activity;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -104,6 +109,7 @@ public class CommonListActivity extends AppCompatActivity
     private static final String LAST_SELECTED_ITEM_ID_KEY = "LastSelectedItemId";
     private static final String WHERE_CONDITION_FOR_DB_KEY = "WhereConditionsForFB";
     private static final String WHERE_CONDITION_FOR_SEARCH_INIT_KEY = "WhereConditionsForSearchInit";
+    private final Handler handler;
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -111,22 +117,38 @@ public class CommonListActivity extends AppCompatActivity
     private boolean isTwoPane;
     private boolean isShowSearchMenu;
     private boolean isSharable;
-
     private DBReportAdapter mReportDb;
     private Cursor mCursor;
-
     private int mScrollToPosition;
     private int mActivityType;
     private int mReportFormat;
-
     private long mLastSelectedItemId;
-
-
     private Bundle mWhereConditionsForDB = null; //to be send for sql where
     private Bundle mWhereConditionsForSearchInit = null; //to be send for search fields initialisation
     private BaseViewAdapter mRecyclerViewAdapter;
     private RecyclerView mRecyclerView;
     private ProgressDialog progressDialog;
+
+    {
+        handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                try {
+                    progressDialog.dismiss();
+                    Toast toast;
+                    if (msg.peekData() == null) {
+                        toast = Toast.makeText(CommonListActivity.this, getString(msg.what), Toast.LENGTH_LONG);
+                    }
+                    else {
+                        toast = Toast.makeText(CommonListActivity.this, msg.peekData().getString("ErrorMsg"), Toast.LENGTH_LONG);
+                    }
+                    toast.show();
+                }
+                catch (Exception ignored) {
+                }
+            }
+        };
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -242,6 +264,21 @@ public class CommonListActivity extends AppCompatActivity
         isTwoPane = findViewById(R.id.item_detail_container) != null;
     }
 
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//
+//        if (mCursor != null && !mCursor.isClosed()) {
+//            mCursor.close();
+//            mCursor = null;
+//        }
+//
+//        if (mReportDb != null) {
+//            mReportDb.close();
+//            mReportDb = null;
+//        }
+//    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putBundle(WHERE_CONDITION_FOR_DB_KEY, mWhereConditionsForDB);
@@ -268,21 +305,6 @@ public class CommonListActivity extends AppCompatActivity
             mReportDb = null;
         }
     }
-
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//
-//        if (mCursor != null && !mCursor.isClosed()) {
-//            mCursor.close();
-//            mCursor = null;
-//        }
-//
-//        if (mReportDb != null) {
-//            mReportDb.close();
-//            mReportDb = null;
-//        }
-//    }
 
     @Override
     protected void onResume() {
@@ -604,15 +626,35 @@ public class CommonListActivity extends AppCompatActivity
                 Toast.makeText(this, "Nothing to share", Toast.LENGTH_SHORT).show();
             }
             else {
-                FragmentManager fm = getSupportFragmentManager();
-                ShareDialogFragment shareDialog = new ShareDialogFragment();
-                shareDialog.show(fm, "fragment_share_dialog");
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ConstantValues.REQUEST_ACCESS_EXTERNAL_STORAGE);
+                }
+                else {
+                    showShareDialog();
+                }
             }
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void showShareDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        ShareDialogFragment shareDialog = new ShareDialogFragment();
+        shareDialog.show(fm, "fragment_share_dialog");
+    }
+
+    //returns from asking permission to access external storage for sharing reports
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == ConstantValues.REQUEST_ACCESS_EXTERNAL_STORAGE) {
+            if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, R.string.error_070, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 
     @Override
     public void onFinishSearchDialog(Bundle searchParams) {
@@ -919,29 +961,6 @@ public class CommonListActivity extends AppCompatActivity
         progressDialog = ProgressDialog.show(this, "", getString(R.string.report_creation_in_progress_message), true);
         Thread thread = new Thread(this);
         thread.start();
-    }
-
-    private final Handler handler;
-
-    {
-        handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                try {
-                    progressDialog.dismiss();
-                    Toast toast;
-                    if (msg.peekData() == null) {
-                        toast = Toast.makeText(CommonListActivity.this, getString(msg.what), Toast.LENGTH_LONG);
-                    }
-                    else {
-                        toast = Toast.makeText(CommonListActivity.this, msg.peekData().getString("ErrorMsg"), Toast.LENGTH_LONG);
-                    }
-                    toast.show();
-                }
-                catch (Exception ignored) {
-                }
-            }
-        };
     }
 
     private void createReport() {
