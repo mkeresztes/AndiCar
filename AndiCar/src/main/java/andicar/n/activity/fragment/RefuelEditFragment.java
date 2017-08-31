@@ -109,13 +109,6 @@ public class RefuelEditFragment extends BaseEditFragment {
     private BigDecimal mAmountConverted = null;
     private BigDecimal mUOMVolumeConversionRate = null;
     private BigDecimal mBaseUOMQty = null;
-    private BigDecimal mIndex = null;
-    private BigDecimal mQuantityEntered = null;
-    private BigDecimal mQuantityBaseUOM = null;
-    private boolean mIsFullRefuel = false;
-    private ArrayAdapter<String> mAddressAdapter;
-    private ArrayAdapter<String> mBPartnerAdapter;
-
     private final TextWatcher textWatcher = new TextWatcher() {
 
         public void beforeTextChanged(CharSequence cs, int i, int i1, int i2) {
@@ -143,6 +136,12 @@ public class RefuelEditFragment extends BaseEditFragment {
             calculatePriceAmount();
         }
     };
+    private BigDecimal mIndex = null;
+    private BigDecimal mQuantityEntered = null;
+    private BigDecimal mQuantityBaseUOM = null;
+    private boolean mIsFullRefuel = false;
+    private ArrayAdapter<String> mAddressAdapter;
+    private ArrayAdapter<String> mBPartnerAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -438,7 +437,7 @@ public class RefuelEditFragment extends BaseEditFragment {
     @SuppressLint("SetTextI18n")
     protected void showValuesInUI() {
         etIndex.setText(Utils.numberToString(mIndex, false, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH));
-        etQuantity.setText(Utils.numberToString(mQuantityEntered, false, ConstantValues.DECIMALS_QUANTITY, ConstantValues.ROUNDING_MODE_QUANTITY));
+        etQuantity.setText(Utils.numberToString(mQuantityEntered, false, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME));
         etUserInput.setText(Utils.numberToString(mPriceEntered, false, ConstantValues.DECIMALS_PRICE, ConstantValues.ROUNDING_MODE_PRICE));
         etConversionRate.setText(Utils.numberToString(mCurrencyConversionRate, false, ConstantValues.DECIMALS_PRICE, ConstantValues.ROUNDING_MODE_PRICE));
         if (mBPartnerId >= 0) {
@@ -455,8 +454,7 @@ public class RefuelEditFragment extends BaseEditFragment {
         }
 
         if (mCarDefaultUOMVolumeId != mUOMVolumeId) {
-            tvBaseUOMQtyValue.setText(Utils.numberToString(mQuantityBaseUOM, true, ConstantValues.DECIMALS_QUANTITY,
-                    ConstantValues.ROUNDING_MODE_QUANTITY) + " " + mCarDefaultUOMVolumeCode);
+            tvBaseUOMQtyValue.setText(Utils.numberToString(mQuantityBaseUOM, true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " " + mCarDefaultUOMVolumeCode);
             setBaseUOMQtyZoneVisibility(true);
         }
 
@@ -878,7 +876,7 @@ public class RefuelEditFragment extends BaseEditFragment {
             try {
                 mBaseUOMQty = (new BigDecimal(qtyStr)).multiply(mUOMVolumeConversionRate);
 
-                tvBaseUOMQtyValue.setText(Utils.numberToString(mBaseUOMQty, true, ConstantValues.DECIMALS_QUANTITY, ConstantValues.ROUNDING_MODE_QUANTITY) + " " + mCarDefaultUOMVolumeCode);
+                tvBaseUOMQtyValue.setText(Utils.numberToString(mBaseUOMQty, true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " " + mCarDefaultUOMVolumeCode);
             }
             catch (NumberFormatException ignored) {
             }

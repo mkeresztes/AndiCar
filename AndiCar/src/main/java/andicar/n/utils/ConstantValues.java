@@ -61,8 +61,8 @@ public class ConstantValues {
     public static final String SERVICE_STARTER_START_ALL = "All";
     public static final String SERVICE_STARTER_START_BACKUP_SERVICE = "BackupService";
     public static final String SERVICE_STARTER_START_TODO_MANAGEMENT_SERVICE = "ToDoNotificationService";
-    public static final int DECIMALS_QUANTITY = 2;
-    public static final RoundingMode ROUNDING_MODE_QUANTITY = RoundingMode.HALF_UP;
+    //    public static final int DECIMALS_QUANTITY = 2;
+//    public static final RoundingMode ROUNDING_MODE_QUANTITY = RoundingMode.HALF_UP;
     public static final int DECIMALS_LENGTH = 2;
     public static final RoundingMode ROUNDING_MODE_LENGTH = RoundingMode.HALF_UP;
     public static final int DECIMALS_AMOUNT = 2;
@@ -73,7 +73,7 @@ public class ConstantValues {
     public static final RoundingMode ROUNDING_MODE_PRICE = RoundingMode.HALF_UP;
     public static final String DATE_DECODE_TO_ZERO = "0";
     public static final RoundingMode ROUNDING_MODE_VOLUME = RoundingMode.HALF_UP;
-    public static final int DECIMALS_VOLUME = 2;
+    public static final int DECIMALS_VOLUME = 3;
     public static final RoundingMode ROUNDING_MODE_FUEL_EFF = RoundingMode.HALF_UP;
     public static final int DECIMALS_FUEL_EFF = 2;
 
@@ -88,6 +88,13 @@ public class ConstantValues {
     public static final String UOM_VOLUME_TYPE_CODE = "V";
     public static final String UOM_OTHER_TYPE_CODE = "O";
     public static final String IS_INITIALIZATION_IN_PROGRESS_TAG = "InitializationInProgress";
+    //showing or not the debug info about the screen size
+    public static final boolean DEBUG_IS_SHOW_INFO_IN_FRAGMENTS = false;
+    public static final String ANALYTICS_IS_MULTI_CURRENCY = "MultiCurrencyUsed";
+    public static final String ANALYTICS_IS_TEMPLATE_USED = "TemplateUsed";
+    public static final String ANALYTICS_IS_CREATE_MILEAGE = "CreateMileage";
+    public static final String ANALYTICS_IS_FROM_BT_CONNECTION = "FromBTConnection";
+    public static final String ANALYTICS_IS_MULTI_UOM = "MultiUOMUsed";
     public static String BASE_FOLDER;
     public static String REPORT_FOLDER;
     public static String BACKUP_FOLDER;
@@ -99,10 +106,6 @@ public class ConstantValues {
     public static String TRACK_FOLDER_NAME = "gpstrack";
     public static String TEMP_FOLDER_NAME = "temp";
     public static String LOG_FOLDER_NAME = "log";
-
-    //showing or not the debug info about the screen size
-    public static final boolean DEBUG_IS_SHOW_INFO_IN_FRAGMENTS = false;
-
     //for the colors see https://material.io/guidelines/style/color.html#color-color-palette
     public static ArrayList<Integer> CHART_COLORS = new ArrayList<Integer>() {{
         add(Color.parseColor("#F44336")); //red:500
@@ -116,10 +119,4 @@ public class ConstantValues {
         add(Color.parseColor("#8BC34A")); //light green:500
         add(Color.parseColor("#03A9F4")); //light blue:500
     }};
-
-    public static final String ANALYTICS_IS_MULTI_CURRENCY = "MultiCurrencyUsed";
-    public static final String ANALYTICS_IS_TEMPLATE_USED = "TemplateUsed";
-    public static final String ANALYTICS_IS_CREATE_MILEAGE = "CreateMileage";
-    public static final String ANALYTICS_IS_FROM_BT_CONNECTION = "FromBTConnection";
-    public static final String ANALYTICS_IS_MULTI_UOM = "MultiUOMUsed";
 }

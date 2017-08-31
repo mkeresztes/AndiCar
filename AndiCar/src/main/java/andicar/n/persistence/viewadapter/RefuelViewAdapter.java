@@ -77,8 +77,8 @@ public class RefuelViewAdapter extends BaseViewAdapter {
 
         try {
             line2Content = String.format(mCursor.getString(2),
-                Utils.numberToString(mCursor.getDouble(5), true, ConstantValues.DECIMALS_QUANTITY, ConstantValues.ROUNDING_MODE_QUANTITY),
-                Utils.numberToString(mCursor.getDouble(6), true, ConstantValues.DECIMALS_QUANTITY, ConstantValues.ROUNDING_MODE_QUANTITY),
+                    Utils.numberToString(mCursor.getDouble(5), true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME),
+                    Utils.numberToString(mCursor.getDouble(6), true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME),
                 Utils.numberToString(mCursor.getDouble(7), true, ConstantValues.DECIMALS_PRICE, ConstantValues.ROUNDING_MODE_PRICE),
                 Utils.numberToString(mCursor.getDouble(8), true, ConstantValues.DECIMALS_PRICE, ConstantValues.ROUNDING_MODE_PRICE),
                 Utils.numberToString(mCursor.getDouble(9), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
