@@ -1044,13 +1044,13 @@ public class CommonListActivity extends AppCompatActivity
             return;
         }
 
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-        emailIntent.setType("text/html");
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, " AndiCar report " + reportTitle + (mReportFormat == 0 ? ".csv" : ".html"));
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Sent by AndiCar (http://www.andicar.org)");
-        emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + ConstantValues.REPORT_FOLDER + reportFileName));
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/html");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, " AndiCar report " + reportTitle + (mReportFormat == 0 ? ".csv" : ".html"));
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Sent by AndiCar (http://www.andicar.org)");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + ConstantValues.REPORT_FOLDER + reportFileName));
         try {
-            startActivity(Intent.createChooser(emailIntent, getString(R.string.gen_share)));
+            startActivity(Intent.createChooser(shareIntent, getString(R.string.gen_share)));
         }
         catch (ActivityNotFoundException e) {
             Toast.makeText(this, R.string.error_067, Toast.LENGTH_LONG).show();
