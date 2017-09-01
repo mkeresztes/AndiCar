@@ -199,10 +199,24 @@ public class BackupService extends Service {
             return;
         }
 
-        ArrayList<String> autoBkFileNames = FileUtils.getFileNames(this, ConstantValues.BACKUP_FOLDER, "abk_\\S+[.]db");
-        if (autoBkFileNames != null && autoBkFileNames.size() > noOfBk) {
-            Collections.sort(autoBkFileNames, String.CASE_INSENSITIVE_ORDER);
-            Collections.reverse(autoBkFileNames);
+        //because the file name pattern was changed, additional logic need for sorting the files correctly
+        ArrayList<String> oldAutoBkFileNames = FileUtils.getFileNames(this, ConstantValues.BACKUP_FOLDER, "abk_\\d{5,}\\S+[.]db");
+        ArrayList<String> newAutoBkFileNames = FileUtils.getFileNames(this, ConstantValues.BACKUP_FOLDER, "abk_\\d{4}[-]\\S+[.]db");
+        ArrayList<String> autoBkFileNames = new ArrayList<>();
+
+        if (newAutoBkFileNames != null) {
+            Collections.sort(newAutoBkFileNames, String.CASE_INSENSITIVE_ORDER);
+            Collections.reverse(newAutoBkFileNames);
+            autoBkFileNames.addAll(newAutoBkFileNames);
+        }
+
+        if (oldAutoBkFileNames != null) {
+            Collections.sort(oldAutoBkFileNames, String.CASE_INSENSITIVE_ORDER);
+            Collections.reverse(oldAutoBkFileNames);
+            autoBkFileNames.addAll(oldAutoBkFileNames);
+        }
+
+        if (autoBkFileNames.size() > noOfBk) {
             for (int i = noOfBk; i < autoBkFileNames.size(); i++) {
                 FileUtils.deleteFile(ConstantValues.BACKUP_FOLDER + autoBkFileNames.get(i));
             }
