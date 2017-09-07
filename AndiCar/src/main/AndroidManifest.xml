@@ -21,7 +21,7 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="org.andicar2.activity"
     android:versionCode="17090000"
-    android:versionName="17.09">
+    android:versionName="17.10">
 
     <!-- ************************************************************************************************* -->
     <!-- Normal Permissions (https://developer.android.com/guide/topics/security/normal-permissions.html) -->
