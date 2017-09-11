@@ -89,7 +89,7 @@ public class ConstantValues {
     public static final String UOM_OTHER_TYPE_CODE = "O";
     public static final String IS_INITIALIZATION_IN_PROGRESS_TAG = "InitializationInProgress";
     //showing or not the debug info about the screen size
-    public static final boolean DEBUG_IS_SHOW_INFO_IN_FRAGMENTS = false;
+    public static final boolean DEBUG_IS_SHOW_INFO_IN_FRAGMENTS = true;
     public static final String ANALYTICS_IS_MULTI_CURRENCY = "MultiCurrencyUsed";
     public static final String ANALYTICS_IS_TEMPLATE_USED = "TemplateUsed";
     public static final String ANALYTICS_IS_CREATE_MILEAGE = "CreateMileage";
