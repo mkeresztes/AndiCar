@@ -86,5 +86,13 @@
         <item>Álitsd le a nyomkövetést</item>
     </string-array>
 
+    <string-array name="pref_main_addbtn_entries">
+        <item>A menü megjelenítése</item>
+        <item>Új utazás</item>
+        <item>Új tankolás</item>
+        <item>Új költség</item>
+        <item>Új GPS nyomkövetés</item>
+    </string-array>
+
 </resources>
 

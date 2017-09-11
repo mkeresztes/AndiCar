@@ -45,6 +45,10 @@
     <string name="pref_partner_title">Benzinării &amp; Furnizori</string>
     <string name="pref_partner_summary">Adaugă, şterge, modifică benzinării, parteneri şi locaţii</string>
     <string name="pref_reminder_category_title">Memento</string>
+    <string name="pref_main_screen_category_title">Ecran principal</string>
+    <string name="pref_main_screen_addbtn_title">Butonul adăugare</string>
+    <string name="pref_main_screen_addbtn_hint">Apăsând lung pe butonul de adăugare, se va afișa meniul</string>
+
     <string name="pref_todo_type_title">Tipuri de sarcini</string>
     <string name="pref_todo_type_summary">Adaugă, şterge, modifică tipuri de sarcini"</string>
     <string name="pref_todo_title">Sarcină</string>

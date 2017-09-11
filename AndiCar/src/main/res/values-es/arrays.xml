@@ -64,4 +64,13 @@
         <item>500 m / 546.80 yd</item>
         <item>No usar</item>
     </string-array>
+
+    <string-array name="pref_main_addbtn_entries">
+        <item>Mostrar el menú</item>
+        <item>Nuevo kilometraje</item>
+        <item>Nuevo recarga</item>
+        <item>Nuevo gasto</item>
+        <item>Nuevo registro GPS</item>
+    </string-array>
+
 </resources>

@@ -46,6 +46,8 @@
     <string name="pref_partner_title">Tankstelle &amp; Verkäufer</string>
     <string name="pref_partner_summary">Tankstelle, Verkäufer und Orte hinzufügen, löschen, ändern.</string>
     <string name="pref_reminder_category_title">Aufgaben</string>
+    <string name="pref_main_screen_category_title">Hauptanzeige</string>
+    <string name="pref_main_screen_addbtn_title">Taste hinzufügen</string>
     <string name="pref_todo_type_title">Aufgabenarten</string>
     <string name="pref_todo_type_summary">Aufgabenarten hinzufügen, löschen, ändern.</string>
     <string name="pref_todo_title">Aufgaben</string>
@@ -135,7 +137,7 @@
     <string name="gen_expenses">Ausgaben</string>
     <string name="gen_gps_tracks">GPS-Tracks</string>
 
-    <string name="gen_trip">Strecke</string>
+    <string name="gen_trip">Kilometerstand</string>
     <string name="gen_fillup">Auftanken</string>
     <string name="gen_expense">Ausgaben</string>
     <string name="gen_gps_track">GPS-Track</string>

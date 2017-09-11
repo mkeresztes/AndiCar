@@ -82,5 +82,14 @@
         <item>500 m / 546.80 yd</item>
         <item>Nicht benutzen</item>
     </string-array>
+
+    <string-array name="pref_main_addbtn_entries">
+        <item>Menü anzeigen</item>
+        <item>Neue Kilometerstand</item>
+        <item>Neue Auftanken</item>
+        <item>Neue Ausgaben</item>
+        <item>Neue GPS-Track</item>
+    </string-array>
+
 </resources>
 

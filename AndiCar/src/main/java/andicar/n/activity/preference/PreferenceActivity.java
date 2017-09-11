@@ -220,7 +220,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
      * activity is showing a two-pane settings UI.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class GeneralPreferenceFragment extends PreferenceFragment {
+    public static class GeneralPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
         //        private Context mXtx = getActivity();
         Preference carPreference;
         Preference fuelTypePreference;
@@ -230,6 +230,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         Preference taskTypePreference;
         Preference taskPreference;
         Preference tagPreference;
+        Preference mainAddBtn;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -237,6 +238,8 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
+
+            getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
             carPreference = findPreference(getString(R.string.pref_key_cars));
             carPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -342,6 +345,25 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 }
             });
 
+            mainAddBtn = findPreference(getString(R.string.pref_key_main_addbtn));
+            if (mainAddBtn != null) {
+//                mainAddBtn.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+//                    @Override
+//                    public boolean onPreferenceChange(Preference preference, Object o) {
+//                        if(!((String) o).equals("0")){
+//                            Toast.makeText(getActivity(), R.string.pref_main_screen_addbtn_hint, Toast.LENGTH_LONG).show();
+//                        }
+//                        return true;
+//                    }
+//                });
+//
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_addbtn), null) != null) {
+                    bindPreferenceSummaryToValue(mainAddBtn);
+                }
+            }
+
+
+
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
@@ -360,6 +382,20 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 }
             }
             return super.onOptionsItemSelected(item);
+        }
+
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+            try {
+                if (s.equals(getString(R.string.pref_key_main_addbtn))) {
+                    if (!sharedPreferences.getString(s, "").equals("0")) {
+                        Toast.makeText(getActivity(), R.string.pref_main_screen_addbtn_hint, Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+            catch (IllegalStateException e) {
+                Log.e("AndiCar", e.getMessage(), e);
+            }
         }
     }
 

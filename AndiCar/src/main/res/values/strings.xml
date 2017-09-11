@@ -219,6 +219,10 @@
     <string name="pref_reminder_category_title">Reminders</string>
     <!--PREF_TaskTypeTitle-->
     <string name="pref_todo_type_title">To-do types</string>
+    <!--PREF_MainScreenCategoryTitle-->
+    <string name="pref_main_screen_category_title">Main screen</string>
+    <string name="pref_main_screen_addbtn_title">Add button</string>
+    <string name="pref_main_screen_addbtn_hint">Long pressing the add button will show the menu</string>
     <!--PREF_TaskTypeSummary-->
     <string name="pref_todo_type_summary">Add, delete, modify to-do types</string>
     <!--PREF_TaskTitle-->

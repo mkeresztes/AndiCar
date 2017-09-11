@@ -244,28 +244,7 @@ public class MainActivity extends AppCompatActivity
                 .setOnClick(new DroppyClickCallbackInterface() {
                     @Override
                     public void call(View v1, int id) {
-                        Intent i = null;
-                        if (id == R.id.mnuTrip) {
-                            i = new Intent(MainActivity.this, CommonDetailActivity.class);
-                            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_MILEAGE);
-                        }
-                        else if (id == R.id.mnuRefuel) {
-                            i = new Intent(MainActivity.this, CommonDetailActivity.class);
-                            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_REFUEL);
-                        }
-                        else if (id == R.id.mnuExpense) {
-                            i = new Intent(MainActivity.this, CommonDetailActivity.class);
-                            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_EXPENSE);
-                        }
-                        else if (id == R.id.mnuGPSTrack) {
-                            i = new Intent(MainActivity.this, GPSTrackControllerDialogActivity.class);
-                            i.putExtra(BaseEditFragment.RECORD_ID_KEY, -1L);
-                        }
-                        if (i != null) {
-                            i.putExtra(BaseEditFragment.RECORD_ID_KEY, -1L);
-                            i.putExtra(BaseEditFragment.DETAIL_OPERATION_KEY, BaseEditFragment.DETAIL_OPERATION_NEW);
-                            MainActivity.this.startActivity(i);
-                        }
+                        showNewRecordActivity(id);
                     }
                 })
                 .setPopupAnimation(new DroppyFadeInAnimation())
@@ -273,6 +252,31 @@ public class MainActivity extends AppCompatActivity
                 .setYOffset(5)
                 .build();
         droppyMenu.show();
+    }
+
+    private void showNewRecordActivity(int id) {
+        Intent i = null;
+        if (id == R.id.mnuTrip) {
+            i = new Intent(MainActivity.this, CommonDetailActivity.class);
+            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_MILEAGE);
+        }
+        else if (id == R.id.mnuRefuel) {
+            i = new Intent(MainActivity.this, CommonDetailActivity.class);
+            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_REFUEL);
+        }
+        else if (id == R.id.mnuExpense) {
+            i = new Intent(MainActivity.this, CommonDetailActivity.class);
+            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_EXPENSE);
+        }
+        else if (id == R.id.mnuGPSTrack) {
+            i = new Intent(MainActivity.this, GPSTrackControllerDialogActivity.class);
+            i.putExtra(BaseEditFragment.RECORD_ID_KEY, -1L);
+        }
+        if (i != null) {
+            i.putExtra(BaseEditFragment.RECORD_ID_KEY, -1L);
+            i.putExtra(BaseEditFragment.DETAIL_OPERATION_KEY, BaseEditFragment.DETAIL_OPERATION_NEW);
+            MainActivity.this.startActivity(i);
+        }
     }
 
     @Override
@@ -375,7 +379,33 @@ public class MainActivity extends AppCompatActivity
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MainActivity.this.showPopup(v);
+                    switch (mPreferences.getString(getString(R.string.pref_key_main_addbtn), "")) {
+                        case "0":
+                            MainActivity.this.showPopup(v);
+                            break;
+                        case "1":
+                            showNewRecordActivity(R.id.mnuTrip);
+                            break;
+                        case "2":
+                            showNewRecordActivity(R.id.mnuRefuel);
+                            break;
+                        case "3":
+                            showNewRecordActivity(R.id.mnuExpense);
+                            break;
+                        case "4":
+                            showNewRecordActivity(R.id.mnuGPSTrack);
+                            break;
+                        default:
+                            MainActivity.this.showPopup(v);
+                    }
+                }
+            });
+
+            fab.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    MainActivity.this.showPopup(view);
+                    return true;
                 }
             });
         }
