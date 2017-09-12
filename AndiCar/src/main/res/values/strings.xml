@@ -225,7 +225,8 @@
     <string name="pref_main_screen_addbtn_hint">Long pressing the add button will show the menu</string>
 
     <!--PREF_MainScreen_ShowStatistics-->
-    <string name="pref_main_screen_show_tatistics">"Show statistics"</string>
+    <string name="pref_main_screen_show_tatistics">Show statistics</string>
+    <string name="pref_main_screen_zon1_content">Zone 1 content</string>
 
     <!--PREF_TaskTypeSummary-->
     <string name="pref_todo_type_summary">Add, delete, modify to-do types</string>
@@ -373,6 +374,8 @@
     <string name="gen_gps_tracks">GPS Tracks</string>
     <!--MENU_TodoCaption-->
     <string name="gen_todo_list">Todo list</string>
+
+    <string name="gen_list">List</string>
     <!--MENU_AboutCaption-->
     <string name="gen_about">About</string>
     <string name="gen_report_issue">Report an issue</string>

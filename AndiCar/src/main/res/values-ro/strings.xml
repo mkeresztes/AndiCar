@@ -164,6 +164,8 @@
     <string name="gen_gps_track">Traseu GPS</string>
 
     <string name="gen_todo_list">Listă de sarcini</string>
+    <string name="gen_list">Listă</string>
+
     <string name="gen_report_issue">Raportează o problemă</string>
     <string name="gen_about">Despre</string>
     <string name="gen_settings">Setări</string>

@@ -1307,7 +1307,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class MainScreenPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
-        Preference mainAddBtn;
+//        Preference mainAddBtn;
 
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -1317,10 +1317,17 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
 
             getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
-            mainAddBtn = findPreference(getString(R.string.pref_key_main_addbtn));
+            Preference mainAddBtn = findPreference(getString(R.string.pref_key_main_addbtn));
             if (mainAddBtn != null) {
                 if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_addbtn), null) != null) {
                     bindPreferenceSummaryToValue(mainAddBtn);
+                }
+            }
+
+            Preference mainZone1Content = findPreference(getString(R.string.pref_key_main_zone1_content));
+            if (mainZone1Content != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_zone1_content), null) != null) {
+                    bindPreferenceSummaryToValue(mainZone1Content);
                 }
             }
         }

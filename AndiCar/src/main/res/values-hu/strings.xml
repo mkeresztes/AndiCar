@@ -164,6 +164,8 @@
     <string name="gen_gps_track">GPS nyomkövetés</string>
 
     <string name="gen_todo_list">Feladatlista</string>
+    <string name="gen_list">Lista</string>
+
     <string name="gen_report_issue">Jelents egy problémát</string>
     <string name="gen_about">Az AndiCarról</string>
     <string name="gen_settings">Beállítások</string>

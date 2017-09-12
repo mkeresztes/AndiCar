@@ -18,25 +18,25 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:paddingBottom="@dimen/activity_vertical_margin"
-              android:paddingLeft="@dimen/activity_horizontal_margin"
-              android:paddingRight="@dimen/activity_horizontal_margin"
-              android:paddingTop="@dimen/activity_vertical_margin"
-              app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="org.andicar2.activity.MainActivity"
-              tools:showIn="@layout/main_activity_app_bar">
+    tools:showIn="@layout/main_activity_app_bar">
 
     <TextView
         android:id="@+id/tvDebugInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Default; "
-        tools:ignore="HardcodedText"/>
+        tools:ignore="HardcodedText" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -68,7 +68,7 @@
 
             <TextView
                 style="@style/AndiCarSeparatorView"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp" />
 
             <LinearLayout
                 android:id="@+id/llStatisticsZone"
@@ -83,7 +83,7 @@
                     android:gravity="center_horizontal"
                     android:paddingBottom="3dp"
                     android:text="@string/main_activity_statistics_header_caption"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
                 <!--android:background="@color/main_activity_headers_background"-->
 
                 <LinearLayout
@@ -131,68 +131,143 @@
                 style="@style/ListItem.FirstLine"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-                android:gravity="center_horizontal"/>
-            <!--android:background="@color/main_activity_headers_background"-->
+                android:gravity="center_horizontal" />
+
 
             <LinearLayout
-                android:id="@+id/line1ChartsZone"
+                android:id="@+id/line1Zone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/line1TextZone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/chart11Title"
-                        style="@style/AndiCarChartHeader"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart11Title"/>
+                        android:id="@+id/firstLine1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAppearance="@style/ListItem.FirstLine"
+                        android:text="slkjslkfjdlksjlksjflkdjll lkkll slkjslkfjdlksjlksjflkdjll lkkll" />
 
                     <TextView
-                        android:id="@+id/chart12Title"
-                        style="@style/AndiCarChartHeader"
-                        android:layout_width="0dp"
+                        android:id="@+id/secondLine1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAppearance="@style/ListItem.SecondLine"
+                        tools:ignore="InconsistentLayout"
+                        android:text="slkjslkfjdlksjlksjflkdjll lkkll" />
+
+                    <TextView
+                        android:id="@+id/thirdLine1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAppearance="@style/ListItem.ThirdLine"
+                        android:text="slkjslkfjdlksjlksjflkdjll lkkll" />
+
+                    <LinearLayout
+                        android:id="@+id/line1Buttons"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart12Title"/>
+                        android:orientation="horizontal"
+                        android:gravity="end">
+
+                        <ImageButton
+                            android:id="@+id/btnEdit1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            app:srcCompat="@drawable/ic_menu_edit_black_24dp_pad4dp"
+                            android:contentDescription="@string/gen_edit"
+                            android:background="@null" />
+
+                        <ImageButton
+                            android:id="@+id/btnShowList1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            app:srcCompat="@drawable/ic_menu_black_24dp"
+                            android:contentDescription="@string/gen_list"
+                            android:background="@null" />
+
+                        <ImageButton
+                            android:id="@+id/btnAddNew1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            app:srcCompat="@drawable/ic_button_add_black_dark_selector"
+                            android:contentDescription="@string/gen_add_new"
+                            android:background="@null" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/line1Charts"
+                    android:id="@+id/line1ChartsZone"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="top"
-                    android:gravity="top"
-                    android:orientation="horizontal"
-                    android:tag="@string/chart_key_legendAtBottom">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <andicar.n.view.AndiCarPieChart
-                        android:id="@+id/chart11"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="top"
-                        android:layout_weight="1"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                    <andicar.n.view.AndiCarPieChart
-                        android:id="@+id/chart12"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        <TextView
+                            android:id="@+id/chart11Title"
+                            style="@style/AndiCarChartHeader"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/chart11Title" />
+
+                        <TextView
+                            android:id="@+id/chart12Title"
+                            style="@style/AndiCarChartHeader"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/chart12Title" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/line1Charts"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
                         android:layout_gravity="top"
-                        android:layout_weight="1"/>
+                        android:gravity="top"
+                        android:orientation="horizontal"
+                        android:tag="@string/chart_key_legendAtBottom">
+
+                        <andicar.n.view.AndiCarPieChart
+                            android:id="@+id/chart11"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="top"
+                            android:layout_weight="1" />
+
+                        <andicar.n.view.AndiCarPieChart
+                            android:id="@+id/chart12"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="top"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/line1ChartFooterText"
+                        style="@style/AndiCarChartFooter" />
+
+                    <TextView
+                        style="@style/AndiCarSeparatorView"
+                        android:layout_marginBottom="8dp" />
                 </LinearLayout>
-                <TextView
-                    android:id="@+id/line1ChartFooterText"
-                    style="@style/AndiCarChartFooter"/>
-
-                <TextView
-                    style="@style/AndiCarSeparatorView"
-                    android:layout_marginBottom="8dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -213,7 +288,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/chart21Title"/>
+                        android:text="@string/chart21Title" />
 
                     <TextView
                         android:id="@+id/chart22Title"
@@ -221,7 +296,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/chart22Title"/>
+                        android:text="@string/chart22Title" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -236,23 +311,23 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="top"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <andicar.n.view.AndiCarPieChart
                         android:id="@+id/chart22"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="top"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/line2ChartFooterText"
-                    style="@style/AndiCarChartFooter"/>
+                    style="@style/AndiCarChartFooter" />
 
                 <TextView
                     style="@style/AndiCarSeparatorView"
-                    android:layout_marginBottom="8dp"/>
+                    android:layout_marginBottom="8dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -273,7 +348,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/chart31Title"/>
+                        android:text="@string/chart31Title" />
 
                     <TextView
                         android:id="@+id/chart32Title"
@@ -281,7 +356,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/chart32Title"/>
+                        android:text="@string/chart32Title" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -296,23 +371,23 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="top"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <andicar.n.view.AndiCarPieChart
                         android:id="@+id/chart32"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="top"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/line3ChartFooterText"
-                    style="@style/AndiCarChartFooter"/>
+                    style="@style/AndiCarChartFooter" />
 
                 <TextView
                     style="@style/AndiCarSeparatorView"
-                    android:layout_marginBottom="8dp"/>
+                    android:layout_marginBottom="8dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -333,7 +408,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/chart41Title"/>
+                        android:text="@string/chart41Title" />
 
                     <TextView
                         android:id="@+id/chart42Title"
@@ -341,7 +416,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/chart42Title"/>
+                        android:text="@string/chart42Title" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -356,23 +431,23 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="top"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
 
                     <andicar.n.view.AndiCarPieChart
                         android:id="@+id/chart42"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="top"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/line4ChartFooterText"
-                    style="@style/AndiCarChartFooter"/>
+                    style="@style/AndiCarChartFooter" />
 
                 <TextView
                     style="@style/AndiCarSeparatorView"
-                    android:layout_marginTop="16dp"/>
+                    android:layout_marginTop="16dp" />
             </LinearLayout>
 
             <TextView
@@ -380,17 +455,17 @@
                 style="@style/ListItem.SecondLine"
                 android:layout_marginTop="8dp"
                 android:gravity="center_horizontal|bottom"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tvShortAboutAppVersion"
                 style="@style/ListItem.SecondLine"
                 android:gravity="center_horizontal|bottom"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <TextView
                 style="@style/AndiCarSeparatorView"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp" />
 
             <TextView
                 android:id="@+id/tvMotto"
@@ -402,7 +477,7 @@
                 android:textColor="@color/primary_dark"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

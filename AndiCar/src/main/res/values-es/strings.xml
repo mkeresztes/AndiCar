@@ -142,6 +142,8 @@
     <string name="gen_gps_track">Registro GPS</string>
 
     <string name="gen_todo_list">Lista de quehaceres</string>
+    <string name="gen_list">Lista</string>
+
     <string name="gen_report_issue">Reportar un problema</string>
     <string name="gen_about">Acerca de</string>
     <string name="gen_settings">Preferencias</string>

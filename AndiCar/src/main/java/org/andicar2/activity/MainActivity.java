@@ -652,8 +652,72 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void drawCharts() {
+    private void drawCharts(int zone, String chartSource) {
         if (mErrorInDrawCharts) {
+            return;
+        }
+
+        LinearLayout chartLine;
+        LinearLayout chartContainer;
+        AndiCarPieChart pChart1;
+        AndiCarPieChart pChart2;
+        AndiCarPieChart pChart3;
+        TextView chartFooterText;
+        String title1;
+        String title2;
+        String title3;
+
+        switch (zone) {
+            case 1:
+                pChart1 = (AndiCarPieChart) findViewById(R.id.chart11);
+                pChart2 = (AndiCarPieChart) findViewById(R.id.chart12);
+                pChart3 = (AndiCarPieChart) findViewById(R.id.chart13);
+                chartFooterText = (TextView) findViewById(R.id.line1ChartFooterText);
+                title1 = getString(R.string.chart11Title);
+                title2 = getString(R.string.chart12Title);
+                title3 = getString(R.string.chart13Title);
+                chartLine = (LinearLayout) findViewById(R.id.line1Charts);
+                chartContainer = (LinearLayout) findViewById(R.id.line1ChartsZone);
+                break;
+            case 2:
+                pChart1 = (AndiCarPieChart) findViewById(R.id.chart21);
+                pChart2 = (AndiCarPieChart) findViewById(R.id.chart22);
+                pChart3 = (AndiCarPieChart) findViewById(R.id.chart23);
+                chartFooterText = (TextView) findViewById(R.id.line2ChartFooterText);
+                title1 = getString(R.string.chart21Title);
+                title2 = getString(R.string.chart22Title);
+                title3 = getString(R.string.chart23Title);
+                chartLine = (LinearLayout) findViewById(R.id.line2Charts);
+                chartContainer = (LinearLayout) findViewById(R.id.line2ChartsZone);
+                break;
+            case 3:
+                pChart1 = (AndiCarPieChart) findViewById(R.id.chart31);
+                pChart2 = (AndiCarPieChart) findViewById(R.id.chart32);
+                pChart3 = (AndiCarPieChart) findViewById(R.id.chart33);
+                chartFooterText = (TextView) findViewById(R.id.line3ChartFooterText);
+                title1 = getString(R.string.chart31Title);
+                title2 = getString(R.string.chart32Title);
+                title3 = getString(R.string.chart33Title);
+                chartLine = (LinearLayout) findViewById(R.id.line3Charts);
+                chartContainer = (LinearLayout) findViewById(R.id.line3ChartsZone);
+                break;
+            case 4:
+                pChart1 = (AndiCarPieChart) findViewById(R.id.chart41);
+                pChart2 = (AndiCarPieChart) findViewById(R.id.chart42);
+                pChart3 = (AndiCarPieChart) findViewById(R.id.chart43);
+                chartFooterText = (TextView) findViewById(R.id.line4ChartFooterText);
+                title1 = getString(R.string.chart41Title);
+                title2 = getString(R.string.chart42Title);
+                title3 = getString(R.string.chart43Title);
+                chartLine = (LinearLayout) findViewById(R.id.line4Charts);
+                chartContainer = (LinearLayout) findViewById(R.id.line3ChartsZone);
+                break;
+            default:
+                return;
+        }
+
+        if (chartLine == null) {
+            //TODO show an error
             return;
         }
 
@@ -680,52 +744,127 @@ public class MainActivity extends AppCompatActivity
         ArrayList<DBReportAdapter.chartData> chartData;
         String chartFooter;
 
-        try {
-            //mileage charts
-            LinearLayout ll = (LinearLayout) findViewById(R.id.line1Charts);
-            AndiCarPieChart pChart;
-            String title;
-            String carUOMLengthCode = dbReportAdapter.getUOMCode(dbReportAdapter.getCarUOMLengthID(mLastSelectedCarID));
-            if (ll != null) {
-                chartData = dbReportAdapter.getMileageByTypeChartData(chartArguments);
-                if (chartData.size() > 0) {
-                    setChartBandHeight(ll, false);
-                    chartFooter =
-                            String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
-                                    + " " + carUOMLengthCode);
+        if (chartSource.equals("DNU")) {
+            chartContainer.setVisibility(View.GONE);
+        } else {
+            chartContainer.setVisibility(View.VISIBLE);
+            try {
+                if (chartSource.equals("TRC")) { //trip charts
+                    String carUOMLengthCode = dbReportAdapter.getUOMCode(dbReportAdapter.getCarUOMLengthID(mLastSelectedCarID));
+                    chartData = dbReportAdapter.getMileageByTypeChartData(chartArguments);
+                    if (chartData.size() > 0) {
+                        setChartBandHeight(chartLine, false);
+                        chartFooter =
+                                String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
+                                        + " " + carUOMLengthCode);
+                    } else {
+                        setChartBandHeight(chartLine, true);
+                        chartFooter = null;
+                    }
+                    if (pChart1 != null) {
+                        title1 = title1.substring(0, title1.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
+                        drawPieChart(chartLine, pChart1, chartData, title1, chartFooterText, chartFooter);
+                    }
+
+                    if (pChart2 != null) {
+                        title2 = title2.substring(0, title2.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
+                        drawPieChart(chartLine, pChart2, dbReportAdapter.getMileageByTagsChartData(chartArguments), title2, null, null);
+                    }
+
+                    if (pChart3 != null) {
+                        title3 = title3.substring(0, title3.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
+                        drawPieChart(chartLine, pChart3, dbReportAdapter.getMileageByDriverChartData(chartArguments), title3, null, null);
+                    }
                 }
                 else {
-                    setChartBandHeight(ll, true);
-                    chartFooter = null;
+                    chartContainer.setVisibility(View.GONE);
                 }
-                pChart = (AndiCarPieChart) findViewById(R.id.chart11);
-                if (pChart != null) {
-                    title = getString(R.string.chart11Title);
-                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
-                    drawPieChart(ll, pChart, chartData, title, (TextView) findViewById(R.id.line1ChartFooterText), chartFooter);
-                }
-
-                pChart = (AndiCarPieChart) findViewById(R.id.chart12);
-                if (pChart != null) {
-                    title = getString(R.string.chart12Title);
-                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
-                    drawPieChart(ll, pChart, dbReportAdapter.getMileageByTagsChartData(chartArguments), title, null, null);
-                }
-
-                pChart = (AndiCarPieChart) findViewById(R.id.chart13);
-                if (pChart != null) {
-                    title = getString(R.string.chart13Title);
-                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
-                    drawPieChart(ll, pChart, dbReportAdapter.getMileageByDriverChartData(chartArguments), title, null, null);
-                }
+            } catch (Exception e) {
+                mErrorInDrawCharts = true;
+                Utils.showReportableErrorDialog(this, null, e.getMessage(), e, false);
             }
+        }
 
+        try {
+            dbReportAdapter.close();
+        } catch (Exception ignored) {
+        }
+
+
+    }
+
+    private void drawCharts() {
+        if (mErrorInDrawCharts) {
+            return;
+        }
+
+        DBReportAdapter dbReportAdapter = new DBReportAdapter(getApplicationContext(), null, null);
+
+        ArrayList<String> selArgs = new ArrayList<>();
+        selArgs.add(Long.toString(mLastSelectedCarID));
+        if (mChartPeriodStartInSeconds > -1) {
+            selArgs.add(Long.toString(mChartPeriodStartInSeconds));
+        } else {
+            selArgs.add(Long.toString(0));
+        }
+
+        if (mChartPeriodEndInSeconds > -1) {
+            selArgs.add(Long.toString(mChartPeriodEndInSeconds));
+        } else {
+            selArgs.add(Long.toString(0));
+        }
+
+        String[] chartArguments = selArgs.toArray(new String[0]);
+
+        ArrayList<DBReportAdapter.chartData> chartData;
+        String chartFooter;
+
+        try {
+            LinearLayout ll;
+            AndiCarPieChart pChart;
+            String title;
+//            //mileage charts
+//            String carUOMLengthCode = dbReportAdapter.getUOMCode(dbReportAdapter.getCarUOMLengthID(mLastSelectedCarID));
+//            if (ll != null) {
+//                chartData = dbReportAdapter.getMileageByTypeChartData(chartArguments);
+//                if (chartData.size() > 0) {
+//                    setChartBandHeight(ll, false);
+//                    chartFooter =
+//                            String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
+//                                    + " " + carUOMLengthCode);
+//                }
+//                else {
+//                    setChartBandHeight(ll, true);
+//                    chartFooter = null;
+//                }
+//                pChart = (AndiCarPieChart) findViewById(R.id.chart11);
+//                if (pChart != null) {
+//                    title = getString(R.string.chart11Title);
+//                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
+//                    drawPieChart(ll, pChart, chartData, title, (TextView) findViewById(R.id.line1ChartFooterText), chartFooter);
+//                }
+//
+//                pChart = (AndiCarPieChart) findViewById(R.id.chart12);
+//                if (pChart != null) {
+//                    title = getString(R.string.chart12Title);
+//                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
+//                    drawPieChart(ll, pChart, dbReportAdapter.getMileageByTagsChartData(chartArguments), title, null, null);
+//                }
+//
+//                pChart = (AndiCarPieChart) findViewById(R.id.chart13);
+//                if (pChart != null) {
+//                    title = getString(R.string.chart13Title);
+//                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
+//                    drawPieChart(ll, pChart, dbReportAdapter.getMileageByDriverChartData(chartArguments), title, null, null);
+//                }
+//            }
+
+            //fill-up charts (quantity)
             String carUOMVolume = dbReportAdapter.getUOMCode(dbReportAdapter.getCarUOMVolumeID(mLastSelectedCarID));
             if (carUOMVolume == null || carUOMVolume.length() <= 1) {
                 carUOMVolume = dbReportAdapter.getUOMName(dbReportAdapter.getCarUOMVolumeID(mLastSelectedCarID));
             }
 
-            //fill-up charts (quantity)
             ll = (LinearLayout) findViewById(R.id.line2Charts);
             if (ll != null) {
                 chartData = dbReportAdapter.getRefuelsByTypeChartData(chartArguments, false);
@@ -1001,6 +1140,7 @@ public class MainActivity extends AppCompatActivity
     private void fillContent() {
         if (mRedrawCharts) {
             fillToDoZone();
+            drawCharts(1, mPreferences.getString(getString(R.string.pref_key_main_zone1_content), "TRC"));
             drawCharts();
             if (mPreferences.getBoolean(getString(R.string.pref_key_main_show_statistics), true)) {
                 fillStatisticsZone();

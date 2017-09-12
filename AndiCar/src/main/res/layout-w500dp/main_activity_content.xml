@@ -132,9 +132,74 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:gravity="center_horizontal"/>
-            <!--android:textSize="14sp"-->
 
             <LinearLayout
+                android:id="@+id/line1Zone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/line1TextZone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/firstLine1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAppearance="@style/ListItem.FirstLine"
+                        android:text="slkjslkfjdlksjlksjflkdjll lkkll slkjslkfjdlksjlksjflkdjll lkkll" />
+
+                    <TextView
+                        android:id="@+id/secondLine1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAppearance="@style/ListItem.SecondLine"
+                        tools:ignore="InconsistentLayout"
+                        android:text="slkjslkfjdlksjlksjflkdjll lkkll" />
+
+                    <LinearLayout
+                        android:id="@+id/line1Buttons"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="end">
+
+                        <ImageButton
+                            android:id="@+id/btnEdit1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            app:srcCompat="@drawable/ic_menu_edit_black_24dp_pad4dp"
+                            android:contentDescription="@string/gen_edit"
+                            android:background="@null" />
+
+                        <ImageButton
+                            android:id="@+id/btnShowList1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            app:srcCompat="@drawable/ic_menu_black_24dp"
+                            android:contentDescription="@string/gen_list"
+                            android:background="@null" />
+
+                        <ImageButton
+                            android:id="@+id/btnAddNew1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            app:srcCompat="@drawable/ic_button_add_black_dark_selector"
+                            android:contentDescription="@string/gen_add_new"
+                            android:background="@null" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
                 android:id="@+id/line1ChartsZone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -194,6 +259,7 @@
                 <TextView
                     style="@style/AndiCarSeparatorView"
                     android:layout_marginBottom="8dp"/>
+            </LinearLayout>
             </LinearLayout>
 
             <LinearLayout

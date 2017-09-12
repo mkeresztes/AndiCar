@@ -144,6 +144,8 @@
     <string name="gen_gps_track">GPS-Track</string>
 
     <string name="gen_todo_list">Aufgabenliste</string>
+    <string name="gen_list">Liste</string>
+
     <string name="gen_about">Über</string>
     <string name="gen_report_issue">Ein Problem zu melden</string>
     <string name="gen_settings">Einstellungen</string>

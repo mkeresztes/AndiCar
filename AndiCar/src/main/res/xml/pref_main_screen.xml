@@ -30,4 +30,11 @@
         android:defaultValue="true"
         android:key="@string/pref_key_main_show_statistics"
         android:title="@string/pref_main_screen_show_tatistics" />
+
+    <ListPreference
+        android:defaultValue="TRC"
+        android:key="@string/pref_key_main_zone1_content"
+        android:title="@string/pref_main_screen_zon1_content"
+        android:entries="@array/pref_main_zone_content_chooser_entries"
+        android:entryValues="@array/pref_main_zone_content_chooser_values" />
 </PreferenceScreen>
