@@ -48,6 +48,7 @@
     <string name="pref_category_main_screen">Főképernyő beállításai</string>
     <string name="pref_main_screen_addbtn_title">Új rekord gomb</string>
     <string name="pref_main_screen_addbtn_hint">Hosszan nyomva az új rekord gombot, megjelenik a menü</string>
+    <string name="pref_main_screen_show_tatistics">Statistikák mutatása</string>
 
     <string name="pref_todo_type_title">Feladat típusok</string>
     <string name="pref_todo_type_summary">Feladat típusok szerkesztése</string>

@@ -25,4 +25,9 @@
         android:key="@string/pref_key_main_addbtn"
         android:title="@string/pref_main_screen_addbtn_title"
         />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/pref_key_main_show_statistics"
+        android:title="@string/pref_main_screen_show_tatistics" />
 </PreferenceScreen>

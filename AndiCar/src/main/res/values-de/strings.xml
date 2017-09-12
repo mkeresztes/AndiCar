@@ -48,6 +48,7 @@
     <string name="pref_reminder_category_title">Aufgaben</string>
     <string name="pref_category_main_screen">Hauptanzeige</string>
     <string name="pref_main_screen_addbtn_title">Taste hinzufügen</string>
+    <string name="pref_main_screen_show_tatistics">Statistiken anzeigen</string>
     <string name="pref_todo_type_title">Aufgabenarten</string>
     <string name="pref_todo_type_summary">Aufgabenarten hinzufügen, löschen, ändern.</string>
     <string name="pref_todo_title">Aufgaben</string>

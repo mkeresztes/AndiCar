@@ -120,14 +120,14 @@ public class MainActivity extends AppCompatActivity
     private long mLastToDoTaskId = -1;
     private long mLastToDoCarId = -1;
 
+    View llStatisticsZone;
+
     /**
      * Called when the activity is first created.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-//        Thread.setDefaultUncaughtExceptionHandler(new AndiCarExceptionHandler(
-//                Thread.getDefaultUncaughtExceptionHandler(), this));
         super.onCreate(savedInstanceState);
 
         //needed for inflating xml image resources for main_activity_popup_menu in 4x platform
@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.main_activity);
 
         tvChartsHdr = (TextView) findViewById(R.id.tvChartsHdr);
+        llStatisticsZone = findViewById(R.id.llStatisticsZone);
 
         if (savedInstanceState != null) {
             mChartFilterType = savedInstanceState.getInt("mChartFilterType", 1);
@@ -194,98 +195,6 @@ public class MainActivity extends AppCompatActivity
 //            notif.putExtra(GeneralNotificationDialogActivity.NOTIF_DETAIL_KEY, getIntent().getExtras().getString("msg.body", ""));
 //            notif.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_INFO);
 //            startActivity(notif);
-        }
-    }
-
-    private void fillChartHeaderCaption() {
-        switch (mChartFilterType) {
-            case CHART_FILTER_ALL:
-                tvChartsHdr.setText(R.string.chart_filter_all_header_caption);
-                break;
-            case CHART_FILTER_CURRENT_MONTH:
-                tvChartsHdr.setText(R.string.chart_filter_current_month_header_caption);
-                break;
-            case CHART_FILTER_PREVIOUS_MONTH:
-                tvChartsHdr.setText(R.string.chart_filter_previous_month_header_caption);
-                break;
-            case CHART_FILTER_CURRENT_YEAR:
-                tvChartsHdr.setText(R.string.chart_filter_current_year_header_caption);
-                break;
-            case CHART_FILTER_PREVIOUS_YEAR:
-                tvChartsHdr.setText(R.string.chart_filter_previous_year_header_caption);
-                break;
-            case CHART_FILTER_CUSTOM_PERIOD:
-                tvChartsHdr.setText(
-                        String.format(getString(R.string.chart_filter_custom_period_header_caption),
-                                mChartPeriodStartInSeconds > 0 ?
-                                        Utils.getFormattedDateTime(mChartPeriodStartInSeconds * 1000, true) :
-                                        getString(R.string.chart_filter_custom_period_header_caption_value_beginning),
-                                mChartPeriodEndInSeconds > 0 ?
-                                        Utils.getFormattedDateTime(mChartPeriodEndInSeconds * 1000, true) :
-                                        getString(R.string.chart_filter_custom_period_header_caption_value_now)));
-                break;
-            default:
-                tvChartsHdr.setText(R.string.chart_filter_all_header_caption);
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("mChartFilterType", mChartFilterType);
-        outState.putLong("mChartPeriodStartInSeconds", mChartPeriodStartInSeconds);
-        outState.putLong("mChartPeriodEndInSeconds", mChartPeriodEndInSeconds);
-    }
-
-    private void showPopup(View v) {
-        DroppyMenuPopup.Builder droppyBuilder = new DroppyMenuPopup.Builder(this, v);
-        DroppyMenuPopup droppyMenu = droppyBuilder.fromMenu(R.menu.main_activity_popup_menu)
-                .triggerOnAnchorClick(false)
-                .setOnClick(new DroppyClickCallbackInterface() {
-                    @Override
-                    public void call(View v1, int id) {
-                        showNewRecordActivity(id);
-                    }
-                })
-                .setPopupAnimation(new DroppyFadeInAnimation())
-                .setXOffset(5)
-                .setYOffset(5)
-                .build();
-        droppyMenu.show();
-    }
-
-    private void showNewRecordActivity(int id) {
-        Intent i = null;
-        if (id == R.id.mnuTrip) {
-            i = new Intent(MainActivity.this, CommonDetailActivity.class);
-            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_MILEAGE);
-        }
-        else if (id == R.id.mnuRefuel) {
-            i = new Intent(MainActivity.this, CommonDetailActivity.class);
-            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_REFUEL);
-        }
-        else if (id == R.id.mnuExpense) {
-            i = new Intent(MainActivity.this, CommonDetailActivity.class);
-            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_EXPENSE);
-        }
-        else if (id == R.id.mnuGPSTrack) {
-            i = new Intent(MainActivity.this, GPSTrackControllerDialogActivity.class);
-            i.putExtra(BaseEditFragment.RECORD_ID_KEY, -1L);
-        }
-        if (i != null) {
-            i.putExtra(BaseEditFragment.RECORD_ID_KEY, -1L);
-            i.putExtra(BaseEditFragment.DETAIL_OPERATION_KEY, BaseEditFragment.DETAIL_OPERATION_NEW);
-            MainActivity.this.startActivity(i);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mNavViewDrawer.isDrawerOpen(GravityCompat.START)) {
-            mNavViewDrawer.closeDrawer(GravityCompat.START);
-        }
-        else {
-            super.onBackPressed();
         }
     }
 
@@ -419,7 +328,95 @@ public class MainActivity extends AppCompatActivity
         }
 
         //charting
-        updateCharts();
+        fillContent();
+    }
+
+    private void fillChartHeaderCaption() {
+        switch (mChartFilterType) {
+            case CHART_FILTER_ALL:
+                tvChartsHdr.setText(R.string.chart_filter_all_header_caption);
+                break;
+            case CHART_FILTER_CURRENT_MONTH:
+                tvChartsHdr.setText(R.string.chart_filter_current_month_header_caption);
+                break;
+            case CHART_FILTER_PREVIOUS_MONTH:
+                tvChartsHdr.setText(R.string.chart_filter_previous_month_header_caption);
+                break;
+            case CHART_FILTER_CURRENT_YEAR:
+                tvChartsHdr.setText(R.string.chart_filter_current_year_header_caption);
+                break;
+            case CHART_FILTER_PREVIOUS_YEAR:
+                tvChartsHdr.setText(R.string.chart_filter_previous_year_header_caption);
+                break;
+            case CHART_FILTER_CUSTOM_PERIOD:
+                tvChartsHdr.setText(
+                        String.format(getString(R.string.chart_filter_custom_period_header_caption),
+                                mChartPeriodStartInSeconds > 0 ?
+                                        Utils.getFormattedDateTime(mChartPeriodStartInSeconds * 1000, true) :
+                                        getString(R.string.chart_filter_custom_period_header_caption_value_beginning),
+                                mChartPeriodEndInSeconds > 0 ?
+                                        Utils.getFormattedDateTime(mChartPeriodEndInSeconds * 1000, true) :
+                                        getString(R.string.chart_filter_custom_period_header_caption_value_now)));
+                break;
+            default:
+                tvChartsHdr.setText(R.string.chart_filter_all_header_caption);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("mChartFilterType", mChartFilterType);
+        outState.putLong("mChartPeriodStartInSeconds", mChartPeriodStartInSeconds);
+        outState.putLong("mChartPeriodEndInSeconds", mChartPeriodEndInSeconds);
+    }
+
+    private void showPopup(View v) {
+        DroppyMenuPopup.Builder droppyBuilder = new DroppyMenuPopup.Builder(this, v);
+        DroppyMenuPopup droppyMenu = droppyBuilder.fromMenu(R.menu.main_activity_popup_menu)
+                .triggerOnAnchorClick(false)
+                .setOnClick(new DroppyClickCallbackInterface() {
+                    @Override
+                    public void call(View v1, int id) {
+                        showNewRecordActivity(id);
+                    }
+                })
+                .setPopupAnimation(new DroppyFadeInAnimation())
+                .setXOffset(5)
+                .setYOffset(5)
+                .build();
+        droppyMenu.show();
+    }
+
+    private void showNewRecordActivity(int id) {
+        Intent i = null;
+        if (id == R.id.mnuTrip) {
+            i = new Intent(MainActivity.this, CommonDetailActivity.class);
+            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_MILEAGE);
+        } else if (id == R.id.mnuRefuel) {
+            i = new Intent(MainActivity.this, CommonDetailActivity.class);
+            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_REFUEL);
+        } else if (id == R.id.mnuExpense) {
+            i = new Intent(MainActivity.this, CommonDetailActivity.class);
+            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_EXPENSE);
+        } else if (id == R.id.mnuGPSTrack) {
+            i = new Intent(MainActivity.this, GPSTrackControllerDialogActivity.class);
+            i.putExtra(BaseEditFragment.RECORD_ID_KEY, -1L);
+        }
+        if (i != null) {
+            i.putExtra(BaseEditFragment.RECORD_ID_KEY, -1L);
+            i.putExtra(BaseEditFragment.DETAIL_OPERATION_KEY, BaseEditFragment.DETAIL_OPERATION_NEW);
+            MainActivity.this.startActivity(i);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mNavViewDrawer.isDrawerOpen(GravityCompat.START)) {
+            mNavViewDrawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private void showDefineCar() {
@@ -604,7 +601,7 @@ public class MainActivity extends AppCompatActivity
         }
         if (!isCustomRangeSelected) {
             fillChartHeaderCaption();
-            updateCharts();
+            fillContent();
         }
         return true;
     }
@@ -637,7 +634,7 @@ public class MainActivity extends AppCompatActivity
         db.close();
 
         if (needCallRun) {
-            updateCharts();
+            fillContent();
         }
     }
 
@@ -1001,11 +998,16 @@ public class MainActivity extends AppCompatActivity
         pieChart.invalidate();
     }
 
-    private void updateCharts() {
+    private void fillContent() {
         if (mRedrawCharts) {
             fillToDoZone();
             drawCharts();
-            fillStatisticsZone();
+            if (mPreferences.getBoolean(getString(R.string.pref_key_main_show_statistics), true)) {
+                fillStatisticsZone();
+                llStatisticsZone.setVisibility(View.VISIBLE);
+            } else
+                llStatisticsZone.setVisibility(View.GONE);
+
         }
         else {
             mRedrawCharts = true; //reset to default value
@@ -1034,7 +1036,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         fillChartHeaderCaption();
-        updateCharts();
+        fillContent();
     }
 
     @SuppressLint("WrongConstant")
@@ -1234,7 +1236,6 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressLint("SetTextI18n")
     private void fillStatisticsZone() {
-        View llStatisticsZone;
         TextView tvStatisticsHdr;
         TextView tvStatisticsLastKnownOdometer;
         TextView tvStatisticsAvgFuelEff;
@@ -1242,7 +1243,6 @@ public class MainActivity extends AppCompatActivity
         TextView tvStatisticsTotalExpenses;
         TextView tvStatisticsMileageExpense;
 
-        llStatisticsZone = findViewById(R.id.llStatisticsZone);
         tvStatisticsHdr = (TextView) findViewById(R.id.tvStatisticsHdr);
         tvStatisticsLastKnownOdometer = (TextView) findViewById(R.id.tvStatisticsLastKnownOdometer);
         tvStatisticsAvgFuelEff = (TextView) findViewById(R.id.tvStatisticsAvgFuelEff);

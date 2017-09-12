@@ -23,6 +23,7 @@
     <string name="pref_key_last_selected_driver_id">last_selected_driver_id</string>
 
     <string name="pref_key_main_addbtn">main_addbtn</string>
+    <string name="pref_key_main_show_statistics">main_show_statistics</string>
 
     <string name="pref_key_mileage_last_selected_exptype_id">mileage_last_selected_exptype_id</string>
     <string name="pref_key_mileage_insert_mode">mileage_insert_mode</string>
