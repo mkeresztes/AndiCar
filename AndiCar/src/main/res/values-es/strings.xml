@@ -45,7 +45,7 @@
     <string name="pref_partner_title">Estaciones de servicio &amp; Vendedores</string>
     <string name="pref_partner_summary">Agregar, borrar, modificar Estaciones de servicio, vendedores y ubicaciones</string>
     <string name="pref_reminder_category_title">Recordatorios</string>
-    <string name="pref_main_screen_category_title">Pantalla Principal</string>
+    <string name="pref_category_main_screen">Pantalla Principal</string>
     <string name="pref_main_screen_addbtn_title">Botón Agregar</string>
     <string name="pref_todo_type_title">Tipo de tareas</string>
     <string name="pref_todo_type_summary">Agregar, borrar, modificar tipo de tareas</string>

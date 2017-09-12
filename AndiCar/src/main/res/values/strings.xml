@@ -220,7 +220,7 @@
     <!--PREF_TaskTypeTitle-->
     <string name="pref_todo_type_title">To-do types</string>
     <!--PREF_MainScreenCategoryTitle-->
-    <string name="pref_main_screen_category_title">Main screen</string>
+    <string name="pref_category_main_screen">Main screen</string>
     <string name="pref_main_screen_addbtn_title">Add button</string>
     <string name="pref_main_screen_addbtn_hint">Long pressing the add button will show the menu</string>
     <!--PREF_TaskTypeSummary-->

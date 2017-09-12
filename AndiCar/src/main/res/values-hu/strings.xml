@@ -45,7 +45,7 @@
     <string name="pref_partner_title">Benzinkutak &amp; Szolgáltatók</string>
     <string name="pref_partner_summary">Benzinkutak, Szolgáltatók és címeik szerkesztése</string>
     <string name="pref_reminder_category_title">Emlékeztetők</string>
-    <string name="pref_main_screen_category_title">Főképernyő beállításai</string>
+    <string name="pref_category_main_screen">Főképernyő beállításai</string>
     <string name="pref_main_screen_addbtn_title">Új rekord gomb</string>
     <string name="pref_main_screen_addbtn_hint">Hosszan nyomva az új rekord gombot, megjelenik a menü</string>
 
