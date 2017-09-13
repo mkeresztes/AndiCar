@@ -1330,6 +1330,13 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                     bindPreferenceSummaryToValue(mainZone1Content);
                 }
             }
+
+            Preference mainZone2Content = findPreference(getString(R.string.pref_key_main_zone2_content));
+            if (mainZone1Content != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_zone2_content), null) != null) {
+                    bindPreferenceSummaryToValue(mainZone2Content);
+                }
+            }
         }
 
         @Override

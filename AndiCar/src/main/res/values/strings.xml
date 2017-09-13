@@ -229,7 +229,10 @@
     <string name="pref_main_screen_show_todo_zone">Show next To-Do</string>
     <!--PREF_MainScreen_ShowStatistics-->
     <string name="pref_main_screen_show_tatistics">Show statistics</string>
-    <string name="pref_main_screen_zon1_content">Zone 1 content</string>
+    <string name="pref_main_screen_zone1_content">Zone 1 content</string>
+    <string name="pref_main_screen_zone2_content">Zone 2 content</string>
+    <string name="pref_main_screen_zone3_content">Zone 3 content</string>
+    <string name="pref_main_screen_zone4_content">Zone 4 content</string>
 
     <!--PREF_TaskTypeSummary-->
     <string name="pref_todo_type_summary">Add, delete, modify to-do types</string>
