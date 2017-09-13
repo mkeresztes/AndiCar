@@ -323,10 +323,11 @@
 
     <string name="main_activity_no_to_do">Kein to-do</string>
     <string name="main_activity_statistics_header_caption">Statistik für die aufgezeichneten Fahrten</string>
-    <string name="MainActivity_MileageHeaderCaption">Letzte Strecke</string>
-    <string name="MainActivity_RefuelHeaderCaption">Letzter Tankvorgang</string>
-    <string name="MainActivity_GPSTrackHeaderCaption">Letzte GPS-Aufzeichnung</string>
-    <string name="MainActivity_ExpenseHeaderCaption">Letzte Ausgabe</string>
+    <string name="main_activity_mileage_header_caption">Letzte Strecke</string>
+    <string name="main_activity_refuel_header_caption">Letzter Tankvorgang</string>
+    <string name="main_activity_gps_track_header_caption">Letzte GPS-Aufzeichnung</string>
+    <string name="main_activity_expense_header_caption">Letzte Ausgabe</string>
+    <string name="main_activity_list_no_data">Keine Daten</string>
     <string name="main_activity_statistics_last_odometer_label">Letzter bekannter Kilometerstand: </string>
     <string name="main_activity_statistics_avg_cons_label">Durchschnittlicher Kraftstoffverbrauch.: </string>
     <string name="main_activity_statistics_last_cons_label">Letzter Verbrauch: </string>

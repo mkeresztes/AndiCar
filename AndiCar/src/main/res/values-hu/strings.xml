@@ -369,10 +369,11 @@
     <string name="main_activity_no_car">Nincs autó meghatározva</string>
     <string name="main_activity_no_to_do">Nincs tennivaló</string>
     <string name="main_activity_statistics_header_caption">Statisztikák  - </string>
-    <string name="MainActivity_MileageHeaderCaption">Utolsó fuvar</string>
-    <string name="MainActivity_RefuelHeaderCaption">Utolsó tankolás</string>
-    <string name="MainActivity_GPSTrackHeaderCaption">Utolsó GPS nyom</string>
-    <string name="MainActivity_ExpenseHeaderCaption">Utolsó költség</string>
+    <string name="main_activity_mileage_header_caption">Utolsó fuvar</string>
+    <string name="main_activity_refuel_header_caption">Utolsó tankolás</string>
+    <string name="main_activity_gps_track_header_caption">Utolsó GPS nyom</string>
+    <string name="main_activity_expense_header_caption">Utolsó költség</string>
+    <string name="main_activity_list_no_data">Nincs adat</string>
     <string name="main_activity_statistics_last_odometer_label">Utolsó ismert kilométeróra állás: </string>
     <string name="main_activity_statistics_avg_cons_label">Átl. üzemanyag fogy.: </string>
     <string name="main_activity_statistics_last_cons_label">Utolsó üzemanyag fogy.: </string>

@@ -701,10 +701,15 @@
     <string name="main_activity_no_to_do">No to-do</string>
     <!--MainActivity_StatisticsHeaderCaption-->
     <string name="main_activity_statistics_header_caption">Statistics for the registered </string>
-    <string name="MainActivity_MileageHeaderCaption">Last mileage</string>
-    <string name="MainActivity_RefuelHeaderCaption">Last refuel</string>
-    <string name="MainActivity_GPSTrackHeaderCaption">Last GPS track</string>
-    <string name="MainActivity_ExpenseHeaderCaption">Last expense</string>
+    <!--MainActivity_MileageHeaderCaption-->
+    <string name="main_activity_mileage_header_caption">Last trip</string>
+    <!--MainActivity_RefuelHeaderCaption-->
+    <string name="main_activity_refuel_header_caption">Last fill-up</string>
+    <!--MainActivity_GPSTrackHeaderCaption-->
+    <string name="main_activity_gps_track_header_caption">Last GPS track</string>
+    <!--MainActivity_ExpenseHeaderCaption-->
+    <string name="main_activity_expense_header_caption">Last expense</string>
+    <string name="main_activity_list_no_data">No data</string>
     <!--MainActivity_StatisticsListLastOdoLabel-->
     <string name="main_activity_statistics_last_odometer_label">Last known odometer: </string>
     <!--MainActivity_StatisticsAvgConsLabel-->

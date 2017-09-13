@@ -49,10 +49,11 @@
     <string name="pref_main_screen_addbtn_title">Butonul adăugare</string>
     <string name="pref_main_screen_addbtn_hint">Apăsând lung pe butonul de adăugare, se va afișa meniul</string>
     <string name="pref_main_screen_show_todo_zone">Arată următoarea sarcină</string>
-    <string name="MainActivity_MileageHeaderCaption">Ultimul kilometraj</string>
-    <string name="MainActivity_RefuelHeaderCaption">Ultima alimentare</string>
-    <string name="MainActivity_GPSTrackHeaderCaption">Ultimul traseu GPS</string>
-    <string name="MainActivity_ExpenseHeaderCaption">Ultima cheltuială</string>
+    <string name="main_activity_mileage_header_caption">Ultimul kilometraj</string>
+    <string name="main_activity_refuel_header_caption">Ultima alimentare</string>
+    <string name="main_activity_gps_track_header_caption">Ultimul traseu GPS</string>
+    <string name="main_activity_expense_header_caption">Ultima cheltuială</string>
+    <string name="main_activity_list_no_data">Nu există înregistrări</string>
     <string name="pref_main_screen_show_tatistics">Arată statisticile</string>
 
     <string name="pref_todo_type_title">Tipuri de sarcini</string>
