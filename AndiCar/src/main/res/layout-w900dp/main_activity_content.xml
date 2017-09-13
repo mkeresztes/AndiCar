@@ -147,26 +147,31 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/line1Header"
+                        style="@style/AndiCarMainActivityListHeader"
+                        android:text="slkjslkfjdlksjlksjflkdjll lkkll slkjslkfjdlksjlksjflkdjll lkkll"/>
+
+                    <TextView
                         android:id="@+id/firstLine1"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.FirstLine"
-                        android:text="slkjslkfjdlksjlksjflkdjll lkkll slkjslkfjdlksjlksjflkdjll lkkll" />
+                        android:text="slkjslkfjdlksjlksjflkdjll lkkll slkjslkfjdlksjlksjflkdjll lkkll"
+                        android:textAppearance="@style/ListItem.FirstLine"/>
 
                     <TextView
-                        android:id="@+id/secondLine1"
+                        android:id="@+id/thirdLine1"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.SecondLine"
-                        tools:ignore="InconsistentLayout"
-                        android:text="slkjslkfjdlksjlksjflkdjll lkkll" />
+                        android:text="slkjslkfjdlksjlksjflkdjll lkkll"
+                        android:textAppearance="@style/ListItem.ThirdLine"
+                        tools:ignore="InconsistentLayout"/>
 
                     <LinearLayout
                         android:id="@+id/line1Buttons"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="end">
+                        android:gravity="end"
+                        android:orientation="horizontal">
 
                         <ImageButton
                             android:id="@+id/btnEdit1"
@@ -174,9 +179,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="10dp"
                             android:layout_marginRight="10dp"
-                            app:srcCompat="@drawable/ic_menu_edit_black_24dp_pad4dp"
+                            android:background="@null"
                             android:contentDescription="@string/gen_edit"
-                            android:background="@null" />
+                            app:srcCompat="@drawable/ic_menu_edit_black_24dp_pad4dp"/>
 
                         <ImageButton
                             android:id="@+id/btnShowList1"
@@ -184,9 +189,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="10dp"
                             android:layout_marginRight="10dp"
-                            app:srcCompat="@drawable/ic_menu_black_24dp"
+                            android:background="@null"
                             android:contentDescription="@string/gen_list"
-                            android:background="@null" />
+                            app:srcCompat="@drawable/ic_button_list_black_24dp_pad4dp"/>
 
                         <ImageButton
                             android:id="@+id/btnAddNew1"
@@ -194,9 +199,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="10dp"
                             android:layout_marginRight="10dp"
-                            app:srcCompat="@drawable/ic_button_add_black_dark_selector"
+                            android:background="@null"
                             android:contentDescription="@string/gen_add_new"
-                            android:background="@null" />
+                            app:srcCompat="@drawable/ic_button_add_black_24dp_pad4dp"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -217,24 +222,21 @@
                         style="@style/AndiCarChartHeader"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart11Title"/>
+                        android:layout_weight="1"/>
 
                     <TextView
                         android:id="@+id/chart12Title"
                         style="@style/AndiCarChartHeader"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart12Title"/>
+                        android:layout_weight="1"/>
 
                     <TextView
                         android:id="@+id/chart13Title"
                         style="@style/AndiCarChartHeader"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart13Title"/>
+                        android:layout_weight="1"/>
 
                 </LinearLayout>
 
@@ -274,12 +276,13 @@
                     android:id="@+id/line1ChartFooterText"
                     style="@style/AndiCarChartFooter"/>
 
+                </LinearLayout>
                 <TextView
                     style="@style/AndiCarSeparatorView"
-                    android:layout_marginBottom="8dp"/>
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"/>
             </LinearLayout>
 
-            </LinearLayout>
             <LinearLayout
                 android:id="@+id/line2ChartsZone"
                 android:layout_width="match_parent"
@@ -297,24 +300,21 @@
                         style="@style/AndiCarChartHeader"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart21Title"/>
+                        android:layout_weight="1"/>
 
                     <TextView
                         android:id="@+id/chart22Title"
                         style="@style/AndiCarChartHeader"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart22Title"/>
+                        android:layout_weight="1"/>
 
                     <TextView
                         android:id="@+id/chart23Title"
                         style="@style/AndiCarChartHeader"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart23Title"/>
+                        android:layout_weight="1"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -373,24 +373,21 @@
                         style="@style/AndiCarChartHeader"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart31Title"/>
+                        android:layout_weight="1"/>
 
                     <TextView
                         android:id="@+id/chart32Title"
                         style="@style/AndiCarChartHeader"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart32Title"/>
+                        android:layout_weight="1"/>
 
                     <TextView
                         android:id="@+id/chart33Title"
                         style="@style/AndiCarChartHeader"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart33Title"/>
+                        android:layout_weight="1"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -449,24 +446,21 @@
                         style="@style/AndiCarChartHeader"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart41Title"/>
+                        android:layout_weight="1"/>
 
                     <TextView
                         android:id="@+id/chart42Title"
                         style="@style/AndiCarChartHeader"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart42Title"/>
+                        android:layout_weight="1"/>
 
                     <TextView
                         android:id="@+id/chart43Title"
                         style="@style/AndiCarChartHeader"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart43Title"/>
+                        android:layout_weight="1"/>
                 </LinearLayout>
 
                 <LinearLayout

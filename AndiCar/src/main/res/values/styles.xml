@@ -193,4 +193,13 @@
         <item name="android:textColor">@android:color/primary_text_light</item>
     </style>
 
+    <style name="AndiCarMainActivityListHeader">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/main_activity_list_header_color</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:textAppearance">@style/ListItem.FirstLine</item>
+    </style>
 </resources>

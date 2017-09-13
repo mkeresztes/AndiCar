@@ -369,6 +369,10 @@
     <string name="main_activity_no_car">Nincs autó meghatározva</string>
     <string name="main_activity_no_to_do">Nincs tennivaló</string>
     <string name="main_activity_statistics_header_caption">Statisztikák  - </string>
+    <string name="MainActivity_MileageHeaderCaption">Utolsó fuvar</string>
+    <string name="MainActivity_RefuelHeaderCaption">Utolsó tankolás</string>
+    <string name="MainActivity_GPSTrackHeaderCaption">Utolsó GPS nyom</string>
+    <string name="MainActivity_ExpenseHeaderCaption">Utolsó költség</string>
     <string name="main_activity_statistics_last_odometer_label">Utolsó ismert kilométeróra állás: </string>
     <string name="main_activity_statistics_avg_cons_label">Átl. üzemanyag fogy.: </string>
     <string name="main_activity_statistics_last_cons_label">Utolsó üzemanyag fogy.: </string>
@@ -500,18 +504,18 @@
 
     <!--chart headers-->
     <!--11 = row 1, column 1-->
-    <string name="chart11Title">Utak típusok szerint (top 3)</string>
-    <string name="chart12Title">Utak címkék szerint (top 3)</string>
-    <string name="chart13Title">Utak vezető szerint (top 3)</string>
-    <string name="chart21Title">Tankolások típusok szerint - mennyiség (top 3)</string>
-    <string name="chart22Title">Tankolások címkék szerint - mennyiség (top 3)</string>
-    <string name="chart23Title">Tankolások üzemanyag szerint - mennyiség (top 3)</string>
-    <string name="chart31Title">Tankolások típusok szerint - érték (top 3)</string>
-    <string name="chart32Title">Tankolások címkék szerint - érték (top 3)</string>
-    <string name="chart33Title">Tankolások üzemanyag szerint - érték (top 3)</string>
-    <string name="chart41Title">Költségek típusok szerint (top 3)</string>
-    <string name="chart42Title">Költségek kategóriák szerint (top 3)</string>
-    <string name="chart43Title">Költségek címkék szerint (top 3)</string>
+    <string name="tripChart1Title">Utak típusok szerint (top 3)</string>
+    <string name="tripChart2Title">Utak címkék szerint (top 3)</string>
+    <string name="tripChart3Title">Utak vezető szerint (top 3)</string>
+    <string name="fillUpQuantityChart1Title">Tankolások típusok szerint - mennyiség (top 3)</string>
+    <string name="fillUpQuantityChart2Title">Tankolások címkék szerint - mennyiség (top 3)</string>
+    <string name="fillUpQuantityChart3Title">Tankolások üzemanyag szerint - mennyiség (top 3)</string>
+    <string name="fillUpValueChart1Title">Tankolások típusok szerint - érték (top 3)</string>
+    <string name="fillUpValueChart2Title">Tankolások címkék szerint - érték (top 3)</string>
+    <string name="fillUpValueChart3Title">Tankolások üzemanyag szerint - érték (top 3)</string>
+    <string name="expenseChart1Title">Költségek típusok szerint (top 3)</string>
+    <string name="expenseChart2Title">Költségek kategóriák szerint (top 3)</string>
+    <string name="expenseChart3Title">Költségek címkék szerint (top 3)</string>
     <string name="chartFooterText">Összesen: %1$s</string>
     <string name="title_list_activity" tools:ignore="PluralsCandidate">%1$s: %2$s rekord</string>
     <string name="error_sorry">Bocsi! Egy váratlan hiba\ncsúszott be :(</string>

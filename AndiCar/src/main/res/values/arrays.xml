@@ -159,14 +159,14 @@
     </string-array>
 
     <string-array name="pref_main_zone_content_chooser_values" tools:ignore="MissingTranslation">
-        <item>DNU</item>
-        <item>LTR</item>
-        <item>LFU</item>
-        <item>LEX</item>
-        <item>LGT</item>
-        <item>TRC</item>
-        <item>FQC</item>
-        <item>FVC</item>
-        <item>EXC</item>
+        <item>DNU</item> <!--Do not use-->
+        <item>LTR</item> <!--Last trip-->
+        <item>LFU</item> <!--Last fill-up-->
+        <item>LEX</item> <!--Last expense-->
+        <item>LGT</item> <!--Last GPS Track-->
+        <item>CTR</item> <!--Trip charts-->
+        <item>CFQ</item> <!--Fill-ups charts (quantity)-->
+        <item>CFV</item> <!--Fill-ups charts (value)-->
+        <item>CEX</item> <!--Expense charts-->
     </string-array>
 </resources>

@@ -319,6 +319,10 @@
     <string name="main_activity_no_to_do">No tarea</string>
 
     <string name="main_activity_statistics_header_caption">Estadísticas para lo registrado</string>
+    <string name="MainActivity_MileageHeaderCaption">Último registro de kilómetros</string>
+    <string name="MainActivity_RefuelHeaderCaption">"Último registro de Recarga</string>
+    <string name="MainActivity_GPSTrackHeaderCaption">Último registro de Seguimiento GPS</string>
+    <string name="MainActivity_ExpenseHeaderCaption">Último registro de Gastos</string>
     <string name="main_activity_statistics_last_odometer_label">Último odómetro conocido: </string>
     <string name="main_activity_statistics_avg_cons_label">Promedio de eficiencia de combustible: </string>
     <string name="main_activity_statistics_last_cons_label">ultima eficiencia de combustible.: </string>

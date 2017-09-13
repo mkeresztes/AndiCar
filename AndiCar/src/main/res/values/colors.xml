@@ -36,5 +36,7 @@
     <color name="todo_overdue_text_color">#D50000</color>
     <!--Blue A700-->
     <color name="todo_blue_text_color">#2962FF</color>
+    <!--pink 100-->
+    <color name="main_activity_list_header_color">#F8BBD0</color>
 
 </resources>

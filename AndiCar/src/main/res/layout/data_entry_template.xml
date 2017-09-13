@@ -53,7 +53,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:contentDescription="@string/gen_menu"
-            app:srcCompat="@drawable/ic_menu_black_24dp"/>
+            app:srcCompat="@drawable/ic_menu_black_24dp_pad4dp"/>
     </LinearLayout>
 
     <TextView style="@style/AndiCarSeparatorView" />

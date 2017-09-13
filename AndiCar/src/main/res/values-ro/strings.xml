@@ -49,6 +49,10 @@
     <string name="pref_main_screen_addbtn_title">Butonul adăugare</string>
     <string name="pref_main_screen_addbtn_hint">Apăsând lung pe butonul de adăugare, se va afișa meniul</string>
     <string name="pref_main_screen_show_todo_zone">Arată următoarea sarcină</string>
+    <string name="MainActivity_MileageHeaderCaption">Ultimul kilometraj</string>
+    <string name="MainActivity_RefuelHeaderCaption">Ultima alimentare</string>
+    <string name="MainActivity_GPSTrackHeaderCaption">Ultimul traseu GPS</string>
+    <string name="MainActivity_ExpenseHeaderCaption">Ultima cheltuială</string>
     <string name="pref_main_screen_show_tatistics">Arată statisticile</string>
 
     <string name="pref_todo_type_title">Tipuri de sarcini</string>
@@ -500,18 +504,18 @@
 
     <!--chart headers-->
     <!--11 = row 1, column 1-->
-    <string name="chart11Title">Kilometraje după tipuri (top 3)</string>
-    <string name="chart12Title">Kilometraje după etichete (top 3)</string>
-    <string name="chart13Title">Kilometraje după șofer (top 3)</string>
-    <string name="chart21Title">Alimentări după tipuri - cantitate (top 3)</string>
-    <string name="chart22Title">Alimentări după etichete - cantitate (top 3)</string>
-    <string name="chart23Title">Alimentări după combustibil - cantitate (top 3)</string>
-    <string name="chart31Title">Alimentări după tipuri - valoare (top 3)</string>
-    <string name="chart32Title">Alimentări după etichete - valoare (top 3)</string>
-    <string name="chart33Title">Alimentări după combustibil - valoare (top 3)</string>
-    <string name="chart41Title">Cheltuieli după tipuri (top 3)</string>
-    <string name="chart42Title">Cheltuieli după categorii (top 3)</string>
-    <string name="chart43Title">Cheltuieli după etichete (top 3)</string>
+    <string name="tripChart1Title">Kilometraje după tipuri (top 3)</string>
+    <string name="tripChart2Title">Kilometraje după etichete (top 3)</string>
+    <string name="tripChart3Title">Kilometraje după șofer (top 3)</string>
+    <string name="fillUpQuantityChart1Title">Alimentări după tipuri - cantitate (top 3)</string>
+    <string name="fillUpQuantityChart2Title">Alimentări după etichete - cantitate (top 3)</string>
+    <string name="fillUpQuantityChart3Title">Alimentări după combustibil - cantitate (top 3)</string>
+    <string name="fillUpValueChart1Title">Alimentări după tipuri - valoare (top 3)</string>
+    <string name="fillUpValueChart2Title">Alimentări după etichete - valoare (top 3)</string>
+    <string name="fillUpValueChart3Title">Alimentări după combustibil - valoare (top 3)</string>
+    <string name="expenseChart1Title">Cheltuieli după tipuri (top 3)</string>
+    <string name="expenseChart2Title">Cheltuieli după categorii (top 3)</string>
+    <string name="expenseChart3Title">Cheltuieli după etichete (top 3)</string>
     <string name="chartFooterText">Total: %1$s</string>
     <string name="title_list_activity" tools:ignore="PluralsCandidate">%1$s: %2$s înregistrări</string>
     <string name="error_sorry">Scuze! A apărut o eroare\nneașteptată :(</string>
