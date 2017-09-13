@@ -23,6 +23,7 @@
     <string name="pref_key_last_selected_driver_id">last_selected_driver_id</string>
 
     <string name="pref_key_main_addbtn">main_addbtn</string>
+    <string name="pref_key_main_show_next_todo">main_show_next_todo</string>
     <string name="pref_key_main_show_statistics">main_show_statistics</string>
     <string name="pref_key_main_zone1_content">main_zone1_content</string>
 

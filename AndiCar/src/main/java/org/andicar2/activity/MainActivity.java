@@ -120,7 +120,8 @@ public class MainActivity extends AppCompatActivity
     private long mLastToDoTaskId = -1;
     private long mLastToDoCarId = -1;
 
-    View llStatisticsZone;
+    private View llStatisticsZone;
+    private View llToDoZone;
 
     /**
      * Called when the activity is first created.
@@ -137,6 +138,7 @@ public class MainActivity extends AppCompatActivity
 
         tvChartsHdr = (TextView) findViewById(R.id.tvChartsHdr);
         llStatisticsZone = findViewById(R.id.llStatisticsZone);
+        llToDoZone = findViewById(R.id.llToDoZone);
 
         if (savedInstanceState != null) {
             mChartFilterType = savedInstanceState.getInt("mChartFilterType", 1);
@@ -1139,14 +1141,24 @@ public class MainActivity extends AppCompatActivity
 
     private void fillContent() {
         if (mRedrawCharts) {
-            fillToDoZone();
+            if (mPreferences.getBoolean(getString(R.string.pref_key_main_show_next_todo), true)) {
+                llToDoZone.setVisibility(View.VISIBLE);
+                fillToDoZone();
+            }
+            else {
+                llToDoZone.setVisibility(View.GONE);
+            }
+
             drawCharts(1, mPreferences.getString(getString(R.string.pref_key_main_zone1_content), "TRC"));
             drawCharts();
+
             if (mPreferences.getBoolean(getString(R.string.pref_key_main_show_statistics), true)) {
-                fillStatisticsZone();
                 llStatisticsZone.setVisibility(View.VISIBLE);
-            } else
+                fillStatisticsZone();
+            }
+            else {
                 llStatisticsZone.setVisibility(View.GONE);
+            }
 
         }
         else {
@@ -1185,13 +1197,9 @@ public class MainActivity extends AppCompatActivity
         Bundle whereConditions = new Bundle();
         TextView tvToDoText1;
         TextView tvToDoText2;
-//        TextView tvToDoText3;
-        View llToDoZone;
 
-        llToDoZone = findViewById(R.id.llToDoZone);
         tvToDoText1 = (TextView) findViewById(R.id.tvToDoText1);
         tvToDoText2 = (TextView) findViewById(R.id.tvToDoText2);
-//        tvToDoText3 = (TextView) findViewById(R.id.tvToDoText3);
 
         whereConditions.putString(DBReportAdapter.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__ISDONE) + "=", "N");
         DBReportAdapter reportDb = new DBReportAdapter(this, DBReportAdapter.TODO_LIST_SELECT_NAME, whereConditions);
@@ -1199,7 +1207,6 @@ public class MainActivity extends AppCompatActivity
         if (listCursor != null && listCursor.moveToFirst()) {
             toDoExists = true;
             tvToDoText2.setVisibility(View.VISIBLE);
-//            tvToDoText3.setVisibility(View.VISIBLE);
 
             mLastToDoId = listCursor.getLong(0);
             mLastToDoTaskId = listCursor.getLong(11);
@@ -1283,20 +1290,11 @@ public class MainActivity extends AppCompatActivity
                         .replace("[#12]", getString(R.string.todo_mileage)).replace("[#13]", getString(R.string.todo_estimated_mileage_date))
                         .replace("[#14]", timeStr));
             }
-//            if (listCursor.getString(listCursor.getColumnIndex(DBReportAdapter.THIRD_LINE_LIST_NAME)) != null &&
-//                    listCursor.getString(listCursor.getColumnIndex(DBReportAdapter.THIRD_LINE_LIST_NAME)).trim().length() > 0) {
-//                tvToDoText3.setText(listCursor.getString(listCursor.getColumnIndex(DBReportAdapter.THIRD_LINE_LIST_NAME)));
-//            }
-//            else {
-//                tvToDoText3.setVisibility(View.GONE);
-//            }
-
         }
         else {
             toDoExists = false;
             tvToDoText1.setText(R.string.main_activity_no_to_do);
             tvToDoText2.setVisibility(View.GONE);
-//            tvToDoText3.setVisibility(View.GONE);
         }
 
         llToDoZone.setOnClickListener(new View.OnClickListener() {
