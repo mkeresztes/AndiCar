@@ -40,10 +40,12 @@ public class LastRecordComponent extends LinearLayout {
 
     public LastRecordComponent(Context context) {
         super(context);
+        mCtx = context;
     }
 
     public LastRecordComponent(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        mCtx = context;
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.LastRecordComponent, 0, 0);
 
@@ -77,8 +79,6 @@ public class LastRecordComponent extends LinearLayout {
             secondLine.setText(secondLineText);
         if (thirdLine != null)
             thirdLine.setText(thirdLineText);
-
-
     }
 
     public void setMapButtonOnClickListener(View.OnClickListener listener) {

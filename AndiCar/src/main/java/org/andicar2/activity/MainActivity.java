@@ -1857,6 +1857,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupZone(int zone, View zoneContainer, View chartContainer, View textContainer, String zoneContent) {
+        if (zone > 1)
+            return;
+
         if (zoneContent.equals("DNU")) {
             zoneContainer.setVisibility(View.GONE);
         } else {
@@ -1868,7 +1871,7 @@ public class MainActivity extends AppCompatActivity
                 drawCharts(zone, zoneContent);
             } else {
                 chartContainer.setVisibility(View.GONE);
-                textContainer.setVisibility(View.VISIBLE);
+//                textContainer.setVisibility(View.VISIBLE);
                 fillLastRecord(zone, zoneContent);
             }
         }
