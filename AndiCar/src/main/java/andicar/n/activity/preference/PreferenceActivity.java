@@ -1332,9 +1332,23 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             }
 
             Preference mainZone2Content = findPreference(getString(R.string.pref_key_main_zone2_content));
-            if (mainZone1Content != null) {
+            if (mainZone2Content != null) {
                 if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_zone2_content), null) != null) {
                     bindPreferenceSummaryToValue(mainZone2Content);
+                }
+            }
+
+            Preference mainZone3Content = findPreference(getString(R.string.pref_key_main_zone3_content));
+            if (mainZone3Content != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_zone3_content), null) != null) {
+                    bindPreferenceSummaryToValue(mainZone3Content);
+                }
+            }
+
+            Preference mainZone4Content = findPreference(getString(R.string.pref_key_main_zone4_content));
+            if (mainZone4Content != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_zone4_content), null) != null) {
+                    bindPreferenceSummaryToValue(mainZone4Content);
                 }
             }
         }
