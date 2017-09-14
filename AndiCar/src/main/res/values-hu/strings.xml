@@ -429,14 +429,14 @@
     <string name="chart_filter_previous_year">Múlt évi</string>
     <string name="chart_filter_custom_period">Más időszak</string>
     <string name="chart_label_others">Egyéb (%1$.2f%2$s)</string> <!--Others 32.45%-->
-    <string name="chart_filter_all_header_caption">Az összes adat</string>
-    <string name="chart_filter_current_month_header_caption">E hónapi adatok</string>
-    <string name="chart_filter_previous_month_header_caption">Múlt hónapi adatok</string>
-    <string name="chart_filter_current_year_header_caption">Ez évi adatok</string>
-    <string name="chart_filter_previous_year_header_caption">Múlt évi adatok</string>
-    <string name="chart_filter_custom_period_header_caption">%1$s > %2$s</string>
-    <string name="chart_filter_custom_period_header_caption_value_beginning">Az elejétől</string>
-    <string name="chart_filter_custom_period_header_caption_value_now">mostanig</string>
+    <string name="chart_filter_all_text">az összes adat</string>
+    <string name="chart_filter_current_month_text">e hónapi adatok</string>
+    <string name="chart_filter_previous_month_text">múlt hónapi adatok</string>
+    <string name="chart_filter_current_year_text">ez évi adatok</string>
+    <string name="chart_filter_previous_year_text">múlt évi adatok</string>
+    <string name="chart_filter_custom_period_text">%1$s > %2$s</string>
+    <string name="chart_filter_custom_period_beginning_text">az elejétől</string>
+    <string name="chart_filter_custom_period_now_text">mostanig</string>
     <string name="chart_no_data">Nincs adat</string>
 
     <string name="progress_restoring_data">A helyreállítás folyamatban … </string>

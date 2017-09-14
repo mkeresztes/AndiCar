@@ -126,14 +126,6 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tvChartsHdr"
-                style="@style/ListItem.FirstLine"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:gravity="center_horizontal"/>
-
-
             <LinearLayout
                 android:id="@+id/line1Zone"
                 android:layout_width="match_parent"

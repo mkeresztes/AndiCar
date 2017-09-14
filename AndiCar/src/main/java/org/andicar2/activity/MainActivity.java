@@ -142,6 +142,9 @@ public class MainActivity extends AppCompatActivity
     private long mLastTouchDown;
     private boolean mRedrawCharts = true;
     private boolean mErrorInDrawCharts = false;
+    //used to determine if the option menu need or not (for filtering chart data)
+    private boolean mChartsExistsOnScreen = false;
+    private Menu mMenu;
     private int mChartFilterType = 1;
     private long mChartPeriodStartInSeconds = -1;
     private long mChartPeriodEndInSeconds = -1;
@@ -150,7 +153,6 @@ public class MainActivity extends AppCompatActivity
     private SharedPreferences mPreferences;
     private MainNavigationView mNavigationView;
     private DrawerLayout mNavViewDrawer;
-    private TextView tvChartsHdr;
     private long mLastToDoId = -1;
     private long mLastToDoTaskId = -1;
     private long mLastToDoCarId = -1;
@@ -170,7 +172,6 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.main_activity);
 
-        tvChartsHdr = (TextView) findViewById(R.id.tvChartsHdr);
         llStatisticsZone = findViewById(R.id.llStatisticsZone);
         llToDoZone = findViewById(R.id.llToDoZone);
 
@@ -178,12 +179,7 @@ public class MainActivity extends AppCompatActivity
             mChartFilterType = savedInstanceState.getInt("mChartFilterType", 1);
             mChartPeriodStartInSeconds = savedInstanceState.getLong("mChartPeriodStartInSeconds", -1);
             mChartPeriodEndInSeconds = savedInstanceState.getLong("mChartPeriodEndInSeconds", -1);
-            fillChartHeaderCaption();
         }
-        else {
-            tvChartsHdr.setText(R.string.chart_filter_all_header_caption);
-        }
-
         //set up the main toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -367,35 +363,29 @@ public class MainActivity extends AppCompatActivity
         fillContent();
     }
 
-    private void fillChartHeaderCaption() {
+    private String getChartDataPeriodText() {
         switch (mChartFilterType) {
             case CHART_FILTER_ALL:
-                tvChartsHdr.setText(R.string.chart_filter_all_header_caption);
-                break;
+                return getString(R.string.chart_filter_all_text);
             case CHART_FILTER_CURRENT_MONTH:
-                tvChartsHdr.setText(R.string.chart_filter_current_month_header_caption);
-                break;
+                return getString(R.string.chart_filter_current_month_text);
             case CHART_FILTER_PREVIOUS_MONTH:
-                tvChartsHdr.setText(R.string.chart_filter_previous_month_header_caption);
-                break;
+                return getString(R.string.chart_filter_previous_month_text);
             case CHART_FILTER_CURRENT_YEAR:
-                tvChartsHdr.setText(R.string.chart_filter_current_year_header_caption);
-                break;
+                return getString(R.string.chart_filter_current_year_text);
             case CHART_FILTER_PREVIOUS_YEAR:
-                tvChartsHdr.setText(R.string.chart_filter_previous_year_header_caption);
-                break;
+                return getString(R.string.chart_filter_previous_year_text);
             case CHART_FILTER_CUSTOM_PERIOD:
-                tvChartsHdr.setText(
-                        String.format(getString(R.string.chart_filter_custom_period_header_caption),
+                return
+                        String.format(getString(R.string.chart_filter_custom_period_text),
                                 mChartPeriodStartInSeconds > 0 ?
                                         Utils.getFormattedDateTime(mChartPeriodStartInSeconds * 1000, true) :
-                                        getString(R.string.chart_filter_custom_period_header_caption_value_beginning),
+                                        getString(R.string.chart_filter_custom_period_beginning_text),
                                 mChartPeriodEndInSeconds > 0 ?
                                         Utils.getFormattedDateTime(mChartPeriodEndInSeconds * 1000, true) :
-                                        getString(R.string.chart_filter_custom_period_header_caption_value_now)));
-                break;
+                                        getString(R.string.chart_filter_custom_period_now_text));
             default:
-                tvChartsHdr.setText(R.string.chart_filter_all_header_caption);
+                return getString(R.string.chart_filter_all_text);
         }
     }
 
@@ -585,9 +575,11 @@ public class MainActivity extends AppCompatActivity
         if (menu != null) {
             menu.clear();
         }
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_activity_chart_filter_menu, menu);
+        mMenu = menu;
+        if (mChartsExistsOnScreen) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.main_activity_chart_filter_menu, mMenu);
+        }
         return true;
     }
 
@@ -652,7 +644,6 @@ public class MainActivity extends AppCompatActivity
                 mChartPeriodEndInSeconds = -1;
         }
         if (!isCustomRangeSelected) {
-            fillChartHeaderCaption();
             fillContent();
         }
         return true;
@@ -1264,7 +1255,7 @@ public class MainActivity extends AppCompatActivity
         TextView chart1Title;
         TextView chart2Title;
         TextView chart3Title;
-        TextView chartFooterText;
+        TextView chartFooterTextView;
         String title1;
         String title2;
         String title3;
@@ -1277,7 +1268,7 @@ public class MainActivity extends AppCompatActivity
                 chart1Title = (TextView) findViewById(R.id.chart11Title);
                 chart2Title = (TextView) findViewById(R.id.chart12Title);
                 chart3Title = (TextView) findViewById(R.id.chart13Title);
-                chartFooterText = (TextView) findViewById(R.id.line1ChartFooterText);
+                chartFooterTextView = (TextView) findViewById(R.id.line1ChartFooterText);
                 chartLine = (LinearLayout) findViewById(R.id.line1Charts);
                 break;
             case 2:
@@ -1287,7 +1278,7 @@ public class MainActivity extends AppCompatActivity
                 chart1Title = (TextView) findViewById(R.id.chart21Title);
                 chart2Title = (TextView) findViewById(R.id.chart22Title);
                 chart3Title = (TextView) findViewById(R.id.chart23Title);
-                chartFooterText = (TextView) findViewById(R.id.line2ChartFooterText);
+                chartFooterTextView = (TextView) findViewById(R.id.line2ChartFooterText);
                 chartLine = (LinearLayout) findViewById(R.id.line2Charts);
                 break;
             case 3:
@@ -1297,7 +1288,7 @@ public class MainActivity extends AppCompatActivity
                 chart1Title = (TextView) findViewById(R.id.chart31Title);
                 chart2Title = (TextView) findViewById(R.id.chart32Title);
                 chart3Title = (TextView) findViewById(R.id.chart33Title);
-                chartFooterText = (TextView) findViewById(R.id.line3ChartFooterText);
+                chartFooterTextView = (TextView) findViewById(R.id.line3ChartFooterText);
                 chartLine = (LinearLayout) findViewById(R.id.line3Charts);
                 break;
             case 4:
@@ -1307,7 +1298,7 @@ public class MainActivity extends AppCompatActivity
                 chart1Title = (TextView) findViewById(R.id.chart41Title);
                 chart2Title = (TextView) findViewById(R.id.chart42Title);
                 chart3Title = (TextView) findViewById(R.id.chart43Title);
-                chartFooterText = (TextView) findViewById(R.id.line4ChartFooterText);
+                chartFooterTextView = (TextView) findViewById(R.id.line4ChartFooterText);
                 chartLine = (LinearLayout) findViewById(R.id.line4Charts);
                 break;
             default:
@@ -1340,7 +1331,7 @@ public class MainActivity extends AppCompatActivity
         String[] chartArguments = selArgs.toArray(new String[0]);
 
         ArrayList<DBReportAdapter.chartData> chartData;
-        String chartFooter;
+        String chartFooterText;
 
         try {
             String carCurrencyCode = dbReportAdapter.getCurrencyCode(dbReportAdapter.getCarCurrencyID(mLastSelectedCarID));
@@ -1353,18 +1344,18 @@ public class MainActivity extends AppCompatActivity
                     chartData = dbReportAdapter.getMileageByTypeChartData(chartArguments);
                     if (chartData.size() > 0) {
                         setChartBandHeight(chartLine, false);
-                        chartFooter =
+                        chartFooterText =
                                 String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
-                                        + " " + carUOMLengthCode);
+                                        + " " + carUOMLengthCode) + " (" + getChartDataPeriodText() + ")";
                     }
                     else {
                         setChartBandHeight(chartLine, true);
-                        chartFooter = null;
+                        chartFooterText = null;
                     }
                     if (pChart1 != null) {
                         chart1Title.setText(title1);
                         title1 = title1.substring(0, title1.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
-                        drawPieChart(chartLine, pChart1, chartData, title1, chartFooterText, chartFooter);
+                        drawPieChart(chartLine, pChart1, chartData, title1, chartFooterTextView, chartFooterText);
                     }
 
                     if (pChart2 != null) {
@@ -1388,18 +1379,18 @@ public class MainActivity extends AppCompatActivity
                     chartData = dbReportAdapter.getRefuelsByTypeChartData(chartArguments, false);
                     if (chartData.size() > 0) {
                         setChartBandHeight(chartLine, false);
-                        chartFooter = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
-                                + " " + carUOMVolume);
+                        chartFooterText = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
+                                + " " + carUOMVolume) + " (" + getChartDataPeriodText() + ")";
                     }
                     else {
                         setChartBandHeight(chartLine, true);
-                        chartFooter = null;
+                        chartFooterText = null;
                     }
                     if (pChart1 != null) {
                         title1 = getString(R.string.fillUpQuantityChart1Title);
                         chart1Title.setText(title1);
                         title1 = title1.substring(0, title1.indexOf("(") - 1) + " [" + carUOMVolume + "]";
-                        drawPieChart(chartLine, pChart1, chartData, title1, chartFooterText, chartFooter);
+                        drawPieChart(chartLine, pChart1, chartData, title1, chartFooterTextView, chartFooterText);
                     }
 
                     if (pChart2 != null) {
@@ -1421,19 +1412,19 @@ public class MainActivity extends AppCompatActivity
                     chartData = dbReportAdapter.getRefuelsByTypeChartData(chartArguments, true);
                     if (chartData.size() > 0) {
                         setChartBandHeight(chartLine, false);
-                        chartFooter = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
-                                + " " + carCurrencyCode);
+                        chartFooterText = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
+                                + " " + carCurrencyCode) + " (" + getChartDataPeriodText() + ")";
                     }
                     else {
                         setChartBandHeight(chartLine, true);
-                        chartFooter = null;
+                        chartFooterText = null;
                     }
 
                     if (pChart1 != null) {
                         title1 = getString(R.string.fillUpValueChart1Title);
                         chart1Title.setText(title1);
                         title1 = title1.substring(0, title1.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                        drawPieChart(chartLine, pChart1, chartData, title1, chartFooterText, chartFooter);
+                        drawPieChart(chartLine, pChart1, chartData, title1, chartFooterTextView, chartFooterText);
                     }
 
                     if (pChart2 != null) {
@@ -1454,19 +1445,19 @@ public class MainActivity extends AppCompatActivity
                     chartData = dbReportAdapter.getExpensesByTypeChartData(chartArguments);
                     if (chartData.size() > 0) {
                         setChartBandHeight(chartLine, false);
-                        chartFooter = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
-                                + " " + carCurrencyCode);
+                        chartFooterText = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
+                                + " " + carCurrencyCode) + " (" + getChartDataPeriodText() + ")";
                     }
                     else {
                         setChartBandHeight(chartLine, true);
-                        chartFooter = null;
+                        chartFooterText = null;
                     }
 
                     if (pChart1 != null) {
                         title1 = getString(R.string.expenseChart1Title);
                         chart1Title.setText(title1);
                         title1 = title1.substring(0, title1.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                        drawPieChart(chartLine, pChart1, chartData, title1, chartFooterText, chartFooter);
+                        drawPieChart(chartLine, pChart1, chartData, title1, chartFooterTextView, chartFooterText);
                     }
 
                     if (pChart2 != null) {
@@ -1671,6 +1662,8 @@ public class MainActivity extends AppCompatActivity
             View textContainer;
             String zoneContent;
 
+            mChartsExistsOnScreen = false;
+
             //zone 1
             zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone1_content), "CTR");
             chartContainer = findViewById(R.id.line1ChartsZone);
@@ -1719,6 +1712,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             zoneContainer.setVisibility(View.VISIBLE);
             if (zoneContent.startsWith("C")) { //chart
+                mChartsExistsOnScreen = true;
                 chartContainer.setVisibility(View.VISIBLE);
                 textContainer.setVisibility(View.GONE);
                 drawCharts(zone, zoneContent);
@@ -1726,6 +1720,14 @@ public class MainActivity extends AppCompatActivity
                 chartContainer.setVisibility(View.GONE);
                 textContainer.setVisibility(View.VISIBLE);
                 fillLastRecord(zone, zoneContent);
+            }
+        }
+
+        if (mMenu != null) {
+            mMenu.clear();
+            if (mChartsExistsOnScreen) {
+                MenuInflater inflater = getMenuInflater();
+                inflater.inflate(R.menu.main_activity_chart_filter_menu, mMenu);
             }
         }
     }
@@ -1751,7 +1753,6 @@ public class MainActivity extends AppCompatActivity
             mChartFilterType = CHART_FILTER_ALL;
         }
 
-        fillChartHeaderCaption();
         fillContent();
     }
 
@@ -1992,7 +1993,7 @@ public class MainActivity extends AppCompatActivity
             }
 
             tvStatisticsHdr.setText(getString(R.string.main_activity_statistics_header_caption) + " "
-                    + Utils.numberToString(mileage, true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) + " " + carUOMLengthCode);
+                    + Utils.numberToString(mileage, true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) + " " + carUOMLengthCode + " (" + getChartDataPeriodText() + ")");
             tvStatisticsLastKnownOdometer.setText(getString(R.string.main_activity_statistics_last_odometer_label) + " "
                     + Utils.numberToString(stopIndex, true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) + " " + carUOMLengthCode);
             tvStatisticsTotalExpenses.setText(getString(R.string.main_activity_statistics_total_expense_label) + " "

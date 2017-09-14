@@ -368,14 +368,14 @@
     <string name="chart_filter_previous_year">Año anterior</string>
     <string name="chart_filter_custom_period">Otro periodo</string>
     <string name="chart_label_others">Otros (%1$.2f%2$s)</string> <!--Others 32.45%-->
-    <string name="chart_filter_all_header_caption">Mostrando todos los datos</string>
-    <string name="chart_filter_current_month_header_caption">Datos del mes actual</string>
-    <string name="chart_filter_previous_month_header_caption">Datos del mes anterior</string>
-    <string name="chart_filter_current_year_header_caption">Datos del año actual</string>
-    <string name="chart_filter_previous_year_header_caption">Datos del año anterior</string>
-    <string name="chart_filter_custom_period_header_caption">%1$s > %2$s</string>
-    <string name="chart_filter_custom_period_header_caption_value_beginning">Desde el principio</string>
-    <string name="chart_filter_custom_period_header_caption_value_now">ahora</string>
+    <string name="chart_filter_all_text">mostrando todos los datos</string>
+    <string name="chart_filter_current_month_text">datos del mes actual</string>
+    <string name="chart_filter_previous_month_text">datos del mes anterior</string>
+    <string name="chart_filter_current_year_text">datos del año actual</string>
+    <string name="chart_filter_previous_year_text">datos del año anterior</string>
+    <string name="chart_filter_custom_period_text">%1$s > %2$s</string>
+    <string name="chart_filter_custom_period_beginning_text">desde el principio</string>
+    <string name="chart_filter_custom_period_now_text">ahora</string>
     <string name="chart_no_data">Sin datos</string>
 
     <string name="progress_restoring_data">Restauración en progreso … </string>

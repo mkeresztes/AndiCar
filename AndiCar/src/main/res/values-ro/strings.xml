@@ -429,14 +429,14 @@
     <string name="chart_filter_previous_year">Anul precedent</string>
     <string name="chart_filter_custom_period">Altă perioadă</string>
     <string name="chart_label_others">Alte (%1$.2f%2$s)</string> <!--Others 32.45%-->
-    <string name="chart_filter_all_header_caption">Toate înregistrările</string>
-    <string name="chart_filter_current_month_header_caption">Înregistrările lunii curente</string>
-    <string name="chart_filter_previous_month_header_caption">Înregistrările lunii precedente</string>
-    <string name="chart_filter_current_year_header_caption">Înregistrările anului curent</string>
-    <string name="chart_filter_previous_year_header_caption">Înregistrările anului precedent</string>
-    <string name="chart_filter_custom_period_header_caption">De la %1$s până %2$s</string>
-    <string name="chart_filter_custom_period_header_caption_value_beginning">început</string>
-    <string name="chart_filter_custom_period_header_caption_value_now">acum</string>
+    <string name="chart_filter_all_text">toate înregistrările</string>
+    <string name="chart_filter_current_month_text">înregistrările lunii curente</string>
+    <string name="chart_filter_previous_month_text">înregistrările lunii precedente</string>
+    <string name="chart_filter_current_year_text">înregistrările anului curent</string>
+    <string name="chart_filter_previous_year_text">înregistrările anului precedent</string>
+    <string name="chart_filter_custom_period_text">de la %1$s până %2$s</string>
+    <string name="chart_filter_custom_period_beginning_text">început</string>
+    <string name="chart_filter_custom_period_now_text">acum</string>
     <string name="chart_no_data">Nu există date</string>
 
     <string name="progress_restoring_data">Restaurarea e în curs … </string>
