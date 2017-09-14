@@ -1351,6 +1351,35 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                     bindPreferenceSummaryToValue(mainZone4Content);
                 }
             }
+
+            Preference mainZone5Content = findPreference(getString(R.string.pref_key_main_zone5_content));
+            if (mainZone5Content != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_zone5_content), null) != null) {
+                    bindPreferenceSummaryToValue(mainZone5Content);
+                }
+            }
+
+            Preference mainZone6Content = findPreference(getString(R.string.pref_key_main_zone6_content));
+            if (mainZone6Content != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_zone6_content), null) != null) {
+                    bindPreferenceSummaryToValue(mainZone6Content);
+                }
+            }
+
+            Preference mainZone7Content = findPreference(getString(R.string.pref_key_main_zone7_content));
+            if (mainZone7Content != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_zone7_content), null) != null) {
+                    bindPreferenceSummaryToValue(mainZone7Content);
+                }
+            }
+
+            Preference mainZone8Content = findPreference(getString(R.string.pref_key_main_zone8_content));
+            if (mainZone8Content != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_zone8_content), null) != null) {
+                    bindPreferenceSummaryToValue(mainZone8Content);
+                }
+            }
+
         }
 
         @Override

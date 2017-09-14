@@ -751,6 +751,50 @@ public class MainActivity extends AppCompatActivity
                 btnShowList = (ImageButton) findViewById(R.id.btnShowList4);
                 btnAddNew = (ImageButton) findViewById(R.id.btnAddNew4);
                 break;
+            case 5:
+                lineHeader = (TextView) findViewById(R.id.line5Header);
+                firstLine = (TextView) findViewById(R.id.firstLine5);
+                secondLine = (TextView) findViewById(R.id.secondLine5);
+                thirdLine = (TextView) findViewById(R.id.thirdLine5);
+                lineButtons = findViewById(R.id.line5Buttons);
+                btnMap = (ImageButton) findViewById(R.id.btnMap5);
+                btnEdit = (ImageButton) findViewById(R.id.btnEdit5);
+                btnShowList = (ImageButton) findViewById(R.id.btnShowList5);
+                btnAddNew = (ImageButton) findViewById(R.id.btnAddNew5);
+                break;
+            case 6:
+                lineHeader = (TextView) findViewById(R.id.line6Header);
+                firstLine = (TextView) findViewById(R.id.firstLine6);
+                secondLine = (TextView) findViewById(R.id.secondLine6);
+                thirdLine = (TextView) findViewById(R.id.thirdLine6);
+                lineButtons = findViewById(R.id.line6Buttons);
+                btnMap = (ImageButton) findViewById(R.id.btnMap6);
+                btnEdit = (ImageButton) findViewById(R.id.btnEdit6);
+                btnShowList = (ImageButton) findViewById(R.id.btnShowList6);
+                btnAddNew = (ImageButton) findViewById(R.id.btnAddNew6);
+                break;
+            case 7:
+                lineHeader = (TextView) findViewById(R.id.line7Header);
+                firstLine = (TextView) findViewById(R.id.firstLine7);
+                secondLine = (TextView) findViewById(R.id.secondLine7);
+                thirdLine = (TextView) findViewById(R.id.thirdLine7);
+                lineButtons = findViewById(R.id.line7Buttons);
+                btnMap = (ImageButton) findViewById(R.id.btnMap7);
+                btnEdit = (ImageButton) findViewById(R.id.btnEdit7);
+                btnShowList = (ImageButton) findViewById(R.id.btnShowList7);
+                btnAddNew = (ImageButton) findViewById(R.id.btnAddNew7);
+                break;
+            case 8:
+                lineHeader = (TextView) findViewById(R.id.line8Header);
+                firstLine = (TextView) findViewById(R.id.firstLine8);
+                secondLine = (TextView) findViewById(R.id.secondLine8);
+                thirdLine = (TextView) findViewById(R.id.thirdLine8);
+                lineButtons = findViewById(R.id.line8Buttons);
+                btnMap = (ImageButton) findViewById(R.id.btnMap8);
+                btnEdit = (ImageButton) findViewById(R.id.btnEdit8);
+                btnShowList = (ImageButton) findViewById(R.id.btnShowList8);
+                btnAddNew = (ImageButton) findViewById(R.id.btnAddNew8);
+                break;
             default:
                 return;
         }
@@ -1301,6 +1345,46 @@ public class MainActivity extends AppCompatActivity
                 chartFooterTextView = (TextView) findViewById(R.id.line4ChartFooterText);
                 chartLine = (LinearLayout) findViewById(R.id.line4Charts);
                 break;
+            case 5:
+                pChart1 = (AndiCarPieChart) findViewById(R.id.chart51);
+                pChart2 = (AndiCarPieChart) findViewById(R.id.chart52);
+                pChart3 = (AndiCarPieChart) findViewById(R.id.chart53);
+                chart1Title = (TextView) findViewById(R.id.chart51Title);
+                chart2Title = (TextView) findViewById(R.id.chart52Title);
+                chart3Title = (TextView) findViewById(R.id.chart53Title);
+                chartFooterTextView = (TextView) findViewById(R.id.line5ChartFooterText);
+                chartLine = (LinearLayout) findViewById(R.id.line5Charts);
+                break;
+            case 6:
+                pChart1 = (AndiCarPieChart) findViewById(R.id.chart61);
+                pChart2 = (AndiCarPieChart) findViewById(R.id.chart62);
+                pChart3 = (AndiCarPieChart) findViewById(R.id.chart63);
+                chart1Title = (TextView) findViewById(R.id.chart61Title);
+                chart2Title = (TextView) findViewById(R.id.chart62Title);
+                chart3Title = (TextView) findViewById(R.id.chart63Title);
+                chartFooterTextView = (TextView) findViewById(R.id.line6ChartFooterText);
+                chartLine = (LinearLayout) findViewById(R.id.line6Charts);
+                break;
+            case 7:
+                pChart1 = (AndiCarPieChart) findViewById(R.id.chart71);
+                pChart2 = (AndiCarPieChart) findViewById(R.id.chart72);
+                pChart3 = (AndiCarPieChart) findViewById(R.id.chart73);
+                chart1Title = (TextView) findViewById(R.id.chart71Title);
+                chart2Title = (TextView) findViewById(R.id.chart72Title);
+                chart3Title = (TextView) findViewById(R.id.chart73Title);
+                chartFooterTextView = (TextView) findViewById(R.id.line7ChartFooterText);
+                chartLine = (LinearLayout) findViewById(R.id.line7Charts);
+                break;
+            case 8:
+                pChart1 = (AndiCarPieChart) findViewById(R.id.chart81);
+                pChart2 = (AndiCarPieChart) findViewById(R.id.chart82);
+                pChart3 = (AndiCarPieChart) findViewById(R.id.chart83);
+                chart1Title = (TextView) findViewById(R.id.chart81Title);
+                chart2Title = (TextView) findViewById(R.id.chart82Title);
+                chart3Title = (TextView) findViewById(R.id.chart83Title);
+                chartFooterTextView = (TextView) findViewById(R.id.line8ChartFooterText);
+                chartLine = (LinearLayout) findViewById(R.id.line8Charts);
+                break;
             default:
                 return;
         }
@@ -1665,32 +1749,61 @@ public class MainActivity extends AppCompatActivity
             mChartsExistsOnScreen = false;
 
             //zone 1
-            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone1_content), "CTR");
+            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone1_content), "LTR");
             chartContainer = findViewById(R.id.line1ChartsZone);
             textContainer = findViewById(R.id.line1TextZone);
             zoneContainer = findViewById(R.id.line1Zone);
             setupZone(1, zoneContainer, chartContainer, textContainer, zoneContent);
 
             //zone 2
-            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone2_content), "CFQ");
+            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone2_content), "CTR");
             chartContainer = findViewById(R.id.line2ChartsZone);
             textContainer = findViewById(R.id.line2TextZone);
             zoneContainer = findViewById(R.id.line2Zone);
             setupZone(2, zoneContainer, chartContainer, textContainer, zoneContent);
 
             //zone 3
-            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone3_content), "CFV");
+            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone3_content), "LFU");
             chartContainer = findViewById(R.id.line3ChartsZone);
             textContainer = findViewById(R.id.line3TextZone);
             zoneContainer = findViewById(R.id.line3Zone);
             setupZone(3, zoneContainer, chartContainer, textContainer, zoneContent);
 
             //zone 4
-            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone4_content), "CEX");
+            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone4_content), "CFQ");
             chartContainer = findViewById(R.id.line4ChartsZone);
             textContainer = findViewById(R.id.line4TextZone);
             zoneContainer = findViewById(R.id.line4Zone);
             setupZone(4, zoneContainer, chartContainer, textContainer, zoneContent);
+///
+            //zone 5
+            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone5_content), "CFV");
+            chartContainer = findViewById(R.id.line5ChartsZone);
+            textContainer = findViewById(R.id.line5TextZone);
+            zoneContainer = findViewById(R.id.line5Zone);
+            setupZone(5, zoneContainer, chartContainer, textContainer, zoneContent);
+
+            //zone 6
+            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone6_content), "LEX");
+            chartContainer = findViewById(R.id.line6ChartsZone);
+            textContainer = findViewById(R.id.line6TextZone);
+            zoneContainer = findViewById(R.id.line6Zone);
+            setupZone(6, zoneContainer, chartContainer, textContainer, zoneContent);
+
+            //zone 7
+            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone7_content), "CEX");
+            chartContainer = findViewById(R.id.line7ChartsZone);
+            textContainer = findViewById(R.id.line7TextZone);
+            zoneContainer = findViewById(R.id.line7Zone);
+            setupZone(7, zoneContainer, chartContainer, textContainer, zoneContent);
+
+            //zone 8
+            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone8_content), "LGT");
+            chartContainer = findViewById(R.id.line8ChartsZone);
+            textContainer = findViewById(R.id.line8TextZone);
+            zoneContainer = findViewById(R.id.line8Zone);
+            setupZone(8, zoneContainer, chartContainer, textContainer, zoneContent);
+
 
             if (mPreferences.getBoolean(getString(R.string.pref_key_main_show_statistics), true)) {
                 llStatisticsZone.setVisibility(View.VISIBLE);

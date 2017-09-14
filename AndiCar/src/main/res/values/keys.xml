@@ -29,6 +29,10 @@
     <string name="pref_key_main_zone2_content">main_zone2_content</string>
     <string name="pref_key_main_zone3_content">main_zone3_content</string>
     <string name="pref_key_main_zone4_content">main_zone4_content</string>
+    <string name="pref_key_main_zone5_content">main_zone5_content</string>
+    <string name="pref_key_main_zone6_content">main_zone6_content</string>
+    <string name="pref_key_main_zone7_content">main_zone7_content</string>
+    <string name="pref_key_main_zone8_content">main_zone8_content</string>
 
     <string name="pref_key_mileage_last_selected_exptype_id">mileage_last_selected_exptype_id</string>
     <string name="pref_key_mileage_insert_mode">mileage_insert_mode</string>

@@ -129,7 +129,8 @@
                 android:id="@+id/line1Zone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/line1TextZone"
@@ -270,7 +271,8 @@
                 android:id="@+id/line2Zone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/line2TextZone"
@@ -409,7 +411,8 @@
                 android:id="@+id/line3Zone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/line3TextZone"
@@ -548,7 +551,8 @@
                 android:id="@+id/line4Zone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/line4TextZone"
@@ -673,6 +677,562 @@
 
                     <TextView
                         android:id="@+id/line4ChartFooterText"
+                        style="@style/AndiCarChartFooter"/>
+                </LinearLayout>
+
+                <TextView
+                    style="@style/AndiCarSeparatorView"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/line5Zone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/line5TextZone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/line5Header"
+                        style="@style/AndiCarMainActivityListHeader"/>
+
+                    <TextView
+                        android:id="@+id/firstLine5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAppearance="@style/ListItem.FirstLine"/>
+
+                    <TextView
+                        android:id="@+id/thirdLine5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAppearance="@style/ListItem.ThirdLine"
+                        tools:ignore="InconsistentLayout"/>
+
+                    <LinearLayout
+                        android:id="@+id/line5Buttons"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/btnMap5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:contentDescription="@string/gen_edit"
+                            app:srcCompat="@drawable/ic_button_map_black_24dp_pad4dp"/>
+
+                        <ImageButton
+                            android:id="@+id/btnEdit5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:contentDescription="@string/gen_edit"
+                            app:srcCompat="@drawable/ic_menu_edit_black_24dp_pad4dp"/>
+
+                        <ImageButton
+                            android:id="@+id/btnShowList5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:contentDescription="@string/gen_list"
+                            app:srcCompat="@drawable/ic_button_list_black_24dp_pad4dp"/>
+
+                        <ImageButton
+                            android:id="@+id/btnAddNew5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:contentDescription="@string/gen_add_new"
+                            app:srcCompat="@drawable/ic_button_add_black_24dp_pad4dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/line5ChartsZone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/chart51Title"
+                            style="@style/AndiCarChartHeader"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:id="@+id/chart52Title"
+                            style="@style/AndiCarChartHeader"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/line5Charts"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal"
+                        android:tag="@string/chart_key_legendAtRight">
+
+                        <andicar.n.view.AndiCarPieChart
+                            android:id="@+id/chart51"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="top"
+                            android:layout_weight="1"/>
+
+                        <andicar.n.view.AndiCarPieChart
+                            android:id="@+id/chart52"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="top"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/line5ChartFooterText"
+                        style="@style/AndiCarChartFooter"/>
+                </LinearLayout>
+
+                <TextView
+                    style="@style/AndiCarSeparatorView"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/line6Zone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/line6TextZone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/line6Header"
+                        style="@style/AndiCarMainActivityListHeader"/>
+
+                    <TextView
+                        android:id="@+id/firstLine6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAppearance="@style/ListItem.FirstLine"/>
+
+                    <TextView
+                        android:id="@+id/thirdLine6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAppearance="@style/ListItem.ThirdLine"
+                        tools:ignore="InconsistentLayout"/>
+
+                    <LinearLayout
+                        android:id="@+id/line6Buttons"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/btnMap6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:contentDescription="@string/gen_edit"
+                            app:srcCompat="@drawable/ic_button_map_black_24dp_pad4dp"/>
+
+                        <ImageButton
+                            android:id="@+id/btnEdit6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:contentDescription="@string/gen_edit"
+                            app:srcCompat="@drawable/ic_menu_edit_black_24dp_pad4dp"/>
+
+                        <ImageButton
+                            android:id="@+id/btnShowList6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:contentDescription="@string/gen_list"
+                            app:srcCompat="@drawable/ic_button_list_black_24dp_pad4dp"/>
+
+                        <ImageButton
+                            android:id="@+id/btnAddNew6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:contentDescription="@string/gen_add_new"
+                            app:srcCompat="@drawable/ic_button_add_black_24dp_pad4dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/line6ChartsZone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/chart61Title"
+                            style="@style/AndiCarChartHeader"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:id="@+id/chart62Title"
+                            style="@style/AndiCarChartHeader"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/line6Charts"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal"
+                        android:tag="@string/chart_key_legendAtRight">
+
+                        <andicar.n.view.AndiCarPieChart
+                            android:id="@+id/chart61"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="top"
+                            android:layout_weight="1"/>
+
+                        <andicar.n.view.AndiCarPieChart
+                            android:id="@+id/chart62"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="top"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/line6ChartFooterText"
+                        style="@style/AndiCarChartFooter"/>
+                </LinearLayout>
+
+                <TextView
+                    style="@style/AndiCarSeparatorView"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/line7Zone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/line7TextZone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/line7Header"
+                        style="@style/AndiCarMainActivityListHeader"/>
+
+                    <TextView
+                        android:id="@+id/firstLine7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAppearance="@style/ListItem.FirstLine"/>
+
+                    <TextView
+                        android:id="@+id/thirdLine7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAppearance="@style/ListItem.ThirdLine"
+                        tools:ignore="InconsistentLayout"/>
+
+                    <LinearLayout
+                        android:id="@+id/line7Buttons"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/btnMap7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:contentDescription="@string/gen_edit"
+                            app:srcCompat="@drawable/ic_button_map_black_24dp_pad4dp"/>
+
+                        <ImageButton
+                            android:id="@+id/btnEdit7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:contentDescription="@string/gen_edit"
+                            app:srcCompat="@drawable/ic_menu_edit_black_24dp_pad4dp"/>
+
+                        <ImageButton
+                            android:id="@+id/btnShowList7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:contentDescription="@string/gen_list"
+                            app:srcCompat="@drawable/ic_button_list_black_24dp_pad4dp"/>
+
+                        <ImageButton
+                            android:id="@+id/btnAddNew7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:contentDescription="@string/gen_add_new"
+                            app:srcCompat="@drawable/ic_button_add_black_24dp_pad4dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/line7ChartsZone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/chart71Title"
+                            style="@style/AndiCarChartHeader"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:id="@+id/chart72Title"
+                            style="@style/AndiCarChartHeader"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/line7Charts"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal"
+                        android:tag="@string/chart_key_legendAtRight">
+
+                        <andicar.n.view.AndiCarPieChart
+                            android:id="@+id/chart71"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="top"
+                            android:layout_weight="1"/>
+
+                        <andicar.n.view.AndiCarPieChart
+                            android:id="@+id/chart72"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="top"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/line7ChartFooterText"
+                        style="@style/AndiCarChartFooter"/>
+                </LinearLayout>
+
+                <TextView
+                    style="@style/AndiCarSeparatorView"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/line8Zone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/line8TextZone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/line8Header"
+                        style="@style/AndiCarMainActivityListHeader"/>
+
+                    <TextView
+                        android:id="@+id/firstLine8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAppearance="@style/ListItem.FirstLine"/>
+
+                    <TextView
+                        android:id="@+id/thirdLine8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textAppearance="@style/ListItem.ThirdLine"
+                        tools:ignore="InconsistentLayout"/>
+
+                    <LinearLayout
+                        android:id="@+id/line8Buttons"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/btnMap8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:contentDescription="@string/gen_edit"
+                            app:srcCompat="@drawable/ic_button_map_black_24dp_pad4dp"/>
+
+                        <ImageButton
+                            android:id="@+id/btnEdit8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:contentDescription="@string/gen_edit"
+                            app:srcCompat="@drawable/ic_menu_edit_black_24dp_pad4dp"/>
+
+                        <ImageButton
+                            android:id="@+id/btnShowList8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:contentDescription="@string/gen_list"
+                            app:srcCompat="@drawable/ic_button_list_black_24dp_pad4dp"/>
+
+                        <ImageButton
+                            android:id="@+id/btnAddNew8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@null"
+                            android:contentDescription="@string/gen_add_new"
+                            app:srcCompat="@drawable/ic_button_add_black_24dp_pad4dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/line8ChartsZone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/chart81Title"
+                            style="@style/AndiCarChartHeader"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:id="@+id/chart82Title"
+                            style="@style/AndiCarChartHeader"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/line8Charts"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal"
+                        android:tag="@string/chart_key_legendAtRight">
+
+                        <andicar.n.view.AndiCarPieChart
+                            android:id="@+id/chart81"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="top"
+                            android:layout_weight="1"/>
+
+                        <andicar.n.view.AndiCarPieChart
+                            android:id="@+id/chart82"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="top"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/line8ChartFooterText"
                         style="@style/AndiCarChartFooter"/>
                 </LinearLayout>
 

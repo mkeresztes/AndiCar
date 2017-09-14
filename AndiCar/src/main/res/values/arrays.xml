@@ -153,8 +153,8 @@
         <item>Last expense</item>
         <item>Last GPS Track</item>
         <item>Trip charts</item>
-        <item>Fill-ups charts (quantity)</item>
-        <item>Fill-ups charts (value)</item>
+        <item>Fill-up charts (quantity)</item>
+        <item>Fill-up charts (value)</item>
         <item>Expense charts</item>
     </string-array>
 
