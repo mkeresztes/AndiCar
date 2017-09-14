@@ -27,7 +27,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,7 +34,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -81,6 +79,7 @@ import andicar.n.activity.fragment.TaskEditFragment;
 import andicar.n.activity.miscellaneous.AboutActivity;
 import andicar.n.activity.miscellaneous.GPSTrackMap;
 import andicar.n.activity.preference.PreferenceActivity;
+import andicar.n.components.LastRecordComponent;
 import andicar.n.persistence.DB;
 import andicar.n.persistence.DBAdapter;
 import andicar.n.persistence.DBReportAdapter;
@@ -706,17 +705,19 @@ public class MainActivity extends AppCompatActivity
         ImageButton btnEdit;
         ImageButton btnShowList;
         ImageButton btnAddNew;
+        LastRecordComponent lastRecordComponent = null;
         switch (zone) {
             case 1:
-                lineHeader = (TextView) findViewById(R.id.line1Header);
-                firstLine = (TextView) findViewById(R.id.firstLine1);
-                secondLine = (TextView) findViewById(R.id.secondLine1);
-                thirdLine = (TextView) findViewById(R.id.thirdLine1);
-                lineButtons = findViewById(R.id.line1Buttons);
-                btnMap = (ImageButton) findViewById(R.id.btnMap1);
-                btnEdit = (ImageButton) findViewById(R.id.btnEdit1);
-                btnShowList = (ImageButton) findViewById(R.id.btnShowList1);
-                btnAddNew = (ImageButton) findViewById(R.id.btnAddNew1);
+//                lineHeader = (TextView) findViewById(R.id.line1Header);
+//                firstLine = (TextView) findViewById(R.id.firstLine1);
+//                secondLine = (TextView) findViewById(R.id.secondLine1);
+//                thirdLine = (TextView) findViewById(R.id.thirdLine1);
+//                lineButtons = findViewById(R.id.line1Buttons);
+//                btnMap = (ImageButton) findViewById(R.id.btnMap1);
+//                btnEdit = (ImageButton) findViewById(R.id.btnEdit1);
+//                btnShowList = (ImageButton) findViewById(R.id.btnShowList1);
+//                btnAddNew = (ImageButton) findViewById(R.id.btnAddNew1);
+                lastRecordComponent = (LastRecordComponent) findViewById(R.id.line1LastRecordZone);
                 break;
             case 2:
                 lineHeader = (TextView) findViewById(R.id.line2Header);
@@ -800,17 +801,20 @@ public class MainActivity extends AppCompatActivity
         }
 
         try {
-            btnEdit.setOnClickListener(btnEditClickListener);
-            btnAddNew.setOnClickListener(btnNewClickListener);
-            btnShowList.setOnClickListener(btnListListener);
-            btnMap.setOnClickListener(btnMapClickListener);
+//            btnEdit.setOnClickListener(btnEditClickListener);
+//            btnAddNew.setOnClickListener(btnNewClickListener);
+//            btnShowList.setOnClickListener(btnListListener);
+//            btnMap.setOnClickListener(btnMapClickListener);
 
             DBReportAdapter dbReportAdapter = new DBReportAdapter(getApplicationContext(), null, null);
             Bundle sqlWWhereCondition = new Bundle();
 
+            if (lastRecordComponent == null)
+                return;
 
             if (recordSource.equals("LTR")) { //Last trip
-                lineHeader.setText(R.string.main_activity_mileage_header_caption);
+//                lineHeader.setText(R.string.main_activity_mileage_header_caption);
+                lastRecordComponent.setHeaderText(R.string.main_activity_mileage_header_caption);
 
                 sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_MILEAGE, DBReportAdapter.COL_NAME_MILEAGE__CAR_ID) + "=",
                         Long.toString(mLastSelectedCarID));
@@ -821,20 +825,28 @@ public class MainActivity extends AppCompatActivity
                 String line2Content;
 
                 if (mCursor != null && mCursor.moveToFirst()) {
-                    if (secondLine != null) {
-                        secondLine.setVisibility(View.VISIBLE);
-                    }
-                    if (thirdLine != null) {
-                        thirdLine.setVisibility(View.VISIBLE);
-                    }
+//                    if (secondLine != null) {
+//                        secondLine.setVisibility(View.VISIBLE);
+//                    }
+//                    if (thirdLine != null) {
+//                        thirdLine.setVisibility(View.VISIBLE);
+//                    }
+                    lastRecordComponent.setSecondLineVisibility(View.VISIBLE);
+                    lastRecordComponent.setThirdLineVisibility(View.VISIBLE);
 
-                    lineButtons.setVisibility(View.VISIBLE);
-                    btnMap.setVisibility(View.GONE);
+//                    lineButtons.setVisibility(View.VISIBLE);
+//                    btnMap.setVisibility(View.GONE);
+                    lastRecordComponent.setButtonsLineVisibility(View.VISIBLE);
+                    lastRecordComponent.setMapButtonVisibility(View.GONE);
 
-                    btnEdit.setTag(R.string.main_screen_button_table_key, R.id.mnuTrip);
-                    btnEdit.setTag(R.string.main_screen_button_record_id_key, mCursor.getLong(0));
-                    btnAddNew.setTag(R.string.main_screen_button_table_key, R.id.mnuTrip);
-                    btnShowList.setTag(R.string.main_screen_button_table_key, R.id.nav_trip);
+//                    btnEdit.setTag(R.string.main_screen_button_table_key, R.id.mnuTrip);
+//                    btnEdit.setTag(R.string.main_screen_button_record_id_key, mCursor.getLong(0));
+//                    btnAddNew.setTag(R.string.main_screen_button_table_key, R.id.mnuTrip);
+//                    btnShowList.setTag(R.string.main_screen_button_table_key, R.id.nav_trip);
+
+                    lastRecordComponent.setRecordId(mCursor.getLong(0));
+                    lastRecordComponent.setWhatEditAdd(R.id.mnuTrip);
+                    lastRecordComponent.setWhatList(R.id.nav_trip);
 
                     try {
                         line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(5) * 1000, false)
@@ -879,39 +891,63 @@ public class MainActivity extends AppCompatActivity
                     if (mileageStr.equals("Draft")) {
                         line2Content = line2Content.substring(0, line2Content.indexOf("Draft") + "Draft".length());
                     }
-                    if (secondLine != null) { //three line lists
-                        firstLine.setText(line1Content);
+//                    if (secondLine != null) { //three line lists
+//                        firstLine.setText(line1Content);
+//                        if (line2Content != null && line2Content.length() > 0) {
+//                            secondLine.setVisibility(View.VISIBLE);
+//                            secondLine.setText(line2Content);
+//                            if (mileageStr.equals("Draft")) {
+//                                secondLine.setTextColor(ContextCompat.getColor(secondLine.getContext(), android.R.color.holo_red_dark));
+//                            }
+//                            else {
+//                                secondLine.setTextColor(ContextCompat.getColor(secondLine.getContext(), android.R.color.primary_text_light));
+//                            }
+//                        }
+//                        else {
+//                            secondLine.setVisibility(View.GONE);
+//                        }
+//                    }
+//                    else {
+//                        //wider screens => two line lists
+//                        firstLine.setText(line1Content + "; " + line2Content);
+//                        if (mileageStr.equals("Draft")) {
+//                            firstLine.setTextColor(ContextCompat.getColor(firstLine.getContext(), android.R.color.holo_red_dark));
+//                        }
+//                        else {
+//                            firstLine.setTextColor(ContextCompat.getColor(firstLine.getContext(), android.R.color.primary_text_light));
+//                        }
+//                    }
+//
+//                    if (thirdLine != null) {
+//                        if (mCursor.getString(3) == null || mCursor.getString(3).length() == 0) {
+//                            thirdLine.setVisibility(View.GONE);
+//                        } else {
+//                            thirdLine.setVisibility(View.VISIBLE);
+//                            thirdLine.setText(mCursor.getString(3));
+//                        }
+//                    }
+//
+                    if (lastRecordComponent.isSecondLineExists()) { //three line lists
+                        lastRecordComponent.setFirstLineText(line1Content);
                         if (line2Content != null && line2Content.length() > 0) {
-                            secondLine.setVisibility(View.VISIBLE);
-                            secondLine.setText(line2Content);
-                            if (mileageStr.equals("Draft")) {
-                                secondLine.setTextColor(ContextCompat.getColor(secondLine.getContext(), android.R.color.holo_red_dark));
-                            }
-                            else {
-                                secondLine.setTextColor(ContextCompat.getColor(secondLine.getContext(), android.R.color.primary_text_light));
-                            }
+                            lastRecordComponent.setSecondLineVisibility(View.VISIBLE);
+                            lastRecordComponent.setSecondLineText(line2Content);
                         }
                         else {
-                            secondLine.setVisibility(View.GONE);
+                            lastRecordComponent.setSecondLineVisibility(View.GONE);
                         }
                     }
                     else {
                         //wider screens => two line lists
-                        firstLine.setText(line1Content + "; " + line2Content);
-                        if (mileageStr.equals("Draft")) {
-                            firstLine.setTextColor(ContextCompat.getColor(firstLine.getContext(), android.R.color.holo_red_dark));
-                        }
-                        else {
-                            firstLine.setTextColor(ContextCompat.getColor(firstLine.getContext(), android.R.color.primary_text_light));
-                        }
+                        lastRecordComponent.setFirstLineText(line1Content + "; " + line2Content);
                     }
 
-                    if (thirdLine != null) {
+                    if (lastRecordComponent.isThirdLineExists()) {
                         if (mCursor.getString(3) == null || mCursor.getString(3).length() == 0) {
-                            thirdLine.setVisibility(View.GONE);
+                            lastRecordComponent.setThirdLineVisibility(View.GONE);
                         } else {
-                            thirdLine.setVisibility(View.VISIBLE);
-                            thirdLine.setText(mCursor.getString(3));
+                            lastRecordComponent.setThirdLineVisibility(View.VISIBLE);
+                            lastRecordComponent.setThirdLineText(mCursor.getString(3));
                         }
                     }
 
@@ -920,359 +956,360 @@ public class MainActivity extends AppCompatActivity
                     } catch (Exception ignored) {
                     }
                 } else {
-                    firstLine.setText(R.string.main_activity_list_no_data);
-                    if (secondLine != null) {
-                        secondLine.setVisibility(View.GONE);
+                    lastRecordComponent.setFirstLineText(R.string.main_activity_list_no_data);
+                    if (lastRecordComponent.isSecondLineExists()) {
+                        lastRecordComponent.setSecondLineVisibility(View.GONE);
                     }
-                    if (thirdLine != null) {
-                        thirdLine.setVisibility(View.GONE);
+                    if (lastRecordComponent.isThirdLineExists()) {
+                        lastRecordComponent.setThirdLineVisibility(View.GONE);
                     }
-                    lineButtons.setVisibility(View.GONE);
-                }
-            } else if (recordSource.equals("LFU")) { //Last fill-up
-                lineHeader.setText(R.string.main_activity_refuel_header_caption);
-
-                sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_REFUEL, DBReportAdapter.COL_NAME_REFUEL__CAR_ID) + "=",
-                        Long.toString(mLastSelectedCarID));
-                dbReportAdapter.setReportSql(DBReportAdapter.REFUEL_LIST_SELECT_NAME, sqlWWhereCondition);
-                Cursor mCursor = dbReportAdapter.fetchReport(1);
-                String line1Content;
-                String line2Content;
-
-                if (mCursor != null && mCursor.moveToFirst()) {
-                    if (secondLine != null) {
-                        secondLine.setVisibility(View.VISIBLE);
-                    }
-                    if (thirdLine != null) {
-                        thirdLine.setVisibility(View.VISIBLE);
-                    }
-
-                    lineButtons.setVisibility(View.VISIBLE);
-                    btnMap.setVisibility(View.GONE);
-
-                    btnEdit.setTag(R.string.main_screen_button_table_key, R.id.mnuRefuel);
-                    btnEdit.setTag(R.string.main_screen_button_record_id_key, mCursor.getLong(0));
-                    btnAddNew.setTag(R.string.main_screen_button_table_key, R.id.mnuRefuel);
-                    btnShowList.setTag(R.string.main_screen_button_table_key, R.id.nav_refuel);
-
-                    try {
-                        line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(4) * 1000, false));
-                    } catch (Exception e) {
-                        line1Content = "Error#6! Please contact me at andicar.support@gmail.com";
-                    }
-
-                    try {
-                        line2Content = String.format(mCursor.getString(2),
-                                Utils.numberToString(mCursor.getDouble(5), true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME),
-                                Utils.numberToString(mCursor.getDouble(6), true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME),
-                                Utils.numberToString(mCursor.getDouble(7), true, ConstantValues.DECIMALS_PRICE, ConstantValues.ROUNDING_MODE_PRICE),
-                                Utils.numberToString(mCursor.getDouble(8), true, ConstantValues.DECIMALS_PRICE, ConstantValues.ROUNDING_MODE_PRICE),
-                                Utils.numberToString(mCursor.getDouble(9), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
-                                Utils.numberToString(mCursor.getDouble(10), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
-                                Utils.numberToString(mCursor.getDouble(11), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH));
-                    } catch (Exception e) {
-                        line2Content = "Error#7! Please contact me at andicar.support@gmail.com";
-                    }
-
-                    if (secondLine != null) { //three line lists
-                        firstLine.setText(line1Content);
-                        if (line2Content != null && line2Content.length() > 0) {
-                            secondLine.setVisibility(View.VISIBLE);
-                            secondLine.setText(line2Content);
-                        } else {
-                            secondLine.setVisibility(View.GONE);
-                        }
-                    }
-                    else {
-                        //wider screens => two line lists
-                        firstLine.setText(line1Content + "; " + line2Content);
-                    }
-
-                    if (mCursor.getString(3) == null || mCursor.getString(3).trim().length() == 0) {
-                        if (thirdLine != null) {
-                            thirdLine.setVisibility(View.GONE);
-                        }
-                    } else {
-                        if (thirdLine != null) {
-                            thirdLine.setVisibility(View.VISIBLE);
-                        }
-                        String text = mCursor.getString(3);
-                        BigDecimal oldFullRefuelIndex;
-                        try {
-                            oldFullRefuelIndex = new BigDecimal(mCursor.getDouble(13));
-                        } catch (Exception e) {
-                            if (thirdLine != null) {
-                                thirdLine.setText("Error#1! Please contact me at andicar.support@gmail.com");
-                            }
-                            return;
-                        }
-                        if (oldFullRefuelIndex.compareTo(BigDecimal.ZERO) < 0 || mCursor.getString(12).equals("N")) { //this is not a full refuel
-                            try {
-                                //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
-                                text = text.replace("[#01]", "");
-                                if (thirdLine != null) {
-                                    thirdLine.setText(text);
-                                }
-                            } catch (Exception e) {
-                                if (thirdLine != null) {
-                                    thirdLine.setText("Error#4! Please contact me at andicar.support@gmail.com");
-                                }
-                            }
-                        }
-                        // calculate the cons and fuel eff.
-                        BigDecimal distance = (new BigDecimal(mCursor.getString(11))).subtract(oldFullRefuelIndex);
-                        BigDecimal fuelQty;
-                        try {
-                            Double t = dbReportAdapter.getFuelQtyForCons(mCursor.getLong(16), oldFullRefuelIndex, mCursor.getDouble(11));
-                            fuelQty = new BigDecimal(t == null ? 0d : t);
-                        } catch (NullPointerException e) {
-                            if (thirdLine != null) {
-                                thirdLine.setText("Error#2! Please contact me at andicar.support@gmail.com");
-                            }
-                            return;
-                        }
-                        String consStr;
-                        try {
-                            consStr = Utils.numberToString(fuelQty.multiply(new BigDecimal("100")).divide(distance, 10, RoundingMode.HALF_UP), true,
-                                    ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF)
-                                    + " "
-                                    + mCursor.getString(14)
-                                    + "/100"
-                                    + mCursor.getString(15)
-                                    + "; "
-                                    + Utils.numberToString(distance.divide(fuelQty, 10, RoundingMode.HALF_UP), true, ConstantValues.DECIMALS_FUEL_EFF,
-                                    ConstantValues.ROUNDING_MODE_FUEL_EFF) + " " + mCursor.getString(15) + "/" + mCursor.getString(14);
-                        } catch (Exception e) {
-                            //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
-                            if (thirdLine != null) {
-                                thirdLine.setText("Error#3! Please contact me at andicar.support@gmail.com");
-                            }
-                            return;
-                        }
-
-                        try {
-                            //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
-                            text = text.replace("[#01]", "\n" + AndiCar.getAppResources().getString(R.string.gen_fuel_efficiency) + " " + consStr);
-                        } catch (Exception e) {
-                            if (thirdLine != null) {
-                                thirdLine.setText("Error#5! Please contact me at andicar.support@gmail.com");
-                            }
-                            return;
-                        }
-
-                        if (text.trim().length() > 0 && thirdLine != null) {
-                            thirdLine.setText(text.trim());
-                        } else {
-                            if (thirdLine != null) {
-                                thirdLine.setVisibility(View.GONE);
-                            }
-                        }
-                    }
-
-                    try {
-                        mCursor.close();
-                    } catch (Exception ignored) {
-                    }
-                } else {
-                    firstLine.setText(R.string.main_activity_list_no_data);
-                    if (secondLine != null) {
-                        secondLine.setVisibility(View.GONE);
-                    }
-                    if (thirdLine != null) {
-                        thirdLine.setVisibility(View.GONE);
-                    }
-                    lineButtons.setVisibility(View.GONE);
-                }
-            } else if (recordSource.equals("LEX")) { //Last expense
-                lineHeader.setText(R.string.main_activity_expense_header_caption);
-
-                sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_EXPENSE, DBReportAdapter.COL_NAME_EXPENSE__CAR_ID) + "=",
-                        Long.toString(mLastSelectedCarID));
-                dbReportAdapter.setReportSql(DBReportAdapter.EXPENSE_LIST_SELECT_NAME, sqlWWhereCondition);
-                Cursor mCursor = dbReportAdapter.fetchReport(1);
-                String line1Content;
-                String line2Content;
-                String line3Content;
-
-                if (mCursor != null && mCursor.moveToFirst()) {
-                    if (secondLine != null) {
-                        secondLine.setVisibility(View.VISIBLE);
-                    }
-                    if (thirdLine != null) {
-                        thirdLine.setVisibility(View.VISIBLE);
-                    }
-
-                    lineButtons.setVisibility(View.VISIBLE);
-                    btnMap.setVisibility(View.GONE);
-
-                    btnEdit.setTag(R.string.main_screen_button_table_key, R.id.mnuExpense);
-                    btnEdit.setTag(R.string.main_screen_button_record_id_key, mCursor.getLong(0));
-                    btnAddNew.setTag(R.string.main_screen_button_table_key, R.id.mnuExpense);
-                    btnShowList.setTag(R.string.main_screen_button_table_key, R.id.nav_expense);
-
-                    try {
-                        line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(4) * 1000, false));
-                    } catch (Exception e) {
-                        line1Content = "Error#1! Please contact me at andicar.support@gmail.com";
-                    }
-
-                    try {
-                        line2Content = String.format(mCursor.getString(2),
-                                Utils.numberToString(mCursor.getDouble(5), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
-                                Utils.numberToString(mCursor.getDouble(6), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
-                                Utils.numberToString(mCursor.getDouble(8), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
-                                Utils.numberToString(mCursor.getDouble(7), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH));
-                    } catch (Exception e) {
-                        line2Content = "Error#2! Please contact me at andicar.support@gmail.com";
-                    }
-
-                    line3Content = mCursor.getString(3);
-
-                    if (secondLine != null) { //three line lists
-                        firstLine.setText(line1Content);
-                        if (line2Content != null && line2Content.length() > 0) {
-                            secondLine.setVisibility(View.VISIBLE);
-                            secondLine.setText(line2Content);
-                        } else {
-                            secondLine.setVisibility(View.GONE);
-                        }
-                    } else {
-                        //wider screens => two line lists
-                        if (line2Content != null && line2Content.length() > 0) {
-                            firstLine.setText(line1Content + "; " + line2Content);
-                        } else {
-                            firstLine.setText(line1Content);
-                        }
-                    }
-
-                    if (line3Content == null && thirdLine != null) {
-                        thirdLine.setVisibility(View.GONE);
-                    } else {
-                        if (thirdLine != null) {
-                            thirdLine.setVisibility(View.VISIBLE);
-                            thirdLine.setText(line3Content);
-                        }
-                    }
-
-                    try {
-                        mCursor.close();
-                    } catch (Exception ignored) {
-                    }
-                } else {
-                    firstLine.setText(R.string.main_activity_list_no_data);
-                    if (secondLine != null) {
-                        secondLine.setVisibility(View.GONE);
-                    }
-                    if (thirdLine != null) {
-                        thirdLine.setVisibility(View.GONE);
-                    }
-                    lineButtons.setVisibility(View.GONE);
-                }
-            } else if (recordSource.equals("LGT")) { //Last expense
-                lineHeader.setText(R.string.main_activity_gps_track_header_caption);
-
-                sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_GPSTRACK, DBReportAdapter.COL_NAME_GPSTRACK__CAR_ID) + "=",
-                        Long.toString(mLastSelectedCarID));
-                dbReportAdapter.setReportSql(DBReportAdapter.GPS_TRACK_LIST_SELECT_NAME, sqlWWhereCondition);
-                Cursor mCursor = dbReportAdapter.fetchReport(1);
-                String line1Content;
-                String line2Content;
-                String line3Content;
-
-                if (mCursor != null && mCursor.moveToFirst()) {
-                    if (secondLine != null) {
-                        secondLine.setVisibility(View.VISIBLE);
-                    }
-                    if (thirdLine != null) {
-                        thirdLine.setVisibility(View.VISIBLE);
-                    }
-
-                    lineButtons.setVisibility(View.VISIBLE);
-                    btnMap.setVisibility(View.VISIBLE);
-
-                    btnEdit.setTag(R.string.main_screen_button_table_key, R.id.mnuGPSTrack);
-                    btnEdit.setTag(R.string.main_screen_button_record_id_key, mCursor.getLong(0));
-                    btnAddNew.setTag(R.string.main_screen_button_table_key, R.id.mnuGPSTrack);
-                    btnShowList.setTag(R.string.main_screen_button_table_key, R.id.nav_gpstrack);
-                    btnMap.setTag(R.string.main_screen_button_record_id_key, mCursor.getLong(0));
-
-                    try {
-                        line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(7) * 1000, false));
-                    } catch (Exception e) {
-                        line1Content = "Error#1! Please contact me at andicar.support@gmail.com";
-                    }
-
-                    try {
-                        line2Content = String.format(mCursor.getString(2),
-                                getString(R.string.gps_track_detail_var_1),
-                                getString(R.string.gps_track_detail_var_2),
-                                getString(R.string.gps_track_detail_var_3),
-                                getString(R.string.gps_track_detail_var_4),
-                                getString(R.string.gps_track_detail_var_5) + " " + Utils.getTimeString(mCursor.getLong(4)),
-                                getString(R.string.gps_track_detail_var_6) + " " + Utils.getTimeString(mCursor.getLong(5)),
-                                getString(R.string.gps_track_detail_var_7),
-                                getString(R.string.gps_track_detail_var_8),
-                                getString(R.string.gps_track_detail_var_9),
-                                getString(R.string.gps_track_detail_var_10),
-                                getString(R.string.gps_track_detail_var_11),
-                                getString(R.string.gps_track_detail_var_12) + " " + Utils.getTimeString(mCursor.getLong(8)),
-                                getString(R.string.gps_track_detail_var_13) + " " + Utils.getTimeString(mCursor.getLong(4) - mCursor.getLong(8) - mCursor.getLong(5)));
-                    } catch (Exception e) {
-                        line2Content = "Error#2! Please contact me at andicar.support@gmail.com";
-                    }
-                    line3Content = mCursor.getString(3);
-
-                    if (secondLine != null) { //three line lists
-                        firstLine.setText(line1Content);
-                        if (line2Content != null && line2Content.length() > 0) {
-                            secondLine.setVisibility(View.VISIBLE);
-                            secondLine.setText(line2Content);
-                        } else {
-                            secondLine.setVisibility(View.GONE);
-                        }
-                    } else {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            firstLine.setTextAppearance(R.style.ListItem_SecondLine);
-                        } else {
-                            firstLine.setTypeface(null, Typeface.NORMAL);
-                        }
-
-                        CharSequence text;
-                        //wider screens => two line lists
-                        if (line2Content != null && line2Content.length() > 0) {
-                            //noinspection deprecation
-                            text = Html.fromHtml("<b>" + line1Content + "</b><br>" + line2Content);
-                        } else {
-                            //noinspection deprecation
-                            text = Html.fromHtml("<b>" + line1Content + "</b>");
-                        }
-                        firstLine.setText(text);
-                    }
-
-                    if (line3Content == null && thirdLine != null) {
-                        thirdLine.setVisibility(View.GONE);
-                    } else {
-                        if (thirdLine != null) {
-                            thirdLine.setVisibility(View.VISIBLE);
-                            thirdLine.setText(line3Content);
-                        }
-                    }
-
-                    try {
-                        mCursor.close();
-                    } catch (Exception ignored) {
-                    }
-                } else {
-                    firstLine.setText(R.string.main_activity_list_no_data);
-                    if (secondLine != null) {
-                        secondLine.setVisibility(View.GONE);
-                    }
-                    if (thirdLine != null) {
-                        thirdLine.setVisibility(View.GONE);
-                    }
-                    lineButtons.setVisibility(View.GONE);
+                    lastRecordComponent.setButtonsLineVisibility(View.GONE);
                 }
             }
+//            else if (recordSource.equals("LFU")) { //Last fill-up
+//                lineHeader.setText(R.string.main_activity_refuel_header_caption);
+//
+//                sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_REFUEL, DBReportAdapter.COL_NAME_REFUEL__CAR_ID) + "=",
+//                        Long.toString(mLastSelectedCarID));
+//                dbReportAdapter.setReportSql(DBReportAdapter.REFUEL_LIST_SELECT_NAME, sqlWWhereCondition);
+//                Cursor mCursor = dbReportAdapter.fetchReport(1);
+//                String line1Content;
+//                String line2Content;
+//
+//                if (mCursor != null && mCursor.moveToFirst()) {
+//                    if (secondLine != null) {
+//                        secondLine.setVisibility(View.VISIBLE);
+//                    }
+//                    if (thirdLine != null) {
+//                        thirdLine.setVisibility(View.VISIBLE);
+//                    }
+//
+//                    lineButtons.setVisibility(View.VISIBLE);
+//                    btnMap.setVisibility(View.GONE);
+//
+//                    btnEdit.setTag(R.string.main_screen_button_table_key, R.id.mnuRefuel);
+//                    btnEdit.setTag(R.string.main_screen_button_record_id_key, mCursor.getLong(0));
+//                    btnAddNew.setTag(R.string.main_screen_button_table_key, R.id.mnuRefuel);
+//                    btnShowList.setTag(R.string.main_screen_button_table_key, R.id.nav_refuel);
+//
+//                    try {
+//                        line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(4) * 1000, false));
+//                    } catch (Exception e) {
+//                        line1Content = "Error#6! Please contact me at andicar.support@gmail.com";
+//                    }
+//
+//                    try {
+//                        line2Content = String.format(mCursor.getString(2),
+//                                Utils.numberToString(mCursor.getDouble(5), true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME),
+//                                Utils.numberToString(mCursor.getDouble(6), true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME),
+//                                Utils.numberToString(mCursor.getDouble(7), true, ConstantValues.DECIMALS_PRICE, ConstantValues.ROUNDING_MODE_PRICE),
+//                                Utils.numberToString(mCursor.getDouble(8), true, ConstantValues.DECIMALS_PRICE, ConstantValues.ROUNDING_MODE_PRICE),
+//                                Utils.numberToString(mCursor.getDouble(9), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
+//                                Utils.numberToString(mCursor.getDouble(10), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
+//                                Utils.numberToString(mCursor.getDouble(11), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH));
+//                    } catch (Exception e) {
+//                        line2Content = "Error#7! Please contact me at andicar.support@gmail.com";
+//                    }
+//
+//                    if (secondLine != null) { //three line lists
+//                        firstLine.setText(line1Content);
+//                        if (line2Content != null && line2Content.length() > 0) {
+//                            secondLine.setVisibility(View.VISIBLE);
+//                            secondLine.setText(line2Content);
+//                        } else {
+//                            secondLine.setVisibility(View.GONE);
+//                        }
+//                    }
+//                    else {
+//                        //wider screens => two line lists
+//                        firstLine.setText(line1Content + "; " + line2Content);
+//                    }
+//
+//                    if (mCursor.getString(3) == null || mCursor.getString(3).trim().length() == 0) {
+//                        if (thirdLine != null) {
+//                            thirdLine.setVisibility(View.GONE);
+//                        }
+//                    } else {
+//                        if (thirdLine != null) {
+//                            thirdLine.setVisibility(View.VISIBLE);
+//                        }
+//                        String text = mCursor.getString(3);
+//                        BigDecimal oldFullRefuelIndex;
+//                        try {
+//                            oldFullRefuelIndex = new BigDecimal(mCursor.getDouble(13));
+//                        } catch (Exception e) {
+//                            if (thirdLine != null) {
+//                                thirdLine.setText("Error#1! Please contact me at andicar.support@gmail.com");
+//                            }
+//                            return;
+//                        }
+//                        if (oldFullRefuelIndex.compareTo(BigDecimal.ZERO) < 0 || mCursor.getString(12).equals("N")) { //this is not a full refuel
+//                            try {
+//                                //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
+//                                text = text.replace("[#01]", "");
+//                                if (thirdLine != null) {
+//                                    thirdLine.setText(text);
+//                                }
+//                            } catch (Exception e) {
+//                                if (thirdLine != null) {
+//                                    thirdLine.setText("Error#4! Please contact me at andicar.support@gmail.com");
+//                                }
+//                            }
+//                        }
+//                        // calculate the cons and fuel eff.
+//                        BigDecimal distance = (new BigDecimal(mCursor.getString(11))).subtract(oldFullRefuelIndex);
+//                        BigDecimal fuelQty;
+//                        try {
+//                            Double t = dbReportAdapter.getFuelQtyForCons(mCursor.getLong(16), oldFullRefuelIndex, mCursor.getDouble(11));
+//                            fuelQty = new BigDecimal(t == null ? 0d : t);
+//                        } catch (NullPointerException e) {
+//                            if (thirdLine != null) {
+//                                thirdLine.setText("Error#2! Please contact me at andicar.support@gmail.com");
+//                            }
+//                            return;
+//                        }
+//                        String consStr;
+//                        try {
+//                            consStr = Utils.numberToString(fuelQty.multiply(new BigDecimal("100")).divide(distance, 10, RoundingMode.HALF_UP), true,
+//                                    ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF)
+//                                    + " "
+//                                    + mCursor.getString(14)
+//                                    + "/100"
+//                                    + mCursor.getString(15)
+//                                    + "; "
+//                                    + Utils.numberToString(distance.divide(fuelQty, 10, RoundingMode.HALF_UP), true, ConstantValues.DECIMALS_FUEL_EFF,
+//                                    ConstantValues.ROUNDING_MODE_FUEL_EFF) + " " + mCursor.getString(15) + "/" + mCursor.getString(14);
+//                        } catch (Exception e) {
+//                            //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
+//                            if (thirdLine != null) {
+//                                thirdLine.setText("Error#3! Please contact me at andicar.support@gmail.com");
+//                            }
+//                            return;
+//                        }
+//
+//                        try {
+//                            //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
+//                            text = text.replace("[#01]", "\n" + AndiCar.getAppResources().getString(R.string.gen_fuel_efficiency) + " " + consStr);
+//                        } catch (Exception e) {
+//                            if (thirdLine != null) {
+//                                thirdLine.setText("Error#5! Please contact me at andicar.support@gmail.com");
+//                            }
+//                            return;
+//                        }
+//
+//                        if (text.trim().length() > 0 && thirdLine != null) {
+//                            thirdLine.setText(text.trim());
+//                        } else {
+//                            if (thirdLine != null) {
+//                                thirdLine.setVisibility(View.GONE);
+//                            }
+//                        }
+//                    }
+//
+//                    try {
+//                        mCursor.close();
+//                    } catch (Exception ignored) {
+//                    }
+//                } else {
+//                    firstLine.setText(R.string.main_activity_list_no_data);
+//                    if (secondLine != null) {
+//                        secondLine.setVisibility(View.GONE);
+//                    }
+//                    if (thirdLine != null) {
+//                        thirdLine.setVisibility(View.GONE);
+//                    }
+//                    lineButtons.setVisibility(View.GONE);
+//                }
+//            } else if (recordSource.equals("LEX")) { //Last expense
+//                lineHeader.setText(R.string.main_activity_expense_header_caption);
+//
+//                sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_EXPENSE, DBReportAdapter.COL_NAME_EXPENSE__CAR_ID) + "=",
+//                        Long.toString(mLastSelectedCarID));
+//                dbReportAdapter.setReportSql(DBReportAdapter.EXPENSE_LIST_SELECT_NAME, sqlWWhereCondition);
+//                Cursor mCursor = dbReportAdapter.fetchReport(1);
+//                String line1Content;
+//                String line2Content;
+//                String line3Content;
+//
+//                if (mCursor != null && mCursor.moveToFirst()) {
+//                    if (secondLine != null) {
+//                        secondLine.setVisibility(View.VISIBLE);
+//                    }
+//                    if (thirdLine != null) {
+//                        thirdLine.setVisibility(View.VISIBLE);
+//                    }
+//
+//                    lineButtons.setVisibility(View.VISIBLE);
+//                    btnMap.setVisibility(View.GONE);
+//
+//                    btnEdit.setTag(R.string.main_screen_button_table_key, R.id.mnuExpense);
+//                    btnEdit.setTag(R.string.main_screen_button_record_id_key, mCursor.getLong(0));
+//                    btnAddNew.setTag(R.string.main_screen_button_table_key, R.id.mnuExpense);
+//                    btnShowList.setTag(R.string.main_screen_button_table_key, R.id.nav_expense);
+//
+//                    try {
+//                        line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(4) * 1000, false));
+//                    } catch (Exception e) {
+//                        line1Content = "Error#1! Please contact me at andicar.support@gmail.com";
+//                    }
+//
+//                    try {
+//                        line2Content = String.format(mCursor.getString(2),
+//                                Utils.numberToString(mCursor.getDouble(5), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
+//                                Utils.numberToString(mCursor.getDouble(6), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
+//                                Utils.numberToString(mCursor.getDouble(8), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
+//                                Utils.numberToString(mCursor.getDouble(7), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH));
+//                    } catch (Exception e) {
+//                        line2Content = "Error#2! Please contact me at andicar.support@gmail.com";
+//                    }
+//
+//                    line3Content = mCursor.getString(3);
+//
+//                    if (secondLine != null) { //three line lists
+//                        firstLine.setText(line1Content);
+//                        if (line2Content != null && line2Content.length() > 0) {
+//                            secondLine.setVisibility(View.VISIBLE);
+//                            secondLine.setText(line2Content);
+//                        } else {
+//                            secondLine.setVisibility(View.GONE);
+//                        }
+//                    } else {
+//                        //wider screens => two line lists
+//                        if (line2Content != null && line2Content.length() > 0) {
+//                            firstLine.setText(line1Content + "; " + line2Content);
+//                        } else {
+//                            firstLine.setText(line1Content);
+//                        }
+//                    }
+//
+//                    if (line3Content == null && thirdLine != null) {
+//                        thirdLine.setVisibility(View.GONE);
+//                    } else {
+//                        if (thirdLine != null) {
+//                            thirdLine.setVisibility(View.VISIBLE);
+//                            thirdLine.setText(line3Content);
+//                        }
+//                    }
+//
+//                    try {
+//                        mCursor.close();
+//                    } catch (Exception ignored) {
+//                    }
+//                } else {
+//                    firstLine.setText(R.string.main_activity_list_no_data);
+//                    if (secondLine != null) {
+//                        secondLine.setVisibility(View.GONE);
+//                    }
+//                    if (thirdLine != null) {
+//                        thirdLine.setVisibility(View.GONE);
+//                    }
+//                    lineButtons.setVisibility(View.GONE);
+//                }
+//            } else if (recordSource.equals("LGT")) { //Last expense
+//                lineHeader.setText(R.string.main_activity_gps_track_header_caption);
+//
+//                sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_GPSTRACK, DBReportAdapter.COL_NAME_GPSTRACK__CAR_ID) + "=",
+//                        Long.toString(mLastSelectedCarID));
+//                dbReportAdapter.setReportSql(DBReportAdapter.GPS_TRACK_LIST_SELECT_NAME, sqlWWhereCondition);
+//                Cursor mCursor = dbReportAdapter.fetchReport(1);
+//                String line1Content;
+//                String line2Content;
+//                String line3Content;
+//
+//                if (mCursor != null && mCursor.moveToFirst()) {
+//                    if (secondLine != null) {
+//                        secondLine.setVisibility(View.VISIBLE);
+//                    }
+//                    if (thirdLine != null) {
+//                        thirdLine.setVisibility(View.VISIBLE);
+//                    }
+//
+//                    lineButtons.setVisibility(View.VISIBLE);
+//                    btnMap.setVisibility(View.VISIBLE);
+//
+//                    btnEdit.setTag(R.string.main_screen_button_table_key, R.id.mnuGPSTrack);
+//                    btnEdit.setTag(R.string.main_screen_button_record_id_key, mCursor.getLong(0));
+//                    btnAddNew.setTag(R.string.main_screen_button_table_key, R.id.mnuGPSTrack);
+//                    btnShowList.setTag(R.string.main_screen_button_table_key, R.id.nav_gpstrack);
+//                    btnMap.setTag(R.string.main_screen_button_record_id_key, mCursor.getLong(0));
+//
+//                    try {
+//                        line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(7) * 1000, false));
+//                    } catch (Exception e) {
+//                        line1Content = "Error#1! Please contact me at andicar.support@gmail.com";
+//                    }
+//
+//                    try {
+//                        line2Content = String.format(mCursor.getString(2),
+//                                getString(R.string.gps_track_detail_var_1),
+//                                getString(R.string.gps_track_detail_var_2),
+//                                getString(R.string.gps_track_detail_var_3),
+//                                getString(R.string.gps_track_detail_var_4),
+//                                getString(R.string.gps_track_detail_var_5) + " " + Utils.getTimeString(mCursor.getLong(4)),
+//                                getString(R.string.gps_track_detail_var_6) + " " + Utils.getTimeString(mCursor.getLong(5)),
+//                                getString(R.string.gps_track_detail_var_7),
+//                                getString(R.string.gps_track_detail_var_8),
+//                                getString(R.string.gps_track_detail_var_9),
+//                                getString(R.string.gps_track_detail_var_10),
+//                                getString(R.string.gps_track_detail_var_11),
+//                                getString(R.string.gps_track_detail_var_12) + " " + Utils.getTimeString(mCursor.getLong(8)),
+//                                getString(R.string.gps_track_detail_var_13) + " " + Utils.getTimeString(mCursor.getLong(4) - mCursor.getLong(8) - mCursor.getLong(5)));
+//                    } catch (Exception e) {
+//                        line2Content = "Error#2! Please contact me at andicar.support@gmail.com";
+//                    }
+//                    line3Content = mCursor.getString(3);
+//
+//                    if (secondLine != null) { //three line lists
+//                        firstLine.setText(line1Content);
+//                        if (line2Content != null && line2Content.length() > 0) {
+//                            secondLine.setVisibility(View.VISIBLE);
+//                            secondLine.setText(line2Content);
+//                        } else {
+//                            secondLine.setVisibility(View.GONE);
+//                        }
+//                    } else {
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                            firstLine.setTextAppearance(R.style.ListItem_SecondLine);
+//                        } else {
+//                            firstLine.setTypeface(null, Typeface.NORMAL);
+//                        }
+//
+//                        CharSequence text;
+//                        //wider screens => two line lists
+//                        if (line2Content != null && line2Content.length() > 0) {
+//                            //noinspection deprecation
+//                            text = Html.fromHtml("<b>" + line1Content + "</b><br>" + line2Content);
+//                        } else {
+//                            //noinspection deprecation
+//                            text = Html.fromHtml("<b>" + line1Content + "</b>");
+//                        }
+//                        firstLine.setText(text);
+//                    }
+//
+//                    if (line3Content == null && thirdLine != null) {
+//                        thirdLine.setVisibility(View.GONE);
+//                    } else {
+//                        if (thirdLine != null) {
+//                            thirdLine.setVisibility(View.VISIBLE);
+//                            thirdLine.setText(line3Content);
+//                        }
+//                    }
+//
+//                    try {
+//                        mCursor.close();
+//                    } catch (Exception ignored) {
+//                    }
+//                } else {
+//                    firstLine.setText(R.string.main_activity_list_no_data);
+//                    if (secondLine != null) {
+//                        secondLine.setVisibility(View.GONE);
+//                    }
+//                    if (thirdLine != null) {
+//                        thirdLine.setVisibility(View.GONE);
+//                    }
+//                    lineButtons.setVisibility(View.GONE);
+//                }
+//            }
 
             try {
                 dbReportAdapter.close();

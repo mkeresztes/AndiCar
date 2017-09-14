@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/lineHeader"
+        style="@style/AndiCarMainActivityListHeader" />
+
+    <TextView
+        android:id="@+id/firstLine"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textAppearance="@style/ListItem.FirstLine" />
+
+    <TextView
+        android:id="@+id/secondLine"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textAppearance="@style/ListItem.SecondLine"
+        tools:ignore="InconsistentLayout" />
+
+    <TextView
+        android:id="@+id/thirdLine"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textAppearance="@style/ListItem.ThirdLine" />
+
+    <LinearLayout
+        android:id="@+id/lineButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:contentDescription="@string/gen_edit"
+            app:srcCompat="@drawable/ic_button_map_black_24dp_pad4dp" />
+
+        <ImageButton
+            android:id="@+id/btnEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:contentDescription="@string/gen_edit"
+            app:srcCompat="@drawable/ic_menu_edit_black_24dp_pad4dp" />
+
+        <ImageButton
+            android:id="@+id/btnShowList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:contentDescription="@string/gen_list"
+            app:srcCompat="@drawable/ic_button_list_black_24dp_pad4dp" />
+
+        <ImageButton
+            android:id="@+id/btnAddNew"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:contentDescription="@string/gen_add_new"
+            app:srcCompat="@drawable/ic_button_add_black_24dp_pad4dp" />
+    </LinearLayout>
+
+</LinearLayout>

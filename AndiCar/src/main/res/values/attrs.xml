@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LastRecordComponent">
+        <attr name="headerText" format="string" />
+        <attr name="firstLineText" format="string" />
+        <attr name="secondLineText" format="string" />
+        <attr name="thirdLineText" format="string" />
+    </declare-styleable>
+</resources>
