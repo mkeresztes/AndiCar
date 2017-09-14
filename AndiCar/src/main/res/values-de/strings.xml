@@ -50,6 +50,14 @@
     <string name="pref_main_screen_addbtn_title">Taste hinzufügen</string>
     <string name="pref_main_screen_show_todo_zone">Bereich To-do anzeigen</string>
     <string name="pref_main_screen_show_tatistics">Statistiken anzeigen</string>
+    <string name="pref_main_screen_zone1_content">Zone 1 Inhalt</string>
+    <string name="pref_main_screen_zone2_content">Zone 2 Inhalt</string>
+    <string name="pref_main_screen_zone3_content">Zone 3 Inhalt</string>
+    <string name="pref_main_screen_zone4_content">Zone 4 Inhalt</string>
+    <string name="pref_main_screen_zone5_content">Zone 5 Inhalt</string>
+    <string name="pref_main_screen_zone6_content">Zone 6 Inhalt</string>
+    <string name="pref_main_screen_zone7_content">Zone 7 Inhalt</string>
+    <string name="pref_main_screen_zone8_content">Zone 8 Inhalt</string>
     <string name="pref_todo_type_title">Aufgabenarten</string>
     <string name="pref_todo_type_summary">Aufgabenarten hinzufügen, löschen, ändern.</string>
     <string name="pref_todo_title">Aufgaben</string>

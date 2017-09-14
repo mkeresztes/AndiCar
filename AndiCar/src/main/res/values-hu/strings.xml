@@ -50,6 +50,14 @@
     <string name="pref_main_screen_addbtn_hint">Hosszan nyomva az új rekord gombot, megjelenik a menü</string>
     <string name="pref_main_screen_show_todo_zone">Következő feladat zóna</string>
     <string name="pref_main_screen_show_tatistics">Statistikák mutatása</string>
+    <string name="pref_main_screen_zone1_content">1. zóna tartalma</string>
+    <string name="pref_main_screen_zone2_content">2. zóna tartalma</string>
+    <string name="pref_main_screen_zone3_content">3. zóna tartalma</string>
+    <string name="pref_main_screen_zone4_content">4. zóna tartalma</string>
+    <string name="pref_main_screen_zone5_content">5. zóna tartalma</string>
+    <string name="pref_main_screen_zone6_content">6. zóna tartalma</string>
+    <string name="pref_main_screen_zone7_content">7. zóna tartalma</string>
+    <string name="pref_main_screen_zone8_content">8. zóna tartalma</string>
 
     <string name="pref_todo_type_title">Feladat típusok</string>
     <string name="pref_todo_type_summary">Feladat típusok szerkesztése</string>

@@ -49,6 +49,14 @@
     <string name="pref_main_screen_addbtn_title">Botón Agregar</string>
     <string name="pref_main_screen_show_todo_zone">Mostrar zona de tareas</string>
     <string name="pref_main_screen_show_tatistics">Mostrar estadísticas</string>
+    <string name="pref_main_screen_zone1_content">Contenido de la Zona 1</string>
+    <string name="pref_main_screen_zone2_content">Contenido de la Zona 2</string>
+    <string name="pref_main_screen_zone3_content">Contenido de la Zona 3</string>
+    <string name="pref_main_screen_zone4_content">Contenido de la Zona 4</string>
+    <string name="pref_main_screen_zone5_content">Contenido de la Zona 5</string>
+    <string name="pref_main_screen_zone6_content">Contenido de la Zona 6</string>
+    <string name="pref_main_screen_zone7_content">Contenido de la Zona 7</string>
+    <string name="pref_main_screen_zone8_content">Contenido de la Zona 8</string>
     <string name="pref_todo_type_title">Tipo de tareas</string>
     <string name="pref_todo_type_summary">Agregar, borrar, modificar tipo de tareas</string>
     <string name="pref_todo_title">Tareas</string>

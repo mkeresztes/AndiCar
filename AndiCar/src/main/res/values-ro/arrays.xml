@@ -93,5 +93,18 @@
         <item>Cheltuială nouă</item>
         <item>Traseu GPS nou</item>
     </string-array>
+
+    <string-array name="pref_main_zone_content_chooser_entries">
+        <item>Nu se utilizează</item>
+        <item>Ultima cursă</item>
+        <item>Ultima alimentare</item>
+        <item>Ultima cheltuială</item>
+        <item>Ultimul traseu GPS</item>
+        <item>Trip charts</item>
+        <item>Fill-up charts (quantity)</item>
+        <item>Fill-up charts (value)</item>
+        <item>Expense charts</item>
+    </string-array>
+
 </resources>
 

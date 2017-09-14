@@ -55,6 +55,14 @@
     <string name="main_activity_expense_header_caption">Ultima cheltuială</string>
     <string name="main_activity_list_no_data">Nu există înregistrări</string>
     <string name="pref_main_screen_show_tatistics">Arată statisticile</string>
+    <string name="pref_main_screen_zone1_content">Conținutul zonei 1</string>
+    <string name="pref_main_screen_zone2_content">Conținutul zonei 2</string>
+    <string name="pref_main_screen_zone3_content">Conținutul zonei 3</string>
+    <string name="pref_main_screen_zone4_content">Conținutul zonei 4</string>
+    <string name="pref_main_screen_zone5_content">Conținutul zonei 5</string>
+    <string name="pref_main_screen_zone6_content">Conținutul zonei 6</string>
+    <string name="pref_main_screen_zone7_content">Conținutul zonei 7</string>
+    <string name="pref_main_screen_zone8_content">Conținutul zonei 8</string>
 
     <string name="pref_todo_type_title">Tipuri de sarcini</string>
     <string name="pref_todo_type_summary">Adaugă, şterge, modifică tipuri de sarcini"</string>

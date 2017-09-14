@@ -94,5 +94,17 @@
         <item>Új GPS nyomkövetés</item>
     </string-array>
 
+    <string-array name="pref_main_zone_content_chooser_entries">
+        <item>Eltüntetve</item>
+        <item>Utolsó út</item>
+        <item>Utolsó tankolás</item>
+        <item>Utolsó költség</item>
+        <item>Utolsó GPS nyom</item>
+        <item>Trip charts</item>
+        <item>Fill-up charts (quantity)</item>
+        <item>Fill-up charts (value)</item>
+        <item>Expense charts</item>
+    </string-array>
+
 </resources>
 

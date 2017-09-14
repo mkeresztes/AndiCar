@@ -147,7 +147,7 @@
     </string-array>
 
     <string-array name="pref_main_zone_content_chooser_entries">
-        <item>Do not use</item>
+        <item>Hide</item>
         <item>Last trip</item>
         <item>Last fill-up</item>
         <item>Last expense</item>
