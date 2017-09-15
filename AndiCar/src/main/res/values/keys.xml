@@ -104,6 +104,6 @@
     <string name="chart_key_legendAtRight">legendAtRight</string>
     <string name="chart_key_legendAtBottom">legendAtBottom</string>
 
-    <string name="main_screen_button_record_id_key">record_id_key</string>
-    <string name="main_screen_button_table_key">table_key</string>
+    <string name="record_component_record_id_key">record_id_key</string>
+    <string name="record_component_table_key">table_key</string>
 </resources>

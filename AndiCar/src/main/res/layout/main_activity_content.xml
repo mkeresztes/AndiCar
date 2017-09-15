@@ -132,87 +132,11 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <!--<LinearLayout-->
-                <!--android:id="@+id/line1TextZone"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="vertical">-->
-
-                <!--<TextView-->
-                <!--android:id="@+id/line1Header"-->
-                <!--style="@style/AndiCarMainActivityListHeader"/>-->
-
-                <!--<TextView-->
-                <!--android:id="@+id/firstLine1"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:textAppearance="@style/ListItem.FirstLine"/>-->
-
-                <!--<TextView-->
-                <!--android:id="@+id/secondLine1"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:textAppearance="@style/ListItem.SecondLine"-->
-                <!--tools:ignore="InconsistentLayout"/>-->
-
-                <!--<TextView-->
-                <!--android:id="@+id/thirdLine1"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:textAppearance="@style/ListItem.ThirdLine"/>-->
-
-                <!--<LinearLayout-->
-                <!--android:id="@+id/line1Buttons"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:gravity="end"-->
-                <!--android:orientation="horizontal">-->
-
-                <!--<ImageButton-->
-                <!--android:id="@+id/btnMap1"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginEnd="10dp"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:background="@null"-->
-                <!--android:contentDescription="@string/gen_edit"-->
-                <!--app:srcCompat="@drawable/ic_button_map_black_24dp_pad4dp"/>-->
-
-                <!--<ImageButton-->
-                <!--android:id="@+id/btnEdit1"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginEnd="10dp"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:background="@null"-->
-                <!--android:contentDescription="@string/gen_edit"-->
-                <!--app:srcCompat="@drawable/ic_menu_edit_black_24dp_pad4dp"/>-->
-
-                <!--<ImageButton-->
-                <!--android:id="@+id/btnShowList1"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginEnd="10dp"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:background="@null"-->
-                <!--android:contentDescription="@string/gen_list"-->
-                <!--app:srcCompat="@drawable/ic_button_list_black_24dp_pad4dp"/>-->
-
-                <!--<ImageButton-->
-                <!--android:id="@+id/btnAddNew1"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginEnd="10dp"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:background="@null"-->
-                <!--android:contentDescription="@string/gen_add_new"-->
-                <!--app:srcCompat="@drawable/ic_button_add_black_24dp_pad4dp"/>-->
-                <!--</LinearLayout>-->
-                <!--</LinearLayout>-->
-                <andicar.n.components.LastRecordComponent
-                    android:id="@+id/line1LastRecordZone"
+                <andicar.n.components.ShowRecordComponent
+                    android:id="@+id/line1LastRecord"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></andicar.n.components.LastRecordComponent>
+                    android:layout_height="wrap_content">
+                </andicar.n.components.ShowRecordComponent>
 
                 <LinearLayout
                     android:id="@+id/line1ChartsZone"
@@ -284,83 +208,11 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <LinearLayout
-                    android:id="@+id/line2TextZone"
+                <andicar.n.components.ShowRecordComponent
+                    android:id="@+id/line2LastRecord"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/line2Header"
-                        style="@style/AndiCarMainActivityListHeader"/>
-
-                    <TextView
-                        android:id="@+id/firstLine2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.FirstLine"/>
-
-                    <TextView
-                        android:id="@+id/secondLine2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.SecondLine"
-                        tools:ignore="InconsistentLayout"/>
-
-                    <TextView
-                        android:id="@+id/thirdLine2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.ThirdLine"/>
-
-                    <LinearLayout
-                        android:id="@+id/line2Buttons"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:orientation="horizontal">
-
-                        <ImageButton
-                            android:id="@+id/btnMap2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_edit"
-                            app:srcCompat="@drawable/ic_button_map_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnEdit2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_edit"
-                            app:srcCompat="@drawable/ic_menu_edit_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnShowList2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_list"
-                            app:srcCompat="@drawable/ic_button_list_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnAddNew2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_add_new"
-                            app:srcCompat="@drawable/ic_button_add_black_24dp_pad4dp"/>
-                    </LinearLayout>
-                </LinearLayout>
+                    android:layout_height="wrap_content">
+                </andicar.n.components.ShowRecordComponent>
 
                 <LinearLayout
                     android:id="@+id/line2ChartsZone"
@@ -430,83 +282,11 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <LinearLayout
-                    android:id="@+id/line3TextZone"
+                <andicar.n.components.ShowRecordComponent
+                    android:id="@+id/line3LastRecord"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/line3Header"
-                        style="@style/AndiCarMainActivityListHeader"/>
-
-                    <TextView
-                        android:id="@+id/firstLine3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.FirstLine"/>
-
-                    <TextView
-                        android:id="@+id/secondLine3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.SecondLine"
-                        tools:ignore="InconsistentLayout"/>
-
-                    <TextView
-                        android:id="@+id/thirdLine3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.ThirdLine"/>
-
-                    <LinearLayout
-                        android:id="@+id/line3Buttons"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:orientation="horizontal">
-
-                        <ImageButton
-                            android:id="@+id/btnMap3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_edit"
-                            app:srcCompat="@drawable/ic_button_map_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnEdit3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_edit"
-                            app:srcCompat="@drawable/ic_menu_edit_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnShowList3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_list"
-                            app:srcCompat="@drawable/ic_button_list_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnAddNew3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_add_new"
-                            app:srcCompat="@drawable/ic_button_add_black_24dp_pad4dp"/>
-                    </LinearLayout>
-                </LinearLayout>
+                    android:layout_height="wrap_content">
+                </andicar.n.components.ShowRecordComponent>
 
                 <LinearLayout
                     android:id="@+id/line3ChartsZone"
@@ -576,83 +356,11 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <LinearLayout
-                    android:id="@+id/line4TextZone"
+                <andicar.n.components.ShowRecordComponent
+                    android:id="@+id/line4LastRecord"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/line4Header"
-                        style="@style/AndiCarMainActivityListHeader"/>
-
-                    <TextView
-                        android:id="@+id/firstLine4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.FirstLine"/>
-
-                    <TextView
-                        android:id="@+id/secondLine4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.SecondLine"
-                        tools:ignore="InconsistentLayout"/>
-
-                    <TextView
-                        android:id="@+id/thirdLine4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.ThirdLine"/>
-
-                    <LinearLayout
-                        android:id="@+id/line4Buttons"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:orientation="horizontal">
-
-                        <ImageButton
-                            android:id="@+id/btnMap4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_edit"
-                            app:srcCompat="@drawable/ic_button_map_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnEdit4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_edit"
-                            app:srcCompat="@drawable/ic_menu_edit_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnShowList4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_list"
-                            app:srcCompat="@drawable/ic_button_list_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnAddNew4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_add_new"
-                            app:srcCompat="@drawable/ic_button_add_black_24dp_pad4dp"/>
-                    </LinearLayout>
-                </LinearLayout>
+                    android:layout_height="wrap_content">
+                </andicar.n.components.ShowRecordComponent>
 
                 <LinearLayout
                     android:id="@+id/line4ChartsZone"
@@ -721,83 +429,11 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <LinearLayout
-                    android:id="@+id/line5TextZone"
+                <andicar.n.components.ShowRecordComponent
+                    android:id="@+id/line5LastRecord"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/line5Header"
-                        style="@style/AndiCarMainActivityListHeader"/>
-
-                    <TextView
-                        android:id="@+id/firstLine5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.FirstLine"/>
-
-                    <TextView
-                        android:id="@+id/secondLine5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.SecondLine"
-                        tools:ignore="InconsistentLayout"/>
-
-                    <TextView
-                        android:id="@+id/thirdLine5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.ThirdLine"/>
-
-                    <LinearLayout
-                        android:id="@+id/line5Buttons"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:orientation="horizontal">
-
-                        <ImageButton
-                            android:id="@+id/btnMap5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_edit"
-                            app:srcCompat="@drawable/ic_button_map_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnEdit5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_edit"
-                            app:srcCompat="@drawable/ic_menu_edit_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnShowList5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_list"
-                            app:srcCompat="@drawable/ic_button_list_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnAddNew5"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_add_new"
-                            app:srcCompat="@drawable/ic_button_add_black_24dp_pad4dp"/>
-                    </LinearLayout>
-                </LinearLayout>
+                    android:layout_height="wrap_content">
+                </andicar.n.components.ShowRecordComponent>
 
                 <LinearLayout
                     android:id="@+id/line5ChartsZone"
@@ -866,83 +502,11 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <LinearLayout
-                    android:id="@+id/line6TextZone"
+                <andicar.n.components.ShowRecordComponent
+                    android:id="@+id/line6LastRecord"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/line6Header"
-                        style="@style/AndiCarMainActivityListHeader"/>
-
-                    <TextView
-                        android:id="@+id/firstLine6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.FirstLine"/>
-
-                    <TextView
-                        android:id="@+id/secondLine6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.SecondLine"
-                        tools:ignore="InconsistentLayout"/>
-
-                    <TextView
-                        android:id="@+id/thirdLine6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.ThirdLine"/>
-
-                    <LinearLayout
-                        android:id="@+id/line6Buttons"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:orientation="horizontal">
-
-                        <ImageButton
-                            android:id="@+id/btnMap6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_edit"
-                            app:srcCompat="@drawable/ic_button_map_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnEdit6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_edit"
-                            app:srcCompat="@drawable/ic_menu_edit_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnShowList6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_list"
-                            app:srcCompat="@drawable/ic_button_list_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnAddNew6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_add_new"
-                            app:srcCompat="@drawable/ic_button_add_black_24dp_pad4dp"/>
-                    </LinearLayout>
-                </LinearLayout>
+                    android:layout_height="wrap_content">
+                </andicar.n.components.ShowRecordComponent>
 
                 <LinearLayout
                     android:id="@+id/line6ChartsZone"
@@ -1011,83 +575,11 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <LinearLayout
-                    android:id="@+id/line7TextZone"
+                <andicar.n.components.ShowRecordComponent
+                    android:id="@+id/line7LastRecord"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/line7Header"
-                        style="@style/AndiCarMainActivityListHeader"/>
-
-                    <TextView
-                        android:id="@+id/firstLine7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.FirstLine"/>
-
-                    <TextView
-                        android:id="@+id/secondLine7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.SecondLine"
-                        tools:ignore="InconsistentLayout"/>
-
-                    <TextView
-                        android:id="@+id/thirdLine7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.ThirdLine"/>
-
-                    <LinearLayout
-                        android:id="@+id/line7Buttons"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:orientation="horizontal">
-
-                        <ImageButton
-                            android:id="@+id/btnMap7"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_edit"
-                            app:srcCompat="@drawable/ic_button_map_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnEdit7"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_edit"
-                            app:srcCompat="@drawable/ic_menu_edit_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnShowList7"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_list"
-                            app:srcCompat="@drawable/ic_button_list_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnAddNew7"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_add_new"
-                            app:srcCompat="@drawable/ic_button_add_black_24dp_pad4dp"/>
-                    </LinearLayout>
-                </LinearLayout>
+                    android:layout_height="wrap_content">
+                </andicar.n.components.ShowRecordComponent>
 
                 <LinearLayout
                     android:id="@+id/line7ChartsZone"
@@ -1156,83 +648,11 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <LinearLayout
-                    android:id="@+id/line8TextZone"
+                <andicar.n.components.ShowRecordComponent
+                    android:id="@+id/line8LastRecord"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/line8Header"
-                        style="@style/AndiCarMainActivityListHeader"/>
-
-                    <TextView
-                        android:id="@+id/firstLine8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.FirstLine"/>
-
-                    <TextView
-                        android:id="@+id/secondLine8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.SecondLine"
-                        tools:ignore="InconsistentLayout"/>
-
-                    <TextView
-                        android:id="@+id/thirdLine8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:textAppearance="@style/ListItem.ThirdLine"/>
-
-                    <LinearLayout
-                        android:id="@+id/line8Buttons"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:orientation="horizontal">
-
-                        <ImageButton
-                            android:id="@+id/btnMap8"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_edit"
-                            app:srcCompat="@drawable/ic_button_map_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnEdit8"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_edit"
-                            app:srcCompat="@drawable/ic_menu_edit_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnShowList8"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_list"
-                            app:srcCompat="@drawable/ic_button_list_black_24dp_pad4dp"/>
-
-                        <ImageButton
-                            android:id="@+id/btnAddNew8"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@null"
-                            android:contentDescription="@string/gen_add_new"
-                            app:srcCompat="@drawable/ic_button_add_black_24dp_pad4dp"/>
-                    </LinearLayout>
-                </LinearLayout>
+                    android:layout_height="wrap_content">
+                </andicar.n.components.ShowRecordComponent>
 
                 <LinearLayout
                     android:id="@+id/line8ChartsZone"
