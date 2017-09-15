@@ -6,4 +6,11 @@
         <attr name="secondLineText" format="string" />
         <attr name="thirdLineText" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="ShowChartsComponent">
+        <attr name="chart1TitleText" format="string"/>
+        <attr name="chart2TitleText" format="string"/>
+        <attr name="chart3TitleText" format="string"/>
+        <attr name="chartFooterText" format="string"/>
+    </declare-styleable>
 </resources>
