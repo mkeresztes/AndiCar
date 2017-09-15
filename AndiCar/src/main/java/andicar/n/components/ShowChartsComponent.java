@@ -117,18 +117,6 @@ public class ShowChartsComponent extends LinearLayout {
         }
     }
 
-    //    public void setChart1TitleText(int resId) {
-//        this.mChart1Title.setText(mCtx.getString(resId));
-//    }
-//
-//    public void setChart2TitleText(int resId) {
-//        this.mChart2Title.setText(mCtx.getString(resId));
-//    }
-//
-//    public void setChart3TitleText(int resId) {
-//        this.mChart3Title.setText(mCtx.getString(resId));
-//    }
-//
     public void setChartFooterText(String chartFooterText) {
         if (chartFooterText == null || chartFooterText.trim().length() == 0) {
             this.mChartFooter.setVisibility(GONE);
