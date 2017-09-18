@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity
     private static final int CHART_FILTER_PREVIOUS_YEAR = 5;
     private static final int CHART_FILTER_CUSTOM_PERIOD = 6;
 
-    View.OnClickListener btnEditClickListener = new View.OnClickListener() {
+    private final View.OnClickListener btnEditClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             int type = (Integer) view.getTag(R.string.record_component_table_key);
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
-    View.OnClickListener btnNewClickListener = new View.OnClickListener() {
+    private final View.OnClickListener btnNewClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             int type = (Integer) view.getTag(R.string.record_component_table_key);
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
-    View.OnClickListener btnMapClickListener = new View.OnClickListener() {
+    private final View.OnClickListener btnMapClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Long recordID = (Long) view.getTag(R.string.record_component_record_id_key);
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
-    View.OnClickListener btnListListener = new View.OnClickListener() {
+    private final View.OnClickListener btnListListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             int type = (Integer) view.getTag(R.string.record_component_table_key);
@@ -1274,7 +1274,6 @@ public class MainActivity extends AppCompatActivity
 
             ShowRecordComponent recordComponent;
             ShowChartsComponent chartComponent;
-            TextView separator;
             String zoneContent;
             LinearLayout zoneContainer = (LinearLayout) findViewById(R.id.zoneContainer);
             if (zoneContainer == null) {
