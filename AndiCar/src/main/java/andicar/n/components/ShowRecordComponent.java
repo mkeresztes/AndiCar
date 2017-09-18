@@ -17,20 +17,20 @@ import org.andicar2.activity.R;
  */
 
 public class ShowRecordComponent extends LinearLayout {
-    Context mCtx;
-    TextView mLineHeader;
-    TextView mFirstLine;
-    TextView mSecondLine;
-    TextView mThirdLine;
-    View mButtonsLine;
-    ImageButton mMapButton;
-    ImageButton mEditButton;
-    ImageButton mhowListButton;
-    ImageButton mNewButton;
-    String mHeaderText;
-    String mFirstLineText;
-    String mSecondLineText;
-    String mThirdLineText;
+    private final Context mCtx;
+    private TextView mLineHeader;
+    private TextView mFirstLine;
+    private TextView mSecondLine;
+    private TextView mThirdLine;
+    private View mButtonsLine;
+    private ImageButton mMapButton;
+    private ImageButton mEditButton;
+    private ImageButton mhowListButton;
+    private ImageButton mNewButton;
+    private String mHeaderText;
+    private String mFirstLineText;
+    private String mSecondLineText;
+    private String mThirdLineText;
 
     public ShowRecordComponent(Context context) {
         super(context);
@@ -133,7 +133,7 @@ public class ShowRecordComponent extends LinearLayout {
         }
     }
 
-    public void setFirstLineText(int resId) {
+    public void setFirstLineText(@SuppressWarnings("SameParameterValue") int resId) {
         this.mFirstLineText = mCtx.getString(resId);
         mFirstLine.setText(this.mFirstLineText);
     }

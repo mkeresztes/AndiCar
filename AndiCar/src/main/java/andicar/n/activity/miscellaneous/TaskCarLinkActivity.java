@@ -18,6 +18,7 @@
  */
 package andicar.n.activity.miscellaneous;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -215,6 +216,7 @@ public class TaskCarLinkActivity extends AppCompatActivity {
         Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, mLinkDialogCarSelectCondition, mCarID, false);
         if (mRowId == -1) {
             spnCar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                     mCarID = mDbAdapter.getIdByName(DBAdapter.TABLE_NAME_CAR, adapterView.getAdapter().getItem(position).toString());

@@ -35,19 +35,19 @@ import andicar.n.view.AndiCarPieChart;
 
 public class ShowChartsComponent extends LinearLayout {
     private static final int CLICK_ACTION_THRESHOLD = 200;
-    Context mCtx;
-    TextView mChart1Title;
-    TextView mChart2Title;
-    TextView mChart3Title;
-    TextView mChartFooter;
-    LinearLayout mChartsLine;
-    AndiCarPieChart mChart1;
-    AndiCarPieChart mChart2;
-    AndiCarPieChart mChart3;
-    String mChart1TitleText;
-    String mChart2TitleText;
-    String mChart3TitleText;
-    String mChartFooterText;
+    private final Context mCtx;
+    private TextView mChart1Title;
+    private TextView mChart2Title;
+    private TextView mChart3Title;
+    private TextView mChartFooter;
+    private LinearLayout mChartsLine;
+    private AndiCarPieChart mChart1;
+    private AndiCarPieChart mChart2;
+    private AndiCarPieChart mChart3;
+    private String mChart1TitleText;
+    private String mChart2TitleText;
+    private String mChart3TitleText;
+    private String mChartFooterText;
     private long mLastTouchDown;
 
     public ShowChartsComponent(Context context) {
@@ -145,7 +145,7 @@ public class ShowChartsComponent extends LinearLayout {
         mChartsLine.requestLayout();
     }
 
-    public void drawChart(int chartIndex, ArrayList<DBReportAdapter.chartData> chartData, String title) throws Exception {
+    public void drawChart(int chartIndex, ArrayList<DBReportAdapter.chartData> chartData, String title) {
         AndiCarPieChart chart;
 
         switch (chartIndex) {

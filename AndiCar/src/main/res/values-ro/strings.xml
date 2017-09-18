@@ -18,6 +18,8 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="activity_new_trip">AndiCar kilometraj nou</string>
+
     <string name="pref_general_title">Setări generale</string>
     <string name="pref_car_driver_category_title">Mașini și șoferi</string>
     <string name="pref_car_title">Mașini</string>

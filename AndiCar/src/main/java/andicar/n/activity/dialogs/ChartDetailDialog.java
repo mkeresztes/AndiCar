@@ -149,7 +149,7 @@ public class ChartDetailDialog extends AppCompatActivity {
     }
 
     //    private void setData(int count, float range) {
-    private void setData(ArrayList<DBReportAdapter.chartData> cdList) throws Exception {
+    private void setData(ArrayList<DBReportAdapter.chartData> cdList) {
         if (cdList == null || cdList.size() == 0) {
             mChart.clear();
             return;

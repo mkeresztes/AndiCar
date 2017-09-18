@@ -65,6 +65,12 @@
         <item>No usar</item>
     </string-array>
 
+    <string-array name="bt_link_disconnect_entries">
+        <item>Hacer nada</item>
+        <item>Pausa / Reanudar (cuando se vuelve a conectar)</item>
+        <item>Detener seguimiento</item>
+    </string-array>
+
     <string-array name="pref_main_addbtn_entries">
         <item>Mostrar el menú</item>
         <item>Nuevo kilometraje</item>

@@ -20,7 +20,6 @@
 package org.andicar2.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -42,7 +41,6 @@ public class AndiCar extends MultiDexApplication {
     private static Resources appResources;
     private static SharedPreferences appPreferences;
     @SuppressLint("StaticFieldLeak")
-    private static Context mCtx;
 
     public static Resources getAppResources() {
         return appResources;
@@ -50,10 +48,6 @@ public class AndiCar extends MultiDexApplication {
 
     public static SharedPreferences getDefaultSharedPreferences() {
         return appPreferences;
-    }
-
-    public static Context getAppContext() {
-        return mCtx;
     }
 
     @Override
@@ -67,7 +61,6 @@ public class AndiCar extends MultiDexApplication {
 
         AndiCar.appResources = getResources();
         AndiCar.appPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        AndiCar.mCtx = getApplicationContext();
 
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             ConstantValues.BASE_FOLDER = Environment.getExternalStorageDirectory().getAbsolutePath() + "/andicar";
@@ -85,7 +78,7 @@ public class AndiCar extends MultiDexApplication {
         initPreferences();
 
         //check if the app was updated
-        int appVersion = 0;
+        int appVersion;
 
         try {
             appVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;

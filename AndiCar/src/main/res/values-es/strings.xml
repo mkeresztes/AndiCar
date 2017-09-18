@@ -18,6 +18,8 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="activity_new_trip">AndiCar registro de viaje</string>
+
     <string name="title_list_activity" tools:ignore="PluralsCandidate">%1$s: %2$s registros</string>
     <string name="pref_general_title">Configuración general</string>
     <string name="pref_car_driver_category_title">Automóviles y Conductores</string>

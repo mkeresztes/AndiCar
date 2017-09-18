@@ -59,6 +59,7 @@ public class RefuelViewAdapter extends BaseViewAdapter {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void cursorViewBinder(DefaultViewHolder holder, @SuppressLint("RecyclerView") int position) {
         String line1Content;
