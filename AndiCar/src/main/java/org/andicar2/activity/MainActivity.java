@@ -66,6 +66,7 @@ import andicar.n.activity.CommonListActivity;
 import andicar.n.activity.dialogs.DateRangeSearchDialogFragment;
 import andicar.n.activity.dialogs.GPSTrackControllerDialogActivity;
 import andicar.n.activity.dialogs.ToDoNotificationDialogActivity;
+import andicar.n.activity.dialogs.WhatsNewDialog;
 import andicar.n.activity.fragment.BaseEditFragment;
 import andicar.n.activity.fragment.TaskEditFragment;
 import andicar.n.activity.miscellaneous.AboutActivity;
@@ -222,6 +223,13 @@ public class MainActivity extends AppCompatActivity
 //            notif.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_INFO);
 //            startActivity(notif);
         }
+
+        if (AndiCar.isAppJustUpdated) {
+            AndiCar.isAppJustUpdated = false;
+            Intent whatsNewIntent = new Intent(this, WhatsNewDialog.class);
+            whatsNewIntent.putExtra(WhatsNewDialog.IS_SHOW_FIVE_STARS_BUTTON_KEY, true);
+            startActivity(whatsNewIntent);
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -233,7 +241,7 @@ public class MainActivity extends AppCompatActivity
         mNavigationView.clearSecondaryMenuEntries();
         mNavigationView.mForceSecondary = false;
 
-        if (mNavigationView.getMenu().findItem(R.id.nav_rate) != null && Utils.isCanSHowRateApp(this)) {
+        if (mNavigationView.getMenu().findItem(R.id.nav_rate) != null && Utils.isCanShowRateApp(this)) {
             mNavigationView.getMenu().findItem(R.id.nav_rate).setVisible(true);
         }
 

@@ -129,7 +129,7 @@ public class MainNavigationView extends android.support.design.widget.Navigation
             //change to default layout
             this.getMenu().clear();
             this.inflateMenu(R.menu.main_navigation_primary_items);
-            if (this.getMenu().findItem(R.id.nav_rate) != null && Utils.isCanSHowRateApp(getContext())) {
+            if (this.getMenu().findItem(R.id.nav_rate) != null && Utils.isCanShowRateApp(getContext())) {
                 this.getMenu().findItem(R.id.nav_rate).setVisible(true);
             }
             mArrowIcon.setImageResource(R.drawable.ic_menu_drop_down_white);

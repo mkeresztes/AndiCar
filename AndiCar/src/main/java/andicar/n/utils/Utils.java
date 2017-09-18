@@ -273,7 +273,7 @@ public class Utils {
      * @param ctx Context
      * @return true if a minimum of 15 records found, false otherwise
      */
-    public static boolean isCanSHowRateApp(Context ctx) {
+    public static boolean isCanShowRateApp(Context ctx) {
         boolean retVal = false;
         DBAdapter mDbAdapter = new DBAdapter(ctx);
         //@formatter:off

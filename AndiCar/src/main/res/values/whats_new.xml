@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="whats_new">
+        <![CDATA[
+        <br><b><i>Whats new in this version:</i></b><br><br>
+		*  Main screen customization - you can configure up to 8 zones for showing charts or last record information. That is. You can choose only what is useful for your!<br><br>
+		*  Distinct app launcher for trip creation. With a single tap on your home screen you can open the trip creation screen. No need to open the whole app! <br>
+        <br>Thank you for using <b><i>AndiCar</i></b>.<br><br>
+        ]]>
+    </string>
+</resources>

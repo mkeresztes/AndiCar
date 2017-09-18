@@ -40,6 +40,7 @@ import io.fabric.sdk.android.Fabric;
 public class AndiCar extends MultiDexApplication {
     private static Resources appResources;
     private static SharedPreferences appPreferences;
+    public static boolean isAppJustUpdated = false;
     @SuppressLint("StaticFieldLeak")
 
     public static Resources getAppResources() {
@@ -87,6 +88,7 @@ public class AndiCar extends MultiDexApplication {
                 SharedPreferences.Editor e = appPreferences.edit();
                 e.putInt("appVersionCode", appVersion);
                 e.apply();
+                isAppJustUpdated = true;
             }
 
         }

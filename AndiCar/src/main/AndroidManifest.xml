@@ -20,7 +20,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="org.andicar2.activity"
-    android:versionCode="17090000"
+    android:versionCode="17090007"
     android:versionName="17.10">
 
     <!-- ************************************************************************************************* -->
@@ -140,6 +140,10 @@
 
         <activity
             android:name="andicar.n.activity.dialogs.ToDoNotificationDialogActivity"
+            android:theme="@style/AndiCarDialog"></activity>
+
+        <activity
+            android:name="andicar.n.activity.dialogs.WhatsNewDialog"
             android:theme="@style/AndiCarDialog">
         </activity>
 
