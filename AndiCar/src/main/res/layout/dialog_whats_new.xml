@@ -63,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="@string/whats_new_dialog"
+                    android:text="@string/whats_new_dialog_btn_five_stars_caption"
                     android:textColor="@color/primary_accent" />
             </LinearLayout>
         </LinearLayout>
