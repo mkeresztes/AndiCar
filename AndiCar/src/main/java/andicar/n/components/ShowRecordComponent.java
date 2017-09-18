@@ -35,6 +35,7 @@ public class ShowRecordComponent extends LinearLayout {
     public ShowRecordComponent(Context context) {
         super(context);
         mCtx = context;
+        init();
     }
 
     public ShowRecordComponent(Context context, @Nullable AttributeSet attrs) {

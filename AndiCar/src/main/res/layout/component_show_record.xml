@@ -77,4 +77,8 @@
             app:srcCompat="@drawable/ic_button_add_black_24dp_pad4dp" />
     </LinearLayout>
 
+    <TextView
+        style="@style/AndiCarSeparatorView"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"/>
 </LinearLayout>

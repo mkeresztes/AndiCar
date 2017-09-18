@@ -1272,69 +1272,72 @@ public class MainActivity extends AppCompatActivity
                 llToDoZone.setVisibility(View.GONE);
             }
 
-            View zoneContainer;
-            ShowRecordComponent lastRecordContainer;
-            ShowChartsComponent showChartsComponent;
+            ShowRecordComponent recordComponent;
+            ShowChartsComponent chartComponent;
+            TextView separator;
             String zoneContent;
+            LinearLayout zoneContainer = (LinearLayout) findViewById(R.id.zoneContainer);
+            if (zoneContainer == null) {
+                return;
+            }
+
+            zoneContainer.removeAllViews();
 
             mChartsExistsOnScreen = false;
 
-            //zone 1
-            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone1_content), "LTR");
-            showChartsComponent = (ShowChartsComponent) findViewById(R.id.line1Charts);
-            lastRecordContainer = (ShowRecordComponent) findViewById(R.id.line1LastRecord);
-            zoneContainer = findViewById(R.id.line1Zone);
-            setupZone(zoneContainer, showChartsComponent, lastRecordContainer, zoneContent);
+            for (int i = 1; i <= 8; i++) {
+                switch (i) {
+                    case 1:
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone1_content), "LTR");
+                        break;
+                    case 2:
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone2_content), "CTR");
+                        break;
+                    case 3:
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone3_content), "LFU");
+                        break;
+                    case 4:
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone4_content), "CFQ");
+                        break;
+                    case 5:
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone5_content), "CFV");
+                        break;
+                    case 6:
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone6_content), "LEX");
+                        break;
+                    case 7:
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone7_content), "CEX");
+                        break;
+                    case 8:
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone8_content), "LGT");
+                        break;
+                    default:
+                        continue;
+                }
 
-            //zone 2
-            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone2_content), "CTR");
-            showChartsComponent = (ShowChartsComponent) findViewById(R.id.line2Charts);
-            lastRecordContainer = (ShowRecordComponent) findViewById(R.id.line2LastRecord);
-            zoneContainer = findViewById(R.id.line2Zone);
-            setupZone(zoneContainer, showChartsComponent, lastRecordContainer, zoneContent);
+                if (!zoneContent.equals("DNU")) {
+                    if (zoneContent.startsWith("C")) { //chart
+                        mChartsExistsOnScreen = true;
+                        chartComponent = new ShowChartsComponent(this);
+                        zoneContainer.addView(chartComponent);
+//                        showChartsComponent.setVisibility(View.VISIBLE);
+                        drawCharts(chartComponent, zoneContent);
+                    }
+                    else {
+                        recordComponent = new ShowRecordComponent(this);
+                        zoneContainer.addView(recordComponent);
+                        fillLastRecord(recordComponent, zoneContent);
+                    }
+                }
+            }
 
-            //zone 3
-            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone3_content), "LFU");
-            showChartsComponent = (ShowChartsComponent) findViewById(R.id.line3Charts);
-            lastRecordContainer = (ShowRecordComponent) findViewById(R.id.line3LastRecord);
-            zoneContainer = findViewById(R.id.line3Zone);
-            setupZone(zoneContainer, showChartsComponent, lastRecordContainer, zoneContent);
-
-            //zone 4
-            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone4_content), "CFQ");
-            showChartsComponent = (ShowChartsComponent) findViewById(R.id.line4Charts);
-            lastRecordContainer = (ShowRecordComponent) findViewById(R.id.line4LastRecord);
-            zoneContainer = findViewById(R.id.line4Zone);
-            setupZone(zoneContainer, showChartsComponent, lastRecordContainer, zoneContent);
-///
-            //zone 5
-            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone5_content), "CFV");
-            showChartsComponent = (ShowChartsComponent) findViewById(R.id.line5Charts);
-            lastRecordContainer = (ShowRecordComponent) findViewById(R.id.line5LastRecord);
-            zoneContainer = findViewById(R.id.line5Zone);
-            setupZone(zoneContainer, showChartsComponent, lastRecordContainer, zoneContent);
-
-            //zone 6
-            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone6_content), "LEX");
-            showChartsComponent = (ShowChartsComponent) findViewById(R.id.line6Charts);
-            lastRecordContainer = (ShowRecordComponent) findViewById(R.id.line6LastRecord);
-            zoneContainer = findViewById(R.id.line6Zone);
-            setupZone(zoneContainer, showChartsComponent, lastRecordContainer, zoneContent);
-
-            //zone 7
-            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone7_content), "CEX");
-            showChartsComponent = (ShowChartsComponent) findViewById(R.id.line7Charts);
-            lastRecordContainer = (ShowRecordComponent) findViewById(R.id.line7LastRecord);
-            zoneContainer = findViewById(R.id.line7Zone);
-            setupZone(zoneContainer, showChartsComponent, lastRecordContainer, zoneContent);
-
-            //zone 8
-            zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone8_content), "LGT");
-            showChartsComponent = (ShowChartsComponent) findViewById(R.id.line8Charts);
-            lastRecordContainer = (ShowRecordComponent) findViewById(R.id.line8LastRecord);
-            zoneContainer = findViewById(R.id.line8Zone);
-            setupZone(zoneContainer, showChartsComponent, lastRecordContainer, zoneContent);
-
+            if (mMenu != null) {
+                mMenu.clear();
+                if (mChartsExistsOnScreen) {
+                    MenuInflater inflater = getMenuInflater();
+                    inflater.inflate(R.menu.main_activity_chart_filter_menu, mMenu);
+                }
+            }
 
             if (mPreferences.getBoolean(getString(R.string.pref_key_main_show_statistics), true)) {
                 llStatisticsZone.setVisibility(View.VISIBLE);
@@ -1347,32 +1350,6 @@ public class MainActivity extends AppCompatActivity
         }
         else {
             mRedrawCharts = true; //reset to default value
-        }
-    }
-
-    private void setupZone(View zoneContainer, ShowChartsComponent showChartsComponent, ShowRecordComponent lastRecordComponent, String zoneContent) {
-        if (zoneContent.equals("DNU")) {
-            zoneContainer.setVisibility(View.GONE);
-        } else {
-            zoneContainer.setVisibility(View.VISIBLE);
-            if (zoneContent.startsWith("C")) { //chart
-                mChartsExistsOnScreen = true;
-                lastRecordComponent.setVisibility(View.GONE);
-                showChartsComponent.setVisibility(View.VISIBLE);
-                drawCharts(showChartsComponent, zoneContent);
-            } else {
-                lastRecordComponent.setVisibility(View.VISIBLE);
-                showChartsComponent.setVisibility(View.GONE);
-                fillLastRecord(lastRecordComponent, zoneContent);
-            }
-        }
-
-        if (mMenu != null) {
-            mMenu.clear();
-            if (mChartsExistsOnScreen) {
-                MenuInflater inflater = getMenuInflater();
-                inflater.inflate(R.menu.main_activity_chart_filter_menu, mMenu);
-            }
         }
     }
 

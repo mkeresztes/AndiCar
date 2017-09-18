@@ -53,6 +53,7 @@ public class ShowChartsComponent extends LinearLayout {
     public ShowChartsComponent(Context context) {
         super(context);
         mCtx = context;
+        init();
     }
 
     public ShowChartsComponent(Context context, @Nullable AttributeSet attrs) {

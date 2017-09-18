@@ -52,4 +52,9 @@
     <TextView
         android:id="@+id/chartFooter"
         style="@style/AndiCarChartFooter"/>
+
+    <TextView
+        style="@style/AndiCarSeparatorView"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"/>
 </LinearLayout>
