@@ -156,11 +156,11 @@
         </activity>
 
         <activity
-            android:name="andicar.n.activity.dialogs.CreateMileageDialog"
+            android:name="andicar.n.activity.CreateMileageActivity"
             android:icon="@mipmap/ic_launcher_new_trip"
             android:label="@string/activity_new_trip"
-            android:taskAffinity="andicar.n.activity.dialogs.CreateMileageDialog"
-            android:theme="@style/GPSTrackController">
+            android:taskAffinity="andicar.n.activity.CreateMileageDialog"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

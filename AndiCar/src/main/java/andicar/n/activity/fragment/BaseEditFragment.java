@@ -46,7 +46,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -69,7 +68,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import andicar.n.activity.CommonDetailActivity;
-import andicar.n.activity.dialogs.CreateMileageDialog;
+import andicar.n.activity.CreateMileageActivity;
 import andicar.n.persistence.DBAdapter;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.DataEntryTemplate;
@@ -323,9 +322,7 @@ public abstract class BaseEditFragment extends Fragment {
         }
 
         // hide the left and right empty views on small screens
-        if (mArgumentsBundle.getBoolean(DETAIL_PANEL_HIDE_FILL_VIEWS_KEY, false)
-                //if the fragment is shown in a dialog => hide the fill panels
-                || getActivity() instanceof CreateMileageDialog) {
+        if (mArgumentsBundle.getBoolean(DETAIL_PANEL_HIDE_FILL_VIEWS_KEY, false)) {
             v = mRootView.findViewById(R.id.leftFillView);
             if (v != null) {
                 v.setVisibility(View.GONE);
@@ -454,35 +451,35 @@ public abstract class BaseEditFragment extends Fragment {
 
         ckIsActive = mRootView.findViewById(R.id.ckIsActive);
 
-        whenInDialogButtons = mRootView.findViewById(R.id.whenInDialogButtons);
-        if (whenInDialogButtons != null) {
-            if (getActivity() instanceof CommonDetailActivity) {
-                whenInDialogButtons.setVisibility(View.GONE);
-            }
-            else {
-                Button btnCancel = mRootView.findViewById(R.id.btnCancel);
-                if (btnCancel != null) {
-                    btnCancel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            getActivity().finish();
-                            ;
-                        }
-                    });
-                }
-
-                Button btnSave = mRootView.findViewById(R.id.btnSave);
-                if (btnSave != null) {
-                    btnSave.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            actionDone();
-                        }
-                    });
-                }
-            }
-        }
-
+//        whenInDialogButtons = mRootView.findViewById(R.id.whenInDialogButtons);
+//        if (whenInDialogButtons != null) {
+//            if (getActivity() instanceof CommonDetailActivity) {
+//                whenInDialogButtons.setVisibility(View.GONE);
+//            }
+//            else {
+//                Button btnCancel = mRootView.findViewById(R.id.btnCancel);
+//                if (btnCancel != null) {
+//                    btnCancel.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            getActivity().finish();
+//Y                            ;
+//                        }
+//                    });
+//                }
+//
+//                Button btnSave = mRootView.findViewById(R.id.btnSave);
+//                if (btnSave != null) {
+//                    btnSave.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            actionDone();
+//                        }
+//                    });
+//                }
+//            }
+//        }
+//
         // load the specific UI elements for each type of fragment
         loadSpecificViewsFromLayoutXML();
 
@@ -909,7 +906,8 @@ public abstract class BaseEditFragment extends Fragment {
                             }
 
                             if (deleteResult == -1) {
-                                if (BaseEditFragment.this.getActivity() instanceof CommonDetailActivity) //single panel
+                                if (BaseEditFragment.this.getActivity() instanceof CommonDetailActivity //single panel
+                                        || BaseEditFragment.this.getActivity() instanceof CreateMileageActivity)
                                 {
                                     BaseEditFragment.this.getActivity().finish();
                                 }

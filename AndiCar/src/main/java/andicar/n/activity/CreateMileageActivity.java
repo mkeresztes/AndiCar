@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package andicar.n.activity.dialogs;
+package andicar.n.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,7 +33,7 @@ import andicar.n.activity.fragment.MileageEditFragment;
  * Created by Miklos Keresztes on 16.03.2017.
  */
 
-public class CreateMileageDialog extends AppCompatActivity {
+public class CreateMileageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

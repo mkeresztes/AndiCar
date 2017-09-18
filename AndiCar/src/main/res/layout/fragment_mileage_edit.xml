@@ -293,40 +293,40 @@
                 android:layout_marginStart="5dp"
                 android:tag="acUserComment"/>
 
-            <LinearLayout
-                android:id="@+id/whenInDialogButtons"
-                style="?android:attr/buttonBarStyle"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:orientation="vertical"
-                android:paddingTop="@dimen/dialog_content_vertical_spacing">
+            <!--<LinearLayout-->
+            <!--android:id="@+id/whenInDialogButtons"-->
+            <!--style="?android:attr/buttonBarStyle"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:orientation="vertical"-->
+            <!--android:paddingTop="@dimen/dialog_content_vertical_spacing">-->
 
-                <TextView style="@style/AndiCarDialogButtonSeparatorView"/>
+            <!--<TextView style="@style/AndiCarDialogButtonSeparatorView"/>-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:orientation="horizontal">
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="end"-->
+            <!--android:orientation="horizontal">-->
 
-                    <Button
-                        android:id="@+id/btnCancel"
-                        style="?android:attr/buttonBarButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/gen_cancel"
-                        android:textColor="@color/primary_accent"/>
+            <!--<Button-->
+            <!--android:id="@+id/btnCancel"-->
+            <!--style="?android:attr/buttonBarButtonStyle"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/gen_cancel"-->
+            <!--android:textColor="@color/primary_accent"/>-->
 
-                    <Button
-                        android:id="@+id/btnSave"
-                        style="?android:attr/buttonBarButtonStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/gen_save"
-                        android:textColor="@color/primary_accent"/>
-                </LinearLayout>
-            </LinearLayout>
+            <!--<Button-->
+            <!--android:id="@+id/btnSave"-->
+            <!--style="?android:attr/buttonBarButtonStyle"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/gen_save"-->
+            <!--android:textColor="@color/primary_accent"/>-->
+            <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
