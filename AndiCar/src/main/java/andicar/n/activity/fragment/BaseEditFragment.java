@@ -46,6 +46,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -68,6 +69,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import andicar.n.activity.CommonDetailActivity;
+import andicar.n.activity.dialogs.CreateMileageDialog;
 import andicar.n.persistence.DBAdapter;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.DataEntryTemplate;
@@ -107,6 +109,8 @@ public abstract class BaseEditFragment extends Fragment {
 
     //common ui elements. some fragments can have additional elements
     public View mRootView;
+    //for analytics
+    public boolean isTemplateUsed = false;
     //common resources used by all edit fragments
     protected Resources mResource = null;
     protected SharedPreferences mPreferences;
@@ -138,8 +142,6 @@ public abstract class BaseEditFragment extends Fragment {
     protected boolean isTimeOnly = false;
     protected boolean isFinishAfterSave = true;
     protected boolean isUseTemplate = false;
-    //for analytics
-    public boolean isTemplateUsed = false;
     protected boolean mIsActive;
     protected Calendar mDateTimeCalendar = Calendar.getInstance();
     protected ViewGroup vgRoot;
@@ -147,6 +149,7 @@ public abstract class BaseEditFragment extends Fragment {
     protected LinearLayout lDriverZone;
     protected LinearLayout lExpTypeZone;
     protected LinearLayout lExpCatZone;
+    protected LinearLayout whenInDialogButtons;
     protected Spinner spnCar;
     protected Spinner spnDriver;
     protected Spinner spnExpType;
@@ -156,15 +159,24 @@ public abstract class BaseEditFragment extends Fragment {
     protected TextView tvDebugInfo;
     protected EditText etName = null;
     protected EditText etDocumentNo = null;
-    private EditText mEmptyMandatoryField = null;
-    private Drawable mStandardFieldBackground = null;
-
     protected AutoCompleteTextView acUserComment = null;
     protected AutoCompleteTextView acTag = null;
     protected CheckBox ckIsActive;
-
     protected boolean viewsLoaded = false;
-
+    //used when only the hour:minute are set (Tasks)
+    protected TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+        @SuppressLint("WrongConstant")
+        @Override
+        public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+            mDateTimeCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            mDateTimeCalendar.set(Calendar.MINUTE, minute);
+            mlDateTimeInMillis = mDateTimeCalendar.getTimeInMillis();
+            initDateTimeFields();
+            showDateTime();
+        }
+    };
+    private EditText mEmptyMandatoryField = null;
+    private Drawable mStandardFieldBackground = null;
 
     abstract protected boolean saveData();
 
@@ -185,18 +197,6 @@ public abstract class BaseEditFragment extends Fragment {
 
     abstract public void setSpecificLayout();
 
-    //used when only the hour:minute are set (Tasks)
-    protected TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-        @SuppressLint("WrongConstant")
-        @Override
-        public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-            mDateTimeCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-            mDateTimeCalendar.set(Calendar.MINUTE, minute);
-            mlDateTimeInMillis = mDateTimeCalendar.getTimeInMillis();
-            initDateTimeFields();
-            showDateTime();
-        }
-    };
     /**
      * Called when the activity is first created.
      * In this method only the fields (global variables) are loaded and initialized.
@@ -323,7 +323,9 @@ public abstract class BaseEditFragment extends Fragment {
         }
 
         // hide the left and right empty views on small screens
-        if (mArgumentsBundle.getBoolean(DETAIL_PANEL_HIDE_FILL_VIEWS_KEY, false)) {
+        if (mArgumentsBundle.getBoolean(DETAIL_PANEL_HIDE_FILL_VIEWS_KEY, false)
+                //if the fragment is shown in a dialog => hide the fill panels
+                || getActivity() instanceof CreateMileageDialog) {
             v = mRootView.findViewById(R.id.leftFillView);
             if (v != null) {
                 v.setVisibility(View.GONE);
@@ -451,6 +453,35 @@ public abstract class BaseEditFragment extends Fragment {
         tvDateTimeValue = mRootView.findViewById(R.id.tvDateTimeValue);
 
         ckIsActive = mRootView.findViewById(R.id.ckIsActive);
+
+        whenInDialogButtons = mRootView.findViewById(R.id.whenInDialogButtons);
+        if (whenInDialogButtons != null) {
+            if (getActivity() instanceof CommonDetailActivity) {
+                whenInDialogButtons.setVisibility(View.GONE);
+            }
+            else {
+                Button btnCancel = mRootView.findViewById(R.id.btnCancel);
+                if (btnCancel != null) {
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            getActivity().finish();
+                            ;
+                        }
+                    });
+                }
+
+                Button btnSave = mRootView.findViewById(R.id.btnSave);
+                if (btnSave != null) {
+                    btnSave.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            actionDone();
+                        }
+                    });
+                }
+            }
+        }
 
         // load the specific UI elements for each type of fragment
         loadSpecificViewsFromLayoutXML();
@@ -804,12 +835,8 @@ public abstract class BaseEditFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_done) {
-            if (!beforeSave()) {
+            if (actionDone()) {
                 return true;
-            }
-//			if(mOperationType != null && mOperationType.equals(ConstantValues.DETAIL_OPERATION_NEW))
-            if (saveData()) {
-                getActivity().finish();
             }
             return true;
         }
@@ -905,6 +932,16 @@ public abstract class BaseEditFragment extends Fragment {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private boolean actionDone() {
+        if (!beforeSave()) {
+            return true;
+        }
+        if (saveData()) {
+            getActivity().finish();
+        }
+        return false;
     }
 
 //	}

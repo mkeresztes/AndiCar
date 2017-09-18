@@ -36,6 +36,8 @@
     <!--APP_Activity_GPSTrackController-->
     <string name="activity_gps_track_controller">AndiCar GPS Track</string>
 
+    <string name="activity_new_trip">AndiCar trip record</string>
+
 
     <!-- _______________________________________ -->
 

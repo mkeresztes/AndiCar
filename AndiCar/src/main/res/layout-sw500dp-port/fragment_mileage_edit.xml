@@ -21,12 +21,12 @@
               android:id="@+id/vgRoot"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:paddingLeft="10dp"
-              android:paddingStart="10dp"
-              android:paddingRight="10dp"
-              android:paddingEnd="10dp"
               android:baselineAligned="false"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:paddingEnd="10dp"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp"
+              android:paddingStart="10dp">
 
     <TextView
         android:id="@+id/tvDebugInfo"
@@ -67,9 +67,9 @@
             <LinearLayout
                 android:id="@+id/lCarZone"
                 android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:layout_height="wrap_content">
+                android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/tvCarLabel"
@@ -180,8 +180,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
                     android:digits=".1234567890"
-                    android:inputType="numberDecimal"
                     android:hint="@string/gen_required"
+                    android:inputType="numberDecimal"
                     android:tag="@string/gen_required"/>
                 <!--</RelativeLayout>-->
             </LinearLayout>
@@ -292,6 +292,41 @@
                 android:id="@+id/acUserComment"
                 style="@style/AndiCarAutocompleteTextStyle"
                 android:tag="acUserComment"/>
+
+            <LinearLayout
+                android:id="@+id/whenInDialogButtons"
+                style="?android:attr/buttonBarStyle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/dialog_content_vertical_spacing">
+
+                <TextView style="@style/AndiCarDialogButtonSeparatorView"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnCancel"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/gen_cancel"
+                        android:textColor="@color/primary_accent"/>
+
+                    <Button
+                        android:id="@+id/btnSave"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/gen_save"
+                        android:textColor="@color/primary_accent"/>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

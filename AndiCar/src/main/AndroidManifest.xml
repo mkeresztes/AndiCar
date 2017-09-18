@@ -156,6 +156,18 @@
         </activity>
 
         <activity
+            android:name="andicar.n.activity.dialogs.CreateMileageDialog"
+            android:icon="@mipmap/ic_launcher_new_trip"
+            android:label="@string/activity_new_trip"
+            android:taskAffinity="andicar.n.activity.dialogs.CreateMileageDialog"
+            android:theme="@style/GPSTrackController">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name="andicar.n.activity.miscellaneous.BackupScheduleActivity"
             android:theme="@style/AndiCarDialog">
         </activity>
