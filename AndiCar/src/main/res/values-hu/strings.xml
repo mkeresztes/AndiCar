@@ -45,9 +45,19 @@
     <string name="pref_partner_title">Benzinkutak &amp; Szolgáltatók</string>
     <string name="pref_partner_summary">Benzinkutak, Szolgáltatók és címeik szerkesztése</string>
     <string name="pref_reminder_category_title">Emlékeztetők</string>
-    <string name="pref_main_screen_category_title">Főképernyő beállításai</string>
+    <string name="pref_category_main_screen">Főképernyő beállításai</string>
     <string name="pref_main_screen_addbtn_title">Új rekord gomb</string>
     <string name="pref_main_screen_addbtn_hint">Hosszan nyomva az új rekord gombot, megjelenik a menü</string>
+    <string name="pref_main_screen_show_todo_zone">Következő feladat zóna</string>
+    <string name="pref_main_screen_show_tatistics">Statistikák mutatása</string>
+    <string name="pref_main_screen_zone1_content">1. zóna tartalma</string>
+    <string name="pref_main_screen_zone2_content">2. zóna tartalma</string>
+    <string name="pref_main_screen_zone3_content">3. zóna tartalma</string>
+    <string name="pref_main_screen_zone4_content">4. zóna tartalma</string>
+    <string name="pref_main_screen_zone5_content">5. zóna tartalma</string>
+    <string name="pref_main_screen_zone6_content">6. zóna tartalma</string>
+    <string name="pref_main_screen_zone7_content">7. zóna tartalma</string>
+    <string name="pref_main_screen_zone8_content">8. zóna tartalma</string>
 
     <string name="pref_todo_type_title">Feladat típusok</string>
     <string name="pref_todo_type_summary">Feladat típusok szerkesztése</string>
@@ -163,6 +173,8 @@
     <string name="gen_gps_track">GPS nyomkövetés</string>
 
     <string name="gen_todo_list">Feladatlista</string>
+    <string name="gen_list">Lista</string>
+
     <string name="gen_report_issue">Jelents egy problémát</string>
     <string name="gen_about">Az AndiCarról</string>
     <string name="gen_settings">Beállítások</string>
@@ -365,6 +377,11 @@
     <string name="main_activity_no_car">Nincs autó meghatározva</string>
     <string name="main_activity_no_to_do">Nincs tennivaló</string>
     <string name="main_activity_statistics_header_caption">Statisztikák  - </string>
+    <string name="main_activity_mileage_header_caption">Utolsó fuvar</string>
+    <string name="main_activity_refuel_header_caption">Utolsó tankolás</string>
+    <string name="main_activity_gps_track_header_caption">Utolsó GPS nyom</string>
+    <string name="main_activity_expense_header_caption">Utolsó költség</string>
+    <string name="main_activity_list_no_data">Nincs adat</string>
     <string name="main_activity_statistics_last_odometer_label">Utolsó ismert kilométeróra állás: </string>
     <string name="main_activity_statistics_avg_cons_label">Átl. üzemanyag fogy.: </string>
     <string name="main_activity_statistics_last_cons_label">Utolsó üzemanyag fogy.: </string>
@@ -420,14 +437,14 @@
     <string name="chart_filter_previous_year">Múlt évi</string>
     <string name="chart_filter_custom_period">Más időszak</string>
     <string name="chart_label_others">Egyéb (%1$.2f%2$s)</string> <!--Others 32.45%-->
-    <string name="chart_filter_all_header_caption">Az összes adat</string>
-    <string name="chart_filter_current_month_header_caption">E hónapi adatok</string>
-    <string name="chart_filter_previous_month_header_caption">Múlt hónapi adatok</string>
-    <string name="chart_filter_current_year_header_caption">Ez évi adatok</string>
-    <string name="chart_filter_previous_year_header_caption">Múlt évi adatok</string>
-    <string name="chart_filter_custom_period_header_caption">%1$s > %2$s</string>
-    <string name="chart_filter_custom_period_header_caption_value_beginning">Az elejétől</string>
-    <string name="chart_filter_custom_period_header_caption_value_now">mostanig</string>
+    <string name="chart_filter_all_text">az összes adat</string>
+    <string name="chart_filter_current_month_text">e hónapi adatok</string>
+    <string name="chart_filter_previous_month_text">múlt hónapi adatok</string>
+    <string name="chart_filter_current_year_text">ez évi adatok</string>
+    <string name="chart_filter_previous_year_text">múlt évi adatok</string>
+    <string name="chart_filter_custom_period_text">%1$s > %2$s</string>
+    <string name="chart_filter_custom_period_beginning_text">az elejétől</string>
+    <string name="chart_filter_custom_period_now_text">mostanig</string>
     <string name="chart_no_data">Nincs adat</string>
 
     <string name="progress_restoring_data">A helyreállítás folyamatban … </string>
@@ -496,18 +513,18 @@
 
     <!--chart headers-->
     <!--11 = row 1, column 1-->
-    <string name="chart11Title">Utak típusok szerint (top 3)</string>
-    <string name="chart12Title">Utak címkék szerint (top 3)</string>
-    <string name="chart13Title">Utak vezető szerint (top 3)</string>
-    <string name="chart21Title">Tankolások típusok szerint - mennyiség (top 3)</string>
-    <string name="chart22Title">Tankolások címkék szerint - mennyiség (top 3)</string>
-    <string name="chart23Title">Tankolások üzemanyag szerint - mennyiség (top 3)</string>
-    <string name="chart31Title">Tankolások típusok szerint - érték (top 3)</string>
-    <string name="chart32Title">Tankolások címkék szerint - érték (top 3)</string>
-    <string name="chart33Title">Tankolások üzemanyag szerint - érték (top 3)</string>
-    <string name="chart41Title">Költségek típusok szerint (top 3)</string>
-    <string name="chart42Title">Költségek kategóriák szerint (top 3)</string>
-    <string name="chart43Title">Költségek címkék szerint (top 3)</string>
+    <string name="tripChart1Title">Utak típusok szerint (top 3)</string>
+    <string name="tripChart2Title">Utak címkék szerint (top 3)</string>
+    <string name="tripChart3Title">Utak vezető szerint (top 3)</string>
+    <string name="fillUpQuantityChart1Title">Tankolások típusok szerint - mennyiség (top 3)</string>
+    <string name="fillUpQuantityChart2Title">Tankolások címkék szerint - mennyiség (top 3)</string>
+    <string name="fillUpQuantityChart3Title">Tankolások üzemanyag szerint - mennyiség (top 3)</string>
+    <string name="fillUpValueChart1Title">Tankolások típusok szerint - érték (top 3)</string>
+    <string name="fillUpValueChart2Title">Tankolások címkék szerint - érték (top 3)</string>
+    <string name="fillUpValueChart3Title">Tankolások üzemanyag szerint - érték (top 3)</string>
+    <string name="expenseChart1Title">Költségek típusok szerint (top 3)</string>
+    <string name="expenseChart2Title">Költségek kategóriák szerint (top 3)</string>
+    <string name="expenseChart3Title">Költségek címkék szerint (top 3)</string>
     <string name="chartFooterText">Összesen: %1$s</string>
     <string name="title_list_activity" tools:ignore="PluralsCandidate">%1$s: %2$s rekord</string>
     <string name="error_sorry">Bocsi! Egy váratlan hiba\ncsúszott be :(</string>

@@ -28,7 +28,7 @@
               android:paddingRight="@dimen/activity_horizontal_margin"
               android:paddingTop="@dimen/activity_vertical_margin"
               app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="org.andicar2.activity.MainActivity"
+              tools:context="org.andicar2.activity.MainActivity"
               tools:showIn="@layout/main_activity_app_bar">
 
     <TextView
@@ -57,12 +57,12 @@
                 <TextView
                     android:id="@+id/tvToDoText1"
                     style="@style/ListItem.FirstLine"
-                    android:gravity="center_horizontal" />
+                    android:gravity="center_horizontal"/>
 
                 <TextView
                     android:id="@+id/tvToDoText2"
                     style="@style/ListItem.SecondLine"
-                    android:gravity="center_horizontal" />
+                    android:gravity="center_horizontal"/>
 
             </LinearLayout>
 
@@ -84,7 +84,6 @@
                     android:paddingBottom="3dp"
                     android:text="@string/main_activity_statistics_header_caption"
                     android:textSize="14sp"/>
-                <!--android:background="@color/main_activity_headers_background"-->
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -95,285 +94,43 @@
                         android:id="@+id/tvStatisticsLastKnownOdometer"
                         style="@style/ListItem.SecondLine"
                         android:text="@string/main_activity_statistics_last_odometer_label"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"/>
 
                     <TextView
                         android:id="@+id/tvStatisticsAvgFuelEff"
                         style="@style/ListItem.SecondLine"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"/>
 
                     <TextView
                         android:id="@+id/tvStatisticsLastFuelEff"
                         style="@style/ListItem.SecondLine"
                         android:textSize="14sp"
-                        tools:ignore="InconsistentLayout" />
+                        tools:ignore="InconsistentLayout"/>
 
                     <TextView
                         android:id="@+id/tvStatisticsTotalExpenses"
                         style="@style/ListItem.SecondLine"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"/>
 
                     <TextView
                         android:id="@+id/tvStatisticsMileageExpense"
                         style="@style/ListItem.SecondLine"
                         android:textSize="14sp"
-                        tools:ignore="InconsistentLayout" />
+                        tools:ignore="InconsistentLayout"/>
                 </LinearLayout>
-
-                <TextView
-                    style="@style/AndiCarSeparatorView"
-                    android:layout_marginTop="16dp" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tvChartsHdr"
-                style="@style/ListItem.FirstLine"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:gravity="center_horizontal"/>
-            <!--android:background="@color/main_activity_headers_background"-->
-
-            <LinearLayout
-                android:id="@+id/line1ChartsZone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/chart11Title"
-                        style="@style/AndiCarChartHeader"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart11Title"/>
-
-                    <TextView
-                        android:id="@+id/chart12Title"
-                        style="@style/AndiCarChartHeader"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart12Title"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/line1Charts"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="top"
-                    android:gravity="top"
-                    android:orientation="horizontal"
-                    android:tag="@string/chart_key_legendAtBottom">
-
-                    <andicar.n.view.AndiCarPieChart
-                        android:id="@+id/chart11"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="top"
-                        android:layout_weight="1"/>
-
-                    <andicar.n.view.AndiCarPieChart
-                        android:id="@+id/chart12"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="top"
-                        android:layout_weight="1"/>
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/line1ChartFooterText"
-                    style="@style/AndiCarChartFooter"/>
-
-                <TextView
-                    style="@style/AndiCarSeparatorView"
-                    android:layout_marginBottom="8dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/line2ChartsZone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/chart21Title"
-                        style="@style/AndiCarChartHeader"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart21Title"/>
-
-                    <TextView
-                        android:id="@+id/chart22Title"
-                        style="@style/AndiCarChartHeader"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart22Title"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/line2Charts"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:orientation="horizontal"
-                    android:tag="@string/chart_key_legendAtBottom">
-
-                    <andicar.n.view.AndiCarPieChart
-                        android:id="@+id/chart21"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="top"
-                        android:layout_weight="1"/>
-
-                    <andicar.n.view.AndiCarPieChart
-                        android:id="@+id/chart22"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="top"
-                        android:layout_weight="1"/>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/line2ChartFooterText"
-                    style="@style/AndiCarChartFooter"/>
-
-                <TextView
-                    style="@style/AndiCarSeparatorView"
-                    android:layout_marginBottom="8dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/line3ChartsZone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/chart31Title"
-                        style="@style/AndiCarChartHeader"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart31Title"/>
-
-                    <TextView
-                        android:id="@+id/chart32Title"
-                        style="@style/AndiCarChartHeader"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart32Title"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/line3Charts"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:orientation="horizontal"
-                    android:tag="@string/chart_key_legendAtBottom">
-
-                    <andicar.n.view.AndiCarPieChart
-                        android:id="@+id/chart31"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="top"
-                        android:layout_weight="1"/>
-
-                    <andicar.n.view.AndiCarPieChart
-                        android:id="@+id/chart32"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="top"
-                        android:layout_weight="1"/>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/line3ChartFooterText"
-                    style="@style/AndiCarChartFooter"/>
-
-                <TextView
-                    style="@style/AndiCarSeparatorView"
-                    android:layout_marginBottom="8dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/line4ChartsZone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/chart41Title"
-                        style="@style/AndiCarChartHeader"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart41Title"/>
-
-                    <TextView
-                        android:id="@+id/chart42Title"
-                        style="@style/AndiCarChartHeader"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/chart42Title"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/line4Charts"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:orientation="horizontal"
-                    android:tag="@string/chart_key_legendAtBottom">
-
-                    <andicar.n.view.AndiCarPieChart
-                        android:id="@+id/chart41"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="top"
-                        android:layout_weight="1"/>
-
-                    <andicar.n.view.AndiCarPieChart
-                        android:id="@+id/chart42"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="top"
-                        android:layout_weight="1"/>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/line4ChartFooterText"
-                    style="@style/AndiCarChartFooter"/>
 
                 <TextView
                     style="@style/AndiCarSeparatorView"
                     android:layout_marginTop="16dp"/>
+
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/zoneContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
 
             <TextView
                 android:id="@+id/tvShortAboutLbl"

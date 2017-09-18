@@ -23,6 +23,16 @@
     <string name="pref_key_last_selected_driver_id">last_selected_driver_id</string>
 
     <string name="pref_key_main_addbtn">main_addbtn</string>
+    <string name="pref_key_main_show_next_todo">main_show_next_todo</string>
+    <string name="pref_key_main_show_statistics">main_show_statistics</string>
+    <string name="pref_key_main_zone1_content">main_zone1_content</string>
+    <string name="pref_key_main_zone2_content">main_zone2_content</string>
+    <string name="pref_key_main_zone3_content">main_zone3_content</string>
+    <string name="pref_key_main_zone4_content">main_zone4_content</string>
+    <string name="pref_key_main_zone5_content">main_zone5_content</string>
+    <string name="pref_key_main_zone6_content">main_zone6_content</string>
+    <string name="pref_key_main_zone7_content">main_zone7_content</string>
+    <string name="pref_key_main_zone8_content">main_zone8_content</string>
 
     <string name="pref_key_mileage_last_selected_exptype_id">mileage_last_selected_exptype_id</string>
     <string name="pref_key_mileage_insert_mode">mileage_insert_mode</string>
@@ -93,4 +103,7 @@
 
     <string name="chart_key_legendAtRight">legendAtRight</string>
     <string name="chart_key_legendAtBottom">legendAtBottom</string>
+
+    <string name="record_component_record_id_key">record_id_key</string>
+    <string name="record_component_table_key">table_key</string>
 </resources>

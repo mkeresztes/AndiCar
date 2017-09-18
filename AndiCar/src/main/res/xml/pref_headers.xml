@@ -41,4 +41,9 @@
         android:icon="@drawable/ic_settings_gps_black"
         android:title="@string/pref_category_gps_tracking"/>
 
+    <header
+        android:fragment="andicar.n.activity.preference.PreferenceActivity$MainScreenPreferenceFragment"
+        android:icon="@drawable/ic_settings_main_screen"
+        android:title="@string/pref_category_main_screen"/>
+
 </preference-headers>

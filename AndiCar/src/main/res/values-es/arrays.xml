@@ -73,4 +73,16 @@
         <item>Nuevo registro GPS</item>
     </string-array>
 
+    <string-array name="pref_main_zone_content_chooser_entries">
+        <item>Esconder</item>
+        <item>Último viaje</item>
+        <item>Último recarga</item>
+        <item>Último gasto</item>
+        <item>Último registro GPS</item>
+        <item>Gráfico viaje</item>
+        <item>Gráfico recarga (cantidad)</item>
+        <item>Gráfico recarga (suma)</item>
+        <item>Gráfico gasto</item>
+    </string-array>
+
 </resources>

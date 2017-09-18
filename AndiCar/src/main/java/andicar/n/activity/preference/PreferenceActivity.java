@@ -42,6 +42,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
@@ -211,7 +212,8 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 || GeneralPreferenceFragment.class.getName().equals(fragmentName)
                 || FinancialPreferenceFragment.class.getName().equals(fragmentName)
                 || BackupRestorePreferenceFragment.class.getName().equals(fragmentName)
-                || GPSTrackPreferenceFragment.class.getName().equals(fragmentName);
+                || GPSTrackPreferenceFragment.class.getName().equals(fragmentName)
+                || MainScreenPreferenceFragment.class.getName().equals(fragmentName);
     }
 
 
@@ -220,7 +222,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
      * activity is showing a two-pane settings UI.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class GeneralPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+    public static class GeneralPreferenceFragment extends PreferenceFragment {
         //        private Context mXtx = getActivity();
         Preference carPreference;
         Preference fuelTypePreference;
@@ -230,7 +232,6 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         Preference taskTypePreference;
         Preference taskPreference;
         Preference tagPreference;
-        Preference mainAddBtn;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -238,8 +239,6 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
-
-            getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
             carPreference = findPreference(getString(R.string.pref_key_cars));
             carPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -345,25 +344,6 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 }
             });
 
-            mainAddBtn = findPreference(getString(R.string.pref_key_main_addbtn));
-            if (mainAddBtn != null) {
-//                mainAddBtn.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-//                    @Override
-//                    public boolean onPreferenceChange(Preference preference, Object o) {
-//                        if(!((String) o).equals("0")){
-//                            Toast.makeText(getActivity(), R.string.pref_main_screen_addbtn_hint, Toast.LENGTH_LONG).show();
-//                        }
-//                        return true;
-//                    }
-//                });
-//
-                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_addbtn), null) != null) {
-                    bindPreferenceSummaryToValue(mainAddBtn);
-                }
-            }
-
-
-
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
@@ -382,20 +362,6 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 }
             }
             return super.onOptionsItemSelected(item);
-        }
-
-        @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-            try {
-                if (s.equals(getString(R.string.pref_key_main_addbtn))) {
-                    if (!sharedPreferences.getString(s, "").equals("0")) {
-                        Toast.makeText(getActivity(), R.string.pref_main_screen_addbtn_hint, Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
-            catch (IllegalStateException e) {
-                Log.e("AndiCar", e.getMessage(), e);
-            }
         }
     }
 
@@ -1339,5 +1305,108 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static class MainScreenPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
+//        Preference mainAddBtn;
+
+        @Override
+        public void onCreate(@Nullable Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_main_screen);
+            setHasOptionsMenu(true);
+
+            getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+
+            Preference mainAddBtn = findPreference(getString(R.string.pref_key_main_addbtn));
+            if (mainAddBtn != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_addbtn), null) != null) {
+                    bindPreferenceSummaryToValue(mainAddBtn);
+                }
+            }
+
+            Preference mainZone1Content = findPreference(getString(R.string.pref_key_main_zone1_content));
+            if (mainZone1Content != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_zone1_content), null) != null) {
+                    bindPreferenceSummaryToValue(mainZone1Content);
+                }
+            }
+
+            Preference mainZone2Content = findPreference(getString(R.string.pref_key_main_zone2_content));
+            if (mainZone2Content != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_zone2_content), null) != null) {
+                    bindPreferenceSummaryToValue(mainZone2Content);
+                }
+            }
+
+            Preference mainZone3Content = findPreference(getString(R.string.pref_key_main_zone3_content));
+            if (mainZone3Content != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_zone3_content), null) != null) {
+                    bindPreferenceSummaryToValue(mainZone3Content);
+                }
+            }
+
+            Preference mainZone4Content = findPreference(getString(R.string.pref_key_main_zone4_content));
+            if (mainZone4Content != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_zone4_content), null) != null) {
+                    bindPreferenceSummaryToValue(mainZone4Content);
+                }
+            }
+
+            Preference mainZone5Content = findPreference(getString(R.string.pref_key_main_zone5_content));
+            if (mainZone5Content != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_zone5_content), null) != null) {
+                    bindPreferenceSummaryToValue(mainZone5Content);
+                }
+            }
+
+            Preference mainZone6Content = findPreference(getString(R.string.pref_key_main_zone6_content));
+            if (mainZone6Content != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_zone6_content), null) != null) {
+                    bindPreferenceSummaryToValue(mainZone6Content);
+                }
+            }
+
+            Preference mainZone7Content = findPreference(getString(R.string.pref_key_main_zone7_content));
+            if (mainZone7Content != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_zone7_content), null) != null) {
+                    bindPreferenceSummaryToValue(mainZone7Content);
+                }
+            }
+
+            Preference mainZone8Content = findPreference(getString(R.string.pref_key_main_zone8_content));
+            if (mainZone8Content != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_zone8_content), null) != null) {
+                    bindPreferenceSummaryToValue(mainZone8Content);
+                }
+            }
+
+        }
+
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            int id = item.getItemId();
+            if (id == android.R.id.home) {
+                if (!isLargeScreen(getActivity())) {
+                    startActivity(new Intent(getActivity(), PreferenceActivity.class));
+                    return true;
+                }
+            }
+            return super.onOptionsItemSelected(item);
+        }
+
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+            try {
+                if (s.equals(getString(R.string.pref_key_main_addbtn))) {
+                    if (!sharedPreferences.getString(s, "").equals("0")) {
+                        Toast.makeText(getActivity(), R.string.pref_main_screen_addbtn_hint, Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+            catch (IllegalStateException e) {
+                Log.e("AndiCar", e.getMessage(), e);
+            }
+        }
+    }
 
 }

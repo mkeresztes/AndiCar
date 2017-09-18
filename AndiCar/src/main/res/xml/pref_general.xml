@@ -60,21 +60,6 @@
             android:title="@string/pref_todo_title"/>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_main_screen_category_title">
-        <ListPreference
-            android:defaultValue="0"
-            android:entries="@array/pref_main_addbtn_entries"
-            android:entryValues="@array/pref_main_addbtn_values"
-            android:key="@string/pref_key_main_addbtn"
-            android:title="@string/pref_main_screen_addbtn_title"
-            />
-
-        <!--<Preference-->
-        <!--android:key="@string/pref_key_task"-->
-        <!--android:summary="@string/pref_todo_summary"-->
-        <!--android:title="@string/pref_todo_title"/>-->
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/gen_other">
         <Preference
             android:key="@string/pref_key_tag"

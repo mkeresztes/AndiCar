@@ -91,5 +91,17 @@
         <item>Neue GPS-Track</item>
     </string-array>
 
+    <string-array name="pref_main_zone_content_chooser_entries">
+        <item>Verstecken</item>
+        <item>Letzte Reise</item>
+        <item>Letztes Auftanken</item>
+        <item>Letztes Ausgaben</item>
+        <item>Letzter GPS Track</item>
+        <item>Fahrdiagramm</item>
+        <item>Auftanken Diagramm (quantität)</item>
+        <item>Auftanken Diagramm (betrag)</item>
+        <item>Ausgaben Diagramm</item>
+    </string-array>
+
 </resources>
 

@@ -27,6 +27,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,17 +47,11 @@ import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
 import com.shehabic.droppy.DroppyClickCallbackInterface;
 import com.shehabic.droppy.DroppyMenuPopup;
 import com.shehabic.droppy.animations.DroppyFadeInAnimation;
@@ -65,25 +60,25 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 
 import andicar.n.activity.CommonDetailActivity;
 import andicar.n.activity.CommonListActivity;
-import andicar.n.activity.dialogs.ChartDetailDialog;
 import andicar.n.activity.dialogs.DateRangeSearchDialogFragment;
 import andicar.n.activity.dialogs.GPSTrackControllerDialogActivity;
 import andicar.n.activity.dialogs.ToDoNotificationDialogActivity;
 import andicar.n.activity.fragment.BaseEditFragment;
 import andicar.n.activity.fragment.TaskEditFragment;
 import andicar.n.activity.miscellaneous.AboutActivity;
+import andicar.n.activity.miscellaneous.GPSTrackMap;
 import andicar.n.activity.preference.PreferenceActivity;
+import andicar.n.components.ShowChartsComponent;
+import andicar.n.components.ShowRecordComponent;
 import andicar.n.persistence.DB;
 import andicar.n.persistence.DBAdapter;
 import andicar.n.persistence.DBReportAdapter;
 import andicar.n.service.ToDoNotificationService;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.Utils;
-import andicar.n.view.AndiCarPieChart;
 import andicar.n.view.MainNavigationView;
 
 
@@ -93,20 +88,57 @@ import andicar.n.view.MainNavigationView;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DateRangeSearchDialogFragment.DateRangeSearchDialogFragmentListener {
 
-    private static final int CLICK_ACTION_THRESHOLD = 200;
     private static final int REQUEST_CODE_ADD_CAR = 1;
     private static final int REQUEST_CODE_SETTINGS = 2;
-    private static final int REQUEST_CODE_CHART_DETAIL = 3;
+    //    private static final int REQUEST_CODE_CHART_DETAIL = 3;
     private static final int CHART_FILTER_ALL = 1;
     private static final int CHART_FILTER_CURRENT_MONTH = 2;
     private static final int CHART_FILTER_PREVIOUS_MONTH = 3;
     private static final int CHART_FILTER_CURRENT_YEAR = 4;
     private static final int CHART_FILTER_PREVIOUS_YEAR = 5;
     private static final int CHART_FILTER_CUSTOM_PERIOD = 6;
+
+    View.OnClickListener btnEditClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int type = (Integer) view.getTag(R.string.record_component_table_key);
+            Long recordID = (Long) view.getTag(R.string.record_component_record_id_key);
+            showCreateEditRecordActivity(type, recordID);
+        }
+    };
+
+    View.OnClickListener btnNewClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int type = (Integer) view.getTag(R.string.record_component_table_key);
+            showCreateEditRecordActivity(type, -1L);
+        }
+    };
+
+    View.OnClickListener btnMapClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Long recordID = (Long) view.getTag(R.string.record_component_record_id_key);
+            Intent gpstrackShowMapIntent = new Intent(getApplicationContext(), GPSTrackMap.class);
+            gpstrackShowMapIntent.putExtra(GPSTrackMap.GPS_TRACK_ID, recordID);
+            startActivity(gpstrackShowMapIntent);
+        }
+    };
+
+    View.OnClickListener btnListListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int type = (Integer) view.getTag(R.string.record_component_table_key);
+            showListActivity(type);
+        }
+    };
+
     //used to simulate onClick via onTouch (pie chart not detect the standard onClick event)
-    private long mLastTouchDown;
     private boolean mRedrawCharts = true;
     private boolean mErrorInDrawCharts = false;
+    //used to determine if the option menu need or not (for filtering chart data)
+    private boolean mChartsExistsOnScreen = false;
+    private Menu mMenu;
     private int mChartFilterType = 1;
     private long mChartPeriodStartInSeconds = -1;
     private long mChartPeriodEndInSeconds = -1;
@@ -115,10 +147,11 @@ public class MainActivity extends AppCompatActivity
     private SharedPreferences mPreferences;
     private MainNavigationView mNavigationView;
     private DrawerLayout mNavViewDrawer;
-    private TextView tvChartsHdr;
     private long mLastToDoId = -1;
     private long mLastToDoTaskId = -1;
     private long mLastToDoCarId = -1;
+    private View llStatisticsZone;
+    private View llToDoZone;
 
     /**
      * Called when the activity is first created.
@@ -126,8 +159,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
-//        Thread.setDefaultUncaughtExceptionHandler(new AndiCarExceptionHandler(
-//                Thread.getDefaultUncaughtExceptionHandler(), this));
         super.onCreate(savedInstanceState);
 
         //needed for inflating xml image resources for main_activity_popup_menu in 4x platform
@@ -135,18 +166,14 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.main_activity);
 
-        tvChartsHdr = (TextView) findViewById(R.id.tvChartsHdr);
+        llStatisticsZone = findViewById(R.id.llStatisticsZone);
+        llToDoZone = findViewById(R.id.llToDoZone);
 
         if (savedInstanceState != null) {
             mChartFilterType = savedInstanceState.getInt("mChartFilterType", 1);
             mChartPeriodStartInSeconds = savedInstanceState.getLong("mChartPeriodStartInSeconds", -1);
             mChartPeriodEndInSeconds = savedInstanceState.getLong("mChartPeriodEndInSeconds", -1);
-            fillChartHeaderCaption();
         }
-        else {
-            tvChartsHdr.setText(R.string.chart_filter_all_header_caption);
-        }
-
         //set up the main toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -194,98 +221,6 @@ public class MainActivity extends AppCompatActivity
 //            notif.putExtra(GeneralNotificationDialogActivity.NOTIF_DETAIL_KEY, getIntent().getExtras().getString("msg.body", ""));
 //            notif.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_INFO);
 //            startActivity(notif);
-        }
-    }
-
-    private void fillChartHeaderCaption() {
-        switch (mChartFilterType) {
-            case CHART_FILTER_ALL:
-                tvChartsHdr.setText(R.string.chart_filter_all_header_caption);
-                break;
-            case CHART_FILTER_CURRENT_MONTH:
-                tvChartsHdr.setText(R.string.chart_filter_current_month_header_caption);
-                break;
-            case CHART_FILTER_PREVIOUS_MONTH:
-                tvChartsHdr.setText(R.string.chart_filter_previous_month_header_caption);
-                break;
-            case CHART_FILTER_CURRENT_YEAR:
-                tvChartsHdr.setText(R.string.chart_filter_current_year_header_caption);
-                break;
-            case CHART_FILTER_PREVIOUS_YEAR:
-                tvChartsHdr.setText(R.string.chart_filter_previous_year_header_caption);
-                break;
-            case CHART_FILTER_CUSTOM_PERIOD:
-                tvChartsHdr.setText(
-                        String.format(getString(R.string.chart_filter_custom_period_header_caption),
-                                mChartPeriodStartInSeconds > 0 ?
-                                        Utils.getFormattedDateTime(mChartPeriodStartInSeconds * 1000, true) :
-                                        getString(R.string.chart_filter_custom_period_header_caption_value_beginning),
-                                mChartPeriodEndInSeconds > 0 ?
-                                        Utils.getFormattedDateTime(mChartPeriodEndInSeconds * 1000, true) :
-                                        getString(R.string.chart_filter_custom_period_header_caption_value_now)));
-                break;
-            default:
-                tvChartsHdr.setText(R.string.chart_filter_all_header_caption);
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("mChartFilterType", mChartFilterType);
-        outState.putLong("mChartPeriodStartInSeconds", mChartPeriodStartInSeconds);
-        outState.putLong("mChartPeriodEndInSeconds", mChartPeriodEndInSeconds);
-    }
-
-    private void showPopup(View v) {
-        DroppyMenuPopup.Builder droppyBuilder = new DroppyMenuPopup.Builder(this, v);
-        DroppyMenuPopup droppyMenu = droppyBuilder.fromMenu(R.menu.main_activity_popup_menu)
-                .triggerOnAnchorClick(false)
-                .setOnClick(new DroppyClickCallbackInterface() {
-                    @Override
-                    public void call(View v1, int id) {
-                        showNewRecordActivity(id);
-                    }
-                })
-                .setPopupAnimation(new DroppyFadeInAnimation())
-                .setXOffset(5)
-                .setYOffset(5)
-                .build();
-        droppyMenu.show();
-    }
-
-    private void showNewRecordActivity(int id) {
-        Intent i = null;
-        if (id == R.id.mnuTrip) {
-            i = new Intent(MainActivity.this, CommonDetailActivity.class);
-            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_MILEAGE);
-        }
-        else if (id == R.id.mnuRefuel) {
-            i = new Intent(MainActivity.this, CommonDetailActivity.class);
-            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_REFUEL);
-        }
-        else if (id == R.id.mnuExpense) {
-            i = new Intent(MainActivity.this, CommonDetailActivity.class);
-            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_EXPENSE);
-        }
-        else if (id == R.id.mnuGPSTrack) {
-            i = new Intent(MainActivity.this, GPSTrackControllerDialogActivity.class);
-            i.putExtra(BaseEditFragment.RECORD_ID_KEY, -1L);
-        }
-        if (i != null) {
-            i.putExtra(BaseEditFragment.RECORD_ID_KEY, -1L);
-            i.putExtra(BaseEditFragment.DETAIL_OPERATION_KEY, BaseEditFragment.DETAIL_OPERATION_NEW);
-            MainActivity.this.startActivity(i);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mNavViewDrawer.isDrawerOpen(GravityCompat.START)) {
-            mNavViewDrawer.closeDrawer(GravityCompat.START);
-        }
-        else {
-            super.onBackPressed();
         }
     }
 
@@ -384,16 +319,16 @@ public class MainActivity extends AppCompatActivity
                             MainActivity.this.showPopup(v);
                             break;
                         case "1":
-                            showNewRecordActivity(R.id.mnuTrip);
+                            showCreateEditRecordActivity(R.id.mnuTrip, -1L);
                             break;
                         case "2":
-                            showNewRecordActivity(R.id.mnuRefuel);
+                            showCreateEditRecordActivity(R.id.mnuRefuel, -1L);
                             break;
                         case "3":
-                            showNewRecordActivity(R.id.mnuExpense);
+                            showCreateEditRecordActivity(R.id.mnuExpense, -1L);
                             break;
                         case "4":
-                            showNewRecordActivity(R.id.mnuGPSTrack);
+                            showCreateEditRecordActivity(R.id.mnuGPSTrack, -1L);
                             break;
                         default:
                             MainActivity.this.showPopup(v);
@@ -419,7 +354,102 @@ public class MainActivity extends AppCompatActivity
         }
 
         //charting
-        updateCharts();
+        fillContent();
+    }
+
+    private String getChartDataPeriodText() {
+        switch (mChartFilterType) {
+            case CHART_FILTER_ALL:
+                return getString(R.string.chart_filter_all_text);
+            case CHART_FILTER_CURRENT_MONTH:
+                return getString(R.string.chart_filter_current_month_text);
+            case CHART_FILTER_PREVIOUS_MONTH:
+                return getString(R.string.chart_filter_previous_month_text);
+            case CHART_FILTER_CURRENT_YEAR:
+                return getString(R.string.chart_filter_current_year_text);
+            case CHART_FILTER_PREVIOUS_YEAR:
+                return getString(R.string.chart_filter_previous_year_text);
+            case CHART_FILTER_CUSTOM_PERIOD:
+                return
+                        String.format(getString(R.string.chart_filter_custom_period_text),
+                                mChartPeriodStartInSeconds > 0 ?
+                                        Utils.getFormattedDateTime(mChartPeriodStartInSeconds * 1000, true) :
+                                        getString(R.string.chart_filter_custom_period_beginning_text),
+                                mChartPeriodEndInSeconds > 0 ?
+                                        Utils.getFormattedDateTime(mChartPeriodEndInSeconds * 1000, true) :
+                                        getString(R.string.chart_filter_custom_period_now_text));
+            default:
+                return getString(R.string.chart_filter_all_text);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("mChartFilterType", mChartFilterType);
+        outState.putLong("mChartPeriodStartInSeconds", mChartPeriodStartInSeconds);
+        outState.putLong("mChartPeriodEndInSeconds", mChartPeriodEndInSeconds);
+    }
+
+    private void showPopup(View v) {
+        DroppyMenuPopup.Builder droppyBuilder = new DroppyMenuPopup.Builder(this, v);
+        DroppyMenuPopup droppyMenu = droppyBuilder.fromMenu(R.menu.main_activity_popup_menu)
+                .triggerOnAnchorClick(false)
+                .setOnClick(new DroppyClickCallbackInterface() {
+                    @Override
+                    public void call(View v1, int id) {
+                        showCreateEditRecordActivity(id, -1L);
+                    }
+                })
+                .setPopupAnimation(new DroppyFadeInAnimation())
+                .setXOffset(5)
+                .setYOffset(5)
+                .build();
+        droppyMenu.show();
+    }
+
+    private void showCreateEditRecordActivity(int type, long recordID) {
+        Intent i = null;
+        if (type == R.id.mnuTrip) {
+            i = new Intent(MainActivity.this, CommonDetailActivity.class);
+            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_MILEAGE);
+        } else if (type == R.id.mnuRefuel) {
+            i = new Intent(MainActivity.this, CommonDetailActivity.class);
+            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_REFUEL);
+        } else if (type == R.id.mnuExpense) {
+            i = new Intent(MainActivity.this, CommonDetailActivity.class);
+            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_EXPENSE);
+        } else if (type == R.id.mnuGPSTrack) {
+            if (recordID == -1L) {
+                i = new Intent(MainActivity.this, GPSTrackControllerDialogActivity.class);
+            }
+            else {
+                i = new Intent(MainActivity.this, CommonDetailActivity.class);
+                i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_GPS_TRACK);
+            }
+        }
+
+        if (i != null) {
+            i.putExtra(BaseEditFragment.RECORD_ID_KEY, recordID);
+            if (recordID == -1L) {
+                i.putExtra(BaseEditFragment.DETAIL_OPERATION_KEY, BaseEditFragment.DETAIL_OPERATION_NEW);
+            }
+            else {
+                i.putExtra(BaseEditFragment.DETAIL_OPERATION_KEY, BaseEditFragment.DETAIL_OPERATION_EDIT);
+            }
+
+            MainActivity.this.startActivity(i);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mNavViewDrawer.isDrawerOpen(GravityCompat.START)) {
+            mNavViewDrawer.closeDrawer(GravityCompat.START);
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 
     private void showDefineCar() {
@@ -436,45 +466,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_trip) {
-            Intent i = new Intent(MainActivity.this, CommonListActivity.class);
-            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_MILEAGE);
-            i.putExtra(CommonListActivity.SCROLL_TO_POSITION_KEY, 0);
-            i.putExtra(CommonListActivity.IS_SHOW_SEARCH_MENU_KEY, true);
-            i.putExtra(CommonListActivity.IS_SHOW_SHARE_MENU_KEY, true);
-            startActivity(i);
-        }
-        else if (id == R.id.nav_refuel) {
-            Intent i = new Intent(MainActivity.this, CommonListActivity.class);
-            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_REFUEL);
-            i.putExtra(CommonListActivity.SCROLL_TO_POSITION_KEY, 0);
-            i.putExtra(CommonListActivity.IS_SHOW_SEARCH_MENU_KEY, true);
-            i.putExtra(CommonListActivity.IS_SHOW_SHARE_MENU_KEY, true);
-            startActivity(i);
-        }
-        else if (id == R.id.nav_expense) {
-            Intent i = new Intent(MainActivity.this, CommonListActivity.class);
-            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_EXPENSE);
-            i.putExtra(CommonListActivity.SCROLL_TO_POSITION_KEY, 0);
-            i.putExtra(CommonListActivity.IS_SHOW_SEARCH_MENU_KEY, true);
-            i.putExtra(CommonListActivity.IS_SHOW_SHARE_MENU_KEY, true);
-            startActivity(i);
-        }
-        else if (id == R.id.nav_gpstrack) {
-            Intent i = new Intent(MainActivity.this, CommonListActivity.class);
-            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_GPS_TRACK);
-            i.putExtra(CommonListActivity.SCROLL_TO_POSITION_KEY, 0);
-            i.putExtra(CommonListActivity.IS_SHOW_SEARCH_MENU_KEY, true);
-            i.putExtra(CommonListActivity.IS_SHOW_SHARE_MENU_KEY, true);
-            startActivity(i);
-        }
-        else if (id == R.id.nav_todo) {
-            Intent i = new Intent(MainActivity.this, CommonListActivity.class);
-            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_TODO);
-            i.putExtra(CommonListActivity.SCROLL_TO_POSITION_KEY, 0);
-            i.putExtra(CommonListActivity.IS_SHOW_SEARCH_MENU_KEY, true);
-            i.putExtra(CommonListActivity.IS_SHOW_SHARE_MENU_KEY, true);
-            startActivity(i);
+        if (id == R.id.nav_trip || id == R.id.nav_refuel || id == R.id.nav_expense
+                || id == R.id.nav_gpstrack || id == R.id.nav_todo) {
+            showListActivity(id);
         }
         else if (id == R.id.nav_settings) {
             Intent i = new Intent(this, PreferenceActivity.class);
@@ -531,14 +525,55 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    private void showListActivity(int id) {
+        if (id == R.id.nav_trip) {
+            Intent i = new Intent(MainActivity.this, CommonListActivity.class);
+            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_MILEAGE);
+            i.putExtra(CommonListActivity.SCROLL_TO_POSITION_KEY, 0);
+            i.putExtra(CommonListActivity.IS_SHOW_SEARCH_MENU_KEY, true);
+            i.putExtra(CommonListActivity.IS_SHOW_SHARE_MENU_KEY, true);
+            startActivity(i);
+        } else if (id == R.id.nav_refuel) {
+            Intent i = new Intent(MainActivity.this, CommonListActivity.class);
+            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_REFUEL);
+            i.putExtra(CommonListActivity.SCROLL_TO_POSITION_KEY, 0);
+            i.putExtra(CommonListActivity.IS_SHOW_SEARCH_MENU_KEY, true);
+            i.putExtra(CommonListActivity.IS_SHOW_SHARE_MENU_KEY, true);
+            startActivity(i);
+        } else if (id == R.id.nav_expense) {
+            Intent i = new Intent(MainActivity.this, CommonListActivity.class);
+            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_EXPENSE);
+            i.putExtra(CommonListActivity.SCROLL_TO_POSITION_KEY, 0);
+            i.putExtra(CommonListActivity.IS_SHOW_SEARCH_MENU_KEY, true);
+            i.putExtra(CommonListActivity.IS_SHOW_SHARE_MENU_KEY, true);
+            startActivity(i);
+        } else if (id == R.id.nav_gpstrack) {
+            Intent i = new Intent(MainActivity.this, CommonListActivity.class);
+            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_GPS_TRACK);
+            i.putExtra(CommonListActivity.SCROLL_TO_POSITION_KEY, 0);
+            i.putExtra(CommonListActivity.IS_SHOW_SEARCH_MENU_KEY, true);
+            i.putExtra(CommonListActivity.IS_SHOW_SHARE_MENU_KEY, true);
+            startActivity(i);
+        } else if (id == R.id.nav_todo) {
+            Intent i = new Intent(MainActivity.this, CommonListActivity.class);
+            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_TODO);
+            i.putExtra(CommonListActivity.SCROLL_TO_POSITION_KEY, 0);
+            i.putExtra(CommonListActivity.IS_SHOW_SEARCH_MENU_KEY, true);
+            i.putExtra(CommonListActivity.IS_SHOW_SHARE_MENU_KEY, true);
+            startActivity(i);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (menu != null) {
             menu.clear();
         }
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_activity_chart_filter_menu, menu);
+        mMenu = menu;
+        if (mChartsExistsOnScreen) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.main_activity_chart_filter_menu, mMenu);
+        }
         return true;
     }
 
@@ -603,8 +638,7 @@ public class MainActivity extends AppCompatActivity
                 mChartPeriodEndInSeconds = -1;
         }
         if (!isCustomRangeSelected) {
-            fillChartHeaderCaption();
-            updateCharts();
+            fillContent();
         }
         return true;
     }
@@ -637,7 +671,7 @@ public class MainActivity extends AppCompatActivity
         db.close();
 
         if (needCallRun) {
-            updateCharts();
+            fillContent();
         }
     }
 
@@ -650,15 +684,419 @@ public class MainActivity extends AppCompatActivity
             mNavigationView.mForceSecondary = false;
             mNavigationView.changeMenuLayout();
         }
-        else if (requestCode == REQUEST_CODE_CHART_DETAIL) {
-            mRedrawCharts = false;
-        }
+//        else if (requestCode == REQUEST_CODE_CHART_DETAIL) {
+//            mRedrawCharts = false;
+//        }
     }
 
-    private void drawCharts() {
+    @SuppressLint("SetTextI18n")
+    private void fillLastRecord(ShowRecordComponent showRecordComponent, String recordSource) {
+        try {
+            showRecordComponent.setEditButtonOnClickListener(btnEditClickListener);
+            showRecordComponent.setAddNewButtonOnClickListener(btnNewClickListener);
+            showRecordComponent.setShowListButtonOnClickListener(btnListListener);
+            showRecordComponent.setMapButtonOnClickListener(btnMapClickListener);
+
+            DBReportAdapter dbReportAdapter = new DBReportAdapter(getApplicationContext(), null, null);
+            Bundle sqlWWhereCondition = new Bundle();
+
+            switch (recordSource) {
+                case "LTR": { //Last trip
+                    showRecordComponent.setHeaderText(R.string.main_activity_mileage_header_caption);
+
+                    sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_MILEAGE, DBReportAdapter.COL_NAME_MILEAGE__CAR_ID) + "=",
+                            Long.toString(mLastSelectedCarID));
+                    dbReportAdapter.setReportSql(DBReportAdapter.MILEAGE_LIST_SELECT_NAME, sqlWWhereCondition);
+                    Cursor mCursor = dbReportAdapter.fetchReport(1);
+                    BigDecimal reimbursementRate = BigDecimal.ZERO;
+                    String line1Content;
+                    String line2Content;
+
+                    if (mCursor != null && mCursor.moveToFirst()) {
+                        showRecordComponent.setButtonsLineVisibility(View.VISIBLE);
+                        showRecordComponent.setMapButtonVisibility(View.GONE);
+
+                        showRecordComponent.setRecordId(mCursor.getLong(0));
+                        showRecordComponent.setWhatEditAdd(R.id.mnuTrip);
+                        showRecordComponent.setWhatList(R.id.nav_trip);
+
+                        try {
+                            line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(5) * 1000, false)
+                                    + (mCursor.getLong(14) != 0L ? " (" + Utils.getDaysHoursMinutesFromSec(mCursor.getLong(14)) + ")" : ""));
+                        }
+                        catch (Exception e) {
+                            line1Content = "Error#1! Please contact me at andicar.support@gmail.com";
+                        }
+
+                        try {
+                            reimbursementRate = new BigDecimal(mCursor.getDouble(12));
+                        }
+                        catch (Exception ignored) {
+                        }
+
+                        String stopIndexStr = mCursor.getString(7);
+                        String mileageStr;
+                        if (stopIndexStr == null) {
+                            stopIndexStr = "N/A";
+                            mileageStr = "Draft";
+                        }
+                        else {
+                            stopIndexStr = Utils.numberToString(mCursor.getDouble(7), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH);
+                            mileageStr = Utils.numberToString(mCursor.getDouble(8), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH);
+                        }
+
+                        try {
+                            line2Content = String.format(mCursor.getString(2),
+                                    Utils.numberToString(mCursor.getDouble(6), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH),
+                                    stopIndexStr,
+                                    mileageStr,
+                                    (reimbursementRate.compareTo(BigDecimal.ZERO) == 0) ? "" : "("
+                                            + AndiCar.getAppResources().getText(R.string.gen_reimbursement).toString()
+                                            + " "
+                                            + Utils.numberToString(reimbursementRate.multiply(new BigDecimal(mCursor.getDouble(8))), true,
+                                            ConstantValues.DECIMALS_RATES, ConstantValues.ROUNDING_MODE_RATES) + " " + mCursor.getString(11) + ")");
+                        }
+                        catch (Exception e) {
+                            line2Content = "Error#2! Please contact me at andicar.support@gmail.com";
+                        }
+
+                        if (mileageStr.equals("Draft")) {
+                            line2Content = line2Content.substring(0, line2Content.indexOf("Draft") + "Draft".length());
+                        }
+
+                        if (showRecordComponent.isSecondLineExists()) { //three line lists
+                            showRecordComponent.setFirstLineText(line1Content);
+                            showRecordComponent.setSecondLineText(line2Content);
+                        }
+                        else {
+                            //wider screens => two line lists
+                            showRecordComponent.setFirstLineText(line1Content + "; " + line2Content);
+                        }
+
+                        if (showRecordComponent.isThirdLineExists()) {
+                            showRecordComponent.setThirdLineText(mCursor.getString(3));
+                        }
+
+                        try {
+                            mCursor.close();
+                        }
+                        catch (Exception ignored) {
+                        }
+                    }
+                    else {
+                        showRecordComponent.setFirstLineText(R.string.main_activity_list_no_data);
+                        showRecordComponent.setSecondLineText(null);
+                        showRecordComponent.setThirdLineText(null);
+                        showRecordComponent.setButtonsLineVisibility(View.GONE);
+                    }
+                    break;
+                }
+                case "LFU": { //Last fill-up
+                    showRecordComponent.setHeaderText(R.string.main_activity_refuel_header_caption);
+
+                    sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_REFUEL, DBReportAdapter.COL_NAME_REFUEL__CAR_ID) + "=",
+                            Long.toString(mLastSelectedCarID));
+                    dbReportAdapter.setReportSql(DBReportAdapter.REFUEL_LIST_SELECT_NAME, sqlWWhereCondition);
+                    Cursor mCursor = dbReportAdapter.fetchReport(1);
+                    String line1Content;
+                    String line2Content;
+
+                    if (mCursor != null && mCursor.moveToFirst()) {
+                        showRecordComponent.setButtonsLineVisibility(View.VISIBLE);
+                        showRecordComponent.setMapButtonVisibility(View.GONE);
+
+                        showRecordComponent.setRecordId(mCursor.getLong(0));
+                        showRecordComponent.setWhatEditAdd(R.id.mnuRefuel);
+                        showRecordComponent.setWhatList(R.id.nav_refuel);
+
+                        try {
+                            line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(4) * 1000, false));
+                        }
+                        catch (Exception e) {
+                            line1Content = "Error#6! Please contact me at andicar.support@gmail.com";
+                        }
+
+                        try {
+                            line2Content = String.format(mCursor.getString(2),
+                                    Utils.numberToString(mCursor.getDouble(5), true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME),
+                                    Utils.numberToString(mCursor.getDouble(6), true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME),
+                                    Utils.numberToString(mCursor.getDouble(7), true, ConstantValues.DECIMALS_PRICE, ConstantValues.ROUNDING_MODE_PRICE),
+                                    Utils.numberToString(mCursor.getDouble(8), true, ConstantValues.DECIMALS_PRICE, ConstantValues.ROUNDING_MODE_PRICE),
+                                    Utils.numberToString(mCursor.getDouble(9), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
+                                    Utils.numberToString(mCursor.getDouble(10), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
+                                    Utils.numberToString(mCursor.getDouble(11), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH));
+                        }
+                        catch (Exception e) {
+                            line2Content = "Error#7! Please contact me at andicar.support@gmail.com";
+                        }
+
+                        if (showRecordComponent.isSecondLineExists()) { //three line lists
+                            showRecordComponent.setFirstLineText(line1Content);
+                            showRecordComponent.setSecondLineText(line2Content);
+                        }
+                        else {
+                            //wider screens => two line lists
+                            showRecordComponent.setFirstLineText(line1Content + "; " + line2Content);
+                        }
+
+                        if (mCursor.getString(3) == null || mCursor.getString(3).trim().length() == 0) {
+                            showRecordComponent.setThirdLineText(null);
+                        }
+                        else {
+                            String text = mCursor.getString(3);
+                            BigDecimal oldFullRefuelIndex;
+                            try {
+                                oldFullRefuelIndex = new BigDecimal(mCursor.getDouble(13));
+                            }
+                            catch (Exception e) {
+                                showRecordComponent.setThirdLineText("Error#1! Please contact me at andicar.support@gmail.com");
+                                return;
+                            }
+                            if (oldFullRefuelIndex.compareTo(BigDecimal.ZERO) < 0 || mCursor.getString(12).equals("N")) { //this is not a full refuel
+                                try {
+                                    //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
+                                    text = text.replace("[#01]", "");
+                                    showRecordComponent.setThirdLineText(text);
+                                }
+                                catch (Exception e) {
+                                    showRecordComponent.setThirdLineText("Error#4! Please contact me at andicar.support@gmail.com");
+                                }
+                            }
+                            // calculate the cons and fuel eff.
+                            BigDecimal distance = (new BigDecimal(mCursor.getString(11))).subtract(oldFullRefuelIndex);
+                            BigDecimal fuelQty;
+                            try {
+                                Double t = dbReportAdapter.getFuelQtyForCons(mCursor.getLong(16), oldFullRefuelIndex, mCursor.getDouble(11));
+                                fuelQty = new BigDecimal(t == null ? 0d : t);
+                            }
+                            catch (NullPointerException e) {
+                                showRecordComponent.setThirdLineText("Error#2! Please contact me at andicar.support@gmail.com");
+                                return;
+                            }
+                            String consStr;
+                            try {
+                                consStr = Utils.numberToString(fuelQty.multiply(new BigDecimal("100")).divide(distance, 10, RoundingMode.HALF_UP), true,
+                                        ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF)
+                                        + " "
+                                        + mCursor.getString(14)
+                                        + "/100"
+                                        + mCursor.getString(15)
+                                        + "; "
+                                        + Utils.numberToString(distance.divide(fuelQty, 10, RoundingMode.HALF_UP), true, ConstantValues.DECIMALS_FUEL_EFF,
+                                        ConstantValues.ROUNDING_MODE_FUEL_EFF) + " " + mCursor.getString(15) + "/" + mCursor.getString(14);
+                            }
+                            catch (Exception e) {
+                                //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
+                                showRecordComponent.setThirdLineText("Error#3! Please contact me at andicar.support@gmail.com");
+                                return;
+                            }
+
+                            try {
+                                //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
+                                text = text.replace("[#01]", "\n" + AndiCar.getAppResources().getString(R.string.gen_fuel_efficiency) + " " + consStr);
+                            }
+                            catch (Exception e) {
+                                showRecordComponent.setThirdLineText("Error#5! Please contact me at andicar.support@gmail.com");
+                                return;
+                            }
+
+                            showRecordComponent.setThirdLineText(text.trim());
+                        }
+
+                        try {
+                            mCursor.close();
+                        }
+                        catch (Exception ignored) {
+                        }
+                    }
+                    else {
+                        showRecordComponent.setFirstLineText(R.string.main_activity_list_no_data);
+                        showRecordComponent.setSecondLineText(null);
+                        showRecordComponent.setThirdLineText(null);
+                        showRecordComponent.setButtonsLineVisibility(View.GONE);
+                    }
+                    break;
+                }
+                case "LEX": { //Last expense
+                    showRecordComponent.setHeaderText(R.string.main_activity_expense_header_caption);
+
+                    sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_EXPENSE, DBReportAdapter.COL_NAME_EXPENSE__CAR_ID) + "=",
+                            Long.toString(mLastSelectedCarID));
+                    dbReportAdapter.setReportSql(DBReportAdapter.EXPENSE_LIST_SELECT_NAME, sqlWWhereCondition);
+                    Cursor mCursor = dbReportAdapter.fetchReport(1);
+                    String line1Content;
+                    String line2Content;
+                    String line3Content;
+
+                    if (mCursor != null && mCursor.moveToFirst()) {
+                        showRecordComponent.setButtonsLineVisibility(View.VISIBLE);
+                        showRecordComponent.setMapButtonVisibility(View.GONE);
+
+                        showRecordComponent.setRecordId(mCursor.getLong(0));
+                        showRecordComponent.setWhatEditAdd(R.id.mnuExpense);
+                        showRecordComponent.setWhatList(R.id.nav_expense);
+
+                        try {
+                            line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(4) * 1000, false));
+                        }
+                        catch (Exception e) {
+                            line1Content = "Error#1! Please contact me at andicar.support@gmail.com";
+                        }
+
+                        try {
+                            line2Content = String.format(mCursor.getString(2),
+                                    Utils.numberToString(mCursor.getDouble(5), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
+                                    Utils.numberToString(mCursor.getDouble(6), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
+                                    Utils.numberToString(mCursor.getDouble(8), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
+                                    Utils.numberToString(mCursor.getDouble(7), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH));
+                        }
+                        catch (Exception e) {
+                            line2Content = "Error#2! Please contact me at andicar.support@gmail.com";
+                        }
+
+                        line3Content = mCursor.getString(3);
+
+                        if (showRecordComponent.isSecondLineExists()) { //three line lists
+                            showRecordComponent.setFirstLineText(line1Content);
+                            showRecordComponent.setSecondLineText(line2Content);
+                        }
+                        else {
+                            //wider screens => two line lists
+                            if (line2Content != null && line2Content.length() > 0) {
+                                showRecordComponent.setFirstLineText(line1Content + "; " + line2Content);
+                            }
+                            else {
+                                showRecordComponent.setFirstLineText(line1Content);
+                            }
+                        }
+
+                        showRecordComponent.setThirdLineText(line3Content);
+
+                        try {
+                            mCursor.close();
+                        }
+                        catch (Exception ignored) {
+                        }
+                    }
+                    else {
+                        showRecordComponent.setFirstLineText(R.string.main_activity_list_no_data);
+                        showRecordComponent.setSecondLineText(null);
+                        showRecordComponent.setThirdLineText(null);
+                        showRecordComponent.setButtonsLineVisibility(View.GONE);
+                    }
+                    break;
+                }
+                case "LGT": { //Last GPS Track
+                    showRecordComponent.setHeaderText(R.string.main_activity_gps_track_header_caption);
+
+                    sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_GPSTRACK, DBReportAdapter.COL_NAME_GPSTRACK__CAR_ID) + "=",
+                            Long.toString(mLastSelectedCarID));
+                    dbReportAdapter.setReportSql(DBReportAdapter.GPS_TRACK_LIST_SELECT_NAME, sqlWWhereCondition);
+                    Cursor mCursor = dbReportAdapter.fetchReport(1);
+                    String line1Content;
+                    String line2Content;
+                    String line3Content;
+
+                    if (mCursor != null && mCursor.moveToFirst()) {
+                        showRecordComponent.setButtonsLineVisibility(View.VISIBLE);
+                        showRecordComponent.setMapButtonVisibility(View.VISIBLE);
+
+                        showRecordComponent.setRecordId(mCursor.getLong(0));
+                        showRecordComponent.setWhatEditAdd(R.id.mnuGPSTrack);
+                        showRecordComponent.setWhatList(R.id.nav_gpstrack);
+
+                        try {
+                            line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(7) * 1000, false));
+                        }
+                        catch (Exception e) {
+                            line1Content = "Error#1! Please contact me at andicar.support@gmail.com";
+                        }
+
+                        try {
+                            line2Content = String.format(mCursor.getString(2),
+                                    getString(R.string.gps_track_detail_var_1),
+                                    getString(R.string.gps_track_detail_var_2),
+                                    getString(R.string.gps_track_detail_var_3),
+                                    getString(R.string.gps_track_detail_var_4),
+                                    getString(R.string.gps_track_detail_var_5) + " " + Utils.getTimeString(mCursor.getLong(4)),
+                                    getString(R.string.gps_track_detail_var_6) + " " + Utils.getTimeString(mCursor.getLong(5)),
+                                    getString(R.string.gps_track_detail_var_7),
+                                    getString(R.string.gps_track_detail_var_8),
+                                    getString(R.string.gps_track_detail_var_9),
+                                    getString(R.string.gps_track_detail_var_10),
+                                    getString(R.string.gps_track_detail_var_11),
+                                    getString(R.string.gps_track_detail_var_12) + " " + Utils.getTimeString(mCursor.getLong(8)),
+                                    getString(R.string.gps_track_detail_var_13) + " " + Utils.getTimeString(mCursor.getLong(4) - mCursor.getLong(8) - mCursor.getLong(5)));
+                        }
+                        catch (Exception e) {
+                            line2Content = "Error#2! Please contact me at andicar.support@gmail.com";
+                        }
+                        line3Content = mCursor.getString(3);
+
+                        if (showRecordComponent.isSecondLineExists()) { //three line lists
+                            showRecordComponent.setFirstLineText(line1Content);
+                            showRecordComponent.setSecondLineText(line2Content);
+                        }
+                        else {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                showRecordComponent.getFirstLine().setTextAppearance(R.style.ListItem_SecondLine);
+                            }
+                            else {
+                                showRecordComponent.getFirstLine().setTypeface(null, Typeface.NORMAL);
+                            }
+
+                            CharSequence text;
+                            //wider screens => two line lists
+                            if (line2Content != null && line2Content.length() > 0) {
+                                //noinspection deprecation
+                                text = Html.fromHtml("<b>" + line1Content + "</b><br>" + line2Content);
+                            }
+                            else {
+                                //noinspection deprecation
+                                text = Html.fromHtml("<b>" + line1Content + "</b>");
+                            }
+                            showRecordComponent.setFirstLineText(text);
+                        }
+
+                        showRecordComponent.setThirdLineText(line3Content);
+
+                        try {
+                            mCursor.close();
+                        }
+                        catch (Exception ignored) {
+                        }
+                    }
+                    else {
+                        showRecordComponent.setFirstLineText(R.string.main_activity_list_no_data);
+                        showRecordComponent.setSecondLineText(null);
+                        showRecordComponent.setThirdLineText(null);
+                        showRecordComponent.setButtonsLineVisibility(View.GONE);
+                    }
+                    break;
+                }
+            }
+
+            try {
+                dbReportAdapter.close();
+            }
+            catch (Exception ignored) {
+            }
+        }
+        catch (Exception e) {
+            mErrorInDrawCharts = true;
+            Utils.showReportableErrorDialog(this, null, e.getMessage(), e, false);
+        }
+
+    }
+
+    private void drawCharts(ShowChartsComponent showChartsComponent, String chartSource) {
         if (mErrorInDrawCharts) {
             return;
         }
+
+        String title1;
+        String title2;
+        String title3;
 
         DBReportAdapter dbReportAdapter = new DBReportAdapter(getApplicationContext(), null, null);
 
@@ -681,331 +1119,234 @@ public class MainActivity extends AppCompatActivity
         String[] chartArguments = selArgs.toArray(new String[0]);
 
         ArrayList<DBReportAdapter.chartData> chartData;
-        String chartFooter;
+        String chartFooterText;
 
         try {
-            //mileage charts
-            LinearLayout ll = (LinearLayout) findViewById(R.id.line1Charts);
-            AndiCarPieChart pChart;
-            String title;
-            String carUOMLengthCode = dbReportAdapter.getUOMCode(dbReportAdapter.getCarUOMLengthID(mLastSelectedCarID));
-            if (ll != null) {
-                chartData = dbReportAdapter.getMileageByTypeChartData(chartArguments);
-                if (chartData.size() > 0) {
-                    setChartBandHeight(ll, false);
-                    chartFooter =
-                            String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
-                                    + " " + carUOMLengthCode);
-                }
-                else {
-                    setChartBandHeight(ll, true);
-                    chartFooter = null;
-                }
-                pChart = (AndiCarPieChart) findViewById(R.id.chart11);
-                if (pChart != null) {
-                    title = getString(R.string.chart11Title);
-                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
-                    drawPieChart(ll, pChart, chartData, title, (TextView) findViewById(R.id.line1ChartFooterText), chartFooter);
-                }
-
-                pChart = (AndiCarPieChart) findViewById(R.id.chart12);
-                if (pChart != null) {
-                    title = getString(R.string.chart12Title);
-                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
-                    drawPieChart(ll, pChart, dbReportAdapter.getMileageByTagsChartData(chartArguments), title, null, null);
-                }
-
-                pChart = (AndiCarPieChart) findViewById(R.id.chart13);
-                if (pChart != null) {
-                    title = getString(R.string.chart13Title);
-                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
-                    drawPieChart(ll, pChart, dbReportAdapter.getMileageByDriverChartData(chartArguments), title, null, null);
-                }
-            }
-
-            String carUOMVolume = dbReportAdapter.getUOMCode(dbReportAdapter.getCarUOMVolumeID(mLastSelectedCarID));
-            if (carUOMVolume == null || carUOMVolume.length() <= 1) {
-                carUOMVolume = dbReportAdapter.getUOMName(dbReportAdapter.getCarUOMVolumeID(mLastSelectedCarID));
-            }
-
-            //fill-up charts (quantity)
-            ll = (LinearLayout) findViewById(R.id.line2Charts);
-            if (ll != null) {
-                chartData = dbReportAdapter.getRefuelsByTypeChartData(chartArguments, false);
-                if (chartData.size() > 0) {
-                    setChartBandHeight(ll, false);
-                    chartFooter = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
-                            + " " + carUOMVolume);
-                }
-                else {
-                    setChartBandHeight(ll, true);
-                    chartFooter = null;
-                }
-                pChart = (AndiCarPieChart) findViewById(R.id.chart21);
-                if (pChart != null) {
-                    title = getString(R.string.chart21Title);
-                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMVolume + "]";
-                    drawPieChart(ll, pChart, chartData, title, (TextView) findViewById(R.id.line2ChartFooterText), chartFooter);
-                }
-
-                pChart = (AndiCarPieChart) findViewById(R.id.chart22);
-                if (pChart != null) {
-                    title = getString(R.string.chart22Title);
-                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMVolume + "]";
-                    drawPieChart(ll, pChart, dbReportAdapter.getRefuelsByTagChartData(chartArguments, false), title, null, null);
-                }
-
-                pChart = (AndiCarPieChart) findViewById(R.id.chart23);
-                if (pChart != null) {
-                    title = getString(R.string.chart23Title);
-                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carUOMVolume + "]";
-                    drawPieChart(ll, pChart, dbReportAdapter.getRefuelsByFuelTypeChartData(chartArguments, false), title, null, null);
-                }
-            }
-
             String carCurrencyCode = dbReportAdapter.getCurrencyCode(dbReportAdapter.getCarCurrencyID(mLastSelectedCarID));
-            //fill-up charts (value)
-            ll = (LinearLayout) findViewById(R.id.line3Charts);
-            if (ll != null) {
-                chartData = dbReportAdapter.getRefuelsByTypeChartData(chartArguments, true);
-                if (chartData.size() > 0) {
-                    setChartBandHeight(ll, false);
-                    chartFooter = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
-                            + " " + carCurrencyCode);
-                }
-                else {
-                    setChartBandHeight(ll, true);
-                    chartFooter = null;
-                }
+            switch (chartSource) {
+                case "CTR":  //trip charts
+                    title1 = getString(R.string.tripChart1Title);
+                    title2 = getString(R.string.tripChart2Title);
+                    title3 = getString(R.string.tripChart3Title);
 
-                pChart = (AndiCarPieChart) findViewById(R.id.chart31);
-                if (pChart != null) {
-                    title = getString(R.string.chart31Title);
-                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                    drawPieChart(ll, pChart, chartData, title, (TextView) findViewById(R.id.line3ChartFooterText), chartFooter);
-                }
+                    String carUOMLengthCode = dbReportAdapter.getUOMCode(dbReportAdapter.getCarUOMLengthID(mLastSelectedCarID));
+                    chartData = dbReportAdapter.getMileageByTypeChartData(chartArguments);
+                    if (chartData.size() > 0) {
+                        showChartsComponent.setChartsLineHeight(false);
+                        chartFooterText =
+                                String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
+                                        + " " + carUOMLengthCode) + " (" + getChartDataPeriodText() + ")";
+                    }
+                    else {
+                        showChartsComponent.setChartsLineHeight(true);
+                        chartFooterText = null;
+                    }
+                    showChartsComponent.setChartFooterText(chartFooterText);
+                    showChartsComponent.setChart1TitleText(title1);
+                    title1 = title1.substring(0, title1.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
+                    showChartsComponent.drawChart(1, chartData, title1);
+                    showChartsComponent.setChart2TitleText(title2);
+                    title2 = title2.substring(0, title2.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
+                    showChartsComponent.drawChart(2, dbReportAdapter.getMileageByTagsChartData(chartArguments), title2);
+                    showChartsComponent.setChart3TitleText(title3);
+                    title3 = title3.substring(0, title3.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
+                    showChartsComponent.drawChart(3, dbReportAdapter.getMileageByDriverChartData(chartArguments), title3);
 
-                pChart = (AndiCarPieChart) findViewById(R.id.chart32);
-                if (pChart != null) {
-                    title = getString(R.string.chart32Title);
-                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                    drawPieChart(ll, pChart, dbReportAdapter.getRefuelsByTagChartData(chartArguments, true), title, null, null);
-                }
+                    break;
+                case "CFQ":  //Fill-ups charts (quantity)
+                    String carUOMVolume = dbReportAdapter.getUOMCode(dbReportAdapter.getCarUOMVolumeID(mLastSelectedCarID));
+                    if (carUOMVolume == null || carUOMVolume.length() <= 1) {
+                        carUOMVolume = dbReportAdapter.getUOMName(dbReportAdapter.getCarUOMVolumeID(mLastSelectedCarID));
+                    }
 
-                pChart = (AndiCarPieChart) findViewById(R.id.chart33);
-                if (pChart != null) {
-                    title = getString(R.string.chart33Title);
-                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                    drawPieChart(ll, pChart, dbReportAdapter.getRefuelsByFuelTypeChartData(chartArguments, true), title, null, null);
-                }
+                    chartData = dbReportAdapter.getRefuelsByTypeChartData(chartArguments, false);
+                    if (chartData.size() > 0) {
+                        showChartsComponent.setChartsLineHeight(false);
+                        chartFooterText = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
+                                + " " + carUOMVolume) + " (" + getChartDataPeriodText() + ")";
+                    }
+                    else {
+                        showChartsComponent.setChartsLineHeight(true);
+                        chartFooterText = null;
+                    }
+
+                    showChartsComponent.setChartFooterText(chartFooterText);
+
+                    title1 = getString(R.string.fillUpQuantityChart1Title);
+                    showChartsComponent.setChart1TitleText(title1);
+                    title1 = title1.substring(0, title1.indexOf("(") - 1) + " [" + carUOMVolume + "]";
+                    showChartsComponent.drawChart(1, chartData, title1);
+
+                    title2 = getString(R.string.fillUpQuantityChart2Title);
+                    showChartsComponent.setChart2TitleText(title2);
+                    title2 = title2.substring(0, title2.indexOf("(") - 1) + " [" + carUOMVolume + "]";
+                    showChartsComponent.drawChart(2, dbReportAdapter.getRefuelsByTagChartData(chartArguments, false), title2);
+
+                    title3 = getString(R.string.fillUpQuantityChart3Title);
+                    showChartsComponent.setChart3TitleText(title3);
+                    title3 = title3.substring(0, title3.indexOf("(") - 1) + " [" + carUOMVolume + "]";
+                    showChartsComponent.drawChart(3, dbReportAdapter.getRefuelsByFuelTypeChartData(chartArguments, false), title3);
+                    break;
+                case "CFV":  //Fill-ups charts (value)
+                    //fill-up charts (value)
+                    chartData = dbReportAdapter.getRefuelsByTypeChartData(chartArguments, true);
+                    if (chartData.size() > 0) {
+                        showChartsComponent.setChartsLineHeight(false);
+                        chartFooterText = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
+                                + " " + carCurrencyCode) + " (" + getChartDataPeriodText() + ")";
+                    }
+                    else {
+                        showChartsComponent.setChartsLineHeight(true);
+                        chartFooterText = null;
+                    }
+
+                    showChartsComponent.setChartFooterText(chartFooterText);
+
+                    title1 = getString(R.string.fillUpValueChart1Title);
+                    showChartsComponent.setChart1TitleText(title1);
+                    title1 = title1.substring(0, title1.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
+                    showChartsComponent.drawChart(1, chartData, title1);
+
+                    title2 = getString(R.string.fillUpValueChart2Title);
+                    showChartsComponent.setChart2TitleText(title2);
+                    title2 = title2.substring(0, title2.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
+                    showChartsComponent.drawChart(2, dbReportAdapter.getRefuelsByTagChartData(chartArguments, true), title2);
+
+                    title3 = getString(R.string.fillUpValueChart3Title);
+                    showChartsComponent.setChart3TitleText(title3);
+                    title3 = title3.substring(0, title3.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
+                    showChartsComponent.drawChart(3, dbReportAdapter.getRefuelsByFuelTypeChartData(chartArguments, true), title3);
+                    break;
+                case "CEX":  //Expense charts
+                    chartData = dbReportAdapter.getExpensesByTypeChartData(chartArguments);
+                    if (chartData.size() > 0) {
+                        showChartsComponent.setChartsLineHeight(false);
+                        chartFooterText = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
+                                + " " + carCurrencyCode) + " (" + getChartDataPeriodText() + ")";
+                    }
+                    else {
+                        showChartsComponent.setChartsLineHeight(true);
+                        chartFooterText = null;
+                    }
+                    showChartsComponent.setChartFooterText(chartFooterText);
+
+                    title1 = getString(R.string.expenseChart1Title);
+                    showChartsComponent.setChart1TitleText(title1);
+                    title1 = title1.substring(0, title1.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
+                    showChartsComponent.drawChart(1, chartData, title1);
+
+                    title2 = getString(R.string.expenseChart2Title);
+                    showChartsComponent.setChart2TitleText(title2);
+                    title2 = title2.substring(0, title2.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
+                    showChartsComponent.drawChart(2, dbReportAdapter.getExpensesByCategoryChartData(chartArguments), title2);
+
+                    title3 = getString(R.string.expenseChart3Title);
+                    showChartsComponent.setChart3TitleText(title3);
+                    title3 = title3.substring(0, title3.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
+                    showChartsComponent.drawChart(3, dbReportAdapter.getExpensesByTagChartData(chartArguments), title3);
+                    break;
             }
 
-            //expense charts
-            ll = (LinearLayout) findViewById(R.id.line4Charts);
-            if (ll != null) {
-                chartData = dbReportAdapter.getExpensesByTypeChartData(chartArguments);
-                if (chartData.size() > 0) {
-                    setChartBandHeight(ll, false);
-                    chartFooter = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
-                            + " " + carCurrencyCode);
-                }
-                else {
-                    setChartBandHeight(ll, true);
-                    chartFooter = null;
-                }
-
-                pChart = (AndiCarPieChart) findViewById(R.id.chart41);
-                if (pChart != null) {
-                    title = getString(R.string.chart41Title);
-                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                    drawPieChart(ll, pChart, chartData, title, (TextView) findViewById(R.id.line4ChartFooterText), chartFooter);
-                }
-
-                pChart = (AndiCarPieChart) findViewById(R.id.chart42);
-                if (pChart != null) {
-                    title = getString(R.string.chart42Title);
-                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                    drawPieChart(ll, pChart, dbReportAdapter.getExpensesByCategoryChartData(chartArguments), title, null, null);
-                }
-
-                pChart = (AndiCarPieChart) findViewById(R.id.chart43);
-                if (pChart != null) {
-                    title = getString(R.string.chart43Title);
-                    title = title.substring(0, title.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                    drawPieChart(ll, pChart, dbReportAdapter.getExpensesByTagChartData(chartArguments), title, null, null);
-                }
-            }
         }
         catch (Exception e) {
             mErrorInDrawCharts = true;
             Utils.showReportableErrorDialog(this, null, e.getMessage(), e, false);
         }
 
-        dbReportAdapter.close();
+        try {
+            dbReportAdapter.close();
+        }
+        catch (Exception ignored) {
+        }
+
+
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private void drawPieChart(View parent, AndiCarPieChart pieChart, ArrayList<DBReportAdapter.chartData> chartData, String title, TextView footerTextView, String footerText) throws Exception {
-        if (pieChart == null) {
-            return;
-        }
-
-        pieChart.clear();
-        if (chartData.size() == 0) {
-            if (footerTextView != null) {
-                footerTextView.setText("");
-            }
-            return;
-            }
-
-        setDefaultPieChartProperties(parent, pieChart);
-        setChartData(pieChart, title, chartData);
-        pieChart.getDescription().setEnabled(false);
-        if (footerText != null && footerTextView != null) {
-            footerTextView.setVisibility(View.VISIBLE);
-            footerTextView.setText(footerText);
-        }
-
-        //simulate the onClick action (becouse PieChart does not receive this action).
-        //the implemntation based on https://stackoverflow.com/questions/17831395/how-can-i-detect-a-click-in-an-ontouch-listener
-        pieChart.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                switch (motionEvent.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        mLastTouchDown = System.currentTimeMillis();
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        if (System.currentTimeMillis() - mLastTouchDown < CLICK_ACTION_THRESHOLD) {
-                            AndiCarPieChart apc = (AndiCarPieChart) view;
-                            if (apc.getChartDataEntries() == null || apc.getChartDataEntries().size() == 0) {
-                                Toast.makeText(MainActivity.this, getString(R.string.chart_no_data), Toast.LENGTH_SHORT).show();
-                                return false;
-                            }
-                            else {
-                                Intent i = new Intent(MainActivity.this, ChartDetailDialog.class);
-                                i.putExtra(ChartDetailDialog.CHART_DATA_EXTRAS_KEY, apc.getChartDataEntries());
-                                i.putExtra(ChartDetailDialog.CHART_TITLE_KEY, apc.getTitle());
-                                startActivityForResult(i, REQUEST_CODE_CHART_DETAIL);
-                                return true;
-                            }
-                            }
-                        break;
-                }
-                return true;
-
-            }
-        });
-    }
-
-
-    private void setChartBandHeight(LinearLayout ll, boolean forNoData) {
-        Float multiplicand;
-        if (forNoData) {
-            multiplicand = 0.1f;
-        }
-        else {
-            if (ll.getTag() != null && ll.getTag().equals(getResources().getString(R.string.chart_key_legendAtRight))) {
-                multiplicand = 0.6f; //legend at right of the chart
+    private void fillContent() {
+        if (mRedrawCharts) {
+            if (mPreferences.getBoolean(getString(R.string.pref_key_main_show_next_todo), true)) {
+                llToDoZone.setVisibility(View.VISIBLE);
+                fillToDoZone();
             }
             else {
-                multiplicand = 1.3f;
+                llToDoZone.setVisibility(View.GONE);
             }
-        }
-        ll.getLayoutParams().height = Math.round(Utils.getScreenWidthInPixel(this) / ll.getChildCount() * multiplicand);
-        ll.requestLayout();
-    }
 
-    private void setDefaultPieChartProperties(View parent, AndiCarPieChart pieChart) {
-        pieChart.setUsePercentValues(false);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.setDrawEntryLabels(false);
-        pieChart.setDragDecelerationFrictionCoef(0.95f);
-        pieChart.setDrawHoleEnabled(false);
-        pieChart.setRotationAngle(0);
-        //disable rotation of the chart by touch
-        pieChart.setRotationEnabled(false);
-        pieChart.setHighlightPerTapEnabled(false);
+            ShowRecordComponent recordComponent;
+            ShowChartsComponent chartComponent;
+            TextView separator;
+            String zoneContent;
+            LinearLayout zoneContainer = (LinearLayout) findViewById(R.id.zoneContainer);
+            if (zoneContainer == null) {
+                return;
+            }
 
-        pieChart.animateY(700, Easing.EasingOption.EaseInOutQuad);
-        // entry label styling
-        pieChart.setEntryLabelColor(Color.WHITE);
-        pieChart.setTouchEnabled(true);
+            zoneContainer.removeAllViews();
 
-        Legend l = pieChart.getLegend();
-        if (parent.getTag() != null && parent.getTag().equals(getResources().getString(R.string.chart_key_legendAtRight))) {
-            l.setVerticalAlignment(Legend.LegendVerticalAlignment.CENTER);
-            l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        }
-        else {
-            l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-            l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        }
-        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-        l.setDrawInside(false);
-        l.setXEntrySpace(7f);
-        l.setYEntrySpace(0f);
-        l.setYOffset(10f);
-    }
+            mChartsExistsOnScreen = false;
 
-    private void setChartData(AndiCarPieChart pieChart, String title, ArrayList<DBReportAdapter.chartData> chartDataEntries) {
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        int i;
-        int mChartTop = 3;
+            for (int i = 1; i <= 8; i++) {
+                switch (i) {
+                    case 1:
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone1_content), "LTR");
+                        break;
+                    case 2:
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone2_content), "CTR");
+                        break;
+                    case 3:
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone3_content), "LFU");
+                        break;
+                    case 4:
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone4_content), "CFQ");
+                        break;
+                    case 5:
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone5_content), "CFV");
+                        break;
+                    case 6:
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone6_content), "LEX");
+                        break;
+                    case 7:
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone7_content), "CEX");
+                        break;
+                    case 8:
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone8_content), "LGT");
+                        break;
+                    default:
+                        continue;
+                }
 
-        pieChart.setChartData(chartDataEntries);
-        pieChart.setTitle(title);
+                if (!zoneContent.equals("DNU")) {
+                    if (zoneContent.startsWith("C")) { //chart
+                        mChartsExistsOnScreen = true;
+                        chartComponent = new ShowChartsComponent(this);
+                        zoneContainer.addView(chartComponent);
+//                        showChartsComponent.setVisibility(View.VISIBLE);
+                        drawCharts(chartComponent, zoneContent);
+                    }
+                    else {
+                        recordComponent = new ShowRecordComponent(this);
+                        zoneContainer.addView(recordComponent);
+                        fillLastRecord(recordComponent, zoneContent);
+                    }
+                }
+            }
 
-        for (i = 0; i < (chartDataEntries.size() <= mChartTop ? chartDataEntries.size() : mChartTop); i++) {
-            entries.add(new PieEntry(chartDataEntries.get(i).value, chartDataEntries.get(i).label + " (" +
-                    String.format(Locale.getDefault(), "%.2f", chartDataEntries.get(i).value2) + "%)"));
-        }
+            if (mMenu != null) {
+                mMenu.clear();
+                if (mChartsExistsOnScreen) {
+                    MenuInflater inflater = getMenuInflater();
+                    inflater.inflate(R.menu.main_activity_chart_filter_menu, mMenu);
+                }
+            }
 
-        float otherValues = 0;
-        float otherValues2 = 0;
-        int j;
-        for (j = i; j < chartDataEntries.size(); j++) {
-            otherValues = otherValues + chartDataEntries.get(j).value;
-            otherValues2 = otherValues2 + chartDataEntries.get(j).value2;
-        }
-        if (j > i) {
-            entries.add(new PieEntry(otherValues, String.format(getString(R.string.chart_label_others), otherValues2, "%")));
-        }
+            if (mPreferences.getBoolean(getString(R.string.pref_key_main_show_statistics), true)) {
+                llStatisticsZone.setVisibility(View.VISIBLE);
+                fillStatisticsZone();
+            }
+            else {
+                llStatisticsZone.setVisibility(View.GONE);
+            }
 
-        PieDataSet dataSet = new PieDataSet(entries, "");
-
-        dataSet.setDrawIcons(false);
-
-        dataSet.setSliceSpace(3f);
-//        dataSet.setIconsOffset(new MPPointF(0, 40));
-        dataSet.setSelectionShift(5f);
-
-        // add the colors
-        dataSet.setColors(ConstantValues.CHART_COLORS);
-        //dataSet.setSelectionShift(0f);
-
-        PieData data = new PieData(dataSet);
-//        data.setValueFormatter(new PercentFormatter());
-        data.setValueTextSize(12f);
-
-        data.setValueTextColor(Color.WHITE);
-//        data.setValueTypeface(mTfLight);
-        pieChart.setData(data);
-
-        // undo all highlights
-//        pieChart.highlightValues(null);
-
-//        pieChart.setBackgroundColor(ConstantValues.CHART_COLORS.get(ConstantValues.CHART_COLORS.size()-1));
-
-        pieChart.notifyDataSetChanged(); // let the chart know it's data changed
-        pieChart.invalidate();
-    }
-
-    private void updateCharts() {
-        if (mRedrawCharts) {
-            fillToDoZone();
-            drawCharts();
-            fillStatisticsZone();
         }
         else {
             mRedrawCharts = true; //reset to default value
@@ -1033,8 +1374,7 @@ public class MainActivity extends AppCompatActivity
             mChartFilterType = CHART_FILTER_ALL;
         }
 
-        fillChartHeaderCaption();
-        updateCharts();
+        fillContent();
     }
 
     @SuppressLint("WrongConstant")
@@ -1043,13 +1383,9 @@ public class MainActivity extends AppCompatActivity
         Bundle whereConditions = new Bundle();
         TextView tvToDoText1;
         TextView tvToDoText2;
-//        TextView tvToDoText3;
-        View llToDoZone;
 
-        llToDoZone = findViewById(R.id.llToDoZone);
         tvToDoText1 = (TextView) findViewById(R.id.tvToDoText1);
         tvToDoText2 = (TextView) findViewById(R.id.tvToDoText2);
-//        tvToDoText3 = (TextView) findViewById(R.id.tvToDoText3);
 
         whereConditions.putString(DBReportAdapter.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__ISDONE) + "=", "N");
         DBReportAdapter reportDb = new DBReportAdapter(this, DBReportAdapter.TODO_LIST_SELECT_NAME, whereConditions);
@@ -1057,7 +1393,6 @@ public class MainActivity extends AppCompatActivity
         if (listCursor != null && listCursor.moveToFirst()) {
             toDoExists = true;
             tvToDoText2.setVisibility(View.VISIBLE);
-//            tvToDoText3.setVisibility(View.VISIBLE);
 
             mLastToDoId = listCursor.getLong(0);
             mLastToDoTaskId = listCursor.getLong(11);
@@ -1141,20 +1476,11 @@ public class MainActivity extends AppCompatActivity
                         .replace("[#12]", getString(R.string.todo_mileage)).replace("[#13]", getString(R.string.todo_estimated_mileage_date))
                         .replace("[#14]", timeStr));
             }
-//            if (listCursor.getString(listCursor.getColumnIndex(DBReportAdapter.THIRD_LINE_LIST_NAME)) != null &&
-//                    listCursor.getString(listCursor.getColumnIndex(DBReportAdapter.THIRD_LINE_LIST_NAME)).trim().length() > 0) {
-//                tvToDoText3.setText(listCursor.getString(listCursor.getColumnIndex(DBReportAdapter.THIRD_LINE_LIST_NAME)));
-//            }
-//            else {
-//                tvToDoText3.setVisibility(View.GONE);
-//            }
-
         }
         else {
             toDoExists = false;
             tvToDoText1.setText(R.string.main_activity_no_to_do);
             tvToDoText2.setVisibility(View.GONE);
-//            tvToDoText3.setVisibility(View.GONE);
         }
 
         llToDoZone.setOnClickListener(new View.OnClickListener() {
@@ -1234,7 +1560,6 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressLint("SetTextI18n")
     private void fillStatisticsZone() {
-        View llStatisticsZone;
         TextView tvStatisticsHdr;
         TextView tvStatisticsLastKnownOdometer;
         TextView tvStatisticsAvgFuelEff;
@@ -1242,7 +1567,6 @@ public class MainActivity extends AppCompatActivity
         TextView tvStatisticsTotalExpenses;
         TextView tvStatisticsMileageExpense;
 
-        llStatisticsZone = findViewById(R.id.llStatisticsZone);
         tvStatisticsHdr = (TextView) findViewById(R.id.tvStatisticsHdr);
         tvStatisticsLastKnownOdometer = (TextView) findViewById(R.id.tvStatisticsLastKnownOdometer);
         tvStatisticsAvgFuelEff = (TextView) findViewById(R.id.tvStatisticsAvgFuelEff);
@@ -1290,7 +1614,7 @@ public class MainActivity extends AppCompatActivity
             }
 
             tvStatisticsHdr.setText(getString(R.string.main_activity_statistics_header_caption) + " "
-                    + Utils.numberToString(mileage, true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) + " " + carUOMLengthCode);
+                    + Utils.numberToString(mileage, true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) + " " + carUOMLengthCode + " (" + getChartDataPeriodText() + ")");
             tvStatisticsLastKnownOdometer.setText(getString(R.string.main_activity_statistics_last_odometer_label) + " "
                     + Utils.numberToString(stopIndex, true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) + " " + carUOMLengthCode);
             tvStatisticsTotalExpenses.setText(getString(R.string.main_activity_statistics_total_expense_label) + " "

@@ -44,18 +44,18 @@
 
     <!--chart headers-->
     <!--11 = row 1, column 1-->
-    <string name="chart11Title">Trips by types (top 3)</string>
-    <string name="chart12Title">Trips by tags (top 3)</string>
-    <string name="chart13Title">Trips by driver (top 3)</string>
-    <string name="chart21Title">Fill-ups by types - quantity (top 3)</string>
-    <string name="chart22Title">Fill-ups by tags - quantity (top 3)</string>
-    <string name="chart23Title">Fill-ups by fuel type - quantity (top 3)</string>
-    <string name="chart31Title">Fill-ups by types - value (top 3)</string>
-    <string name="chart32Title">Fill-ups by tags - value (top 3)</string>
-    <string name="chart33Title">Fill-ups by fuel type - value (top 3)</string>
-    <string name="chart41Title">Expenses by types (top 3)</string>
-    <string name="chart42Title">Expenses by category (top 3)</string>
-    <string name="chart43Title">Expenses by tags (top 3)</string>
+    <string name="tripChart1Title">Trips by types (top 3)</string>
+    <string name="tripChart2Title">Trips by tags (top 3)</string>
+    <string name="tripChart3Title">Trips by driver (top 3)</string>
+    <string name="fillUpQuantityChart1Title">Fill-ups by types - quantity (top 3)</string>
+    <string name="fillUpQuantityChart2Title">Fill-ups by tags - quantity (top 3)</string>
+    <string name="fillUpQuantityChart3Title">Fill-ups by fuel type - quantity (top 3)</string>
+    <string name="fillUpValueChart1Title">Fill-ups by types - value (top 3)</string>
+    <string name="fillUpValueChart2Title">Fill-ups by tags - value (top 3)</string>
+    <string name="fillUpValueChart3Title">Fill-ups by fuel type - value (top 3)</string>
+    <string name="expenseChart1Title">Expenses by types (top 3)</string>
+    <string name="expenseChart2Title">Expenses by category (top 3)</string>
+    <string name="expenseChart3Title">Expenses by tags (top 3)</string>
     <string name="chartFooterText">Total: %1$s</string>
 
     <string name="title_list_activity" tools:ignore="PluralsCandidate">%1$s: %2$s record(s)</string>
@@ -220,9 +220,24 @@
     <!--PREF_TaskTypeTitle-->
     <string name="pref_todo_type_title">To-do types</string>
     <!--PREF_MainScreenCategoryTitle-->
-    <string name="pref_main_screen_category_title">Main screen</string>
+    <string name="pref_category_main_screen">Main screen</string>
     <string name="pref_main_screen_addbtn_title">Add button</string>
     <string name="pref_main_screen_addbtn_hint">Long pressing the add button will show the menu</string>
+
+
+    <!--PREF_MainScreen_ShowToDoZone-->
+    <string name="pref_main_screen_show_todo_zone">Show next To-Do</string>
+    <!--PREF_MainScreen_ShowStatistics-->
+    <string name="pref_main_screen_show_tatistics">Show statistics</string>
+    <string name="pref_main_screen_zone1_content">Zone 1 content</string>
+    <string name="pref_main_screen_zone2_content">Zone 2 content</string>
+    <string name="pref_main_screen_zone3_content">Zone 3 content</string>
+    <string name="pref_main_screen_zone4_content">Zone 4 content</string>
+    <string name="pref_main_screen_zone5_content">Zone 5 content</string>
+    <string name="pref_main_screen_zone6_content">Zone 6 content</string>
+    <string name="pref_main_screen_zone7_content">Zone 7 content</string>
+    <string name="pref_main_screen_zone8_content">Zone 8 content</string>
+
     <!--PREF_TaskTypeSummary-->
     <string name="pref_todo_type_summary">Add, delete, modify to-do types</string>
     <!--PREF_TaskTitle-->
@@ -369,6 +384,8 @@
     <string name="gen_gps_tracks">GPS Tracks</string>
     <!--MENU_TodoCaption-->
     <string name="gen_todo_list">Todo list</string>
+
+    <string name="gen_list">List</string>
     <!--MENU_AboutCaption-->
     <string name="gen_about">About</string>
     <string name="gen_report_issue">Report an issue</string>
@@ -691,6 +708,15 @@
     <string name="main_activity_no_to_do">No to-do</string>
     <!--MainActivity_StatisticsHeaderCaption-->
     <string name="main_activity_statistics_header_caption">Statistics for the registered </string>
+    <!--MainActivity_MileageHeaderCaption-->
+    <string name="main_activity_mileage_header_caption">Last trip</string>
+    <!--MainActivity_RefuelHeaderCaption-->
+    <string name="main_activity_refuel_header_caption">Last fill-up</string>
+    <!--MainActivity_GPSTrackHeaderCaption-->
+    <string name="main_activity_gps_track_header_caption">Last GPS track</string>
+    <!--MainActivity_ExpenseHeaderCaption-->
+    <string name="main_activity_expense_header_caption">Last expense</string>
+    <string name="main_activity_list_no_data">No data</string>
     <!--MainActivity_StatisticsListLastOdoLabel-->
     <string name="main_activity_statistics_last_odometer_label">Last known odometer: </string>
     <!--MainActivity_StatisticsAvgConsLabel-->
@@ -756,14 +782,14 @@
     <string name="chart_filter_previous_year">Previous year</string>
     <string name="chart_filter_custom_period">Custom period</string>
     <string name="chart_label_others">Others (%1$.2f%2$s)</string> <!--Others 32.45%-->
-    <string name="chart_filter_all_header_caption">Showing all data</string>
-    <string name="chart_filter_current_month_header_caption">Current month\'s data</string>
-    <string name="chart_filter_previous_month_header_caption">Previous month\'s data</string>
-    <string name="chart_filter_current_year_header_caption">Current year\'s data</string>
-    <string name="chart_filter_previous_year_header_caption">Previous year\'s data</string>
-    <string name="chart_filter_custom_period_header_caption">Showing data from %1$s to %2$s</string>
-    <string name="chart_filter_custom_period_header_caption_value_beginning">beginning</string>
-    <string name="chart_filter_custom_period_header_caption_value_now">now</string>
+    <string name="chart_filter_all_text">showing all data</string>
+    <string name="chart_filter_current_month_text">current month\'s data</string>
+    <string name="chart_filter_previous_month_text">previous month\'s data</string>
+    <string name="chart_filter_current_year_text">current year\'s data</string>
+    <string name="chart_filter_previous_year_text">previous year\'s data</string>
+    <string name="chart_filter_custom_period_text">from %1$s to %2$s</string>
+    <string name="chart_filter_custom_period_beginning_text">beginning</string>
+    <string name="chart_filter_custom_period_now_text">now</string>
     <string name="chart_no_data">No data</string>
 
     <string name="progress_restoring_data">Restore in progress … </string>

@@ -46,8 +46,18 @@
     <string name="pref_partner_title">Tankstelle &amp; Verkäufer</string>
     <string name="pref_partner_summary">Tankstelle, Verkäufer und Orte hinzufügen, löschen, ändern.</string>
     <string name="pref_reminder_category_title">Aufgaben</string>
-    <string name="pref_main_screen_category_title">Hauptanzeige</string>
+    <string name="pref_category_main_screen">Hauptanzeige</string>
     <string name="pref_main_screen_addbtn_title">Taste hinzufügen</string>
+    <string name="pref_main_screen_show_todo_zone">Bereich To-do anzeigen</string>
+    <string name="pref_main_screen_show_tatistics">Statistiken anzeigen</string>
+    <string name="pref_main_screen_zone1_content">Zone 1 Inhalt</string>
+    <string name="pref_main_screen_zone2_content">Zone 2 Inhalt</string>
+    <string name="pref_main_screen_zone3_content">Zone 3 Inhalt</string>
+    <string name="pref_main_screen_zone4_content">Zone 4 Inhalt</string>
+    <string name="pref_main_screen_zone5_content">Zone 5 Inhalt</string>
+    <string name="pref_main_screen_zone6_content">Zone 6 Inhalt</string>
+    <string name="pref_main_screen_zone7_content">Zone 7 Inhalt</string>
+    <string name="pref_main_screen_zone8_content">Zone 8 Inhalt</string>
     <string name="pref_todo_type_title">Aufgabenarten</string>
     <string name="pref_todo_type_summary">Aufgabenarten hinzufügen, löschen, ändern.</string>
     <string name="pref_todo_title">Aufgaben</string>
@@ -143,6 +153,8 @@
     <string name="gen_gps_track">GPS-Track</string>
 
     <string name="gen_todo_list">Aufgabenliste</string>
+    <string name="gen_list">Liste</string>
+
     <string name="gen_about">Über</string>
     <string name="gen_report_issue">Ein Problem zu melden</string>
     <string name="gen_settings">Einstellungen</string>
@@ -319,6 +331,11 @@
 
     <string name="main_activity_no_to_do">Kein to-do</string>
     <string name="main_activity_statistics_header_caption">Statistik für die aufgezeichneten Fahrten</string>
+    <string name="main_activity_mileage_header_caption">Letzte Strecke</string>
+    <string name="main_activity_refuel_header_caption">Letzter Tankvorgang</string>
+    <string name="main_activity_gps_track_header_caption">Letzte GPS-Aufzeichnung</string>
+    <string name="main_activity_expense_header_caption">Letzte Ausgabe</string>
+    <string name="main_activity_list_no_data">Keine Daten</string>
     <string name="main_activity_statistics_last_odometer_label">Letzter bekannter Kilometerstand: </string>
     <string name="main_activity_statistics_avg_cons_label">Durchschnittlicher Kraftstoffverbrauch.: </string>
     <string name="main_activity_statistics_last_cons_label">Letzter Verbrauch: </string>
@@ -363,14 +380,14 @@
     <string name="chart_filter_previous_year">Vorheriges Jahr</string>
     <string name="chart_filter_custom_period">Weiterer Zeitraum</string>
     <string name="chart_label_others">Andere (%1$.2f%2$s)</string> <!--Others 32.45%-->
-    <string name="chart_filter_all_header_caption">Alle Daten anzeigen</string>
-    <string name="chart_filter_current_month_header_caption">Daten des aktuellen Monats</string>
-    <string name="chart_filter_previous_month_header_caption">Daten des letzten Monats</string>
-    <string name="chart_filter_current_year_header_caption">Daten des laufenden Jahres</string>
-    <string name="chart_filter_previous_year_header_caption">Daten des Vorjahres</string>
-    <string name="chart_filter_custom_period_header_caption">%1$s > %2$s</string>
-    <string name="chart_filter_custom_period_header_caption_value_beginning">Anfang</string>
-    <string name="chart_filter_custom_period_header_caption_value_now">jetzt</string>
+    <string name="chart_filter_all_text">Alle Daten anzeigen</string>
+    <string name="chart_filter_current_month_text">daten des aktuellen Monats</string>
+    <string name="chart_filter_previous_month_text">daten des letzten Monats</string>
+    <string name="chart_filter_current_year_text">daten des laufenden Jahres</string>
+    <string name="chart_filter_previous_year_text">daten des Vorjahres</string>
+    <string name="chart_filter_custom_period_text">%1$s > %2$s</string>
+    <string name="chart_filter_custom_period_beginning_text">anfang</string>
+    <string name="chart_filter_custom_period_now_text">jetzt</string>
     <string name="chart_no_data">Keine Daten</string>
 
     <string name="progress_restoring_data">Wiederherstellung im Gange … </string>

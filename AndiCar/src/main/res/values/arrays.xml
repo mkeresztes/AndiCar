@@ -146,4 +146,27 @@
         <item>4</item>
     </string-array>
 
+    <string-array name="pref_main_zone_content_chooser_entries">
+        <item>Hide</item>
+        <item>Last trip</item>
+        <item>Last fill-up</item>
+        <item>Last expense</item>
+        <item>Last GPS Track</item>
+        <item>Trip charts</item>
+        <item>Fill-up charts (quantity)</item>
+        <item>Fill-up charts (value)</item>
+        <item>Expense charts</item>
+    </string-array>
+
+    <string-array name="pref_main_zone_content_chooser_values" tools:ignore="MissingTranslation">
+        <item>DNU</item> <!--Do not use-->
+        <item>LTR</item> <!--Last trip-->
+        <item>LFU</item> <!--Last fill-up-->
+        <item>LEX</item> <!--Last expense-->
+        <item>LGT</item> <!--Last GPS Track-->
+        <item>CTR</item> <!--Trip charts-->
+        <item>CFQ</item> <!--Fill-ups charts (quantity)-->
+        <item>CFV</item> <!--Fill-ups charts (value)-->
+        <item>CEX</item> <!--Expense charts-->
+    </string-array>
 </resources>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ AndiCar
+  ~
+  ~  Copyright (c) 2017 Miklos Keresztes (miklos.keresztes@gmail.com)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/pref_main_addbtn_entries"
+        android:entryValues="@array/pref_main_addbtn_values"
+        android:key="@string/pref_key_main_addbtn"
+        android:title="@string/pref_main_screen_addbtn_title"
+        />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/pref_key_main_show_next_todo"
+        android:title="@string/pref_main_screen_show_todo_zone"/>
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/pref_key_main_show_statistics"
+        android:title="@string/pref_main_screen_show_tatistics" />
+
+    <ListPreference
+        android:defaultValue="LTR"
+        android:entries="@array/pref_main_zone_content_chooser_entries"
+        android:entryValues="@array/pref_main_zone_content_chooser_values"
+        android:key="@string/pref_key_main_zone1_content"
+        android:title="@string/pref_main_screen_zone1_content" />
+
+    <ListPreference
+        android:defaultValue="CTR"
+        android:entries="@array/pref_main_zone_content_chooser_entries"
+        android:entryValues="@array/pref_main_zone_content_chooser_values"
+        android:key="@string/pref_key_main_zone2_content"
+        android:title="@string/pref_main_screen_zone2_content" />
+
+    <ListPreference
+        android:defaultValue="LFU"
+        android:entries="@array/pref_main_zone_content_chooser_entries"
+        android:entryValues="@array/pref_main_zone_content_chooser_values"
+        android:key="@string/pref_key_main_zone3_content"
+        android:title="@string/pref_main_screen_zone3_content" />
+
+    <ListPreference
+        android:defaultValue="CFQ"
+        android:entries="@array/pref_main_zone_content_chooser_entries"
+        android:entryValues="@array/pref_main_zone_content_chooser_values"
+        android:key="@string/pref_key_main_zone4_content"
+        android:title="@string/pref_main_screen_zone4_content" />
+
+    <ListPreference
+        android:defaultValue="CFV"
+        android:entries="@array/pref_main_zone_content_chooser_entries"
+        android:entryValues="@array/pref_main_zone_content_chooser_values"
+        android:key="@string/pref_key_main_zone5_content"
+        android:title="@string/pref_main_screen_zone5_content"/>
+
+    <ListPreference
+        android:defaultValue="LEX"
+        android:entries="@array/pref_main_zone_content_chooser_entries"
+        android:entryValues="@array/pref_main_zone_content_chooser_values"
+        android:key="@string/pref_key_main_zone6_content"
+        android:title="@string/pref_main_screen_zone6_content"/>
+
+    <ListPreference
+        android:defaultValue="CEX"
+        android:entries="@array/pref_main_zone_content_chooser_entries"
+        android:entryValues="@array/pref_main_zone_content_chooser_values"
+        android:key="@string/pref_key_main_zone7_content"
+        android:title="@string/pref_main_screen_zone7_content"/>
+
+    <ListPreference
+        android:defaultValue="LGT"
+        android:entries="@array/pref_main_zone_content_chooser_entries"
+        android:entryValues="@array/pref_main_zone_content_chooser_values"
+        android:key="@string/pref_key_main_zone8_content"
+        android:title="@string/pref_main_screen_zone8_content"/>
+
+</PreferenceScreen>
