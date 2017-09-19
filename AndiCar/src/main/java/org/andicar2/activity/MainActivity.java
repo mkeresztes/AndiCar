@@ -224,11 +224,17 @@ public class MainActivity extends AppCompatActivity
 //            startActivity(notif);
         }
 
-        if (AndiCar.isAppJustUpdated) {
-            AndiCar.isAppJustUpdated = false;
-            Intent whatsNewIntent = new Intent(this, WhatsNewDialog.class);
-            whatsNewIntent.putExtra(WhatsNewDialog.IS_SHOW_FIVE_STARS_BUTTON_KEY, true);
-            startActivity(whatsNewIntent);
+        try {
+            if (mPreferences.getBoolean(getString(R.string.pref_key_show_whats_new_dialog), false)) {
+                SharedPreferences.Editor e = mPreferences.edit();
+                e.putBoolean(getString(R.string.pref_key_show_whats_new_dialog), false);
+                e.apply();
+                Intent whatsNewIntent = new Intent(this, WhatsNewDialog.class);
+                whatsNewIntent.putExtra(WhatsNewDialog.IS_SHOW_FIVE_STARS_BUTTON_KEY, true);
+                startActivity(whatsNewIntent);
+            }
+        }
+        catch (Exception ignored) {
         }
     }
 

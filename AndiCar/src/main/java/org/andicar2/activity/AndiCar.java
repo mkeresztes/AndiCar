@@ -40,7 +40,6 @@ import io.fabric.sdk.android.Fabric;
 public class AndiCar extends MultiDexApplication {
     private static Resources appResources;
     private static SharedPreferences appPreferences;
-    public static boolean isAppJustUpdated = false;
     @SuppressLint("StaticFieldLeak")
 
     public static Resources getAppResources() {
@@ -83,12 +82,12 @@ public class AndiCar extends MultiDexApplication {
 
         try {
             appVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
-            if (appPreferences.getInt("appVersionCode", 0) != appVersion) {
+            if (appPreferences.getInt("appVersionCode", getPackageManager().getPackageInfo(getPackageName(), 0).versionCode) != appVersion) {
                 ServiceStarter.startServices(getApplicationContext(), ConstantValues.SERVICE_STARTER_START_ALL);
                 SharedPreferences.Editor e = appPreferences.edit();
                 e.putInt("appVersionCode", appVersion);
+                e.putBoolean(getString(R.string.pref_key_show_whats_new_dialog), true);
                 e.apply();
-                isAppJustUpdated = true;
             }
 
         }
