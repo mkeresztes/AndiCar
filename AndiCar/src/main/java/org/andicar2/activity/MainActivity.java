@@ -134,8 +134,6 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
-    //used to simulate onClick via onTouch (pie chart not detect the standard onClick event)
-    private boolean mRedrawCharts = true;
     private boolean mErrorInDrawCharts = false;
     //used to determine if the option menu need or not (for filtering chart data)
     private boolean mChartsExistsOnScreen = false;
@@ -1277,7 +1275,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void fillContent() {
-        if (mRedrawCharts) {
             if (mPreferences.getBoolean(getString(R.string.pref_key_main_show_next_todo), true)) {
                 llToDoZone.setVisibility(View.VISIBLE);
                 fillToDoZone();
@@ -1360,10 +1357,6 @@ public class MainActivity extends AppCompatActivity
                 llStatisticsZone.setVisibility(View.GONE);
             }
 
-        }
-        else {
-            mRedrawCharts = true; //reset to default value
-        }
     }
 
     @Override
