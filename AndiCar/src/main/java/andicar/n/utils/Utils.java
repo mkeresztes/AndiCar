@@ -39,7 +39,10 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import org.andicar2.activity.AndiCar;
+import org.andicar2.activity.BuildConfig;
 import org.andicar2.activity.R;
 
 import java.io.PrintWriter;
@@ -270,6 +273,7 @@ public class Utils {
 
     /**
      * The rate app menu is shown only if the user entered a min 15 records.
+     *
      * @param ctx Context
      * @return true if a minimum of 15 records found, false otherwise
      */
@@ -461,66 +465,6 @@ public class Utils {
         }
     }
 
-    public void shareGPSTrack(Context ctx, Resources mRes, long gpsTrackID) {
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-        emailIntent.setType("text/html");
-        Bundle b = new Bundle();
-        DBAdapter mDbAdapter = new DBAdapter(ctx);
-        String emailSubject = "AndiCar GPS Track";
-
-        b.putString(DBAdapter.sqlConcatTableColumn(DBAdapter.TABLE_NAME_GPSTRACK, DBAdapter.COL_NAME_GEN_ROWID) + "=", Long.toString(gpsTrackID));
-        DBReportAdapter dbReportAdapter = new DBReportAdapter(ctx, DBReportAdapter.GPS_TRACK_LIST_SELECT_NAME, b);
-        Cursor c = dbReportAdapter.fetchReport(1);
-        if (c != null && c.moveToFirst()) {
-            String emailText = String.format(c.getString(c.getColumnIndex(DBReportAdapter.FIRST_LINE_LIST_NAME)), Utils.getFormattedDateTime(c.getLong(7) * 1000, false))
-                    + "\n" +
-                    String.format(c.getString(c.getColumnIndex(DBReportAdapter.SECOND_LINE_LIST_NAME)),
-                            mRes.getString(R.string.gps_track_detail_var_1),
-                            mRes.getString(R.string.gps_track_detail_var_2),
-                            mRes.getString(R.string.gps_track_detail_var_3),
-                            mRes.getString(R.string.gps_track_detail_var_4),
-                            mRes.getString(R.string.gps_track_detail_var_5) + " " + Utils.getTimeString(c.getLong(4)),
-                            mRes.getString(R.string.gps_track_detail_var_6) + " " + Utils.getTimeString(c.getLong(5)),
-                            mRes.getString(R.string.gps_track_detail_var_7),
-                            mRes.getString(R.string.gps_track_detail_var_8),
-                            mRes.getString(R.string.gps_track_detail_var_9),
-                            mRes.getString(R.string.gps_track_detail_var_10),
-                            mRes.getString(R.string.gps_track_detail_var_11),
-                            mRes.getString(R.string.gps_track_detail_var_12) + " " + Utils.getTimeString(c.getLong(8)),
-                            mRes.getString(R.string.gps_track_detail_var_13) + " " + Utils.getTimeString(c.getLong(4) - c.getLong(8) - c.getLong(5)))
-                    + "\n" +
-                    c.getString(c.getColumnIndex(DBReportAdapter.THIRD_LINE_LIST_NAME));
-            emailSubject = emailSubject + " - " + c.getString(c.getColumnIndex(DBReportAdapter.COL_NAME_GEN_NAME));
-            c.close();
-            dbReportAdapter.close();
-
-            emailIntent.putExtra(Intent.EXTRA_TEXT, emailText + "\nSent by AndiCar (http://www.andicar.org)");
-        }
-
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
-
-        //get the track files
-        FileUtils.createFolderIfNotExists(ctx, ConstantValues.TRACK_FOLDER);
-        String selection = DBAdapter.COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID + "= ? ";
-        String[] selectionArgs = {Long.toString(gpsTrackID)};
-        c = mDbAdapter.query(DBAdapter.TABLE_NAME_GPSTRACKDETAIL, DBAdapter.COL_LIST_GPSTRACKDETAIL_TABLE, selection, selectionArgs,
-                DBAdapter.COL_NAME_GPSTRACKDETAIL__FILE);
-
-        Bundle trackFiles = new Bundle();
-        String trackFile;
-        while (c.moveToNext()) {
-            trackFile = c.getString(DBAdapter.COL_POS_GPSTRACKDETAIL__FILE);
-            trackFiles.putString(trackFile.replace(ConstantValues.TRACK_FOLDER, ""), trackFile);
-        }
-
-        //create the zip file
-        Uri trackFileZip = FileUtils.zipFiles(trackFiles, ConstantValues.TRACK_FOLDER + "AndiCarGPSTrack.zip");
-        if (trackFileZip != null) {
-            emailIntent.putExtra(Intent.EXTRA_STREAM, trackFileZip);
-        }
-        ctx.startActivity(Intent.createChooser(emailIntent, mRes.getString(R.string.gen_share)));
-    }
-
     /**
      * @param lTimeInMilliseconds time in millisecond to be formatted
      * @param bDateOnly           return only the date part
@@ -584,4 +528,71 @@ public class Utils {
         throwable.printStackTrace(pw);
         return sw.getBuffer().toString();
     }
+
+    public static void sendAnalyticsEvent(Context ctx, String screenName, Bundle params, boolean sendAlways) {
+        if (!BuildConfig.DEBUG || sendAlways) {
+            FirebaseAnalytics.getInstance(ctx).logEvent(screenName, params);
+        }
+    }
+
+    public void shareGPSTrack(Context ctx, Resources mRes, long gpsTrackID) {
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setType("text/html");
+        Bundle b = new Bundle();
+        DBAdapter mDbAdapter = new DBAdapter(ctx);
+        String emailSubject = "AndiCar GPS Track";
+
+        b.putString(DBAdapter.sqlConcatTableColumn(DBAdapter.TABLE_NAME_GPSTRACK, DBAdapter.COL_NAME_GEN_ROWID) + "=", Long.toString(gpsTrackID));
+        DBReportAdapter dbReportAdapter = new DBReportAdapter(ctx, DBReportAdapter.GPS_TRACK_LIST_SELECT_NAME, b);
+        Cursor c = dbReportAdapter.fetchReport(1);
+        if (c != null && c.moveToFirst()) {
+            String emailText = String.format(c.getString(c.getColumnIndex(DBReportAdapter.FIRST_LINE_LIST_NAME)), Utils.getFormattedDateTime(c.getLong(7) * 1000, false))
+                    + "\n" +
+                    String.format(c.getString(c.getColumnIndex(DBReportAdapter.SECOND_LINE_LIST_NAME)),
+                            mRes.getString(R.string.gps_track_detail_var_1),
+                            mRes.getString(R.string.gps_track_detail_var_2),
+                            mRes.getString(R.string.gps_track_detail_var_3),
+                            mRes.getString(R.string.gps_track_detail_var_4),
+                            mRes.getString(R.string.gps_track_detail_var_5) + " " + Utils.getTimeString(c.getLong(4)),
+                            mRes.getString(R.string.gps_track_detail_var_6) + " " + Utils.getTimeString(c.getLong(5)),
+                            mRes.getString(R.string.gps_track_detail_var_7),
+                            mRes.getString(R.string.gps_track_detail_var_8),
+                            mRes.getString(R.string.gps_track_detail_var_9),
+                            mRes.getString(R.string.gps_track_detail_var_10),
+                            mRes.getString(R.string.gps_track_detail_var_11),
+                            mRes.getString(R.string.gps_track_detail_var_12) + " " + Utils.getTimeString(c.getLong(8)),
+                            mRes.getString(R.string.gps_track_detail_var_13) + " " + Utils.getTimeString(c.getLong(4) - c.getLong(8) - c.getLong(5)))
+                    + "\n" +
+                    c.getString(c.getColumnIndex(DBReportAdapter.THIRD_LINE_LIST_NAME));
+            emailSubject = emailSubject + " - " + c.getString(c.getColumnIndex(DBReportAdapter.COL_NAME_GEN_NAME));
+            c.close();
+            dbReportAdapter.close();
+
+            emailIntent.putExtra(Intent.EXTRA_TEXT, emailText + "\nSent by AndiCar (http://www.andicar.org)");
+        }
+
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
+
+        //get the track files
+        FileUtils.createFolderIfNotExists(ctx, ConstantValues.TRACK_FOLDER);
+        String selection = DBAdapter.COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID + "= ? ";
+        String[] selectionArgs = {Long.toString(gpsTrackID)};
+        c = mDbAdapter.query(DBAdapter.TABLE_NAME_GPSTRACKDETAIL, DBAdapter.COL_LIST_GPSTRACKDETAIL_TABLE, selection, selectionArgs,
+                DBAdapter.COL_NAME_GPSTRACKDETAIL__FILE);
+
+        Bundle trackFiles = new Bundle();
+        String trackFile;
+        while (c.moveToNext()) {
+            trackFile = c.getString(DBAdapter.COL_POS_GPSTRACKDETAIL__FILE);
+            trackFiles.putString(trackFile.replace(ConstantValues.TRACK_FOLDER, ""), trackFile);
+        }
+
+        //create the zip file
+        Uri trackFileZip = FileUtils.zipFiles(trackFiles, ConstantValues.TRACK_FOLDER + "AndiCarGPSTrack.zip");
+        if (trackFileZip != null) {
+            emailIntent.putExtra(Intent.EXTRA_STREAM, trackFileZip);
+        }
+        ctx.startActivity(Intent.createChooser(emailIntent, mRes.getString(R.string.gen_share)));
+    }
+
 }

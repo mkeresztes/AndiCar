@@ -2,6 +2,7 @@ package andicar.n.activity.dialogs;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.andicar2.activity.AndiCar;
 import org.andicar2.activity.R;
 
 import andicar.n.utils.Utils;
@@ -47,10 +49,21 @@ public class WhatsNewDialog extends AppCompatActivity {
         });
 
         Button btnFiveStars = (Button) findViewById(R.id.btnFiveStars);
-        if (getIntent().getExtras().getBoolean(IS_SHOW_FIVE_STARS_BUTTON_KEY, false) && Utils.isCanShowRateApp(getApplicationContext())) {
+        if (getIntent().getExtras().getBoolean(IS_SHOW_FIVE_STARS_BUTTON_KEY, false)
+                && Utils.isCanShowRateApp(getApplicationContext()) //the user have enough records to be able to evaluate the app
+                && !AndiCar.getDefaultSharedPreferences().getBoolean(getString(R.string.pref_key_user_pressed_5_star_button), false) //the user not pressed the 5 star button until now
+                ) {
+            Utils.sendAnalyticsEvent(getApplicationContext(), "WhatsNewDialogShowed", null, true);
             btnFiveStars.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Utils.sendAnalyticsEvent(getApplicationContext(), "btnFiveStarPressed", null, true);
+
+                    //retain the fact than the user pressed the five star button
+                    SharedPreferences.Editor editor = AndiCar.getDefaultSharedPreferences().edit();
+                    editor.putBoolean(getString(R.string.pref_key_user_pressed_5_star_button), true);
+                    editor.apply();
+
                     Uri uri = Uri.parse("market://details?id=" + getPackageName());
                     Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
                     // To count with Play market backstack, After pressing back button,

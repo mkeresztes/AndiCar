@@ -695,7 +695,7 @@ public class RefuelEditFragment extends BaseEditFragment {
         getActivity().startService(intent);
 
         analyticsParams.putInt(ConstantValues.ANALYTICS_IS_TEMPLATE_USED, isTemplateUsed ? 1 : 0);
-        sendAnalyticsEvent("RefuelEdit", analyticsParams);
+        Utils.sendAnalyticsEvent(getActivity(), "RefuelEdit", analyticsParams, false);
 
         return true;
     }

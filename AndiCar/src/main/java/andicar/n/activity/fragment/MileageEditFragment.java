@@ -636,7 +636,7 @@ public class MileageEditFragment extends BaseEditFragment {
 
         Bundle analyticsParams = new Bundle();
         analyticsParams.putInt(ConstantValues.ANALYTICS_IS_TEMPLATE_USED, isTemplateUsed ? 1 : 0);
-        sendAnalyticsEvent("MileageEdit", analyticsParams);
+        Utils.sendAnalyticsEvent(getActivity(), "MileageEdit", analyticsParams, false);
 
         return true;
     }

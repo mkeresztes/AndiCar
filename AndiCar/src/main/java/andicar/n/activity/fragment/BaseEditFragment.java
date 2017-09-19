@@ -54,7 +54,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 
 import org.andicar2.activity.AndiCar;
@@ -1195,14 +1194,14 @@ public abstract class BaseEditFragment extends Fragment {
         mCurrencyId = currencyId;
     }
 
-    protected void sendAnalyticsEvent(String screenName, Bundle params) {
-
-        if (!BuildConfig.DEBUG) {
-            FirebaseAnalytics firebaseAnalytics;
-            firebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
-            firebaseAnalytics.logEvent(screenName, params);
-        }
-
-    }
-
+//    protected void sendAnalyticsEvent(String screenName, Bundle params) {
+//
+//        if (!BuildConfig.DEBUG) {
+//            FirebaseAnalytics firebaseAnalytics;
+//            firebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+//            firebaseAnalytics.logEvent(screenName, params);
+//        }
+//
+//    }
+//
 }

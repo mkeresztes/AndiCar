@@ -699,7 +699,7 @@ public class ExpenseEditFragment extends BaseEditFragment {
         }
 
         analyticsParams.putInt(ConstantValues.ANALYTICS_IS_TEMPLATE_USED, (isTemplateUsed ? 1 : 0));
-        sendAnalyticsEvent("ExpenseEdit", analyticsParams);
+        Utils.sendAnalyticsEvent(getActivity(), "ExpenseEdit", analyticsParams, false);
 
         return true;
     }

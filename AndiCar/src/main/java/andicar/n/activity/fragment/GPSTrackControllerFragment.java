@@ -228,7 +228,7 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
                     analyticsParams.putInt(ConstantValues.ANALYTICS_IS_TEMPLATE_USED, (isTemplateUsed ? 1 : 0));
                     analyticsParams.putInt(ConstantValues.ANALYTICS_IS_CREATE_MILEAGE, (ckIsCreateMileage.isChecked() ? 1 : 0));
                     analyticsParams.putInt(ConstantValues.ANALYTICS_IS_FROM_BT_CONNECTION, (mOperationType != null && mOperationType.equals(GPS_TRACK_FROM_BT_CONNECTION) ? 1 : 0));
-                    sendAnalyticsEvent("GPSTrack", analyticsParams);
+                    Utils.sendAnalyticsEvent(getActivity(), "GPSTrack", analyticsParams, false);
 
                     GPSTrackControllerFragment.this.getActivity().finish();
                 }
