@@ -364,6 +364,12 @@
     <string name="data_template_updated_msg">plantilla actualizada</string>
     <string name="data_template_created_msg">Nueva plantilla creada basada en valores actuales</string>
 
+    <string name="mileage_type">Tipo de viaje:</string>
+    <string name="fillup_type">Tipo de recargas:</string>
+    <string name="fillup_category">Categoría de combustible:</string>
+
+    <string name="whats_new_dialog_btn_five_stars_caption">Te doy\n★★★★★\npor esto!</string>
+
     <string name="search_dialog_title">Ingrese criterio</string>
     <string name="gen_date_from_label">Desde:</string>
     <string name="gen_date_to_label">Ha:</string>

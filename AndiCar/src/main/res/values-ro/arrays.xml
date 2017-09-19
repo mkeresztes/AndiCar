@@ -96,14 +96,14 @@
 
     <string-array name="pref_main_zone_content_chooser_entries">
         <item>Nu se utilizează</item>
-        <item>Ultima cursă</item>
+        <item>Ultimul kilometraj</item>
         <item>Ultima alimentare</item>
         <item>Ultima cheltuială</item>
         <item>Ultimul traseu GPS</item>
-        <item>Trip charts</item>
-        <item>Fill-up charts (quantity)</item>
-        <item>Fill-up charts (value)</item>
-        <item>Expense charts</item>
+        <item>Grafice de kilometraj</item>
+        <item>Grafice de alimentări (cantitate)</item>
+        <item>Grafice de alimentări (valoare)</item>
+        <item>Grafice de cheltuieli</item>
     </string-array>
 
 </resources>

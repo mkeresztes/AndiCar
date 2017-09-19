@@ -188,7 +188,7 @@
     <string name="gen_hour">Ora:</string>
     <string name="gen_done">Gata</string>
     <string name="gen_set_date">Setare data/ora</string>
-    <string name="gen_trip_detail">Detaliile cursei</string>
+    <string name="gen_trip_detail">Detaliile kilometrajului</string>
     <string name="gen_fillup_detail">Detaliile alimentării</string>
     <string name="gen_expense_detail">Detaliile cheltuielii</string>
     <string name="gen_gps_track_detail">Detaliile înregistrării GPS</string>
@@ -250,6 +250,8 @@
     <string name="fillup_edit_qty_in_base_uom_label">Cantitate în UM bază:</string>
     <string name="fillup_edit_no_conversion_rate_message">Nu sunt definite conversii pentru aceste UM</string>
     <string name="fillup_edit_gas_station">Stație:</string>
+
+    <string name="whats_new_dialog_btn_five_stars_caption">Îţi dau\n★★★★★\npentru asta!</string>
 
     <string name="gps_track_detail_var_1">Distanța:</string>
     <string name="gps_track_detail_var_2">Viteza max.:</string>

@@ -44,7 +44,6 @@
                 style="?android:attr/buttonBarStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:gravity="end"
                 android:orientation="horizontal">
 
@@ -52,9 +51,9 @@
                     android:id="@+id/btnClose"
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
-                    android:text="@string/gen_close"
+                    android:text="@string/gen_ok"
                     android:textColor="@color/primary_accent" />
 
                 <Button

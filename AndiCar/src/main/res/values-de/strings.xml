@@ -368,6 +368,12 @@
     <string name="data_template_updated_msg">Vorlage aktualisiert</string>
     <string name="data_template_created_msg">Eine neue Vorlage auf Basis der aktuellen Werte</string>
 
+    <string name="mileage_type">Art:</string>
+    <string name="fillup_type">Auftanken Art:</string>
+    <string name="fillup_category">Kraftstoff Kategorie:</string>
+
+    <string name="whats_new_dialog_btn_five_stars_caption">Ich gebe dir\n★★★★★\ndafür!</string>
+
     <string name="search_dialog_title">Kriterien eingeben</string>
     <string name="gen_date_from_label">Von:</string>
     <string name="gen_date_to_label">Bis:</string>

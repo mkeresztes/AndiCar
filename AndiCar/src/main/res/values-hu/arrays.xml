@@ -96,14 +96,14 @@
 
     <string-array name="pref_main_zone_content_chooser_entries">
         <item>Eltüntetve</item>
-        <item>Utolsó út</item>
+        <item>Utolsó útnyilvántartás</item>
         <item>Utolsó tankolás</item>
         <item>Utolsó költség</item>
         <item>Utolsó GPS nyom</item>
-        <item>Trip charts</item>
-        <item>Fill-up charts (quantity)</item>
-        <item>Fill-up charts (value)</item>
-        <item>Expense charts</item>
+        <item>Útnyilvántartás grafikonok</item>
+        <item>Tankolás grafikonok (mennyiség)</item>
+        <item>Tankolás grafikonok (érték)</item>
+        <item>Költség grafikonok</item>
     </string-array>
 
 </resources>
