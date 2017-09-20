@@ -79,10 +79,15 @@ public class AndiCar extends MultiDexApplication {
 
         //check if the app was updated
         int appVersion;
+        int oldAppVersion;
 
         try {
             appVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
-            if (appPreferences.getInt("appVersionCode", getPackageManager().getPackageInfo(getPackageName(), 0).versionCode) != appVersion) {
+            if (!appPreferences.contains("appVersionCode")) {
+                SharedPreferences.Editor e = appPreferences.edit();
+                e.putInt("appVersionCode", appVersion);
+                e.apply();
+            } else if (appPreferences.getInt("appVersionCode", getPackageManager().getPackageInfo(getPackageName(), 0).versionCode) != appVersion) {
                 ServiceStarter.startServices(getApplicationContext(), ConstantValues.SERVICE_STARTER_START_ALL);
                 SharedPreferences.Editor e = appPreferences.edit();
                 e.putInt("appVersionCode", appVersion);
