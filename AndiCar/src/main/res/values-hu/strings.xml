@@ -18,7 +18,7 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="activity_new_trip">AndiCar új útnyilvántartás</string>
+    <string name="activity_new_trip">AndiCar új út</string>
 
     <string name="pref_general_title">Általános beállítások</string>
     <string name="pref_car_driver_category_title">Autók és vezetők</string>
@@ -32,8 +32,8 @@
     <string name="pref_uom_conversion_title">Mértékegység átváltás</string>
     <string name="pref_uom_conversion_summary">Mértékegységek átváltásának szerkesztése</string>
     <string name="pref_financial_title">Pénzügyi beállítások</string>
-    <string name="pref_expense_type_title">Útnyilvántartás és költség típusok</string>
-    <string name="pref_expense_type_summary">Útnyilvántartás és költség típusok szerkesztése</string>
+    <string name="pref_expense_type_title">Út és költség típusok</string>
+    <string name="pref_expense_type_summary">Út és költség típusok szerkesztése</string>
     <string name="pref_expense_category_title">Költség kategóriák</string>
     <string name="pref_expense_category_summary">Költség kategóriák szerkesztése</string>
     <string name="pref_reimbursement_rate_title">Visszafizetések</string>
@@ -163,13 +163,13 @@
     <string name="gen_edit">Szerkesztés</string>
     <string name="gen_mail_sent">Email elküldve</string>
     <string name="gen_internet_access_required">Internet kapcsolat sükséges a konfiguráláshoz.</string>
-    <string name="gen_trips">Útnyilvántartások</string>
+    <string name="gen_trips">Útak</string>
     <string name="gen_fillups">Tankolások</string>
     <string name="gen_expenses">Költségek</string>
     <string name="gen_gps_tracks">GPS nyomkövetések</string>
     <string name="gen_todo_detail">A feladat részletei</string>
 
-    <string name="gen_trip">Útnyilvántartás</string>
+    <string name="gen_trip">Út</string>
     <string name="gen_fillup">Tankolás</string>
     <string name="gen_expense">Költség</string>
     <string name="gen_gps_track">GPS nyomkövetés</string>
@@ -183,7 +183,7 @@
     <string name="gen_hour">Óra:</string>
     <string name="gen_done">Kész</string>
     <string name="gen_set_date">Dátum/idő beállítása</string>
-    <string name="gen_trip_detail">Az útnyilvántartás részletei</string>
+    <string name="gen_trip_detail">Az út részletei</string>
     <string name="gen_fillup_detail">A tankolás részletei</string>
     <string name="gen_expense_detail">Költség részletei</string>
     <string name="gen_gps_track_detail">GPS nyomkövetés részletei</string>
@@ -236,9 +236,9 @@
 
     <string name="mileage_draft_edit">Vázlat. Töltsd ki az érkezési adatokat, hogy befelyezd.</string>
     <string name="mileage_edit_option_mileage_label">Táv</string>
-    <string name="mileage_edit_insert_ok_message">Útnyilvántartás hozzáadva.</string>
-    <string name="mileage_edit_update_ok_message">Útnyilvántartás frissítve.</string>
-    <string name="mileage_type">Útnyilvántartás típusa:</string>
+    <string name="mileage_edit_insert_ok_message">Út hozzáadva.</string>
+    <string name="mileage_edit_update_ok_message">Út frissítve.</string>
+    <string name="mileage_type">Út típusa:</string>
 
     <string name="fillup_type">Tankolás típusa:</string>
     <string name="fillup_category">Üzemanyag típus:</string>
@@ -268,7 +268,7 @@
     <string name="gps_track_edit_track_files_header_caption">Nyomkövetési fájlok</string>
     <string name="gps_track_edit_track_statistics">Statisztikák</string>
     <!--<string name="GPSTrackControllerActivity_FileFormatLabel">Nyomkövetési fájl formátum:</string>-->
-    <string name="gps_track_controller_create_mileage_label">Útnyilvántartás létrehozása</string>
+    <string name="gps_track_controller_create_mileage_label">Út létrehozása</string>
     <string name="gps_track_service_gps_disabled_message">Az Ön gps vevője le van tiltva!\n Kérjük engedélyezze azt.</string>
     <string name="gps_track_service_gps_out_of_service">GPS üzemen kívül!</string>
     <string name="gps_track_service_track_in_progress_title">AndiCar GPS nyomkövetés</string>
@@ -381,10 +381,10 @@
     <string name="main_activity_no_car">Nincs autó meghatározva</string>
     <string name="main_activity_no_to_do">Nincs tennivaló</string>
     <string name="main_activity_statistics_header_caption">Statisztikák  - </string>
-    <string name="main_activity_mileage_header_caption">Utolsó útnyilvántartás</string>
-    <string name="main_activity_refuel_header_caption">Utolsó tankolás</string>
-    <string name="main_activity_gps_track_header_caption">Utolsó GPS nyom</string>
-    <string name="main_activity_expense_header_caption">Utolsó költség</string>
+    <string name="main_activity_mileage_header_caption">Legutóbbi út</string>
+    <string name="main_activity_refuel_header_caption">Legutóbbi tankolás</string>
+    <string name="main_activity_gps_track_header_caption">Legutóbbi GPS nyom</string>
+    <string name="main_activity_expense_header_caption">Legutóbbi költség</string>
     <string name="main_activity_list_no_data">Nincs adat</string>
     <string name="main_activity_statistics_last_odometer_label">Utolsó ismert kilométeróra állás: </string>
     <string name="main_activity_statistics_avg_cons_label">Átl. üzemanyag fogy.: </string>
@@ -539,16 +539,16 @@
     <string name="error_003">A megtett táv átföd egy másik megtett távot</string>
     <string name="error_004">A stop index-nek nagyobbnak kell lennie mint a kezdő indexnek</string>
     <string name="error_005">Konverziós ráta már létezik</string>
-    <string name="error_009">Ez a vezető nem törölhető, mert létező útnyilvántartás hivatkozik rá.</string>
+    <string name="error_009">Ez a vezető nem törölhető, mert létező útak hivatkozik rá.</string>
     <string name="error_010">Ez a vezető nem törölhető, mert létező tankolás hivatkozik rá.</string>
-    <string name="error_011">Ez az autó nem törölhető, mert létező útnyilvántartás hivatkozik rá.</string>
+    <string name="error_011">Ez az autó nem törölhető, mert létező útak hivatkozik rá.</string>
     <string name="error_012">Ez az autó nem törölhető, mert létező tankolás hivatkozik rá.</string>
-    <string name="error_013">Ez az mértékegység nem törölhető, mert létező útnyilvántartás hivatkozik rá.</string>
+    <string name="error_013">Ez az mértékegység nem törölhető, mert létező útak hivatkozik rá.</string>
     <string name="error_014">Ez az mértékegység nem törölhető, mert létező tankolás hivatkozik rá.</string>
     <string name="error_015">Ez az mértékegység nem törölhető, mert mértékegység konvertálás hivatkozik rá.</string>
     <string name="error_016">Ez a valuta nem törölhető, mert létező autó hivatkozik rá.</string>
     <string name="error_017">Ez a valuta nem törölhető, mert létező tankolás hivatkozik rá.</string>
-    <string name="error_018">Ez a tipus nem törölhető, mert létező útnyilvántartás hivatkozik rá.</string>
+    <string name="error_018">Ez a tipus nem törölhető, mert létező útak hivatkozik rá.</string>
     <string name="error_019">Ez a tipus nem törölhető, mert létező tankolás hivatkozik rá.</string>
     <string name="error_056">Ismeretlen hiba.</string>
     <string name="error_021">A riportok könyvtára (%1s) nem hozható létre. Nem mentheted el a riportokat addig, amíg nem hozod létre ezt a könyvtárat.</string>
@@ -575,7 +575,7 @@
     <string name="error_043">Ez a partner nem törölhető, mert használva van a költségekben.</string>
     <string name="error_044">Ez a hely nem törölhető, mert használva van a tankolásokban.</string>
     <string name="error_045">Ez a hely nem törölhető, mert használva van a költségekben.</string>
-    <string name="error_046">Ez a címke nem törölhető, mert használva van útnyilvántartásokban.</string>
+    <string name="error_046">Ez a címke nem törölhető, mert használva van útakban.</string>
     <string name="error_047">Ez a címke nem törölhető, mert használva van tankolásokban.</string>
     <string name="error_048">Ez a címke nem törölhető, mert használva van a költségekben.</string>
     <string name="error_049">Ez a címke nem törölhető, mert használva van a gps nyomkövetésekben.</string>
