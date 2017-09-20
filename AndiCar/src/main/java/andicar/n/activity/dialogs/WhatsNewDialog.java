@@ -53,11 +53,11 @@ public class WhatsNewDialog extends AppCompatActivity {
                 && Utils.isCanShowRateApp(getApplicationContext()) //the user have enough records to be able to evaluate the app
                 && !AndiCar.getDefaultSharedPreferences().getBoolean(getString(R.string.pref_key_user_pressed_5_star_button), false) //the user not pressed the 5 star button until now
                 ) {
-            Utils.sendAnalyticsEvent(getApplicationContext(), "WhatsNewDialogShowed", null, true);
+            Utils.sendAnalyticsEvent(getApplicationContext(), "btn_five_star__displayed", null, false);
             btnFiveStars.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Utils.sendAnalyticsEvent(getApplicationContext(), "btnFiveStarPressed", null, true);
+                    Utils.sendAnalyticsEvent(getApplicationContext(), "btn_five_star__presses", null, false);
 
                     //retain the fact than the user pressed the five star button
                     SharedPreferences.Editor editor = AndiCar.getDefaultSharedPreferences().edit();
