@@ -160,6 +160,7 @@
     <string name="gen_settings">Preferencias</string>
     <string name="gen_hour">Hora:</string>
     <string name="gen_done">Completado</string>
+    <string name="gen_done_and_new">Completado &amp; Nuevo</string>
     <string name="gen_set_date">Cambiar fecha/hora</string>
     <string name="gen_delete_confirmation">Estas seguro que quieres borrar el registro seleccionado?</string>
     <string name="gen_search">Buscar/filtros</string>

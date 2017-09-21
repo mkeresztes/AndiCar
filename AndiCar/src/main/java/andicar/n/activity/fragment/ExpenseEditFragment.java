@@ -436,8 +436,15 @@ public class ExpenseEditFragment extends BaseEditFragment {
         if (mConversionRate != null) {
             etConversionRate.setText(mConversionRate.toString());
         }
+        else {
+            etConversionRate.setText("");
+        }
+
         if (mQuantity != null) {
             etQuantity.setText(mQuantity.toString());
+        }
+        else {
+            etQuantity.setText("");
         }
 
         tvConvertedAmountValue.setText(Utils.numberToString(mConvertedAmount, false, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT));
@@ -450,6 +457,7 @@ public class ExpenseEditFragment extends BaseEditFragment {
             acAddress.setText(mAddress);
         }
         else {
+            acBPartner.setText("");
             acAddress.setEnabled(false);
             acAddress.setText(null);
             acAddress.setHint(mResource.getString(R.string.gen_bpartner).replace(":", "") + " " + mResource.getString(R.string.gen_required).replace(":", ""));

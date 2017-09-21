@@ -187,6 +187,7 @@
     <string name="gen_settings">Setări</string>
     <string name="gen_hour">Ora:</string>
     <string name="gen_done">Gata</string>
+    <string name="gen_done_and_new">Gata &amp; Nouă</string>
     <string name="gen_set_date">Setare data/ora</string>
     <string name="gen_trip_detail">Detaliile kilometrajului</string>
     <string name="gen_fillup_detail">Detaliile alimentării</string>

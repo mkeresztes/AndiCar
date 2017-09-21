@@ -182,6 +182,7 @@
     <string name="gen_settings">Beállítások</string>
     <string name="gen_hour">Óra:</string>
     <string name="gen_done">Kész</string>
+    <string name="gen_done_and_new">Kész &amp; Új</string>
     <string name="gen_set_date">Dátum/idő beállítása</string>
     <string name="gen_trip_detail">Az út részletei</string>
     <string name="gen_fillup_detail">A tankolás részletei</string>

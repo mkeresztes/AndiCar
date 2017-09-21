@@ -175,6 +175,7 @@ public abstract class BaseEditFragment extends Fragment {
     };
     private EditText mEmptyMandatoryField = null;
     private Drawable mStandardFieldBackground = null;
+    private DataEntryTemplate mDET = null;
 
     abstract protected boolean saveData();
 
@@ -692,7 +693,7 @@ public abstract class BaseEditFragment extends Fragment {
         }
 
         if (isUseTemplate) {
-            new DataEntryTemplate(this, mDbAdapter);
+            mDET = new DataEntryTemplate(this, mDbAdapter);
         }
     }
 
@@ -748,6 +749,11 @@ public abstract class BaseEditFragment extends Fragment {
         }
 
         mlDateTimeInMillis = System.currentTimeMillis();
+
+        if (mDET != null) {
+            mDET.clearSelected();
+        }
+
         initDateTimeFields();
     }
 
@@ -823,6 +829,10 @@ public abstract class BaseEditFragment extends Fragment {
             }
             else {
                 inflater.inflate(R.menu.menu_done, menu);
+                if ((this instanceof MileageEditFragment && !mOperationType.equals(BaseEditFragment.DETAIL_OPERATION_TRACK_TO_MILEAGE))
+                        || this instanceof RefuelEditFragment || this instanceof ExpenseEditFragment) {
+                    menu.findItem(R.id.action_done_and_new).setVisible(true);
+                }
             }
         }
     }
@@ -831,9 +841,18 @@ public abstract class BaseEditFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_done) {
-            if (actionDone()) {
-                return true;
+            actionDone(true);
+            return true;
+        }
+        else if (id == R.id.action_done_and_new) {
+            actionDone(false);
+            initDefaultValues();
+            if (spnCurrency != null) {
+                Utils.initSpinner(mDbAdapter, spnCurrency, DBAdapter.TABLE_NAME_CURRENCY,
+                        DBAdapter.WHERE_CONDITION_ISACTIVE, mCurrencyId, false);
             }
+            showDateTime();
+            showValuesInUI();
             return true;
         }
         else if (id == R.id.action_delete) {
@@ -931,11 +950,11 @@ public abstract class BaseEditFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean actionDone() {
+    private boolean actionDone(boolean finishAfterSave) {
         if (!beforeSave()) {
             return true;
         }
-        if (saveData()) {
+        if (saveData() && finishAfterSave) {
             getActivity().finish();
         }
         return false;

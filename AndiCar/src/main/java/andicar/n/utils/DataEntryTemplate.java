@@ -623,4 +623,8 @@ public class DataEntryTemplate {
             cv.putString("acUserComment", ((AutoCompleteTextView) mRootView.findViewById(R.id.acUserComment)).getText().toString());
         }
     }
+
+    public void clearSelected() {
+        spnTemplate.setSelection(0);
+    }
 }

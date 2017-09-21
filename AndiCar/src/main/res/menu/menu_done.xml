@@ -20,8 +20,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_done_and_new"
+        android:icon="@drawable/ic_menu_done_add_white_24dp_pad4dp"
+        android:title="@string/gen_done_and_new"
+        android:visible="false"
+        app:showAsAction="always"/>
+
+    <item
         android:id="@+id/action_done"
         android:icon="@drawable/ic_menu_done_white_24dp_pad4dp"
         android:title="@string/gen_done"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
 </menu>

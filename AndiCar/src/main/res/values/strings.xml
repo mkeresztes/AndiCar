@@ -398,7 +398,8 @@
     <!--AddOn_AutoBackupService_ScheduleHour-->
     <string name="gen_hour">Hour:</string>
     <!--ToDo_DoneLabel-->
-    <string name="gen_done">"Done"</string>
+    <string name="gen_done">Done</string>
+    <string name="gen_done_and_new">Done &amp; New</string>
     <!--GEN_SetDate-->
     <string name="gen_set_date">Set date/time</string>
     <!--GEN_DeleteConfirmation-->

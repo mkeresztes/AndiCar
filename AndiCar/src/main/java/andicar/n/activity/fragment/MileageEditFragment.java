@@ -297,6 +297,8 @@ public class MileageEditFragment extends BaseEditFragment {
         if (mStartIndex.equals(new BigDecimal("0"))) {
             mStartIndex = mDbAdapter.getCarLastMileageIndex(mCarId);
         }
+        mStopIndex = null;
+        mGpsTrackId = -1;
 
         mInsertMode = mPreferences.getInt(AndiCar.getAppResources().getString(R.string.pref_key_mileage_insert_mode), 0);
         //loadSpecificViewsFromLayoutXML tag
@@ -492,6 +494,9 @@ public class MileageEditFragment extends BaseEditFragment {
         etStartIndex.setText(Utils.numberToString(mStartIndex, false, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH));
         if (mStopIndex != null) {
             etUserInput.setText(Utils.numberToString(mStopIndex, false, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH));
+        }
+        else {
+            etUserInput.setText("");
         }
 
         switch (mOperationType) {

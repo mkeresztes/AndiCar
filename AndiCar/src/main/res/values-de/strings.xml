@@ -162,6 +162,7 @@
     <string name="gen_settings">Einstellungen</string>
     <string name="gen_hour">Stunde:</string>
     <string name="gen_done">Erledigt</string>
+    <string name="gen_done_and_new">Erledigt &amp; Hinzufügen</string>
     <string name="gen_set_date">Datum/Zeit einstellen</string>
     <string name="gen_delete_confirmation">Soll die ausgewählte Aufzeichnung gelöscht werden?</string>
     <string name="gen_search">Suchen/filtern</string>
