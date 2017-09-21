@@ -17,22 +17,22 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<menu xmlns:tools="http://schemas.android.com/tools"
-      xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools">
     <!--<group-->
     <!--android:id="@+id/mnu_edit"-->
     <!--android:checkableBehavior="single">-->
     <item
         android:id="@+id/action_delete"
-        android:icon="@drawable/ic_menu_delete_white"
+        android:icon="@drawable/ic_menu_delete_white_24dp_pad4dp"
         android:title="@string/gen_delete"
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction"/>
 
     <item
         android:id="@+id/action_done"
-        android:icon="@drawable/ic_menu_done_white"
+        android:icon="@drawable/ic_menu_done_white_24dp_pad4dp"
         android:title="@string/gen_done"
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction"/>

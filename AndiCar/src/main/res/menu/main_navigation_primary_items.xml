@@ -26,7 +26,7 @@
             android:title="@string/gen_trips"/>
         <item
             android:id="@+id/nav_refuel"
-            android:icon="@drawable/ic_menu_fillup_black"
+            android:icon="@drawable/ic_menu_fillup_black_24dp_pad4dp"
             android:title="@string/gen_fillups" />
         <item
             android:id="@+id/nav_expense"
@@ -54,7 +54,7 @@
                 android:title="@string/gen_about"/>
             <item
                 android:id="@+id/nav_report_issue"
-                android:icon="@drawable/ic_menu_bug_report"
+                android:icon="@drawable/ic_menu_bug_report_black_24dp_pad4dp"
                 android:title="@string/gen_report_issue"/>
             <item
                 android:id="@+id/nav_rate"

@@ -24,7 +24,7 @@
     <!--android:checkableBehavior="single">-->
     <item
         android:id="@+id/action_delete"
-        android:icon="@drawable/ic_menu_delete_white"
+        android:icon="@drawable/ic_menu_delete_white_24dp_pad4dp"
         android:title="@string/gen_delete"
         app:showAsAction="ifRoom"/>
     <!--</group>-->

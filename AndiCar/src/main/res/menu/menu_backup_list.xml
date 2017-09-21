@@ -26,7 +26,7 @@
 
         <item
             android:id="@+id/action_delete"
-            android:icon="@drawable/ic_menu_delete_white"
+            android:icon="@drawable/ic_menu_delete_white_24dp_pad4dp"
             android:title=""
             app:showAsAction="always"/>
 

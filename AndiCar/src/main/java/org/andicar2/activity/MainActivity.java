@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity
 
         //add the cars to the secondary menu
         while (c.moveToNext()) {
-            mNavigationView.addSecondaryMenuEntry(c.getInt(0), c.getString(1), R.drawable.ic_menu_car_black);
+            mNavigationView.addSecondaryMenuEntry(c.getInt(0), c.getString(1), R.drawable.ic_menu_car_black_24dp_pad4dp);
             //check if the cursor is on the last selected car for update the menu header labels
             if (c.getInt(0) == mLastSelectedCarID) {
                 setSelectedCar(c.getInt(0), false);
