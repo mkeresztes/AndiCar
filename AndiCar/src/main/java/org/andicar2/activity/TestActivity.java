@@ -95,7 +95,7 @@ public class TestActivity extends AppCompatActivity {
 
         mChart.getAxisRight().setEnabled(false);
 
-        setData(SET_FUEL_EFF_DATA, leftAxis);
+        setData(SET_FUEL_CONS_DATA, leftAxis);
 
 //        mChart.setVisibleXRange(20);
 //        mChart.setVisibleYRange(20f, AxisDependency.LEFT);
