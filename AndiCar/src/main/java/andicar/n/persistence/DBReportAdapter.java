@@ -438,178 +438,99 @@ public class DBReportAdapter extends DBAdapter {
         " WHERE 1=1 ";
 
     //used in exported report
-    private static final String refuelListReportSelect = "SELECT "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_GEN_ROWID)
-            + " AS RefuelId, "
-            + //#0
-            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME)
-            + " AS CarName, "
-            + //#1
-            sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME)
-            + " AS DriverName, "
-            + //#2
-            sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_NAME)
-            + " AS FuelCategory, "
-            + //#3
-            sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME)
-            + " AS ExpenseTypeName, "
-            + //#4
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX)
-            + " AS "
-            + COL_NAME_REFUEL__INDEX
-            + "_DTypeN, "
-            + //#5
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__ISFULLREFUEL)
-            + ", "
-            + //#6
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY)
-            + " AS "
-            + COL_NAME_REFUEL__QUANTITY
-            + "_DTypeN, "
-            + //#7
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__PRICE)
-            + " AS "
-            + COL_NAME_REFUEL__PRICE
-            + "_DTypeN, "
-            + //#8
-            sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE)
-            + " AS UOMCode, "
-            + //#9
-            sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE)
-            + " AS CurrencyCode, "
-            + //#10
-            "DATETIME("
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__DATE)
-            + ", 'unixepoch', 'localtime') AS Date, "
-            + //#11
-            "CASE strftime(\"%w\", "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__DATE)
-            + ", 'unixepoch', 'localtime') "
-            + "WHEN \"0\" THEN '[#d0]' "
-            + "WHEN \"1\" THEN '[#d1]' "
-            + "WHEN \"2\" THEN '[#d2]' "
-            + "WHEN \"3\" THEN '[#d3]' "
-            + "WHEN \"4\" THEN '[#d4]' "
-            + "WHEN \"5\" THEN '[#d5]' "
-            + "WHEN \"6\" THEN '[#d6]' "
-            + "END AS "
-            + ConstantValues.DAY_OF_WEEK_NAME
-            + ", "
-            + //#12
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITYENTERED)
-            + " AS "
-            + COL_NAME_REFUEL__QUANTITYENTERED
-            + "_DTypeN, "
-            + //#13
-            sqlConcatTableColumn("UomVolEntered", COL_NAME_UOM__CODE)
-            + " AS UomEntered, "
-            + //#14
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLCONVERSIONRATE)
-            + ", "
-            + //#15
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__PRICEENTERED)
-            + " AS "
-            + COL_NAME_REFUEL__PRICEENTERED
-            + "_DTypeN, "
-            + //#16
-            sqlConcatTableColumn("CurrencyEntered", COL_NAME_CURRENCY__CODE)
-            + " AS CurrencyEntered, "
-            + //#17
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCYRATE)
-            + " AS "
-            + COL_NAME_REFUEL__CURRENCYRATE
-            + "_DTypeN, "
-            + //#18
-            sqlConcatTableColumn(TABLE_NAME_BPARTNER, COL_NAME_GEN_NAME)
-            + " AS Vendor, "
-            + //#19
-            sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_GEN_NAME)
-            + " || COALESCE( '; ' || "
-            + sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_BPARTNERLOCATION__ADDRESS)
-            + ", '') "
-            + " || COALESCE( '; ' || "
-            + sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_BPARTNERLOCATION__CITY)
-            + ", '') "
-            + " || COALESCE( '; ' || "
-            + sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_BPARTNERLOCATION__REGION)
-            + ", '') "
-            + " || COALESCE( '; ' || "
-            + sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_BPARTNERLOCATION__COUNTRY)
-            + ", '') "
-            + " || COALESCE( '; ' || "
-            + sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_BPARTNERLOCATION__POSTAL)
-            + ", '') "
-            + " AS Location, "
-            + //#20
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_GEN_USER_COMMENT)
-            + ", "
-            + //#21
-            " COALESCE( "
-            + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME)
-            + " || '; ', '') AS Tag, "
-            + //#22
-            " '[#rv1]' AS FuelCons, "
-            + //#23
-            sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE)
-            + " || '/100' || "
-            + sqlConcatTableColumn("CarLengthUOM", COL_NAME_UOM__CODE)
-            + " AS '', "
-            + //#24
-            " '[#rv2]' AS FuelEff, "
-            + //#25
-            sqlConcatTableColumn("CarLengthUOM", COL_NAME_UOM__CODE)
-            + " || '/' || "
-            + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE)
-            + " AS '', "
-            + //#26
-            " COALESCE("
-            + "(SELECT "
-            + COL_NAME_REFUEL__INDEX
-            + " "
-            + " FROM "
-            + TABLE_NAME_REFUEL
-            + " AS pr "
-            + " WHERE 1 = 1 "
-            + WHERE_CONDITION_ISACTIVE
-            + " AND pr."
-            + COL_NAME_REFUEL__ISFULLREFUEL
-            + " = 'Y' "
-            + " AND pr."
-            + COL_NAME_REFUEL__CAR_ID
-            + " = "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID)
-            + " AND pr."
-            + COL_NAME_REFUEL__INDEX
-            + " < "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX)
-            + " ORDER BY pr."
-            + COL_NAME_REFUEL__INDEX
-            + " DESC "
-            + " LIMIT 1 "
-            + "), -1) AS PreviousFullRefuelIndex_DoNotExport, "
-            + //#27
-            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID)
-            + " AS CarID_DoNotExport "
-            + //#28
-            " FROM " + TABLE_NAME_REFUEL + " JOIN " + TABLE_NAME_EXPENSETYPE + " ON "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__EXPENSETYPE_ID) + "=" + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID)
-            + " JOIN " + TABLE_NAME_EXPENSECATEGORY + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__EXPENSECATEGORY_ID) + "="
-            + sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_ROWID) + " JOIN " + TABLE_NAME_DRIVER + " ON "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__DRIVER_ID) + "=" + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_ROWID)
-            + " JOIN " + TABLE_NAME_UOM + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUME_ID) + "="
-            + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) + " JOIN " + TABLE_NAME_UOM + " AS UomVolEntered " + " ON "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUMEENTERED_ID) + "=" + sqlConcatTableColumn("UomVolEntered", COL_NAME_GEN_ROWID)
-            + " JOIN " + TABLE_NAME_CAR + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + "="
-            + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) + " JOIN " + TABLE_NAME_UOM + " AS CarLengthUOM " + " ON "
-            + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) + "=" + sqlConcatTableColumn("CarLengthUOM", COL_NAME_GEN_ROWID) + " JOIN "
-            + TABLE_NAME_CURRENCY + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCY_ID) + "="
-            + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) + " JOIN " + TABLE_NAME_CURRENCY + " AS CurrencyEntered " + " ON "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCYENTERED_ID) + "=" + sqlConcatTableColumn("CurrencyEntered", COL_NAME_GEN_ROWID)
-            + " LEFT OUTER JOIN " + TABLE_NAME_BPARTNER + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__BPARTNER_ID) + "="
-            + sqlConcatTableColumn(TABLE_NAME_BPARTNER, COL_NAME_GEN_ROWID) + " LEFT OUTER JOIN " + TABLE_NAME_BPARTNERLOCATION + " ON "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__BPARTNER_LOCATION_ID) + "="
-            + sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_GEN_ROWID) + " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON "
-            + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__TAG_ID) + "=" + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) + " WHERE 1=1 ";
+    private static final String refuelListReportSelect =
+            "SELECT " +
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_GEN_ROWID) + " AS RefuelId, " + //#0
+                    sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + " AS CarName, " + //#1
+                    sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) + " AS DriverName, " + //#2
+                    sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_NAME) + " AS FuelCategory, " + //#3
+                    sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + " AS ExpenseTypeName, " + //#4
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX) + " AS " + COL_NAME_REFUEL__INDEX + "_DTypeN, " + //#5
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__ISFULLREFUEL) + ", " + //#6
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY) + " AS " + COL_NAME_REFUEL__QUANTITY + "_DTypeN, " + //#7
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__PRICE) + " AS " + COL_NAME_REFUEL__PRICE + "_DTypeN, " + //#8
+                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + " AS UOMCode, " + //#9
+                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + " AS CurrencyCode, " + //#10
+                    "DATETIME(" + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__DATE) + ", 'unixepoch', 'localtime') AS Date, " + //#11
+                    "CASE strftime(\"%w\", " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__DATE) + ", 'unixepoch', 'localtime') " +
+                    "WHEN \"0\" THEN '[#d0]' " +
+                    "WHEN \"1\" THEN '[#d1]' " +
+                    "WHEN \"2\" THEN '[#d2]' " +
+                    "WHEN \"3\" THEN '[#d3]' " +
+                    "WHEN \"4\" THEN '[#d4]' " +
+                    "WHEN \"5\" THEN '[#d5]' " +
+                    "WHEN \"6\" THEN '[#d6]' " +
+                    "END AS " + ConstantValues.DAY_OF_WEEK_NAME + ", " + //#12
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITYENTERED) + " AS " + COL_NAME_REFUEL__QUANTITYENTERED + "_DTypeN, " + //#13
+                    sqlConcatTableColumn("UomVolEntered", COL_NAME_UOM__CODE) + " AS UomEntered, " + //#14
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLCONVERSIONRATE) + ", " + //#15
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__PRICEENTERED) + " AS " + COL_NAME_REFUEL__PRICEENTERED + "_DTypeN, " + //#16
+                    sqlConcatTableColumn("CurrencyEntered", COL_NAME_CURRENCY__CODE) + " AS CurrencyEntered, " + //#17
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCYRATE) + " AS " + COL_NAME_REFUEL__CURRENCYRATE + "_DTypeN, " + //#18
+                    sqlConcatTableColumn(TABLE_NAME_BPARTNER, COL_NAME_GEN_NAME) + " AS Vendor, " + //#19
+                    sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_GEN_NAME) +
+                    " || COALESCE( '; ' || " + sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_BPARTNERLOCATION__ADDRESS) + ", '') " +
+                    " || COALESCE( '; ' || " + sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_BPARTNERLOCATION__CITY) + ", '') " +
+                    " || COALESCE( '; ' || " + sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_BPARTNERLOCATION__REGION) + ", '') " +
+                    " || COALESCE( '; ' || " + sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_BPARTNERLOCATION__COUNTRY) + ", '') " +
+                    " || COALESCE( '; ' || " + sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_BPARTNERLOCATION__POSTAL) + ", '') "
+                    + " AS Location, " + //#20
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_GEN_USER_COMMENT) + ", " + //#21
+                    " COALESCE( " + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + " || '; ', '') AS Tag, " + //#22
+                    " '[#rv1]' AS FuelCons, " + //#23
+                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + " || '/100' || " + sqlConcatTableColumn("CarLengthUOM", COL_NAME_UOM__CODE) + " AS '', " + //#24
+                    " '[#rv2]' AS FuelEff, " + //#25
+                    sqlConcatTableColumn("CarLengthUOM", COL_NAME_UOM__CODE) + " || '/' || " + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + " AS '', " + //#26
+                    " COALESCE(" +
+                    "(SELECT " + COL_NAME_REFUEL__INDEX +
+                    " FROM " + TABLE_NAME_REFUEL + " AS pr " +
+                    " WHERE 1 = 1 " +
+                    WHERE_CONDITION_ISACTIVE +
+                    " AND pr." + COL_NAME_REFUEL__ISFULLREFUEL + " = 'Y' " +
+                    " AND pr." + COL_NAME_REFUEL__CAR_ID + " = " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) +
+                    " AND pr." + COL_NAME_REFUEL__INDEX + " < " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX) +
+                    " ORDER BY pr." + COL_NAME_REFUEL__INDEX + " DESC " +
+                    " LIMIT 1 " + "), -1) AS PreviousFullRefuelIndex_DoNotExport, " + //#27
+
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + " AS CarID_DoNotExport " + //#28
+                    " FROM " +
+                    TABLE_NAME_REFUEL +
+                    " JOIN " + TABLE_NAME_EXPENSETYPE + " ON " +
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__EXPENSETYPE_ID) + "=" +
+                    sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_EXPENSECATEGORY + " ON " +
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__EXPENSECATEGORY_ID) + "=" +
+                    sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_DRIVER + " ON " +
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__DRIVER_ID) + "=" +
+                    sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_UOM + " ON " +
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUME_ID) + "=" +
+                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_UOM + " AS UomVolEntered " + " ON " +
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUMEENTERED_ID) + "=" +
+                    sqlConcatTableColumn("UomVolEntered", COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_CAR + " ON " +
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + "=" +
+                    sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_UOM + " AS CarLengthUOM " + " ON " +
+                    sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) + "=" +
+                    sqlConcatTableColumn("CarLengthUOM", COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_CURRENCY + " ON " +
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCY_ID) + "=" +
+                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_CURRENCY + " AS CurrencyEntered " + " ON " +
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCYENTERED_ID) + "=" +
+                    sqlConcatTableColumn("CurrencyEntered", COL_NAME_GEN_ROWID) +
+                    " LEFT OUTER JOIN " + TABLE_NAME_BPARTNER + " ON " +
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__BPARTNER_ID) + "=" +
+                    sqlConcatTableColumn(TABLE_NAME_BPARTNER, COL_NAME_GEN_ROWID) +
+                    " LEFT OUTER JOIN " + TABLE_NAME_BPARTNERLOCATION + " ON " +
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__BPARTNER_LOCATION_ID) + "=" +
+                    sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_GEN_ROWID) +
+                    " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__TAG_ID) + "=" +
+                    sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) + " WHERE 1=1 ";
 
     //used in main activity & list view
     private static final String expenseListViewSelect =

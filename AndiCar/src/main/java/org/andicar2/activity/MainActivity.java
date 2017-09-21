@@ -351,7 +351,8 @@ public class MainActivity extends AppCompatActivity
             fab.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    MainActivity.this.showPopup(view);
+//                    MainActivity.this.showPopup(view);
+                    startActivity(new Intent(getApplicationContext(), TestActivity.class));
                     return true;
                 }
             });
