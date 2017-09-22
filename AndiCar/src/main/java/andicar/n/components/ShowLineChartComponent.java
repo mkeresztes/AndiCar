@@ -239,28 +239,30 @@ public class ShowLineChartComponent extends LinearLayout {
                 tmpFuelQty = dbReportAdapter.getFuelQtyForCons(mCursor.getLong(16), previousFullRefuelIndex, mCursor.getDouble(11));
                 fuelQty = new BigDecimal(tmpFuelQty == null ? 0d : tmpFuelQty);
                 fuelCons = fuelQty.multiply(new BigDecimal("100")).divide(distance, 10, RoundingMode.HALF_UP);
-                fuelEff = distance.divide(fuelQty, 10, RoundingMode.HALF_UP);
+                if (fuelCons.compareTo(new BigDecimal(0.5)) > 0) { //if < 0.5 => consider invalid fill-up, eliminate from graph
+                    fuelEff = distance.divide(fuelQty, 10, RoundingMode.HALF_UP);
 
-                switch (whatData) {
-                    case SHOW_FUEL_EFF:
-                        values.add(new Entry(i, fuelEff.floatValue()));
-                        if (fuelEff.floatValue() < minValue) {
-                            minValue = fuelEff.floatValue();
-                        }
-                        if (fuelEff.floatValue() > maxValue) {
-                            maxValue = fuelEff.floatValue();
-                        }
-                        break;
-                    case SHOW_FUEL_CONS:
-                        values.add(new Entry(i, fuelCons.floatValue()));
-                        if (fuelCons.floatValue() < minValue) {
-                            minValue = fuelCons.floatValue();
-                        }
-                        if (fuelCons.floatValue() > maxValue) {
-                            maxValue = fuelCons.floatValue();
-                        }
+                    switch (whatData) {
+                        case SHOW_FUEL_EFF:
+                            values.add(new Entry(i, fuelEff.floatValue()));
+                            if (fuelEff.floatValue() < minValue) {
+                                minValue = fuelEff.floatValue();
+                            }
+                            if (fuelEff.floatValue() > maxValue) {
+                                maxValue = fuelEff.floatValue();
+                            }
+                            break;
+                        case SHOW_FUEL_CONS:
+                            values.add(new Entry(i, fuelCons.floatValue()));
+                            if (fuelCons.floatValue() < minValue) {
+                                minValue = fuelCons.floatValue();
+                            }
+                            if (fuelCons.floatValue() > maxValue) {
+                                maxValue = fuelCons.floatValue();
+                            }
+                    }
+                    i++;
                 }
-                i++;
             }
         }
         else {
@@ -283,6 +285,9 @@ public class ShowLineChartComponent extends LinearLayout {
             fuelQty = new BigDecimal(tmpFuelQty == null ? 0d : tmpFuelQty);
             fuelCons = fuelQty.multiply(new BigDecimal("100")).divide(distance, 10, RoundingMode.HALF_UP);
             fuelEff = distance.divide(fuelQty, 10, RoundingMode.HALF_UP);
+            if (fuelCons.compareTo(new BigDecimal(0.5)) < 0) //consider invalid fill-up. eliminate from graph
+                continue;
+
             switch (whatData) {
                 case SHOW_FUEL_EFF:
                     values.add(new Entry(i, fuelEff.floatValue()));
