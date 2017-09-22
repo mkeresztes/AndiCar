@@ -7,12 +7,8 @@
 
     <TextView
         android:id="@+id/tvHeader"
-        style="@style/ListItem.FirstLine"
-        android:layout_marginTop="8dp"
-        android:gravity="center_horizontal"
-        android:paddingBottom="3dp"
-        android:text="@string/main_activity_statistics_header_caption"
-        android:textSize="14sp" />
+        style="@style/AndiCarMainActivityListHeader"
+        android:text="@string/main_activity_statistics_header_caption" />
 
     <TextView
         android:id="@+id/tvLastKnownOdometer"
