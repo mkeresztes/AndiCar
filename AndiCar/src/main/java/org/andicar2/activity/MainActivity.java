@@ -109,6 +109,8 @@ public class MainActivity extends AppCompatActivity
     private static final String LAST_GPS_TRACK_RECORD = "LGT";
     private static final String FUEL_EFF_LINE_CHART = "CFE";
     private static final String FUEL_CONS_LINE_CHART = "CFC";
+    private static final String STATISTICS_ZONE = "STS";
+    public static final String DO_NOT_USE = "DNU";
 
     private final View.OnClickListener btnEditClickListener = new View.OnClickListener() {
         @Override
@@ -1320,37 +1322,46 @@ public class MainActivity extends AppCompatActivity
 
         mPieChartsExistsOnScreen = false;
 
-        for (int i = 1; i <= 8; i++) {
+        for (int i = 1; i <= 11; i++) {
             switch (i) {
                 case 1:
-                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone1_content), LAST_TRIP_RECORD);
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone1_content), STATISTICS_ZONE);
                     break;
                 case 2:
-                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone2_content), TRIPS_PIE_CHART);
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone2_content), FUEL_CONS_LINE_CHART);
                     break;
                 case 3:
-                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone3_content), LAST_FILL_UP_RECORD);
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone3_content), LAST_TRIP_RECORD);
                     break;
                 case 4:
-                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone4_content), FUEL_QTY_PIE_CHART);
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone4_content), TRIPS_PIE_CHART);
                     break;
                 case 5:
-                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone5_content), FUEL_VALUE_PIE_CHART);
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone5_content), LAST_FILL_UP_RECORD);
                     break;
                 case 6:
-                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone6_content), LAST_EXPENSE_RECORD);
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone6_content), FUEL_QTY_PIE_CHART);
                     break;
                 case 7:
-                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone7_content), EXPENSES_PIE_CHART);
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone7_content), FUEL_VALUE_PIE_CHART);
                     break;
                 case 8:
-                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone8_content), LAST_GPS_TRACK_RECORD);
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone8_content), LAST_EXPENSE_RECORD);
+                    break;
+                case 9:
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone9_content), EXPENSES_PIE_CHART);
+                    break;
+                case 10:
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone10_content), LAST_GPS_TRACK_RECORD);
+                    break;
+                case 11:
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone11_content), DO_NOT_USE);
                     break;
                 default:
                     continue;
             }
 
-            if (!zoneContent.equals("DNU")) {
+            if (!zoneContent.equals(DO_NOT_USE)) {
                 switch (zoneContent) {
                     case TRIPS_PIE_CHART:
                     case FUEL_QTY_PIE_CHART:
@@ -1368,6 +1379,8 @@ public class MainActivity extends AppCompatActivity
                         lineChartComponent = new ShowLineChartComponent(this, zoneContent.equals(FUEL_CONS_LINE_CHART) ? ShowLineChartComponent.SHOW_FUEL_CONS : ShowLineChartComponent.SHOW_FUEL_EFF,
                                 zoneContent.equals(FUEL_CONS_LINE_CHART) ? fuelConsTitle : fuelEffTitle);
                         zoneContainer.addView(lineChartComponent);
+                        break;
+                    case STATISTICS_ZONE:
                         break;
                     default:
                         recordComponent = new ShowRecordComponent(this);

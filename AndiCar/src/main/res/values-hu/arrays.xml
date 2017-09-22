@@ -96,6 +96,7 @@
 
     <string-array name="pref_main_zone_content_chooser_entries">
         <item>Eltüntetve</item>
+        <item>Statisztika</item>
         <item>Utolsó útnyilvántartás</item>
         <item>Utolsó tankolás</item>
         <item>Utolsó költség</item>

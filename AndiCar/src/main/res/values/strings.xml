@@ -245,6 +245,9 @@
     <string name="pref_main_screen_zone6_content">Zone 6 content</string>
     <string name="pref_main_screen_zone7_content">Zone 7 content</string>
     <string name="pref_main_screen_zone8_content">Zone 8 content</string>
+    <string name="pref_main_screen_zone9_content">Zone 9 content</string>
+    <string name="pref_main_screen_zone10_content">Zone 10 content</string>
+    <string name="pref_main_screen_zone11_content">Zone 11 content</string>
 
     <!--PREF_TaskTypeSummary-->
     <string name="pref_todo_type_summary">Add, delete, modify to-do types</string>

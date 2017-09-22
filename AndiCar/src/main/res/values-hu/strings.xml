@@ -60,6 +60,9 @@
     <string name="pref_main_screen_zone6_content">6. zóna tartalma</string>
     <string name="pref_main_screen_zone7_content">7. zóna tartalma</string>
     <string name="pref_main_screen_zone8_content">8. zóna tartalma</string>
+    <string name="pref_main_screen_zone9_content">9. zóna tartalma</string>
+    <string name="pref_main_screen_zone10_content">10. zóna tartalma</string>
+    <string name="pref_main_screen_zone11_content">11. zóna tartalma</string>
 
     <string name="pref_todo_type_title">Feladat típusok</string>
     <string name="pref_todo_type_summary">Feladat típusok szerkesztése</string>

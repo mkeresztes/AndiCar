@@ -99,6 +99,7 @@
 
     <string-array name="pref_main_zone_content_chooser_entries">
         <item>Verstecken</item>
+        <item>Statistiken</item>
         <item>Letzte Reise</item>
         <item>Letztes Auftanken</item>
         <item>Letztes Ausgaben</item>

@@ -81,6 +81,7 @@
 
     <string-array name="pref_main_zone_content_chooser_entries">
         <item>Esconder</item>
+        <item>Estadística</item>
         <item>Último viaje</item>
         <item>Último recarga</item>
         <item>Último gasto</item>

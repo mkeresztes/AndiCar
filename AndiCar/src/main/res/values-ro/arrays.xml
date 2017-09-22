@@ -96,6 +96,7 @@
 
     <string-array name="pref_main_zone_content_chooser_entries">
         <item>Nu se utilizează</item>
+        <item>Statistici</item>
         <item>Ultimul kilometraj</item>
         <item>Ultima alimentare</item>
         <item>Ultima cheltuială</item>

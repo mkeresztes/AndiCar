@@ -148,6 +148,7 @@
 
     <string-array name="pref_main_zone_content_chooser_entries">
         <item>Hide</item>
+        <item>Statistics</item>
         <item>Last trip</item>
         <item>Last fill-up</item>
         <item>Last expense</item>
@@ -162,6 +163,7 @@
 
     <string-array name="pref_main_zone_content_chooser_values" tools:ignore="MissingTranslation">
         <item>DNU</item> <!--Do not use-->
+        <item>STS</item> <!--Statistics-->
         <item>LTR</item> <!--Last trip-->
         <item>LFU</item> <!--Last fill-up-->
         <item>LEX</item> <!--Last expense-->

@@ -6,6 +6,7 @@
               android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/chartHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -29,7 +30,6 @@
             android:layout_alignParentLeft="true"
             android:gravity="center_horizontal"
             android:layout_alignParentStart="true"
-            android:text="Title"
             tools:ignore="RelativeOverlap"/>
 
     </RelativeLayout>

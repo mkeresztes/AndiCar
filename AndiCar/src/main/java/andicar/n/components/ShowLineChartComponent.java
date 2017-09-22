@@ -53,6 +53,7 @@ public class ShowLineChartComponent extends LinearLayout {
     private static final float VALUE_FONT_SIZE = 12f;
 
     private Context mCtx;
+    private View mChartHeader;
     private TextView mChartTitle;
     private LineChart mChart;
     private PopupMenu mChartFilterMenu;
@@ -115,8 +116,9 @@ public class ShowLineChartComponent extends LinearLayout {
 
         mLastSelectedCarID = mPreferences.getLong(mCtx.getString(R.string.pref_key_last_selected_car_id), -1);
 
-
         View rootView = inflate(mCtx, R.layout.component_line_chart, this);
+
+        mChartHeader = rootView.findViewById(R.id.chartHeader);
 
         mChartTitle = rootView.findViewById(R.id.chartTitle);
         mChart = rootView.findViewById(R.id.lineChart);
@@ -262,7 +264,15 @@ public class ShowLineChartComponent extends LinearLayout {
             }
         }
         else {
+            //no data
             setChartsLineHeight(true);
+            mChartHeader.setVisibility(GONE);
+            try {
+                mCursor.close();
+                dbReportAdapter.close();
+            } catch (Exception ignored) {
+            }
+            return;
         }
 
         while (mCursor.moveToPrevious()) {
