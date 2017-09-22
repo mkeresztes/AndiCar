@@ -16,7 +16,7 @@ import org.andicar2.activity.R;
  * Created by miki on 14.09.2017.
  */
 
-public class ShowRecordComponent extends LinearLayout {
+public class RecordComponent extends LinearLayout {
     private final Context mCtx;
     private TextView mLineHeader;
     private TextView mFirstLine;
@@ -32,23 +32,23 @@ public class ShowRecordComponent extends LinearLayout {
     private String mSecondLineText;
     private String mThirdLineText;
 
-    public ShowRecordComponent(Context context) {
+    public RecordComponent(Context context) {
         super(context);
         mCtx = context;
         init();
     }
 
-    public ShowRecordComponent(Context context, @Nullable AttributeSet attrs) {
+    public RecordComponent(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         mCtx = context;
 
-        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ShowRecordComponent, 0, 0);
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.RecordComponent, 0, 0);
 
         try {
-            mHeaderText = a.getString(R.styleable.ShowRecordComponent_headerText);
-            mFirstLineText = a.getString(R.styleable.ShowRecordComponent_firstLineText);
-            mSecondLineText = a.getString(R.styleable.ShowRecordComponent_secondLineText);
-            mThirdLineText = a.getString(R.styleable.ShowRecordComponent_thirdLineText);
+            mHeaderText = a.getString(R.styleable.RecordComponent_headerText);
+            mFirstLineText = a.getString(R.styleable.RecordComponent_firstLineText);
+            mSecondLineText = a.getString(R.styleable.RecordComponent_secondLineText);
+            mThirdLineText = a.getString(R.styleable.RecordComponent_thirdLineText);
         } finally {
             a.recycle();
         }

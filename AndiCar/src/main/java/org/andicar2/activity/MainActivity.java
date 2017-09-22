@@ -72,9 +72,9 @@ import andicar.n.activity.fragment.TaskEditFragment;
 import andicar.n.activity.miscellaneous.AboutActivity;
 import andicar.n.activity.miscellaneous.GPSTrackMap;
 import andicar.n.activity.preference.PreferenceActivity;
-import andicar.n.components.ShowLineChartComponent;
-import andicar.n.components.ShowPieChartsComponent;
-import andicar.n.components.ShowRecordComponent;
+import andicar.n.components.LineChartComponent;
+import andicar.n.components.PieChartsComponent;
+import andicar.n.components.RecordComponent;
 import andicar.n.persistence.DB;
 import andicar.n.persistence.DBAdapter;
 import andicar.n.persistence.DBReportAdapter;
@@ -728,19 +728,19 @@ public class MainActivity extends AppCompatActivity
     }
 
     @SuppressLint("SetTextI18n")
-    private void fillLastRecord(ShowRecordComponent showRecordComponent, String recordSource) {
+    private void fillLastRecord(RecordComponent recordComponent, String recordSource) {
         try {
-            showRecordComponent.setEditButtonOnClickListener(btnEditClickListener);
-            showRecordComponent.setAddNewButtonOnClickListener(btnNewClickListener);
-            showRecordComponent.setShowListButtonOnClickListener(btnListListener);
-            showRecordComponent.setMapButtonOnClickListener(btnMapClickListener);
+            recordComponent.setEditButtonOnClickListener(btnEditClickListener);
+            recordComponent.setAddNewButtonOnClickListener(btnNewClickListener);
+            recordComponent.setShowListButtonOnClickListener(btnListListener);
+            recordComponent.setMapButtonOnClickListener(btnMapClickListener);
 
             DBReportAdapter dbReportAdapter = new DBReportAdapter(getApplicationContext(), null, null);
             Bundle sqlWWhereCondition = new Bundle();
 
             switch (recordSource) {
                 case LAST_TRIP_RECORD: { //Last trip
-                    showRecordComponent.setHeaderText(R.string.main_activity_mileage_header_caption);
+                    recordComponent.setHeaderText(R.string.main_activity_mileage_header_caption);
 
                     sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_MILEAGE, DBReportAdapter.COL_NAME_MILEAGE__CAR_ID) + "=",
                             Long.toString(mLastSelectedCarID));
@@ -751,12 +751,12 @@ public class MainActivity extends AppCompatActivity
                     String line2Content;
 
                     if (mCursor != null && mCursor.moveToFirst()) {
-                        showRecordComponent.setButtonsLineVisibility(View.VISIBLE);
-                        showRecordComponent.setMapButtonVisibility(View.GONE);
+                        recordComponent.setButtonsLineVisibility(View.VISIBLE);
+                        recordComponent.setMapButtonVisibility(View.GONE);
 
-                        showRecordComponent.setRecordId(mCursor.getLong(0));
-                        showRecordComponent.setWhatEditAdd(R.id.mnuTrip);
-                        showRecordComponent.setWhatList(R.id.nav_trip);
+                        recordComponent.setRecordId(mCursor.getLong(0));
+                        recordComponent.setWhatEditAdd(R.id.mnuTrip);
+                        recordComponent.setWhatList(R.id.nav_trip);
 
                         try {
                             line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(5) * 1000, false)
@@ -802,17 +802,17 @@ public class MainActivity extends AppCompatActivity
                             line2Content = line2Content.substring(0, line2Content.indexOf("Draft") + "Draft".length());
                         }
 
-                        if (showRecordComponent.isSecondLineExists()) { //three line lists
-                            showRecordComponent.setFirstLineText(line1Content);
-                            showRecordComponent.setSecondLineText(line2Content);
+                        if (recordComponent.isSecondLineExists()) { //three line lists
+                            recordComponent.setFirstLineText(line1Content);
+                            recordComponent.setSecondLineText(line2Content);
                         }
                         else {
                             //wider screens => two line lists
-                            showRecordComponent.setFirstLineText(line1Content + "; " + line2Content);
+                            recordComponent.setFirstLineText(line1Content + "; " + line2Content);
                         }
 
-                        if (showRecordComponent.isThirdLineExists()) {
-                            showRecordComponent.setThirdLineText(mCursor.getString(3));
+                        if (recordComponent.isThirdLineExists()) {
+                            recordComponent.setThirdLineText(mCursor.getString(3));
                         }
 
                         try {
@@ -822,15 +822,15 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                     else {
-                        showRecordComponent.setFirstLineText(R.string.main_activity_list_no_data);
-                        showRecordComponent.setSecondLineText(null);
-                        showRecordComponent.setThirdLineText(null);
-                        showRecordComponent.setButtonsLineVisibility(View.GONE);
+                        recordComponent.setFirstLineText(R.string.main_activity_list_no_data);
+                        recordComponent.setSecondLineText(null);
+                        recordComponent.setThirdLineText(null);
+                        recordComponent.setButtonsLineVisibility(View.GONE);
                     }
                     break;
                 }
                 case LAST_FILL_UP_RECORD: { //Last fill-up
-                    showRecordComponent.setHeaderText(R.string.main_activity_refuel_header_caption);
+                    recordComponent.setHeaderText(R.string.main_activity_refuel_header_caption);
 
                     sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_REFUEL, DBReportAdapter.COL_NAME_REFUEL__CAR_ID) + "=",
                             Long.toString(mLastSelectedCarID));
@@ -840,12 +840,12 @@ public class MainActivity extends AppCompatActivity
                     String line2Content;
 
                     if (mCursor != null && mCursor.moveToFirst()) {
-                        showRecordComponent.setButtonsLineVisibility(View.VISIBLE);
-                        showRecordComponent.setMapButtonVisibility(View.GONE);
+                        recordComponent.setButtonsLineVisibility(View.VISIBLE);
+                        recordComponent.setMapButtonVisibility(View.GONE);
 
-                        showRecordComponent.setRecordId(mCursor.getLong(0));
-                        showRecordComponent.setWhatEditAdd(R.id.mnuRefuel);
-                        showRecordComponent.setWhatList(R.id.nav_refuel);
+                        recordComponent.setRecordId(mCursor.getLong(0));
+                        recordComponent.setWhatEditAdd(R.id.mnuRefuel);
+                        recordComponent.setWhatList(R.id.nav_refuel);
 
                         try {
                             line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(4) * 1000, false));
@@ -868,17 +868,17 @@ public class MainActivity extends AppCompatActivity
                             line2Content = "Error#7! Please contact me at andicar.support@gmail.com";
                         }
 
-                        if (showRecordComponent.isSecondLineExists()) { //three line lists
-                            showRecordComponent.setFirstLineText(line1Content);
-                            showRecordComponent.setSecondLineText(line2Content);
+                        if (recordComponent.isSecondLineExists()) { //three line lists
+                            recordComponent.setFirstLineText(line1Content);
+                            recordComponent.setSecondLineText(line2Content);
                         }
                         else {
                             //wider screens => two line lists
-                            showRecordComponent.setFirstLineText(line1Content + "; " + line2Content);
+                            recordComponent.setFirstLineText(line1Content + "; " + line2Content);
                         }
 
                         if (mCursor.getString(3) == null || mCursor.getString(3).trim().length() == 0) {
-                            showRecordComponent.setThirdLineText(null);
+                            recordComponent.setThirdLineText(null);
                         }
                         else {
                             String text = mCursor.getString(3);
@@ -887,17 +887,17 @@ public class MainActivity extends AppCompatActivity
                                 oldFullRefuelIndex = new BigDecimal(mCursor.getDouble(13));
                             }
                             catch (Exception e) {
-                                showRecordComponent.setThirdLineText("Error#1! Please contact me at andicar.support@gmail.com");
+                                recordComponent.setThirdLineText("Error#1! Please contact me at andicar.support@gmail.com");
                                 return;
                             }
                             if (oldFullRefuelIndex.compareTo(BigDecimal.ZERO) < 0 || mCursor.getString(12).equals("N")) { //this is not a full refuel
                                 try {
                                     //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
                                     text = text.replace("[#01]", "");
-                                    showRecordComponent.setThirdLineText(text);
+                                    recordComponent.setThirdLineText(text);
                                 }
                                 catch (Exception e) {
-                                    showRecordComponent.setThirdLineText("Error#4! Please contact me at andicar.support@gmail.com");
+                                    recordComponent.setThirdLineText("Error#4! Please contact me at andicar.support@gmail.com");
                                 }
                             }
                             // calculate the cons and fuel eff.
@@ -908,7 +908,7 @@ public class MainActivity extends AppCompatActivity
                                 fuelQty = new BigDecimal(t == null ? 0d : t);
                             }
                             catch (NullPointerException e) {
-                                showRecordComponent.setThirdLineText("Error#2! Please contact me at andicar.support@gmail.com");
+                                recordComponent.setThirdLineText("Error#2! Please contact me at andicar.support@gmail.com");
                                 return;
                             }
                             String consStr;
@@ -925,7 +925,7 @@ public class MainActivity extends AppCompatActivity
                             }
                             catch (Exception e) {
                                 //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
-                                showRecordComponent.setThirdLineText("Error#3! Please contact me at andicar.support@gmail.com");
+                                recordComponent.setThirdLineText("Error#3! Please contact me at andicar.support@gmail.com");
                                 return;
                             }
 
@@ -934,11 +934,11 @@ public class MainActivity extends AppCompatActivity
                                 text = text.replace("[#01]", "\n" + AndiCar.getAppResources().getString(R.string.gen_fuel_efficiency) + " " + consStr);
                             }
                             catch (Exception e) {
-                                showRecordComponent.setThirdLineText("Error#5! Please contact me at andicar.support@gmail.com");
+                                recordComponent.setThirdLineText("Error#5! Please contact me at andicar.support@gmail.com");
                                 return;
                             }
 
-                            showRecordComponent.setThirdLineText(text.trim());
+                            recordComponent.setThirdLineText(text.trim());
                         }
 
                         try {
@@ -948,15 +948,15 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                     else {
-                        showRecordComponent.setFirstLineText(R.string.main_activity_list_no_data);
-                        showRecordComponent.setSecondLineText(null);
-                        showRecordComponent.setThirdLineText(null);
-                        showRecordComponent.setButtonsLineVisibility(View.GONE);
+                        recordComponent.setFirstLineText(R.string.main_activity_list_no_data);
+                        recordComponent.setSecondLineText(null);
+                        recordComponent.setThirdLineText(null);
+                        recordComponent.setButtonsLineVisibility(View.GONE);
                     }
                     break;
                 }
                 case LAST_EXPENSE_RECORD: { //Last expense
-                    showRecordComponent.setHeaderText(R.string.main_activity_expense_header_caption);
+                    recordComponent.setHeaderText(R.string.main_activity_expense_header_caption);
 
                     sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_EXPENSE, DBReportAdapter.COL_NAME_EXPENSE__CAR_ID) + "=",
                             Long.toString(mLastSelectedCarID));
@@ -967,12 +967,12 @@ public class MainActivity extends AppCompatActivity
                     String line3Content;
 
                     if (mCursor != null && mCursor.moveToFirst()) {
-                        showRecordComponent.setButtonsLineVisibility(View.VISIBLE);
-                        showRecordComponent.setMapButtonVisibility(View.GONE);
+                        recordComponent.setButtonsLineVisibility(View.VISIBLE);
+                        recordComponent.setMapButtonVisibility(View.GONE);
 
-                        showRecordComponent.setRecordId(mCursor.getLong(0));
-                        showRecordComponent.setWhatEditAdd(R.id.mnuExpense);
-                        showRecordComponent.setWhatList(R.id.nav_expense);
+                        recordComponent.setRecordId(mCursor.getLong(0));
+                        recordComponent.setWhatEditAdd(R.id.mnuExpense);
+                        recordComponent.setWhatList(R.id.nav_expense);
 
                         try {
                             line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(4) * 1000, false));
@@ -994,21 +994,21 @@ public class MainActivity extends AppCompatActivity
 
                         line3Content = mCursor.getString(3);
 
-                        if (showRecordComponent.isSecondLineExists()) { //three line lists
-                            showRecordComponent.setFirstLineText(line1Content);
-                            showRecordComponent.setSecondLineText(line2Content);
+                        if (recordComponent.isSecondLineExists()) { //three line lists
+                            recordComponent.setFirstLineText(line1Content);
+                            recordComponent.setSecondLineText(line2Content);
                         }
                         else {
                             //wider screens => two line lists
                             if (line2Content != null && line2Content.length() > 0) {
-                                showRecordComponent.setFirstLineText(line1Content + "; " + line2Content);
+                                recordComponent.setFirstLineText(line1Content + "; " + line2Content);
                             }
                             else {
-                                showRecordComponent.setFirstLineText(line1Content);
+                                recordComponent.setFirstLineText(line1Content);
                             }
                         }
 
-                        showRecordComponent.setThirdLineText(line3Content);
+                        recordComponent.setThirdLineText(line3Content);
 
                         try {
                             mCursor.close();
@@ -1017,15 +1017,15 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                     else {
-                        showRecordComponent.setFirstLineText(R.string.main_activity_list_no_data);
-                        showRecordComponent.setSecondLineText(null);
-                        showRecordComponent.setThirdLineText(null);
-                        showRecordComponent.setButtonsLineVisibility(View.GONE);
+                        recordComponent.setFirstLineText(R.string.main_activity_list_no_data);
+                        recordComponent.setSecondLineText(null);
+                        recordComponent.setThirdLineText(null);
+                        recordComponent.setButtonsLineVisibility(View.GONE);
                     }
                     break;
                 }
                 case LAST_GPS_TRACK_RECORD: { //Last GPS Track
-                    showRecordComponent.setHeaderText(R.string.main_activity_gps_track_header_caption);
+                    recordComponent.setHeaderText(R.string.main_activity_gps_track_header_caption);
 
                     sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_GPSTRACK, DBReportAdapter.COL_NAME_GPSTRACK__CAR_ID) + "=",
                             Long.toString(mLastSelectedCarID));
@@ -1036,12 +1036,12 @@ public class MainActivity extends AppCompatActivity
                     String line3Content;
 
                     if (mCursor != null && mCursor.moveToFirst()) {
-                        showRecordComponent.setButtonsLineVisibility(View.VISIBLE);
-                        showRecordComponent.setMapButtonVisibility(View.VISIBLE);
+                        recordComponent.setButtonsLineVisibility(View.VISIBLE);
+                        recordComponent.setMapButtonVisibility(View.VISIBLE);
 
-                        showRecordComponent.setRecordId(mCursor.getLong(0));
-                        showRecordComponent.setWhatEditAdd(R.id.mnuGPSTrack);
-                        showRecordComponent.setWhatList(R.id.nav_gpstrack);
+                        recordComponent.setRecordId(mCursor.getLong(0));
+                        recordComponent.setWhatEditAdd(R.id.mnuGPSTrack);
+                        recordComponent.setWhatList(R.id.nav_gpstrack);
 
                         try {
                             line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(7) * 1000, false));
@@ -1071,16 +1071,16 @@ public class MainActivity extends AppCompatActivity
                         }
                         line3Content = mCursor.getString(3);
 
-                        if (showRecordComponent.isSecondLineExists()) { //three line lists
-                            showRecordComponent.setFirstLineText(line1Content);
-                            showRecordComponent.setSecondLineText(line2Content);
+                        if (recordComponent.isSecondLineExists()) { //three line lists
+                            recordComponent.setFirstLineText(line1Content);
+                            recordComponent.setSecondLineText(line2Content);
                         }
                         else {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                showRecordComponent.getFirstLine().setTextAppearance(R.style.ListItem_SecondLine);
+                                recordComponent.getFirstLine().setTextAppearance(R.style.ListItem_SecondLine);
                             }
                             else {
-                                showRecordComponent.getFirstLine().setTypeface(null, Typeface.NORMAL);
+                                recordComponent.getFirstLine().setTypeface(null, Typeface.NORMAL);
                             }
 
                             CharSequence text;
@@ -1093,10 +1093,10 @@ public class MainActivity extends AppCompatActivity
                                 //noinspection deprecation
                                 text = Html.fromHtml("<b>" + line1Content + "</b>");
                             }
-                            showRecordComponent.setFirstLineText(text);
+                            recordComponent.setFirstLineText(text);
                         }
 
-                        showRecordComponent.setThirdLineText(line3Content);
+                        recordComponent.setThirdLineText(line3Content);
 
                         try {
                             mCursor.close();
@@ -1105,10 +1105,10 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                     else {
-                        showRecordComponent.setFirstLineText(R.string.main_activity_list_no_data);
-                        showRecordComponent.setSecondLineText(null);
-                        showRecordComponent.setThirdLineText(null);
-                        showRecordComponent.setButtonsLineVisibility(View.GONE);
+                        recordComponent.setFirstLineText(R.string.main_activity_list_no_data);
+                        recordComponent.setSecondLineText(null);
+                        recordComponent.setThirdLineText(null);
+                        recordComponent.setButtonsLineVisibility(View.GONE);
                     }
                     break;
                 }
@@ -1127,7 +1127,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void drawPieCharts(ShowPieChartsComponent showPieChartsComponent, String chartSource) {
+    private void drawPieCharts(PieChartsComponent pieChartsComponent, String chartSource) {
         if (mErrorInDrawCharts) {
             return;
         }
@@ -1170,25 +1170,25 @@ public class MainActivity extends AppCompatActivity
                     String carUOMLengthCode = dbReportAdapter.getUOMCode(dbReportAdapter.getCarUOMLengthID(mLastSelectedCarID));
                     chartData = dbReportAdapter.getMileageByTypeChartData(chartArguments);
                     if (chartData.size() > 0) {
-                        showPieChartsComponent.setChartsLineHeight(false);
+                        pieChartsComponent.setChartsLineHeight(false);
                         chartFooterText =
                                 String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
                                         + " " + carUOMLengthCode) + " (" + getChartDataPeriodText() + ")";
                     }
                     else {
-                        showPieChartsComponent.setChartsLineHeight(true);
+                        pieChartsComponent.setChartsLineHeight(true);
                         chartFooterText = null;
                     }
-                    showPieChartsComponent.setChartFooterText(chartFooterText);
-                    showPieChartsComponent.setChart1TitleText(title1);
+                    pieChartsComponent.setChartFooterText(chartFooterText);
+                    pieChartsComponent.setChart1TitleText(title1);
                     title1 = title1.substring(0, title1.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
-                    showPieChartsComponent.drawChart(1, chartData, title1);
-                    showPieChartsComponent.setChart2TitleText(title2);
+                    pieChartsComponent.drawChart(1, chartData, title1);
+                    pieChartsComponent.setChart2TitleText(title2);
                     title2 = title2.substring(0, title2.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
-                    showPieChartsComponent.drawChart(2, dbReportAdapter.getMileageByTagsChartData(chartArguments), title2);
-                    showPieChartsComponent.setChart3TitleText(title3);
+                    pieChartsComponent.drawChart(2, dbReportAdapter.getMileageByTagsChartData(chartArguments), title2);
+                    pieChartsComponent.setChart3TitleText(title3);
                     title3 = title3.substring(0, title3.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
-                    showPieChartsComponent.drawChart(3, dbReportAdapter.getMileageByDriverChartData(chartArguments), title3);
+                    pieChartsComponent.drawChart(3, dbReportAdapter.getMileageByDriverChartData(chartArguments), title3);
 
                     break;
                 case FUEL_QTY_PIE_CHART:  //Fill-ups charts (quantity)
@@ -1199,89 +1199,89 @@ public class MainActivity extends AppCompatActivity
 
                     chartData = dbReportAdapter.getRefuelsByTypeChartData(chartArguments, false);
                     if (chartData.size() > 0) {
-                        showPieChartsComponent.setChartsLineHeight(false);
+                        pieChartsComponent.setChartsLineHeight(false);
                         chartFooterText = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
                                 + " " + carUOMVolume) + " (" + getChartDataPeriodText() + ")";
                     }
                     else {
-                        showPieChartsComponent.setChartsLineHeight(true);
+                        pieChartsComponent.setChartsLineHeight(true);
                         chartFooterText = null;
                     }
 
-                    showPieChartsComponent.setChartFooterText(chartFooterText);
+                    pieChartsComponent.setChartFooterText(chartFooterText);
 
                     title1 = getString(R.string.fillUpQuantityChart1Title);
-                    showPieChartsComponent.setChart1TitleText(title1);
+                    pieChartsComponent.setChart1TitleText(title1);
                     title1 = title1.substring(0, title1.indexOf("(") - 1) + " [" + carUOMVolume + "]";
-                    showPieChartsComponent.drawChart(1, chartData, title1);
+                    pieChartsComponent.drawChart(1, chartData, title1);
 
                     title2 = getString(R.string.fillUpQuantityChart2Title);
-                    showPieChartsComponent.setChart2TitleText(title2);
+                    pieChartsComponent.setChart2TitleText(title2);
                     title2 = title2.substring(0, title2.indexOf("(") - 1) + " [" + carUOMVolume + "]";
-                    showPieChartsComponent.drawChart(2, dbReportAdapter.getRefuelsByTagChartData(chartArguments, false), title2);
+                    pieChartsComponent.drawChart(2, dbReportAdapter.getRefuelsByTagChartData(chartArguments, false), title2);
 
                     title3 = getString(R.string.fillUpQuantityChart3Title);
-                    showPieChartsComponent.setChart3TitleText(title3);
+                    pieChartsComponent.setChart3TitleText(title3);
                     title3 = title3.substring(0, title3.indexOf("(") - 1) + " [" + carUOMVolume + "]";
-                    showPieChartsComponent.drawChart(3, dbReportAdapter.getRefuelsByFuelTypeChartData(chartArguments, false), title3);
+                    pieChartsComponent.drawChart(3, dbReportAdapter.getRefuelsByFuelTypeChartData(chartArguments, false), title3);
                     break;
                 case FUEL_VALUE_PIE_CHART:  //Fill-ups charts (value)
                     //fill-up charts (value)
                     chartData = dbReportAdapter.getRefuelsByTypeChartData(chartArguments, true);
                     if (chartData.size() > 0) {
-                        showPieChartsComponent.setChartsLineHeight(false);
+                        pieChartsComponent.setChartsLineHeight(false);
                         chartFooterText = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
                                 + " " + carCurrencyCode) + " (" + getChartDataPeriodText() + ")";
                     }
                     else {
-                        showPieChartsComponent.setChartsLineHeight(true);
+                        pieChartsComponent.setChartsLineHeight(true);
                         chartFooterText = null;
                     }
 
-                    showPieChartsComponent.setChartFooterText(chartFooterText);
+                    pieChartsComponent.setChartFooterText(chartFooterText);
 
                     title1 = getString(R.string.fillUpValueChart1Title);
-                    showPieChartsComponent.setChart1TitleText(title1);
+                    pieChartsComponent.setChart1TitleText(title1);
                     title1 = title1.substring(0, title1.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                    showPieChartsComponent.drawChart(1, chartData, title1);
+                    pieChartsComponent.drawChart(1, chartData, title1);
 
                     title2 = getString(R.string.fillUpValueChart2Title);
-                    showPieChartsComponent.setChart2TitleText(title2);
+                    pieChartsComponent.setChart2TitleText(title2);
                     title2 = title2.substring(0, title2.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                    showPieChartsComponent.drawChart(2, dbReportAdapter.getRefuelsByTagChartData(chartArguments, true), title2);
+                    pieChartsComponent.drawChart(2, dbReportAdapter.getRefuelsByTagChartData(chartArguments, true), title2);
 
                     title3 = getString(R.string.fillUpValueChart3Title);
-                    showPieChartsComponent.setChart3TitleText(title3);
+                    pieChartsComponent.setChart3TitleText(title3);
                     title3 = title3.substring(0, title3.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                    showPieChartsComponent.drawChart(3, dbReportAdapter.getRefuelsByFuelTypeChartData(chartArguments, true), title3);
+                    pieChartsComponent.drawChart(3, dbReportAdapter.getRefuelsByFuelTypeChartData(chartArguments, true), title3);
                     break;
                 case EXPENSES_PIE_CHART:  //Expense charts
                     chartData = dbReportAdapter.getExpensesByTypeChartData(chartArguments);
                     if (chartData.size() > 0) {
-                        showPieChartsComponent.setChartsLineHeight(false);
+                        pieChartsComponent.setChartsLineHeight(false);
                         chartFooterText = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
                                 + " " + carCurrencyCode) + " (" + getChartDataPeriodText() + ")";
                     }
                     else {
-                        showPieChartsComponent.setChartsLineHeight(true);
+                        pieChartsComponent.setChartsLineHeight(true);
                         chartFooterText = null;
                     }
-                    showPieChartsComponent.setChartFooterText(chartFooterText);
+                    pieChartsComponent.setChartFooterText(chartFooterText);
 
                     title1 = getString(R.string.expenseChart1Title);
-                    showPieChartsComponent.setChart1TitleText(title1);
+                    pieChartsComponent.setChart1TitleText(title1);
                     title1 = title1.substring(0, title1.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                    showPieChartsComponent.drawChart(1, chartData, title1);
+                    pieChartsComponent.drawChart(1, chartData, title1);
 
                     title2 = getString(R.string.expenseChart2Title);
-                    showPieChartsComponent.setChart2TitleText(title2);
+                    pieChartsComponent.setChart2TitleText(title2);
                     title2 = title2.substring(0, title2.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                    showPieChartsComponent.drawChart(2, dbReportAdapter.getExpensesByCategoryChartData(chartArguments), title2);
+                    pieChartsComponent.drawChart(2, dbReportAdapter.getExpensesByCategoryChartData(chartArguments), title2);
 
                     title3 = getString(R.string.expenseChart3Title);
-                    showPieChartsComponent.setChart3TitleText(title3);
+                    pieChartsComponent.setChart3TitleText(title3);
                     title3 = title3.substring(0, title3.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                    showPieChartsComponent.drawChart(3, dbReportAdapter.getExpensesByTagChartData(chartArguments), title3);
+                    pieChartsComponent.drawChart(3, dbReportAdapter.getExpensesByTagChartData(chartArguments), title3);
                     break;
             }
 
@@ -1309,9 +1309,9 @@ public class MainActivity extends AppCompatActivity
             llToDoZone.setVisibility(View.GONE);
         }
 
-        ShowRecordComponent recordComponent;
-        ShowPieChartsComponent pieChartComponent;
-        ShowLineChartComponent lineChartComponent;
+        RecordComponent recordComponent;
+        PieChartsComponent pieChartComponent;
+        LineChartComponent lineChartComponent;
         String zoneContent;
         LinearLayout zoneContainer = (LinearLayout) findViewById(R.id.zoneContainer);
         if (zoneContainer == null) {
@@ -1368,7 +1368,7 @@ public class MainActivity extends AppCompatActivity
                     case FUEL_VALUE_PIE_CHART:
                     case EXPENSES_PIE_CHART:  //pie charts
                         mPieChartsExistsOnScreen = true;
-                        pieChartComponent = new ShowPieChartsComponent(this);
+                        pieChartComponent = new PieChartsComponent(this);
                         zoneContainer.addView(pieChartComponent);
                         drawPieCharts(pieChartComponent, zoneContent);
                         break;
@@ -1376,14 +1376,14 @@ public class MainActivity extends AppCompatActivity
                     case FUEL_EFF_LINE_CHART:
                         String fuelConsTitle = mCarUOMVolumeCode + " / 100 " + mCarUOMLengthCode;
                         String fuelEffTitle = mCarUOMLengthCode + " / " + mCarUOMVolumeCode;
-                        lineChartComponent = new ShowLineChartComponent(this, zoneContent.equals(FUEL_CONS_LINE_CHART) ? ShowLineChartComponent.SHOW_FUEL_CONS : ShowLineChartComponent.SHOW_FUEL_EFF,
+                        lineChartComponent = new LineChartComponent(this, zoneContent.equals(FUEL_CONS_LINE_CHART) ? LineChartComponent.SHOW_FUEL_CONS : LineChartComponent.SHOW_FUEL_EFF,
                                 zoneContent.equals(FUEL_CONS_LINE_CHART) ? fuelConsTitle : fuelEffTitle);
                         zoneContainer.addView(lineChartComponent);
                         break;
                     case STATISTICS_ZONE:
                         break;
                     default:
-                        recordComponent = new ShowRecordComponent(this);
+                        recordComponent = new RecordComponent(this);
                         zoneContainer.addView(recordComponent);
                         fillLastRecord(recordComponent, zoneContent);
                         break;

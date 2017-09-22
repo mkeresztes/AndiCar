@@ -46,7 +46,7 @@ import andicar.n.utils.Utils;
  */
 
 @SuppressWarnings("unused")
-public class ShowLineChartComponent extends LinearLayout {
+public class LineChartComponent extends LinearLayout {
     public static final int SHOW_FUEL_EFF = 1;
     public static final int SHOW_FUEL_CONS = 2;
     private static final float LEFT_AXIS_TEXT_SIZE = 10f;
@@ -66,7 +66,7 @@ public class ShowLineChartComponent extends LinearLayout {
     private int mWhatData;
     private long mLastSelectedCarID;
 
-    public ShowLineChartComponent(Context context, int what, @Nullable String title) {
+    public LineChartComponent(Context context, int what, @Nullable String title) {
         super(context);
         mCtx = context;
         mWhatData = what;
@@ -74,14 +74,14 @@ public class ShowLineChartComponent extends LinearLayout {
         init();
     }
 
-    public ShowLineChartComponent(Context context, @Nullable AttributeSet attrs) {
+    public LineChartComponent(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         mCtx = context;
 
-        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ShowLineChartComponent, 0, 0);
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.LineChartComponent, 0, 0);
 
         try {
-            mChartTitleText = a.getString(R.styleable.ShowLineChartComponent_chartTitleText);
+            mChartTitleText = a.getString(R.styleable.LineChartComponent_chartTitleText);
         }
         finally {
             a.recycle();

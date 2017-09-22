@@ -33,7 +33,7 @@ import andicar.n.view.AndiCarPieChart;
  * Created by Miklos Keresztes on 15.09.2017.
  */
 
-public class ShowPieChartsComponent extends LinearLayout {
+public class PieChartsComponent extends LinearLayout {
     private static final int CLICK_ACTION_THRESHOLD = 200;
     private final Context mCtx;
     private TextView mChart1Title;
@@ -50,23 +50,23 @@ public class ShowPieChartsComponent extends LinearLayout {
     private String mChartFooterText;
     private long mLastTouchDown;
 
-    public ShowPieChartsComponent(Context context) {
+    public PieChartsComponent(Context context) {
         super(context);
         mCtx = context;
         init();
     }
 
-    public ShowPieChartsComponent(Context context, @Nullable AttributeSet attrs) {
+    public PieChartsComponent(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         mCtx = context;
 
-        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ShowPieChartsComponent, 0, 0);
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.PieChartsComponent, 0, 0);
 
         try {
-            mChart1TitleText = a.getString(R.styleable.ShowPieChartsComponent_chart1TitleText);
-            mChart2TitleText = a.getString(R.styleable.ShowPieChartsComponent_chart2TitleText);
-            mChart3TitleText = a.getString(R.styleable.ShowPieChartsComponent_chart3TitleText);
-            mChartFooterText = a.getString(R.styleable.ShowPieChartsComponent_chartFooterText);
+            mChart1TitleText = a.getString(R.styleable.PieChartsComponent_chart1TitleText);
+            mChart2TitleText = a.getString(R.styleable.PieChartsComponent_chart2TitleText);
+            mChart3TitleText = a.getString(R.styleable.PieChartsComponent_chart3TitleText);
+            mChartFooterText = a.getString(R.styleable.PieChartsComponent_chartFooterText);
         }
         finally {
             a.recycle();
