@@ -1363,9 +1363,10 @@ public class MainActivity extends AppCompatActivity
                         break;
                     case FUEL_CONS_LINE_CHART:
                     case FUEL_EFF_LINE_CHART:
-                        String fuelConsTitle = String.format(getString(R.string.line_chart_filter_fuel_cons_title), mCarUOMVolumeCode + " / 100 " + mCarUOMLengthCode);
+                        String fuelConsTitle = mCarUOMVolumeCode + " / 100 " + mCarUOMLengthCode;
+                        String fuelEffTitle = mCarUOMLengthCode + " / " + mCarUOMVolumeCode;
                         lineChartComponent = new ShowLineChartComponent(this, zoneContent.equals(FUEL_CONS_LINE_CHART) ? ShowLineChartComponent.SHOW_FUEL_CONS : ShowLineChartComponent.SHOW_FUEL_EFF,
-                                zoneContent.equals(FUEL_CONS_LINE_CHART) ? fuelConsTitle : getString(R.string.line_chart_filter_fuel_eff_title));
+                                zoneContent.equals(FUEL_CONS_LINE_CHART) ? fuelConsTitle : fuelEffTitle);
                         zoneContainer.addView(lineChartComponent);
                         break;
                     default:

@@ -430,8 +430,6 @@
     <string name="line_chart_filter_last_5">Ultimele 5</string>
     <string name="line_chart_filter_last_10">Ultimele 10</string>
     <string name="line_chart_filter_all">Toate</string>
-    <string name="line_chart_filter_fuel_eff_title">mpg</string>
-    <string name="line_chart_filter_fuel_cons_title">%1$s</string>
 
     <string name="search_dialog_title">Introdu criteriile</string>
     <string name="gen_date_from_label">De la:</string>

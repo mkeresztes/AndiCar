@@ -100,7 +100,7 @@ public class ShowLineChartComponent extends LinearLayout {
             divider = 10f;
         }
         else {
-            divider = 3f;
+            divider = 4f;
         }
         mChart.getLayoutParams().height = Math.round(Utils.getScreenWidthInPixel(mCtx) / divider);
         mChart.requestLayout();
@@ -108,7 +108,11 @@ public class ShowLineChartComponent extends LinearLayout {
 
 
     private void init() {
-        mChartFilterNoRecords = mPreferences.getInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key), 5);
+        if (mWhatData == SHOW_FUEL_EFF)
+            mChartFilterNoRecords = mPreferences.getInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_1), 5);
+        else
+            mChartFilterNoRecords = mPreferences.getInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_2), 5);
+
         mLastSelectedCarID = mPreferences.getLong(mCtx.getString(R.string.pref_key_last_selected_car_id), -1);
 
 
@@ -163,15 +167,24 @@ public class ShowLineChartComponent extends LinearLayout {
                     SharedPreferences.Editor e = mPreferences.edit();
                     if (menuItem.getItemId() == R.id.chart_filter_last_5) {
                         mChartFilterNoRecords = 5;
-                        e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key), 5);
+                        if (mWhatData == SHOW_FUEL_EFF)
+                            e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_1), 5);
+                        else
+                            e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_2), 5);
                     }
                     else if (menuItem.getItemId() == R.id.chart_filter_last_10) {
                         mChartFilterNoRecords = 10;
-                        e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key), 10);
+                        if (mWhatData == SHOW_FUEL_EFF)
+                            e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_1), 10);
+                        else
+                            e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_2), 10);
                     }
                     else {
                         mChartFilterNoRecords = -1;
-                        e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key), -1);
+                        if (mWhatData == SHOW_FUEL_EFF)
+                            e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_1), -1);
+                        else
+                            e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_2), -1);
                     }
                     e.apply();
                     setData(mWhatData);
@@ -324,7 +337,7 @@ public class ShowLineChartComponent extends LinearLayout {
             set1.setFillDrawable(drawable);
         }
         else {
-            set1.setFillColor(Color.BLACK);
+            set1.setFillColor(Color.RED);
         }
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();

@@ -142,8 +142,6 @@
     <string name="line_chart_filter_last_5">Last 5</string>
     <string name="line_chart_filter_last_10">Last 10</string>
     <string name="line_chart_filter_all">All</string>
-    <string name="line_chart_filter_fuel_eff_title">mpg</string>
-    <string name="line_chart_filter_fuel_cons_title">%1$s</string>
 
     <string name="secure_backup_mail_body">Please visit https://sites.google.com/site/andicarfree/howto#TOC-Restore-your-data-from-secure-backup if you need to restore this backup. &lt;br&gt; &lt;br&gt; Sent by AndiCar - http://www.andicar.org"</string>
 

@@ -430,8 +430,6 @@
     <string name="line_chart_filter_last_5">Utolsó 5</string>
     <string name="line_chart_filter_last_10">Utolsó 10</string>
     <string name="line_chart_filter_all">Az összes</string>
-    <string name="line_chart_filter_fuel_eff_title">mpg</string>
-    <string name="line_chart_filter_fuel_cons_title">%1$s</string>
 
     <string name="search_dialog_title">Kritérium megadása</string>
     <string name="gen_date_from_label">Dátumtól:</string>
