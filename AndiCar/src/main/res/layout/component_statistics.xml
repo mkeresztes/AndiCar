@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvHeader"
+        style="@style/ListItem.FirstLine"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:paddingBottom="3dp"
+        android:text="@string/main_activity_statistics_header_caption"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvLastKnownOdometer"
+        style="@style/ListItem.SecondLine"
+        android:gravity="center_horizontal"
+        android:text="@string/main_activity_statistics_last_odometer_label"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvAvgFuelEff"
+        style="@style/ListItem.SecondLine"
+        android:gravity="center_horizontal"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvLastFuelEff"
+        style="@style/ListItem.SecondLine"
+        android:textSize="14sp"
+        android:gravity="center_horizontal"
+        tools:ignore="InconsistentLayout" />
+
+    <TextView
+        android:id="@+id/tvTotalExpenses"
+        style="@style/ListItem.SecondLine"
+        android:gravity="center_horizontal"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tvMileageExpense"
+        style="@style/ListItem.SecondLine"
+        android:textSize="14sp"
+        android:gravity="center_horizontal"
+        tools:ignore="InconsistentLayout" />
+
+    <TextView
+        style="@style/AndiCarSeparatorView"
+        android:layout_marginTop="16dp" />
+
+</LinearLayout>

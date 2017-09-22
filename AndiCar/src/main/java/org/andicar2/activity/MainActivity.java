@@ -75,6 +75,7 @@ import andicar.n.activity.preference.PreferenceActivity;
 import andicar.n.components.LineChartComponent;
 import andicar.n.components.PieChartsComponent;
 import andicar.n.components.RecordComponent;
+import andicar.n.components.StatisticsComponent;
 import andicar.n.persistence.DB;
 import andicar.n.persistence.DBAdapter;
 import andicar.n.persistence.DBReportAdapter;
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity
     private long mLastToDoId = -1;
     private long mLastToDoTaskId = -1;
     private long mLastToDoCarId = -1;
-    private View llStatisticsZone;
+    //    private View llStatisticsZone;
     private View llToDoZone;
 
     /**
@@ -180,7 +181,7 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.main_activity);
 
-        llStatisticsZone = findViewById(R.id.llStatisticsZone);
+//        llStatisticsZone = findViewById(R.id.llStatisticsZone);
         llToDoZone = findViewById(R.id.llToDoZone);
 
         if (savedInstanceState != null) {
@@ -1312,6 +1313,7 @@ public class MainActivity extends AppCompatActivity
         RecordComponent recordComponent;
         PieChartsComponent pieChartComponent;
         LineChartComponent lineChartComponent;
+        StatisticsComponent statisticsComponent;
         String zoneContent;
         LinearLayout zoneContainer = (LinearLayout) findViewById(R.id.zoneContainer);
         if (zoneContainer == null) {
@@ -1381,6 +1383,9 @@ public class MainActivity extends AppCompatActivity
                         zoneContainer.addView(lineChartComponent);
                         break;
                     case STATISTICS_ZONE:
+                        statisticsComponent = new StatisticsComponent(this);
+                        zoneContainer.addView(statisticsComponent);
+                        fillStatisticsZone(statisticsComponent);
                         break;
                     default:
                         recordComponent = new RecordComponent(this);
@@ -1399,14 +1404,14 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        if (mPreferences.getBoolean(getString(R.string.pref_key_main_show_statistics), true)) {
-            llStatisticsZone.setVisibility(View.VISIBLE);
-            fillStatisticsZone();
-        }
-        else {
-            llStatisticsZone.setVisibility(View.GONE);
-        }
-
+//        if (mPreferences.getBoolean(getString(R.string.pref_key_main_show_statistics), true)) {
+//            llStatisticsZone.setVisibility(View.VISIBLE);
+//            fillStatisticsZone();
+//        }
+//        else {
+//            llStatisticsZone.setVisibility(View.GONE);
+//        }
+//
     }
 
     @Override
@@ -1615,21 +1620,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @SuppressLint("SetTextI18n")
-    private void fillStatisticsZone() {
-        TextView tvStatisticsHdr;
-        TextView tvStatisticsLastKnownOdometer;
-        TextView tvStatisticsAvgFuelEff;
-        TextView tvStatisticsLastFuelEff;
-        TextView tvStatisticsTotalExpenses;
-        TextView tvStatisticsMileageExpense;
-
-        tvStatisticsHdr = (TextView) findViewById(R.id.tvStatisticsHdr);
-        tvStatisticsLastKnownOdometer = (TextView) findViewById(R.id.tvStatisticsLastKnownOdometer);
-        tvStatisticsAvgFuelEff = (TextView) findViewById(R.id.tvStatisticsAvgFuelEff);
-        tvStatisticsLastFuelEff = (TextView) findViewById(R.id.tvStatisticsLastFuelEff);
-        tvStatisticsTotalExpenses = (TextView) findViewById(R.id.tvStatisticsTotalExpenses);
-        tvStatisticsMileageExpense = (TextView) findViewById(R.id.tvStatisticsMileageExpense);
-
+    private void fillStatisticsZone(StatisticsComponent statisticsComponent) {
         Cursor listCursor;
         Bundle whereConditions = new Bundle();
         whereConditions.putString(DBReportAdapter.sqlConcatTableColumn(DBAdapter.TABLE_NAME_CAR, DBAdapter.COL_NAME_GEN_ROWID) + "=", String.valueOf(mLastSelectedCarID));
@@ -1644,7 +1635,7 @@ public class MainActivity extends AppCompatActivity
         listCursor = reportDb.fetchReport(1);
         if (listCursor != null && listCursor.moveToFirst()) {
 
-            llStatisticsZone.setVisibility(View.VISIBLE);
+//            llStatisticsZone.setVisibility(View.VISIBLE);
 
             BigDecimal startIndex = null;
             BigDecimal stopIndex = null;
@@ -1669,11 +1660,11 @@ public class MainActivity extends AppCompatActivity
                 mileage = BigDecimal.ZERO;
             }
 
-            tvStatisticsHdr.setText(getString(R.string.main_activity_statistics_header_caption) + " "
+            statisticsComponent.setHeaderText(getString(R.string.main_activity_statistics_header_caption) + " "
                     + Utils.numberToString(mileage, true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) + " " + carUOMLengthCode + " (" + getChartDataPeriodText() + ")");
-            tvStatisticsLastKnownOdometer.setText(getString(R.string.main_activity_statistics_last_odometer_label) + " "
+            statisticsComponent.setLastKnownOdometerText(getString(R.string.main_activity_statistics_last_odometer_label) + " "
                     + Utils.numberToString(stopIndex, true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) + " " + carUOMLengthCode);
-            tvStatisticsTotalExpenses.setText(getString(R.string.main_activity_statistics_total_expense_label) + " "
+            statisticsComponent.setTotalExpensesText(getString(R.string.main_activity_statistics_total_expense_label) + " "
                     + (expenses != null ? Utils.numberToString(expenses, true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) : "0") + " "
                     + carCurrencyCode);
 
@@ -1708,13 +1699,7 @@ public class MainActivity extends AppCompatActivity
             }
             String mileageExpenseText = getString(R.string.main_activity_statistics_mileage_expense_label) + " "
                     + (mileageExpenseStr != null ? mileageExpenseStr : "N/A");
-            if (tvStatisticsMileageExpense != null) //small screen
-            {
-                tvStatisticsMileageExpense.setText(mileageExpenseText);
-            }
-            else {
-                tvStatisticsTotalExpenses.setText(tvStatisticsTotalExpenses.getText() + "; " + mileageExpenseText);
-            }
+            statisticsComponent.setMileageExpenseText(mileageExpenseText);
 
             // fuel efficiency
             Cursor c;
@@ -1758,7 +1743,7 @@ public class MainActivity extends AppCompatActivity
                 //@formatter:on
                 c = reportDb.execSelectSql(sql, null);
                 if (c.moveToFirst()) {
-                    llStatisticsZone.setVisibility(View.VISIBLE);
+//                    llStatisticsZone.setVisibility(View.VISIBLE);
                     lastFullRefuelIndex = new BigDecimal(c.getDouble(0)).setScale(ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH);
                     c.close();
                     if (lastFullRefuelIndex != null && lastFullRefuelIndex.subtract(tmpFullRefuelIndex).signum() != 0) {
@@ -1873,36 +1858,18 @@ public class MainActivity extends AppCompatActivity
             if(mChartPeriodEndInSeconds > 0)
                 lastFuelEffStr = ""; //do not show last fuel eff when the period is not current month or current year
 
-            if(tvStatisticsLastFuelEff != null) { //small screen
-                if (fuelEffStr.length() > 0) {
-                    tvStatisticsAvgFuelEff.setText(getString(R.string.main_activity_statistics_avg_cons_label) + " " + fuelEffStr);
-                    tvStatisticsAvgFuelEff.setVisibility(View.VISIBLE);
-                }
-                else
-                    tvStatisticsAvgFuelEff.setVisibility(View.GONE);
+            if (fuelEffStr.length() > 0) {
+                statisticsComponent.setAvgFuelEffText(getString(R.string.main_activity_statistics_avg_cons_label) + " " + fuelEffStr);
+            } else
+                statisticsComponent.setAvgFuelEffText(null);
 
-                if (lastFuelEffStr.length() > 0) {
-                    tvStatisticsLastFuelEff.setText(getString(R.string.main_activity_statistics_last_cons_label) + " " + lastFuelEffStr);
-                    tvStatisticsLastFuelEff.setVisibility(View.VISIBLE);
-                }
-                else
-                    tvStatisticsLastFuelEff.setVisibility(View.GONE);
-            }
-            else{
-                if (lastFuelEffStr.length() > 0) {
-                    fuelEffStr = fuelEffStr + "; " + getString(R.string.main_activity_statistics_last_cons_label) + " " + lastFuelEffStr;
-                }
-
-                if(fuelEffStr.length() > 0) {
-                    tvStatisticsAvgFuelEff.setVisibility(View.VISIBLE);
-                    tvStatisticsAvgFuelEff.setText(getString(R.string.main_activity_statistics_avg_cons_label) + " " + fuelEffStr);
-                }
-                else
-                    tvStatisticsAvgFuelEff.setVisibility(View.GONE);
-            }
+            if (lastFuelEffStr.length() > 0) {
+                statisticsComponent.setLastFuelEffText(getString(R.string.main_activity_statistics_last_cons_label) + " " + lastFuelEffStr);
+            } else
+                statisticsComponent.setLastFuelEffText(null);
 
         } else {
-            llStatisticsZone.setVisibility(View.GONE);
+            statisticsComponent.setHeaderText(getString(R.string.statistics_no_data));
         }
 
         try {

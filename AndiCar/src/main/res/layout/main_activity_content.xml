@@ -18,25 +18,25 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:paddingBottom="@dimen/activity_vertical_margin"
-              android:paddingLeft="@dimen/activity_horizontal_margin"
-              android:paddingRight="@dimen/activity_horizontal_margin"
-              android:paddingTop="@dimen/activity_vertical_margin"
-              app:layout_behavior="@string/appbar_scrolling_view_behavior"
-              tools:context="org.andicar2.activity.MainActivity"
-              tools:showIn="@layout/main_activity_app_bar">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="org.andicar2.activity.MainActivity"
+    tools:showIn="@layout/main_activity_app_bar">
 
     <TextView
         android:id="@+id/tvDebugInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Default; "
-        tools:ignore="HardcodedText"/>
+        tools:ignore="HardcodedText" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -57,79 +57,23 @@
                 <TextView
                     android:id="@+id/tvToDoText1"
                     style="@style/ListItem.FirstLine"
-                    android:gravity="center_horizontal"/>
+                    android:gravity="center_horizontal" />
 
                 <TextView
                     android:id="@+id/tvToDoText2"
                     style="@style/ListItem.SecondLine"
-                    android:gravity="center_horizontal"/>
+                    android:gravity="center_horizontal" />
 
+                <TextView
+                    style="@style/AndiCarSeparatorView"
+                    android:layout_marginTop="8dp" />
             </LinearLayout>
-
-            <TextView
-                style="@style/AndiCarSeparatorView"
-                android:layout_marginTop="16dp"/>
-
-            <!--<LinearLayout-->
-            <!--android:id="@+id/llStatisticsZone"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical">-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/tvStatisticsHdr"-->
-            <!--style="@style/ListItem.FirstLine"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--android:gravity="center_horizontal"-->
-            <!--android:paddingBottom="3dp"-->
-            <!--android:text="@string/main_activity_statistics_header_caption"-->
-            <!--android:textSize="14sp"/>-->
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical">-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/tvStatisticsLastKnownOdometer"-->
-            <!--style="@style/ListItem.SecondLine"-->
-            <!--android:text="@string/main_activity_statistics_last_odometer_label"-->
-            <!--android:textSize="14sp"/>-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/tvStatisticsAvgFuelEff"-->
-            <!--style="@style/ListItem.SecondLine"-->
-            <!--android:textSize="14sp"/>-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/tvStatisticsLastFuelEff"-->
-            <!--style="@style/ListItem.SecondLine"-->
-            <!--android:textSize="14sp"-->
-            <!--tools:ignore="InconsistentLayout"/>-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/tvStatisticsTotalExpenses"-->
-            <!--style="@style/ListItem.SecondLine"-->
-            <!--android:textSize="14sp"/>-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/tvStatisticsMileageExpense"-->
-            <!--style="@style/ListItem.SecondLine"-->
-            <!--android:textSize="14sp"-->
-            <!--tools:ignore="InconsistentLayout"/>-->
-            <!--</LinearLayout>-->
-
-            <!--<TextView-->
-            <!--style="@style/AndiCarSeparatorView"-->
-            <!--android:layout_marginTop="16dp"/>-->
-
-            <!--</LinearLayout>-->
 
             <LinearLayout
                 android:id="@+id/zoneContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"/>
+                android:orientation="vertical" />
 
 
             <TextView
@@ -137,17 +81,17 @@
                 style="@style/ListItem.SecondLine"
                 android:layout_marginTop="8dp"
                 android:gravity="center_horizontal|bottom"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tvShortAboutAppVersion"
                 style="@style/ListItem.SecondLine"
                 android:gravity="center_horizontal|bottom"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
             <TextView
                 style="@style/AndiCarSeparatorView"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp" />
 
             <TextView
                 android:id="@+id/tvMotto"
@@ -159,7 +103,7 @@
                 android:textColor="@color/primary_dark"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText"/>
+                tools:ignore="HardcodedText" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

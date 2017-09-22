@@ -458,6 +458,7 @@
     <string name="chart_filter_custom_period_beginning_text">az elejétől</string>
     <string name="chart_filter_custom_period_now_text">mostanig</string>
     <string name="chart_no_data">Nincs adat</string>
+    <string name="statistics_no_data">Nincs adat a statisztikáknak</string>
 
     <string name="progress_restoring_data">A helyreállítás folyamatban … </string>
 
