@@ -521,6 +521,10 @@ public class Utils {
         return ctx.getResources().getDisplayMetrics().density;
     }
 
+    public static float getScreenWidthInDP(Context ctx) {
+        return getScreenWidthInPixel(ctx) / getScreenDensity(ctx);
+    }
+
     //copied from org/apache/commons/lang3/exception/ExceptionUtils.java (https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/exception/ExceptionUtils.java)
     public static String getStackTrace(final Throwable throwable) {
         final StringWriter sw = new StringWriter();

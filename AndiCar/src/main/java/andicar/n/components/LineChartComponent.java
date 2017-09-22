@@ -101,7 +101,10 @@ public class LineChartComponent extends LinearLayout {
             divider = 10f;
         }
         else {
-            divider = 4f;
+            if (Utils.getScreenWidthInDP(mCtx) < 900)
+                divider = 4f;
+            else
+                divider = 6f;
         }
         mChart.getLayoutParams().height = Math.round(Utils.getScreenWidthInPixel(mCtx) / divider);
         mChart.requestLayout();

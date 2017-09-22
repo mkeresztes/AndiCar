@@ -31,11 +31,6 @@
         android:key="@string/pref_key_main_show_next_todo"
         android:title="@string/pref_main_screen_show_todo_zone"/>
 
-    <SwitchPreference
-        android:defaultValue="true"
-        android:key="@string/pref_key_main_show_statistics"
-        android:title="@string/pref_main_screen_show_tatistics" />
-
     <!--suppress AndroidDomInspection -->
     <ListPreference
         android:defaultValue="STS"
