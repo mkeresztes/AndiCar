@@ -60,7 +60,7 @@ public class ShowPieChartsComponent extends LinearLayout {
         super(context, attrs);
         mCtx = context;
 
-        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ShowRecordComponent, 0, 0);
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ShowPieChartsComponent, 0, 0);
 
         try {
             mChart1TitleText = a.getString(R.styleable.ShowPieChartsComponent_chart1TitleText);
