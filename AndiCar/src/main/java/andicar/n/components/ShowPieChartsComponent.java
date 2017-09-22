@@ -33,7 +33,7 @@ import andicar.n.view.AndiCarPieChart;
  * Created by Miklos Keresztes on 15.09.2017.
  */
 
-public class ShowChartsComponent extends LinearLayout {
+public class ShowPieChartsComponent extends LinearLayout {
     private static final int CLICK_ACTION_THRESHOLD = 200;
     private final Context mCtx;
     private TextView mChart1Title;
@@ -50,23 +50,23 @@ public class ShowChartsComponent extends LinearLayout {
     private String mChartFooterText;
     private long mLastTouchDown;
 
-    public ShowChartsComponent(Context context) {
+    public ShowPieChartsComponent(Context context) {
         super(context);
         mCtx = context;
         init();
     }
 
-    public ShowChartsComponent(Context context, @Nullable AttributeSet attrs) {
+    public ShowPieChartsComponent(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         mCtx = context;
 
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ShowRecordComponent, 0, 0);
 
         try {
-            mChart1TitleText = a.getString(R.styleable.ShowChartsComponent_chart1TitleText);
-            mChart2TitleText = a.getString(R.styleable.ShowChartsComponent_chart2TitleText);
-            mChart3TitleText = a.getString(R.styleable.ShowChartsComponent_chart3TitleText);
-            mChartFooterText = a.getString(R.styleable.ShowChartsComponent_chartFooterText);
+            mChart1TitleText = a.getString(R.styleable.ShowPieChartsComponent_chart1TitleText);
+            mChart2TitleText = a.getString(R.styleable.ShowPieChartsComponent_chart2TitleText);
+            mChart3TitleText = a.getString(R.styleable.ShowPieChartsComponent_chart3TitleText);
+            mChartFooterText = a.getString(R.styleable.ShowPieChartsComponent_chartFooterText);
         }
         finally {
             a.recycle();
@@ -75,7 +75,7 @@ public class ShowChartsComponent extends LinearLayout {
     }
 
     private void init() {
-        View rootView = inflate(mCtx, R.layout.component_show_charts, this);
+        View rootView = inflate(mCtx, R.layout.component_pie_charts, this);
 
         mChartsLine = rootView.findViewById(R.id.chartsLine);
         mChart1Title = rootView.findViewById(R.id.chart1Title);

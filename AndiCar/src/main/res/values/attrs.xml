@@ -7,7 +7,7 @@
         <attr name="thirdLineText" format="string" />
     </declare-styleable>
 
-    <declare-styleable name="ShowChartsComponent">
+    <declare-styleable name="ShowPieChartsComponent">
         <attr name="chart1TitleText" format="string"/>
         <attr name="chart2TitleText" format="string"/>
         <attr name="chart3TitleText" format="string"/>

@@ -72,7 +72,7 @@ import andicar.n.activity.fragment.TaskEditFragment;
 import andicar.n.activity.miscellaneous.AboutActivity;
 import andicar.n.activity.miscellaneous.GPSTrackMap;
 import andicar.n.activity.preference.PreferenceActivity;
-import andicar.n.components.ShowChartsComponent;
+import andicar.n.components.ShowPieChartsComponent;
 import andicar.n.components.ShowRecordComponent;
 import andicar.n.persistence.DB;
 import andicar.n.persistence.DBAdapter;
@@ -98,6 +98,14 @@ public class MainActivity extends AppCompatActivity
     private static final int CHART_FILTER_CURRENT_YEAR = 4;
     private static final int CHART_FILTER_PREVIOUS_YEAR = 5;
     private static final int CHART_FILTER_CUSTOM_PERIOD = 6;
+    private static final String LAST_TRIP_RECORD = "LTR";
+    private static final String PIE_CHART_TRIPS = "CTR";
+    private static final String LAST_FILL_UP_RECORD = "LFU";
+    private static final String PIE_CHART_FUEL_QTY = "CFQ";
+    private static final String PIE_CHART_FUEL_VALUE = "CFV";
+    private static final String LAST_EXPENSE_RECORD = "LEX";
+    private static final String PIE_CHART_EXPENSES = "CEX";
+    private static final String LAST_GPS_TRACK_RECORD = "LGT";
 
     private final View.OnClickListener btnEditClickListener = new View.OnClickListener() {
         @Override
@@ -136,7 +144,7 @@ public class MainActivity extends AppCompatActivity
 
     private boolean mErrorInDrawCharts = false;
     //used to determine if the option menu need or not (for filtering chart data)
-    private boolean mChartsExistsOnScreen = false;
+    private boolean mPieChartsExistsOnScreen = false;
     private Menu mMenu;
     private int mChartFilterType = 1;
     private long mChartPeriodStartInSeconds = -1;
@@ -583,9 +591,9 @@ public class MainActivity extends AppCompatActivity
             menu.clear();
         }
         mMenu = menu;
-        if (mChartsExistsOnScreen) {
+        if (mPieChartsExistsOnScreen) {
             MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.main_activity_chart_filter_menu, mMenu);
+            inflater.inflate(R.menu.main_activity_pie_chart_filter_menu, mMenu);
         }
         return true;
     }
@@ -714,7 +722,7 @@ public class MainActivity extends AppCompatActivity
             Bundle sqlWWhereCondition = new Bundle();
 
             switch (recordSource) {
-                case "LTR": { //Last trip
+                case LAST_TRIP_RECORD: { //Last trip
                     showRecordComponent.setHeaderText(R.string.main_activity_mileage_header_caption);
 
                     sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_MILEAGE, DBReportAdapter.COL_NAME_MILEAGE__CAR_ID) + "=",
@@ -804,7 +812,7 @@ public class MainActivity extends AppCompatActivity
                     }
                     break;
                 }
-                case "LFU": { //Last fill-up
+                case LAST_FILL_UP_RECORD: { //Last fill-up
                     showRecordComponent.setHeaderText(R.string.main_activity_refuel_header_caption);
 
                     sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_REFUEL, DBReportAdapter.COL_NAME_REFUEL__CAR_ID) + "=",
@@ -930,7 +938,7 @@ public class MainActivity extends AppCompatActivity
                     }
                     break;
                 }
-                case "LEX": { //Last expense
+                case LAST_EXPENSE_RECORD: { //Last expense
                     showRecordComponent.setHeaderText(R.string.main_activity_expense_header_caption);
 
                     sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_EXPENSE, DBReportAdapter.COL_NAME_EXPENSE__CAR_ID) + "=",
@@ -999,7 +1007,7 @@ public class MainActivity extends AppCompatActivity
                     }
                     break;
                 }
-                case "LGT": { //Last GPS Track
+                case LAST_GPS_TRACK_RECORD: { //Last GPS Track
                     showRecordComponent.setHeaderText(R.string.main_activity_gps_track_header_caption);
 
                     sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_GPSTRACK, DBReportAdapter.COL_NAME_GPSTRACK__CAR_ID) + "=",
@@ -1102,7 +1110,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void drawCharts(ShowChartsComponent showChartsComponent, String chartSource) {
+    private void drawPieCharts(ShowPieChartsComponent showPieChartsComponent, String chartSource) {
         if (mErrorInDrawCharts) {
             return;
         }
@@ -1137,7 +1145,7 @@ public class MainActivity extends AppCompatActivity
         try {
             String carCurrencyCode = dbReportAdapter.getCurrencyCode(dbReportAdapter.getCarCurrencyID(mLastSelectedCarID));
             switch (chartSource) {
-                case "CTR":  //trip charts
+                case PIE_CHART_TRIPS:  //trip charts
                     title1 = getString(R.string.tripChart1Title);
                     title2 = getString(R.string.tripChart2Title);
                     title3 = getString(R.string.tripChart3Title);
@@ -1145,28 +1153,28 @@ public class MainActivity extends AppCompatActivity
                     String carUOMLengthCode = dbReportAdapter.getUOMCode(dbReportAdapter.getCarUOMLengthID(mLastSelectedCarID));
                     chartData = dbReportAdapter.getMileageByTypeChartData(chartArguments);
                     if (chartData.size() > 0) {
-                        showChartsComponent.setChartsLineHeight(false);
+                        showPieChartsComponent.setChartsLineHeight(false);
                         chartFooterText =
                                 String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
                                         + " " + carUOMLengthCode) + " (" + getChartDataPeriodText() + ")";
                     }
                     else {
-                        showChartsComponent.setChartsLineHeight(true);
+                        showPieChartsComponent.setChartsLineHeight(true);
                         chartFooterText = null;
                     }
-                    showChartsComponent.setChartFooterText(chartFooterText);
-                    showChartsComponent.setChart1TitleText(title1);
+                    showPieChartsComponent.setChartFooterText(chartFooterText);
+                    showPieChartsComponent.setChart1TitleText(title1);
                     title1 = title1.substring(0, title1.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
-                    showChartsComponent.drawChart(1, chartData, title1);
-                    showChartsComponent.setChart2TitleText(title2);
+                    showPieChartsComponent.drawChart(1, chartData, title1);
+                    showPieChartsComponent.setChart2TitleText(title2);
                     title2 = title2.substring(0, title2.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
-                    showChartsComponent.drawChart(2, dbReportAdapter.getMileageByTagsChartData(chartArguments), title2);
-                    showChartsComponent.setChart3TitleText(title3);
+                    showPieChartsComponent.drawChart(2, dbReportAdapter.getMileageByTagsChartData(chartArguments), title2);
+                    showPieChartsComponent.setChart3TitleText(title3);
                     title3 = title3.substring(0, title3.indexOf("(") - 1) + " [" + carUOMLengthCode + "]";
-                    showChartsComponent.drawChart(3, dbReportAdapter.getMileageByDriverChartData(chartArguments), title3);
+                    showPieChartsComponent.drawChart(3, dbReportAdapter.getMileageByDriverChartData(chartArguments), title3);
 
                     break;
-                case "CFQ":  //Fill-ups charts (quantity)
+                case PIE_CHART_FUEL_QTY:  //Fill-ups charts (quantity)
                     String carUOMVolume = dbReportAdapter.getUOMCode(dbReportAdapter.getCarUOMVolumeID(mLastSelectedCarID));
                     if (carUOMVolume == null || carUOMVolume.length() <= 1) {
                         carUOMVolume = dbReportAdapter.getUOMName(dbReportAdapter.getCarUOMVolumeID(mLastSelectedCarID));
@@ -1174,89 +1182,89 @@ public class MainActivity extends AppCompatActivity
 
                     chartData = dbReportAdapter.getRefuelsByTypeChartData(chartArguments, false);
                     if (chartData.size() > 0) {
-                        showChartsComponent.setChartsLineHeight(false);
+                        showPieChartsComponent.setChartsLineHeight(false);
                         chartFooterText = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
                                 + " " + carUOMVolume) + " (" + getChartDataPeriodText() + ")";
                     }
                     else {
-                        showChartsComponent.setChartsLineHeight(true);
+                        showPieChartsComponent.setChartsLineHeight(true);
                         chartFooterText = null;
                     }
 
-                    showChartsComponent.setChartFooterText(chartFooterText);
+                    showPieChartsComponent.setChartFooterText(chartFooterText);
 
                     title1 = getString(R.string.fillUpQuantityChart1Title);
-                    showChartsComponent.setChart1TitleText(title1);
+                    showPieChartsComponent.setChart1TitleText(title1);
                     title1 = title1.substring(0, title1.indexOf("(") - 1) + " [" + carUOMVolume + "]";
-                    showChartsComponent.drawChart(1, chartData, title1);
+                    showPieChartsComponent.drawChart(1, chartData, title1);
 
                     title2 = getString(R.string.fillUpQuantityChart2Title);
-                    showChartsComponent.setChart2TitleText(title2);
+                    showPieChartsComponent.setChart2TitleText(title2);
                     title2 = title2.substring(0, title2.indexOf("(") - 1) + " [" + carUOMVolume + "]";
-                    showChartsComponent.drawChart(2, dbReportAdapter.getRefuelsByTagChartData(chartArguments, false), title2);
+                    showPieChartsComponent.drawChart(2, dbReportAdapter.getRefuelsByTagChartData(chartArguments, false), title2);
 
                     title3 = getString(R.string.fillUpQuantityChart3Title);
-                    showChartsComponent.setChart3TitleText(title3);
+                    showPieChartsComponent.setChart3TitleText(title3);
                     title3 = title3.substring(0, title3.indexOf("(") - 1) + " [" + carUOMVolume + "]";
-                    showChartsComponent.drawChart(3, dbReportAdapter.getRefuelsByFuelTypeChartData(chartArguments, false), title3);
+                    showPieChartsComponent.drawChart(3, dbReportAdapter.getRefuelsByFuelTypeChartData(chartArguments, false), title3);
                     break;
                 case "CFV":  //Fill-ups charts (value)
                     //fill-up charts (value)
                     chartData = dbReportAdapter.getRefuelsByTypeChartData(chartArguments, true);
                     if (chartData.size() > 0) {
-                        showChartsComponent.setChartsLineHeight(false);
+                        showPieChartsComponent.setChartsLineHeight(false);
                         chartFooterText = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
                                 + " " + carCurrencyCode) + " (" + getChartDataPeriodText() + ")";
                     }
                     else {
-                        showChartsComponent.setChartsLineHeight(true);
+                        showPieChartsComponent.setChartsLineHeight(true);
                         chartFooterText = null;
                     }
 
-                    showChartsComponent.setChartFooterText(chartFooterText);
+                    showPieChartsComponent.setChartFooterText(chartFooterText);
 
                     title1 = getString(R.string.fillUpValueChart1Title);
-                    showChartsComponent.setChart1TitleText(title1);
+                    showPieChartsComponent.setChart1TitleText(title1);
                     title1 = title1.substring(0, title1.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                    showChartsComponent.drawChart(1, chartData, title1);
+                    showPieChartsComponent.drawChart(1, chartData, title1);
 
                     title2 = getString(R.string.fillUpValueChart2Title);
-                    showChartsComponent.setChart2TitleText(title2);
+                    showPieChartsComponent.setChart2TitleText(title2);
                     title2 = title2.substring(0, title2.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                    showChartsComponent.drawChart(2, dbReportAdapter.getRefuelsByTagChartData(chartArguments, true), title2);
+                    showPieChartsComponent.drawChart(2, dbReportAdapter.getRefuelsByTagChartData(chartArguments, true), title2);
 
                     title3 = getString(R.string.fillUpValueChart3Title);
-                    showChartsComponent.setChart3TitleText(title3);
+                    showPieChartsComponent.setChart3TitleText(title3);
                     title3 = title3.substring(0, title3.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                    showChartsComponent.drawChart(3, dbReportAdapter.getRefuelsByFuelTypeChartData(chartArguments, true), title3);
+                    showPieChartsComponent.drawChart(3, dbReportAdapter.getRefuelsByFuelTypeChartData(chartArguments, true), title3);
                     break;
-                case "CEX":  //Expense charts
+                case PIE_CHART_EXPENSES:  //Expense charts
                     chartData = dbReportAdapter.getExpensesByTypeChartData(chartArguments);
                     if (chartData.size() > 0) {
-                        showChartsComponent.setChartsLineHeight(false);
+                        showPieChartsComponent.setChartsLineHeight(false);
                         chartFooterText = String.format(getString(R.string.chartFooterText), Utils.numberToString(new BigDecimal(chartData.get(0).totalValue), true, 2, RoundingMode.HALF_UP)
                                 + " " + carCurrencyCode) + " (" + getChartDataPeriodText() + ")";
                     }
                     else {
-                        showChartsComponent.setChartsLineHeight(true);
+                        showPieChartsComponent.setChartsLineHeight(true);
                         chartFooterText = null;
                     }
-                    showChartsComponent.setChartFooterText(chartFooterText);
+                    showPieChartsComponent.setChartFooterText(chartFooterText);
 
                     title1 = getString(R.string.expenseChart1Title);
-                    showChartsComponent.setChart1TitleText(title1);
+                    showPieChartsComponent.setChart1TitleText(title1);
                     title1 = title1.substring(0, title1.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                    showChartsComponent.drawChart(1, chartData, title1);
+                    showPieChartsComponent.drawChart(1, chartData, title1);
 
                     title2 = getString(R.string.expenseChart2Title);
-                    showChartsComponent.setChart2TitleText(title2);
+                    showPieChartsComponent.setChart2TitleText(title2);
                     title2 = title2.substring(0, title2.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                    showChartsComponent.drawChart(2, dbReportAdapter.getExpensesByCategoryChartData(chartArguments), title2);
+                    showPieChartsComponent.drawChart(2, dbReportAdapter.getExpensesByCategoryChartData(chartArguments), title2);
 
                     title3 = getString(R.string.expenseChart3Title);
-                    showChartsComponent.setChart3TitleText(title3);
+                    showPieChartsComponent.setChart3TitleText(title3);
                     title3 = title3.substring(0, title3.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
-                    showChartsComponent.drawChart(3, dbReportAdapter.getExpensesByTagChartData(chartArguments), title3);
+                    showPieChartsComponent.drawChart(3, dbReportAdapter.getExpensesByTagChartData(chartArguments), title3);
                     break;
             }
 
@@ -1285,7 +1293,7 @@ public class MainActivity extends AppCompatActivity
             }
 
             ShowRecordComponent recordComponent;
-            ShowChartsComponent chartComponent;
+        ShowPieChartsComponent pieChartComponent;
             String zoneContent;
             LinearLayout zoneContainer = (LinearLayout) findViewById(R.id.zoneContainer);
             if (zoneContainer == null) {
@@ -1294,44 +1302,44 @@ public class MainActivity extends AppCompatActivity
 
             zoneContainer.removeAllViews();
 
-            mChartsExistsOnScreen = false;
+        mPieChartsExistsOnScreen = false;
 
             for (int i = 1; i <= 8; i++) {
                 switch (i) {
                     case 1:
-                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone1_content), "LTR");
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone1_content), LAST_TRIP_RECORD);
                         break;
                     case 2:
-                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone2_content), "CTR");
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone2_content), PIE_CHART_TRIPS);
                         break;
                     case 3:
-                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone3_content), "LFU");
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone3_content), LAST_FILL_UP_RECORD);
                         break;
                     case 4:
-                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone4_content), "CFQ");
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone4_content), PIE_CHART_FUEL_QTY);
                         break;
                     case 5:
-                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone5_content), "CFV");
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone5_content), PIE_CHART_FUEL_VALUE);
                         break;
                     case 6:
-                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone6_content), "LEX");
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone6_content), LAST_EXPENSE_RECORD);
                         break;
                     case 7:
-                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone7_content), "CEX");
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone7_content), PIE_CHART_EXPENSES);
                         break;
                     case 8:
-                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone8_content), "LGT");
+                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone8_content), LAST_GPS_TRACK_RECORD);
                         break;
                     default:
                         continue;
                 }
 
                 if (!zoneContent.equals("DNU")) {
-                    if (zoneContent.startsWith("C")) { //chart
-                        mChartsExistsOnScreen = true;
-                        chartComponent = new ShowChartsComponent(this);
-                        zoneContainer.addView(chartComponent);
-                        drawCharts(chartComponent, zoneContent);
+                    if (zoneContent.equals(PIE_CHART_TRIPS) || zoneContent.equals(PIE_CHART_FUEL_QTY) || zoneContent.equals("CFV") || zoneContent.equals(PIE_CHART_EXPENSES)) { //pie charts
+                        mPieChartsExistsOnScreen = true;
+                        pieChartComponent = new ShowPieChartsComponent(this);
+                        zoneContainer.addView(pieChartComponent);
+                        drawPieCharts(pieChartComponent, zoneContent);
                     }
                     else {
                         recordComponent = new ShowRecordComponent(this);
@@ -1343,9 +1351,9 @@ public class MainActivity extends AppCompatActivity
 
             if (mMenu != null) {
                 mMenu.clear();
-                if (mChartsExistsOnScreen) {
+                if (mPieChartsExistsOnScreen) {
                     MenuInflater inflater = getMenuInflater();
-                    inflater.inflate(R.menu.main_activity_chart_filter_menu, mMenu);
+                    inflater.inflate(R.menu.main_activity_pie_chart_filter_menu, mMenu);
                 }
             }
 
