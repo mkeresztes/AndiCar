@@ -1331,7 +1331,6 @@ public class MainActivity extends AppCompatActivity
                         mChartsExistsOnScreen = true;
                         chartComponent = new ShowChartsComponent(this);
                         zoneContainer.addView(chartComponent);
-//                        showChartsComponent.setVisibility(View.VISIBLE);
                         drawCharts(chartComponent, zoneContent);
                     }
                     else {

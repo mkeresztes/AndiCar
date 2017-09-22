@@ -31,9 +31,9 @@ import java.util.ArrayList;
 import andicar.n.persistence.DBReportAdapter;
 
 public class TestActivity extends AppCompatActivity {
-    private LineChart mChart;
     private static final int SET_FUEL_EFF_DATA = 1;
     private static final int SET_FUEL_CONS_DATA = 2;
+    private LineChart mChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +49,6 @@ public class TestActivity extends AppCompatActivity {
         // enable touch gestures
         mChart.setTouchEnabled(true);
 
-        // enable scaling and dragging
-//        mChart.setDragEnabled(true);
-//        mChart.setScaleEnabled(true);
-        // mChart.setScaleXEnabled(true);
-//         mChart.setScaleYEnabled(true);
-
         // if disabled, scaling can be done on x- and y-axis separately
         mChart.setPinchZoom(true);
 
@@ -67,13 +61,6 @@ public class TestActivity extends AppCompatActivity {
         mv.setChartView(mChart); // For bounds control
         mChart.setMarker(mv); // Set the marker to the chart
 
-        // x-axis limit line
-//        LimitLine llXAxis = new LimitLine(10f, "Index 10");
-//        llXAxis.setLineWidth(4f);
-//        llXAxis.enableDashedLine(10f, 10f, 0f);
-//        llXAxis.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-//        llXAxis.setTextSize(10f);
-
         XAxis xAxis = mChart.getXAxis();
         xAxis.setEnabled(false);
 //        xAxis.enableGridDashedLine(10f, 10f, 0f);
@@ -84,10 +71,7 @@ public class TestActivity extends AppCompatActivity {
 
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-//        leftAxis.setAxisMaximum(12f);
-//        leftAxis.setAxisMinimum(5f);
         leftAxis.setTextSize(15f);
-        //leftAxis.setYOffset(20f);
         leftAxis.enableGridDashedLine(10f, 10f, 0f);
         leftAxis.setDrawZeroLine(false);
 
@@ -97,10 +81,6 @@ public class TestActivity extends AppCompatActivity {
 
         setData(SET_FUEL_CONS_DATA, leftAxis);
 
-//        mChart.setVisibleXRange(20);
-//        mChart.setVisibleYRange(20f, AxisDependency.LEFT);
-//        mChart.centerViewTo(20, 50, AxisDependency.LEFT);
-
         mChart.animateX(250);
         //mChart.invalidate();
 
@@ -108,9 +88,6 @@ public class TestActivity extends AppCompatActivity {
         Legend l = mChart.getLegend();
         //hide the legend
         l.setEnabled(false);
-//
-//        // modify the legend ...
-//        l.setForm(Legend.LegendForm.LINE);
     }
 
     private void setData(int whatData, YAxis leftAxis) {
