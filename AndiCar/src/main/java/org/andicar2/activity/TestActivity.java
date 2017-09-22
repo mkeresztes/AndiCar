@@ -8,6 +8,10 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -33,7 +37,10 @@ import andicar.n.persistence.DBReportAdapter;
 public class TestActivity extends AppCompatActivity {
     private static final int SET_FUEL_EFF_DATA = 1;
     private static final int SET_FUEL_CONS_DATA = 2;
+    private int ChartFilterNoRecords = 5;
     private LineChart mChart;
+    private YAxis leftAxis;
+    private PopupMenu chartFilterMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +76,7 @@ public class TestActivity extends AppCompatActivity {
         //xAxis.addLimitLine(llXAxis); // add x-axis limit line
 
 
-        YAxis leftAxis = mChart.getAxisLeft();
+        leftAxis = mChart.getAxisLeft();
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
         leftAxis.setTextSize(15f);
         leftAxis.enableGridDashedLine(10f, 10f, 0f);
@@ -79,7 +86,7 @@ public class TestActivity extends AppCompatActivity {
 
         mChart.getAxisRight().setEnabled(false);
 
-        setData(SET_FUEL_CONS_DATA, leftAxis);
+        setData(SET_FUEL_CONS_DATA);
 
         mChart.animateX(250);
         //mChart.invalidate();
@@ -88,9 +95,43 @@ public class TestActivity extends AppCompatActivity {
         Legend l = mChart.getLegend();
         //hide the legend
         l.setEnabled(false);
+
+        ImageButton btnPopupMenu = (ImageButton) findViewById(R.id.btnMenu);
+
+        if (btnPopupMenu != null) {
+            chartFilterMenu = new PopupMenu(getApplicationContext(), btnPopupMenu);
+            chartFilterMenu.getMenuInflater().inflate(R.menu.menu_list_chart_data_selection, chartFilterMenu.getMenu());
+
+            btnPopupMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    chartFilterMenu.show();
+                }
+            });
+
+            chartFilterMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    if (menuItem.getItemId() == R.id.chart_filter_last_5) {
+                        ChartFilterNoRecords = 5;
+                    }
+                    else if (menuItem.getItemId() == R.id.chart_filter_last_10) {
+                        ChartFilterNoRecords = 10;
+                    }
+                    else {
+                        ChartFilterNoRecords = -1;
+                    }
+
+                    setData(SET_FUEL_CONS_DATA);
+                    return true;
+                }
+
+                ;
+            });
+        }
     }
 
-    private void setData(int whatData, YAxis leftAxis) {
+    private void setData(int whatData) {
 
         float minValue = 1000f;
         float maxValue = 0f;
@@ -102,7 +143,7 @@ public class TestActivity extends AppCompatActivity {
         sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_REFUEL, DBReportAdapter.COL_NAME_REFUEL__ISFULLREFUEL) + "=", "Y");
 
         dbReportAdapter.setReportSql(DBReportAdapter.REFUEL_LIST_SELECT_NAME, sqlWWhereCondition);
-        Cursor mCursor = dbReportAdapter.fetchReport(5);
+        Cursor mCursor = dbReportAdapter.fetchReport(ChartFilterNoRecords);
         if (mCursor == null) {
             try {
                 dbReportAdapter.close();
@@ -178,11 +219,11 @@ public class TestActivity extends AppCompatActivity {
 
         if (mChart.getData() != null &&
                 mChart.getData().getDataSetCount() > 0) {
-            set1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
-            set1.setValues(values);
-            mChart.getData().notifyDataChanged();
-            mChart.notifyDataSetChanged();
-        } else {
+            mChart.clear();
+//            mChart.getData().notifyDataChanged();
+//            mChart.notifyDataSetChanged();
+        }
+//        else {
             // create a dataset and give it a type
             set1 = new LineDataSet(values, "DataSet 1");
 
@@ -218,7 +259,7 @@ public class TestActivity extends AppCompatActivity {
 
             // set data
             mChart.setData(data);
-        }
+//        }
     }
 
     class ChartMarkerView extends MarkerView {

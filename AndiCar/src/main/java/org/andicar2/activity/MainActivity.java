@@ -72,6 +72,7 @@ import andicar.n.activity.fragment.TaskEditFragment;
 import andicar.n.activity.miscellaneous.AboutActivity;
 import andicar.n.activity.miscellaneous.GPSTrackMap;
 import andicar.n.activity.preference.PreferenceActivity;
+import andicar.n.components.ShowLineChartComponent;
 import andicar.n.components.ShowPieChartsComponent;
 import andicar.n.components.ShowRecordComponent;
 import andicar.n.persistence.DB;
@@ -99,13 +100,15 @@ public class MainActivity extends AppCompatActivity
     private static final int CHART_FILTER_PREVIOUS_YEAR = 5;
     private static final int CHART_FILTER_CUSTOM_PERIOD = 6;
     private static final String LAST_TRIP_RECORD = "LTR";
-    private static final String PIE_CHART_TRIPS = "CTR";
+    private static final String TRIPS_PIE_CHART = "CTR";
     private static final String LAST_FILL_UP_RECORD = "LFU";
-    private static final String PIE_CHART_FUEL_QTY = "CFQ";
-    private static final String PIE_CHART_FUEL_VALUE = "CFV";
+    private static final String FUEL_QTY_PIE_CHART = "CFQ";
+    private static final String FUEL_VALUE_PIE_CHART = "CFV";
     private static final String LAST_EXPENSE_RECORD = "LEX";
-    private static final String PIE_CHART_EXPENSES = "CEX";
+    private static final String EXPENSES_PIE_CHART = "CEX";
     private static final String LAST_GPS_TRACK_RECORD = "LGT";
+    private static final String FUEL_EFF_LINE_CHART = "CFE";
+    private static final String FUEL_CONS_LINE_CHART = "CFC";
 
     private final View.OnClickListener btnEditClickListener = new View.OnClickListener() {
         @Override
@@ -151,6 +154,8 @@ public class MainActivity extends AppCompatActivity
     private long mChartPeriodEndInSeconds = -1;
     private long mLastSelectedCarID = -1;
     private String mDbVersion;
+    private String mCarUOMVolumeCode;
+    private String mCarUOMLengthCode;
     private SharedPreferences mPreferences;
     private MainNavigationView mNavigationView;
     private DrawerLayout mNavViewDrawer;
@@ -304,7 +309,11 @@ public class MainActivity extends AppCompatActivity
             }
         }
         c.close();
+
+        mCarUOMVolumeCode = db.getUOMCode(db.getCarUOMVolumeID(mLastSelectedCarID));
+        mCarUOMLengthCode = db.getUOMCode(db.getCarUOMLengthID(mLastSelectedCarID));
         db.close();
+
 
         //force a redraw of the menu if the secondary is active
         if (mNavigationView.getMenuType() == MainNavigationView.MENU_TYPE_SECONDARY) {
@@ -359,8 +368,7 @@ public class MainActivity extends AppCompatActivity
             fab.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-//                    MainActivity.this.showPopup(view);
-                    startActivity(new Intent(getApplicationContext(), TestActivity.class));
+                    MainActivity.this.showPopup(view);
                     return true;
                 }
             });
@@ -434,13 +442,16 @@ public class MainActivity extends AppCompatActivity
         if (type == R.id.mnuTrip) {
             i = new Intent(MainActivity.this, CommonDetailActivity.class);
             i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_MILEAGE);
-        } else if (type == R.id.mnuRefuel) {
+        }
+        else if (type == R.id.mnuRefuel) {
             i = new Intent(MainActivity.this, CommonDetailActivity.class);
             i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_REFUEL);
-        } else if (type == R.id.mnuExpense) {
+        }
+        else if (type == R.id.mnuExpense) {
             i = new Intent(MainActivity.this, CommonDetailActivity.class);
             i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_EXPENSE);
-        } else if (type == R.id.mnuGPSTrack) {
+        }
+        else if (type == R.id.mnuGPSTrack) {
             if (recordID == -1L) {
                 i = new Intent(MainActivity.this, GPSTrackControllerDialogActivity.class);
             }
@@ -554,28 +565,32 @@ public class MainActivity extends AppCompatActivity
             i.putExtra(CommonListActivity.IS_SHOW_SEARCH_MENU_KEY, true);
             i.putExtra(CommonListActivity.IS_SHOW_SHARE_MENU_KEY, true);
             startActivity(i);
-        } else if (id == R.id.nav_refuel) {
+        }
+        else if (id == R.id.nav_refuel) {
             Intent i = new Intent(MainActivity.this, CommonListActivity.class);
             i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_REFUEL);
             i.putExtra(CommonListActivity.SCROLL_TO_POSITION_KEY, 0);
             i.putExtra(CommonListActivity.IS_SHOW_SEARCH_MENU_KEY, true);
             i.putExtra(CommonListActivity.IS_SHOW_SHARE_MENU_KEY, true);
             startActivity(i);
-        } else if (id == R.id.nav_expense) {
+        }
+        else if (id == R.id.nav_expense) {
             Intent i = new Intent(MainActivity.this, CommonListActivity.class);
             i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_EXPENSE);
             i.putExtra(CommonListActivity.SCROLL_TO_POSITION_KEY, 0);
             i.putExtra(CommonListActivity.IS_SHOW_SEARCH_MENU_KEY, true);
             i.putExtra(CommonListActivity.IS_SHOW_SHARE_MENU_KEY, true);
             startActivity(i);
-        } else if (id == R.id.nav_gpstrack) {
+        }
+        else if (id == R.id.nav_gpstrack) {
             Intent i = new Intent(MainActivity.this, CommonListActivity.class);
             i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_GPS_TRACK);
             i.putExtra(CommonListActivity.SCROLL_TO_POSITION_KEY, 0);
             i.putExtra(CommonListActivity.IS_SHOW_SEARCH_MENU_KEY, true);
             i.putExtra(CommonListActivity.IS_SHOW_SHARE_MENU_KEY, true);
             startActivity(i);
-        } else if (id == R.id.nav_todo) {
+        }
+        else if (id == R.id.nav_todo) {
             Intent i = new Intent(MainActivity.this, CommonListActivity.class);
             i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_TODO);
             i.putExtra(CommonListActivity.SCROLL_TO_POSITION_KEY, 0);
@@ -1145,7 +1160,7 @@ public class MainActivity extends AppCompatActivity
         try {
             String carCurrencyCode = dbReportAdapter.getCurrencyCode(dbReportAdapter.getCarCurrencyID(mLastSelectedCarID));
             switch (chartSource) {
-                case PIE_CHART_TRIPS:  //trip charts
+                case TRIPS_PIE_CHART:  //trip charts
                     title1 = getString(R.string.tripChart1Title);
                     title2 = getString(R.string.tripChart2Title);
                     title3 = getString(R.string.tripChart3Title);
@@ -1174,7 +1189,7 @@ public class MainActivity extends AppCompatActivity
                     showPieChartsComponent.drawChart(3, dbReportAdapter.getMileageByDriverChartData(chartArguments), title3);
 
                     break;
-                case PIE_CHART_FUEL_QTY:  //Fill-ups charts (quantity)
+                case FUEL_QTY_PIE_CHART:  //Fill-ups charts (quantity)
                     String carUOMVolume = dbReportAdapter.getUOMCode(dbReportAdapter.getCarUOMVolumeID(mLastSelectedCarID));
                     if (carUOMVolume == null || carUOMVolume.length() <= 1) {
                         carUOMVolume = dbReportAdapter.getUOMName(dbReportAdapter.getCarUOMVolumeID(mLastSelectedCarID));
@@ -1208,7 +1223,7 @@ public class MainActivity extends AppCompatActivity
                     title3 = title3.substring(0, title3.indexOf("(") - 1) + " [" + carUOMVolume + "]";
                     showPieChartsComponent.drawChart(3, dbReportAdapter.getRefuelsByFuelTypeChartData(chartArguments, false), title3);
                     break;
-                case "CFV":  //Fill-ups charts (value)
+                case FUEL_VALUE_PIE_CHART:  //Fill-ups charts (value)
                     //fill-up charts (value)
                     chartData = dbReportAdapter.getRefuelsByTypeChartData(chartArguments, true);
                     if (chartData.size() > 0) {
@@ -1238,7 +1253,7 @@ public class MainActivity extends AppCompatActivity
                     title3 = title3.substring(0, title3.indexOf("(") - 1) + " [" + carCurrencyCode + "]";
                     showPieChartsComponent.drawChart(3, dbReportAdapter.getRefuelsByFuelTypeChartData(chartArguments, true), title3);
                     break;
-                case PIE_CHART_EXPENSES:  //Expense charts
+                case EXPENSES_PIE_CHART:  //Expense charts
                     chartData = dbReportAdapter.getExpensesByTypeChartData(chartArguments);
                     if (chartData.size() > 0) {
                         showPieChartsComponent.setChartsLineHeight(false);
@@ -1284,86 +1299,99 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void fillContent() {
-            if (mPreferences.getBoolean(getString(R.string.pref_key_main_show_next_todo), true)) {
-                llToDoZone.setVisibility(View.VISIBLE);
-                fillToDoZone();
-            }
-            else {
-                llToDoZone.setVisibility(View.GONE);
-            }
+        if (mPreferences.getBoolean(getString(R.string.pref_key_main_show_next_todo), true)) {
+            llToDoZone.setVisibility(View.VISIBLE);
+            fillToDoZone();
+        }
+        else {
+            llToDoZone.setVisibility(View.GONE);
+        }
 
-            ShowRecordComponent recordComponent;
+        ShowRecordComponent recordComponent;
         ShowPieChartsComponent pieChartComponent;
-            String zoneContent;
-            LinearLayout zoneContainer = (LinearLayout) findViewById(R.id.zoneContainer);
-            if (zoneContainer == null) {
-                return;
-            }
+        ShowLineChartComponent lineChartComponent;
+        String zoneContent;
+        LinearLayout zoneContainer = (LinearLayout) findViewById(R.id.zoneContainer);
+        if (zoneContainer == null) {
+            return;
+        }
 
-            zoneContainer.removeAllViews();
+        zoneContainer.removeAllViews();
 
         mPieChartsExistsOnScreen = false;
 
-            for (int i = 1; i <= 8; i++) {
-                switch (i) {
-                    case 1:
-                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone1_content), LAST_TRIP_RECORD);
-                        break;
-                    case 2:
-                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone2_content), PIE_CHART_TRIPS);
-                        break;
-                    case 3:
-                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone3_content), LAST_FILL_UP_RECORD);
-                        break;
-                    case 4:
-                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone4_content), PIE_CHART_FUEL_QTY);
-                        break;
-                    case 5:
-                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone5_content), PIE_CHART_FUEL_VALUE);
-                        break;
-                    case 6:
-                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone6_content), LAST_EXPENSE_RECORD);
-                        break;
-                    case 7:
-                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone7_content), PIE_CHART_EXPENSES);
-                        break;
-                    case 8:
-                        zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone8_content), LAST_GPS_TRACK_RECORD);
-                        break;
-                    default:
-                        continue;
-                }
+        for (int i = 1; i <= 8; i++) {
+            switch (i) {
+                case 1:
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone1_content), LAST_TRIP_RECORD);
+                    break;
+                case 2:
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone2_content), TRIPS_PIE_CHART);
+                    break;
+                case 3:
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone3_content), LAST_FILL_UP_RECORD);
+                    break;
+                case 4:
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone4_content), FUEL_QTY_PIE_CHART);
+                    break;
+                case 5:
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone5_content), FUEL_VALUE_PIE_CHART);
+                    break;
+                case 6:
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone6_content), LAST_EXPENSE_RECORD);
+                    break;
+                case 7:
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone7_content), EXPENSES_PIE_CHART);
+                    break;
+                case 8:
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone8_content), LAST_GPS_TRACK_RECORD);
+                    break;
+                default:
+                    continue;
+            }
 
-                if (!zoneContent.equals("DNU")) {
-                    if (zoneContent.equals(PIE_CHART_TRIPS) || zoneContent.equals(PIE_CHART_FUEL_QTY) || zoneContent.equals("CFV") || zoneContent.equals(PIE_CHART_EXPENSES)) { //pie charts
+            if (!zoneContent.equals("DNU")) {
+                switch (zoneContent) {
+                    case TRIPS_PIE_CHART:
+                    case FUEL_QTY_PIE_CHART:
+                    case FUEL_VALUE_PIE_CHART:
+                    case EXPENSES_PIE_CHART:  //pie charts
                         mPieChartsExistsOnScreen = true;
                         pieChartComponent = new ShowPieChartsComponent(this);
                         zoneContainer.addView(pieChartComponent);
                         drawPieCharts(pieChartComponent, zoneContent);
-                    }
-                    else {
+                        break;
+                    case FUEL_CONS_LINE_CHART:
+                    case FUEL_EFF_LINE_CHART:
+                        String fuelConsTitle = String.format(getString(R.string.line_chart_filter_fuel_cons_title), mCarUOMVolumeCode + " / 100 " + mCarUOMLengthCode);
+                        lineChartComponent = new ShowLineChartComponent(this, zoneContent.equals(FUEL_CONS_LINE_CHART) ? ShowLineChartComponent.SHOW_FUEL_CONS : ShowLineChartComponent.SHOW_FUEL_EFF,
+                                zoneContent.equals(FUEL_CONS_LINE_CHART) ? fuelConsTitle : getString(R.string.line_chart_filter_fuel_eff_title));
+                        zoneContainer.addView(lineChartComponent);
+                        break;
+                    default:
                         recordComponent = new ShowRecordComponent(this);
                         zoneContainer.addView(recordComponent);
                         fillLastRecord(recordComponent, zoneContent);
-                    }
+                        break;
                 }
             }
+        }
 
-            if (mMenu != null) {
-                mMenu.clear();
-                if (mPieChartsExistsOnScreen) {
-                    MenuInflater inflater = getMenuInflater();
-                    inflater.inflate(R.menu.main_activity_pie_chart_filter_menu, mMenu);
-                }
+        if (mMenu != null) {
+            mMenu.clear();
+            if (mPieChartsExistsOnScreen) {
+                MenuInflater inflater = getMenuInflater();
+                inflater.inflate(R.menu.main_activity_pie_chart_filter_menu, mMenu);
             }
+        }
 
-            if (mPreferences.getBoolean(getString(R.string.pref_key_main_show_statistics), true)) {
-                llStatisticsZone.setVisibility(View.VISIBLE);
-                fillStatisticsZone();
-            }
-            else {
-                llStatisticsZone.setVisibility(View.GONE);
-            }
+        if (mPreferences.getBoolean(getString(R.string.pref_key_main_show_statistics), true)) {
+            llStatisticsZone.setVisibility(View.VISIBLE);
+            fillStatisticsZone();
+        }
+        else {
+            llStatisticsZone.setVisibility(View.GONE);
+        }
 
     }
 

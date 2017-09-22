@@ -369,6 +369,12 @@
     <string name="data_template_updated_msg">Vorlage aktualisiert</string>
     <string name="data_template_created_msg">Eine neue Vorlage auf Basis der aktuellen Werte</string>
 
+    <string name="line_chart_filter_last_5">Letzte 5</string>
+    <string name="line_chart_filter_last_10">Letzte 10</string>
+    <string name="line_chart_filter_all">Alle</string>
+    <string name="line_chart_filter_fuel_eff_title">mpg</string>
+    <string name="line_chart_filter_fuel_cons_title">%1$s</string>
+
     <string name="mileage_type">Art:</string>
     <string name="fillup_type">Auftanken Art:</string>
     <string name="fillup_category">Kraftstoff Kategorie:</string>

@@ -89,6 +89,8 @@
         <item>Gráfico recarga (cantidad)</item>
         <item>Gráfico recarga (suma)</item>
         <item>Gráfico gasto</item>
+        <item>Fuel efficiency</item>
+        <item>Fuel consumption</item>
     </string-array>
 
 </resources>

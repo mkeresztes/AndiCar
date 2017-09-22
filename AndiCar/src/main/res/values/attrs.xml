@@ -13,4 +13,8 @@
         <attr name="chart3TitleText" format="string"/>
         <attr name="chartFooterText" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="ShowLineChartComponent">
+        <attr name="chartTitleText" format="string"/>
+    </declare-styleable>
 </resources>

@@ -156,6 +156,8 @@
         <item>Fill-up charts (quantity)</item>
         <item>Fill-up charts (value)</item>
         <item>Expense charts</item>
+        <item>Fuel efficiency graph</item>
+        <item>Fuel consumption graph</item>
     </string-array>
 
     <string-array name="pref_main_zone_content_chooser_values" tools:ignore="MissingTranslation">
@@ -168,5 +170,7 @@
         <item>CFQ</item> <!--Fill-ups charts (quantity)-->
         <item>CFV</item> <!--Fill-ups charts (value)-->
         <item>CEX</item> <!--Expense charts-->
+        <item>CFE</item> <!--Fuel efficiency-->
+        <item>CFC</item> <!--Fuel consumption-->
     </string-array>
 </resources>
