@@ -19,7 +19,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="org.andicar2.activity"
-    android:versionCode="17092000"
+    android:versionCode="17092002"
     android:versionName="17.09-3">
 
     <!-- ************************************************************************************************* -->
@@ -131,13 +131,13 @@
         </activity>
         <activity
             android:name="andicar.n.activity.dialogs.GeneralNotificationDialogActivity"
-            android:theme="@style/AndiCarDialog"></activity>
+            android:theme="@style/AndiCarDialog" />
         <activity
             android:name="andicar.n.activity.dialogs.ToDoNotificationDialogActivity"
             android:theme="@style/AndiCarDialog" />
         <activity
             android:name="andicar.n.activity.dialogs.WhatsNewDialog"
-            android:theme="@style/AndiCarDialog"></activity>
+            android:theme="@style/AndiCarDialog" />
         <activity
             android:name="andicar.n.activity.dialogs.GPSTrackControllerDialogActivity"
             android:icon="@mipmap/ic_launcher_gpstrack"
@@ -164,13 +164,13 @@
         </activity>
         <activity
             android:name="andicar.n.activity.miscellaneous.BackupScheduleActivity"
-            android:theme="@style/AndiCarDialog"></activity>
+            android:theme="@style/AndiCarDialog" />
         <activity
             android:name="andicar.n.activity.miscellaneous.TaskCarLinkActivity"
-            android:theme="@style/AndiCarDialog"></activity>
+            android:theme="@style/AndiCarDialog" />
         <activity
             android:name="andicar.n.activity.dialogs.ChartDetailDialog"
-            android:theme="@style/AndiCarDialog"></activity>
+            android:theme="@style/AndiCarDialog" />
         <activity
             android:name="andicar.n.activity.CommonListActivity"
             android:launchMode="singleTop"
@@ -190,26 +190,27 @@
         </activity>
         <activity
             android:name="andicar.n.activity.miscellaneous.GPSTrackMap"
-            android:label="@string/gen_gpstrack_map"></activity>
+            android:label="@string/gen_gpstrack_map" />
         <activity
             android:name="andicar.n.activity.miscellaneous.AboutActivity"
-            android:label="About AndiCar"></activity>
+            android:label="About AndiCar" />
+        <activity android:name=".TestActivity" />
 
         <service
             android:name="andicar.n.service.SecureBackupService"
-            android:enabled="true"></service>
+            android:enabled="true" />
         <service
             android:name="andicar.n.service.BackupService"
-            android:enabled="true"></service>
+            android:enabled="true" />
         <service
             android:name="andicar.n.service.ToDoManagementService"
-            android:enabled="true"></service>
+            android:enabled="true" />
         <service
             android:name="andicar.n.service.GPSTrackService"
-            android:enabled="true"></service>
+            android:enabled="true" />
         <service
             android:name="andicar.n.service.ToDoNotificationService"
-            android:enabled="true"></service>
+            android:enabled="true" />
         <service
             android:name="andicar.n.service.FBJobService"
             android:exported="false">
@@ -225,7 +226,6 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.DATE_CHANGED" />
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
@@ -237,8 +237,5 @@
                 <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED" />
             </intent-filter>
         </receiver>
-
-        <activity android:name=".TestActivity"></activity>
     </application>
-
 </manifest>

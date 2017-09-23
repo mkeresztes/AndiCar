@@ -83,18 +83,34 @@ public class AndiCar extends MultiDexApplication {
 
         try {
             appVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+            oldAppVersion = appPreferences.getInt("appVersionCode", getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
             if (!appPreferences.contains("appVersionCode")) {
                 SharedPreferences.Editor e = appPreferences.edit();
                 e.putInt("appVersionCode", appVersion);
                 e.apply();
-            } else if (appPreferences.getInt("appVersionCode", getPackageManager().getPackageInfo(getPackageName(), 0).versionCode) != appVersion) {
-                ServiceStarter.startServices(getApplicationContext(), ConstantValues.SERVICE_STARTER_START_ALL);
-                SharedPreferences.Editor e = appPreferences.edit();
-                e.putInt("appVersionCode", appVersion);
-                e.putBoolean(getString(R.string.pref_key_show_whats_new_dialog), true);
-                e.apply();
+            } else {
+                if (oldAppVersion != appVersion) {
+                    //version upgrade
+                    SharedPreferences.Editor e = appPreferences.edit();
+                    if (oldAppVersion <= 17092000) {
+                        //migrate the main screen zones
+                        e.putString(getString(R.string.pref_key_main_zone10_content), appPreferences.getString(getString(R.string.pref_key_main_zone8_content), "LGT"));
+                        e.putString(getString(R.string.pref_key_main_zone9_content), appPreferences.getString(getString(R.string.pref_key_main_zone7_content), "CEX"));
+                        e.putString(getString(R.string.pref_key_main_zone8_content), appPreferences.getString(getString(R.string.pref_key_main_zone6_content), "LEX"));
+                        e.putString(getString(R.string.pref_key_main_zone7_content), appPreferences.getString(getString(R.string.pref_key_main_zone5_content), "CFV"));
+                        e.putString(getString(R.string.pref_key_main_zone6_content), appPreferences.getString(getString(R.string.pref_key_main_zone4_content), "CFQ"));
+                        e.putString(getString(R.string.pref_key_main_zone5_content), appPreferences.getString(getString(R.string.pref_key_main_zone3_content), "LFU"));
+                        e.putString(getString(R.string.pref_key_main_zone4_content), appPreferences.getString(getString(R.string.pref_key_main_zone2_content), "CTR"));
+                        e.putString(getString(R.string.pref_key_main_zone3_content), appPreferences.getString(getString(R.string.pref_key_main_zone1_content), "LTR"));
+                        e.remove(getString(R.string.pref_key_main_zone2_content)); //this will be initialized in the main screen, based on current car volume uom (Fuel Eff or Fuel Cons)
+                        e.putString(getString(R.string.pref_key_main_zone1_content), "STS");
+                    }
+                    ServiceStarter.startServices(getApplicationContext(), ConstantValues.SERVICE_STARTER_START_ALL);
+                    e.putInt("appVersionCode", appVersion);
+                    e.putBoolean(getString(R.string.pref_key_show_whats_new_dialog), true);
+                    e.apply();
+                }
             }
-
         }
         catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

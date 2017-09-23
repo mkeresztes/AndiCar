@@ -320,6 +320,11 @@ public class LineChartComponent extends LinearLayout {
         catch (Exception ignored) {
         }
 
+        if (values.size() == 0) {
+            setChartsLineHeight(true);
+            return;
+        }
+
         leftAxis.setAxisMaximum(Math.round(maxValue) + 1);
         leftAxis.setAxisMinimum(Math.round(minValue) - 1);
 
