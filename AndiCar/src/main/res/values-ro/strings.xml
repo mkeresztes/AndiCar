@@ -459,6 +459,7 @@
     <string name="chart_filter_custom_period_now_text">acum</string>
     <string name="chart_no_data">Nu există date</string>
     <string name="statistics_no_data">Nu există date pentru statistică</string>
+    <string name="main_screen_filters">Filtrul se aplică numai statisticilor și diagramelor circulare!</string>
 
     <string name="progress_restoring_data">Restaurarea e în curs … </string>
 

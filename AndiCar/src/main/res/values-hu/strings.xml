@@ -459,6 +459,7 @@
     <string name="chart_filter_custom_period_now_text">mostanig</string>
     <string name="chart_no_data">Nincs adat</string>
     <string name="statistics_no_data">Nincs adat a statisztikáknak</string>
+    <string name="main_screen_filters">A szűrő csak a statisztikákra és a kördiagramokra vonatkozik!</string>
 
     <string name="progress_restoring_data">A helyreállítás folyamatban … </string>
 

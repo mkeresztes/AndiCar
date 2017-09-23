@@ -403,6 +403,7 @@
     <string name="chart_filter_custom_period_now_text">ahora</string>
     <string name="chart_no_data">Sin datos</string>
     <string name="statistics_no_data">No hay datos para las estadísticas</string>
+    <string name="main_screen_filters">El filtro se aplica sólo a estadísticas y gráficos circulares!</string>
 
     <string name="progress_restoring_data">Restauración en progreso … </string>
 

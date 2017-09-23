@@ -407,6 +407,7 @@
     <string name="chart_filter_custom_period_now_text">jetzt</string>
     <string name="chart_no_data">Keine Daten</string>
     <string name="statistics_no_data">Keine Daten für Statistik</string>
+    <string name="main_screen_filters">Der Filter gilt nur für Statistik und Kreisdiagramme!</string>
 
     <string name="progress_restoring_data">Wiederherstellung im Gange … </string>
 

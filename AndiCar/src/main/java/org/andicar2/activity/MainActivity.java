@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity
 
     private boolean mErrorInDrawCharts = false;
     //used to determine if the option menu need or not (for filtering chart data)
-    private boolean mPieChartsExistsOnScreen = false;
+    private boolean mIsCanShowFilterMenu = false;
     private Menu mMenu;
     private int mChartFilterType = 1;
     private long mChartPeriodStartInSeconds = -1;
@@ -622,7 +622,7 @@ public class MainActivity extends AppCompatActivity
             menu.clear();
         }
         mMenu = menu;
-        if (mPieChartsExistsOnScreen) {
+        if (mIsCanShowFilterMenu) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.main_activity_pie_chart_filter_menu, mMenu);
         }
@@ -692,6 +692,7 @@ public class MainActivity extends AppCompatActivity
         if (!isCustomRangeSelected) {
             fillContent();
         }
+        Toast.makeText(this, getString(R.string.main_screen_filters), Toast.LENGTH_SHORT).show();
         return true;
     }
 
@@ -1335,7 +1336,7 @@ public class MainActivity extends AppCompatActivity
 
         zoneContainer.removeAllViews();
 
-        mPieChartsExistsOnScreen = false;
+        mIsCanShowFilterMenu = false;
 
         for (int i = 1; i <= 11; i++) {
             switch (i) {
@@ -1382,7 +1383,7 @@ public class MainActivity extends AppCompatActivity
                     case FUEL_QTY_PIE_CHART:
                     case FUEL_VALUE_PIE_CHART:
                     case EXPENSES_PIE_CHART:  //pie charts
-                        mPieChartsExistsOnScreen = true;
+                        mIsCanShowFilterMenu = true;
                         pieChartComponent = new PieChartsComponent(this);
                         zoneContainer.addView(pieChartComponent);
                         drawPieCharts(pieChartComponent, zoneContent);
@@ -1396,6 +1397,7 @@ public class MainActivity extends AppCompatActivity
                         zoneContainer.addView(lineChartComponent);
                         break;
                     case STATISTICS_ZONE:
+                        mIsCanShowFilterMenu = true;
                         statisticsComponent = new StatisticsComponent(this);
                         zoneContainer.addView(statisticsComponent);
                         fillStatisticsZone(statisticsComponent);
@@ -1411,7 +1413,7 @@ public class MainActivity extends AppCompatActivity
 
         if (mMenu != null) {
             mMenu.clear();
-            if (mPieChartsExistsOnScreen) {
+            if (mIsCanShowFilterMenu) {
                 MenuInflater inflater = getMenuInflater();
                 inflater.inflate(R.menu.main_activity_pie_chart_filter_menu, mMenu);
             }

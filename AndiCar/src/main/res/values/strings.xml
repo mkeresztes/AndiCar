@@ -804,6 +804,7 @@
     <string name="chart_filter_custom_period_now_text">now</string>
     <string name="chart_no_data">No data</string>
     <string name="statistics_no_data">No data for statistics</string>
+    <string name="main_screen_filters">The filter applies only to statistics and pie charts!</string>
 
     <string name="progress_restoring_data">Restore in progress … </string>
 
