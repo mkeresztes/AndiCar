@@ -3,8 +3,9 @@
     <string name="whats_new">
         <![CDATA[
         <br><b><i>Újdonságok ebben a verzióban:</i></b><br><br>
-		*  Főképernyő testreszabása (Beállítások -> Főképernyő beállításai) - maximum 8 külön zóna allítható be grafikonok vagy a legutóbbi rekordok megjelenítésére.<br><br>
-		*  Külön indító a útnyilvántartásoknak. Helyezd a telefonod ernyőjére és egy koppintással máris kinyilt a megfelelő ablak.<br>
+		*  Üzemanyag fogyasztás grafikonok. Ki lehet választani mind főképernyőzóna tartalom.<br>
+		*  A statisztikák zónatartalomként kezelhetők. Így bárhol elhelyezhetők a főképernyőn.<br>
+		*  \"Kész & Új\" mentés több rekord egymás utáni bevitelére.<br>
         <br>Köszönöm, hogy az <b><i>AndiCar</i></b>-t használod.<br><br>
         ]]>
     </string>

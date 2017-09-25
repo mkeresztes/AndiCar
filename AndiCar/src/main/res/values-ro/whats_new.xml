@@ -3,8 +3,9 @@
     <string name="whats_new">
         <![CDATA[
         <br><b><i>Noutăţi în această versiune:</i></b><br><br>
-		*  Configurarea ecranului principal (Setări -> Ecran principal) - pot fi configurate până la 8 zone distincte pentru afişarea de grafice sau cele mai recente înregistrări.<br><br>
-		*  Icon distinct pentru lansarea ferestrei de introducere kilometraj. Adaugă-l pe ecranul telefonului şi cu o singură atingere se deschide fereastra respectivă.<br>
+		*  Grafice pentru consumul de combustibil. Pot fi selectate ca conținut pentru zonele ecranului principal.<br>
+		*  Statisticele fac parte acum din conținutul zonelor. Deci pot fi plasate oriunde pe ecranul principal.<br>
+		*  Buton \"Gata & Nou\" pentru introducerea consecutivă a mai multor înregistrări.<br>
         <br>Mulţumesc că utilizezi <b><i>AndiCar</i></b>.<br><br>
         ]]>
     </string>
