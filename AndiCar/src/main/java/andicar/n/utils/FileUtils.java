@@ -78,6 +78,7 @@ public class FileUtils {
     private static final String LogTag = "FileUtils";
     private static final SharedPreferences mPreferences = AndiCar.getDefaultSharedPreferences();
     public static String mLastErrorMessage = null;
+    public static Exception mLastException = null;
 
     /**
      * delete a file
@@ -94,6 +95,8 @@ public class FileUtils {
             }
         }
         catch (Exception e) {
+            mLastErrorMessage = e.getMessage();
+            mLastException = e;
             return e.getMessage();
         }
         return null;
@@ -199,6 +202,8 @@ public class FileUtils {
         }
         catch (IOException ex) {
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+            mLastException = ex;
+            mLastErrorMessage = ex.getMessage();
             return null;
         }
     }
@@ -249,6 +254,7 @@ public class FileUtils {
     public static String backupDb(Context ctx, String dbPath, @Nullable String bkPrefix, boolean skipSecureBk) {
 
         mLastErrorMessage = null;
+        mLastException = null;
 
         if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
             mLastErrorMessage = "External Storage Access denied";
@@ -319,7 +325,8 @@ public class FileUtils {
                     if (debugLogFileWriter != null) {
                         try {
                             debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Calling FirebaseJobDispatcher terminated with error: ")
-                                    .append(e.getMessage());
+                                    .append(e.getMessage()).append("\n");
+                            debugLogFileWriter.append(Utils.getStackTrace(e));
                             debugLogFileWriter.flush();
                             debugLogFileWriter.close();
                         }
@@ -327,6 +334,8 @@ public class FileUtils {
                             e1.printStackTrace();
                         }
                     }
+                    mLastException = e;
+                    mLastErrorMessage = e.getMessage();
                     AndiCarCrashReporter.sendCrash(e);
                     Log.e(LogTag, e.getMessage(), e);
                 }
@@ -406,6 +415,8 @@ public class FileUtils {
         catch (SecurityException e) {
             Toast toast = Toast.makeText(ctx, "Error: " + e.getMessage(), Toast.LENGTH_LONG);
             toast.show();
+            mLastException = e;
+            mLastErrorMessage = e.getMessage();
             return e.getMessage();
         }
         return null;
@@ -439,6 +450,8 @@ public class FileUtils {
             return copyFile(ctx, fromFile, toFile);
         }
         catch (SecurityException e) {
+            mLastException = e;
+            mLastErrorMessage = e.getMessage();
             return e.getMessage();
         }
     }
@@ -477,6 +490,8 @@ public class FileUtils {
         catch (IOException e) {
             Toast toast = Toast.makeText(ctx, "Error: " + e.getMessage(), Toast.LENGTH_LONG);
             toast.show();
+            mLastException = e;
+            mLastErrorMessage = e.getMessage();
             return e.getMessage();
         }
         return null;
@@ -609,6 +624,7 @@ public class FileUtils {
     public static boolean restoreDb(Context ctx, String restoreFileWithPath, String dbPath) {
 
         mLastErrorMessage = null;
+        mLastException = null;
 
         if (!(restoreFileWithPath.endsWith(".db") || restoreFileWithPath.endsWith(".zip") || restoreFileWithPath.endsWith(".zi_"))) {
             mLastErrorMessage = ctx.getString(R.string.error_072);
@@ -673,6 +689,8 @@ public class FileUtils {
 
             }
             catch (IOException e) {
+                mLastException = e;
+                mLastErrorMessage = e.getMessage();
                 Utils.showReportableErrorDialog(ctx, e.getMessage(), null, e, false);
             }
         }
@@ -694,6 +712,7 @@ public class FileUtils {
 
         try {
             mLastErrorMessage = null;
+            mLastException = null;
             File file = new File(ConstantValues.REPORT_FOLDER + fileName);
             if (!file.createNewFile()) {
                 return R.string.error_022;
@@ -705,6 +724,7 @@ public class FileUtils {
         }
         catch (IOException e) {
             mLastErrorMessage = e.getMessage();
+            mLastException = e;
             return R.string.error_023;
         }
         return -1;
