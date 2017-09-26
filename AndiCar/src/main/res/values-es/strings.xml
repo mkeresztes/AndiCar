@@ -526,4 +526,5 @@
     <string name="error_065">Número invalido.</string>
     <string name="error_071">Base de datos no válida.</string>
     <string name="error_072">Tipo de archivo de copia de seguridad desconocido.</string>
+    <string name="error_114">Se requiere un mínimo de 2 registros de tareas!</string>
 </resources>

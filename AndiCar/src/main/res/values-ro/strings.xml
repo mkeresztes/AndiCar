@@ -624,4 +624,5 @@
     <string name="error_111">Alegeți o unitate de pornire!</string>
     <string name="error_112">Alegeți unitatea în care doriți conversia!</string>
     <string name="error_113">Tip fereastră invalid (%1s)!</string>
+    <string name="error_114">Sunt necesare cel puţin 2 sarcini!</string>
 </resources>

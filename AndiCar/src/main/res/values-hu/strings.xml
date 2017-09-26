@@ -624,4 +624,5 @@
     <string name="error_111">Válasszon egy kezdő mértékegységet!</string>
     <string name="error_112">Válassza ki, hogy mílyen mértékegységre alakít!</string>
     <string name="error_113">Ismeretlen ablaktípus (%1s)!</string>
+    <string name="error_114">Legalább 2 tennivaló szükséges!</string>
 </resources>

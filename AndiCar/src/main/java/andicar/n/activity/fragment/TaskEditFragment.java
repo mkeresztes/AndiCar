@@ -731,14 +731,34 @@ public class TaskEditFragment extends BaseEditFragment {
             }
         }
 
-        if (isRecurrent && (etNoOfNextToDo.getText().toString().length() == 0)) {
-            Toast toast = Toast.makeText(getActivity(),
-                    mResource.getString(R.string.gen_fill_mandatory) + ": " + mResource.getString(R.string.task_edit_todo_count), Toast.LENGTH_SHORT);
-            toast.show();
-            saveSuccess = false;
-            etNoOfNextToDo.requestFocus();
-            return false;
+        if (isRecurrent) {
+            if (etNoOfNextToDo.getText().toString().length() == 0) {
+                Toast toast = Toast.makeText(getActivity(),
+                        mResource.getString(R.string.gen_fill_mandatory) + ": " + mResource.getString(R.string.task_edit_todo_count), Toast.LENGTH_SHORT);
+                toast.show();
+                saveSuccess = false;
+                etNoOfNextToDo.requestFocus();
+                return false;
+            } else {
+                try {
+                    int toDoCount = Integer.parseInt(etNoOfNextToDo.getText().toString());
+                    if (toDoCount < 2) {
+                        Toast toast = Toast.makeText(getActivity(), mResource.getString(R.string.error_114), Toast.LENGTH_LONG);
+                        toast.show();
+                        etNoOfNextToDo.requestFocus();
+                        saveSuccess = false;
+                        return false;
+                    }
+                } catch (Exception e) {
+                    Toast toast = Toast.makeText(getActivity(), mResource.getString(R.string.error_065), Toast.LENGTH_SHORT);
+                    toast.show();
+                    etNoOfNextToDo.requestFocus();
+                    saveSuccess = false;
+                    return false;
+                }
+            }
         }
+
 
         ContentValues data = new ContentValues();
         data.put(DBAdapter.COL_NAME_GEN_NAME, etName.getText().toString());

@@ -88,32 +88,6 @@
 
     <string name="pref_bt_link_on_disconnect_label">When disconnected from Bluetooth:</string>
 
-    <string name="error_sorry">I\'m sorry, but an unexpected error occurred :(</string>
-    <string name="error_067">Cannot share. No application found with sharing capabilities.</string>
-    <string name="error_068">No GPS provider found!</string>
-    <string name="error_069">Access denied to location. Grant it to use this feature!</string>
-    <string name="error_070">Access denied to external storage. Grant it to use this feature!</string>
-    <string name="error_073">%1$s does not exist.</string>
-    <string name="error_074">%1$s is not a directory.</string>
-    <string name="error_075">Failed to list contents of %1$s.</string>
-    <string name="error_076">Failed to delete directory %1$s.</string>
-    <string name="error_077">Canot rename destination directory.</string>
-    <string name="error_078">Cannot create destination folder %1$s.</string>
-    <string name="error_079">Destination %1$s cannot be written to.</string>
-    <string name="error_080">Empty zip file. Restore aborted.</string>
-    <string name="error_081">Database file not found in backup archive. Restore aborted.</string>
-    <string name="error_100">File not found%1s!</string>
-    <string name="error_102">Access denied to external storage!</string>
-    <string name="error_103">The log folder (%1s) can not be created.</string>
-    <string name="error_105">Cannot delete %1s!</string>
-    <string name="error_106">Incomplete configured: no recipient email</string>
-    <string name="error_107">Incomplete configured: no Google account chosen.</string>
-    <string name="error_108">AndiCar is not authorized, or the authorization was removed, to send emails on your behalf. Secure backup was disabled. You can re-enable it from Settings -> Backup &amp; Restore.</string>
-    <string name="error_109">Access denied to external storage. Grant it to use this feature!</string>
-    <string name="error_111">Please choose a value for from UOM!</string>
-    <string name="error_112">Please choose a value for to UOM!</string>
-    <string name="error_113">Unknown activity type (%1s)!</string>
-
     <string name="gen_internet_access_required">Internet access required to configure this service.</string>
     <string name="gen_mail_sent">Mail sent</string>
     <string name="gen_close">Close</string>
@@ -934,5 +908,36 @@
     <string name="error_065">Invalid number.</string>
     <string name="error_071">Invalid database.</string>
     <string name="error_072">Unknown backup file type.</string>
+    <!-- _______________________________________ -->
+
+    <!--ES / DE translation missing -->
+    <!-- _______________________________________ -->
+
+    <string name="error_sorry">I\'m sorry, but an unexpected error occurred :(</string>
+    <string name="error_067">Cannot share. No application found with sharing capabilities.</string>
+    <string name="error_068">No GPS provider found!</string>
+    <string name="error_069">Access denied to location. Grant it to use this feature!</string>
+    <string name="error_070">Access denied to external storage. Grant it to use this feature!</string>
+    <string name="error_073">%1$s does not exist.</string>
+    <string name="error_074">%1$s is not a directory.</string>
+    <string name="error_075">Failed to list contents of %1$s.</string>
+    <string name="error_076">Failed to delete directory %1$s.</string>
+    <string name="error_077">Canot rename destination directory.</string>
+    <string name="error_078">Cannot create destination folder %1$s.</string>
+    <string name="error_079">Destination %1$s cannot be written to.</string>
+    <string name="error_080">Empty zip file. Restore aborted.</string>
+    <string name="error_081">Database file not found in backup archive. Restore aborted.</string>
+    <string name="error_100">File not found%1s!</string>
+    <string name="error_102">Access denied to external storage!</string>
+    <string name="error_103">The log folder (%1s) can not be created.</string>
+    <string name="error_105">Cannot delete %1s!</string>
+    <string name="error_106">Incomplete configured: no recipient email</string>
+    <string name="error_107">Incomplete configured: no Google account chosen.</string>
+    <string name="error_108">AndiCar is not authorized, or the authorization was removed, to send emails on your behalf. Secure backup was disabled. You can re-enable it from Settings -> Backup &amp; Restore.</string>
+    <string name="error_109">Access denied to external storage. Grant it to use this feature!</string>
+    <string name="error_111">Please choose a value for from UOM!</string>
+    <string name="error_112">Please choose a value for to UOM!</string>
+    <string name="error_113">Unknown activity type (%1s)!</string>
+    <string name="error_114">A minimum of 2 to-do record required!</string>
 
 </resources>
