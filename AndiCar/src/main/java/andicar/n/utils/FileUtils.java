@@ -248,46 +248,62 @@ public class FileUtils {
      *
      * @param bkPrefix Default: ConstantValues.BACKUP_PREFIX (bk). Prefix for the backup filename (<prefix>filename.db).
      * @param dbPath the path to the database
-     * @param skipSecureBk if true the secure baxkup step will be skipped, even if in the preference is enabled
+     * @param skipSecureBk if true the secure backup step will be skipped, even if in the preference is enabled
      * @return The backup file name on success or null on error. See mLastErrorMessage for error details
      */
     public static String backupDb(Context ctx, String dbPath, @Nullable String bkPrefix, boolean skipSecureBk) {
 
-        mLastErrorMessage = null;
-        mLastException = null;
+        FileUtils.createFolderIfNotExists(ctx, ConstantValues.LOG_FOLDER);
 
-        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-            mLastErrorMessage = "External Storage Access denied";
-            return null;
-        }
-
-        mLastErrorMessage = FileUtils.createFolderIfNotExists(ctx, ConstantValues.BACKUP_FOLDER);
-        if (mLastErrorMessage != null) {
-            return null;
-        }
-
-        if (dbPath == null) {
-            mLastErrorMessage = "Invalid database (null)";
-            return null;
-        }
-
+        File debugLogFile = new File(ConstantValues.LOG_FOLDER + "backupDB.log");
+        FileWriter debugLogFileWriter = null;
         String bkFile = ConstantValues.BACKUP_FOLDER;
-        String bkFileName;
-        bkFileName = Utils.appendDateTime(bkPrefix == null ? ConstantValues.BACKUP_PREFIX : bkPrefix, true, true, "-") + ConstantValues.BACKUP_SUFIX;
-        bkFile = bkFile + bkFileName;
+        String bkFileName = null;
 
-        mLastErrorMessage = FileUtils.copyFile(ctx, dbPath, bkFile, false);
-        if (mLastErrorMessage != null) {
-            return null;
-        }
-        else { // if secure backup enabled send the backup file as email attachment
-            FileUtils.createFolderIfNotExists(ctx, ConstantValues.LOG_FOLDER);
-            File debugLogFile = new File(ConstantValues.LOG_FOLDER + "backupDB.log");
-            FileWriter debugLogFileWriter = null;
-            if (mPreferences.getBoolean(mResources.getString(R.string.pref_key_secure_backup_enabled), false) && !skipSecureBk) {
-                try {
-                    debugLogFileWriter = new FileWriter(debugLogFile, false);
-                    debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Backup terminated. Calling FirebaseJobDispatcher for SecureBackup");
+        try {
+            if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                mLastErrorMessage = "External Storage Access denied";
+                return null;
+            }
+
+            debugLogFileWriter = new FileWriter(debugLogFile, false);
+
+            debugLogFileWriter.append(Utils.getCurrentDateTimeForLog()).append(" App version: ").append(Integer.toString(AndiCar.getAppVersion()));
+
+            bkFileName = Utils.appendDateTime(bkPrefix == null ? ConstantValues.BACKUP_PREFIX : bkPrefix, true, true, "-") + ConstantValues.BACKUP_SUFIX;
+            bkFile = bkFile + bkFileName;
+
+            debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" db backup started to: ").append(bkFile);
+
+            mLastErrorMessage = null;
+            mLastException = null;
+
+            mLastErrorMessage = FileUtils.createFolderIfNotExists(ctx, ConstantValues.BACKUP_FOLDER);
+            if (mLastErrorMessage != null) {
+                return null;
+            }
+
+            if (dbPath == null) {
+                mLastErrorMessage = "Invalid database (null)";
+                debugLogFileWriter.append("\nInvalid database (null)");
+                debugLogFileWriter.flush();
+                debugLogFileWriter.close();
+                return null;
+            }
+
+            mLastErrorMessage = FileUtils.copyFile(ctx, dbPath, bkFile, false);
+            if (mLastErrorMessage != null) {
+                debugLogFileWriter.append("\nError: ").append(mLastErrorMessage);
+                debugLogFileWriter.append("\n\n").append(Utils.getStackTrace(mLastException));
+                debugLogFileWriter.flush();
+                debugLogFileWriter.close();
+                return null;
+            }
+            else { // if secure backup enabled send the backup file as email attachment
+                debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Backup terminated with success.");
+
+                if (mPreferences.getBoolean(mResources.getString(R.string.pref_key_secure_backup_enabled), false) && !skipSecureBk) {
+                    debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Secure backup enabled. Calling FirebaseJobDispatcher for SecureBackup");
                     Bundle myExtrasBundle = new Bundle();
                     myExtrasBundle.putString("bkFile", bkFile);
                     myExtrasBundle.putString("attachName", bkFileName);
@@ -318,30 +334,33 @@ public class FileUtils {
                     dispatcher.mustSchedule(myJob);
 
                     debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Calling FirebaseJobDispatcher terminated");
+                }
+                else {
+                    debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Secure backup is not enabled.");
+                }
+                debugLogFileWriter.flush();
+                debugLogFileWriter.close();
+            }
+        }
+        catch (Exception e) {
+            if (debugLogFileWriter != null) {
+                try {
+                    debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" backup terminated with error: ")
+                            .append(e.getMessage()).append("\n");
+                    debugLogFileWriter.append(Utils.getStackTrace(e));
                     debugLogFileWriter.flush();
                     debugLogFileWriter.close();
                 }
-                catch (Exception e) {
-                    if (debugLogFileWriter != null) {
-                        try {
-                            debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Calling FirebaseJobDispatcher terminated with error: ")
-                                    .append(e.getMessage()).append("\n");
-                            debugLogFileWriter.append(Utils.getStackTrace(e));
-                            debugLogFileWriter.flush();
-                            debugLogFileWriter.close();
-                        }
-                        catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-                    mLastException = e;
-                    mLastErrorMessage = e.getMessage();
-                    AndiCarCrashReporter.sendCrash(e);
-                    Log.e(LogTag, e.getMessage(), e);
+                catch (IOException e1) {
+                    e1.printStackTrace();
                 }
             }
+            mLastException = e;
+            mLastErrorMessage = e.getMessage();
+            AndiCarCrashReporter.sendCrash(e);
+            Log.e(LogTag, e.getMessage(), e);
         }
-        return bkFileName;
+        return bkFile;
     }
 
     /**

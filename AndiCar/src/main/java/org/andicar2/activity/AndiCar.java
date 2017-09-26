@@ -50,6 +50,10 @@ public class AndiCar extends MultiDexApplication {
         return appPreferences;
     }
 
+    public static int getAppVersion() {
+        return appPreferences.getInt("appVersionCode", 0);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();

@@ -527,6 +527,9 @@ public class Utils {
 
     //copied from org/apache/commons/lang3/exception/ExceptionUtils.java (https://github.com/apache/commons-lang/blob/master/src/main/java/org/apache/commons/lang3/exception/ExceptionUtils.java)
     public static String getStackTrace(final Throwable throwable) {
+        if (throwable == null) {
+            return "";
+        }
         final StringWriter sw = new StringWriter();
         final PrintWriter pw = new PrintWriter(sw, true);
         throwable.printStackTrace(pw);
