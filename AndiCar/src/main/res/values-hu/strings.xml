@@ -31,6 +31,8 @@
     <string name="pref_uom_summary">Mértékegység szerkesztése</string>
     <string name="pref_uom_conversion_title">Mértékegység átváltás</string>
     <string name="pref_uom_conversion_summary">Mértékegységek átváltásának szerkesztése</string>
+    <string name="pref_log_files_title">Naplófájlok</string>
+    <string name="pref_log_files_description">Naplófájlok megosztása.</string>
     <string name="pref_financial_title">Pénzügyi beállítások</string>
     <string name="pref_expense_type_title">Út és költség típusok</string>
     <string name="pref_expense_type_summary">Út és költség típusok szerkesztése</string>

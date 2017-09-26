@@ -31,6 +31,8 @@
     <string name="pref_uom_summary">Adaugă, şterge, modifică unităţi de măsură</string>
     <string name="pref_uom_conversion_title">Conversie UM</string>
     <string name="pref_uom_conversion_summary">Adaugă, şterge, modifică rata de conversie între UM</string>
+    <string name="pref_log_files_title">Fișiere log</string>
+    <string name="pref_log_files_description">Partajare fișiere log.</string>
     <string name="pref_financial_title">Setări financiare</string>
     <string name="pref_expense_type_title">Tipuri de kilometraje şi cheltuieli</string>
     <string name="pref_expense_type_summary">Adaugă, şterge, modifică tipuri de kilometraje şi cheltuieli</string>

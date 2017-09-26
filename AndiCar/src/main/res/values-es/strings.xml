@@ -32,6 +32,8 @@
     <string name="pref_uom_summary">Agregar, borrar, modificar unidades de medida</string>
     <string name="pref_uom_conversion_title">UM conversión</string>
     <string name="pref_uom_conversion_summary">Agregar, borrar, modificar conversiones entre unidades de medida</string>
+    <string name="pref_log_files_title">Archivos de registro</string>
+    <string name="pref_log_files_description">Compartir archivos de registro.</string>
     <string name="pref_financial_title">Configuración financiera</string>
     <string name="pref_expense_type_title">Tipo de viaje &amp; gastos</string>
     <string name="pref_expense_type_summary">Agregar, borrar, modificar tipo de viaje &amp; gastos</string>

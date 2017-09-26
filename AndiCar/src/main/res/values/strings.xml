@@ -192,6 +192,10 @@
     <string name="pref_uom_summary">Add, delete, modify measurement units</string>
     <string name="pref_uom_conversion_title">UOM conversion</string>
     <string name="pref_uom_conversion_summary">Add, delete, modify conversions between measurement units</string>
+
+    <string name="pref_log_files_title">Log files</string>
+    <string name="pref_log_files_description">Share the log files.</string>
+
     <!--ES / DE translated by Google-->
     <string name="pref_financial_title">Financial settings</string>
     <!--PREF_ExpenseTypeCategoryTitle-->

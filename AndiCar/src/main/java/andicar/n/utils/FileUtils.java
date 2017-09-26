@@ -118,6 +118,10 @@ public class FileUtils {
         return fileNames;
     }
 
+    public static ArrayList<String> listLogFiles(Context ctx) {
+        return FileUtils.getFileNames(ctx, ConstantValues.LOG_FOLDER, null);
+    }
+
     @Nullable
     public static ArrayList<String> getFileNames(Context ctx, String folder, @Nullable String fileNameFilterPattern) {
         ArrayList<String> myData = new ArrayList<>();

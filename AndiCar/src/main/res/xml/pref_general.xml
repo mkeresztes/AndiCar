@@ -65,5 +65,12 @@
             android:key="@string/pref_key_tag"
             android:summary="@string/pref_tag_summary"
             android:title="@string/pref_tag_title"/>
+
+        <Preference
+            android:key="@string/pref_key_log_files"
+            android:summary="@string/pref_log_files_description"
+            android:title="@string/pref_log_files_title"/>
+
     </PreferenceCategory>
+
 </PreferenceScreen>

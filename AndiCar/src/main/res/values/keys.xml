@@ -63,6 +63,7 @@
     <string name="pref_key_task_type">task_type_list</string>
     <string name="pref_key_task">task_list</string>
     <string name="pref_key_tag">tag_list</string>
+    <string name="pref_key_log_files">log_files</string>
 
     <string name="pref_key_backup_now">backup_now</string>
     <string name="pref_key_list_backups">list_backups</string>

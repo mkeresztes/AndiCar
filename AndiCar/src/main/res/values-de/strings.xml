@@ -32,6 +32,8 @@
     <string name="pref_uom_summary">Maßeinheiten hinzufügen, löschen, ändern</string>
     <string name="pref_uom_conversion_title">Maßeinheiten Umrechungsfaktor</string>
     <string name="pref_uom_conversion_summary">Umrechungsfaktor hinzufügen, löschen, ändern.</string>
+    <string name="pref_log_files_title">Protokolldateien</string>
+    <string name="pref_log_files_description">Aktie Sie die Protokolldateien.</string>
     <string name="pref_financial_title">Finanzeinstellungen</string>
     <string name="pref_expense_type_title">Reise &amp; Ausgabenarten</string>
     <string name="pref_expense_type_summary">Reise &amp; Ausgabenarten hinzufügen, löschen, ändern</string>

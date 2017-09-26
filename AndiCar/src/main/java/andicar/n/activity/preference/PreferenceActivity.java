@@ -74,6 +74,7 @@ import java.util.List;
 import andicar.n.activity.CommonListActivity;
 import andicar.n.activity.miscellaneous.BackupListActivity;
 import andicar.n.activity.miscellaneous.BackupScheduleActivity;
+import andicar.n.activity.miscellaneous.LogFilesListActivity;
 import andicar.n.broadcastreceiver.ServiceStarter;
 import andicar.n.interfaces.OnAsyncTaskListener;
 import andicar.n.persistence.DBAdapter;
@@ -232,6 +233,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         Preference taskTypePreference;
         Preference taskPreference;
         Preference tagPreference;
+        Preference listLogFilesPreference;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -343,6 +345,17 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                     return true;
                 }
             });
+
+            listLogFilesPreference = findPreference(getString(R.string.pref_key_log_files));
+            listLogFilesPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent i = new Intent(GeneralPreferenceFragment.this.getActivity(), LogFilesListActivity.class);
+                    GeneralPreferenceFragment.this.startActivity(i);
+                    return true;
+                }
+            });
+
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are

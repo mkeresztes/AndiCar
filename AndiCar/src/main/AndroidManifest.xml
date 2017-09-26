@@ -129,6 +129,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="andicar.n.activity.preference.PreferenceActivity" />
         </activity>
+
+        <activity
+            android:name="andicar.n.activity.miscellaneous.LogFilesListActivity"
+            android:label="@string/pref_log_files_title"
+            android:parentActivityName="andicar.n.activity.preference.PreferenceActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="andicar.n.activity.preference.PreferenceActivity"/>
+        </activity>
+
         <activity
             android:name="andicar.n.activity.dialogs.GeneralNotificationDialogActivity"
             android:theme="@style/AndiCarDialog" />
