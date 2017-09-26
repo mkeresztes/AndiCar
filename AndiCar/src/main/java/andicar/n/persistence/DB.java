@@ -20,6 +20,7 @@ package andicar.n.persistence;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -35,6 +36,7 @@ import org.andicar2.activity.R;
 import java.util.Calendar;
 
 import andicar.n.broadcastreceiver.ServiceStarter;
+import andicar.n.service.ToDoManagementService;
 import andicar.n.utils.AndiCarCrashReporter;
 import andicar.n.utils.ConstantValues;
 
@@ -1120,6 +1122,8 @@ public class DB {
             }
             else if(oldVersion == 500) {
                 upgradeDbTo501(db, oldVersion);
+            } else if (oldVersion == 501) {
+                upgradeDbTo502(db, oldVersion);
             }
 
             // !!!!!!!!!!!!!!DON'T FORGET onCREATE !!!!!!!!!!!!!!!!
@@ -1522,6 +1526,28 @@ public class DB {
                     " WHERE " + COL_NAME_EXPENSE__INDEX + " = ''";
 
             db.execSQL(updSql);
+            upgradeDbTo502(db, oldVersion);
+        }
+
+        private void upgradeDbTo502(SQLiteDatabase db, int oldVersion) throws SQLException {
+            String updSql;
+            updSql = "DROP TABLE IF EXISTS " + TABLE_NAME_MILEAGE + "_tmp";
+            db.execSQL(updSql);
+
+            updSql = "UPDATE " + TABLE_NAME_TASK +
+                    " SET " + COL_NAME_GEN_ISACTIVE + " = 'N' " +
+                    " WHERE " + COL_NAME_TASK__TODOCOUNT + " = 0";
+            db.execSQL(updSql);
+
+            updSql = "UPDATE " + TABLE_NAME_TASK +
+                    " SET " + COL_NAME_TASK__TODOCOUNT + " = 2 " +
+                    " WHERE " + COL_NAME_TASK__TODOCOUNT + " < 2 " +
+                    " AND " + COL_NAME_GEN_ISACTIVE + " = 'Y' ";
+            db.execSQL(updSql);
+            Intent intent = new Intent(mCtx, ToDoManagementService.class);
+            intent.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, false);
+            mCtx.startService(intent);
+
         }
 
         @SuppressWarnings("BooleanMethodIsAlwaysInverted")
