@@ -60,14 +60,14 @@ public class BackupService extends Service {
             debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Starting BackupService");
 
             if (!mPreferences.getBoolean(getString(R.string.pref_key_backup_service_enabled), false)) {
-                debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append("Backup service is disabled");
+                debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Backup service is disabled");
                 debugLogFileWriter.flush();
                 debugLogFileWriter.close();
                 return START_NOT_STICKY;
             }
 
             String operation = intent.getExtras().getString(ConstantValues.BACKUP_SERVICE_OPERATION);
-            debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append("\nService operation: ").append(operation);
+            debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Service operation: ").append(operation);
             if (operation != null && operation.equals(ConstantValues.BACKUP_SERVICE_OPERATION_SET_NEXT_RUN)) {
                 setNextRun();
             }
@@ -78,13 +78,13 @@ public class BackupService extends Service {
                     db.close();
                     String bkFile = FileUtils.backupDb(this, dbPath, "abk_", false);
                     if (bkFile == null) {
-                        debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append("\nBackup terminated with error: ").append("\n").append(FileUtils.mLastErrorMessage)
+                        debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Backup terminated with error: ").append(FileUtils.mLastErrorMessage)
                                 .append("\n").append(Utils.getStackTrace(FileUtils.mLastException));
                         AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR,
                                 (int) System.currentTimeMillis(), FileUtils.mLastErrorMessage, null, null, null);
                     }
                     else {
-                        debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append("\nBackup terminated with success to: ").append(bkFile);
+                        debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Backup terminated with success to: ").append(bkFile);
                         if (mPreferences.getBoolean(getString(R.string.pref_key_backup_service_show_notification), true)) {
                             AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_INFO, ConstantValues.NOTIF_BACKUP_SERVICE_SUCCESS,
                                     getString(R.string.pref_backup_service_category), getString(R.string.backup_service_success_message), null, null);
@@ -92,7 +92,7 @@ public class BackupService extends Service {
                     }
                 }
                 catch (Exception e) {
-                    debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append("\nException(1) in BackupService: ").append("\n").append(e.getMessage()).append("\n").append(Utils.getStackTrace(e));
+                    debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Exception(1) in BackupService: ").append(e.getMessage()).append("\n").append(Utils.getStackTrace(e));
                     AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_REPORTABLE_ERROR,
                             (int) System.currentTimeMillis(), e.getMessage(), null, null, e);
                 }
@@ -113,7 +113,7 @@ public class BackupService extends Service {
         }
         catch (Exception e) {
             try {
-                debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append("\nException(2) in BackupService: ").append("\n").append(e.getMessage()).append("\n").append(Utils.getStackTrace(e));
+                debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Exception(2) in BackupService: ").append(e.getMessage()).append("\n").append(Utils.getStackTrace(e));
             }
             catch (Exception ignored) {
             }
