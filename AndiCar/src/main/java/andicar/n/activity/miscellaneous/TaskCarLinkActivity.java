@@ -180,6 +180,7 @@ public class TaskCarLinkActivity extends AppCompatActivity {
                     else {
                         mlFirstRunDateInMillis = System.currentTimeMillis();
                     }
+                    mDateTimeCalendar.setTimeInMillis(mlFirstRunDateInMillis);
 
                     if (c.getString(DBAdapter.COL_POS_TASK_CAR__FIRSTRUN_MILEAGE) != null) {
                         etIndexStart.setText(c.getString(DBAdapter.COL_POS_TASK_CAR__FIRSTRUN_MILEAGE));

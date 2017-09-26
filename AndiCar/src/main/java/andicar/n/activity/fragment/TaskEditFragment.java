@@ -280,15 +280,16 @@ public class TaskEditFragment extends BaseEditFragment {
                     isFinishAfterSave = false;
                     TaskEditFragment.this.saveData();
                     isFinishAfterSave = true;
-                    Intent i = new Intent(TaskEditFragment.this.getActivity(), TaskCarLinkActivity.class);
-                    i.putExtra(DBAdapter.COL_NAME_TASK_CAR__TASK_ID, mRowId);
-                    i.putExtra(TaskCarLinkActivity.IS_TIMING_ENABLED, isTimingEnabled);
-                    i.putExtra(TaskCarLinkActivity.IS_MILEAGE_ENABLED, isMileageEnabled);
-                    i.putExtra(TaskCarLinkActivity.IS_RECURRENT, isRecurrent);
-                    i.putExtra(TaskCarLinkActivity.IS_DIFFERENT_STARTING_TIME, isDiffStartingTime);
-                    i.putExtra(TaskCarLinkActivity.STARTING_MILEAGE, etMileage.getText().toString());
-                    i.putExtra(TaskCarLinkActivity.STARTING_TIME_IN_MILLIS, mlDateTimeInMillis);
-                    TaskEditFragment.this.startActivityForResult(i, TASK_CAR_LINK_REQUEST_CODE);
+                    showTaskCarEditWindow(mRowId);
+//                    Intent i = new Intent(TaskEditFragment.this.getActivity(), TaskCarLinkActivity.class);
+//                    i.putExtra(DBAdapter.COL_NAME_TASK_CAR__TASK_ID, mRowId);
+//                    i.putExtra(TaskCarLinkActivity.IS_TIMING_ENABLED, isTimingEnabled);
+//                    i.putExtra(TaskCarLinkActivity.IS_MILEAGE_ENABLED, isMileageEnabled);
+//                    i.putExtra(TaskCarLinkActivity.IS_RECURRENT, isRecurrent);
+//                    i.putExtra(TaskCarLinkActivity.IS_DIFFERENT_STARTING_TIME, isDiffStartingTime);
+//                    i.putExtra(TaskCarLinkActivity.STARTING_MILEAGE, etMileage.getText().toString());
+//                    i.putExtra(TaskCarLinkActivity.STARTING_TIME_IN_MILLIS, mlDateTimeInMillis);
+//                    TaskEditFragment.this.startActivityForResult(i, TASK_CAR_LINK_REQUEST_CODE);
                 }
             }
         });
@@ -463,7 +464,9 @@ public class TaskEditFragment extends BaseEditFragment {
         i.putExtra(TaskCarLinkActivity.IS_TIMING_ENABLED, isTimingEnabled);
         i.putExtra(TaskCarLinkActivity.IS_MILEAGE_ENABLED, isMileageEnabled);
         i.putExtra(TaskCarLinkActivity.IS_RECURRENT, isRecurrent);
+        i.putExtra(TaskCarLinkActivity.IS_DIFFERENT_STARTING_TIME, isDiffStartingTime);
         i.putExtra(TaskCarLinkActivity.STARTING_MILEAGE, etMileage.getText().toString());
+        i.putExtra(TaskCarLinkActivity.STARTING_TIME_IN_MILLIS, mlDateTimeInMillis);
         i.putExtra(DBAdapter.COL_NAME_GEN_ROWID, id);
         TaskEditFragment.this.startActivityForResult(i, TASK_CAR_LINK_REQUEST_CODE);
     }
