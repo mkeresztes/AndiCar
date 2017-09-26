@@ -1525,6 +1525,31 @@ public class DBAdapter extends DB {
         }
     }
 
+    public BigDecimal getLastDoneTodoMileage(long mCarId, long mTaskId) {
+        Double lastDoneIndex = null;
+        //@formatter:off
+        String sql =
+                "SELECT " + DBAdapter.COL_NAME_TODO__DUEMILEAGE +
+                        " FROM " + DBAdapter.TABLE_NAME_TODO + " " +
+                        " WHERE " + DBAdapter.COL_NAME_TODO__CAR_ID + " = ? " +
+                        " AND " + DBAdapter.COL_NAME_TODO__TASK_ID + " = ? " +
+                        " AND " + DBAdapter.COL_NAME_TODO__ISDONE + " = 'Y' " +
+                        " ORDER BY " + DBAdapter.COL_NAME_TODO__DUEMILEAGE + " DESC " +
+                        " LIMIT 1";
+        //@formatter:on
+        String[] selectionArgs = {Long.toString(mCarId), Long.toString(mTaskId)};
+        Cursor c = execSelectSql(sql, selectionArgs);
+        if (c.moveToFirst() && c.getString(0) != null) {
+            lastDoneIndex = c.getDouble(0);
+        }
+        c.close();
+        if (lastDoneIndex == null) {
+            return null;
+        } else {
+            return new BigDecimal(lastDoneIndex).setScale(ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH);
+        }
+    }
+
     /**
      * check if only one active record exist in a given table
      *

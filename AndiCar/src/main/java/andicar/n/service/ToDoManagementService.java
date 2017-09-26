@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 
 import andicar.n.activity.fragment.TaskEditFragment;
@@ -195,7 +196,7 @@ public class ToDoManagementService extends Service {
         Calendar nextToDoCalendar = Calendar.getInstance();
         long nextToDoMileage;
         long firstRunMileage;
-        long carCurrentIndex;
+        long todoStartIndex;
         ContentValues nextToDoContent = new ContentValues();
         Cursor lastTodoCursor; //base time for calculating next run time
         String todoSelectCondition;
@@ -304,8 +305,7 @@ public class ToDoManagementService extends Service {
                 nextToDoContent.put(DBAdapter.COL_NAME_TODO__DUEMILEAGE, (Long) null);
                 nextToDoContent.put(DBAdapter.COL_NAME_TODO__NOTIFICATIONMILEAGE, (Long) null);
             }
-        }
-        else { //this is the first to-do
+        } else { //this is the first to-do or the to-do list is generated for only one to-do, which was marked as done
             if (taskCarCursor != null) {
                 nextToDoContent.put(DBAdapter.COL_NAME_TODO__CAR_ID, taskCarCursor.getLong(DBAdapter.COL_POS_TASK_CAR__CAR_ID));
             }
@@ -318,13 +318,23 @@ public class ToDoManagementService extends Service {
                     if (isRecurrentTask) {
                         firstRunMileage = taskCarCursor.getLong(DBAdapter.COL_POS_TASK_CAR__FIRSTRUN_MILEAGE);
                         if (mDb.getCarCurrentIndex(carId) != null) {
-                            carCurrentIndex = mDb.getCarCurrentIndex(carId).longValue();
+                            todoStartIndex = mDb.getCarCurrentIndex(carId).longValue();
                         }
                         else {
-                            carCurrentIndex = 0;
+                            todoStartIndex = 0;
                         }
 
-                        while (firstRunMileage < carCurrentIndex) {
+                        //check the last to-do marked as done
+                        BigDecimal lastDoneToDoIndex = mDb.getLastDoneTodoMileage(carId, mTaskID);
+                        Long lastDoneToDoIndexL = -1L;
+                        if (lastDoneToDoIndex != null) {
+                            lastDoneToDoIndexL = lastDoneToDoIndex.longValue() + 1; //+ 1 to skip this index
+                        }
+
+                        if (todoStartIndex < lastDoneToDoIndexL)
+                            todoStartIndex = lastDoneToDoIndexL;
+
+                        while (firstRunMileage < todoStartIndex) {
                             firstRunMileage = firstRunMileage + mileageFrequency;
                         }
 
@@ -410,12 +420,23 @@ public class ToDoManagementService extends Service {
                         if (isRecurrentTask) {
                             firstRunMileage = taskCarCursor.getLong(DBAdapter.COL_POS_TASK_CAR__FIRSTRUN_MILEAGE);
                             if (mDb.getCarCurrentIndex(carId) != null) {
-                                carCurrentIndex = mDb.getCarCurrentIndex(carId).longValue();
+                                todoStartIndex = mDb.getCarCurrentIndex(carId).longValue();
                             }
                             else {
-                                carCurrentIndex = 0;
+                                todoStartIndex = 0;
                             }
-                            while (firstRunMileage <= carCurrentIndex) {
+
+                            //check the last to-do marked as done
+                            BigDecimal lastDoneToDoIndex = mDb.getLastDoneTodoMileage(carId, mTaskID);
+                            Long lastDoneToDoIndexL = -1L;
+                            if (lastDoneToDoIndex != null) {
+                                lastDoneToDoIndexL = lastDoneToDoIndex.longValue() + 1; //+ 1 to skip this index
+                            }
+
+                            if (todoStartIndex < lastDoneToDoIndexL)
+                                todoStartIndex = lastDoneToDoIndexL;
+
+                            while (firstRunMileage <= todoStartIndex) {
                                 firstRunMileage = firstRunMileage + mileageFrequency;
                             }
                         }
