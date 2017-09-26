@@ -107,7 +107,7 @@ public class BackupService extends Service {
                     }
                 }
             }
-            debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append("Backup service terminated");
+            debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Backup service terminated");
             debugLogFileWriter.flush();
             debugLogFileWriter.close();
         }
@@ -135,7 +135,7 @@ public class BackupService extends Service {
         try {
             String LogTag = "AndiCarBKService";
             Log.d(LogTag, "========== setNextRun begin ==========");
-            debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append("========== setNextRun begin ==========");
+            debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" ========== setNextRun begin ==========");
             Calendar nextSchedule = Calendar.getInstance();
             Calendar currentDate = Calendar.getInstance();
             Log.d(LogTag, "currentDate = " + currentDate.get(Calendar.YEAR) + "-" + currentDate.get(Calendar.MONTH) + "-" + currentDate.get(Calendar.DAY_OF_MONTH)
