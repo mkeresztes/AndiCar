@@ -20,9 +20,13 @@
 package andicar.n.utils.notification;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 
 import org.andicar2.activity.R;
 
@@ -35,6 +39,8 @@ import andicar.n.service.ToDoNotificationService;
  * Helper class for AndiCarNotification.Builder
  */
 class ToDoNotificationBuilder extends Notification.Builder {
+    private static final String NOTIF_CHANEL_TODO_ID = "toDoNotifID";
+    private static final CharSequence NOTIF_CHANEL_TODO_NAME = "AndiCar to-do notifications";
 
     /**
      * Used for To-Do notification
@@ -48,10 +54,21 @@ class ToDoNotificationBuilder extends Notification.Builder {
      * @param minutesOrDays
      */
     @SuppressWarnings("JavaDoc")
-    ToDoNotificationBuilder(Context context, long toDoID, String notificationTitle, String notificationText, int triggeredBy, String carUOMCode, String minutesOrDays) {
+    ToDoNotificationBuilder(Context context, NotificationManager notificationManager, long toDoID, String notificationTitle, String notificationText, int triggeredBy, String carUOMCode, String minutesOrDays) {
         super(context);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notifChanel = new NotificationChannel(NOTIF_CHANEL_TODO_ID, NOTIF_CHANEL_TODO_NAME, NotificationManager.IMPORTANCE_HIGH);
+            notifChanel.setDescription(NOTIF_CHANEL_TODO_NAME.toString());
+            notifChanel.enableLights(true);
+            notifChanel.setLightColor(Color.RED);
+            notifChanel.enableVibration(true);
+            notificationManager.createNotificationChannel(notifChanel);
+            this.setChannelId(notifChanel.getId());
+        }
+
         this.setAutoCancel(true);
+        //noinspection deprecation
         this.setDefaults(Notification.DEFAULT_ALL);
         this.setSmallIcon(R.drawable.ic_notif_alarm);
         this.setTicker("AndiCar " + context.getString(R.string.todo_alert_title));

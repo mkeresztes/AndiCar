@@ -54,21 +54,23 @@ public class AndiCarNotification {
      */
     public static void showGeneralNotification(Context context, int notificationType, int notificationId, String contentTitle,
                                                String contentText, Class resultIntentClass, Exception exception) {
-        GeneralNotificationBuilder notifBuilder =
-                new GeneralNotificationBuilder(context, notificationType, notificationId, contentTitle,
-                        contentText, resultIntentClass, exception);
         // Gets an instance of the NotificationManager service
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        GeneralNotificationBuilder notifBuilder =
+                new GeneralNotificationBuilder(context, notificationManager, notificationType, notificationId, contentTitle,
+                        contentText, resultIntentClass, exception);
         // Builds the notification and issues it.
         notificationManager.notify(notificationId, notifBuilder.build());
     }
 
     public static void showToDoNotification(Context context, long toDoID, String notificationTitle, String notificationText, int triggeredBy, String carUOMCode, String minutesOrDays) {
-        ToDoNotificationBuilder notifBuilder =
-                new ToDoNotificationBuilder(context, toDoID, notificationTitle, notificationText, triggeredBy, carUOMCode, minutesOrDays);
-        // Gets an instance of the NotificationManager service
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        ToDoNotificationBuilder notifBuilder =
+                new ToDoNotificationBuilder(context, notificationManager, toDoID, notificationTitle, notificationText, triggeredBy, carUOMCode, minutesOrDays);
+        // Gets an instance of the NotificationManager service
         // Builds the notification and issues it.
+
         Notification n = notifBuilder.build();
         n.flags |= Notification.FLAG_NO_CLEAR;
         notificationManager.notify(((Long) toDoID).intValue(), n);

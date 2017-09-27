@@ -20,9 +20,13 @@
 package andicar.n.utils.notification;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 
 import org.andicar2.activity.R;
 
@@ -36,6 +40,8 @@ import andicar.n.utils.Utils;
  */
 class GeneralNotificationBuilder extends Notification.Builder {
 
+    private static final String NOTIF_CHANEL_GENERAL_ID = "generalNotifID";
+    private static final CharSequence NOTIF_CHANEL_GENERAL_NAME = "AndiCar general notifications";
     /**
      * @param context           context
      * @param notificationType  : see AndiCarNotification class constants
@@ -47,7 +53,7 @@ class GeneralNotificationBuilder extends Notification.Builder {
      * @param contentText       notification text
      * @param resultIntentClass result intent for this setContentIntent
      */
-    GeneralNotificationBuilder(Context context, int notificationType, int requestCode, String contentTitle, String contentText,
+    GeneralNotificationBuilder(Context context, NotificationManager notificationManager, int notificationType, int requestCode, String contentTitle, String contentText,
                                Class resultIntentClass, Exception exception) {
         super(context);
 
@@ -89,9 +95,20 @@ class GeneralNotificationBuilder extends Notification.Builder {
         this.setContentTitle(contentTitle);
         this.setContentText(contentText);
         this.setAutoCancel(true);
+        //noinspection deprecation
         this.setDefaults(Notification.DEFAULT_ALL);
         this.setStyle(new Notification.BigTextStyle().bigText(contentText));
         this.setSubText(Utils.getFormattedDateTime(System.currentTimeMillis(), false));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notifChanel = new NotificationChannel(NOTIF_CHANEL_GENERAL_ID, NOTIF_CHANEL_GENERAL_NAME, NotificationManager.IMPORTANCE_HIGH);
+            notifChanel.setDescription(NOTIF_CHANEL_GENERAL_NAME.toString());
+            notifChanel.enableLights(true);
+            notifChanel.setLightColor(Color.RED);
+            notifChanel.enableVibration(true);
+            notificationManager.createNotificationChannel(notifChanel);
+            this.setChannelId(notifChanel.getId());
+        }
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, requestCode, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         this.setContentIntent(resultPendingIntent);
