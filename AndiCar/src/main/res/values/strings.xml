@@ -60,6 +60,13 @@
     <string name="expenseChart3Title">Expenses by tags (top 3)</string>
     <string name="chartFooterText">Total: %1$s</string>
 
+    <string name="line_chart_filter_last_5">Last 5</string>
+    <string name="line_chart_filter_last_10">Last 10</string>
+    <string name="line_chart_filter_all">All</string>
+    <string name="line_chart_info_1">A minimum of 2 FULL fill-ups needed for showing something here.</string>
+    <string name="line_chart_info_2">Just one new full fill-up for a beautiful … dot here :)</string>
+    <string name="line_chart_info_3">Just one new full fill-up for showing a real chart.</string>
+
     <string name="title_list_activity" tools:ignore="PluralsCandidate">%1$s: %2$s record(s)</string>
     <string name="error_report_sent">Thank you for helping make AndiCar better!</string>
     <string name="main_activity_no_car">No car defined yet</string>
@@ -112,10 +119,6 @@
     <string name="data_template_new">New template …</string>
     <string name="data_template_new_msg">A new template, based on the current values, will be created.\n\nName:</string>
     <string name="data_template_update">Update template</string>
-
-    <string name="line_chart_filter_last_5">Last 5</string>
-    <string name="line_chart_filter_last_10">Last 10</string>
-    <string name="line_chart_filter_all">All</string>
 
     <string name="secure_backup_mail_body">Please visit https://sites.google.com/site/andicarfree/howto#TOC-Restore-your-data-from-secure-backup if you need to restore this backup. &lt;br&gt; &lt;br&gt; Sent by AndiCar - http://www.andicar.org"</string>
 

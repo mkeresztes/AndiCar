@@ -435,6 +435,9 @@
     <string name="line_chart_filter_last_5">Utolsó 5</string>
     <string name="line_chart_filter_last_10">Utolsó 10</string>
     <string name="line_chart_filter_all">Az összes</string>
+    <string name="line_chart_info_1">Legalább 2 teli tankolás szükséges ahoz, hogy itt valami megjelenjen.</string>
+    <string name="line_chart_info_2">Még egy teletank, hogy megjelenjen egy szép … pötty :)</string>
+    <string name="line_chart_info_3">Még egy teletank, hogy megjelenjen egy valódi grafikon.</string>
 
     <string name="search_dialog_title">Kritérium megadása</string>
     <string name="gen_date_from_label">Dátumtól:</string>

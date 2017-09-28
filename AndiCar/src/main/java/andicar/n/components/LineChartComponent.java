@@ -55,6 +55,7 @@ public class LineChartComponent extends LinearLayout {
     private Context mCtx;
     private View mChartHeader;
     private TextView mChartTitle;
+    private TextView mInfo;
     private LineChart mChart;
     private PopupMenu mChartFilterMenu;
     private YAxis leftAxis;
@@ -112,6 +113,8 @@ public class LineChartComponent extends LinearLayout {
 
 
     private void init() {
+        View rootView = inflate(mCtx, R.layout.component_line_chart, this);
+
         if (mWhatData == SHOW_FUEL_EFF)
             mChartFilterNoRecords = mPreferences.getInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_1), 5);
         else
@@ -119,9 +122,9 @@ public class LineChartComponent extends LinearLayout {
 
         mLastSelectedCarID = mPreferences.getLong(mCtx.getString(R.string.pref_key_last_selected_car_id), -1);
 
-        View rootView = inflate(mCtx, R.layout.component_line_chart, this);
-
         mChartHeader = rootView.findViewById(R.id.chartHeader);
+        mInfo = rootView.findViewById(R.id.tvInfo);
+        mInfo.setVisibility(GONE);
 
         mChartTitle = rootView.findViewById(R.id.chartTitle);
         mChart = rootView.findViewById(R.id.lineChart);
@@ -271,6 +274,8 @@ public class LineChartComponent extends LinearLayout {
         else {
             //no data
             setChartsLineHeight(true);
+            mInfo.setVisibility(VISIBLE);
+            mInfo.setText(R.string.line_chart_info_1);
             mChartHeader.setVisibility(GONE);
             try {
                 mCursor.close();
@@ -321,8 +326,14 @@ public class LineChartComponent extends LinearLayout {
         }
 
         if (values.size() == 0) {
+            mInfo.setVisibility(VISIBLE);
+            mInfo.setText(R.string.line_chart_info_2);
             setChartsLineHeight(true);
             return;
+        }
+        else if (values.size() == 1) {
+            mInfo.setVisibility(VISIBLE);
+            mInfo.setText(R.string.line_chart_info_3);
         }
 
         leftAxis.setAxisMaximum(Math.round(maxValue) + 1);
