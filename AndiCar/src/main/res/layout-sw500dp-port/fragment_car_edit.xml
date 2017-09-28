@@ -22,12 +22,12 @@
               android:id="@+id/vgRoot"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:paddingLeft="10dp"
-              android:paddingStart="10dp"
-              android:paddingRight="10dp"
-              android:paddingEnd="10dp"
               android:baselineAligned="false"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:paddingEnd="10dp"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp"
+              android:paddingStart="10dp">
 
     <TextView
         android:id="@+id/tvDebugInfo"
@@ -63,8 +63,8 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -77,8 +77,8 @@
                 <EditText
                     android:id="@+id/etName"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:hint="@string/gen_required"
                     android:tag="@string/gen_required"/>
             </LinearLayout>
@@ -86,8 +86,8 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -100,17 +100,16 @@
                 <EditText
                     android:id="@+id/etCarRegNo"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:hint="@string/gen_required"
-                    android:tag="@string/gen_required"/>
+                    android:layout_weight="1"
+                    android:inputType="text"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -123,8 +122,8 @@
                 <EditText
                     android:id="@+id/etIndexStart"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:digits=".1234567890"
                     android:inputType="numberDecimal"/>
             </LinearLayout>
@@ -132,8 +131,8 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -152,8 +151,8 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -172,8 +171,8 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -192,11 +191,11 @@
                 <ImageButton
                     android:id="@+id/btnNewCurrency"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:background="@null"
-                    app:srcCompat="@drawable/ic_button_add_black_dark_selector"
-                    android:contentDescription="@string/gen_add_new"/>
+                    android:contentDescription="@string/gen_add_new"
+                    app:srcCompat="@drawable/ic_button_add_black_dark_selector"/>
             </LinearLayout>
 
             <LinearLayout
@@ -215,8 +214,8 @@
                 <EditText
                     android:id="@+id/etCarModel"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:inputType="text"/>
             </LinearLayout>
 
