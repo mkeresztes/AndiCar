@@ -1207,7 +1207,7 @@ public class DBReportAdapter extends DBAdapter {
                     reportSql = reportSql + whereCondition;
                 }
 
-                reportSql = reportSql + " ORDER BY " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__DATE) + " DESC";
+                reportSql = reportSql + " ORDER BY " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX) + " DESC";
                 break;
             case REFUEL_LIST_REPORT_SELECT:
                 reportSql = refuelListReportSelect;
@@ -1215,7 +1215,7 @@ public class DBReportAdapter extends DBAdapter {
                     reportSql = reportSql + whereCondition;
                 }
 
-                reportSql = reportSql + " ORDER BY " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__DATE) + " DESC";
+                reportSql = reportSql + " ORDER BY " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX) + " DESC";
                 break;
             case EXPENSE_LIST_SELECT_NAME:
                 reportSql = expenseListViewSelect;
