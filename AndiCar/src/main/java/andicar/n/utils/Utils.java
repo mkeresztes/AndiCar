@@ -259,16 +259,11 @@ public class Utils {
 //				(hours < 10 ? "0" : "") + hours + ":" + minutes;
     }
 
-    public static boolean isNetworkAvailable(Context ctx, boolean onlyWiFi) {
+    public static boolean isNetworkAvailable(Context ctx) {
         ConnectivityManager cm =
                 (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (onlyWiFi) {
-            return netInfo != null && netInfo.isConnectedOrConnecting() && netInfo.getType() == ConnectivityManager.TYPE_WIFI;
-        }
-        else {
-            return netInfo != null && netInfo.isConnectedOrConnecting();
-        }
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     /**

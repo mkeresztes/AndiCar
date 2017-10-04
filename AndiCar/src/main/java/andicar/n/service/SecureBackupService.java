@@ -207,12 +207,6 @@ public class SecureBackupService extends Service implements OnAsyncTaskListener 
             debugLogFileWriter.appendnl("onTaskCompleted start");
             debugLogFileWriter.flush();
 
-            if (mPreferences.getString(getString(R.string.pref_key_postponed_secure_backupfile), "").length() > 0) {
-                SharedPreferences.Editor editor = mPreferences.edit();
-                editor.putString(getString(R.string.pref_key_postponed_secure_backupfile), null);
-                editor.apply();
-            }
-
             if (mPreferences.getBoolean(getString(R.string.pref_key_secure_backup_show_notification), true)) {
                 AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_INFO, ConstantValues.NOTIF_SECUREBK_POSTPONED_OR_SENT,
                         getString(R.string.pref_category_secure_backup), getString(R.string.secure_backup_success_message), null, null);

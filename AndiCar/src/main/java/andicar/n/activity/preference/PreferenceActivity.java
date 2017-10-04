@@ -57,7 +57,6 @@ import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAuthIOException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 import com.google.api.client.util.ExponentialBackOff;
@@ -78,7 +77,6 @@ import andicar.n.activity.miscellaneous.LogFilesListActivity;
 import andicar.n.broadcastreceiver.ServiceStarter;
 import andicar.n.interfaces.OnAsyncTaskListener;
 import andicar.n.persistence.DBAdapter;
-import andicar.n.service.SecureBackupService;
 import andicar.n.utils.AndiCarCrashReporter;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
@@ -1020,7 +1018,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     //check network connectivity
-                    if (!Utils.isNetworkAvailable(BackupRestorePreferenceFragment.this.getActivity(), false)) {
+                    if (!Utils.isNetworkAvailable(BackupRestorePreferenceFragment.this.getActivity())) {
                         //no network. cannot be configure => show a warning
                         AlertDialog.Builder builder = new AlertDialog.Builder(BackupRestorePreferenceFragment.this.getActivity());
                         builder.setMessage(R.string.gen_internet_access_required).setTitle(R.string.gen_info).setIcon(R.drawable.ic_dialog_warning_yellow900);
@@ -1034,32 +1032,6 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                         return true;
                     }
                     showGoogleAccountChooser();
-                    return true;
-                }
-            });
-
-            secureBkOnlyWiFiPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object o) {
-                    if (!(Boolean) o) {
-                        //only wifi disabled => if postponed backup exists send it
-                        if (Utils.isNetworkAvailable(BackupRestorePreferenceFragment.this.getActivity(), false)
-                                && BackupRestorePreferenceFragment.this.getPreferenceManager().getSharedPreferences().getString(BackupRestorePreferenceFragment.this.getString(R.string.pref_key_postponed_secure_backupfile), "").length() > 0) {
-                            try {
-                                String bkFileName = (new File(BackupRestorePreferenceFragment.this.getPreferenceManager().getSharedPreferences().getString(BackupRestorePreferenceFragment.this.getString(R.string.pref_key_postponed_secure_backupfile), ""))).getName();
-                                Intent intent = new Intent(BackupRestorePreferenceFragment.this.getActivity(), SecureBackupService.class);
-                                intent.putExtra("bkFile", BackupRestorePreferenceFragment.this.getPreferenceManager().getSharedPreferences().getString(BackupRestorePreferenceFragment.this.getString(R.string.pref_key_postponed_secure_backupfile), ""));
-                                intent.putExtra("attachName", bkFileName);
-                                BackupRestorePreferenceFragment.this.getActivity().startService(intent);
-                            } catch (Exception e) {
-                                if (!(e.getClass().equals(GoogleAuthIOException.class) || e.getClass().equals(GoogleAuthException.class))) {
-                                    AndiCarCrashReporter.sendCrash(e);
-                                }
-//                                Log.e(LogTag, e.getMessage(), e);
-                            }
-
-                        }
-                    }
                     return true;
                 }
             });
