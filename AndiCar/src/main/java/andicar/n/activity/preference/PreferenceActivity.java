@@ -551,6 +551,256 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         }
 
         @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_backup_restore);
+            setHasOptionsMenu(true);
+
+            backupService = (SwitchPreference) findPreference(getString(R.string.pref_key_backup_service_enabled));
+            backupServiceSchedule = findPreference(getString(R.string.pref_key_backup_service_schedule));
+            backupServiceShowNotification = (SwitchPreference) findPreference(getString(R.string.pref_key_backup_service_show_notification));
+
+            secureBkCategory = (PreferenceCategory) findPreference(getString(R.string.pref_key_secure_backup_category));
+            secureBkPreference = (SwitchPreference) findPreference(getString(R.string.pref_key_secure_backup_enabled));
+            secureBkGoogleAccountPreference = findPreference(getString(R.string.pref_key_google_account));
+            secureBkEmailToPreference = (EditTextPreference) findPreference(getString(R.string.pref_key_secure_backup_emailTo));
+            secureBkOnlyWiFiPreference = (SwitchPreference) findPreference(getString(R.string.pref_key_secure_backup_only_wifi));
+            secureBkShowNotification = (SwitchPreference) findPreference(getString(R.string.pref_key_secure_backup_show_notification));
+            secureBkSendTrackFilesPreference = (SwitchPreference) findPreference(getString(R.string.pref_key_secure_backup_send_tracks));
+            revalidateAccountPreference = findPreference(getString(R.string.pref_key_revalidate_google_account));
+
+            backupPreference = findPreference(getString(R.string.pref_key_backup_now));
+            restorePreference = (ListPreference) findPreference(getString(R.string.pref_key_restore_data));
+            listBackupsPreference = findPreference(getString(R.string.pref_key_list_backups));
+
+            // Initialize credentials and service object.
+            googleCredential = GoogleAccountCredential.usingOAuth2(getActivity(), Arrays.asList(ConstantValues.GOOGLE_SCOPES)).setBackOff(new ExponentialBackOff());
+            if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), null) != null) {
+                bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_key_google_account)));
+            }
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_key_secure_backup_emailTo)));
+
+            backupPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    DBAdapter db = new DBAdapter(BackupRestorePreferenceFragment.this.getActivity());
+                    String dbPath = db.getDatabase().getPath();
+                    db.close();
+                    if (FileUtils.backupDb(BackupRestorePreferenceFragment.this.getActivity(), dbPath, null, false) != null) {
+                        BackupRestorePreferenceFragment.this.fillBKFileList();
+                        Toast toast = Toast.makeText(BackupRestorePreferenceFragment.this.getActivity(), R.string.pref_backup_success_message, Toast.LENGTH_SHORT);
+                        toast.show();
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(BackupRestorePreferenceFragment.this.getActivity());
+                        builder.setMessage(FileUtils.mLastErrorMessage).setTitle(R.string.gen_error).setIcon(R.drawable.ic_dialog_error_red900);
+                        builder.setPositiveButton(R.string.gen_ok, null);
+                        builder.create().show();
+                    }
+                    return true;
+                }
+            });
+
+            listBackupsPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent i = new Intent(BackupRestorePreferenceFragment.this.getActivity(), BackupListActivity.class);
+                    BackupRestorePreferenceFragment.this.startActivity(i);
+                    return true;
+                }
+            });
+
+            restorePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    final String bkFile = (String) newValue;
+                    //show a confirmation dialog
+
+                    if (!bkFile.equals(getString(R.string.pref_restore_other))) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(BackupRestorePreferenceFragment.this.getActivity());
+                        builder.setMessage(R.string.pref_restore_confirmation).setTitle(R.string.gen_confirm).setIcon(R.drawable.ic_dialog_question_blue900);
+                        builder.setCancelable(false);
+                        builder.setNegativeButton(R.string.gen_no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        });
+                        builder.setPositiveButton(R.string.gen_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                DBAdapter db = new DBAdapter(BackupRestorePreferenceFragment.this.getActivity());
+                                String dbPath = db.getDatabase().getPath();
+                                db.close();
+                                if (FileUtils.restoreDb(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.BACKUP_FOLDER + bkFile, dbPath)) {
+                                    try {
+                                        ServiceStarter.startServices(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_ALL);
+                                    } catch (Exception e) {
+                                        AndiCarCrashReporter.sendCrash(e);
+                                        Log.d(LogTag, e.getMessage(), e);
+                                    }
+                                    Utils.showInfoDialog(getActivity(), getString(R.string.pref_restore_success_message), null);
+                                } else {
+                                    Utils.showNotReportableErrorDialog(getActivity(), FileUtils.mLastErrorMessage, null, false);
+                                }
+                            }
+                        });
+
+                        builder.create().show();
+                    } else {
+                        new ChooserDialog().with(getActivity())
+                                .withFilter(false, false, "db", "zip", "zi_")
+                                .withStartFile(Environment.getExternalStorageDirectory().getAbsolutePath())
+                                .withChosenListener(new ChooserDialog.Result() {
+                                    @Override
+                                    public void onChoosePath(String path, File pathFile) {
+                                        fPath = path;
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(BackupRestorePreferenceFragment.this.getActivity());
+                                        builder.setMessage(R.string.pref_restore_confirmation).setTitle(R.string.gen_confirm).setIcon(R.drawable.ic_dialog_question_blue900);
+                                        builder.setCancelable(false);
+                                        builder.setNegativeButton(R.string.gen_no, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                // User cancelled the dialog
+                                            }
+                                        });
+                                        builder.setPositiveButton(R.string.gen_yes, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                mProgress = ProgressDialog.show(BackupRestorePreferenceFragment.this.getActivity(), "",
+                                                        getString(R.string.progress_restoring_data), true);
+                                                Thread thread = new Thread(BackupRestorePreferenceFragment.this);
+                                                thread.start();
+                                            }
+                                        });
+                                        builder.create().show();
+                                    }
+                                })
+                                .build()
+                                .show();
+                    }
+                    return false;
+                }
+            });
+
+            backupService.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    backupServiceSchedule.setEnabled((Boolean) newValue);
+                    backupServiceShowNotification.setEnabled((Boolean) newValue);
+
+                    BackupRestorePreferenceFragment.this.setBackupServiceScheduleSummary((Boolean) newValue);
+
+                    if ((Boolean) newValue) {
+                        try {
+                            ServiceStarter.startServices(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
+                        } catch (Exception e) {
+                            AndiCarCrashReporter.sendCrash(e);
+                            Log.d(LogTag, e.getMessage(), e);
+                        }
+                    }
+                    return true;
+                }
+            });
+
+            backupServiceSchedule.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent backupSchedule = new Intent(BackupRestorePreferenceFragment.this.getActivity(), BackupScheduleActivity.class);
+                    BackupRestorePreferenceFragment.this.startActivityForResult(backupSchedule, ConstantValues.REQUEST_BACKUP_SERVICE_SCHEDULE);
+                    return true;
+                }
+            });
+
+            secureBkPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    if ((Boolean) newValue) {
+                        if (ContextCompat.checkSelfPermission(BackupRestorePreferenceFragment.this.getActivity(), Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_DENIED) {
+                            accessToAccountsJustAsked = true;
+                            ActivityCompat.requestPermissions(BackupRestorePreferenceFragment.this.getActivity(),
+                                    new String[]{Manifest.permission.GET_ACCOUNTS}, ConstantValues.REQUEST_GET_ACCOUNTS);
+                        } else {
+                            if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), "").length() == 0) {
+                                showGoogleAccountChooser();
+                            }
+                        }
+                        secureBkGoogleAccountPreference.setEnabled(true);
+                        secureBkEmailToPreference.setEnabled(true);
+                        secureBkOnlyWiFiPreference.setEnabled(true);
+                        secureBkShowNotification.setEnabled(true);
+                        secureBkSendTrackFilesPreference.setEnabled(true);
+                        revalidateAccountPreference.setEnabled(true);
+                    } else {
+                        SharedPreferences.Editor editor = BackupRestorePreferenceFragment.this.getPreferenceManager().getSharedPreferences().edit();
+                        editor.putString(BackupRestorePreferenceFragment.this.getString(R.string.pref_key_google_account), null);
+                        editor.apply();
+                        secureBkGoogleAccountPreference.setSummary(R.string.pref_google_account_description);
+                        secureBkGoogleAccountPreference.setEnabled(false);
+                        secureBkEmailToPreference.setEnabled(false);
+                        secureBkOnlyWiFiPreference.setEnabled(false);
+                        secureBkShowNotification.setEnabled(false);
+                        secureBkSendTrackFilesPreference.setEnabled(false);
+                        revalidateAccountPreference.setEnabled(false);
+                    }
+                    return true;
+                }
+            });
+
+            secureBkGoogleAccountPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    //check network connectivity
+                    if (!Utils.isNetworkAvailable(BackupRestorePreferenceFragment.this.getActivity())) {
+                        //no network. cannot be configure => show a warning
+                        AlertDialog.Builder builder = new AlertDialog.Builder(BackupRestorePreferenceFragment.this.getActivity());
+                        builder.setMessage(R.string.gen_internet_access_required).setTitle(R.string.gen_info).setIcon(R.drawable.ic_dialog_warning_yellow900);
+
+                        builder.setPositiveButton(R.string.gen_ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+                        builder.create().show();
+                        return true;
+                    }
+                    showGoogleAccountChooser();
+                    return true;
+                }
+            });
+
+            revalidateAccountPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    mProgress = new ProgressDialog(getActivity());
+                    mProgress.setMessage(getResources().getString(R.string.gen_validating_google_account));
+                    mProgress.show();
+                    try {
+                        new SendGMailTask(getActivity(), getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), null),
+                                getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), null),
+                                getResources().getString(R.string.gen_test_email_subject), getResources().getString(R.string.gen_test_email_body), null,
+                                BackupRestorePreferenceFragment.this).execute();
+                    } catch (Exception e) {
+                        mProgress.hide();
+                        if (!(e instanceof GoogleAuthException)) {
+                            AndiCarCrashReporter.sendCrash(e);
+                            Log.e("AndiCar", e.getMessage(), e);
+                        } else {
+                            Utils.showReportableErrorDialog(getActivity(), null, e.getMessage(), e, false);
+                        }
+                    }
+
+                    return true;
+                }
+            });
+
+            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                accessToStorageJustAsked = true;
+                ActivityCompat.requestPermissions(this.getActivity(),
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ConstantValues.REQUEST_ACCESS_EXTERNAL_STORAGE);
+            }
+        }
+
+        @Override
         public void onResume() {
             super.onResume();
 
@@ -819,258 +1069,6 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         }
 
         @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_backup_restore);
-            setHasOptionsMenu(true);
-
-            backupService = (SwitchPreference) findPreference(getString(R.string.pref_key_backup_service_enabled));
-            backupServiceSchedule = findPreference(getString(R.string.pref_key_backup_service_schedule));
-            backupServiceShowNotification = (SwitchPreference) findPreference(getString(R.string.pref_key_backup_service_show_notification));
-
-            secureBkCategory = (PreferenceCategory) findPreference(getString(R.string.pref_key_secure_backup_category));
-            secureBkPreference = (SwitchPreference) findPreference(getString(R.string.pref_key_secure_backup_enabled));
-            secureBkGoogleAccountPreference = findPreference(getString(R.string.pref_key_google_account));
-            secureBkEmailToPreference = (EditTextPreference) findPreference(getString(R.string.pref_key_secure_backup_emailTo));
-            secureBkOnlyWiFiPreference = (SwitchPreference) findPreference(getString(R.string.pref_key_secure_backup_only_wifi));
-            secureBkShowNotification = (SwitchPreference) findPreference(getString(R.string.pref_key_secure_backup_show_notification));
-            secureBkSendTrackFilesPreference = (SwitchPreference) findPreference(getString(R.string.pref_key_secure_backup_send_tracks));
-            revalidateAccountPreference = findPreference(getString(R.string.pref_key_revalidate_google_account));
-
-            backupPreference = findPreference(getString(R.string.pref_key_backup_now));
-            restorePreference = (ListPreference) findPreference(getString(R.string.pref_key_restore_data));
-            listBackupsPreference = findPreference(getString(R.string.pref_key_list_backups));
-
-            // Initialize credentials and service object.
-            googleCredential = GoogleAccountCredential.usingOAuth2(getActivity(), Arrays.asList(ConstantValues.GOOGLE_SCOPES)).setBackOff(new ExponentialBackOff());
-            if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), null) != null) {
-                bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_key_google_account)));
-            }
-            bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_key_secure_backup_emailTo)));
-
-            backupPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    DBAdapter db = new DBAdapter(BackupRestorePreferenceFragment.this.getActivity());
-                    String dbPath = db.getDatabase().getPath();
-                    db.close();
-                    if (FileUtils.backupDb(BackupRestorePreferenceFragment.this.getActivity(), dbPath, null, false) != null) {
-                        BackupRestorePreferenceFragment.this.fillBKFileList();
-                        Toast toast = Toast.makeText(BackupRestorePreferenceFragment.this.getActivity(), R.string.pref_backup_success_message, Toast.LENGTH_SHORT);
-                        toast.show();
-                    } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(BackupRestorePreferenceFragment.this.getActivity());
-                        builder.setMessage(FileUtils.mLastErrorMessage).setTitle(R.string.gen_error).setIcon(R.drawable.ic_dialog_error_red900);
-                        builder.setPositiveButton(R.string.gen_ok, null);
-                        builder.create().show();
-                    }
-                    return true;
-                }
-            });
-
-            listBackupsPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    Intent i = new Intent(BackupRestorePreferenceFragment.this.getActivity(), BackupListActivity.class);
-                    BackupRestorePreferenceFragment.this.startActivity(i);
-                    return true;
-                }
-            });
-
-            restorePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    final String bkFile = (String) newValue;
-                    //show a confirmation dialog
-
-                    if (!bkFile.equals(getString(R.string.pref_restore_other))) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(BackupRestorePreferenceFragment.this.getActivity());
-                        builder.setMessage(R.string.pref_restore_confirmation).setTitle(R.string.gen_confirm).setIcon(R.drawable.ic_dialog_question_blue900);
-                        builder.setCancelable(false);
-                        builder.setNegativeButton(R.string.gen_no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                // User cancelled the dialog
-                            }
-                        });
-                        builder.setPositiveButton(R.string.gen_yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                DBAdapter db = new DBAdapter(BackupRestorePreferenceFragment.this.getActivity());
-                                String dbPath = db.getDatabase().getPath();
-                                db.close();
-                                if (FileUtils.restoreDb(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.BACKUP_FOLDER + bkFile, dbPath)) {
-                                    try {
-                                        ServiceStarter.startServices(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_ALL);
-                                    } catch (Exception e) {
-                                        AndiCarCrashReporter.sendCrash(e);
-                                        Log.d(LogTag, e.getMessage(), e);
-                                    }
-                                    Utils.showInfoDialog(getActivity(), getString(R.string.pref_restore_success_message), null);
-                                } else {
-                                    Utils.showNotReportableErrorDialog(getActivity(), FileUtils.mLastErrorMessage, null, false);
-                                }
-                            }
-                        });
-
-                        builder.create().show();
-                    } else {
-                        new ChooserDialog().with(getActivity())
-                                .withFilter(false, false, "db", "zip", "zi_")
-                                .withStartFile(Environment.getExternalStorageDirectory().getAbsolutePath())
-                                .withChosenListener(new ChooserDialog.Result() {
-                                    @Override
-                                    public void onChoosePath(String path, File pathFile) {
-                                        fPath = path;
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(BackupRestorePreferenceFragment.this.getActivity());
-                                        builder.setMessage(R.string.pref_restore_confirmation).setTitle(R.string.gen_confirm).setIcon(R.drawable.ic_dialog_question_blue900);
-                                        builder.setCancelable(false);
-                                        builder.setNegativeButton(R.string.gen_no, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                // User cancelled the dialog
-                                            }
-                                        });
-                                        builder.setPositiveButton(R.string.gen_yes, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int id) {
-                                                mProgress = ProgressDialog.show(BackupRestorePreferenceFragment.this.getActivity(), "",
-                                                        getString(R.string.progress_restoring_data), true);
-                                                Thread thread = new Thread(BackupRestorePreferenceFragment.this);
-                                                thread.start();
-                                            }
-                                        });
-                                        builder.create().show();
-                                    }
-                                })
-                                .build()
-                                .show();
-                    }
-                    return false;
-                }
-            });
-
-            backupService.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    backupServiceSchedule.setEnabled((Boolean) newValue);
-                    backupServiceShowNotification.setEnabled((Boolean) newValue);
-
-                    BackupRestorePreferenceFragment.this.setBackupServiceScheduleSummary((Boolean) newValue);
-
-                    if ((Boolean) newValue) {
-                        try {
-                            ServiceStarter.startServices(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
-                        } catch (Exception e) {
-                            AndiCarCrashReporter.sendCrash(e);
-                            Log.d(LogTag, e.getMessage(), e);
-                        }
-                    }
-                    return true;
-                }
-            });
-
-            backupServiceSchedule.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    Intent backupSchedule = new Intent(BackupRestorePreferenceFragment.this.getActivity(), BackupScheduleActivity.class);
-                    BackupRestorePreferenceFragment.this.startActivityForResult(backupSchedule, 0);
-                    return true;
-                }
-            });
-
-            secureBkPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    if ((Boolean) newValue) {
-                        if (ContextCompat.checkSelfPermission(BackupRestorePreferenceFragment.this.getActivity(), Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_DENIED) {
-                            accessToAccountsJustAsked = true;
-                            ActivityCompat.requestPermissions(BackupRestorePreferenceFragment.this.getActivity(),
-                                    new String[]{Manifest.permission.GET_ACCOUNTS}, ConstantValues.REQUEST_GET_ACCOUNTS);
-                        } else {
-                            if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), "").length() == 0) {
-                                showGoogleAccountChooser();
-                            }
-                        }
-                        secureBkGoogleAccountPreference.setEnabled(true);
-                        secureBkEmailToPreference.setEnabled(true);
-                        secureBkOnlyWiFiPreference.setEnabled(true);
-                        secureBkShowNotification.setEnabled(true);
-                        secureBkSendTrackFilesPreference.setEnabled(true);
-                        revalidateAccountPreference.setEnabled(true);
-                    } else {
-                        SharedPreferences.Editor editor = BackupRestorePreferenceFragment.this.getPreferenceManager().getSharedPreferences().edit();
-                        editor.putString(BackupRestorePreferenceFragment.this.getString(R.string.pref_key_google_account), null);
-                        editor.apply();
-                        secureBkGoogleAccountPreference.setSummary(R.string.pref_google_account_description);
-                        secureBkGoogleAccountPreference.setEnabled(false);
-                        secureBkEmailToPreference.setEnabled(false);
-                        secureBkOnlyWiFiPreference.setEnabled(false);
-                        secureBkShowNotification.setEnabled(false);
-                        secureBkSendTrackFilesPreference.setEnabled(false);
-                        revalidateAccountPreference.setEnabled(false);
-                    }
-                    return true;
-                }
-            });
-
-            secureBkGoogleAccountPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    //check network connectivity
-                    if (!Utils.isNetworkAvailable(BackupRestorePreferenceFragment.this.getActivity())) {
-                        //no network. cannot be configure => show a warning
-                        AlertDialog.Builder builder = new AlertDialog.Builder(BackupRestorePreferenceFragment.this.getActivity());
-                        builder.setMessage(R.string.gen_internet_access_required).setTitle(R.string.gen_info).setIcon(R.drawable.ic_dialog_warning_yellow900);
-
-                        builder.setPositiveButton(R.string.gen_ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        });
-                        builder.create().show();
-                        return true;
-                    }
-                    showGoogleAccountChooser();
-                    return true;
-                }
-            });
-
-            revalidateAccountPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    mProgress = new ProgressDialog(getActivity());
-                    mProgress.setMessage(getResources().getString(R.string.gen_validating_google_account));
-                    mProgress.show();
-                    try {
-                        new SendGMailTask(getActivity(), getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), null),
-                                getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), null),
-                                getResources().getString(R.string.gen_test_email_subject), getResources().getString(R.string.gen_test_email_body), null,
-                                BackupRestorePreferenceFragment.this).execute();
-                    }
-                    catch (Exception e) {
-                        mProgress.hide();
-                        if (!(e instanceof GoogleAuthException)) {
-                            AndiCarCrashReporter.sendCrash(e);
-                            Log.e("AndiCar", e.getMessage(), e);
-                        }
-                        else {
-                            Utils.showReportableErrorDialog(getActivity(), null, e.getMessage(), e, false);
-                        }
-                    }
-
-                    return true;
-                }
-            });
-
-            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                accessToStorageJustAsked = true;
-                ActivityCompat.requestPermissions(this.getActivity(),
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ConstantValues.REQUEST_ACCESS_EXTERNAL_STORAGE);
-            }
-        }
-
-        @Override
         public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
             if (requestCode == ConstantValues.REQUEST_GET_ACCOUNTS) {
@@ -1132,6 +1130,14 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             SharedPreferences settings = getPreferenceManager().getSharedPreferences();
             SharedPreferences.Editor editor = settings.edit();
             switch (requestCode) {
+                case ConstantValues.REQUEST_BACKUP_SERVICE_SCHEDULE:
+                    try {
+                        ServiceStarter.startServices(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
+                    } catch (Exception e) {
+                        AndiCarCrashReporter.sendCrash(e);
+                        Log.d(LogTag, e.getMessage(), e);
+                    }
+                    break;
                 case ConstantValues.REQUEST_ACCOUNT_PICKER:
                     accountChoserIsShown = false;
                     if (resultCode == RESULT_OK && data != null && data.getExtras() != null) {
