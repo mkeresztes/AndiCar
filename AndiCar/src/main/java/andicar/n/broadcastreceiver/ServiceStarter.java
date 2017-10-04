@@ -27,14 +27,13 @@ import android.content.Intent;
 import android.util.Log;
 
 import java.io.File;
-import java.io.FileWriter;
 
 import andicar.n.service.BackupService;
 import andicar.n.service.ToDoManagementService;
 import andicar.n.service.ToDoNotificationService;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
-import andicar.n.utils.Utils;
+import andicar.n.utils.LogFileWriter;
 
 public class ServiceStarter extends BroadcastReceiver {
 
@@ -72,8 +71,8 @@ public class ServiceStarter extends BroadcastReceiver {
             try {
                 FileUtils.createFolderIfNotExists(context, ConstantValues.LOG_FOLDER);
                 File debugLogFile = new File(ConstantValues.LOG_FOLDER + "SSBroadcast.log");
-                FileWriter debugLogFileWriter = new FileWriter(debugLogFile, true);
-                debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" onReceive called for: ").append(rIntent.getAction());
+                LogFileWriter debugLogFileWriter = new LogFileWriter(debugLogFile, true);
+                debugLogFileWriter.appendnl("onReceive called for: ").append(rIntent.getAction());
                 debugLogFileWriter.flush();
                 debugLogFileWriter.close();
             }

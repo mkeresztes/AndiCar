@@ -27,12 +27,12 @@ import com.google.android.gms.auth.GoogleAuthException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAuthIOException;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import andicar.n.utils.AndiCarCrashReporter;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
+import andicar.n.utils.LogFileWriter;
 import andicar.n.utils.Utils;
 
 /**
@@ -44,23 +44,23 @@ public class FBJobService extends JobService {
     @Override
     public boolean onStartJob(JobParameters job) {
         File debugLogFile;
-        FileWriter debugLogFileWriter = null;
+        LogFileWriter debugLogFileWriter = null;
 
         try {
             FileUtils.createFolderIfNotExists(getApplicationContext(), ConstantValues.LOG_FOLDER);
             debugLogFile = new File(ConstantValues.LOG_FOLDER + "FBJobService.log");
-            debugLogFileWriter = new FileWriter(debugLogFile, false);
+            debugLogFileWriter = new LogFileWriter(debugLogFile, false);
 
-            debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" onStartJob begin");
+            debugLogFileWriter.appendnl("onStartJob begin");
             Intent intent = new Intent(getApplicationContext(), SecureBackupService.class);
             if (job.getExtras() != null) {
                 intent.putExtra("bkFile", job.getExtras().getString("bkFile"));
                 intent.putExtra("attachName", job.getExtras().getString("attachName"));
 
-                debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Starting SecureBackupService for bkFile: ").append(job.getExtras().getString("bkFile"));
+                debugLogFileWriter.appendnl("Starting SecureBackupService for bkFile: ").append(job.getExtras().getString("bkFile"));
 
                 getApplicationContext().startService(intent);
-                debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" onStartJob terminated");
+                debugLogFileWriter.appendnl("onStartJob terminated");
                 debugLogFileWriter.flush();
                 debugLogFileWriter.close();
                 debugLogFileWriter = null;
@@ -73,7 +73,7 @@ public class FBJobService extends JobService {
 
             if (debugLogFileWriter != null) {
                 try {
-                    debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Error:").append(e.getMessage())
+                    debugLogFileWriter.appendnl("Error:").append(e.getMessage())
                             .append("\n\n").append(Utils.getStackTrace(e));
                     debugLogFileWriter.flush();
                     debugLogFileWriter.close();

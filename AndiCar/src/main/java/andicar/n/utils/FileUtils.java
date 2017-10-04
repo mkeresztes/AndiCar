@@ -260,9 +260,9 @@ public class FileUtils {
         FileUtils.createFolderIfNotExists(ctx, ConstantValues.LOG_FOLDER);
 
         File debugLogFile = new File(ConstantValues.LOG_FOLDER + "backupDB.log");
-        FileWriter debugLogFileWriter = null;
+        LogFileWriter debugLogFileWriter = null;
         String bkFile = ConstantValues.BACKUP_FOLDER;
-        String bkFileName = null;
+        String bkFileName;
 
         try {
             if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
@@ -270,14 +270,14 @@ public class FileUtils {
                 return null;
             }
 
-            debugLogFileWriter = new FileWriter(debugLogFile, false);
+            debugLogFileWriter = new LogFileWriter(debugLogFile, false);
 
-            debugLogFileWriter.append(Utils.getCurrentDateTimeForLog()).append(" App version: ").append(Integer.toString(AndiCar.getAppVersion()));
+            debugLogFileWriter.appendnl("App version: ").append(Integer.toString(AndiCar.getAppVersion()));
 
             bkFileName = Utils.appendDateTime(bkPrefix == null ? ConstantValues.BACKUP_PREFIX : bkPrefix, true, true, "-") + ConstantValues.BACKUP_SUFIX;
             bkFile = bkFile + bkFileName;
 
-            debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" db backup started to: ").append(bkFile);
+            debugLogFileWriter.appendnl("db backup started to: ").append(bkFile);
 
             mLastErrorMessage = null;
             mLastException = null;
@@ -304,10 +304,10 @@ public class FileUtils {
                 return null;
             }
             else { // if secure backup enabled send the backup file as email attachment
-                debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Backup terminated with success.");
+                debugLogFileWriter.appendnl("Backup terminated with success.");
 
                 if (mPreferences.getBoolean(mResources.getString(R.string.pref_key_secure_backup_enabled), false) && !skipSecureBk) {
-                    debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Secure backup enabled. Calling FirebaseJobDispatcher for SecureBackup");
+                    debugLogFileWriter.appendnl("Secure backup enabled. Calling FirebaseJobDispatcher for SecureBackup");
                     Bundle myExtrasBundle = new Bundle();
                     myExtrasBundle.putString("bkFile", bkFile);
                     myExtrasBundle.putString("attachName", bkFileName);
@@ -337,10 +337,10 @@ public class FileUtils {
 
                     dispatcher.mustSchedule(myJob);
 
-                    debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Calling FirebaseJobDispatcher terminated");
+                    debugLogFileWriter.appendnl("Calling FirebaseJobDispatcher terminated");
                 }
                 else {
-                    debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" Secure backup is not enabled.");
+                    debugLogFileWriter.appendnl("Secure backup is not enabled.");
                 }
                 debugLogFileWriter.flush();
                 debugLogFileWriter.close();
@@ -349,7 +349,7 @@ public class FileUtils {
         catch (Exception e) {
             if (debugLogFileWriter != null) {
                 try {
-                    debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" backup terminated with error: ")
+                    debugLogFileWriter.appendnl("backup terminated with error: ")
                             .append(e.getMessage()).append("\n");
                     debugLogFileWriter.append(Utils.getStackTrace(e));
                     debugLogFileWriter.flush();

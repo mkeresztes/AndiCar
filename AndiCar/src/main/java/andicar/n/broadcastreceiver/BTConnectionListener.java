@@ -32,7 +32,6 @@ import org.andicar2.activity.AndiCar;
 import org.andicar2.activity.R;
 
 import java.io.File;
-import java.io.FileWriter;
 
 import andicar.n.activity.dialogs.GPSTrackControllerDialogActivity;
 import andicar.n.activity.fragment.BaseEditFragment;
@@ -41,7 +40,7 @@ import andicar.n.persistence.DBAdapter;
 import andicar.n.service.GPSTrackService;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
-import andicar.n.utils.Utils;
+import andicar.n.utils.LogFileWriter;
 import andicar.n.utils.notification.AndiCarNotification;
 
 public class BTConnectionListener extends BroadcastReceiver {
@@ -59,8 +58,8 @@ public class BTConnectionListener extends BroadcastReceiver {
             try {
                 FileUtils.createFolderIfNotExists(context, ConstantValues.LOG_FOLDER);
                 File debugLogFile = new File(ConstantValues.LOG_FOLDER + "BTCBroadcast.log");
-                FileWriter debugLogFileWriter = new FileWriter(debugLogFile, true);
-                debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" onReceive called for: ").append(intent.getAction());
+                LogFileWriter debugLogFileWriter = new LogFileWriter(debugLogFile, true);
+                debugLogFileWriter.appendnl("onReceive called for: ").append(intent.getAction());
                 debugLogFileWriter.flush();
                 debugLogFileWriter.close();
             }

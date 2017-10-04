@@ -37,7 +37,6 @@ import org.andicar2.activity.R;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,7 +68,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
     private ArrayList<String> mAttachments = null;
     private Exception mLastException = null;
 
-    private FileWriter debugLogFileWriter = null;
+    private LogFileWriter debugLogFileWriter = null;
 
 
     /**
@@ -84,8 +83,8 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
         try {
             FileUtils.createFolderIfNotExists(ctx, ConstantValues.LOG_FOLDER);
             File debugLogFile = new File(ConstantValues.LOG_FOLDER + "SendGMailTask.log");
-            debugLogFileWriter = new FileWriter(debugLogFile, false);
-            debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" SendGMailTask begin");
+            debugLogFileWriter = new LogFileWriter(debugLogFile, false);
+            debugLogFileWriter.appendnl("SendGMailTask begin");
             debugLogFileWriter.flush();
 
             HttpTransport transport = AndroidHttp.newCompatibleTransport();
@@ -107,7 +106,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
         catch (Exception e) {
             if (debugLogFileWriter != null) {
                 try {
-                    debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" An error occured: ").append(e.getMessage()).append(Utils.getStackTrace(e));
+                    debugLogFileWriter.appendnl("An error occured: ").append(e.getMessage()).append(Utils.getStackTrace(e));
                     debugLogFileWriter.flush();
                 }
                 catch (IOException ignored) {
@@ -125,13 +124,13 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
     @Override
     protected List<String> doInBackground(Void... params) {
         try {
-            debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" doInBackground begin");
+            debugLogFileWriter.appendnl("doInBackground begin");
             debugLogFileWriter.flush();
             return sendGMail();
         }
         catch (Exception e) {
             try {
-                debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" An error occured: ").append(e.getMessage()).append(Utils.getStackTrace(e));
+                debugLogFileWriter.appendnl("An error occured: ").append(e.getMessage()).append(Utils.getStackTrace(e));
                 debugLogFileWriter.flush();
             }
             catch (IOException ignored) {
@@ -149,7 +148,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
      */
     private List<String> sendGMail() throws Exception {
         List<String> retVal = new ArrayList<>();
-        debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" sendGMail begin");
+        debugLogFileWriter.appendnl("sendGMail begin");
         debugLogFileWriter.flush();
 
         //create the message
@@ -207,13 +206,13 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
         Message message = new Message();
         message.setRaw(encodedEmail);
 
-        debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" sending message using com.google.api.services.gmail.Gmail begin");
+        debugLogFileWriter.appendnl("sending message using com.google.api.services.gmail.Gmail begin");
         debugLogFileWriter.flush();
 
         //send the message ("me" => the current selected google account)
         Message result = mGmailService.users().messages().send("me", message).execute();
 
-        debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" sending message using com.google.api.services.gmail.Gmail ended with result:\n")
+        debugLogFileWriter.appendnl("sending message using com.google.api.services.gmail.Gmail ended with result:\n")
                 .append(result.toPrettyString());
         debugLogFileWriter.flush();
 
@@ -228,7 +227,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
     @Override
     protected void onPostExecute(List<String> result) {
         try {
-            debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" onPostExecute called with result:");
+            debugLogFileWriter.appendnl("onPostExecute called with result:");
             for (String s : result) {
                 debugLogFileWriter.append("\n\t").append(s);
             }
@@ -252,7 +251,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
         super.onCancelled(result);
         try {
             if (debugLogFileWriter != null) {
-                debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" onCancelled(result) called with result:");
+                debugLogFileWriter.appendnl("onCancelled(result) called with result:");
                 if (result != null) {
                     for (String s : result) {
                         debugLogFileWriter.append("\n\t").append(s);
@@ -276,7 +275,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
 //    protected void onCancelled() {
 //        try {
 //            if (debugLogFileWriter != null) {
-//                debugLogFileWriter.append("\n").append(Utils.getCurrentDateTimeForLog()).append(" onCancelled called");
+//                debugLogFileWriter.appendnl("\n").appendnl(Utils.getCurrentDateTimeForLog()).appendnl(" onCancelled called");
 //                debugLogFileWriter.flush();
 //                debugLogFileWriter.close();
 //                debugLogFileWriter = null;

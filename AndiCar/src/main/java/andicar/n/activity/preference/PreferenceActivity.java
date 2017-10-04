@@ -1043,7 +1043,8 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     if (!(Boolean) o) {
                         //only wifi disabled => if postponed backup exists send it
-                        if (Utils.isNetworkAvailable(BackupRestorePreferenceFragment.this.getActivity(), false) && BackupRestorePreferenceFragment.this.getPreferenceManager().getSharedPreferences().getString(BackupRestorePreferenceFragment.this.getString(R.string.pref_key_postponed_secure_backupfile), "").length() > 0) {
+                        if (Utils.isNetworkAvailable(BackupRestorePreferenceFragment.this.getActivity(), false)
+                                && BackupRestorePreferenceFragment.this.getPreferenceManager().getSharedPreferences().getString(BackupRestorePreferenceFragment.this.getString(R.string.pref_key_postponed_secure_backupfile), "").length() > 0) {
                             try {
                                 String bkFileName = (new File(BackupRestorePreferenceFragment.this.getPreferenceManager().getSharedPreferences().getString(BackupRestorePreferenceFragment.this.getString(R.string.pref_key_postponed_secure_backupfile), ""))).getName();
                                 Intent intent = new Intent(BackupRestorePreferenceFragment.this.getActivity(), SecureBackupService.class);
