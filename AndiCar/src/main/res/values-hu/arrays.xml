@@ -105,8 +105,8 @@
         <item>Tankolás grafikonok (mennyiség)</item>
         <item>Tankolás grafikonok (érték)</item>
         <item>Költség grafikonok</item>
-        <item>Fuel efficiency</item>
-        <item>Fuel consumption</item>
+        <item>Üzemanyag hatékonyság</item>
+        <item>Üzemanyag fogyasztás</item>
     </string-array>
 
 </resources>

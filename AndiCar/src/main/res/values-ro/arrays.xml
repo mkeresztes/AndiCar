@@ -105,8 +105,8 @@
         <item>Grafice de alimentări (cantitate)</item>
         <item>Grafice de alimentări (valoare)</item>
         <item>Grafice de cheltuieli</item>
-        <item>Fuel efficiency</item>
-        <item>Fuel consumption</item>
+        <item>Eficiență combustibil</item>
+        <item>Consum combustibil</item>
     </string-array>
 
 </resources>
