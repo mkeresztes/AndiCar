@@ -19,8 +19,6 @@
 
 package andicar.n.broadcastreceiver;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -41,9 +39,7 @@ public class ServiceStarter extends BroadcastReceiver {
 
 
     public static void startServices(Context context, String whatService) {
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent;
-        PendingIntent pIntent;
 
         if (whatService.equals(ConstantValues.SERVICE_STARTER_START_ALL) || whatService.equals(ConstantValues.SERVICE_STARTER_START_TODO_MANAGEMENT_SERVICE)) {
             //start TO-DO notification service
@@ -59,8 +55,7 @@ public class ServiceStarter extends BroadcastReceiver {
             Log.i(LOG_TAG, "Starting Backup Service...");
             intent = new Intent(context, BackupService.class);
             intent.putExtra(ConstantValues.BACKUP_SERVICE_OPERATION, ConstantValues.BACKUP_SERVICE_OPERATION_SET_NEXT_RUN);
-            pIntent = PendingIntent.getService(context, ConstantValues.BACKUP_SERVICE_INTENT_REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), AlarmManager.INTERVAL_DAY, pIntent);
+            context.startService(intent);
             Log.i(LOG_TAG, "Done");
         }
     }
