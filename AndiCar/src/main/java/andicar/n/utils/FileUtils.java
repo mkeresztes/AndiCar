@@ -272,8 +272,6 @@ public class FileUtils {
 
             debugLogFileWriter = new LogFileWriter(debugLogFile, false);
 
-            debugLogFileWriter.appendnl("App version: ").append(Integer.toString(AndiCar.getAppVersion()));
-
             bkFileName = Utils.appendDateTime(bkPrefix == null ? ConstantValues.BACKUP_PREFIX : bkPrefix, true, true, "-") + ConstantValues.BACKUP_SUFIX;
             bkFile = bkFile + bkFileName;
 

@@ -28,6 +28,7 @@ import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.format.DateFormat;
@@ -597,4 +598,11 @@ public class Utils {
         ctx.startActivity(Intent.createChooser(emailIntent, mRes.getString(R.string.gen_share)));
     }
 
+    /**
+     * Current Android version data
+     */
+    @SuppressWarnings("WeakerAccess")
+    public static String getAndroidVersion() {
+        return Build.VERSION.RELEASE + "; API Level: " + Build.VERSION.SDK_INT;
+    }
 }

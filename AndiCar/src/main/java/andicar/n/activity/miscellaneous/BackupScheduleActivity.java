@@ -29,7 +29,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -46,8 +45,6 @@ import android.widget.Toast;
 import org.andicar2.activity.AndiCar;
 import org.andicar2.activity.R;
 
-import andicar.n.broadcastreceiver.ServiceStarter;
-import andicar.n.utils.AndiCarCrashReporter;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.Utils;
 
@@ -193,14 +190,14 @@ public class BackupScheduleActivity extends AppCompatActivity {
 
                 editor.apply();
 
-                //start the service to update the next run
-                try {
-                    ServiceStarter.startServices(BackupScheduleActivity.this.getApplicationContext(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
-                }
-                catch (Exception e) {
-                    AndiCarCrashReporter.sendCrash(e);
-                    Log.d(LogTag, e.getMessage(), e);
-                }
+//                //start the service to update the next run
+//                try {
+//                    ServiceStarter.startServices(BackupScheduleActivity.this.getApplicationContext(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
+//                }
+//                catch (Exception e) {
+//                    AndiCarCrashReporter.sendCrash(e);
+//                    Log.d(LogTag, e.getMessage(), e);
+//                }
 
                 BackupScheduleActivity.this.finish();
             }

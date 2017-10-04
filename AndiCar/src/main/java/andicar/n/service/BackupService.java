@@ -56,7 +56,6 @@ public class BackupService extends Service {
         try {
 
             debugLogFileWriter = new LogFileWriter(debugLogFile, false);
-            debugLogFileWriter.appendnl("App version: ").append(Integer.toString(AndiCar.getAppVersion()));
             debugLogFileWriter.appendnl("Starting BackupService");
 
             if (!mPreferences.getBoolean(getString(R.string.pref_key_backup_service_enabled), false)) {
@@ -138,7 +137,7 @@ public class BackupService extends Service {
             debugLogFileWriter.appendnl("========== setNextRun begin ==========");
             Calendar nextSchedule = Calendar.getInstance();
             Calendar currentDate = Calendar.getInstance();
-            Log.d(LogTag, "currentDate = " + currentDate.get(Calendar.YEAR) + "-" + currentDate.get(Calendar.MONTH) + "-" + currentDate.get(Calendar.DAY_OF_MONTH)
+            Log.d(LogTag, "currentDate = " + currentDate.get(Calendar.YEAR) + "-" + (currentDate.get(Calendar.MONTH) + 1) + "-" + currentDate.get(Calendar.DAY_OF_MONTH)
                     + " " + currentDate.get(Calendar.HOUR_OF_DAY) + ":" + currentDate.get(Calendar.MINUTE));
 
             long timeInMillisecondsToNextRun;
@@ -157,7 +156,7 @@ public class BackupService extends Service {
                 //set date to current day
                 nextSchedule.set(currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DAY_OF_MONTH));
                 Log.d(LogTag,
-                        "nextSchedule = " + nextSchedule.get(Calendar.YEAR) + "-" + nextSchedule.get(Calendar.MONTH) + "-"
+                        "nextSchedule = " + nextSchedule.get(Calendar.YEAR) + "-" + (currentDate.get(Calendar.MONTH) + 1) + "-"
                                 + nextSchedule.get(Calendar.DAY_OF_MONTH) + " " + nextSchedule.get(Calendar.HOUR_OF_DAY) + ":" + nextSchedule.get(Calendar.MINUTE));
                 if (mPreferences.getString(getString(R.string.pref_key_backup_service_schedule_type), ConstantValues.BACKUP_SERVICE_DAILY).equals(ConstantValues.BACKUP_SERVICE_DAILY)) { //daily schedule
                     debugLogFileWriter.appendnl("Backup schedule is daily");
