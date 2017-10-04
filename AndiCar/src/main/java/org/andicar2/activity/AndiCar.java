@@ -31,10 +31,13 @@ import android.support.v4.content.ContextCompat;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 
 import andicar.n.broadcastreceiver.ServiceStarter;
 import andicar.n.utils.ConstantValues;
+import andicar.n.utils.FileUtils;
 import io.fabric.sdk.android.Fabric;
 
 public class AndiCar extends MultiDexApplication {
@@ -108,6 +111,13 @@ public class AndiCar extends MultiDexApplication {
                         e.putString(getString(R.string.pref_key_main_zone3_content), appPreferences.getString(getString(R.string.pref_key_main_zone1_content), "LTR"));
                         e.remove(getString(R.string.pref_key_main_zone2_content)); //this will be initialized in the main screen, based on current car volume uom (Fuel Eff or Fuel Cons)
                         e.putString(getString(R.string.pref_key_main_zone1_content), "STS");
+
+                        //delete the old log files
+                        try {
+                            FileUtils.cleanDirectory(new File(ConstantValues.LOG_FOLDER));
+                        }
+                        catch (IOException ignored) {
+                        }
                     }
                     ServiceStarter.startServices(getApplicationContext(), ConstantValues.SERVICE_STARTER_START_ALL);
                     e.putInt("appVersionCode", appVersion);

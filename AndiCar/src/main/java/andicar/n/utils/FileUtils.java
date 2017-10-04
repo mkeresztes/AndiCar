@@ -606,7 +606,7 @@ public class FileUtils {
      * @throws IOException in case cleaning is unsuccessful
      */
     //adapted from http://grepcode.com/file_/repo1.maven.org/maven2/commons-io/commons-io/1.4/org/apache/commons/io/FileUtils.java/?v=source cleanDirectory(...)
-    private static String cleanDirectory(File directory) throws IOException {
+    public static String cleanDirectory(File directory) throws IOException {
         if (!directory.exists()) {
             return String.format(mResources.getString(R.string.error_073), directory);
         }
