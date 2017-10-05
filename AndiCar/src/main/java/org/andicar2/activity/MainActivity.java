@@ -91,6 +91,7 @@ import andicar.n.view.MainNavigationView;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DateRangeSearchDialogFragment.DateRangeSearchDialogFragmentListener {
 
+    public static final String DO_NOT_USE = "DNU";
     private static final int REQUEST_CODE_ADD_CAR = 1;
     private static final int REQUEST_CODE_SETTINGS = 2;
     //    private static final int REQUEST_CODE_CHART_DETAIL = 3;
@@ -111,8 +112,6 @@ public class MainActivity extends AppCompatActivity
     private static final String FUEL_EFF_LINE_CHART = "CFE";
     private static final String FUEL_CONS_LINE_CHART = "CFC";
     private static final String STATISTICS_ZONE = "STS";
-    public static final String DO_NOT_USE = "DNU";
-
     private final View.OnClickListener btnEditClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -324,8 +323,10 @@ public class MainActivity extends AppCompatActivity
             if (mCarUOMVolumeCode != null &&
                     (mCarUOMVolumeCode.equals("gal US") || mCarUOMVolumeCode.equals("gal GB"))) {
                 e.putString(getString(R.string.pref_key_main_zone2_content), FUEL_EFF_LINE_CHART);
-            } else
+            }
+            else {
                 e.putString(getString(R.string.pref_key_main_zone2_content), FUEL_CONS_LINE_CHART);
+            }
             e.apply();
         }
 
@@ -405,7 +406,18 @@ public class MainActivity extends AppCompatActivity
     private String getChartDataPeriodText() {
         switch (mChartFilterType) {
             case CHART_FILTER_ALL:
-                return getString(R.string.chart_filter_all_text);
+                DBAdapter db = new DBAdapter(this);
+                long firstSeen = db.getCarFirstSeenDate(mLastSelectedCarID);
+                db.close();
+                if (firstSeen > 0) {
+                    return
+                            String.format(getString(R.string.chart_filter_custom_period_text),
+                                    Utils.getFormattedDateTime(firstSeen * 1000, true),
+                                    getString(R.string.chart_filter_custom_period_now_text));
+                }
+                else {
+                    return getString(R.string.chart_filter_all_text);
+                }
             case CHART_FILTER_CURRENT_MONTH:
                 return getString(R.string.chart_filter_current_month_text);
             case CHART_FILTER_PREVIOUS_MONTH:

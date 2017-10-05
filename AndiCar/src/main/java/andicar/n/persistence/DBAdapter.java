@@ -1525,6 +1525,43 @@ public class DBAdapter extends DB {
         }
     }
 
+    /**
+     * @param mCarId
+     * @return the first record date in seconds
+     */
+    public long getCarFirstSeenDate(long mCarId) {
+        Long firstSeenInSeconds = null;
+        //@formatter:off
+        String sql =
+                "SELECT MIN(FirstSeen) " +
+                " FROM ( " +
+                    " SELECT MIN(" + DBAdapter.COL_NAME_MILEAGE__DATE + ") AS FirstSeen" +
+                    " FROM " + DBAdapter.TABLE_NAME_MILEAGE + " " +
+                    " WHERE " + DBAdapter.COL_NAME_MILEAGE__CAR_ID + " = ? " +
+                    " UNION " +
+                    " SELECT MIN(" + DBAdapter.COL_NAME_REFUEL__DATE + ") AS FirstSeen" +
+                    " FROM " + DBAdapter.TABLE_NAME_REFUEL + " " +
+                    " WHERE " + DBAdapter.COL_NAME_REFUEL__CAR_ID + " = ? " +
+                    " UNION " +
+                    " SELECT MIN(" + DBAdapter.COL_NAME_EXPENSE__DATE + ") AS FirstSeen" +
+                    " FROM " + DBAdapter.TABLE_NAME_EXPENSE + " " +
+                    " WHERE " + DBAdapter.COL_NAME_EXPENSE__CAR_ID + " = ? " +
+                    " )";
+        //@formatter:on
+        String[] selectionArgs = {Long.toString(mCarId), Long.toString(mCarId), Long.toString(mCarId)};
+        Cursor c = execSelectSql(sql, selectionArgs);
+        if (c.moveToFirst() && c.getString(0) != null) {
+            firstSeenInSeconds = c.getLong(0);
+        }
+        c.close();
+        if (firstSeenInSeconds == null) {
+            return -1;
+        }
+        else {
+            return firstSeenInSeconds;
+        }
+    }
+
     public BigDecimal getLastDoneTodoMileage(long mCarId, long mTaskId) {
         Double lastDoneIndex = null;
         //@formatter:off
