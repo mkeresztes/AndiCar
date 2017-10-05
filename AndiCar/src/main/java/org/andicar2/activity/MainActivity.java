@@ -406,9 +406,14 @@ public class MainActivity extends AppCompatActivity
     private String getChartDataPeriodText() {
         switch (mChartFilterType) {
             case CHART_FILTER_ALL:
-                DBAdapter db = new DBAdapter(this);
-                long firstSeen = db.getCarFirstSeenDate(mLastSelectedCarID);
-                db.close();
+                long firstSeen = -1;
+                try {
+                    DBAdapter db = new DBAdapter(this);
+                    firstSeen = db.getCarFirstSeenDate(mLastSelectedCarID);
+                    db.close();
+                }
+                catch (Exception ignored) {
+                }
                 if (firstSeen > 0) {
                     return
                             String.format(getString(R.string.chart_filter_custom_period_text),
