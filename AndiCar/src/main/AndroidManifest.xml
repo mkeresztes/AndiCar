@@ -204,7 +204,7 @@
         <activity
             android:name="andicar.n.activity.miscellaneous.AboutActivity"
             android:label="About AndiCar" />
-        <activity android:name=".TestActivity" />
+        <activity android:name="andicar.n.activity.test.TestActivity" />
 
         <service
             android:name="andicar.n.service.SecureBackupService"
