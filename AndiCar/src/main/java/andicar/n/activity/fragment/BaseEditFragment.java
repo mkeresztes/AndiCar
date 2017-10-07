@@ -57,7 +57,6 @@ import android.widget.Toast;
 import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 
 import org.andicar2.activity.AndiCar;
-import org.andicar2.activity.BuildConfig;
 import org.andicar2.activity.R;
 
 import java.math.BigDecimal;
@@ -678,7 +677,7 @@ public abstract class BaseEditFragment extends Fragment {
         //for debug
         tvDebugInfo = mRootView.findViewById(R.id.tvDebugInfo);
         if (tvDebugInfo != null) {
-            if (BuildConfig.DEBUG && ConstantValues.DEBUG_IS_SHOW_INFO_IN_FRAGMENTS) {
+            if (Utils.isDebugVersion() && ConstantValues.DEBUG_IS_SHOW_INFO_IN_FRAGMENTS) {
                 Display display = getActivity().getWindowManager().getDefaultDisplay();
                 float density = getResources().getDisplayMetrics().density;
                 Point size = new Point();

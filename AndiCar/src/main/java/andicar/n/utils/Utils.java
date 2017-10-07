@@ -533,7 +533,7 @@ public class Utils {
     }
 
     public static void sendAnalyticsEvent(Context ctx, String screenName, Bundle params, boolean sendAlways) {
-        if (!BuildConfig.DEBUG || sendAlways) {
+        if (!Utils.isDebugVersion() || sendAlways) {
             FirebaseAnalytics.getInstance(ctx).logEvent(screenName, params);
         }
     }
@@ -604,5 +604,9 @@ public class Utils {
     @SuppressWarnings("WeakerAccess")
     public static String getAndroidVersion() {
         return Build.VERSION.RELEASE + "; API Level: " + Build.VERSION.SDK_INT;
+    }
+
+    public static boolean isDebugVersion() {
+        return BuildConfig.DEBUG;
     }
 }
