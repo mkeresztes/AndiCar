@@ -27,11 +27,15 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
 import andicar.n.activity.fragment.TaskEditFragment;
 import andicar.n.persistence.DBAdapter;
+import andicar.n.utils.ConstantValues;
+import andicar.n.utils.LogFileWriter;
+import andicar.n.utils.Utils;
 
 /**
  * @author Miklos Keresztes
@@ -57,6 +61,9 @@ public class ToDoManagementService extends Service {
     private long mCarID = 0;
     private boolean isSetJustNextRun = false;
 
+    private File debugLogFile = new File(ConstantValues.LOG_FOLDER + "ToDoManagementService.log");
+    private LogFileWriter debugLogFileWriter = null;
+
     //	private static int mTodoCount = 3;
 
     /*
@@ -68,25 +75,41 @@ public class ToDoManagementService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 //	public void onStart(Intent intent, int startId) {
 //		super.onStart(intent, startId);
-        super.onStartCommand(intent, flags, startId);
+//        super.onStartCommand(intent, flags, startId);
+        try {
+            debugLogFileWriter = new LogFileWriter(debugLogFile, false);
+            debugLogFileWriter.appendnl("Starting BackupService");
 
-        Bundle mBundleExtras = intent.getExtras();
-        if (mBundleExtras != null) {
-            mTaskID = mBundleExtras.getLong(ToDoManagementService.TASK_ID_KEY);
-            mCarID = mBundleExtras.getLong(ToDoManagementService.CAR_ID_KEY);
-            isSetJustNextRun = mBundleExtras.getBoolean(SET_JUST_NEXT_RUN_KEY);
+            Bundle mBundleExtras = intent.getExtras();
+            if (mBundleExtras != null) {
+                mTaskID = mBundleExtras.getLong(ToDoManagementService.TASK_ID_KEY);
+                mCarID = mBundleExtras.getLong(ToDoManagementService.CAR_ID_KEY);
+                isSetJustNextRun = mBundleExtras.getBoolean(SET_JUST_NEXT_RUN_KEY);
+            }
+            debugLogFileWriter.appendnl("TaskID = " + mTaskID);
+            debugLogFileWriter.appendnl("CarID = " + mCarID);
+            debugLogFileWriter.appendnl("Is set just next run = " + isSetJustNextRun);
+
+            if (!isSetJustNextRun) {
+                mDb = new DBAdapter(this);
+                createTaskTodos();
+                mDb.close();
+            }
+
+            Intent i = new Intent(this, ToDoNotificationService.class);
+            i.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, isSetJustNextRun);
+            this.startService(i);
+
+            debugLogFileWriter.appendnl("Service terminated");
+            debugLogFileWriter.flush();
+            debugLogFileWriter.close();
+
+        } catch (Exception e) {
+            try {
+                debugLogFileWriter.appendnl("Exception in service: ").append(e.getMessage()).append("\n").append(Utils.getStackTrace(e));
+            } catch (Exception ignored) {
+            }
         }
-
-        if (!isSetJustNextRun) {
-            mDb = new DBAdapter(this);
-            createTaskTodos();
-            mDb.close();
-        }
-
-        Intent i = new Intent(this, ToDoNotificationService.class);
-        i.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, isSetJustNextRun);
-        this.startService(i);
-
 //		stopSelf();
         return START_NOT_STICKY;
     }

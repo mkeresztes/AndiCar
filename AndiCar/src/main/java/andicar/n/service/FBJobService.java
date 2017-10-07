@@ -40,6 +40,10 @@ import andicar.n.utils.Utils;
  */
 
 public class FBJobService extends JobService {
+    public static final String JOB_TYPE_KEY = "JobType";
+    public static final String JOB_TYPE_SECURE_BACKUP = "SB";
+    public static final String JOB_TYPE_TODO = "TD";
+    public static final String JOB_TYPE_BACKUP = "BK";
 
     @Override
     public boolean onStartJob(JobParameters job) {
@@ -48,22 +52,51 @@ public class FBJobService extends JobService {
 
         try {
             FileUtils.createFolderIfNotExists(getApplicationContext(), ConstantValues.LOG_FOLDER);
-            debugLogFile = new File(ConstantValues.LOG_FOLDER + "FBJobService.log");
-            debugLogFileWriter = new LogFileWriter(debugLogFile, false);
-
-            debugLogFileWriter.appendnl("onStartJob begin");
-            Intent intent = new Intent(getApplicationContext(), SecureBackupService.class);
             if (job.getExtras() != null) {
-                intent.putExtra("bkFile", job.getExtras().getString("bkFile"));
-                intent.putExtra("attachName", job.getExtras().getString("attachName"));
+                debugLogFile = new File(ConstantValues.LOG_FOLDER + "FBJobService" + job.getExtras().getString(JOB_TYPE_KEY) + ".log");
+                debugLogFileWriter = new LogFileWriter(debugLogFile, false);
+                debugLogFileWriter.appendnl("onStartJob begin");
+                debugLogFileWriter.flush();
+            } else {
+                debugLogFile = new File(ConstantValues.LOG_FOLDER + "FBJobServiceError.log");
+                debugLogFileWriter = new LogFileWriter(debugLogFile, false);
+                debugLogFileWriter.appendnl("No extras");
+                debugLogFileWriter.flush();
+                debugLogFileWriter.close();
+                return false;
+            }
 
-                debugLogFileWriter.appendnl("Starting SecureBackupService for bkFile: ").append(job.getExtras().getString("bkFile"));
+            Intent intent;
+            if (job.getExtras().getString(JOB_TYPE_KEY) != null) {
+                if (job.getExtras().getString(JOB_TYPE_KEY).equals(JOB_TYPE_SECURE_BACKUP)) {
+                    intent = new Intent(getApplicationContext(), SecureBackupService.class);
+                    intent.putExtra("bkFile", job.getExtras().getString("bkFile"));
+                    intent.putExtra("attachName", job.getExtras().getString("attachName"));
+                    debugLogFileWriter.appendnl("Starting SecureBackupService for bkFile: ").append(job.getExtras().getString("bkFile"));
+                    getApplicationContext().startService(intent);
+                } else if (job.getExtras().getString(JOB_TYPE_KEY).equals(JOB_TYPE_TODO)) {
+                    intent = new Intent(getApplicationContext(), ToDoNotificationService.class);
+                    intent.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, false);
+                    debugLogFileWriter.appendnl("Starting to-do service");
+                    getApplicationContext().startService(intent);
+                } else if (job.getExtras().getString(JOB_TYPE_KEY).equals(JOB_TYPE_BACKUP)) {
+                    intent = new Intent(getApplicationContext(), BackupService.class);
+                    intent.putExtra(ConstantValues.BACKUP_SERVICE_OPERATION, ConstantValues.BACKUP_SERVICE_OPERATION_SET_NEXT_RUN);
+                    debugLogFileWriter.appendnl("Starting backup service for set next run date");
+                    getApplicationContext().startService(intent);
+                }
 
-                getApplicationContext().startService(intent);
                 debugLogFileWriter.appendnl("onStartJob terminated");
                 debugLogFileWriter.flush();
                 debugLogFileWriter.close();
                 debugLogFileWriter = null;
+            } else {
+                debugLogFile = new File(ConstantValues.LOG_FOLDER + "FBJobServiceError.log");
+                debugLogFileWriter = new LogFileWriter(debugLogFile, false);
+                debugLogFileWriter.appendnl("No job type");
+                debugLogFileWriter.flush();
+                debugLogFileWriter.close();
+                return false;
             }
         }
         catch (Exception e) {
