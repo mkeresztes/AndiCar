@@ -18,11 +18,13 @@ public class LogFileWriter extends FileWriter {
     public LogFileWriter(@NonNull File file, boolean append) throws IOException {
         super(file, append);
         try {
-            append("Log File: ").append(file.getAbsolutePath());
-            appendnl("App version: ").append(Integer.toString(AndiCar.getAppVersion()))
-                    .append("; Android version: ").append(Utils.getAndroidVersion())
-                    .append("\n");
-            flush();
+            if (!append) {
+                append("Log File: ").append(file.getAbsolutePath());
+                appendnl("App version: ").append(Integer.toString(AndiCar.getAppVersion()))
+                        .append("; Android version: ").append(Utils.getAndroidVersion())
+                        .append("\n");
+                flush();
+            }
         } catch (Exception e) {
             Log.e("AndiCar LogFileWriter", e.getMessage(), e);
         }

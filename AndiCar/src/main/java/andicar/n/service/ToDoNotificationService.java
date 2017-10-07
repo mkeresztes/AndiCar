@@ -43,7 +43,7 @@ public class ToDoNotificationService extends Service {
     public static final String TODO_ID_KEY = "ToDoID";
     public static final int TRIGGERED_BY_MILEAGE = 1;
     public static final int TRIGGERED_BY_TIME = 0;
-    private static final String LOG_TAG = "AndiCar";
+    private static final String LOG_TAG = "AndiCarToDoNotifService";
 
     private DBAdapter mDb = null;
 

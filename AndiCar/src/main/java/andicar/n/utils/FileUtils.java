@@ -307,6 +307,7 @@ public class FileUtils {
                 if (mPreferences.getBoolean(mResources.getString(R.string.pref_key_secure_backup_enabled), false) && !skipSecureBk) {
                     debugLogFileWriter.appendnl("Secure backup enabled. Calling FirebaseJobDispatcher for SecureBackup");
                     Bundle myExtrasBundle = new Bundle();
+                    myExtrasBundle.putString(FBJobService.JOB_TYPE_KEY, FBJobService.JOB_TYPE_SECURE_BACKUP);
                     myExtrasBundle.putString("bkFile", bkFile);
                     myExtrasBundle.putString("attachName", bkFileName);
                     FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(ctx));
@@ -315,7 +316,7 @@ public class FileUtils {
                             // the JobService that will be called
                             .setService(FBJobService.class)
                             // uniquely identifies the job
-                            .setTag("AndiCarSecureBackup")
+                            .setTag(FBJobService.JOB_TYPE_SECURE_BACKUP)
                             // one-off job
                             .setRecurring(false)
                             .setLifetime(Lifetime.FOREVER)
