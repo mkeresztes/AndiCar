@@ -23,6 +23,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
@@ -33,25 +34,36 @@ import com.firebase.jobdispatcher.Trigger;
 
 import java.io.File;
 
+import andicar.n.service.BackupService;
 import andicar.n.service.FBJobService;
+import andicar.n.service.ToDoManagementService;
+import andicar.n.service.ToDoNotificationService;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
 import andicar.n.utils.LogFileWriter;
 
+@SuppressWarnings("JavaDoc")
 public class ServiceStarter extends BroadcastReceiver {
+    private static final String LOG_TAG = "AndiCar";
 //    private static final String LOG_TAG = "ServiceStarter";
 
-    public static void startServices(Context context, String whatService) {
+    /**
+     * Start the services using FirebaseJobDispacher
+     *
+     * @param context
+     * @param whatService see ConstantValues.SERVICE_STARTER_... constants
+     */
+    public static void startServicesUsingFBJobDispacher(Context context, String whatService) {
 //        Intent intent;
         Bundle dispatcherParams = new Bundle();
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-        Job myJob = null;
+        Job fbJob;
 
         if (whatService.equals(ConstantValues.SERVICE_STARTER_START_ALL) || whatService.equals(ConstantValues.SERVICE_STARTER_START_TODO_MANAGEMENT_SERVICE)) {
             //start TO-DO notification service
             dispatcherParams.putString(FBJobService.JOB_TYPE_KEY, FBJobService.JOB_TYPE_TODO);
 
-            myJob = dispatcher.newJobBuilder()
+            fbJob = dispatcher.newJobBuilder()
                     // the JobService that will be called
                     .setService(FBJobService.class)
                     // uniquely identifies the job
@@ -68,19 +80,13 @@ public class ServiceStarter extends BroadcastReceiver {
                     // constraints that need to be satisfied for the job to run
                     .setExtras(dispatcherParams)
                     .build();
-            dispatcher.mustSchedule(myJob);
-
-//            Log.i(LOG_TAG, "Starting To-Do Notification Service...");
-//            intent = new Intent(context, ToDoNotificationService.class);
-//            intent.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, false);
-//            context.startService(intent);
-//            Log.i(LOG_TAG, "Done");
+            dispatcher.mustSchedule(fbJob);
         }
 
         if (whatService.equals(ConstantValues.SERVICE_STARTER_START_ALL) || whatService.equals(ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE)) {
             dispatcherParams.putString(FBJobService.JOB_TYPE_KEY, FBJobService.JOB_TYPE_BACKUP);
 
-            myJob = dispatcher.newJobBuilder()
+            fbJob = dispatcher.newJobBuilder()
                     // the JobService that will be called
                     .setService(FBJobService.class)
                     // uniquely identifies the job
@@ -97,19 +103,43 @@ public class ServiceStarter extends BroadcastReceiver {
                     // constraints that need to be satisfied for the job to run
                     .setExtras(dispatcherParams)
                     .build();
-            dispatcher.mustSchedule(myJob);
+            dispatcher.mustSchedule(fbJob);
 
+        }
+    }
+
+    /**
+     * Directly start the services using context.startService()<br>
+     * Use it only if the app is in foreground to avoid Background Service Limitations on Anroid O+<br>
+     * Consult https://developer.android.com/about/versions/oreo/background.html for details
+     *
+     * @param context
+     * @param whatService see ConstantValues.SERVICE_STARTER_... constants
+     */
+    public static void startServicesDirect(Context context, String whatService) {
+        Intent intent;
+        if (whatService.equals(ConstantValues.SERVICE_STARTER_START_ALL) || whatService.equals(ConstantValues.SERVICE_STARTER_START_TODO_MANAGEMENT_SERVICE)) {
+            //start TO-DO notification service
+            Log.i(LOG_TAG, "Starting To-Do Notification Service...");
+            intent = new Intent(context, ToDoNotificationService.class);
+            intent.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, false);
+            context.startService(intent);
+            Log.i(LOG_TAG, "Done");
+        }
+
+        if (whatService.equals(ConstantValues.SERVICE_STARTER_START_ALL) || whatService.equals(ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE)) {
             //start backup service
-//            Log.i(LOG_TAG, "Starting Backup Service...");
-//            intent = new Intent(context, BackupService.class);
-//            intent.putExtra(ConstantValues.BACKUP_SERVICE_OPERATION, ConstantValues.BACKUP_SERVICE_OPERATION_SET_NEXT_RUN);
-//            context.startService(intent);
-//            Log.i(LOG_TAG, "Done");
+            Log.i(LOG_TAG, "Starting Backup Service...");
+            intent = new Intent(context, BackupService.class);
+            intent.putExtra(ConstantValues.BACKUP_SERVICE_OPERATION, ConstantValues.BACKUP_SERVICE_OPERATION_SET_NEXT_RUN);
+            context.startService(intent);
+            Log.i(LOG_TAG, "Done");
         }
     }
 
     @Override
     public void onReceive(Context context, Intent rIntent) {
+        Log.d(LOG_TAG, "onReceive called for: " + rIntent.getAction());
         try {
             try {
                 FileUtils.createFolderIfNotExists(context, ConstantValues.LOG_FOLDER);
@@ -126,12 +156,11 @@ public class ServiceStarter extends BroadcastReceiver {
                     || rIntent.getAction().equals(Intent.ACTION_DATE_CHANGED)
                     || rIntent.getAction().equals(Intent.ACTION_MY_PACKAGE_REPLACED)) {
                 //start services
-                startServices(context, ConstantValues.SERVICE_STARTER_START_ALL);
+                startServicesUsingFBJobDispacher(context, ConstantValues.SERVICE_STARTER_START_ALL);
             }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 }

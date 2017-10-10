@@ -192,7 +192,7 @@ public class BackupScheduleActivity extends AppCompatActivity {
 
 //                //start the service to update the next run
 //                try {
-//                    ServiceStarter.startServices(BackupScheduleActivity.this.getApplicationContext(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
+//                    ServiceStarter.startServicesUsingFBJobDispacher(BackupScheduleActivity.this.getApplicationContext(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
 //                }
 //                catch (Exception e) {
 //                    AndiCarCrashReporter.sendCrash(e);

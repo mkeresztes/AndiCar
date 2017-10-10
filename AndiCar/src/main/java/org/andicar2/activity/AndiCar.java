@@ -119,7 +119,7 @@ public class AndiCar extends MultiDexApplication {
                         catch (IOException ignored) {
                         }
                     }
-                    ServiceStarter.startServices(getApplicationContext(), ConstantValues.SERVICE_STARTER_START_ALL);
+                    ServiceStarter.startServicesUsingFBJobDispacher(getApplicationContext(), ConstantValues.SERVICE_STARTER_START_ALL);
                     e.putInt("appVersionCode", appVersion);
                     e.putBoolean(getString(R.string.pref_key_show_whats_new_dialog), true);
                     e.apply();

@@ -1479,7 +1479,7 @@ public class DB {
                 editor.apply();
 
                 try {
-                    ServiceStarter.startServices(mCtx, ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
+                    ServiceStarter.startServicesUsingFBJobDispacher(mCtx, ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
                 }
                 catch (Exception e) {
                     AndiCarCrashReporter.sendCrash(e);

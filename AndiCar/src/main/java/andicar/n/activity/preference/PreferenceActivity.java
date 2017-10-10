@@ -633,7 +633,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                                 db.close();
                                 if (FileUtils.restoreDb(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.BACKUP_FOLDER + bkFile, dbPath)) {
                                     try {
-                                        ServiceStarter.startServices(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_ALL);
+                                        ServiceStarter.startServicesDirect(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_ALL);
                                     } catch (Exception e) {
                                         AndiCarCrashReporter.sendCrash(e);
                                         Log.d(LogTag, e.getMessage(), e);
@@ -692,7 +692,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
 
                     if ((Boolean) newValue) {
                         try {
-                            ServiceStarter.startServices(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
+                            ServiceStarter.startServicesDirect(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
                         } catch (Exception e) {
                             AndiCarCrashReporter.sendCrash(e);
                             Log.d(LogTag, e.getMessage(), e);
@@ -845,7 +845,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                         e.apply();
                         backupService.setChecked(true);
                         try {
-                            ServiceStarter.startServices(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
+                            ServiceStarter.startServicesDirect(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
                         }
                         catch (Exception ex) {
                             AndiCarCrashReporter.sendCrash(ex);
@@ -1132,7 +1132,8 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             switch (requestCode) {
                 case ConstantValues.REQUEST_BACKUP_SERVICE_SCHEDULE:
                     try {
-                        ServiceStarter.startServices(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
+//                        ServiceStarter.startServicesUsingFBJobDispacher(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
+                        ServiceStarter.startServicesDirect(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
                     } catch (Exception e) {
                         AndiCarCrashReporter.sendCrash(e);
                         Log.d(LogTag, e.getMessage(), e);
@@ -1200,6 +1201,8 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
 
         @Override
         public void run() {
+            //called when other backup is restored using the file picker
+
             Message msg = new Message();
             Bundle msgBundle = new Bundle();
 
@@ -1215,7 +1218,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             }
             if (FileUtils.restoreDb(BackupRestorePreferenceFragment.this.getActivity(), fPath, dbPath)) {
                 try {
-                    ServiceStarter.startServices(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_ALL);
+                    ServiceStarter.startServicesDirect(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_ALL);
                 } catch (Exception e) {
                     AndiCarCrashReporter.sendCrash(e);
                     Log.d(LogTag, e.getMessage(), e);
