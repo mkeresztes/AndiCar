@@ -35,7 +35,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
-import andicar.n.broadcastreceiver.ServiceStarter;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
 import io.fabric.sdk.android.Fabric;
@@ -119,7 +118,8 @@ public class AndiCar extends MultiDexApplication {
                         catch (IOException ignored) {
                         }
                     }
-                    ServiceStarter.startServicesUsingFBJobDispacher(getApplicationContext(), ConstantValues.SERVICE_STARTER_START_ALL);
+                    //replaced by android.intent.action.MY_PACKAGE_REPLACED => ServiceStarter
+//                    ServiceStarter.startServicesUsingFBJobDispacher(getApplicationContext(), ConstantValues.SERVICE_STARTER_START_ALL);
                     e.putInt("appVersionCode", appVersion);
                     e.putBoolean(getString(R.string.pref_key_show_whats_new_dialog), true);
                     e.apply();
