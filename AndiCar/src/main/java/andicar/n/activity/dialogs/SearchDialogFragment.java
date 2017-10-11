@@ -374,13 +374,13 @@ public class SearchDialogFragment extends DialogFragment {
     private void setTagAdapters() {
         ArrayAdapter<String> mTagAdapter = null;
         ArrayAdapter<String> mCommentAdapter = null;
-        String[] tags;
+        String[] records;
         String tableName;
 
-        //set adapter for tags
-        tags = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_TAG, null, 0, 0);
-        if (tags != null) {
-            mTagAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, tags);
+        //set adapter for records
+        records = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_TAG, null, 0, 0);
+        if (records != null) {
+            mTagAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, records);
         }
         acTag.setAdapter(mTagAdapter);
 
@@ -390,13 +390,17 @@ public class SearchDialogFragment extends DialogFragment {
         }
         else if (mSearchType == SEARCH_TYPE_REFUEL) {
             tableName = DBAdapter.TABLE_NAME_REFUEL;
+        } else if (mSearchType == SEARCH_TYPE_EXPENSE) {
+            tableName = DBAdapter.TABLE_NAME_EXPENSE;
+        } else if (mSearchType == SEARCH_TYPE_GPS_TRACK) {
+            tableName = DBAdapter.TABLE_NAME_GPSTRACK;
         }
         else {
             tableName = "";
         }
-        tags = mDbAdapter.getAutoCompleteText(tableName, null, mCarId, 20);
-        if (tags != null) {
-            mCommentAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, tags);
+        records = mDbAdapter.getAutoCompleteText(tableName, null, mCarId, 20);
+        if (records != null) {
+            mCommentAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, records);
         }
         acUserComment.setAdapter(mCommentAdapter);
 
