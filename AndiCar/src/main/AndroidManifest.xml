@@ -19,7 +19,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="org.andicar2.activity"
-    android:versionCode="17101102"
+          android:versionCode="17101103"
           android:versionName="17.10">
 
     <!-- ************************************************************************************************* -->
@@ -231,8 +231,8 @@
 
         <receiver
             android:name="andicar.n.broadcastreceiver.ServiceStarter"
-            android:exported="true"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
