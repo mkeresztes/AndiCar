@@ -167,7 +167,7 @@ public class SecureBackupService extends Service implements OnAsyncTaskListener 
             debugLogFileWriter.flush();
 
             zippedBk = ConstantValues.TEMP_FOLDER + bkFileName.replace(".db", "") + ".zi_";
-            FileUtils.zipFiles(fileBundle, zippedBk);
+            FileUtils.zipFiles(this, fileBundle, zippedBk);
             mFilesToSend.add(zippedBk);
 
             debugLogFileWriter.appendnl("calling SendGMailTask.");

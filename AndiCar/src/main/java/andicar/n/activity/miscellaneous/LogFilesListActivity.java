@@ -34,8 +34,10 @@ import android.widget.Toast;
 
 import org.andicar2.activity.R;
 
+import java.io.File;
 import java.util.ArrayList;
 
+import andicar.n.persistence.AndiCarFileProvider;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
 
@@ -87,7 +89,8 @@ public class LogFilesListActivity extends AppCompatActivity {
             ArrayList<Uri> logFilesToSend = new ArrayList<>();
             for (int i = 0; i < len; i++) {
                 if (checkedFiles.get(i)) {
-                    logFilesToSend.add(Uri.parse("file://" + ConstantValues.LOG_FOLDER + mLogFileList.get(i)));
+//                    logFilesToSend.add(Uri.parse("file://" + ConstantValues.LOG_FOLDER + mLogFileList.get(i)));
+                    logFilesToSend.add(AndiCarFileProvider.getUriForFile(this, "org.andicar2.provider", new File(ConstantValues.LOG_FOLDER + mLogFileList.get(i))));
                 }
             }
 

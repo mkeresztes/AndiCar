@@ -63,6 +63,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import andicar.n.persistence.AndiCarFileProvider;
 import andicar.n.service.FBJobService;
 import andicar.n.service.ToDoManagementService;
 import andicar.n.service.ToDoNotificationService;
@@ -171,7 +172,7 @@ public class FileUtils {
      * @param outZipFile the destination file name
      * @return the zip file Uri or null on error
      */
-    public static Uri zipFiles(Bundle inputFiles, String outZipFile) {
+    public static Uri zipFiles(Context ctx, Bundle inputFiles, String outZipFile) {
         byte[] buf = new byte[1024];
         ZipOutputStream out;
         try {
@@ -202,7 +203,8 @@ public class FileUtils {
             }
 
             out.close();
-            return Uri.parse("file://" + outZipFile);
+//            return Uri.parse("file://" + outZipFile);
+            return AndiCarFileProvider.getUriForFile(ctx, "org.andicar2.provider", new File(outZipFile));
         }
         catch (IOException ex) {
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
@@ -529,7 +531,7 @@ public class FileUtils {
      * @since Commons IO 1.1
      */
     //adapted from http://grepcode.com/file_/repo1.maven.org/maven2/commons-io/commons-io/1.4/org/apache/commons/io/FileUtils.java/?v=source doCopyDirectory(...)
-    private static String copyDirectory(Context ctx, File srcDir, File destDir, boolean backupIfExists) throws IOException {
+    public static String copyDirectory(Context ctx, File srcDir, File destDir, boolean backupIfExists) throws IOException {
         if (destDir.exists()) {
             if (backupIfExists && destDir.isDirectory()) {
                 if (!destDir.renameTo(new File(destDir.getAbsolutePath() + "_" + System.currentTimeMillis()))) {
@@ -580,7 +582,7 @@ public class FileUtils {
      * @throws IOException in case deletion is unsuccessful
      */
     //adapted from http://grepcode.com/file_/repo1.maven.org/maven2/commons-io/commons-io/1.4/org/apache/commons/io/FileUtils.java/?v=source deleteDirectory(...)
-    private static String deleteDirectory(File directory) throws IOException {
+    public static String deleteDirectory(File directory) throws IOException {
 
         if (!directory.exists()) {
             return null;

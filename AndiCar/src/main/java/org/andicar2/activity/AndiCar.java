@@ -27,6 +27,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.multidex.MultiDexApplication;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
@@ -72,7 +73,8 @@ public class AndiCar extends MultiDexApplication {
             ConstantValues.BASE_FOLDER = Environment.getExternalStorageDirectory().getAbsolutePath() + "/andicar";
         }
         else {
-            ConstantValues.BASE_FOLDER = getApplicationContext().getApplicationInfo().dataDir + "/andicar";
+//            ConstantValues.BASE_FOLDER = getApplicationContext().getApplicationInfo().dataDir + "/andicar";
+            ConstantValues.BASE_FOLDER = getApplicationContext().getFilesDir().getAbsolutePath();
         }
 
         ConstantValues.REPORT_FOLDER = ConstantValues.BASE_FOLDER + "/" + ConstantValues.REPORT_FOLDER_NAME + "/";
@@ -90,6 +92,10 @@ public class AndiCar extends MultiDexApplication {
         try {
             appVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
             oldAppVersion = appPreferences.getInt("appVersionCode", getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
+            Log.d("AndiCar", "getApplicationContext().getFilesDir(): " + getApplicationContext().getFilesDir().getAbsolutePath());
+            Log.d("AndiCar", "getApplicationContext().getApplicationInfo().dataDir: " + getApplicationContext().getApplicationInfo().dataDir);
+            Log.d("AndiCar", "BASE_FOLDER: " + ConstantValues.BASE_FOLDER);
+
             if (!appPreferences.contains("appVersionCode")) {
                 SharedPreferences.Editor e = appPreferences.edit();
                 e.putInt("appVersionCode", appVersion);
@@ -118,6 +124,19 @@ public class AndiCar extends MultiDexApplication {
                         catch (IOException ignored) {
                         }
                     }
+                    if (oldAppVersion <= 17100500) {
+                        //correct the location of the files (log, gpstracks, etc.) if the internal storage is used
+                        File oldInternalLocation = new File(getApplicationContext().getApplicationInfo().dataDir + "/andicar");
+                        File newInternalLocation = getApplicationContext().getFilesDir();
+                        if (oldInternalLocation.exists() && ConstantValues.BASE_FOLDER.equals(newInternalLocation.getAbsolutePath())) {
+                            try {
+                                FileUtils.copyDirectory(getApplicationContext(), oldInternalLocation, newInternalLocation, false);
+                            }
+                            catch (IOException ignored) {
+                            }
+                        }
+                    }
+
                     //replaced by android.intent.action.MY_PACKAGE_REPLACED => ServiceStarter
 //                    ServiceStarter.startServicesUsingFBJobDispacher(getApplicationContext(), ConstantValues.SERVICE_STARTER_START_ALL);
                     e.putInt("appVersionCode", appVersion);

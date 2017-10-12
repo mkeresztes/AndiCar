@@ -22,7 +22,6 @@ package andicar.n.activity.miscellaneous;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -37,8 +36,10 @@ import android.widget.Toast;
 
 import org.andicar2.activity.R;
 
+import java.io.File;
 import java.util.ArrayList;
 
+import andicar.n.persistence.AndiCarFileProvider;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
 
@@ -126,7 +127,8 @@ public class BackupListActivity extends AppCompatActivity {
             shareIntent.setType("text/html");
             shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Sent by AndiCar (http://www.andicar.org)");
             shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "AndiCar backup file " + selectedFile);
-            shareIntent.putExtra(android.content.Intent.EXTRA_STREAM, Uri.parse("file://" + ConstantValues.BACKUP_FOLDER + selectedFile));
+//            shareIntent.putExtra(android.content.Intent.EXTRA_STREAM, Uri.parse("file://" + ConstantValues.BACKUP_FOLDER + selectedFile));
+            shareIntent.putExtra(Intent.EXTRA_STREAM, AndiCarFileProvider.getUriForFile(this, "org.andicar2.provider", new File(ConstantValues.BACKUP_FOLDER + selectedFile)));
             try {
                 startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.gen_share)));
             }

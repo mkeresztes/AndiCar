@@ -538,6 +538,14 @@ public class Utils {
         }
     }
 
+    /**
+     * Current Android version data
+     */
+    @SuppressWarnings("WeakerAccess")
+    public static String getAndroidVersion() {
+        return Build.VERSION.RELEASE + "; API Level: " + Build.VERSION.SDK_INT;
+    }
+
     public void shareGPSTrack(Context ctx, Resources mRes, long gpsTrackID) {
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("text/html");
@@ -591,18 +599,10 @@ public class Utils {
         }
 
         //create the zip file
-        Uri trackFileZip = FileUtils.zipFiles(trackFiles, ConstantValues.TRACK_FOLDER + "AndiCarGPSTrack.zip");
+        Uri trackFileZip = FileUtils.zipFiles(ctx, trackFiles, ConstantValues.TRACK_FOLDER + "AndiCarGPSTrack.zip");
         if (trackFileZip != null) {
             emailIntent.putExtra(Intent.EXTRA_STREAM, trackFileZip);
         }
         ctx.startActivity(Intent.createChooser(emailIntent, mRes.getString(R.string.gen_share)));
-    }
-
-    /**
-     * Current Android version data
-     */
-    @SuppressWarnings("WeakerAccess")
-    public static String getAndroidVersion() {
-        return Build.VERSION.RELEASE + "; API Level: " + Build.VERSION.SDK_INT;
     }
 }

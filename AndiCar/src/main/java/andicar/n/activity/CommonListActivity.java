@@ -26,7 +26,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -51,12 +50,14 @@ import android.widget.Toast;
 import org.andicar2.activity.AndiCar;
 import org.andicar2.activity.R;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Calendar;
 
 import andicar.n.activity.dialogs.SearchDialogFragment;
 import andicar.n.activity.dialogs.ShareDialogFragment;
+import andicar.n.persistence.AndiCarFileProvider;
 import andicar.n.persistence.DBAdapter;
 import andicar.n.persistence.DBReportAdapter;
 import andicar.n.persistence.viewadapter.BaseViewAdapter;
@@ -1048,7 +1049,8 @@ public class CommonListActivity extends AppCompatActivity
         shareIntent.setType("text/html");
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, " AndiCar report " + reportTitle + (mReportFormat == 0 ? ".csv" : ".html"));
         shareIntent.putExtra(Intent.EXTRA_TEXT, "Sent by AndiCar (http://www.andicar.org)");
-        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + ConstantValues.REPORT_FOLDER + reportFileName));
+//        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + ConstantValues.REPORT_FOLDER + reportFileName));
+        shareIntent.putExtra(Intent.EXTRA_STREAM, AndiCarFileProvider.getUriForFile(this, "org.andicar2.provider", new File(ConstantValues.REPORT_FOLDER + reportFileName)));
         try {
             startActivity(Intent.createChooser(shareIntent, getString(R.string.gen_share)));
         }
