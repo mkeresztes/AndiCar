@@ -65,6 +65,7 @@ import andicar.n.persistence.DBReportAdapter;
 /**
  * @author miki
  */
+@SuppressWarnings("WeakerAccess")
 public class Utils {
     /**
      * Round Up (24:00) or Down (00:00) a datetime
@@ -118,7 +119,7 @@ public class Utils {
      * @return the completed input string with the datetime string
      */
     @SuppressLint("WrongConstant")
-    @SuppressWarnings({"SameParameterValue", "WeakerAccess"})
+    @SuppressWarnings("SameParameterValue")
     public static String appendDateTime(String inStr, boolean appendMinute, boolean appendSecondMillisecond, String separator) {
         Calendar cal = Calendar.getInstance();
         inStr = inStr + cal.get(Calendar.YEAR) + (separator != null ? separator : "")
@@ -541,7 +542,6 @@ public class Utils {
     /**
      * Current Android version data
      */
-    @SuppressWarnings("WeakerAccess")
     public static String getAndroidVersion() {
         return Build.VERSION.RELEASE + "; API Level: " + Build.VERSION.SDK_INT;
     }
