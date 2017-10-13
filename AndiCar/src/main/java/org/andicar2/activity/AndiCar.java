@@ -92,8 +92,8 @@ public class AndiCar extends MultiDexApplication {
         try {
             appVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
             oldAppVersion = appPreferences.getInt("appVersionCode", getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
-            Log.d("AndiCar", "getApplicationContext().getFilesDir(): " + getApplicationContext().getFilesDir().getAbsolutePath());
-            Log.d("AndiCar", "getApplicationContext().getApplicationInfo().dataDir: " + getApplicationContext().getApplicationInfo().dataDir);
+            Log.d("AndiCar", "Internal file storage: " + getApplicationContext().getFilesDir().getAbsolutePath());
+            Log.d("AndiCar", "External file storage: " + getApplicationContext().getApplicationInfo().dataDir);
             Log.d("AndiCar", "BASE_FOLDER: " + ConstantValues.BASE_FOLDER);
 
             if (!appPreferences.contains("appVersionCode")) {

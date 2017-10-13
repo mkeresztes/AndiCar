@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity
         DBAdapter db = new DBAdapter(this);
 
         mDbVersion = Integer.toString(db.getVersion());
-        setShortAbout();
+        fillShortAbout();
 
         Cursor c = db.query(DBAdapter.TABLE_NAME_CAR, columnsToGet, selectionCondition, selectionArgs, DBAdapter.COL_NAME_GEN_NAME);
         boolean tmpCheck = false;
@@ -1919,13 +1919,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     @SuppressLint("WrongConstant")
-    private void setShortAbout() {
+    private void fillShortAbout() {
         String appVersion = null;
 
         try {
-            appVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-            if (Utils.isDebugVersion())
-                appVersion = appVersion + " (Debug)";
+            appVersion = Utils.getAppVersion(this);
         }
         catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

@@ -22,6 +22,7 @@ package andicar.n.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Point;
@@ -548,6 +549,14 @@ public class Utils {
 
     public static boolean isDebugVersion() {
         return BuildConfig.DEBUG;
+    }
+
+    public static String getAppVersion(Context ctx) throws PackageManager.NameNotFoundException {
+        String appVersion = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).versionName;
+        if (Utils.isDebugVersion()) {
+            appVersion = appVersion + " (Debug: " + ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).versionCode + ")";
+        }
+        return appVersion;
     }
 
     public void shareGPSTrack(Context ctx, Resources mRes, long gpsTrackID) {
