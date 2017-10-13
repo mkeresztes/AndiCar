@@ -130,7 +130,8 @@ public class FileUtils {
         Pattern p = null;
         Matcher m;
 
-        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+//        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+        if (!FileUtils.isFileSystemAccessGranted(ctx)) {
             return null;
         }
         if (!fileDir.exists() || !fileDir.isDirectory()) {
@@ -259,18 +260,21 @@ public class FileUtils {
      */
     public static String backupDb(Context ctx, String dbPath, @Nullable String bkPrefix, boolean skipSecureBk) {
 
-        FileUtils.createFolderIfNotExists(ctx, ConstantValues.LOG_FOLDER);
-
-        File debugLogFile = new File(ConstantValues.LOG_FOLDER + "backupDB.log");
-        LogFileWriter debugLogFileWriter = null;
         String bkFile = ConstantValues.BACKUP_FOLDER;
         String bkFileName;
+        File debugLogFile;
+        LogFileWriter debugLogFileWriter = null;
 
         try {
-            if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+//            if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            if (!FileUtils.isFileSystemAccessGranted(ctx)) {
                 mLastErrorMessage = "External Storage Access denied";
                 return null;
             }
+            FileUtils.createFolderIfNotExists(ctx, ConstantValues.LOG_FOLDER);
+
+            debugLogFile = new File(ConstantValues.LOG_FOLDER + "backupDB.log");
+            debugLogFileWriter = null;
 
             debugLogFileWriter = new LogFileWriter(debugLogFile, false);
 
@@ -377,7 +381,8 @@ public class FileUtils {
     public static String createFolderIfNotExists(Context ctx, String what) {
         File file;
 
-        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+//        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+        if (!FileUtils.isFileSystemAccessGranted(ctx)) {
             return mResources.getString(R.string.error_102);
         }
 
@@ -456,7 +461,8 @@ public class FileUtils {
      */
     private static String copyFile(Context ctx, String sourceFile, String destinationFile, boolean overwriteExisting) {
 
-        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+//        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+        if (!FileUtils.isFileSystemAccessGranted(ctx)) {
             return mResources.getString(R.string.error_102);
         }
 
@@ -489,7 +495,8 @@ public class FileUtils {
      */
     private static String copyFile(Context ctx, File source, File dest) {
 
-        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+//        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+        if (!FileUtils.isFileSystemAccessGranted(ctx)) {
             return mResources.getString(R.string.error_102);
         }
 
@@ -655,7 +662,8 @@ public class FileUtils {
             return false;
         }
 
-        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+//        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+        if (!FileUtils.isFileSystemAccessGranted(ctx)) {
             mLastErrorMessage = ctx.getString(R.string.error_070);
             return false;
         }
@@ -729,7 +737,8 @@ public class FileUtils {
 
     public static int writeReportFile(Context ctx, String content, String fileName) {
 
-        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+//        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+        if (!isFileSystemAccessGranted(ctx)) {
             mLastErrorMessage = mResources.getString(R.string.error_070);
             return R.string.error_070;
         }
@@ -754,4 +763,15 @@ public class FileUtils {
         return -1;
     }
 
+    @SuppressWarnings("SimplifiableIfStatement")
+    public static boolean isFileSystemAccessGranted(Context ctx) {
+        if (ConstantValues.BASE_FOLDER.equals(ctx.getFilesDir().getAbsolutePath())) //internal storage used => access granted
+        {
+            return true;
+        }
+
+        //external storage
+        return ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+
+    }
 }

@@ -793,7 +793,8 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 }
             });
 
-            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+//            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            if (!FileUtils.isFileSystemAccessGranted(getActivity())) {
                 accessToStorageJustAsked = true;
                 ActivityCompat.requestPermissions(this.getActivity(),
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ConstantValues.REQUEST_ACCESS_EXTERNAL_STORAGE);
@@ -804,7 +805,8 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         public void onResume() {
             super.onResume();
 
-            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+//            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            if (!FileUtils.isFileSystemAccessGranted(getActivity())) {
                 backupPreference.setSummary(R.string.error_109);
                 backupPreference.setEnabled(false);
 

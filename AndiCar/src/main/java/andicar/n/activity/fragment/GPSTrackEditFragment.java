@@ -24,11 +24,9 @@ import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -45,6 +43,7 @@ import andicar.n.activity.miscellaneous.GPSTrackMap;
 import andicar.n.persistence.DBAdapter;
 import andicar.n.persistence.DBReportAdapter;
 import andicar.n.utils.ConstantValues;
+import andicar.n.utils.FileUtils;
 import andicar.n.utils.Utils;
 
 /**
@@ -260,7 +259,8 @@ public class GPSTrackEditFragment extends BaseEditFragment {
             return true;
         }
         else if (id == R.id.action_send) {
-            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+//            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            if (!FileUtils.isFileSystemAccessGranted(getActivity())) {
                 ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ConstantValues.REQUEST_ACCESS_EXTERNAL_STORAGE);
             }

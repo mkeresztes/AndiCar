@@ -37,6 +37,7 @@ import org.andicar2.activity.R;
 import andicar.n.activity.fragment.BaseEditFragment;
 import andicar.n.activity.fragment.GPSTrackControllerFragment;
 import andicar.n.utils.ConstantValues;
+import andicar.n.utils.FileUtils;
 
 /**
  * Created by Miklos Keresztes on 16.03.2017.
@@ -76,7 +77,8 @@ public class GPSTrackControllerDialogActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, ConstantValues.REQUEST_LOCATION_ACCESS);
         } else {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            if (!FileUtils.isFileSystemAccessGranted(this)) {
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ConstantValues.REQUEST_ACCESS_EXTERNAL_STORAGE);
             }
@@ -95,7 +97,8 @@ public class GPSTrackControllerDialogActivity extends AppCompatActivity {
             }
             finish();
         } else {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            if (!FileUtils.isFileSystemAccessGranted(this)) {
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ConstantValues.REQUEST_ACCESS_EXTERNAL_STORAGE);
             }

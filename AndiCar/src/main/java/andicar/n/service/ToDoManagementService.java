@@ -34,6 +34,7 @@ import java.util.Calendar;
 import andicar.n.activity.fragment.TaskEditFragment;
 import andicar.n.persistence.DBAdapter;
 import andicar.n.utils.ConstantValues;
+import andicar.n.utils.FileUtils;
 import andicar.n.utils.LogFileWriter;
 import andicar.n.utils.Utils;
 
@@ -77,8 +78,10 @@ public class ToDoManagementService extends Service {
 //		super.onStart(intent, startId);
 //        super.onStartCommand(intent, flags, startId);
         try {
-            debugLogFileWriter = new LogFileWriter(debugLogFile, false);
-            debugLogFileWriter.appendnl("Starting BackupService");
+            if (FileUtils.isFileSystemAccessGranted(getApplicationContext())) {
+                debugLogFileWriter = new LogFileWriter(debugLogFile, false);
+                debugLogFileWriter.appendnl("Starting BackupService");
+            }
 
             Bundle mBundleExtras = intent.getExtras();
             if (mBundleExtras != null) {
@@ -86,9 +89,11 @@ public class ToDoManagementService extends Service {
                 mCarID = mBundleExtras.getLong(ToDoManagementService.CAR_ID_KEY);
                 isSetJustNextRun = mBundleExtras.getBoolean(SET_JUST_NEXT_RUN_KEY);
             }
-            debugLogFileWriter.appendnl("TaskID = " + mTaskID);
-            debugLogFileWriter.appendnl("CarID = " + mCarID);
-            debugLogFileWriter.appendnl("Is set just next run = " + isSetJustNextRun);
+            if (debugLogFileWriter != null) {
+                debugLogFileWriter.appendnl("TaskID = " + mTaskID);
+                debugLogFileWriter.appendnl("CarID = " + mCarID);
+                debugLogFileWriter.appendnl("Is set just next run = " + isSetJustNextRun);
+            }
 
             if (!isSetJustNextRun) {
                 mDb = new DBAdapter(this);
@@ -100,13 +105,17 @@ public class ToDoManagementService extends Service {
             i.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, isSetJustNextRun);
             this.startService(i);
 
-            debugLogFileWriter.appendnl("Service terminated");
-            debugLogFileWriter.flush();
-            debugLogFileWriter.close();
+            if (debugLogFileWriter != null) {
+                debugLogFileWriter.appendnl("Service terminated");
+                debugLogFileWriter.flush();
+                debugLogFileWriter.close();
+            }
 
         } catch (Exception e) {
             try {
-                debugLogFileWriter.appendnl("Exception in service: ").append(e.getMessage()).append("\n").append(Utils.getStackTrace(e));
+                if (debugLogFileWriter != null) {
+                    debugLogFileWriter.appendnl("Exception in service: ").append(e.getMessage()).append("\n").append(Utils.getStackTrace(e));
+                }
             } catch (Exception ignored) {
             }
         }

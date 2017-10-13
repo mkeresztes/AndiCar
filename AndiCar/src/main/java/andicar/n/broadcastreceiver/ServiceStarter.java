@@ -142,12 +142,14 @@ public class ServiceStarter extends BroadcastReceiver {
         Log.d(LOG_TAG, "onReceive called for: " + rIntent.getAction());
         try {
             try {
-                FileUtils.createFolderIfNotExists(context, ConstantValues.LOG_FOLDER);
-                File debugLogFile = new File(ConstantValues.LOG_FOLDER + "SSBroadcast.log");
-                LogFileWriter debugLogFileWriter = new LogFileWriter(debugLogFile, true);
-                debugLogFileWriter.appendnl("onReceive called for: ").append(rIntent.getAction());
-                debugLogFileWriter.flush();
-                debugLogFileWriter.close();
+                if (FileUtils.isFileSystemAccessGranted(context)) {
+                    FileUtils.createFolderIfNotExists(context, ConstantValues.LOG_FOLDER);
+                    File debugLogFile = new File(ConstantValues.LOG_FOLDER + "SSBroadcast.log");
+                    LogFileWriter debugLogFileWriter = new LogFileWriter(debugLogFile, true);
+                    debugLogFileWriter.appendnl("onReceive called for: ").append(rIntent.getAction());
+                    debugLogFileWriter.flush();
+                    debugLogFileWriter.close();
+                }
             }
             catch (Exception ignored) {
             }

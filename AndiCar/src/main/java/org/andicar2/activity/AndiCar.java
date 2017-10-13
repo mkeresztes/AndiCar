@@ -26,7 +26,6 @@ import android.content.res.Resources;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.multidex.MultiDexApplication;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
@@ -158,7 +157,8 @@ public class AndiCar extends MultiDexApplication {
         if (!appPreferences.contains(appResources.getString(R.string.pref_key_backup_service_exec_hour))) {
             boolean isActive = true;
 
-            if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+//            if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            if (!FileUtils.isFileSystemAccessGranted(getApplicationContext())) {
                 isActive = false;
             }
             Calendar cal = Calendar.getInstance();

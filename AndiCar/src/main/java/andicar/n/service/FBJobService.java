@@ -53,49 +53,72 @@ public class FBJobService extends JobService {
         try {
             FileUtils.createFolderIfNotExists(getApplicationContext(), ConstantValues.LOG_FOLDER);
             if (job.getExtras() != null) {
-                debugLogFile = new File(ConstantValues.LOG_FOLDER + "FBJobService" + job.getExtras().getString(JOB_TYPE_KEY) + ".log");
-                debugLogFileWriter = new LogFileWriter(debugLogFile, false);
-                debugLogFileWriter.appendnl("onStartJob begin");
-                debugLogFileWriter.flush();
-            } else {
-                debugLogFile = new File(ConstantValues.LOG_FOLDER + "FBJobServiceError.log");
-                debugLogFileWriter = new LogFileWriter(debugLogFile, false);
-                debugLogFileWriter.appendnl("No extras");
-                debugLogFileWriter.flush();
-                debugLogFileWriter.close();
+                if (FileUtils.isFileSystemAccessGranted(getApplicationContext())) {
+                    debugLogFile = new File(ConstantValues.LOG_FOLDER + "FBJobService" + job.getExtras().getString(JOB_TYPE_KEY) + ".log");
+                    debugLogFileWriter = new LogFileWriter(debugLogFile, false);
+                    debugLogFileWriter.appendnl("onStartJob begin");
+                    debugLogFileWriter.flush();
+                }
+            }
+            else {
+                if (FileUtils.isFileSystemAccessGranted(getApplicationContext())) {
+                    debugLogFile = new File(ConstantValues.LOG_FOLDER + "FBJobServiceError.log");
+                    debugLogFileWriter = new LogFileWriter(debugLogFile, false);
+                    debugLogFileWriter.appendnl("No extras");
+                    debugLogFileWriter.flush();
+                    debugLogFileWriter.close();
+                }
                 return false;
             }
 
             Intent intent;
             if (job.getExtras().getString(JOB_TYPE_KEY) != null) {
+                //noinspection ConstantConditions
                 if (job.getExtras().getString(JOB_TYPE_KEY).equals(JOB_TYPE_SECURE_BACKUP)) {
                     intent = new Intent(getApplicationContext(), SecureBackupService.class);
                     intent.putExtra("bkFile", job.getExtras().getString("bkFile"));
                     intent.putExtra("attachName", job.getExtras().getString("attachName"));
-                    debugLogFileWriter.appendnl("Starting SecureBackupService for bkFile: ").append(job.getExtras().getString("bkFile"));
-                    getApplicationContext().startService(intent);
-                } else if (job.getExtras().getString(JOB_TYPE_KEY).equals(JOB_TYPE_TODO)) {
-                    intent = new Intent(getApplicationContext(), ToDoNotificationService.class);
-                    intent.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, false);
-                    debugLogFileWriter.appendnl("Starting to-do service");
-                    getApplicationContext().startService(intent);
-                } else if (job.getExtras().getString(JOB_TYPE_KEY).equals(JOB_TYPE_BACKUP)) {
-                    intent = new Intent(getApplicationContext(), BackupService.class);
-                    intent.putExtra(ConstantValues.BACKUP_SERVICE_OPERATION, ConstantValues.BACKUP_SERVICE_OPERATION_SET_NEXT_RUN);
-                    debugLogFileWriter.appendnl("Starting backup service for set next run date");
+                    if (debugLogFileWriter != null) {
+                        debugLogFileWriter.appendnl("Starting SecureBackupService for bkFile: ").append(job.getExtras().getString("bkFile"));
+                    }
                     getApplicationContext().startService(intent);
                 }
+                else { //noinspection ConstantConditions
+                    if (job.getExtras().getString(JOB_TYPE_KEY).equals(JOB_TYPE_TODO)) {
+                        intent = new Intent(getApplicationContext(), ToDoNotificationService.class);
+                        intent.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, false);
+                        if (debugLogFileWriter != null) {
+                            debugLogFileWriter.appendnl("Starting to-do service");
+                        }
+                        getApplicationContext().startService(intent);
+                    }
+                    else { //noinspection ConstantConditions
+                        if (job.getExtras().getString(JOB_TYPE_KEY).equals(JOB_TYPE_BACKUP)) {
+                            intent = new Intent(getApplicationContext(), BackupService.class);
+                            intent.putExtra(ConstantValues.BACKUP_SERVICE_OPERATION, ConstantValues.BACKUP_SERVICE_OPERATION_SET_NEXT_RUN);
+                            if (debugLogFileWriter != null) {
+                                debugLogFileWriter.appendnl("Starting backup service for set next run date");
+                            }
+                            getApplicationContext().startService(intent);
+                        }
+                    }
+                }
 
-                debugLogFileWriter.appendnl("onStartJob terminated");
-                debugLogFileWriter.flush();
-                debugLogFileWriter.close();
-                debugLogFileWriter = null;
-            } else {
-                debugLogFile = new File(ConstantValues.LOG_FOLDER + "FBJobServiceError.log");
-                debugLogFileWriter = new LogFileWriter(debugLogFile, false);
-                debugLogFileWriter.appendnl("No job type");
-                debugLogFileWriter.flush();
-                debugLogFileWriter.close();
+                if (debugLogFileWriter != null) {
+                    debugLogFileWriter.appendnl("onStartJob terminated");
+                    debugLogFileWriter.flush();
+                    debugLogFileWriter.close();
+                    debugLogFileWriter = null;
+                }
+            }
+            else {
+                if (debugLogFileWriter != null) {
+                    debugLogFile = new File(ConstantValues.LOG_FOLDER + "FBJobServiceError.log");
+                    debugLogFileWriter = new LogFileWriter(debugLogFile, false);
+                    debugLogFileWriter.appendnl("No job type");
+                    debugLogFileWriter.flush();
+                    debugLogFileWriter.close();
+                }
                 return false;
             }
         }

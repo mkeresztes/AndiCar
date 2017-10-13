@@ -157,6 +157,30 @@ public class GPSTrackService extends Service {
     private long gpxPointsCount = 0;
     private long gopPointsCount = 0;
 
+    private static void logDebugInfo(File debugLogFile, String msg, @Nullable Throwable t) {
+        Log.d(LOG_TAG, msg);
+
+        try {
+            FileWriter debugLogFileWriter = new FileWriter(debugLogFile, true);
+            msg = Utils.getFormattedDateTime(System.currentTimeMillis(), true) + " -> " + msg;
+            debugLogFileWriter.append("\n").append(msg).append("\n");
+            if (t != null) {
+                StackTraceElement[] e = t.getStackTrace();
+                int i = 0;
+                while (i < e.length) {
+                    StackTraceElement stackTraceElement = e[i];
+                    debugLogFileWriter.append(stackTraceElement.getClassName()).append(".").append(stackTraceElement.getMethodName()).append(": ")
+                            .append(Integer.toString(stackTraceElement.getLineNumber())).append("\n");
+                    i++;
+                }
+            }
+            debugLogFileWriter.flush();
+            debugLogFileWriter.close();
+        }
+        catch (IOException ignored) {
+        }
+    }
+
     @Override
     public void onCreate() {
 
@@ -177,7 +201,8 @@ public class GPSTrackService extends Service {
                 return;
             }
 
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            if (!FileUtils.isFileSystemAccessGranted(this)) {
                 Toast.makeText(this, R.string.error_070, Toast.LENGTH_LONG).show();
                 stopSelf();
                 return;
@@ -736,30 +761,6 @@ public class GPSTrackService extends Service {
         return mBinder;
     }
 
-    private static void logDebugInfo(File debugLogFile, String msg, @Nullable Throwable t) {
-        Log.d(LOG_TAG, msg);
-
-        try {
-            FileWriter debugLogFileWriter = new FileWriter(debugLogFile, true);
-            msg = Utils.getFormattedDateTime(System.currentTimeMillis(), true) + " -> " + msg;
-            debugLogFileWriter.append("\n").append(msg).append("\n");
-            if (t != null) {
-                StackTraceElement[] e = t.getStackTrace();
-                int i = 0;
-                while (i < e.length) {
-                    StackTraceElement stackTraceElement = e[i];
-                    debugLogFileWriter.append(stackTraceElement.getClassName()).append(".").append(stackTraceElement.getMethodName()).append(": ")
-                            .append(Integer.toString(stackTraceElement.getLineNumber())).append("\n");
-                    i++;
-                }
-            }
-            debugLogFileWriter.flush();
-            debugLogFileWriter.close();
-        }
-        catch (IOException ignored) {
-        }
-    }
-
     /**
      * Create a pause placemark
      */
@@ -890,11 +891,6 @@ public class GPSTrackService extends Service {
         return mGPSTrackServiceStatus;
     }
 
-    public void setIsCreateMileage(boolean isCreateMileage, String indexForMileage) {
-        mArguments.putBoolean(GPSTrackControllerFragment.GPS_TRACK_ARGUMENT_CREATE_MILEAGE, isCreateMileage);
-        mArguments.putString(GPSTrackControllerFragment.GPS_TRACK_ARGUMENT_INDEX_FOR_MILEAGE, indexForMileage);
-    }
-
     /**
      * Set the status of the service
      *
@@ -955,6 +951,11 @@ public class GPSTrackService extends Service {
             default:
                 Utils.showReportableErrorDialog(this, getString(R.string.error_sorry), "Unknown GPSTrackStatus: " + status, null, true);
         }
+    }
+
+    public void setIsCreateMileage(boolean isCreateMileage, String indexForMileage) {
+        mArguments.putBoolean(GPSTrackControllerFragment.GPS_TRACK_ARGUMENT_CREATE_MILEAGE, isCreateMileage);
+        mArguments.putString(GPSTrackControllerFragment.GPS_TRACK_ARGUMENT_INDEX_FOR_MILEAGE, indexForMileage);
     }
 
     private void appendGOPTrackPoint(String pointType) throws IOException {

@@ -55,18 +55,24 @@ public class BackupService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         try {
 
-            debugLogFileWriter = new LogFileWriter(debugLogFile, false);
-            debugLogFileWriter.appendnl("Starting BackupService");
+            if (FileUtils.isFileSystemAccessGranted(getApplicationContext())) {
+                debugLogFileWriter = new LogFileWriter(debugLogFile, false);
+                debugLogFileWriter.appendnl("Starting BackupService");
+            }
 
             if (!mPreferences.getBoolean(getString(R.string.pref_key_backup_service_enabled), false)) {
-                debugLogFileWriter.appendnl("Backup service is disabled");
-                debugLogFileWriter.flush();
-                debugLogFileWriter.close();
+                if (debugLogFileWriter != null) {
+                    debugLogFileWriter.appendnl("Backup service is disabled");
+                    debugLogFileWriter.flush();
+                    debugLogFileWriter.close();
+                }
                 return START_NOT_STICKY;
             }
 
             String operation = intent.getExtras().getString(ConstantValues.BACKUP_SERVICE_OPERATION);
-            debugLogFileWriter.appendnl("Service operation: ").append(operation);
+            if (debugLogFileWriter != null) {
+                debugLogFileWriter.appendnl("Service operation: ").append(operation);
+            }
             if (operation != null && operation.equals(ConstantValues.BACKUP_SERVICE_OPERATION_SET_NEXT_RUN)) {
                 setNextRun();
             }
@@ -77,13 +83,16 @@ public class BackupService extends Service {
                     db.close();
                     String bkFile = FileUtils.backupDb(this, dbPath, "abk_", false);
                     if (bkFile == null) {
-                        debugLogFileWriter.appendnl("Backup terminated with error: ").append(FileUtils.mLastErrorMessage)
+                        if (debugLogFileWriter != null)
+                            debugLogFileWriter.appendnl("Backup terminated with error: ").append(FileUtils.mLastErrorMessage)
                                 .append("\n").append(Utils.getStackTrace(FileUtils.mLastException));
                         AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR,
                                 (int) System.currentTimeMillis(), FileUtils.mLastErrorMessage, null, null, null);
                     }
                     else {
-                        debugLogFileWriter.appendnl("Backup terminated with success to: ").append(bkFile);
+                        if (debugLogFileWriter != null) {
+                            debugLogFileWriter.appendnl("Backup terminated with success to: ").append(bkFile);
+                        }
                         if (mPreferences.getBoolean(getString(R.string.pref_key_backup_service_show_notification), true)) {
                             AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_INFO, ConstantValues.NOTIF_BACKUP_SERVICE_SUCCESS,
                                     getString(R.string.pref_backup_service_category), getString(R.string.backup_service_success_message), null, null);
@@ -91,7 +100,9 @@ public class BackupService extends Service {
                     }
                 }
                 catch (Exception e) {
-                    debugLogFileWriter.appendnl("Exception(1) in BackupService: ").append(e.getMessage()).append("\n").append(Utils.getStackTrace(e));
+                    if (debugLogFileWriter != null) {
+                        debugLogFileWriter.appendnl("Exception(1) in BackupService: ").append(e.getMessage()).append("\n").append(Utils.getStackTrace(e));
+                    }
                     AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_REPORTABLE_ERROR,
                             (int) System.currentTimeMillis(), e.getMessage(), null, null, e);
                 }
@@ -106,13 +117,17 @@ public class BackupService extends Service {
                     }
                 }
             }
-            debugLogFileWriter.appendnl("Backup service terminated");
-            debugLogFileWriter.flush();
-            debugLogFileWriter.close();
+            if (debugLogFileWriter != null) {
+                debugLogFileWriter.appendnl("Backup service terminated");
+                debugLogFileWriter.flush();
+                debugLogFileWriter.close();
+            }
         }
         catch (Exception e) {
             try {
-                debugLogFileWriter.appendnl("Exception(2) in BackupService: ").append(e.getMessage()).append("\n").append(Utils.getStackTrace(e));
+                if (debugLogFileWriter != null) {
+                    debugLogFileWriter.appendnl("Exception(2) in BackupService: ").append(e.getMessage()).append("\n").append(Utils.getStackTrace(e));
+                }
             }
             catch (Exception ignored) {
             }
@@ -134,7 +149,9 @@ public class BackupService extends Service {
         try {
             String LogTag = "AndiCarBKService";
             Log.d(LogTag, "========== setNextRun begin ==========");
-            debugLogFileWriter.appendnl("========== setNextRun begin ==========");
+            if (debugLogFileWriter != null) {
+                debugLogFileWriter.appendnl("========== setNextRun begin ==========");
+            }
             Calendar nextSchedule = Calendar.getInstance();
             Calendar currentDate = Calendar.getInstance();
             Log.d(LogTag, "currentDate = " + currentDate.get(Calendar.YEAR) + "-" + (currentDate.get(Calendar.MONTH) + 1) + "-" + currentDate.get(Calendar.DAY_OF_MONTH)
@@ -159,14 +176,18 @@ public class BackupService extends Service {
                         "nextSchedule = " + nextSchedule.get(Calendar.YEAR) + "-" + (currentDate.get(Calendar.MONTH) + 1) + "-"
                                 + nextSchedule.get(Calendar.DAY_OF_MONTH) + " " + nextSchedule.get(Calendar.HOUR_OF_DAY) + ":" + nextSchedule.get(Calendar.MINUTE));
                 if (mPreferences.getString(getString(R.string.pref_key_backup_service_schedule_type), ConstantValues.BACKUP_SERVICE_DAILY).equals(ConstantValues.BACKUP_SERVICE_DAILY)) { //daily schedule
-                    debugLogFileWriter.appendnl("Backup schedule is daily");
+                    if (debugLogFileWriter != null) {
+                        debugLogFileWriter.appendnl("Backup schedule is daily");
+                    }
                     if (nextSchedule.compareTo(currentDate) < 0) { //current hour > scheduled hour => next run tomorrow
                         nextSchedule.add(Calendar.DAY_OF_MONTH, 1);
                     }
                 }
                 else { //weekly schedule
                     scheduleDays = mPreferences.getString(getString(R.string.pref_key_backup_service_backup_days), "1111111");
-                    debugLogFileWriter.appendnl("Backup schedule is weekly. Schedule days: ").append(scheduleDays);
+                    if (debugLogFileWriter != null) {
+                        debugLogFileWriter.appendnl("Backup schedule is weekly. Schedule days: ").append(scheduleDays);
+                    }
                     Log.d(LogTag, "scheduleDays = " + scheduleDays);
                     int daysToAdd = -1;
                     Log.d(LogTag, "Calendar.DAY_OF_WEEK = " + currentDate.get(Calendar.DAY_OF_WEEK));
@@ -216,20 +237,27 @@ public class BackupService extends Service {
                 am.setRepeating(AlarmManager.RTC_WAKEUP, triggerTime, AlarmManager.INTERVAL_DAY, pIntent);
                 Log.i(LogTag, "BackupService scheduled. Next start:" + DateFormat.getDateFormat(this).format(triggerTime) + " "
                         + DateFormat.getTimeFormat(this).format(triggerTime));
-                debugLogFileWriter.appendnl("BackupService scheduled. Next start: ").append(DateFormat.getDateFormat(this).format(triggerTime))
+                if (debugLogFileWriter != null)
+                    debugLogFileWriter.appendnl("BackupService scheduled. Next start: ").append(DateFormat.getDateFormat(this).format(triggerTime))
                         .append(" ").append(DateFormat.getTimeFormat(this).format(triggerTime));
             }
             else { //no active schedule exists => remove scheduled runs
                 am.cancel(pIntent);
                 Log.i(LogTag, "BackupService not scheduled. No active schedule found.");
-                debugLogFileWriter.appendnl("BackupService not scheduled. No active schedule found.");
+                if (debugLogFileWriter != null) {
+                    debugLogFileWriter.appendnl("BackupService not scheduled. No active schedule found.");
+                }
             }
             Log.d(LogTag, "========== setNextRun finished ==========");
-            debugLogFileWriter.appendnl("========== setNextRun finished ==========");
+            if (debugLogFileWriter != null) {
+                debugLogFileWriter.appendnl("========== setNextRun finished ==========");
+            }
         }
         catch (Exception e) {
             try {
-                debugLogFileWriter.appendnl("Exception in setNextRun: ").append(e.getMessage()).append("\n").append(Utils.getStackTrace(e));
+                if (debugLogFileWriter != null) {
+                    debugLogFileWriter.appendnl("Exception in setNextRun: ").append(e.getMessage()).append("\n").append(Utils.getStackTrace(e));
+                }
             }
             catch (Exception ignored) {
             }

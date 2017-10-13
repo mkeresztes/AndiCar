@@ -51,17 +51,20 @@ public class BTConnectionListener extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         SharedPreferences preference = AndiCar.getDefaultSharedPreferences();
+        LogFileWriter debugLogFileWriter;
 
         Log.d(LOG_TAG, "onReceive: BTConnectionReceiver started");
 
         try {
             try {
-                FileUtils.createFolderIfNotExists(context, ConstantValues.LOG_FOLDER);
-                File debugLogFile = new File(ConstantValues.LOG_FOLDER + "BTCBroadcast.log");
-                LogFileWriter debugLogFileWriter = new LogFileWriter(debugLogFile, true);
-                debugLogFileWriter.appendnl("onReceive called for: ").append(intent.getAction());
-                debugLogFileWriter.flush();
-                debugLogFileWriter.close();
+                if (FileUtils.isFileSystemAccessGranted(context)) {
+                    FileUtils.createFolderIfNotExists(context, ConstantValues.LOG_FOLDER);
+                    File debugLogFile = new File(ConstantValues.LOG_FOLDER + "BTCBroadcast.log");
+                    debugLogFileWriter = new LogFileWriter(debugLogFile, true);
+                    debugLogFileWriter.appendnl("onReceive called for: ").append(intent.getAction());
+                    debugLogFileWriter.flush();
+                    debugLogFileWriter.close();
+                }
             }
             catch (Exception ignored) {
             }
