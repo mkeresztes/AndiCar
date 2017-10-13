@@ -49,10 +49,12 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
         if (connectionResult.hasResolution()) {
             try {
                 connectionResult.startResolutionForResult(this, RESOLVE_CONNECTION_REQUEST_CODE);
-            } catch (IntentSender.SendIntentException e) {
+            }
+            catch (IntentSender.SendIntentException e) {
                 // Unable to resolve, message user appropriately
             }
-        } else {
+        }
+        else {
             GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this, 0).show();
         }
     }

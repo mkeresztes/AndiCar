@@ -4,23 +4,23 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-    tools:context="andicar.n.activity.test.TestActivity">
+              tools:context="andicar.n.activity.test.TestActivity">
 
     <Button
         android:id="@+id/btn1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button 1" />
+        android:text="Button 1"/>
 
     <Button
         android:id="@+id/btn2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button 2" />
+        android:text="Button 2"/>
 
     <TextView
         android:id="@+id/text1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

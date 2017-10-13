@@ -386,10 +386,12 @@ public class MainActivity extends AppCompatActivity
             fab.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    if (Utils.isDebugVersion())
+                    if (Utils.isDebugVersion()) {
                         startActivity(new Intent(MainActivity.this, TestActivity.class));
-                    else
+                    }
+                    else {
                         MainActivity.this.showPopup(view);
+                    }
                     return true;
                 }
             });
