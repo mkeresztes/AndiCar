@@ -733,6 +733,10 @@ public class DB {
         }
     }
 
+    public static String sqlConcatTableColumn(String tableName, String columnName) {
+        return tableName + "." + columnName;
+    }
+
     /**
      * Open the notes database. If it cannot be opened, try to create a new
      * instance of the database. If it cannot be created, throw an exception to
@@ -747,10 +751,6 @@ public class DB {
                 mDb = mDbHelper.getWritableDatabase();
             }
         }
-    }
-
-    public static String sqlConcatTableColumn(String tableName, String columnName) {
-        return tableName + "." + columnName;
     }
 
     public void close() {
@@ -1479,7 +1479,7 @@ public class DB {
                 editor.apply();
 
                 try {
-                    ServiceStarter.startServicesUsingFBJobDispacher(mCtx, ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
+                    ServiceStarter.startServicesUsingFBJobDispacher(mCtx, ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE, null);
                 }
                 catch (Exception e) {
                     AndiCarCrashReporter.sendCrash(e);

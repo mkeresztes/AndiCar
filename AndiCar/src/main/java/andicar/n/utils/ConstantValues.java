@@ -65,6 +65,7 @@ public class ConstantValues {
     public static final String SERVICE_STARTER_START_ALL = "All";
     public static final String SERVICE_STARTER_START_BACKUP_SERVICE = "BackupService";
     public static final String SERVICE_STARTER_START_TODO_MANAGEMENT_SERVICE = "ToDoNotificationService";
+    public static final String SERVICE_STARTER_START_SECURE_BACKUP = "SecureBackup";
     //    public static final int DECIMALS_QUANTITY = 2;
 //    public static final RoundingMode ROUNDING_MODE_QUANTITY = RoundingMode.HALF_UP;
     public static final int DECIMALS_LENGTH = 2;

@@ -41,6 +41,7 @@ import andicar.n.utils.Utils;
 
 public class FBJobService extends JobService {
     public static final String JOB_TYPE_KEY = "JobType";
+    public static final String JOB_PARAMS_KEY = "JobParams";
     public static final String JOB_TYPE_SECURE_BACKUP = "SB";
     public static final String JOB_TYPE_TODO = "TD";
     public static final String JOB_TYPE_BACKUP = "BK";

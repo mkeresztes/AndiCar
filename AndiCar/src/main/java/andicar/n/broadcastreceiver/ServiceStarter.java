@@ -25,12 +25,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.Lifetime;
 import com.firebase.jobdispatcher.RetryStrategy;
 import com.firebase.jobdispatcher.Trigger;
+
+import org.andicar2.activity.AndiCar;
+import org.andicar2.activity.R;
 
 import java.io.File;
 
@@ -49,11 +53,11 @@ public class ServiceStarter extends BroadcastReceiver {
 
     /**
      * Start the services using FirebaseJobDispacher
-     *
-     * @param context
+     *  @param context
      * @param whatService see ConstantValues.SERVICE_STARTER_... constants
+     * @param serviceParams
      */
-    public static void startServicesUsingFBJobDispacher(Context context, String whatService) {
+    public static void startServicesUsingFBJobDispacher(Context context, String whatService, Bundle serviceParams) {
 //        Intent intent;
         Bundle dispatcherParams = new Bundle();
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
@@ -104,7 +108,34 @@ public class ServiceStarter extends BroadcastReceiver {
                     .setExtras(dispatcherParams)
                     .build();
             dispatcher.mustSchedule(fbJob);
+        }
 
+        if (whatService.equals(ConstantValues.SERVICE_STARTER_START_SECURE_BACKUP)) {
+            dispatcherParams.putString(FBJobService.JOB_TYPE_KEY, FBJobService.JOB_TYPE_SECURE_BACKUP);
+            dispatcherParams.putBundle(FBJobService.JOB_PARAMS_KEY, serviceParams);
+
+            fbJob = dispatcher.newJobBuilder()
+                    // the JobService that will be called
+                    .setService(FBJobService.class)
+                    // uniquely identifies the job
+                    .setTag(FBJobService.JOB_TYPE_SECURE_BACKUP)
+                    // one-off job
+                    .setRecurring(false)
+                    .setLifetime(Lifetime.FOREVER)
+                    // start between 0 and 30 seconds from now
+                    .setTrigger(Trigger.executionWindow(0, 30))
+                    // overwrite an existing job with the same tag
+                    .setReplaceCurrent(true)
+                    // retry with exponential backoff
+                    .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
+                    // constraints that need to be satisfied for the job to run
+                    .setExtras(dispatcherParams)
+                    .setConstraints(
+                            // only run on an unmetered network
+                            (AndiCar.getDefaultSharedPreferences().getBoolean(context.getResources().getString(R.string.pref_key_secure_backup_only_wifi), true) ? Constraint.ON_UNMETERED_NETWORK : Constraint.ON_ANY_NETWORK)
+                    )
+                    .build();
+            dispatcher.mustSchedule(fbJob);
         }
     }
 
@@ -158,7 +189,7 @@ public class ServiceStarter extends BroadcastReceiver {
                     || rIntent.getAction().equals(Intent.ACTION_DATE_CHANGED)
                     || rIntent.getAction().equals(Intent.ACTION_MY_PACKAGE_REPLACED)) {
                 //start services
-                startServicesUsingFBJobDispacher(context, ConstantValues.SERVICE_STARTER_START_ALL);
+                startServicesUsingFBJobDispacher(context, ConstantValues.SERVICE_STARTER_START_ALL, null);
             }
         }
         catch (Exception e) {

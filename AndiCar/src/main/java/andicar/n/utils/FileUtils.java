@@ -32,14 +32,6 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.firebase.jobdispatcher.Constraint;
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.Lifetime;
-import com.firebase.jobdispatcher.RetryStrategy;
-import com.firebase.jobdispatcher.Trigger;
-
 import org.andicar2.activity.AndiCar;
 import org.andicar2.activity.R;
 
@@ -63,6 +55,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import andicar.n.broadcastreceiver.ServiceStarter;
 import andicar.n.persistence.AndiCarFileProvider;
 import andicar.n.service.FBJobService;
 import andicar.n.service.ToDoManagementService;
@@ -316,32 +309,35 @@ public class FileUtils {
                     myExtrasBundle.putString(FBJobService.JOB_TYPE_KEY, FBJobService.JOB_TYPE_SECURE_BACKUP);
                     myExtrasBundle.putString("bkFile", bkFile);
                     myExtrasBundle.putString("attachName", bkFileName);
-                    FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(ctx));
 
-                    Job myJob = dispatcher.newJobBuilder()
-                            // the JobService that will be called
-                            .setService(FBJobService.class)
-                            // uniquely identifies the job
-                            .setTag(FBJobService.JOB_TYPE_SECURE_BACKUP)
-                            // one-off job
-                            .setRecurring(false)
-                            .setLifetime(Lifetime.FOREVER)
-                            // start between 0 and 30 seconds from now
-                            .setTrigger(Trigger.executionWindow(0, 30))
-                            // overwrite an existing job with the same tag
-                            .setReplaceCurrent(true)
-                            // retry with exponential backoff
-                            .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
-                            // constraints that need to be satisfied for the job to run
-                            .setExtras(myExtrasBundle)
-                            .setConstraints(
-                                    // only run on an unmetered network
-                                    (mPreferences.getBoolean(mResources.getString(R.string.pref_key_secure_backup_only_wifi), true) ? Constraint.ON_UNMETERED_NETWORK : Constraint.ON_ANY_NETWORK)
-                            )
-                            .build();
+                    ServiceStarter.startServicesUsingFBJobDispacher(ctx, ConstantValues.SERVICE_STARTER_START_SECURE_BACKUP, myExtrasBundle);
 
-                    dispatcher.mustSchedule(myJob);
-
+//                    FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(ctx));
+//
+//                    Job myJob = dispatcher.newJobBuilder()
+//                            // the JobService that will be called
+//                            .setService(FBJobService.class)
+//                            // uniquely identifies the job
+//                            .setTag(FBJobService.JOB_TYPE_SECURE_BACKUP)
+//                            // one-off job
+//                            .setRecurring(false)
+//                            .setLifetime(Lifetime.FOREVER)
+//                            // start between 0 and 30 seconds from now
+//                            .setTrigger(Trigger.executionWindow(0, 30))
+//                            // overwrite an existing job with the same tag
+//                            .setReplaceCurrent(true)
+//                            // retry with exponential backoff
+//                            .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
+//                            // constraints that need to be satisfied for the job to run
+//                            .setExtras(myExtrasBundle)
+//                            .setConstraints(
+//                                    // only run on an unmetered network
+//                                    (mPreferences.getBoolean(mResources.getString(R.string.pref_key_secure_backup_only_wifi), true) ? Constraint.ON_UNMETERED_NETWORK : Constraint.ON_ANY_NETWORK)
+//                            )
+//                            .build();
+//
+//                    dispatcher.mustSchedule(myJob);
+//
                     debugLogFileWriter.appendnl("Calling FirebaseJobDispatcher terminated");
                 }
                 else {
