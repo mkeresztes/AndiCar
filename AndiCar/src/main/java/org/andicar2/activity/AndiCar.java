@@ -38,6 +38,7 @@ import java.util.Calendar;
 
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
+import andicar.n.utils.Utils;
 import io.fabric.sdk.android.Fabric;
 
 public class AndiCar extends MultiDexApplication {
@@ -63,7 +64,7 @@ public class AndiCar extends MultiDexApplication {
 
         // Set up Crashlytics, disabled for debug builds
         Crashlytics crashlyticsKit = new Crashlytics.Builder()
-                .core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build();
+                .core(new CrashlyticsCore.Builder().disabled(Utils.isDebugVersion()).build()).build();
         Fabric.with(this, crashlyticsKit);
 
         AndiCar.appResources = getResources();

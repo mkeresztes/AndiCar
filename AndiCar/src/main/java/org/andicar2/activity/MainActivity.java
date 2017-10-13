@@ -72,6 +72,7 @@ import andicar.n.activity.fragment.TaskEditFragment;
 import andicar.n.activity.miscellaneous.AboutActivity;
 import andicar.n.activity.miscellaneous.GPSTrackMap;
 import andicar.n.activity.preference.PreferenceActivity;
+import andicar.n.activity.test.TestActivity;
 import andicar.n.components.LineChartComponent;
 import andicar.n.components.PieChartsComponent;
 import andicar.n.components.RecordComponent;
@@ -340,7 +341,7 @@ public class MainActivity extends AppCompatActivity
         //for debug
         TextView tvDebugInfo = (TextView) findViewById(R.id.tvDebugInfo);
         if (tvDebugInfo != null) {
-            if (BuildConfig.DEBUG && ConstantValues.DEBUG_IS_SHOW_INFO_IN_FRAGMENTS) {
+            if (Utils.isDebugVersion() && ConstantValues.DEBUG_IS_SHOW_INFO_IN_FRAGMENTS) {
                 Display display = getWindowManager().getDefaultDisplay();
                 float density = getResources().getDisplayMetrics().density;
                 Point size = new Point();
@@ -385,7 +386,10 @@ public class MainActivity extends AppCompatActivity
             fab.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    MainActivity.this.showPopup(view);
+                    if (Utils.isDebugVersion())
+                        startActivity(new Intent(MainActivity.this, TestActivity.class));
+                    else
+                        MainActivity.this.showPopup(view);
                     return true;
                 }
             });
@@ -1918,7 +1922,7 @@ public class MainActivity extends AppCompatActivity
 
         try {
             appVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-            if (BuildConfig.DEBUG)
+            if (Utils.isDebugVersion())
                 appVersion = appVersion + " (Debug)";
         }
         catch (PackageManager.NameNotFoundException e) {

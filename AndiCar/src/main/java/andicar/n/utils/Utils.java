@@ -533,7 +533,7 @@ public class Utils {
     }
 
     public static void sendAnalyticsEvent(Context ctx, String screenName, Bundle params, boolean sendAlways) {
-        if (!BuildConfig.DEBUG || sendAlways) {
+        if (!Utils.isDebugVersion() || sendAlways) {
             FirebaseAnalytics.getInstance(ctx).logEvent(screenName, params);
         }
     }
@@ -604,5 +604,17 @@ public class Utils {
             emailIntent.putExtra(Intent.EXTRA_STREAM, trackFileZip);
         }
         ctx.startActivity(Intent.createChooser(emailIntent, mRes.getString(R.string.gen_share)));
+    }
+
+    /**
+     * Current Android version data
+     */
+    @SuppressWarnings("WeakerAccess")
+    public static String getAndroidVersion() {
+        return Build.VERSION.RELEASE + "; API Level: " + Build.VERSION.SDK_INT;
+    }
+
+    public static boolean isDebugVersion() {
+        return BuildConfig.DEBUG;
     }
 }
