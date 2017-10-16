@@ -44,7 +44,7 @@ public class FBJobService extends JobService {
     public static final String JOB_PARAMS_KEY = "JobParams";
     public static final String JOB_TYPE_SECURE_BACKUP = "SB";
     public static final String JOB_TYPE_TODO = "TD";
-    public static final String JOB_TYPE_BACKUP = "BK";
+//    public static final String JOB_TYPE_BACKUP = "BK";
 
     @Override
     public boolean onStartJob(JobParameters job) {
@@ -93,16 +93,16 @@ public class FBJobService extends JobService {
                         }
                         getApplicationContext().startService(intent);
                     }
-                    else { //noinspection ConstantConditions
-                        if (job.getExtras().getString(JOB_TYPE_KEY).equals(JOB_TYPE_BACKUP)) {
-                            intent = new Intent(getApplicationContext(), BackupService.class);
-                            intent.putExtra(ConstantValues.BACKUP_SERVICE_OPERATION, ConstantValues.BACKUP_SERVICE_OPERATION_SET_NEXT_RUN);
-                            if (debugLogFileWriter != null) {
-                                debugLogFileWriter.appendnl("Starting backup service for set next run date");
-                            }
-                            getApplicationContext().startService(intent);
-                        }
-                    }
+//                    else { //noinspection ConstantConditions
+//                        if (job.getExtras().getString(JOB_TYPE_KEY).equals(JOB_TYPE_BACKUP)) {
+//                            intent = new Intent(getApplicationContext(), BackupService.class);
+//                            intent.putExtra(ConstantValues.BACKUP_SERVICE_OPERATION, ConstantValues.BACKUP_SERVICE_OPERATION_SET_NEXT_RUN);
+//                            if (debugLogFileWriter != null) {
+//                                debugLogFileWriter.appendnl("Starting backup service for set next run date");
+//                            }
+//                            getApplicationContext().startService(intent);
+//                        }
+//                    }
                 }
 
                 if (debugLogFileWriter != null) {

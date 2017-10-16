@@ -38,13 +38,13 @@ import org.andicar2.activity.R;
 
 import java.io.File;
 
-import andicar.n.service.BackupService;
 import andicar.n.service.FBJobService;
 import andicar.n.service.ToDoManagementService;
 import andicar.n.service.ToDoNotificationService;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
 import andicar.n.utils.LogFileWriter;
+import andicar.n.utils.Utils;
 
 @SuppressWarnings("JavaDoc")
 public class ServiceStarter extends BroadcastReceiver {
@@ -88,26 +88,27 @@ public class ServiceStarter extends BroadcastReceiver {
         }
 
         if (whatService.equals(ConstantValues.SERVICE_STARTER_START_ALL) || whatService.equals(ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE)) {
-            dispatcherParams.putString(FBJobService.JOB_TYPE_KEY, FBJobService.JOB_TYPE_BACKUP);
-
-            fbJob = dispatcher.newJobBuilder()
-                    // the JobService that will be called
-                    .setService(FBJobService.class)
-                    // uniquely identifies the job
-                    .setTag(FBJobService.JOB_TYPE_BACKUP)
-                    // one-off job
-                    .setRecurring(false)
-                    .setLifetime(Lifetime.FOREVER)
-                    // start between 0 and 30 seconds from now
-                    .setTrigger(Trigger.executionWindow(0, 30))
-                    // overwrite an existing job with the same tag
-                    .setReplaceCurrent(true)
-                    // retry with exponential backoff
-                    .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
-                    // constraints that need to be satisfied for the job to run
-                    .setExtras(dispatcherParams)
-                    .build();
-            dispatcher.mustSchedule(fbJob);
+            Utils.setBackupNextRun(context, AndiCar.getDefaultSharedPreferences().getBoolean(context.getString(R.string.pref_key_backup_service_enabled), false));
+//            dispatcherParams.putString(FBJobService.JOB_TYPE_KEY, FBJobService.JOB_TYPE_BACKUP);
+//
+//            fbJob = dispatcher.newJobBuilder()
+//                    // the JobService that will be called
+//                    .setService(FBJobService.class)
+//                    // uniquely identifies the job
+//                    .setTag(FBJobService.JOB_TYPE_BACKUP)
+//                    // one-off job
+//                    .setRecurring(false)
+//                    .setLifetime(Lifetime.FOREVER)
+//                    // start between 0 and 30 seconds from now
+//                    .setTrigger(Trigger.executionWindow(0, 30))
+//                    // overwrite an existing job with the same tag
+//                    .setReplaceCurrent(true)
+//                    // retry with exponential backoff
+//                    .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
+//                    // constraints that need to be satisfied for the job to run
+//                    .setExtras(dispatcherParams)
+//                    .build();
+//            dispatcher.mustSchedule(fbJob);
         }
 
         if (whatService.equals(ConstantValues.SERVICE_STARTER_START_SECURE_BACKUP)) {
@@ -158,14 +159,12 @@ public class ServiceStarter extends BroadcastReceiver {
             Log.i(LOG_TAG, "Done");
         }
 
-        if (whatService.equals(ConstantValues.SERVICE_STARTER_START_ALL) || whatService.equals(ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE)) {
-            //start backup service
-            Log.i(LOG_TAG, "Starting Backup Service...");
-            intent = new Intent(context, BackupService.class);
-            intent.putExtra(ConstantValues.BACKUP_SERVICE_OPERATION, ConstantValues.BACKUP_SERVICE_OPERATION_SET_NEXT_RUN);
-            context.startService(intent);
-            Log.i(LOG_TAG, "Done");
-        }
+//        if (whatService.equals(ConstantValues.SERVICE_STARTER_START_ALL) || whatService.equals(ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE)) {
+//            //start backup service
+//            Log.i(LOG_TAG, "Starting Backup Service Schedule...");
+//            Utils.setBackupNextRun(context);
+//            Log.i(LOG_TAG, "Done");
+//        }
     }
 
     @Override

@@ -210,9 +210,6 @@
             android:name="andicar.n.service.SecureBackupService"
             android:enabled="true" />
         <service
-            android:name="andicar.n.service.BackupService"
-            android:enabled="true" />
-        <service
             android:name="andicar.n.service.ToDoManagementService"
             android:enabled="true" />
         <service
@@ -223,6 +220,14 @@
             android:enabled="true" />
         <service
             android:name="andicar.n.service.FBJobService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="andicar.n.service.BackupJob"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />

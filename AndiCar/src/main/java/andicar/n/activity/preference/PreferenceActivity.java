@@ -690,13 +690,12 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
 
                     BackupRestorePreferenceFragment.this.setBackupServiceScheduleSummary((Boolean) newValue);
 
-                    if ((Boolean) newValue) {
-                        try {
-                            ServiceStarter.startServicesDirect(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
-                        } catch (Exception e) {
-                            AndiCarCrashReporter.sendCrash(e);
-                            Log.d(LogTag, e.getMessage(), e);
-                        }
+                    try {
+                        Utils.setBackupNextRun(BackupRestorePreferenceFragment.this.getActivity(), (Boolean) newValue);
+                    }
+                    catch (Exception e) {
+                        AndiCarCrashReporter.sendCrash(e);
+                        Log.d(LogTag, e.getMessage(), e);
                     }
                     return true;
                 }
@@ -1134,8 +1133,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             switch (requestCode) {
                 case ConstantValues.REQUEST_BACKUP_SERVICE_SCHEDULE:
                     try {
-//                        ServiceStarter.startServicesUsingFBJobDispacher(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
-                        ServiceStarter.startServicesDirect(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
+                        Utils.setBackupNextRun(BackupRestorePreferenceFragment.this.getActivity(), true);
                     } catch (Exception e) {
                         AndiCarCrashReporter.sendCrash(e);
                         Log.d(LogTag, e.getMessage(), e);
