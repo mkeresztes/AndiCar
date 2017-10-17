@@ -86,14 +86,14 @@ public class FBJobService extends JobService {
 //                else { //noinspection ConstantConditions
 
                 //noinspection ConstantConditions
-                if (job.getExtras().getString(JOB_TYPE_KEY).equals(JOB_TYPE_TODO)) {
-                        intent = new Intent(getApplicationContext(), ToDoNotificationService.class);
-                        intent.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, false);
-                        if (debugLogFileWriter != null) {
-                            debugLogFileWriter.appendnl("Starting to-do service");
-                        }
-                        getApplicationContext().startService(intent);
-                    }
+//                if (job.getExtras().getString(JOB_TYPE_KEY).equals(JOB_TYPE_TODO)) {
+//                        intent = new Intent(getApplicationContext(), ToDoNotificationService.class);
+//                        intent.putExtra(ToDoNotificationJob.SET_JUST_NEXT_RUN_KEY, false);
+//                        if (debugLogFileWriter != null) {
+//                            debugLogFileWriter.appendnl("Starting to-do service");
+//                        }
+//                        getApplicationContext().startService(intent);
+//                    }
 //                    else { //noinspection ConstantConditions
 //                        if (job.getExtras().getString(JOB_TYPE_KEY).equals(JOB_TYPE_BACKUP)) {
 //                            intent = new Intent(getApplicationContext(), BackupService.class);

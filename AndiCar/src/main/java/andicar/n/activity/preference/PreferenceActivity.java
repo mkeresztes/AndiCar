@@ -74,7 +74,6 @@ import andicar.n.activity.CommonListActivity;
 import andicar.n.activity.miscellaneous.BackupListActivity;
 import andicar.n.activity.miscellaneous.BackupScheduleActivity;
 import andicar.n.activity.miscellaneous.LogFilesListActivity;
-import andicar.n.broadcastreceiver.ServiceStarter;
 import andicar.n.interfaces.OnAsyncTaskListener;
 import andicar.n.persistence.DBAdapter;
 import andicar.n.utils.AndiCarCrashReporter;
@@ -633,7 +632,8 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                                 db.close();
                                 if (FileUtils.restoreDb(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.BACKUP_FOLDER + bkFile, dbPath)) {
                                     try {
-                                        ServiceStarter.startServicesDirect(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_ALL);
+//                                        ServiceStarter.startServicesDirect(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_ALL);
+                                        Utils.setToDoNextRun(getActivity());
                                     } catch (Exception e) {
                                         AndiCarCrashReporter.sendCrash(e);
                                         Log.d(LogTag, e.getMessage(), e);
@@ -846,7 +846,8 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                         e.apply();
                         backupService.setChecked(true);
                         try {
-                            ServiceStarter.startServicesDirect(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
+//                            ServiceStarter.startServicesDirect(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
+                            Utils.setBackupNextRun(getActivity(), AndiCar.getDefaultSharedPreferences().getBoolean(getString(R.string.pref_key_backup_service_enabled), false));
                         }
                         catch (Exception ex) {
                             AndiCarCrashReporter.sendCrash(ex);
@@ -1218,7 +1219,8 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             }
             if (FileUtils.restoreDb(BackupRestorePreferenceFragment.this.getActivity(), fPath, dbPath)) {
                 try {
-                    ServiceStarter.startServicesDirect(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_ALL);
+//                    ServiceStarter.startServicesDirect(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_ALL);
+                    Utils.setToDoNextRun(getActivity());
                 } catch (Exception e) {
                     AndiCarCrashReporter.sendCrash(e);
                     Log.d(LogTag, e.getMessage(), e);

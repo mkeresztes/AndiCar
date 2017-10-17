@@ -63,7 +63,7 @@ import andicar.n.activity.fragment.UOMConversionEditFragment;
 import andicar.n.activity.fragment.UOMEditFragment;
 import andicar.n.persistence.DB;
 import andicar.n.persistence.DBAdapter;
-import andicar.n.service.ToDoNotificationService;
+import andicar.n.service.ToDoNotificationJob;
 import andicar.n.utils.Utils;
 
 /**
@@ -142,8 +142,9 @@ public abstract class BaseViewAdapter
 
         //bind the cursor data to the ui views
         //TODO see why this can be happened https://github.com/mkeresztes/AndiCar/issues/3
-        if (mCursor == null || mCursor.isClosed())
+        if (mCursor == null || mCursor.isClosed()) {
             return;
+        }
 
         cursorViewBinder(holder, position);
 
@@ -222,11 +223,11 @@ public abstract class BaseViewAdapter
 
                 if (taskCursor.getString(DBAdapter.COL_POS_TASK__SCHEDULEDFOR).equals(TaskEditFragment.TASK_SCHEDULED_FOR_TIME)
                         || taskCursor.getString(DBAdapter.COL_POS_TASK__SCHEDULEDFOR).equals(TaskEditFragment.TASK_SCHEDULED_FOR_BOTH)) {
-                    notificationTrigger = ToDoNotificationService.TRIGGERED_BY_TIME;
+                    notificationTrigger = ToDoNotificationJob.TRIGGERED_BY_TIME;
                 }
                 if (taskCursor.getString(DBAdapter.COL_POS_TASK__SCHEDULEDFOR).equals(TaskEditFragment.TASK_SCHEDULED_FOR_MILEAGE)
                         || taskCursor.getString(DBAdapter.COL_POS_TASK__SCHEDULEDFOR).equals(TaskEditFragment.TASK_SCHEDULED_FOR_BOTH)) {
-                    notificationTrigger = ToDoNotificationService.TRIGGERED_BY_MILEAGE;
+                    notificationTrigger = ToDoNotificationJob.TRIGGERED_BY_MILEAGE;
                 }
 
                 if (taskCursor.getInt(DBAdapter.COL_POS_TASK__TIMEFREQUENCYTYPE) == TaskEditFragment.TASK_TIMEFREQUENCYTYPE_DAILY) {
@@ -251,7 +252,7 @@ public abstract class BaseViewAdapter
                 }
 
                 Intent i = new Intent(v.getContext(), ToDoNotificationDialogActivity.class);
-                i.putExtra(ToDoNotificationService.TODO_ID_KEY, holder.mRecordID);
+                i.putExtra(ToDoNotificationJob.TODO_ID_KEY, holder.mRecordID);
                 i.putExtra(ToDoNotificationDialogActivity.TRIGGERED_BY_KEY, notificationTrigger);
                 i.putExtra(ToDoNotificationDialogActivity.CAR_UOM_CODE_KEY, dbAdapter.getUOMCode(dbAdapter.getCarUOMLengthID(carId)));
                 i.putExtra(ToDoNotificationDialogActivity.MINUTES_OR_DAYS_KEY, minutesOrDays);

@@ -42,8 +42,9 @@ import java.util.Calendar;
 
 import andicar.n.persistence.DBAdapter;
 import andicar.n.persistence.DBReportAdapter;
+import andicar.n.service.JobStarter;
 import andicar.n.service.ToDoManagementService;
-import andicar.n.service.ToDoNotificationService;
+import andicar.n.service.ToDoNotificationJob;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.Utils;
 
@@ -106,7 +107,7 @@ public class ToDoNotificationDialogActivity extends AppCompatActivity {
             });
         }
 
-        mToDoID = mBundleExtras.getLong(ToDoNotificationService.TODO_ID_KEY);
+        mToDoID = mBundleExtras.getLong(ToDoNotificationJob.TODO_ID_KEY);
         triggeredBy = mBundleExtras.getInt(TRIGGERED_BY_KEY);
         String carUOMCode = mBundleExtras.getString(CAR_UOM_CODE_KEY);
         minutesOrDays = mBundleExtras.getString(MINUTES_OR_DAYS_KEY);
@@ -129,7 +130,7 @@ public class ToDoNotificationDialogActivity extends AppCompatActivity {
             carCurrentOdometer = todoReportCursor.getLong(12);
             long todoDueDateSec = todoReportCursor.getLong(4);
 
-            if (triggeredBy == ToDoNotificationService.TRIGGERED_BY_MILEAGE) {
+            if (triggeredBy == ToDoNotificationJob.TRIGGERED_BY_MILEAGE) {
                 tvPostponeUOM.setText(carUOMCode);
                 etPostpone.setText("100");
                 if (todoDueMileage - carCurrentOdometer > 0) {
@@ -312,7 +313,7 @@ public class ToDoNotificationDialogActivity extends AppCompatActivity {
                 etPostpone.requestFocus();
                 return false;
             }
-            if (triggeredBy == ToDoNotificationService.TRIGGERED_BY_MILEAGE) {
+            if (triggeredBy == ToDoNotificationJob.TRIGGERED_BY_MILEAGE) {
                 cvData.put(DBAdapter.COL_NAME_TODO__NOTIFICATIONMILEAGE, carCurrentOdometer + postPoneFor.longValue());
             }
             else {
@@ -327,10 +328,16 @@ public class ToDoNotificationDialogActivity extends AppCompatActivity {
             }
         }
         mDbAdapter.updateRecord(DBAdapter.TABLE_NAME_TODO, mToDoID, cvData);
-        Intent intent = new Intent(this, ToDoManagementService.class);
-        intent.putExtra(ToDoManagementService.TASK_ID_KEY, mTaskID);
-        intent.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, !ckIsDone.isChecked());
-        this.startService(intent);
+        if (ckIsDone.isChecked()) {
+            //if this to-do is done generate the next entry
+            Intent intent = new Intent(this, ToDoManagementService.class);
+            intent.putExtra(ToDoManagementService.TASK_ID_KEY, mTaskID);
+            this.startService(intent);
+        }
+        else {
+            Utils.setToDoNextRun(this);
+        }
+
         return true;
     }
 
@@ -344,10 +351,13 @@ public class ToDoNotificationDialogActivity extends AppCompatActivity {
         super.onDestroy();
         //if back key used show again the notification
         if (!isOKPressed) {
-            Intent i = new Intent(this, ToDoNotificationService.class);
-            i.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, false);
-            i.putExtra(ToDoNotificationService.TODO_ID_KEY, mToDoID);
-            this.startService(i);
+//            Intent i = new Intent(this, ToDoNotificationService.class);
+//            i.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, false);
+//            i.putExtra(ToDoNotificationJob.TODO_ID_KEY, mToDoID);
+//            this.startService(i);
+            Bundle serviceParams = new Bundle();
+            serviceParams.putLong(ToDoNotificationJob.TODO_ID_KEY, mToDoID);
+            JobStarter.startServicesUsingFBJobDispacher(this, JobStarter.SERVICE_STARTER_START_TODO_NOTIFICATION_SERVICE, serviceParams);
         }
     }
 }

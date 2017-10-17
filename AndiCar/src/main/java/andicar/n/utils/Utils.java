@@ -69,9 +69,11 @@ import java.util.Date;
 import java.util.List;
 
 import andicar.n.activity.dialogs.GeneralNotificationDialogActivity;
+import andicar.n.persistence.DB;
 import andicar.n.persistence.DBAdapter;
 import andicar.n.persistence.DBReportAdapter;
 import andicar.n.service.BackupJob;
+import andicar.n.service.ToDoNotificationJob;
 
 /**
  * @author miki
@@ -569,6 +571,56 @@ public class Utils {
         return appVersion;
     }
 
+    public static void setToDoNextRun(Context ctx) {
+        String LogTag = "AndiCar";
+        Log.d(LogTag, "========== ToDo setNextRun begin ==========");
+        //@formatter:off
+        String sql =
+                " SELECT * " +
+                " FROM " + DBAdapter.TABLE_NAME_TODO +
+                " WHERE " +
+                        DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_GEN_ISACTIVE) + "='Y' " + " AND " +
+                        DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__ISDONE) + "='N' " + " AND " +
+                        DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__NOTIFICATIONDATE) + " IS NOT NULL AND " +
+                        DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__NOTIFICATIONDATE) + " >= ? " +
+                " ORDER BY " +
+                        DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__NOTIFICATIONDATE) + " ASC ";
+        //@formatter:on
+        long currentSec = System.currentTimeMillis() / 1000;
+        String selArgs[] = {Long.toString(currentSec)};
+        DBAdapter db = new DBAdapter(ctx);
+        Cursor c = db.execSelectSql(sql, selArgs);
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(ctx));
+        Job fbJob;
+        while (c.moveToNext()) {
+            int notificationDateInSeconds = (int) c.getLong(DBAdapter.COL_POS_TODO__NOTIFICATIONDATE);
+            Bundle jobParams = new Bundle();
+            jobParams.putLong(ToDoNotificationJob.TODO_ID_KEY, c.getLong(DBAdapter.COL_POS_GEN_ROWID));
+            jobParams.putLong(ToDoNotificationJob.CAR_ID_KEY, c.getLong(DBAdapter.COL_POS_TODO__CAR_ID));
+            fbJob = dispatcher.newJobBuilder()
+                    // the JobService that will be called
+                    .setService(ToDoNotificationJob.class)
+                    // uniquely identifies the job
+                    .setTag(ToDoNotificationJob.TAG + c.getString(DBAdapter.COL_POS_GEN_ROWID))
+                    // one-off job
+                    .setRecurring(false)
+                    .setLifetime(Lifetime.FOREVER)
+                    // start between 0 and 30 seconds from now
+                    .setTrigger(Trigger.executionWindow(notificationDateInSeconds, notificationDateInSeconds + 30))
+                    // overwrite an existing job with the same tag
+                    .setReplaceCurrent(true)
+                    // retry with exponential backoff
+                    .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
+                    .setExtras(jobParams)
+                    .build();
+            dispatcher.mustSchedule(fbJob);
+            Log.d(LogTag, "Next run for to-do " + c.getString(DBAdapter.COL_POS_GEN_NAME) + " (" + c.getString(DBAdapter.COL_POS_GEN_ROWID) + "): " +
+                    DateFormat.getDateFormat(ctx).format(notificationDateInSeconds) + " " + DateFormat.getTimeFormat(ctx).format(notificationDateInSeconds));
+        }
+        c.close();
+        db.close();
+    }
+
     public static void setBackupNextRun(Context ctx, boolean enabled) {
         File debugLogFile = new File(ConstantValues.LOG_FOLDER + "BackupJobSchedule.log");
         LogFileWriter debugLogFileWriter = null;
@@ -581,7 +633,7 @@ public class Utils {
             }
 
             String LogTag = "AndiCar";
-            Log.d(LogTag, "========== setNextRun begin ==========");
+            Log.d(LogTag, "========== Backup setNextRun begin ==========");
             if (debugLogFileWriter != null) {
                 debugLogFileWriter.appendnl("========== setNextRun begin ==========");
             }

@@ -21,7 +21,6 @@ package andicar.n.utils;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -55,11 +54,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import andicar.n.broadcastreceiver.ServiceStarter;
 import andicar.n.persistence.AndiCarFileProvider;
+import andicar.n.service.JobStarter;
 import andicar.n.service.SecureBackupJob;
-import andicar.n.service.ToDoManagementService;
-import andicar.n.service.ToDoNotificationService;
 
 //import org.andicar.andicar.n.activity.dialog.AndiCarDialogBuilder;
 
@@ -309,7 +306,7 @@ public class FileUtils {
 //                    serviceParams.putString(FBJobService.JOB_TYPE_KEY, FBJobService.JOB_TYPE_SECURE_BACKUP);
                     serviceParams.putString(SecureBackupJob.BK_FILE_KEY, bkFile);
 
-                    ServiceStarter.startServicesUsingFBJobDispacher(ctx, ConstantValues.SERVICE_STARTER_START_SECURE_BACKUP, serviceParams);
+                    JobStarter.startServicesUsingFBJobDispacher(ctx, JobStarter.SERVICE_STARTER_START_SECURE_BACKUP, serviceParams);
 
                     debugLogFileWriter.appendnl("Calling FirebaseJobDispatcher terminated");
                 }
@@ -696,9 +693,10 @@ public class FileUtils {
             }
         }
         //update background services if need (scheduled tasks, etc.)
-        Intent intent = new Intent(ctx, ToDoNotificationService.class);
-        intent.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, false);
-        ctx.startService(intent);
+//        Intent intent = new Intent(ctx, ToDoNotificationService.class);
+//        intent.putExtra(ToDoNotificationJob.SET_JUST_NEXT_RUN_KEY, false);
+//        ctx.startService(intent);
+        Utils.setToDoNextRun(ctx);
 
         return mLastErrorMessage == null;
     }

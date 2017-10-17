@@ -22,26 +22,13 @@ package andicar.n.broadcastreceiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
-
-import com.firebase.jobdispatcher.Constraint;
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.Lifetime;
-import com.firebase.jobdispatcher.RetryStrategy;
-import com.firebase.jobdispatcher.Trigger;
 
 import org.andicar2.activity.AndiCar;
 import org.andicar2.activity.R;
 
 import java.io.File;
 
-import andicar.n.service.FBJobService;
-import andicar.n.service.SecureBackupJob;
-import andicar.n.service.ToDoManagementService;
-import andicar.n.service.ToDoNotificationService;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
 import andicar.n.utils.LogFileWriter;
@@ -50,154 +37,28 @@ import andicar.n.utils.Utils;
 @SuppressWarnings("JavaDoc")
 public class ServiceStarter extends BroadcastReceiver {
     private static final String LOG_TAG = "AndiCar";
-//    private static final String LOG_TAG = "ServiceStarter";
-
-    /**
-     * Start the services using FirebaseJobDispacher
-     *  @param context
-     * @param whatService see ConstantValues.SERVICE_STARTER_... constants
-     * @param serviceParams
-     */
-    public static void startServicesUsingFBJobDispacher(Context context, String whatService, Bundle serviceParams) {
-//        Intent intent;
-        Bundle dispatcherParams = new Bundle();
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
-        Job fbJob;
-
-        if (whatService.equals(ConstantValues.SERVICE_STARTER_START_ALL) || whatService.equals(ConstantValues.SERVICE_STARTER_START_TODO_MANAGEMENT_SERVICE)) {
-            //start TO-DO notification service
-            dispatcherParams.putString(FBJobService.JOB_TYPE_KEY, FBJobService.JOB_TYPE_TODO);
-
-            fbJob = dispatcher.newJobBuilder()
-                    // the JobService that will be called
-                    .setService(FBJobService.class)
-                    // uniquely identifies the job
-                    .setTag(FBJobService.JOB_TYPE_TODO)
-                    // one-off job
-                    .setRecurring(false)
-                    .setLifetime(Lifetime.FOREVER)
-                    // start between 0 and 30 seconds from now
-                    .setTrigger(Trigger.NOW)
-                    // overwrite an existing job with the same tag
-                    .setReplaceCurrent(true)
-                    // retry with exponential backoff
-                    .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
-                    // constraints that need to be satisfied for the job to run
-                    .setExtras(dispatcherParams)
-                    .build();
-            dispatcher.mustSchedule(fbJob);
-        }
-
-        if (whatService.equals(ConstantValues.SERVICE_STARTER_START_ALL) || whatService.equals(ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE)) {
-            Utils.setBackupNextRun(context, AndiCar.getDefaultSharedPreferences().getBoolean(context.getString(R.string.pref_key_backup_service_enabled), false));
-        }
-
-        if (whatService.equals(ConstantValues.SERVICE_STARTER_START_SECURE_BACKUP)) {
-            dispatcherParams.putString(SecureBackupJob.BK_FILE_KEY, serviceParams.getString(SecureBackupJob.BK_FILE_KEY));
-
-            fbJob = dispatcher.newJobBuilder()
-                    // the JobService that will be called
-                    .setService(SecureBackupJob.class)
-                    // uniquely identifies the job
-                    .setTag(SecureBackupJob.TAG)
-                    // one-off job
-                    .setRecurring(false)
-                    .setLifetime(Lifetime.FOREVER)
-                    // start between 0 and 30 seconds from now
-                    .setTrigger(Trigger.NOW)
-                    // overwrite an existing job with the same tag
-                    .setReplaceCurrent(true)
-                    // retry with exponential backoff
-                    .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
-                    // constraints that need to be satisfied for the job to run
-                    .setExtras(dispatcherParams)
-                    .setConstraints(
-                            // only run on an unmetered network
-                            (AndiCar.getDefaultSharedPreferences().getBoolean(context.getResources().getString(R.string.pref_key_secure_backup_only_wifi), true) ? Constraint.ON_UNMETERED_NETWORK : Constraint.ON_ANY_NETWORK)
-                    )
-                    .build();
-            dispatcher.mustSchedule(fbJob);
-
-//            dispatcherParams.putString(FBJobService.JOB_TYPE_KEY, FBJobService.JOB_TYPE_SECURE_BACKUP);
-//            dispatcherParams.putBundle(FBJobService.JOB_PARAMS_KEY, serviceParams);
-//
-//            fbJob = dispatcher.newJobBuilder()
-//                    // the JobService that will be called
-//                    .setService(FBJobService.class)
-//                    // uniquely identifies the job
-//                    .setTag(FBJobService.JOB_TYPE_SECURE_BACKUP)
-//                    // one-off job
-//                    .setRecurring(false)
-//                    .setLifetime(Lifetime.FOREVER)
-//                    // start between 0 and 30 seconds from now
-//                    .setTrigger(Trigger.NOW)
-//                    // overwrite an existing job with the same tag
-//                    .setReplaceCurrent(true)
-//                    // retry with exponential backoff
-//                    .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
-//                    // constraints that need to be satisfied for the job to run
-//                    .setExtras(dispatcherParams)
-//                    .setConstraints(
-//                            // only run on an unmetered network
-//                            (AndiCar.getDefaultSharedPreferences().getBoolean(context.getResources().getString(R.string.pref_key_secure_backup_only_wifi), true) ? Constraint.ON_UNMETERED_NETWORK : Constraint.ON_ANY_NETWORK)
-//                    )
-//                    .build();
-        }
-    }
-
-    /**
-     * Directly start the services using context.startService()<br>
-     * Use it only if the app is in foreground to avoid Background Service Limitations on Anroid O+<br>
-     * Consult https://developer.android.com/about/versions/oreo/background.html for details
-     *
-     * @param context
-     * @param whatService see ConstantValues.SERVICE_STARTER_... constants
-     */
-    public static void startServicesDirect(Context context, String whatService) {
-        Intent intent;
-        if (whatService.equals(ConstantValues.SERVICE_STARTER_START_ALL) || whatService.equals(ConstantValues.SERVICE_STARTER_START_TODO_MANAGEMENT_SERVICE)) {
-            //start TO-DO notification service
-            Log.i(LOG_TAG, "Starting To-Do Notification Service...");
-            intent = new Intent(context, ToDoNotificationService.class);
-            intent.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, false);
-            context.startService(intent);
-            Log.i(LOG_TAG, "Done");
-        }
-
-//        if (whatService.equals(ConstantValues.SERVICE_STARTER_START_ALL) || whatService.equals(ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE)) {
-//            //start backup service
-//            Log.i(LOG_TAG, "Starting Backup Service Schedule...");
-//            Utils.setBackupNextRun(context);
-//            Log.i(LOG_TAG, "Done");
-//        }
-    }
 
     @Override
     public void onReceive(Context context, Intent rIntent) {
         Log.d(LOG_TAG, "onReceive called for: " + rIntent.getAction());
         try {
-            try {
-                if (FileUtils.isFileSystemAccessGranted(context)) {
-                    FileUtils.createFolderIfNotExists(context, ConstantValues.LOG_FOLDER);
-                    File debugLogFile = new File(ConstantValues.LOG_FOLDER + "SSBroadcast.log");
-                    LogFileWriter debugLogFileWriter = new LogFileWriter(debugLogFile, true);
-                    debugLogFileWriter.appendnl("onReceive called for: ").append(rIntent.getAction());
-                    debugLogFileWriter.flush();
-                    debugLogFileWriter.close();
-                }
-            }
-            catch (Exception ignored) {
-            }
-
-            if (rIntent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)
-                    || rIntent.getAction().equals(Intent.ACTION_DATE_CHANGED)
-                    || rIntent.getAction().equals(Intent.ACTION_MY_PACKAGE_REPLACED)) {
-                //start services
-                startServicesUsingFBJobDispacher(context, ConstantValues.SERVICE_STARTER_START_ALL, null);
+            if (FileUtils.isFileSystemAccessGranted(context)) {
+                FileUtils.createFolderIfNotExists(context, ConstantValues.LOG_FOLDER);
+                File debugLogFile = new File(ConstantValues.LOG_FOLDER + "SSBroadcast.log");
+                LogFileWriter debugLogFileWriter = new LogFileWriter(debugLogFile, true);
+                debugLogFileWriter.appendnl("onReceive called for: ").append(rIntent.getAction());
+                debugLogFileWriter.flush();
+                debugLogFileWriter.close();
             }
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        catch (Exception ignored) {
+        }
+
+        if (rIntent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)
+                || rIntent.getAction().equals(Intent.ACTION_DATE_CHANGED)
+                || rIntent.getAction().equals(Intent.ACTION_MY_PACKAGE_REPLACED)) {
+            Utils.setBackupNextRun(context, AndiCar.getDefaultSharedPreferences().getBoolean(context.getString(R.string.pref_key_backup_service_enabled), false));
+            Utils.setToDoNextRun(context);
         }
     }
 }

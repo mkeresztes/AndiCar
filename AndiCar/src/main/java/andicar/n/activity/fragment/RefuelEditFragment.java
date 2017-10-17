@@ -21,7 +21,6 @@ package andicar.n.activity.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -51,8 +50,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import andicar.n.persistence.DBAdapter;
-import andicar.n.service.ToDoManagementService;
-import andicar.n.service.ToDoNotificationService;
+import andicar.n.service.JobStarter;
+import andicar.n.service.ToDoNotificationJob;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.Utils;
 
@@ -689,10 +688,13 @@ public class RefuelEditFragment extends BaseEditFragment {
         prefEditor.putInt(AndiCar.getAppResources().getString(R.string.pref_key_refuel_insert_mode), mInsertMode);
         prefEditor.apply();
 
-        Intent intent = new Intent(getContext(), ToDoNotificationService.class);
-        intent.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, false);
-        intent.putExtra(ToDoManagementService.CAR_ID_KEY, mCarId);
-        getActivity().startService(intent);
+//        Intent intent = new Intent(getContext(), ToDoNotificationService.class);
+//        intent.putExtra(ToDoNotificationJob.SET_JUST_NEXT_RUN_KEY, false);
+//        intent.putExtra(ToDoManagementService.CAR_ID_KEY, mCarId);
+//        getActivity().startService(intent);
+        Bundle serviceParams = new Bundle();
+        serviceParams.putLong(ToDoNotificationJob.CAR_ID_KEY, mCarId);
+        JobStarter.startServicesUsingFBJobDispacher(getActivity(), JobStarter.SERVICE_STARTER_START_TODO_NOTIFICATION_SERVICE, serviceParams);
 
         analyticsParams.putInt(ConstantValues.ANALYTICS_IS_TEMPLATE_USED, isTemplateUsed ? 1 : 0);
         Utils.sendAnalyticsEvent(getActivity(), "RefuelEdit", analyticsParams, false);
