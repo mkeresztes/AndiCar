@@ -41,8 +41,8 @@ import andicar.n.utils.Utils;
 
 public class FBJobService extends JobService {
     public static final String JOB_TYPE_KEY = "JobType";
-    public static final String JOB_PARAMS_KEY = "JobParams";
-    public static final String JOB_TYPE_SECURE_BACKUP = "SB";
+    //    public static final String JOB_PARAMS_KEY = "JobParams";
+//    public static final String JOB_TYPE_SECURE_BACKUP = "SB";
     public static final String JOB_TYPE_TODO = "TD";
 //    public static final String JOB_TYPE_BACKUP = "BK";
 
@@ -75,17 +75,18 @@ public class FBJobService extends JobService {
             Intent intent;
             if (job.getExtras().getString(JOB_TYPE_KEY) != null) {
                 //noinspection ConstantConditions
-                if (job.getExtras().getString(JOB_TYPE_KEY).equals(JOB_TYPE_SECURE_BACKUP)) {
-                    intent = new Intent(getApplicationContext(), SecureBackupService.class);
-                    intent.putExtra("bkFile", job.getExtras().getString("bkFile"));
-                    intent.putExtra("attachName", job.getExtras().getString("attachName"));
-                    if (debugLogFileWriter != null) {
-                        debugLogFileWriter.appendnl("Starting SecureBackupService for bkFile: ").append(job.getExtras().getString("bkFile"));
-                    }
-                    getApplicationContext().startService(intent);
-                }
-                else { //noinspection ConstantConditions
-                    if (job.getExtras().getString(JOB_TYPE_KEY).equals(JOB_TYPE_TODO)) {
+//                if (job.getExtras().getString(JOB_TYPE_KEY).equals(JOB_TYPE_SECURE_BACKUP)) {
+//                    intent = new Intent(getApplicationContext(), SecureBackupService.class);
+//                    intent.putExtra("bkFile", job.getExtras().getString("bkFile"));
+//                    if (debugLogFileWriter != null) {
+//                        debugLogFileWriter.appendnl("Starting SecureBackupService for bkFile: ").append(job.getExtras().getString("bkFile"));
+//                    }
+//                    getApplicationContext().startService(intent);
+//                }
+//                else { //noinspection ConstantConditions
+
+                //noinspection ConstantConditions
+                if (job.getExtras().getString(JOB_TYPE_KEY).equals(JOB_TYPE_TODO)) {
                         intent = new Intent(getApplicationContext(), ToDoNotificationService.class);
                         intent.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, false);
                         if (debugLogFileWriter != null) {
@@ -103,7 +104,7 @@ public class FBJobService extends JobService {
 //                            getApplicationContext().startService(intent);
 //                        }
 //                    }
-                }
+//                }
 
                 if (debugLogFileWriter != null) {
                     debugLogFileWriter.appendnl("onStartJob terminated");

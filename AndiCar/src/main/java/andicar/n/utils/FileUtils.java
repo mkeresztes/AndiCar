@@ -57,7 +57,7 @@ import java.util.zip.ZipOutputStream;
 
 import andicar.n.broadcastreceiver.ServiceStarter;
 import andicar.n.persistence.AndiCarFileProvider;
-import andicar.n.service.FBJobService;
+import andicar.n.service.SecureBackupJob;
 import andicar.n.service.ToDoManagementService;
 import andicar.n.service.ToDoNotificationService;
 
@@ -305,39 +305,12 @@ public class FileUtils {
 
                 if (mPreferences.getBoolean(mResources.getString(R.string.pref_key_secure_backup_enabled), false) && !skipSecureBk) {
                     debugLogFileWriter.appendnl("Secure backup enabled. Calling FirebaseJobDispatcher for SecureBackup");
-                    Bundle myExtrasBundle = new Bundle();
-                    myExtrasBundle.putString(FBJobService.JOB_TYPE_KEY, FBJobService.JOB_TYPE_SECURE_BACKUP);
-                    myExtrasBundle.putString("bkFile", bkFile);
-                    myExtrasBundle.putString("attachName", bkFileName);
+                    Bundle serviceParams = new Bundle();
+//                    serviceParams.putString(FBJobService.JOB_TYPE_KEY, FBJobService.JOB_TYPE_SECURE_BACKUP);
+                    serviceParams.putString(SecureBackupJob.BK_FILE_KEY, bkFile);
 
-                    ServiceStarter.startServicesUsingFBJobDispacher(ctx, ConstantValues.SERVICE_STARTER_START_SECURE_BACKUP, myExtrasBundle);
+                    ServiceStarter.startServicesUsingFBJobDispacher(ctx, ConstantValues.SERVICE_STARTER_START_SECURE_BACKUP, serviceParams);
 
-//                    FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(ctx));
-//
-//                    Job myJob = dispatcher.newJobBuilder()
-//                            // the JobService that will be called
-//                            .setService(FBJobService.class)
-//                            // uniquely identifies the job
-//                            .setTag(FBJobService.JOB_TYPE_SECURE_BACKUP)
-//                            // one-off job
-//                            .setRecurring(false)
-//                            .setLifetime(Lifetime.FOREVER)
-//                            // start between 0 and 30 seconds from now
-//                            .setTrigger(Trigger.executionWindow(0, 30))
-//                            // overwrite an existing job with the same tag
-//                            .setReplaceCurrent(true)
-//                            // retry with exponential backoff
-//                            .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
-//                            // constraints that need to be satisfied for the job to run
-//                            .setExtras(myExtrasBundle)
-//                            .setConstraints(
-//                                    // only run on an unmetered network
-//                                    (mPreferences.getBoolean(mResources.getString(R.string.pref_key_secure_backup_only_wifi), true) ? Constraint.ON_UNMETERED_NETWORK : Constraint.ON_ANY_NETWORK)
-//                            )
-//                            .build();
-//
-//                    dispatcher.mustSchedule(myJob);
-//
                     debugLogFileWriter.appendnl("Calling FirebaseJobDispatcher terminated");
                 }
                 else {

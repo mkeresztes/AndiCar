@@ -39,6 +39,7 @@ import org.andicar2.activity.R;
 import java.io.File;
 
 import andicar.n.service.FBJobService;
+import andicar.n.service.SecureBackupJob;
 import andicar.n.service.ToDoManagementService;
 import andicar.n.service.ToDoNotificationService;
 import andicar.n.utils.ConstantValues;
@@ -76,7 +77,7 @@ public class ServiceStarter extends BroadcastReceiver {
                     .setRecurring(false)
                     .setLifetime(Lifetime.FOREVER)
                     // start between 0 and 30 seconds from now
-                    .setTrigger(Trigger.executionWindow(0, 30))
+                    .setTrigger(Trigger.NOW)
                     // overwrite an existing job with the same tag
                     .setReplaceCurrent(true)
                     // retry with exponential backoff
@@ -89,42 +90,21 @@ public class ServiceStarter extends BroadcastReceiver {
 
         if (whatService.equals(ConstantValues.SERVICE_STARTER_START_ALL) || whatService.equals(ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE)) {
             Utils.setBackupNextRun(context, AndiCar.getDefaultSharedPreferences().getBoolean(context.getString(R.string.pref_key_backup_service_enabled), false));
-//            dispatcherParams.putString(FBJobService.JOB_TYPE_KEY, FBJobService.JOB_TYPE_BACKUP);
-//
-//            fbJob = dispatcher.newJobBuilder()
-//                    // the JobService that will be called
-//                    .setService(FBJobService.class)
-//                    // uniquely identifies the job
-//                    .setTag(FBJobService.JOB_TYPE_BACKUP)
-//                    // one-off job
-//                    .setRecurring(false)
-//                    .setLifetime(Lifetime.FOREVER)
-//                    // start between 0 and 30 seconds from now
-//                    .setTrigger(Trigger.executionWindow(0, 30))
-//                    // overwrite an existing job with the same tag
-//                    .setReplaceCurrent(true)
-//                    // retry with exponential backoff
-//                    .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
-//                    // constraints that need to be satisfied for the job to run
-//                    .setExtras(dispatcherParams)
-//                    .build();
-//            dispatcher.mustSchedule(fbJob);
         }
 
         if (whatService.equals(ConstantValues.SERVICE_STARTER_START_SECURE_BACKUP)) {
-            dispatcherParams.putString(FBJobService.JOB_TYPE_KEY, FBJobService.JOB_TYPE_SECURE_BACKUP);
-            dispatcherParams.putBundle(FBJobService.JOB_PARAMS_KEY, serviceParams);
+            dispatcherParams.putString(SecureBackupJob.BK_FILE_KEY, serviceParams.getString(SecureBackupJob.BK_FILE_KEY));
 
             fbJob = dispatcher.newJobBuilder()
                     // the JobService that will be called
-                    .setService(FBJobService.class)
+                    .setService(SecureBackupJob.class)
                     // uniquely identifies the job
-                    .setTag(FBJobService.JOB_TYPE_SECURE_BACKUP)
+                    .setTag(SecureBackupJob.TAG)
                     // one-off job
                     .setRecurring(false)
                     .setLifetime(Lifetime.FOREVER)
                     // start between 0 and 30 seconds from now
-                    .setTrigger(Trigger.executionWindow(0, 30))
+                    .setTrigger(Trigger.NOW)
                     // overwrite an existing job with the same tag
                     .setReplaceCurrent(true)
                     // retry with exponential backoff
@@ -137,6 +117,31 @@ public class ServiceStarter extends BroadcastReceiver {
                     )
                     .build();
             dispatcher.mustSchedule(fbJob);
+
+//            dispatcherParams.putString(FBJobService.JOB_TYPE_KEY, FBJobService.JOB_TYPE_SECURE_BACKUP);
+//            dispatcherParams.putBundle(FBJobService.JOB_PARAMS_KEY, serviceParams);
+//
+//            fbJob = dispatcher.newJobBuilder()
+//                    // the JobService that will be called
+//                    .setService(FBJobService.class)
+//                    // uniquely identifies the job
+//                    .setTag(FBJobService.JOB_TYPE_SECURE_BACKUP)
+//                    // one-off job
+//                    .setRecurring(false)
+//                    .setLifetime(Lifetime.FOREVER)
+//                    // start between 0 and 30 seconds from now
+//                    .setTrigger(Trigger.NOW)
+//                    // overwrite an existing job with the same tag
+//                    .setReplaceCurrent(true)
+//                    // retry with exponential backoff
+//                    .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
+//                    // constraints that need to be satisfied for the job to run
+//                    .setExtras(dispatcherParams)
+//                    .setConstraints(
+//                            // only run on an unmetered network
+//                            (AndiCar.getDefaultSharedPreferences().getBoolean(context.getResources().getString(R.string.pref_key_secure_backup_only_wifi), true) ? Constraint.ON_UNMETERED_NETWORK : Constraint.ON_ANY_NETWORK)
+//                    )
+//                    .build();
         }
     }
 
