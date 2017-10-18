@@ -81,7 +81,7 @@ public class BackupService extends Service {
                     DBAdapter db = new DBAdapter(getApplicationContext());
                     String dbPath = db.getDatabase().getPath();
                     db.close();
-                    String bkFile = FileUtils.backupDb(this, dbPath, "abk_", false);
+                    String bkFile = FileUtils.backupDb(this, dbPath, "abk_", false, null);
                     if (bkFile == null) {
                         if (debugLogFileWriter != null)
                             debugLogFileWriter.appendnl("Backup terminated with error: ").append(FileUtils.mLastErrorMessage)

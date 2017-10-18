@@ -586,7 +586,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                     DBAdapter db = new DBAdapter(BackupRestorePreferenceFragment.this.getActivity());
                     String dbPath = db.getDatabase().getPath();
                     db.close();
-                    if (FileUtils.backupDb(BackupRestorePreferenceFragment.this.getActivity(), dbPath, null, false) != null) {
+                    if (FileUtils.backupDb(BackupRestorePreferenceFragment.this.getActivity(), dbPath, null, false, null) != null) {
                         BackupRestorePreferenceFragment.this.fillBKFileList();
                         Toast toast = Toast.makeText(BackupRestorePreferenceFragment.this.getActivity(), R.string.pref_backup_success_message, Toast.LENGTH_SHORT);
                         toast.show();
@@ -1212,7 +1212,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             String dbPath = db.getDatabase().getPath();
             db.close();
             //create a safe backup before overwriting the existing database
-            if (FileUtils.backupDb(BackupRestorePreferenceFragment.this.getActivity(), dbPath, "sbk_", true) == null) { //error
+            if (FileUtils.backupDb(BackupRestorePreferenceFragment.this.getActivity(), dbPath, "sbk_", true, null) == null) { //error
                 msgBundle.putString(ERROR_MSG_KEY, FileUtils.mLastErrorMessage);
                 msg.setData(msgBundle);
                 handler.sendMessage(msg);

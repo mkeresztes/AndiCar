@@ -253,14 +253,22 @@ public class FileUtils {
     /**
      * Backup the database to the external storage
      *
-     * @param bkPrefix Default: ConstantValues.BACKUP_PREFIX (bk). Prefix for the backup filename (<prefix>filename.db).
      * @param dbPath the path to the database
+     * @param bkPrefix Default: ConstantValues.BACKUP_PREFIX (bk). Prefix for the backup filename (<prefix>filename.db).
      * @param skipSecureBk if true the secure backup step will be skipped, even if in the preference is enabled
+     * @param bkDestination the destination folder for the backup. ConstantValues.BACKUP_FOLDER will be used if null
      * @return The backup file name on success or null on error. See mLastErrorMessage for error details
      */
-    public static String backupDb(Context ctx, String dbPath, @Nullable String bkPrefix, boolean skipSecureBk) {
+    public static String backupDb(Context ctx, String dbPath, @Nullable String bkPrefix, boolean skipSecureBk, String bkDestination) {
 
-        String bkFile = ConstantValues.BACKUP_FOLDER;
+        String bkFile;
+        if (bkDestination == null) {
+            bkFile = ConstantValues.BACKUP_FOLDER;
+        }
+        else {
+            bkFile = bkDestination;
+        }
+
         String bkFileName;
         File debugLogFile;
         LogFileWriter debugLogFileWriter = null;
@@ -409,6 +417,15 @@ public class FileUtils {
                 if (!file.exists()) {
                     if (!file.mkdirs()) {
                         return String.format(mResources.getString(R.string.error_024), ConstantValues.BACKUP_FOLDER);
+                    }
+                }
+            }
+
+            if (what.equals("ALL") || what.equals(ConstantValues.SYSTEM_BACKUP_FOLDER)) {
+                file = new File(ConstantValues.SYSTEM_BACKUP_FOLDER);
+                if (!file.exists()) {
+                    if (!file.mkdirs()) {
+                        return String.format(mResources.getString(R.string.error_024), ConstantValues.SYSTEM_BACKUP_FOLDER);
                     }
                 }
             }

@@ -82,6 +82,7 @@ public class AndiCar extends MultiDexApplication {
 
         ConstantValues.REPORT_FOLDER = ConstantValues.BASE_FOLDER + "/" + ConstantValues.REPORT_FOLDER_NAME + "/";
         ConstantValues.BACKUP_FOLDER = ConstantValues.BASE_FOLDER + "/" + ConstantValues.BACKUP_FOLDER_NAME + "/";
+        ConstantValues.SYSTEM_BACKUP_FOLDER = ConstantValues.BASE_FOLDER + "/" + ConstantValues.SYSTEM_BACKUP_FOLDER_NAME + "/";
         ConstantValues.TRACK_FOLDER = ConstantValues.BASE_FOLDER + "/" + ConstantValues.TRACK_FOLDER_NAME + "/";
         ConstantValues.TEMP_FOLDER = ConstantValues.BASE_FOLDER + "/" + ConstantValues.TEMP_FOLDER_NAME + "/";
         ConstantValues.LOG_FOLDER = ConstantValues.BASE_FOLDER + "/" + ConstantValues.LOG_FOLDER_NAME + "/";
@@ -161,7 +162,8 @@ public class AndiCar extends MultiDexApplication {
                 Log.d("AndiCar", "========== Fixing Duplicate Entries =========");
                 //fix duplicate tags with same name
                 DBAdapter db = new DBAdapter(getApplicationContext());
-                FileUtils.backupDb(getApplicationContext(), db.getDatabase().getPath(), "sbku_", true);
+                FileUtils.createFolderIfNotExists(getApplicationContext(), ConstantValues.SYSTEM_BACKUP_FOLDER);
+                FileUtils.backupDb(getApplicationContext(), db.getDatabase().getPath(), "sbku_", true, ConstantValues.SYSTEM_BACKUP_FOLDER);
                 String sql = "select max(_id), name, count(*) from def_tag group by name having count(*) > 1";
                 Cursor c = db.execSelectSql(sql, null);
                 long id;

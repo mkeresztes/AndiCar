@@ -100,11 +100,13 @@ public class ConstantValues {
     public static String BASE_FOLDER;
     public static String REPORT_FOLDER;
     public static String BACKUP_FOLDER;
+    public static String SYSTEM_BACKUP_FOLDER;
     public static String TRACK_FOLDER;
     public static String TEMP_FOLDER;
     public static String LOG_FOLDER;
     public static String REPORT_FOLDER_NAME = "reports";
     public static String BACKUP_FOLDER_NAME = "backups";
+    public static String SYSTEM_BACKUP_FOLDER_NAME = "sysbackups";
     public static String TRACK_FOLDER_NAME = "gpstrack";
     public static String TEMP_FOLDER_NAME = "temp";
     public static String LOG_FOLDER_NAME = "log";
