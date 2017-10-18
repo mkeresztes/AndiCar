@@ -280,7 +280,7 @@ public class TaskEditFragment extends BaseEditFragment {
                     isFinishAfterSave = false;
                     TaskEditFragment.this.saveData();
                     isFinishAfterSave = true;
-                    showTaskCarEditWindow(mRowId);
+                    showTaskCarEditWindow(-1);
 //                    Intent i = new Intent(TaskEditFragment.this.getActivity(), TaskCarLinkActivity.class);
 //                    i.putExtra(DBAdapter.COL_NAME_TASK_CAR__TASK_ID, mRowId);
 //                    i.putExtra(TaskCarLinkActivity.IS_TIMING_ENABLED, isTimingEnabled);
