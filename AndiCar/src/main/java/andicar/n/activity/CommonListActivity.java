@@ -689,7 +689,7 @@ public class CommonListActivity extends AppCompatActivity
 
             if (searchParams.containsKey(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY)) {
                 mWhereConditionsForDB.putString(DBAdapter.sqlConcatTableColumn(DBAdapter.TABLE_NAME_MILEAGE, DBAdapter.COL_NAME_MILEAGE__DATE) + " <= ",
-                        Long.toString(Utils.roundDate(searchParams.getLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY), ConstantValues.DATE_DECODE_TO_ZERO) / 1000));
+                        Long.toString(Utils.roundDate(searchParams.getLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY), ConstantValues.DATE_DECODE_TO_24) / 1000));
                 mWhereConditionsForSearchInit.putLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY, searchParams.getLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY));
             }
 
@@ -742,7 +742,7 @@ public class CommonListActivity extends AppCompatActivity
 
             if (searchParams.containsKey(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY)) {
                 mWhereConditionsForDB.putString(DBAdapter.sqlConcatTableColumn(DBAdapter.TABLE_NAME_GPSTRACK, DBAdapter.COL_NAME_GPSTRACK__DATE) + " <= ",
-                        Long.toString(Utils.roundDate(searchParams.getLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY), ConstantValues.DATE_DECODE_TO_ZERO) / 1000));
+                        Long.toString(Utils.roundDate(searchParams.getLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY), ConstantValues.DATE_DECODE_TO_24) / 1000));
                 mWhereConditionsForSearchInit.putLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY, searchParams.getLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY));
             }
 
@@ -801,7 +801,7 @@ public class CommonListActivity extends AppCompatActivity
 
             if (searchParams.containsKey(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY)) {
                 mWhereConditionsForDB.putString(DBAdapter.sqlConcatTableColumn(DBAdapter.TABLE_NAME_REFUEL, DBAdapter.COL_NAME_REFUEL__DATE) + " <= ",
-                        Long.toString(Utils.roundDate(searchParams.getLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY), ConstantValues.DATE_DECODE_TO_ZERO) / 1000));
+                        Long.toString(Utils.roundDate(searchParams.getLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY), ConstantValues.DATE_DECODE_TO_24) / 1000));
                 mWhereConditionsForSearchInit.putLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY, searchParams.getLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY));
             }
 
@@ -860,7 +860,7 @@ public class CommonListActivity extends AppCompatActivity
 
             if (searchParams.containsKey(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY)) {
                 mWhereConditionsForDB.putString(DBAdapter.sqlConcatTableColumn(DBAdapter.TABLE_NAME_EXPENSE, DBAdapter.COL_NAME_EXPENSE__DATE) + " <= ",
-                        Long.toString(Utils.roundDate(searchParams.getLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY), ConstantValues.DATE_DECODE_TO_ZERO) / 1000));
+                        Long.toString(Utils.roundDate(searchParams.getLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY), ConstantValues.DATE_DECODE_TO_24) / 1000));
                 mWhereConditionsForSearchInit.putLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY, searchParams.getLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY));
             }
 
@@ -924,7 +924,8 @@ public class CommonListActivity extends AppCompatActivity
                 long estDueDay = (searchParams.getLong(SearchDialogFragment.DATE_FROM_IN_MILLIS_KEY) - now.getTimeInMillis())
                         / ConstantValues.ONE_DAY_IN_MILISECONDS;
                 mWhereConditionsForDB.putString("EstDueDays >= ", Long.toString(estDueDay));
-                mWhereConditionsForSearchInit.putLong(SearchDialogFragment.DATE_FROM_IN_MILLIS_KEY, searchParams.getLong(SearchDialogFragment.DATE_FROM_IN_MILLIS_KEY));
+                mWhereConditionsForSearchInit.putLong(SearchDialogFragment.DATE_FROM_IN_MILLIS_KEY,
+                        Utils.roundDate(searchParams.getLong(SearchDialogFragment.DATE_FROM_IN_MILLIS_KEY), ConstantValues.DATE_DECODE_TO_ZERO) / 1000);
             }
 
             if (searchParams.containsKey(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY)) {
@@ -932,7 +933,8 @@ public class CommonListActivity extends AppCompatActivity
                 long estDueDay = (searchParams.getLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY) - now.getTimeInMillis())
                         / ConstantValues.ONE_DAY_IN_MILISECONDS;
                 mWhereConditionsForDB.putString("EstDueDays <= ", Long.toString(estDueDay));
-                mWhereConditionsForSearchInit.putLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY, searchParams.getLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY));
+                mWhereConditionsForSearchInit.putLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY,
+                        Utils.roundDate(searchParams.getLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY), ConstantValues.DATE_DECODE_TO_24) / 1000);
             }
 
             if (searchParams.containsKey(SearchDialogFragment.COMMENT_KEY)) {
