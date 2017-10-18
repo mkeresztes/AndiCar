@@ -12,6 +12,7 @@ import org.andicar2.activity.R;
 import andicar.n.activity.fragment.TaskEditFragment;
 import andicar.n.persistence.DB;
 import andicar.n.persistence.DBAdapter;
+import andicar.n.utils.Utils;
 import andicar.n.utils.notification.AndiCarNotification;
 
 /**
@@ -36,14 +37,15 @@ public class ToDoNotificationJob extends JobService {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                mDb = new DBAdapter(getApplicationContext());
-                long mToDoID = -1;
-                long mCarID = -1;
-                if (mBundleExtras != null) {
-                    mToDoID = mBundleExtras.getLong(TODO_ID_KEY, -1L);
-                    mCarID = mBundleExtras.getLong(CAR_ID_KEY, -1L);
-                }
-                //@formatter:off
+                try {
+                    mDb = new DBAdapter(getApplicationContext());
+                    long mToDoID = -1;
+                    long mCarID = -1;
+                    if (mBundleExtras != null) {
+                        mToDoID = mBundleExtras.getLong(TODO_ID_KEY, -1L);
+                        mCarID = mBundleExtras.getLong(CAR_ID_KEY, -1L);
+                    }
+                    //@formatter:off
                 String sql =
                 " SELECT * " +
                 " FROM " + DBAdapter.TABLE_NAME_TODO +
@@ -55,13 +57,17 @@ public class ToDoNotificationJob extends JobService {
                     sql = sql + " AND " + DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__CAR_ID) + " = " + mCarID;
                 //@formatter:on
 
-                Cursor toDoCursor = mDb.execSelectSql(sql, null);
-                while (toDoCursor.moveToNext()) {
-                    checkAndNotifyForToDo(toDoCursor);
+                    Cursor toDoCursor = mDb.execSelectSql(sql, null);
+                    while (toDoCursor.moveToNext()) {
+                        checkAndNotifyForToDo(toDoCursor);
 //                        Log.d(LOG_TAG, "onStartCommand: cursor move #" + toDoCursor.getPosition());
+                    }
+                    toDoCursor.close();
+                    mDb.close();
                 }
-                toDoCursor.close();
-                mDb.close();
+                catch (Exception e) {
+                    Utils.showReportableErrorDialog(getApplicationContext(), e.getMessage(), null, e, true);
+                }
             }
         }).start();
 

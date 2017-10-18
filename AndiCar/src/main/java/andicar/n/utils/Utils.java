@@ -572,9 +572,10 @@ public class Utils {
     }
 
     public static void setToDoNextRun(Context ctx) {
-        String LogTag = "AndiCar";
-        Log.d(LogTag, "========== ToDo setNextRun begin ==========");
-        //@formatter:off
+        try {
+            String LogTag = "AndiCar";
+            Log.d(LogTag, "========== ToDo setNextRun begin ==========");
+            //@formatter:off
         String sql =
                 " SELECT * " +
                 " FROM " + DBAdapter.TABLE_NAME_TODO +
@@ -586,15 +587,15 @@ public class Utils {
                 " ORDER BY " +
                         DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__NOTIFICATIONDATE) + " ASC ";
         //@formatter:on
-        long currentSec = System.currentTimeMillis() / 1000;
+            long currentSec = System.currentTimeMillis() / 1000;
 //        String selArgs[] = {Long.toString(currentSec)};
-        DBAdapter db = new DBAdapter(ctx);
+            DBAdapter db = new DBAdapter(ctx);
 //        Cursor c = db.execSelectSql(sql, selArgs);
-        Cursor c = db.execSelectSql(sql, null);
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(ctx));
-        Job fbJob;
-        Bundle jobParams = new Bundle();
-        long notificationDateInSeconds;
+            Cursor c = db.execSelectSql(sql, null);
+            FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(ctx));
+            Job fbJob;
+            Bundle jobParams = new Bundle();
+            long notificationDateInSeconds;
         /*
         if (c.moveToNext()) {
             long notificationDate = c.getLong(DBAdapter.COL_POS_TODO__NOTIFICATIONDATE);
@@ -605,48 +606,53 @@ public class Utils {
             am.set(AlarmManager.RTC_WAKEUP, notificationDate * 1000, pIntent);
         }
          */
-        while (c.moveToNext()) {
-            notificationDateInSeconds = c.getLong(DBAdapter.COL_POS_TODO__NOTIFICATIONDATE);
-            jobParams.putLong(ToDoNotificationJob.TODO_ID_KEY, c.getLong(DBAdapter.COL_POS_GEN_ROWID));
-            jobParams.putLong(ToDoNotificationJob.CAR_ID_KEY, c.getLong(DBAdapter.COL_POS_TODO__CAR_ID));
-            Log.d(LogTag,
+            while (c.moveToNext()) {
+                notificationDateInSeconds = c.getLong(DBAdapter.COL_POS_TODO__NOTIFICATIONDATE);
+                jobParams.putLong(ToDoNotificationJob.TODO_ID_KEY, c.getLong(DBAdapter.COL_POS_GEN_ROWID));
+                jobParams.putLong(ToDoNotificationJob.CAR_ID_KEY, c.getLong(DBAdapter.COL_POS_TODO__CAR_ID));
+                Log.d(LogTag,
 //                    "System.currentTimeMillis(): " + System.currentTimeMillis() + "; " +
-                    "Current date: " + DateFormat.getDateFormat(ctx).format(currentSec * 1000) + " " + DateFormat.getTimeFormat(ctx).format(currentSec * 1000) +
-                            " (currentSec: " + currentSec + "); " +
-                            "Next run for to-do " + c.getString(DBAdapter.COL_POS_GEN_NAME) + " (" + c.getString(DBAdapter.COL_POS_GEN_ROWID) + "): " +
-                            DateFormat.getDateFormat(ctx).format(notificationDateInSeconds * 1000) + " " + DateFormat.getTimeFormat(ctx).format(notificationDateInSeconds * 1000) +
-                            " (notificationDateInSeconds: " + notificationDateInSeconds + "); " +
-                            "Seconds left: " + (notificationDateInSeconds - currentSec));
-            fbJob = dispatcher.newJobBuilder()
-                    // the JobService that will be called
-                    .setService(ToDoNotificationJob.class)
-                    // uniquely identifies the job
-                    .setTag(ToDoNotificationJob.TAG + c.getString(DBAdapter.COL_POS_GEN_ROWID))
-                    // one-off job
-                    .setRecurring(false)
-                    .setLifetime(Lifetime.FOREVER)
-                    // start between 0 and 30 seconds from now
-                    .setTrigger(notificationDateInSeconds - currentSec <= 0 ? Trigger.NOW :
-                            Trigger.executionWindow((int) (notificationDateInSeconds - currentSec), (int) (notificationDateInSeconds - currentSec) + 30))
-                    // overwrite an existing job with the same tag
-                    .setReplaceCurrent(true)
-                    // retry with exponential backoff
-                    .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
-                    .setExtras(jobParams)
-                    .build();
-            dispatcher.mustSchedule(fbJob);
+                        "Current date: " + DateFormat.getDateFormat(ctx).format(currentSec * 1000) + " " + DateFormat.getTimeFormat(ctx).format(currentSec * 1000) +
+                                " (currentSec: " + currentSec + "); " +
+                                "Next run for to-do " + c.getString(DBAdapter.COL_POS_GEN_NAME) + " (" + c.getString(DBAdapter.COL_POS_GEN_ROWID) + "): " +
+                                DateFormat.getDateFormat(ctx).format(notificationDateInSeconds * 1000) + " " + DateFormat.getTimeFormat(ctx).format(notificationDateInSeconds * 1000) +
+                                " (notificationDateInSeconds: " + notificationDateInSeconds + "); " +
+                                "Seconds left: " + (notificationDateInSeconds - currentSec));
+                fbJob = dispatcher.newJobBuilder()
+                        // the JobService that will be called
+                        .setService(ToDoNotificationJob.class)
+                        // uniquely identifies the job
+                        .setTag(ToDoNotificationJob.TAG + c.getString(DBAdapter.COL_POS_GEN_ROWID))
+                        // one-off job
+                        .setRecurring(false)
+                        .setLifetime(Lifetime.FOREVER)
+                        // start between 0 and 30 seconds from now
+                        .setTrigger(notificationDateInSeconds - currentSec <= 0 ? Trigger.NOW :
+                                Trigger.executionWindow((int) (notificationDateInSeconds - currentSec), (int) (notificationDateInSeconds - currentSec) + 30))
+                        // overwrite an existing job with the same tag
+                        .setReplaceCurrent(true)
+                        // retry with exponential backoff
+                        .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
+                        .setExtras(jobParams)
+                        .build();
+                dispatcher.mustSchedule(fbJob);
+            }
+            c.close();
+            db.close();
+            Log.d(LogTag, "========== setNextRun finished ==========");
         }
-        c.close();
-        db.close();
+        catch (Exception e) {
+            AndiCarCrashReporter.sendCrash(e);
+        }
     }
 
     public static void setBackupNextRun(Context ctx, boolean enabled) {
-        File debugLogFile = new File(ConstantValues.LOG_FOLDER + "BackupJobSchedule.log");
         LogFileWriter debugLogFileWriter = null;
-        SharedPreferences preferences = AndiCar.getDefaultSharedPreferences();
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(ctx));
-
         try {
+            File debugLogFile = new File(ConstantValues.LOG_FOLDER + "BackupJobSchedule.log");
+            SharedPreferences preferences = AndiCar.getDefaultSharedPreferences();
+            FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(ctx));
+
             if (FileUtils.isFileSystemAccessGranted(ctx)) {
                 debugLogFileWriter = new LogFileWriter(debugLogFile, false);
             }
@@ -778,6 +784,7 @@ public class Utils {
             }
             catch (Exception ignored) {
             }
+            AndiCarCrashReporter.sendCrash(e);
         }
     }
 

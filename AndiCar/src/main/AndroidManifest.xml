@@ -213,13 +213,6 @@
             android:name="andicar.n.service.GPSTrackService"
             android:enabled="true" />
         <service
-            android:name="andicar.n.service.FBJobService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
-            </intent-filter>
-        </service>
-        <service
             android:name="andicar.n.service.BackupJob"
             android:exported="false">
             <intent-filter>

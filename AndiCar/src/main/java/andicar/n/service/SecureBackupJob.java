@@ -60,6 +60,7 @@ public class SecureBackupJob extends JobService implements OnAsyncTaskListener {
                     debugLogFileWriter.appendnl("no params. Terminating process.");
                     debugLogFileWriter.flush();
                 }
+                jobFinished(jobParams, false);
                 return false;
             }
             //check if secure backup is enabled
@@ -68,6 +69,7 @@ public class SecureBackupJob extends JobService implements OnAsyncTaskListener {
                     debugLogFileWriter.appendnl("SecureBackup not activated. Terminating process.");
                     debugLogFileWriter.flush();
                 }
+                jobFinished(jobParams, false);
                 return false;
             }
 
@@ -79,6 +81,7 @@ public class SecureBackupJob extends JobService implements OnAsyncTaskListener {
                     debugLogFileWriter.appendnl("no Google account chosen. Terminating process.");
                     debugLogFileWriter.flush();
                 }
+                jobFinished(jobParams, false);
                 return false;
             }
             //check if destination email (sendTo) exists
@@ -89,6 +92,7 @@ public class SecureBackupJob extends JobService implements OnAsyncTaskListener {
                     debugLogFileWriter.appendnl("No recipient email. Terminating process.");
                     debugLogFileWriter.flush();
                 }
+                jobFinished(jobParams, false);
                 return false;
             }
 
@@ -114,6 +118,7 @@ public class SecureBackupJob extends JobService implements OnAsyncTaskListener {
                     debugLogFileWriter.flush();
                 }
                 Log.e(LogTag, "Backup file not found (" + bkFileToSend + ")");
+                jobFinished(jobParams, false);
                 return false;
             }
 
@@ -126,6 +131,7 @@ public class SecureBackupJob extends JobService implements OnAsyncTaskListener {
                     debugLogFileWriter.appendnl("Error in creating temporary folder: ").append(errorMessage);
                     debugLogFileWriter.flush();
                 }
+                jobFinished(jobParams, false);
                 return false;
             }
 
@@ -168,6 +174,10 @@ public class SecureBackupJob extends JobService implements OnAsyncTaskListener {
 
                         zippedBk = ConstantValues.TEMP_FOLDER + bkFileName.replace(".db", "") + ".zi_";
                         FileUtils.zipFiles(getApplicationContext(), fileBundle, zippedBk);
+                        if (FileUtils.mLastException != null) {
+                            Utils.showNotReportableErrorDialog(getApplicationContext(), FileUtils.mLastErrorMessage, null, true);
+                            return;
+                        }
                         mFilesToSend.add(zippedBk);
 
                         if (debugLogFileWriter != null) {
@@ -182,7 +192,16 @@ public class SecureBackupJob extends JobService implements OnAsyncTaskListener {
                             debugLogFileWriter.flush();
                         }
                     }
-                    catch (Exception ignored) {
+                    catch (Exception e) {
+                        try {
+                            if (debugLogFileWriter != null) {
+                                debugLogFileWriter.appendnl(e.getMessage());
+                                debugLogFileWriter.appendnl(Utils.getStackTrace(e));
+                                debugLogFileWriter.flush();
+                            }
+                        }
+                        catch (Exception ignored) {
+                        }
                     }
                 }
             }).start();
@@ -233,7 +252,6 @@ public class SecureBackupJob extends JobService implements OnAsyncTaskListener {
                 debugLogFileWriter.appendnl("onTaskCompleted ended");
                 debugLogFileWriter.flush();
             }
-            stopSelf();
         }
         catch (IOException e) {
             AndiCarCrashReporter.sendCrash(e);
@@ -316,7 +334,6 @@ public class SecureBackupJob extends JobService implements OnAsyncTaskListener {
                 debugLogFileWriter.appendnl("onCanceled ended");
                 debugLogFileWriter.flush();
             }
-            stopSelf();
         }
         catch (Exception e1) {
             try {

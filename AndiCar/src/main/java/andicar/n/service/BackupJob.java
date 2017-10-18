@@ -38,6 +38,7 @@ public class BackupJob extends JobService {
                 debugLogFileWriter.appendnl("Starting BackupService");
             }
             else {
+                jobFinished(jobParams, false);
                 return false;
             }
 
@@ -47,6 +48,7 @@ public class BackupJob extends JobService {
                     debugLogFileWriter.flush();
                     debugLogFileWriter.close();
                 }
+                jobFinished(jobParams, false);
                 return false;
             }
         }
@@ -58,6 +60,7 @@ public class BackupJob extends JobService {
             }
             catch (Exception ignored) {
             }
+            jobFinished(jobParams, false);
             return false;
         }
 
@@ -97,7 +100,17 @@ public class BackupJob extends JobService {
                         debugLogFileWriter.close();
                     }
                 }
-                catch (IOException ignored) {
+                catch (IOException e) {
+                    try {
+                        Utils.showNotReportableErrorDialog(getApplicationContext(), e.getMessage(), null, true);
+                        if (debugLogFileWriter != null) {
+                            debugLogFileWriter.appendnl("Backup service terminated");
+                            debugLogFileWriter.flush();
+                            debugLogFileWriter.close();
+                        }
+                    }
+                    catch (Exception ignored) {
+                    }
                 }
             }
         }).start();

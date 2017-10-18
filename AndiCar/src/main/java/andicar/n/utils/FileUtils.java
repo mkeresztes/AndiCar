@@ -167,6 +167,8 @@ public class FileUtils {
         byte[] buf = new byte[1024];
         ZipOutputStream out;
         try {
+            mLastException = null;
+            mLastErrorMessage = null;
             out = new ZipOutputStream(new FileOutputStream(outZipFile));
             Set<String> inputFileNames = inputFiles.keySet();
             String inputFileKey;
@@ -303,7 +305,6 @@ public class FileUtils {
                 if (mPreferences.getBoolean(mResources.getString(R.string.pref_key_secure_backup_enabled), false) && !skipSecureBk) {
                     debugLogFileWriter.appendnl("Secure backup enabled. Calling FirebaseJobDispatcher for SecureBackup");
                     Bundle serviceParams = new Bundle();
-//                    serviceParams.putString(FBJobService.JOB_TYPE_KEY, FBJobService.JOB_TYPE_SECURE_BACKUP);
                     serviceParams.putString(SecureBackupJob.BK_FILE_KEY, bkFile);
 
                     JobStarter.startServicesUsingFBJobDispacher(ctx, JobStarter.SERVICE_STARTER_START_SECURE_BACKUP, serviceParams);

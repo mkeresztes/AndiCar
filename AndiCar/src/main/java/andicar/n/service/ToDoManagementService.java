@@ -72,9 +72,6 @@ public class ToDoManagementService extends Service {
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-//	public void onStart(Intent intent, int startId) {
-//		super.onStart(intent, startId);
-//        super.onStartCommand(intent, flags, startId);
         try {
             if (FileUtils.isFileSystemAccessGranted(getApplicationContext())) {
                 debugLogFileWriter = new LogFileWriter(debugLogFile, false);
@@ -85,23 +82,16 @@ public class ToDoManagementService extends Service {
             if (mBundleExtras != null) {
                 mTaskID = mBundleExtras.getLong(ToDoManagementService.TASK_ID_KEY);
                 mCarID = mBundleExtras.getLong(ToDoNotificationJob.CAR_ID_KEY);
-//                isSetJustNextRun = mBundleExtras.getBoolean(ToDoNotificationJob.SET_JUST_NEXT_RUN_KEY);
             }
             if (debugLogFileWriter != null) {
                 debugLogFileWriter.appendnl("TaskID = " + mTaskID);
                 debugLogFileWriter.appendnl("CarID = " + mCarID);
-//                debugLogFileWriter.appendnl("Is set just next run = " + isSetJustNextRun);
             }
 
-//            if (!isSetJustNextRun) {
-                mDb = new DBAdapter(this);
-                createTaskTodos();
-                mDb.close();
-//            }
+            mDb = new DBAdapter(this);
+            createTaskTodos();
+            mDb.close();
 
-//            Intent i = new Intent(this, ToDoNotificationService.class);
-//            i.putExtra(ToDoNotificationJob.SET_JUST_NEXT_RUN_KEY, isSetJustNextRun);
-//            this.startService(i);
             Utils.setToDoNextRun(this);
 
             if (debugLogFileWriter != null) {
@@ -118,7 +108,6 @@ public class ToDoManagementService extends Service {
             } catch (Exception ignored) {
             }
         }
-//		stopSelf();
         return START_NOT_STICKY;
     }
 
