@@ -144,6 +144,7 @@ public class AndiCar extends MultiDexApplication {
                     e.apply();
                 }
             }
+            Utils.setToDoNextRun(getApplicationContext());
         }
         catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

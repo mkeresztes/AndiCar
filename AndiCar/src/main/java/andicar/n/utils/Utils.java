@@ -581,24 +581,42 @@ public class Utils {
                 " WHERE " +
                         DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_GEN_ISACTIVE) + "='Y' " + " AND " +
                         DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__ISDONE) + "='N' " + " AND " +
-                        DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__NOTIFICATIONDATE) + " IS NOT NULL AND " +
-                        DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__NOTIFICATIONDATE) + " >= ? " +
+                        DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__NOTIFICATIONDATE) + " IS NOT NULL " +
+//                        DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__NOTIFICATIONDATE) + " >= ? " +
                 " ORDER BY " +
                         DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__NOTIFICATIONDATE) + " ASC ";
         //@formatter:on
         long currentSec = System.currentTimeMillis() / 1000;
-        String selArgs[] = {Long.toString(currentSec)};
+//        String selArgs[] = {Long.toString(currentSec)};
         DBAdapter db = new DBAdapter(ctx);
-        Cursor c = db.execSelectSql(sql, selArgs);
+//        Cursor c = db.execSelectSql(sql, selArgs);
+        Cursor c = db.execSelectSql(sql, null);
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(ctx));
         Job fbJob;
         Bundle jobParams = new Bundle();
-        int notificationDateInSeconds;
-        int currrentTimeInSeconds = (int) System.currentTimeMillis() / 1000;
+        long notificationDateInSeconds;
+        /*
+        if (c.moveToNext()) {
+            long notificationDate = c.getLong(DBAdapter.COL_POS_TODO__NOTIFICATIONDATE);
+            Intent i = new Intent(this, ToDoNotificationService.class);
+            i.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, false);
+            PendingIntent pIntent = PendingIntent.getService(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            am.set(AlarmManager.RTC_WAKEUP, notificationDate * 1000, pIntent);
+        }
+         */
         while (c.moveToNext()) {
-            notificationDateInSeconds = (int) c.getLong(DBAdapter.COL_POS_TODO__NOTIFICATIONDATE);
+            notificationDateInSeconds = c.getLong(DBAdapter.COL_POS_TODO__NOTIFICATIONDATE);
             jobParams.putLong(ToDoNotificationJob.TODO_ID_KEY, c.getLong(DBAdapter.COL_POS_GEN_ROWID));
             jobParams.putLong(ToDoNotificationJob.CAR_ID_KEY, c.getLong(DBAdapter.COL_POS_TODO__CAR_ID));
+            Log.d(LogTag,
+//                    "System.currentTimeMillis(): " + System.currentTimeMillis() + "; " +
+                    "Current date: " + DateFormat.getDateFormat(ctx).format(currentSec * 1000) + " " + DateFormat.getTimeFormat(ctx).format(currentSec * 1000) +
+                            " (currentSec: " + currentSec + "); " +
+                            "Next run for to-do " + c.getString(DBAdapter.COL_POS_GEN_NAME) + " (" + c.getString(DBAdapter.COL_POS_GEN_ROWID) + "): " +
+                            DateFormat.getDateFormat(ctx).format(notificationDateInSeconds * 1000) + " " + DateFormat.getTimeFormat(ctx).format(notificationDateInSeconds * 1000) +
+                            " (notificationDateInSeconds: " + notificationDateInSeconds + "); " +
+                            "Seconds left: " + (notificationDateInSeconds - currentSec));
             fbJob = dispatcher.newJobBuilder()
                     // the JobService that will be called
                     .setService(ToDoNotificationJob.class)
@@ -608,7 +626,8 @@ public class Utils {
                     .setRecurring(false)
                     .setLifetime(Lifetime.FOREVER)
                     // start between 0 and 30 seconds from now
-                    .setTrigger(Trigger.executionWindow(notificationDateInSeconds - currrentTimeInSeconds, (notificationDateInSeconds - currrentTimeInSeconds) + 30))
+                    .setTrigger(notificationDateInSeconds - currentSec <= 0 ? Trigger.NOW :
+                            Trigger.executionWindow((int) (notificationDateInSeconds - currentSec), (int) (notificationDateInSeconds - currentSec) + 30))
                     // overwrite an existing job with the same tag
                     .setReplaceCurrent(true)
                     // retry with exponential backoff
@@ -616,9 +635,6 @@ public class Utils {
                     .setExtras(jobParams)
                     .build();
             dispatcher.mustSchedule(fbJob);
-            Log.d(LogTag, "Next run for to-do " + c.getString(DBAdapter.COL_POS_GEN_NAME) + " (" + c.getString(DBAdapter.COL_POS_GEN_ROWID) + "): " +
-                    DateFormat.getDateFormat(ctx).format(notificationDateInSeconds * 1000) + " " + DateFormat.getTimeFormat(ctx).format(notificationDateInSeconds * 1000) +
-                    "; Seconds left: " + (notificationDateInSeconds - currrentTimeInSeconds));
         }
         c.close();
         db.close();
