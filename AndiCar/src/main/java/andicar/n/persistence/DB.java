@@ -227,6 +227,8 @@ public class DB {
     public static final String COL_NAME_BPARTNERLOCATION__FAX = "Fax";
     public static final String COL_NAME_BPARTNERLOCATION__EMAIL = "Email";
     public static final String COL_NAME_BPARTNERLOCATION__CONTACTPERSON = "ContactPerson";
+
+
     public static final String COL_NAME_TASK__TASKTYPE_ID = TABLE_NAME_TASKTYPE + "_ID";
     /**
      * Time|Mileage|Both (StaticValues.TASK_SCHEDULED_FOR_{TIME|MILEAGE|BOTH})
@@ -305,10 +307,12 @@ public class DB {
      * if this to-do is done {Y|N}
      */
     public static final String COL_NAME_TODO__ISDONE = "IsDone";
+
     public static final String COL_NAME_TASK_CAR__TASK_ID = TABLE_NAME_TASK + "_ID";
     public static final String COL_NAME_TASK_CAR__CAR_ID = TABLE_NAME_CAR + "_ID";
     public static final String COL_NAME_TASK_CAR__FIRSTRUN_DATE = "FirstRunDate";
     public static final String COL_NAME_TASK_CAR__FIRSTRUN_MILEAGE = "FirstRunMileage";
+
     public static final String COL_NAME_REIMBURSEMENT_CAR_RATES__CAR_ID = TABLE_NAME_CAR + "_ID";
     public static final String COL_NAME_REIMBURSEMENT_CAR_RATES__EXPENSETYPE_ID = TABLE_NAME_EXPENSE + "_ID";
     public static final String COL_NAME_REIMBURSEMENT_CAR_RATES__RATE = "Rate";
@@ -320,9 +324,11 @@ public class DB {
     public static final String COL_NAME_SECUREBK__ISINCLUDEREPORTS = "IsIncludeReports";
     @SuppressWarnings("WeakerAccess")
     public static final String COL_NAME_SECUREBK__ISSHOWNOTIF = "IsShowNotification";
+
     public static final String COL_NAME_DATATEMPLATE__CLASS = "ForClass";
     public static final String COL_NAME_DATATEMPLATEVALUES__TEMPLATE_ID = TABLE_NAME_DATA_TEMPLATE + "_ID";
     public static final String COL_NAME_DATATEMPLATEVALUES__VALUE = "Value";
+
     public static final String COL_NAME_BTDEVICECAR__MACADDR = "DeviceMACAddress";
     public static final String COL_NAME_BTDEVICECAR__CAR_ID = TABLE_NAME_CAR + "_ID";
     // column positions. Some is general (GEN_) some is particular
@@ -574,9 +580,16 @@ public class DB {
     /**
      * Database creation sql statements
      */
-    private static final String CREATE_SQL_DRIVER_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_DRIVER + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_DRIVER__LICENSE_NO + " TEXT NULL " + ");";
+    //@formatter:off
+    private static final String CREATE_SQL_DRIVER_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_DRIVER +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_DRIVER__LICENSE_NO + " TEXT NULL " +
+                    ");";
 
     private static final String CREATE_SQL_CAR_TABLE =
             "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_CAR +
@@ -594,13 +607,29 @@ public class DB {
                         COL_NAME_CAR__CURRENCY_ID + " INTEGER " +
                     ");";
 
-    private static final String CREATE_SQL_UOM_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_UOM + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_UOM__CODE + " TEXT NOT NULL, " + COL_NAME_UOM__UOMTYPE + " TEXT NOT NULL " + ");";
-    private static final String CREATE_SQL_UOMCONVERSION_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_UOMCONVERSION + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_UOMCONVERSION__UOMFROM_ID + " INTEGER NOT NULL, " + COL_NAME_UOMCONVERSION__UOMTO_ID
-            + " INTEGER NOT NULL, " + COL_NAME_UOMCONVERSION__RATE + " NUMERIC NOT NULL " + ");";
+    private static final String CREATE_SQL_UOM_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_UOM +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_UOM__CODE + " TEXT NOT NULL, " +
+                        COL_NAME_UOM__UOMTYPE + " TEXT NOT NULL " +
+                    ");";
+
+    private static final String CREATE_SQL_UOMCONVERSION_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_UOMCONVERSION +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_UOMCONVERSION__UOMFROM_ID + " INTEGER NOT NULL, " +
+                        COL_NAME_UOMCONVERSION__UOMTO_ID + " INTEGER NOT NULL, " +
+                        COL_NAME_UOMCONVERSION__RATE + " NUMERIC NOT NULL " +
+                    ");";
+
     private static final String CREATE_SQL_EXPENSETYPE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_EXPENSETYPE + " ( " + COL_NAME_GEN_ROWID
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
             + COL_NAME_GEN_USER_COMMENT + " TEXT NULL " + ");";
@@ -713,6 +742,8 @@ public class DB {
             + COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE
             + " TEXT DEFAULT 'Y', " + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_BTDEVICECAR__MACADDR + " TEXT NOT NULL, "
             + COL_NAME_BTDEVICECAR__CAR_ID + " INTEGER NOT NULL " + ");";
+    //@formatter:on
+
     private final Context mCtx;
     public String mErrorMessage = null;
     public Exception mException;
@@ -733,6 +764,10 @@ public class DB {
         }
     }
 
+    public static String sqlConcatTableColumn(String tableName, String columnName) {
+        return tableName + "." + columnName;
+    }
+
     /**
      * Open the notes database. If it cannot be opened, try to create a new
      * instance of the database. If it cannot be created, throw an exception to
@@ -747,10 +782,6 @@ public class DB {
                 mDb = mDbHelper.getWritableDatabase();
             }
         }
-    }
-
-    public static String sqlConcatTableColumn(String tableName, String columnName) {
-        return tableName + "." + columnName;
     }
 
     public void close() {
