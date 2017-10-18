@@ -592,9 +592,11 @@ public class Utils {
         Cursor c = db.execSelectSql(sql, selArgs);
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(ctx));
         Job fbJob;
+        Bundle jobParams = new Bundle();
+        int notificationDateInSeconds;
+        int currrentTimeInSeconds = (int) System.currentTimeMillis() / 1000;
         while (c.moveToNext()) {
-            int notificationDateInSeconds = (int) c.getLong(DBAdapter.COL_POS_TODO__NOTIFICATIONDATE);
-            Bundle jobParams = new Bundle();
+            notificationDateInSeconds = (int) c.getLong(DBAdapter.COL_POS_TODO__NOTIFICATIONDATE);
             jobParams.putLong(ToDoNotificationJob.TODO_ID_KEY, c.getLong(DBAdapter.COL_POS_GEN_ROWID));
             jobParams.putLong(ToDoNotificationJob.CAR_ID_KEY, c.getLong(DBAdapter.COL_POS_TODO__CAR_ID));
             fbJob = dispatcher.newJobBuilder()
@@ -606,7 +608,7 @@ public class Utils {
                     .setRecurring(false)
                     .setLifetime(Lifetime.FOREVER)
                     // start between 0 and 30 seconds from now
-                    .setTrigger(Trigger.executionWindow(notificationDateInSeconds, notificationDateInSeconds + 30))
+                    .setTrigger(Trigger.executionWindow(notificationDateInSeconds - currrentTimeInSeconds, (notificationDateInSeconds - currrentTimeInSeconds) + 30))
                     // overwrite an existing job with the same tag
                     .setReplaceCurrent(true)
                     // retry with exponential backoff
@@ -615,7 +617,8 @@ public class Utils {
                     .build();
             dispatcher.mustSchedule(fbJob);
             Log.d(LogTag, "Next run for to-do " + c.getString(DBAdapter.COL_POS_GEN_NAME) + " (" + c.getString(DBAdapter.COL_POS_GEN_ROWID) + "): " +
-                    DateFormat.getDateFormat(ctx).format(notificationDateInSeconds) + " " + DateFormat.getTimeFormat(ctx).format(notificationDateInSeconds));
+                    DateFormat.getDateFormat(ctx).format(notificationDateInSeconds * 1000) + " " + DateFormat.getTimeFormat(ctx).format(notificationDateInSeconds * 1000) +
+                    "; Seconds left: " + (notificationDateInSeconds - currrentTimeInSeconds));
         }
         c.close();
         db.close();
