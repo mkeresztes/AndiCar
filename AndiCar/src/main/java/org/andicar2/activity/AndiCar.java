@@ -23,6 +23,7 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.multidex.MultiDexApplication;
@@ -35,6 +36,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
+import andicar.n.persistence.DBAdapter;
+import andicar.n.utils.AndiCarCrashReporter;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
 import andicar.n.utils.Utils;
@@ -102,43 +105,8 @@ public class AndiCar extends MultiDexApplication {
                 e.apply();
             } else {
                 if (oldAppVersion != appVersion) {
-                    //version upgrade
+                    updateApp(oldAppVersion);
                     SharedPreferences.Editor e = appPreferences.edit();
-                    if (oldAppVersion <= 17092000) {
-                        //migrate the main screen zones
-                        e.putString(getString(R.string.pref_key_main_zone10_content), appPreferences.getString(getString(R.string.pref_key_main_zone8_content), "LGT"));
-                        e.putString(getString(R.string.pref_key_main_zone9_content), appPreferences.getString(getString(R.string.pref_key_main_zone7_content), "CEX"));
-                        e.putString(getString(R.string.pref_key_main_zone8_content), appPreferences.getString(getString(R.string.pref_key_main_zone6_content), "LEX"));
-                        e.putString(getString(R.string.pref_key_main_zone7_content), appPreferences.getString(getString(R.string.pref_key_main_zone5_content), "CFV"));
-                        e.putString(getString(R.string.pref_key_main_zone6_content), appPreferences.getString(getString(R.string.pref_key_main_zone4_content), "CFQ"));
-                        e.putString(getString(R.string.pref_key_main_zone5_content), appPreferences.getString(getString(R.string.pref_key_main_zone3_content), "LFU"));
-                        e.putString(getString(R.string.pref_key_main_zone4_content), appPreferences.getString(getString(R.string.pref_key_main_zone2_content), "CTR"));
-                        e.putString(getString(R.string.pref_key_main_zone3_content), appPreferences.getString(getString(R.string.pref_key_main_zone1_content), "LTR"));
-                        e.remove(getString(R.string.pref_key_main_zone2_content)); //this will be initialized in the main screen, based on current car volume uom (Fuel Eff or Fuel Cons)
-                        e.putString(getString(R.string.pref_key_main_zone1_content), "STS");
-
-                        //delete the old log files
-                        try {
-                            FileUtils.cleanDirectory(new File(ConstantValues.LOG_FOLDER));
-                        }
-                        catch (IOException ignored) {
-                        }
-                    }
-                    if (oldAppVersion <= 17100500) {
-                        //correct the location of the files (log, gpstracks, etc.) if the internal storage is used
-                        File oldInternalLocation = new File(getApplicationContext().getApplicationInfo().dataDir + "/andicar");
-                        File newInternalLocation = getApplicationContext().getFilesDir();
-                        if (oldInternalLocation.exists() && ConstantValues.BASE_FOLDER.equals(newInternalLocation.getAbsolutePath())) {
-                            try {
-                                FileUtils.copyDirectory(getApplicationContext(), oldInternalLocation, newInternalLocation, false);
-                            }
-                            catch (IOException ignored) {
-                            }
-                        }
-                    }
-
-                    //replaced by android.intent.action.MY_PACKAGE_REPLACED => ServiceStarter
-//                    ServiceStarter.startServicesUsingFBJobDispacher(getApplicationContext(), ConstantValues.SERVICE_STARTER_START_ALL);
                     e.putInt("appVersionCode", appVersion);
                     e.putBoolean(getString(R.string.pref_key_show_whats_new_dialog), true);
                     e.apply();
@@ -151,6 +119,154 @@ public class AndiCar extends MultiDexApplication {
             e.printStackTrace();
         }
 
+    }
+
+    private void updateApp(int oldAppVersion) {
+
+        SharedPreferences.Editor e = appPreferences.edit();
+        //version upgrade
+        if (oldAppVersion <= 17092000) {
+            //migrate the main screen zones
+            e.putString(getString(R.string.pref_key_main_zone10_content), appPreferences.getString(getString(R.string.pref_key_main_zone8_content), "LGT"));
+            e.putString(getString(R.string.pref_key_main_zone9_content), appPreferences.getString(getString(R.string.pref_key_main_zone7_content), "CEX"));
+            e.putString(getString(R.string.pref_key_main_zone8_content), appPreferences.getString(getString(R.string.pref_key_main_zone6_content), "LEX"));
+            e.putString(getString(R.string.pref_key_main_zone7_content), appPreferences.getString(getString(R.string.pref_key_main_zone5_content), "CFV"));
+            e.putString(getString(R.string.pref_key_main_zone6_content), appPreferences.getString(getString(R.string.pref_key_main_zone4_content), "CFQ"));
+            e.putString(getString(R.string.pref_key_main_zone5_content), appPreferences.getString(getString(R.string.pref_key_main_zone3_content), "LFU"));
+            e.putString(getString(R.string.pref_key_main_zone4_content), appPreferences.getString(getString(R.string.pref_key_main_zone2_content), "CTR"));
+            e.putString(getString(R.string.pref_key_main_zone3_content), appPreferences.getString(getString(R.string.pref_key_main_zone1_content), "LTR"));
+            e.remove(getString(R.string.pref_key_main_zone2_content)); //this will be initialized in the main screen, based on current car volume uom (Fuel Eff or Fuel Cons)
+            e.putString(getString(R.string.pref_key_main_zone1_content), "STS");
+
+            //delete the old log files
+            try {
+                FileUtils.cleanDirectory(new File(ConstantValues.LOG_FOLDER));
+            }
+            catch (IOException ignored) {
+            }
+        }
+        if (oldAppVersion <= 17100500) {
+            //correct the location of the files (log, gpstracks, etc.) if the internal storage is used
+            File oldInternalLocation = new File(getApplicationContext().getApplicationInfo().dataDir + "/andicar");
+            File newInternalLocation = getApplicationContext().getFilesDir();
+            if (oldInternalLocation.exists() && ConstantValues.BASE_FOLDER.equals(newInternalLocation.getAbsolutePath())) {
+                try {
+                    FileUtils.copyDirectory(getApplicationContext(), oldInternalLocation, newInternalLocation, false);
+                }
+                catch (IOException ignored) {
+                }
+            }
+        }
+
+        if (oldAppVersion <= 17101200) {
+            try {
+                Log.d("AndiCar", "========== Fixing Duplicate Entries =========");
+                //fix duplicate tags with same name
+                DBAdapter db = new DBAdapter(getApplicationContext());
+                FileUtils.backupDb(getApplicationContext(), db.getDatabase().getPath(), "sbku_", true);
+                String sql = "select max(_id), name, count(*) from def_tag group by name having count(*) > 1";
+                Cursor c = db.execSelectSql(sql, null);
+                long id;
+                String name;
+                while (c.moveToNext()) {
+                    id = c.getLong(0);
+                    name = c.getString(1);
+
+                    sql = "update " + DBAdapter.TABLE_NAME_MILEAGE +
+                            " set " + DBAdapter.COL_NAME_MILEAGE__TAG_ID + " = " + id +
+                            " where " + DBAdapter.COL_NAME_MILEAGE__TAG_ID + " in (select _id from def_tag where name = '" + name + "')";
+                    db.execUpdate(sql);
+
+                    sql = "update " + DBAdapter.TABLE_NAME_REFUEL +
+                            " set " + DBAdapter.COL_NAME_REFUEL__TAG_ID + " = " + id +
+                            " where " + DBAdapter.COL_NAME_REFUEL__TAG_ID + " in (select _id from def_tag where name = '" + name + "')";
+                    db.execUpdate(sql);
+
+                    sql = "update " + DBAdapter.TABLE_NAME_EXPENSE +
+                            " set " + DBAdapter.COL_NAME_EXPENSE__TAG_ID + " = " + id +
+                            " where " + DBAdapter.COL_NAME_EXPENSE__TAG_ID + " in (select _id from def_tag where name = '" + name + "')";
+                    db.execUpdate(sql);
+
+                    sql = "update " + DBAdapter.TABLE_NAME_GPSTRACK +
+                            " set " + DBAdapter.COL_NAME_GPSTRACK__TAG_ID + " = " + id +
+                            " where " + DBAdapter.COL_NAME_GPSTRACK__TAG_ID + " in (select _id from def_tag where name = '" + name + "')";
+                    db.execUpdate(sql);
+
+                    //delete duplicate tags
+                    sql = "delete from " + DBAdapter.TABLE_NAME_TAG +
+                            " where " + DBAdapter.COL_NAME_GEN_NAME + " = '" + name + "' " +
+                            " AND " + DBAdapter.COL_NAME_GEN_ROWID + " <> " + id;
+                    db.execUpdate(sql);
+                }
+                c.close();
+
+                //fix duplicat bpartners
+                sql = "select max(_id), name, count(*) from DEF_BPARTNER group by name having count(*) > 1";
+                c = db.execSelectSql(sql, null);
+                while (c.moveToNext()) {
+                    id = c.getLong(0);
+                    name = c.getString(1);
+
+                    sql = "update " + DBAdapter.TABLE_NAME_REFUEL +
+                            " set " + DBAdapter.COL_NAME_REFUEL__BPARTNER_ID + " = " + id +
+                            " where " + DBAdapter.COL_NAME_REFUEL__BPARTNER_ID + " in (select _id from DEF_BPARTNER where name = '" + name + "')";
+                    db.execUpdate(sql);
+
+                    sql = "update " + DBAdapter.TABLE_NAME_EXPENSE +
+                            " set " + DBAdapter.COL_NAME_EXPENSE__BPARTNER_ID + " = " + id +
+                            " where " + DBAdapter.COL_NAME_EXPENSE__BPARTNER_ID + " in (select _id from DEF_BPARTNER where name = '" + name + "')";
+                    db.execUpdate(sql);
+
+                    sql = "update " + DBAdapter.TABLE_NAME_BPARTNERLOCATION +
+                            " set " + DBAdapter.COL_NAME_BPARTNERLOCATION__BPARTNER_ID + " = " + id +
+                            " where " + DBAdapter.COL_NAME_BPARTNERLOCATION__BPARTNER_ID + " in (select _id from DEF_BPARTNER where name = '" + name + "')";
+                    db.execUpdate(sql);
+
+                    //deactivate duplicate entries
+                    sql = "update " + DBAdapter.TABLE_NAME_BPARTNER +
+                            " set " + DBAdapter.COL_NAME_GEN_ISACTIVE + " = 'N' " +
+                            " where " + DBAdapter.COL_NAME_GEN_NAME + " = '" + name + "' " +
+                            " AND " + DBAdapter.COL_NAME_GEN_ROWID + " <> " + id;
+                    db.execUpdate(sql);
+                }
+
+                //fix duplicat bpartner locations
+                sql = "select max(_id), name, DEF_BPARTNER_ID, count(*) from DEF_BPARTNERLOCATION group by name, DEF_BPARTNER_ID having count(*) > 1";
+                c = db.execSelectSql(sql, null);
+                long bpID;
+                while (c.moveToNext()) {
+                    id = c.getLong(0);
+                    name = c.getString(1);
+                    bpID = c.getLong(2);
+
+                    sql = "update " + DBAdapter.TABLE_NAME_REFUEL +
+                            " set " + DBAdapter.COL_NAME_REFUEL__BPARTNER_LOCATION_ID + " = " + id +
+                            " where " + DBAdapter.COL_NAME_REFUEL__BPARTNER_LOCATION_ID + " in " +
+                            " (select _id from DEF_BPARTNERLOCATION where name = '" + name + "' AND DEF_BPARTNER_ID = " + bpID + ")";
+                    db.execUpdate(sql);
+
+                    sql = "update " + DBAdapter.TABLE_NAME_EXPENSE +
+                            " set " + DBAdapter.COL_NAME_EXPENSE__BPARTNER_LOCATION_ID + " = " + id +
+                            " where " + DBAdapter.COL_NAME_EXPENSE__BPARTNER_LOCATION_ID + " in " +
+                            " (select _id from DEF_BPARTNERLOCATION where name = '" + name + "' AND DEF_BPARTNER_ID = " + bpID + ")";
+                    db.execUpdate(sql);
+
+                    //deactivate duplicate entries
+                    sql = "update " + DBAdapter.TABLE_NAME_BPARTNERLOCATION +
+                            " set " + DBAdapter.COL_NAME_GEN_ISACTIVE + " = 'N' " +
+                            " where " + DBAdapter.COL_NAME_GEN_NAME + " = '" + name + "' " +
+                            " AND " + DBAdapter.COL_NAME_BPARTNERLOCATION__BPARTNER_ID + " == " + bpID +
+                            " AND " + DBAdapter.COL_NAME_GEN_ROWID + " <> " + id;
+                    db.execUpdate(sql);
+                }
+                db.close();
+            }
+            catch (Exception ex) {
+                AndiCarCrashReporter.sendCrash(ex);
+            }
+        }
+
+        e.apply();
     }
 
     @SuppressLint("WrongConstant")

@@ -292,6 +292,10 @@ public class DBAdapter extends DB {
         return mDb.rawQuery(selectSql, selectionArgs);
     }
 
+    public void execUpdate(String sql){
+        mDb.execSQL(sql);
+    }
+
     /**
      * Return a Cursor positioned at the record that matches the given rowId
      * from the given table

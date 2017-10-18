@@ -567,8 +567,8 @@ public class RefuelEditFragment extends BaseEditFragment {
         }
 
         if (acBPartner.getText().toString().length() > 0) {
-            String selection = "UPPER (" + DBAdapter.COL_NAME_GEN_NAME + ") = ?";
-            String[] selectionArgs = {acBPartner.getText().toString().toUpperCase()};
+            String selection = "UPPER (" + DBAdapter.COL_NAME_GEN_NAME + ") = UPPER( ? ) ";
+            String[] selectionArgs = {acBPartner.getText().toString()};
             Cursor c = mDbAdapter.query(DBAdapter.TABLE_NAME_BPARTNER, DBAdapter.COL_LIST_GEN_ROWID_NAME, selection, selectionArgs, null);
             String bPartnerIdStr = null;
             if (c.moveToFirst()) {
@@ -589,9 +589,9 @@ public class RefuelEditFragment extends BaseEditFragment {
             }
 
             if (acAddress.getText().toString().length() > 0) {
-                selection = "UPPER (" + DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS + ") = ? AND " + DBAdapter.COL_NAME_BPARTNERLOCATION__BPARTNER_ID
+                selection = "UPPER (" + DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS + ") = UPPER( ? ) AND " + DBAdapter.COL_NAME_BPARTNERLOCATION__BPARTNER_ID
                         + " = ?";
-                String[] selectionArgs2 = {acAddress.getText().toString().toUpperCase(), Long.toString(mBPartnerId)};
+                String[] selectionArgs2 = {acAddress.getText().toString(), Long.toString(mBPartnerId)};
                 c = mDbAdapter.query(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_LIST_GEN_ROWID_NAME, selection, selectionArgs2,
                         null);
                 String addressIdStr = null;
@@ -623,8 +623,8 @@ public class RefuelEditFragment extends BaseEditFragment {
         }
 
         if (acTag.getText().toString().length() > 0) {
-            String selection = "UPPER (" + DBAdapter.COL_NAME_GEN_NAME + ") = ?";
-            String[] selectionArgs = {acTag.getText().toString().toUpperCase()};
+            String selection = "UPPER (" + DBAdapter.COL_NAME_GEN_NAME + ") = UPPER( ? )";
+            String[] selectionArgs = {acTag.getText().toString()};
             Cursor c = mDbAdapter.query(DBAdapter.TABLE_NAME_TAG, DBAdapter.COL_LIST_GEN_ROWID_NAME, selection, selectionArgs, null);
             String tagIdStr = null;
             if (c.moveToFirst()) {
