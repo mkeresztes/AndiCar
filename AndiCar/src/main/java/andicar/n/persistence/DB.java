@@ -227,6 +227,8 @@ public class DB {
     public static final String COL_NAME_BPARTNERLOCATION__FAX = "Fax";
     public static final String COL_NAME_BPARTNERLOCATION__EMAIL = "Email";
     public static final String COL_NAME_BPARTNERLOCATION__CONTACTPERSON = "ContactPerson";
+
+
     public static final String COL_NAME_TASK__TASKTYPE_ID = TABLE_NAME_TASKTYPE + "_ID";
     /**
      * Time|Mileage|Both (StaticValues.TASK_SCHEDULED_FOR_{TIME|MILEAGE|BOTH})
@@ -305,10 +307,12 @@ public class DB {
      * if this to-do is done {Y|N}
      */
     public static final String COL_NAME_TODO__ISDONE = "IsDone";
+
     public static final String COL_NAME_TASK_CAR__TASK_ID = TABLE_NAME_TASK + "_ID";
     public static final String COL_NAME_TASK_CAR__CAR_ID = TABLE_NAME_CAR + "_ID";
     public static final String COL_NAME_TASK_CAR__FIRSTRUN_DATE = "FirstRunDate";
     public static final String COL_NAME_TASK_CAR__FIRSTRUN_MILEAGE = "FirstRunMileage";
+
     public static final String COL_NAME_REIMBURSEMENT_CAR_RATES__CAR_ID = TABLE_NAME_CAR + "_ID";
     public static final String COL_NAME_REIMBURSEMENT_CAR_RATES__EXPENSETYPE_ID = TABLE_NAME_EXPENSE + "_ID";
     public static final String COL_NAME_REIMBURSEMENT_CAR_RATES__RATE = "Rate";
@@ -320,9 +324,11 @@ public class DB {
     public static final String COL_NAME_SECUREBK__ISINCLUDEREPORTS = "IsIncludeReports";
     @SuppressWarnings("WeakerAccess")
     public static final String COL_NAME_SECUREBK__ISSHOWNOTIF = "IsShowNotification";
+
     public static final String COL_NAME_DATATEMPLATE__CLASS = "ForClass";
     public static final String COL_NAME_DATATEMPLATEVALUES__TEMPLATE_ID = TABLE_NAME_DATA_TEMPLATE + "_ID";
     public static final String COL_NAME_DATATEMPLATEVALUES__VALUE = "Value";
+
     public static final String COL_NAME_BTDEVICECAR__MACADDR = "DeviceMACAddress";
     public static final String COL_NAME_BTDEVICECAR__CAR_ID = TABLE_NAME_CAR + "_ID";
     // column positions. Some is general (GEN_) some is particular
@@ -574,9 +580,16 @@ public class DB {
     /**
      * Database creation sql statements
      */
-    private static final String CREATE_SQL_DRIVER_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_DRIVER + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_DRIVER__LICENSE_NO + " TEXT NULL " + ");";
+    //@formatter:off
+    private static final String CREATE_SQL_DRIVER_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_DRIVER +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_DRIVER__LICENSE_NO + " TEXT NULL " +
+                    ");";
 
     private static final String CREATE_SQL_CAR_TABLE =
             "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_CAR +
@@ -594,125 +607,352 @@ public class DB {
                         COL_NAME_CAR__CURRENCY_ID + " INTEGER " +
                     ");";
 
-    private static final String CREATE_SQL_UOM_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_UOM + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_UOM__CODE + " TEXT NOT NULL, " + COL_NAME_UOM__UOMTYPE + " TEXT NOT NULL " + ");";
-    private static final String CREATE_SQL_UOMCONVERSION_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_UOMCONVERSION + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_UOMCONVERSION__UOMFROM_ID + " INTEGER NOT NULL, " + COL_NAME_UOMCONVERSION__UOMTO_ID
-            + " INTEGER NOT NULL, " + COL_NAME_UOMCONVERSION__RATE + " NUMERIC NOT NULL " + ");";
-    private static final String CREATE_SQL_EXPENSETYPE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_EXPENSETYPE + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL " + ");";
-    private static final String CREATE_SQL_MILEAGE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_MILEAGE + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_MILEAGE__DATE + " DATE NOT NULL, " + COL_NAME_MILEAGE__CAR_ID + " INTEGER NOT NULL, "
-            + COL_NAME_MILEAGE__DRIVER_ID + " INTEGER NOT NULL, " + COL_NAME_MILEAGE__INDEXSTART + " NUMERIC NOT NULL, " + COL_NAME_MILEAGE__INDEXSTOP
-            + " NUMERIC NULL, " + COL_NAME_MILEAGE__UOMLENGTH_ID + " INTEGER NOT NULL, " + COL_NAME_MILEAGE__EXPENSETYPE_ID + " INTEGER NOT NULL, "
-            + COL_NAME_MILEAGE__GPSTRACKLOG + " TEXT NULL, " + COL_NAME_MILEAGE__TAG_ID + " INTEGER NULL, " + COL_NAME_MILEAGE__DATE_TO + " DATE NULL " + ");";
-    private static final String CREATE_SQL_CURRENCY_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_CURRENCY + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_CURRENCY__CODE + " TEXT NOT NULL " + ");";
-    private static final String CREATE_SQL_REFUEL_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_REFUEL + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_REFUEL__CAR_ID + " INTEGER, " + COL_NAME_REFUEL__DRIVER_ID + " INTEGER, "
-            + COL_NAME_REFUEL__EXPENSETYPE_ID + " INTEGER, " + COL_NAME_REFUEL__INDEX + " NUMERIC, " + COL_NAME_REFUEL__QUANTITY + " NUMERIC, "
-            + COL_NAME_REFUEL__UOMVOLUME_ID + " INTEGER, " + COL_NAME_REFUEL__PRICE + " NUMERIC, " + COL_NAME_REFUEL__CURRENCY_ID + " INTEGER, "
-            + COL_NAME_REFUEL__DATE + " DATE NULL, " + COL_NAME_REFUEL__DOCUMENTNO + " TEXT NULL, " + COL_NAME_REFUEL__EXPENSECATEGORY_ID + " INTEGER, "
-            + COL_NAME_REFUEL__ISFULLREFUEL + " TEXT DEFAULT 'N', " + COL_NAME_REFUEL__QUANTITYENTERED + " NUMERIC NULL, "
-            + COL_NAME_REFUEL__UOMVOLUMEENTERED_ID + " INTEGER NULL, " + COL_NAME_REFUEL__PRICEENTERED + " NUMERIC NULL, "
-            + COL_NAME_REFUEL__CURRENCYENTERED_ID + " INTEGER NULL, " + COL_NAME_REFUEL__CURRENCYRATE + " NUMERIC NULL, "
-            + COL_NAME_REFUEL__UOMVOLCONVERSIONRATE + " NUMERIC NULL, " + COL_NAME_REFUEL__AMOUNT + " NUMERIC NULL, " + COL_NAME_REFUEL__AMOUNTENTERED
-            + " NUMERIC NULL, " + COL_NAME_REFUEL__BPARTNER_ID + " INTEGER NULL, " + COL_NAME_REFUEL__BPARTNER_LOCATION_ID + " INTEGER NULL, "
-            + COL_NAME_REFUEL__TAG_ID + " INTEGER NULL " + ");";
-    private static final String CREATE_SQL_EXPENSECATEGORY_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_EXPENSECATEGORY + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_EXPENSECATEGORY__ISEXCLUDEFROMMILEAGECOST + " TEXT DEFAULT 'N', "
-            + COL_NAME_EXPENSECATEGORY__ISFUEL + " TEXT DEFAULT 'N' " + ");";
-    private static final String CREATE_SQL_EXPENSE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_EXPENSE + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_EXPENSE__CAR_ID + " INTEGER, " + COL_NAME_EXPENSE__DRIVER_ID + " INTEGER, "
-            + COL_NAME_EXPENSE__EXPENSECATEGORY_ID + " INTEGER, " + COL_NAME_EXPENSE__EXPENSETYPE_ID + " INTEGER, " + COL_NAME_EXPENSE__AMOUNT + " NUMERIC, "
-            + COL_NAME_EXPENSE__CURRENCY_ID + " INTEGER, " + COL_NAME_EXPENSE__DATE + " DATE NULL, " + COL_NAME_EXPENSE__DOCUMENTNO + " TEXT NULL, "
-            + COL_NAME_EXPENSE__INDEX + " NUMERIC, " + COL_NAME_EXPENSE__FROMTABLE + " TEXT NULL, " + COL_NAME_EXPENSE__FROMRECORD_ID + " INTEGER, "
-            + COL_NAME_EXPENSE__AMOUNTENTERED + " NUMERIC NULL, " + COL_NAME_EXPENSE__CURRENCYENTERED_ID + " INTEGER NULL, " + COL_NAME_EXPENSE__CURRENCYRATE
-            + " NUMERIC NULL, " + COL_NAME_EXPENSE__QUANTITY + " NUMERIC NULL, " + COL_NAME_EXPENSE__PRICE + " NUMERIC NULL, " + COL_NAME_EXPENSE__PRICEENTERED
-            + " NUMERIC NULL, " + COL_NAME_EXPENSE__UOM_ID + " INTEGER NULL, " + COL_NAME_EXPENSE__BPARTNER_ID + " INTEGER NULL, "
-            + COL_NAME_EXPENSE__BPARTNER_LOCATION_ID + " INTEGER NULL, " + COL_NAME_EXPENSE__TAG_ID + " INTEGER NULL " + ");";
-    private static final String CREATE_SQL_CURRENCYRATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_CURRENCYRATE + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_CURRENCYRATE__FROMCURRENCY_ID + " INTEGER, " + COL_NAME_CURRENCYRATE__TOCURRENCY_ID
-            + " INTEGER, " + COL_NAME_CURRENCYRATE__RATE + " NUMERIC, " + COL_NAME_CURRENCYRATE__INVERSERATE + " NUMERIC " + ");";
-    private static final String CREATE_SQL_GPSTRACK_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_GPSTRACK + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_GPSTRACK__CAR_ID + " INTEGER NULL, " + COL_NAME_GPSTRACK__DRIVER_ID + " INTEGER NULL, "
-            + COL_NAME_GPSTRACK__MILEAGE_ID + " INTEGER NULL, " + COL_NAME_GPSTRACK__DATE + " DATE NULL, " + COL_NAME_GPSTRACK__MINACCURACY + " NUMERIC NULL, "
-            + COL_NAME_GPSTRACK__AVGACCURACY + " NUMERIC NULL, " + COL_NAME_GPSTRACK__MAXACCURACY + " NUMERIC NULL, " + COL_NAME_GPSTRACK__MINALTITUDE
-            + " NUMERIC NULL, " + COL_NAME_GPSTRACK__MAXALTITUDE + " NUMERIC NULL, " + COL_NAME_GPSTRACK__TOTALTIME + " NUMERIC NULL, "
-            + COL_NAME_GPSTRACK__MOVINGTIME + " NUMERIC NULL, " + COL_NAME_GPSTRACK__DISTANCE + " NUMERIC NULL, " + COL_NAME_GPSTRACK__MAXSPEED
-            + " NUMERIC NULL, " + COL_NAME_GPSTRACK__AVGSPEED + " NUMERIC NULL, " + COL_NAME_GPSTRACK__AVGMOVINGSPEED + " NUMERIC NULL, "
-            + COL_NAME_GPSTRACK__TOTALTRACKPOINTS + " INTEGER NULL, " + COL_NAME_GPSTRACK__INVALIDTRACKPOINTS + " INTEGER NULL, " + COL_NAME_GPSTRACK__TAG_ID
-            + " INTEGER NULL, " + COL_NAME_GPSTRACK__TOTALPAUSETIME + " INTEGER NULL, " + COL_NAME_GPSTRACK__EXPENSETYPE_ID + " INTEGER NULL);";
-    private static final String CREATE_SQL_GPSTRACKDETAIL_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_GPSTRACKDETAIL + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID + " INTEGER NOT NULL, " + COL_NAME_GPSTRACKDETAIL__FILE
-            + " TEXT NULL, " + COL_NAME_GPSTRACKDETAIL__FILEFORMAT + " TEXT NULL " + ");";
-    private static final String CREATE_SQL_BPARTNER_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_BPARTNER + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL " + ");";
-    private static final String CREATE_SQL_BPARTNERLOCATION_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_BPARTNERLOCATION + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_BPARTNERLOCATION__BPARTNER_ID + " INTEGER NOT NULL, " + COL_NAME_BPARTNERLOCATION__ADDRESS
-            + " TEXT NULL, " + COL_NAME_BPARTNERLOCATION__POSTAL + " TEXT NULL, " + COL_NAME_BPARTNERLOCATION__CITY + " TEXT NULL, "
-            + COL_NAME_BPARTNERLOCATION__REGION + " TEXT NULL, " + COL_NAME_BPARTNERLOCATION__COUNTRY + " TEXT NULL, " + COL_NAME_BPARTNERLOCATION__PHONE
-            + " TEXT NULL, " + COL_NAME_BPARTNERLOCATION__PHONE2 + " TEXT NULL, " + COL_NAME_BPARTNERLOCATION__FAX + " TEXT NULL, "
-            + COL_NAME_BPARTNERLOCATION__EMAIL + " TEXT NULL, " + COL_NAME_BPARTNERLOCATION__CONTACTPERSON + " TEXT NULL " + ");";
-    private static final String CREATE_SQL_TAG_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_TAG + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL " + ");";
-    private static final String CREATE_SQL_TASKTYPE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_TASKTYPE + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL " + ");";
-    private static final String CREATE_SQL_TASK_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_TASK + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_TASK__TASKTYPE_ID + " INTEGER NOT NULL, " + COL_NAME_TASK__SCHEDULEDFOR + " TEXT NULL, "
-            + COL_NAME_TASK__ISRECURRENT + " TEXT NOT NULL, " + COL_NAME_TASK__ISDIFFERENTSTARTINGTIME + " TEXT NULL, " + COL_NAME_TASK__TIMEFREQUENCY
-            + " INTEGER NULL, " + COL_NAME_TASK__TIMEFREQUENCYTYPE + " INTEGER NULL, " + COL_NAME_TASK__STARTINGTIME + " DATE NULL, "
-            + COL_NAME_TASK__TIMEREMINDERSTART + " INTEGER NULL, " + COL_NAME_TASK__RUNMILEAGE + " INTEGER NULL, " + COL_NAME_TASK__MILEAGEREMINDERSTART
-            + " INTEGER NULL, " + COL_NAME_TASK__TODOCOUNT + " INTEGER NOT NULL, " + " FOREIGN KEY(" + COL_NAME_TASK__TASKTYPE_ID + ") REFERENCES "
-            + TABLE_NAME_TASKTYPE + "(" + COL_NAME_GEN_ROWID + ")" + ");";
-    private static final String CREATE_SQL_TASK_CAR_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_TASK_CAR + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_TASK_CAR__TASK_ID + " INTEGER NOT NULL, " + COL_NAME_TASK_CAR__CAR_ID
-            + " INTEGER NOT NULL, " + COL_NAME_TASK_CAR__FIRSTRUN_DATE + " DATE NULL, " + COL_NAME_TASK_CAR__FIRSTRUN_MILEAGE + " INTEGER NULL " + ");";
-    private static final String CREATE_SQL_TODO_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_TODO + " ( " + COL_NAME_GEN_ROWID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', "
-            + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_TODO__TASK_ID + " INTEGER NOT NULL, " + COL_NAME_TODO__CAR_ID + " INTEGER NULL, "
-            + COL_NAME_TODO__DUEDATE + " DATE NULL, " + COL_NAME_TODO__DUEMILEAGE + " INTEGER NULL, " + COL_NAME_TODO__NOTIFICATIONDATE + " DATE NULL, "
-            + COL_NAME_TODO__NOTIFICATIONMILEAGE + " INTEGER NULL, " + COL_NAME_TODO__ISDONE + " TEXT DEFAULT 'N', " + COL_NAME_TODO__DONEDATE + " DATE NULL, "
-            + COL_NAME_TODO__ISSTOPNOTIFICATION + " TEXT DEFAULT 'N' " + ");";
-    private static final String CREATE_SQL_REIMBURSEMENT_CAR_RATES_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_REIMBURSEMENT_CAR_RATES + " ( "
-            + COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE
-            + " TEXT DEFAULT 'Y', " + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_REIMBURSEMENT_CAR_RATES__CAR_ID + " INTEGER NOT NULL, "
-            + COL_NAME_REIMBURSEMENT_CAR_RATES__EXPENSETYPE_ID + " INTEGER NOT NULL, " + COL_NAME_REIMBURSEMENT_CAR_RATES__RATE
-            + " NUMBER NOT NULL DEFAULT 0, " + COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDFROM + " DATE NOT NULL, " + COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDTO
-            + " DATE NOT NULL " + ");";
-    private static final String CREATE_SQL_SECUREBK_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_SECURE_BK_SETTINGS + " ( "
-            + COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE
-            + " TEXT DEFAULT 'Y', " + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_SECUREBK__ISINCLUDEGPS
-            + " TEXT NOT NULL DEFAULT 'N', " + COL_NAME_SECUREBK__ISINCLUDEREPORTS + " TEXT NOT NULL DEFAULT 'N', "
-            + COL_NAME_SECUREBK__ISSHOWNOTIF + " TEXT NOT NULL DEFAULT 'Y'" + ");";
-    private static final String CREATE_SQL_DATATEMPLATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_DATA_TEMPLATE + " ( "
-            + COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE
-            + " TEXT DEFAULT 'Y', " + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_DATATEMPLATE__CLASS + " TEXT NOT NULL" + ");";
-    private static final String CREATE_SQL_DATATEMPLATEVALUES_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_DATA_TEMPLATE_VALUES + " ( "
-            + COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE
-            + " TEXT DEFAULT 'Y', " + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_DATATEMPLATEVALUES__TEMPLATE_ID + " INTEGER NOT NULL, "
-            + COL_NAME_DATATEMPLATEVALUES__VALUE + " TEXT NULL" + ");";
-    private static final String CREATE_SQL_BTDEVICECAR_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_BTDEVICE_CAR + " ( "
-            + COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_NAME_GEN_NAME + " TEXT NOT NULL, " + COL_NAME_GEN_ISACTIVE
-            + " TEXT DEFAULT 'Y', " + COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " + COL_NAME_BTDEVICECAR__MACADDR + " TEXT NOT NULL, "
-            + COL_NAME_BTDEVICECAR__CAR_ID + " INTEGER NOT NULL " + ");";
+    private static final String CREATE_SQL_UOM_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_UOM +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_UOM__CODE + " TEXT NOT NULL, " +
+                        COL_NAME_UOM__UOMTYPE + " TEXT NOT NULL " +
+                    ");";
+
+    private static final String CREATE_SQL_UOMCONVERSION_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_UOMCONVERSION +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_UOMCONVERSION__UOMFROM_ID + " INTEGER NOT NULL, " +
+                        COL_NAME_UOMCONVERSION__UOMTO_ID + " INTEGER NOT NULL, " +
+                        COL_NAME_UOMCONVERSION__RATE + " NUMERIC NOT NULL " +
+                    ");";
+
+    private static final String CREATE_SQL_EXPENSETYPE_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_EXPENSETYPE +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL " +
+                    ");";
+
+    private static final String CREATE_SQL_MILEAGE_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_MILEAGE +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_MILEAGE__DATE + " DATE NOT NULL, " +
+                        COL_NAME_MILEAGE__CAR_ID + " INTEGER NOT NULL, " +
+                        COL_NAME_MILEAGE__DRIVER_ID + " INTEGER NOT NULL, " +
+                        COL_NAME_MILEAGE__INDEXSTART + " NUMERIC NOT NULL, " +
+                        COL_NAME_MILEAGE__INDEXSTOP + " NUMERIC NULL, " +
+                        COL_NAME_MILEAGE__UOMLENGTH_ID + " INTEGER NOT NULL, " +
+                        COL_NAME_MILEAGE__EXPENSETYPE_ID + " INTEGER NOT NULL, " +
+                        COL_NAME_MILEAGE__GPSTRACKLOG + " TEXT NULL, " +
+                        COL_NAME_MILEAGE__TAG_ID + " INTEGER NULL, " +
+                        COL_NAME_MILEAGE__DATE_TO + " DATE NULL " +
+                    ");";
+
+    private static final String CREATE_SQL_CURRENCY_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_CURRENCY +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_CURRENCY__CODE + " TEXT NOT NULL " +
+                    ");";
+
+    private static final String CREATE_SQL_REFUEL_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_REFUEL +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_REFUEL__CAR_ID + " INTEGER, " +
+                        COL_NAME_REFUEL__DRIVER_ID + " INTEGER, " +
+                        COL_NAME_REFUEL__EXPENSETYPE_ID + " INTEGER, " +
+                        COL_NAME_REFUEL__INDEX + " NUMERIC, " +
+                        COL_NAME_REFUEL__QUANTITY + " NUMERIC, " +
+                        COL_NAME_REFUEL__UOMVOLUME_ID + " INTEGER, " +
+                        COL_NAME_REFUEL__PRICE + " NUMERIC, " +
+                        COL_NAME_REFUEL__CURRENCY_ID + " INTEGER, " +
+                        COL_NAME_REFUEL__DATE + " DATE NULL, " +
+                        COL_NAME_REFUEL__DOCUMENTNO + " TEXT NULL, " +
+                        COL_NAME_REFUEL__EXPENSECATEGORY_ID + " INTEGER, " +
+                        COL_NAME_REFUEL__ISFULLREFUEL + " TEXT DEFAULT 'N', " +
+                        COL_NAME_REFUEL__QUANTITYENTERED + " NUMERIC NULL, " +
+                        COL_NAME_REFUEL__UOMVOLUMEENTERED_ID + " INTEGER NULL, " +
+                        COL_NAME_REFUEL__PRICEENTERED + " NUMERIC NULL, " +
+                        COL_NAME_REFUEL__CURRENCYENTERED_ID + " INTEGER NULL, " +
+                        COL_NAME_REFUEL__CURRENCYRATE + " NUMERIC NULL, " +
+                        COL_NAME_REFUEL__UOMVOLCONVERSIONRATE + " NUMERIC NULL, " +
+                        COL_NAME_REFUEL__AMOUNT + " NUMERIC NULL, " +
+                        COL_NAME_REFUEL__AMOUNTENTERED + " NUMERIC NULL, " +
+                        COL_NAME_REFUEL__BPARTNER_ID + " INTEGER NULL, " +
+                        COL_NAME_REFUEL__BPARTNER_LOCATION_ID + " INTEGER NULL, " +
+                        COL_NAME_REFUEL__TAG_ID + " INTEGER NULL " +
+                    ");";
+
+    private static final String CREATE_SQL_EXPENSECATEGORY_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_EXPENSECATEGORY +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_EXPENSECATEGORY__ISEXCLUDEFROMMILEAGECOST + " TEXT DEFAULT 'N', " +
+                        COL_NAME_EXPENSECATEGORY__ISFUEL + " TEXT DEFAULT 'N' " +
+                    ");";
+
+    private static final String CREATE_SQL_EXPENSE_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_EXPENSE +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_EXPENSE__CAR_ID + " INTEGER, " +
+                        COL_NAME_EXPENSE__DRIVER_ID + " INTEGER, " +
+                        COL_NAME_EXPENSE__EXPENSECATEGORY_ID + " INTEGER, " +
+                        COL_NAME_EXPENSE__EXPENSETYPE_ID + " INTEGER, " +
+                        COL_NAME_EXPENSE__AMOUNT + " NUMERIC, " +
+                        COL_NAME_EXPENSE__CURRENCY_ID + " INTEGER, " +
+                        COL_NAME_EXPENSE__DATE + " DATE NULL, " +
+                        COL_NAME_EXPENSE__DOCUMENTNO + " TEXT NULL, " +
+                        COL_NAME_EXPENSE__INDEX + " NUMERIC, " +
+                        COL_NAME_EXPENSE__FROMTABLE + " TEXT NULL, " +
+                        COL_NAME_EXPENSE__FROMRECORD_ID + " INTEGER, " +
+                        COL_NAME_EXPENSE__AMOUNTENTERED + " NUMERIC NULL, " +
+                        COL_NAME_EXPENSE__CURRENCYENTERED_ID + " INTEGER NULL, " +
+                        COL_NAME_EXPENSE__CURRENCYRATE + " NUMERIC NULL, " +
+                        COL_NAME_EXPENSE__QUANTITY + " NUMERIC NULL, " +
+                        COL_NAME_EXPENSE__PRICE + " NUMERIC NULL, " +
+                        COL_NAME_EXPENSE__PRICEENTERED + " NUMERIC NULL, " +
+                        COL_NAME_EXPENSE__UOM_ID + " INTEGER NULL, " +
+                        COL_NAME_EXPENSE__BPARTNER_ID + " INTEGER NULL, " +
+                        COL_NAME_EXPENSE__BPARTNER_LOCATION_ID + " INTEGER NULL, " +
+                        COL_NAME_EXPENSE__TAG_ID + " INTEGER NULL " +
+                    ");";
+
+    private static final String CREATE_SQL_CURRENCYRATE_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_CURRENCYRATE +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_CURRENCYRATE__FROMCURRENCY_ID + " INTEGER, " +
+                        COL_NAME_CURRENCYRATE__TOCURRENCY_ID + " INTEGER, " +
+                        COL_NAME_CURRENCYRATE__RATE + " NUMERIC, " +
+                        COL_NAME_CURRENCYRATE__INVERSERATE + " NUMERIC " +
+                    ");";
+
+    private static final String CREATE_SQL_GPSTRACK_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_GPSTRACK +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_GPSTRACK__CAR_ID + " INTEGER NULL, " +
+                        COL_NAME_GPSTRACK__DRIVER_ID + " INTEGER NULL, " +
+                        COL_NAME_GPSTRACK__MILEAGE_ID + " INTEGER NULL, " +
+                        COL_NAME_GPSTRACK__DATE + " DATE NULL, " +
+                        COL_NAME_GPSTRACK__MINACCURACY + " NUMERIC NULL, " +
+                        COL_NAME_GPSTRACK__AVGACCURACY + " NUMERIC NULL, " +
+                        COL_NAME_GPSTRACK__MAXACCURACY + " NUMERIC NULL, " +
+                        COL_NAME_GPSTRACK__MINALTITUDE + " NUMERIC NULL, " +
+                        COL_NAME_GPSTRACK__MAXALTITUDE + " NUMERIC NULL, " +
+                        COL_NAME_GPSTRACK__TOTALTIME + " NUMERIC NULL, " +
+                        COL_NAME_GPSTRACK__MOVINGTIME + " NUMERIC NULL, " +
+                        COL_NAME_GPSTRACK__DISTANCE + " NUMERIC NULL, " +
+                        COL_NAME_GPSTRACK__MAXSPEED + " NUMERIC NULL, " +
+                        COL_NAME_GPSTRACK__AVGSPEED + " NUMERIC NULL, " +
+                        COL_NAME_GPSTRACK__AVGMOVINGSPEED + " NUMERIC NULL, " +
+                        COL_NAME_GPSTRACK__TOTALTRACKPOINTS + " INTEGER NULL, " +
+                        COL_NAME_GPSTRACK__INVALIDTRACKPOINTS + " INTEGER NULL, " +
+                        COL_NAME_GPSTRACK__TAG_ID + " INTEGER NULL, " +
+                        COL_NAME_GPSTRACK__TOTALPAUSETIME + " INTEGER NULL, " +
+                        COL_NAME_GPSTRACK__EXPENSETYPE_ID + " INTEGER NULL " +
+                    ");";
+
+    private static final String CREATE_SQL_GPSTRACKDETAIL_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_GPSTRACKDETAIL +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID + " INTEGER NOT NULL, " +
+                        COL_NAME_GPSTRACKDETAIL__FILE + " TEXT NULL, " +
+                        COL_NAME_GPSTRACKDETAIL__FILEFORMAT + " TEXT NULL " +
+                    ");";
+
+    private static final String CREATE_SQL_BPARTNER_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_BPARTNER +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL " +
+                    ");";
+
+    private static final String CREATE_SQL_BPARTNERLOCATION_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_BPARTNERLOCATION +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_BPARTNERLOCATION__BPARTNER_ID + " INTEGER NOT NULL, " +
+                        COL_NAME_BPARTNERLOCATION__ADDRESS + " TEXT NULL, " +
+                        COL_NAME_BPARTNERLOCATION__POSTAL + " TEXT NULL, " +
+                        COL_NAME_BPARTNERLOCATION__CITY + " TEXT NULL, " +
+                        COL_NAME_BPARTNERLOCATION__REGION + " TEXT NULL, " +
+                        COL_NAME_BPARTNERLOCATION__COUNTRY + " TEXT NULL, " +
+                        COL_NAME_BPARTNERLOCATION__PHONE + " TEXT NULL, " +
+                        COL_NAME_BPARTNERLOCATION__PHONE2 + " TEXT NULL, " +
+                        COL_NAME_BPARTNERLOCATION__FAX + " TEXT NULL, " +
+                        COL_NAME_BPARTNERLOCATION__EMAIL + " TEXT NULL, " +
+                        COL_NAME_BPARTNERLOCATION__CONTACTPERSON + " TEXT NULL " +
+                    ");";
+
+    private static final String CREATE_SQL_TAG_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_TAG +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL " +
+                    ");";
+
+    private static final String CREATE_SQL_TASKTYPE_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_TASKTYPE +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL " +
+                    ");";
+
+    private static final String CREATE_SQL_TASK_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_TASK +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_TASK__TASKTYPE_ID + " INTEGER NOT NULL, " +
+                        COL_NAME_TASK__SCHEDULEDFOR + " TEXT NULL, " +
+                        COL_NAME_TASK__ISRECURRENT + " TEXT NOT NULL, " +
+                        COL_NAME_TASK__ISDIFFERENTSTARTINGTIME + " TEXT NULL, " +
+                        COL_NAME_TASK__TIMEFREQUENCY + " INTEGER NULL, " +
+                        COL_NAME_TASK__TIMEFREQUENCYTYPE + " INTEGER NULL, " +
+                        COL_NAME_TASK__STARTINGTIME + " DATE NULL, " +
+                        COL_NAME_TASK__TIMEREMINDERSTART + " INTEGER NULL, " +
+                        COL_NAME_TASK__RUNMILEAGE + " INTEGER NULL, " +
+                        COL_NAME_TASK__MILEAGEREMINDERSTART + " INTEGER NULL, " +
+                        COL_NAME_TASK__TODOCOUNT + " INTEGER NOT NULL, " +
+                        " FOREIGN KEY(" + COL_NAME_TASK__TASKTYPE_ID + ") REFERENCES " + TABLE_NAME_TASKTYPE + "(" + COL_NAME_GEN_ROWID + ")" +
+                    ");";
+
+    private static final String CREATE_SQL_TASK_CAR_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_TASK_CAR +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_TASK_CAR__TASK_ID + " INTEGER NOT NULL, " +
+                        COL_NAME_TASK_CAR__CAR_ID + " INTEGER NOT NULL, " +
+                        COL_NAME_TASK_CAR__FIRSTRUN_DATE + " DATE NULL, " +
+                        COL_NAME_TASK_CAR__FIRSTRUN_MILEAGE + " INTEGER NULL " +
+                    ");";
+
+    private static final String CREATE_SQL_TODO_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_TODO +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_TODO__TASK_ID + " INTEGER NOT NULL, " +
+                        COL_NAME_TODO__CAR_ID + " INTEGER NULL, " +
+                        COL_NAME_TODO__DUEDATE + " DATE NULL, " +
+                        COL_NAME_TODO__DUEMILEAGE + " INTEGER NULL, " +
+                        COL_NAME_TODO__NOTIFICATIONDATE + " DATE NULL, " +
+                        COL_NAME_TODO__NOTIFICATIONMILEAGE + " INTEGER NULL, " +
+                        COL_NAME_TODO__ISDONE + " TEXT DEFAULT 'N', " +
+                        COL_NAME_TODO__DONEDATE + " DATE NULL, " +
+                        COL_NAME_TODO__ISSTOPNOTIFICATION + " TEXT DEFAULT 'N' " +
+                    ");";
+
+    private static final String CREATE_SQL_REIMBURSEMENT_CAR_RATES_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_REIMBURSEMENT_CAR_RATES +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_REIMBURSEMENT_CAR_RATES__CAR_ID + " INTEGER NOT NULL, " +
+                        COL_NAME_REIMBURSEMENT_CAR_RATES__EXPENSETYPE_ID + " INTEGER NOT NULL, " +
+                        COL_NAME_REIMBURSEMENT_CAR_RATES__RATE + " NUMBER NOT NULL DEFAULT 0, " +
+                        COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDFROM + " DATE NOT NULL, " +
+                        COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDTO + " DATE NOT NULL " +
+                    ");";
+
+    private static final String CREATE_SQL_SECUREBK_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_SECURE_BK_SETTINGS +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_SECUREBK__ISINCLUDEGPS + " TEXT NOT NULL DEFAULT 'N', " +
+                        COL_NAME_SECUREBK__ISINCLUDEREPORTS + " TEXT NOT NULL DEFAULT 'N', " +
+                        COL_NAME_SECUREBK__ISSHOWNOTIF + " TEXT NOT NULL DEFAULT 'Y'" +
+                    ");";
+
+    private static final String CREATE_SQL_DATATEMPLATE_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_DATA_TEMPLATE +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_DATATEMPLATE__CLASS + " TEXT NOT NULL" +
+                    ");";
+
+    private static final String CREATE_SQL_DATATEMPLATEVALUES_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_DATA_TEMPLATE_VALUES +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_DATATEMPLATEVALUES__TEMPLATE_ID + " INTEGER NOT NULL, " +
+                        COL_NAME_DATATEMPLATEVALUES__VALUE + " TEXT NULL" +
+                    ");";
+
+    private static final String CREATE_SQL_BTDEVICECAR_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_BTDEVICE_CAR +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_BTDEVICECAR__MACADDR + " TEXT NOT NULL, " +
+                        COL_NAME_BTDEVICECAR__CAR_ID + " INTEGER NOT NULL " +
+                    ");";
+    //@formatter:on
+
     private final Context mCtx;
     public String mErrorMessage = null;
     public Exception mException;
@@ -733,6 +973,10 @@ public class DB {
         }
     }
 
+    public static String sqlConcatTableColumn(String tableName, String columnName) {
+        return tableName + "." + columnName;
+    }
+
     /**
      * Open the notes database. If it cannot be opened, try to create a new
      * instance of the database. If it cannot be created, throw an exception to
@@ -747,10 +991,6 @@ public class DB {
                 mDb = mDbHelper.getWritableDatabase();
             }
         }
-    }
-
-    public static String sqlConcatTableColumn(String tableName, String columnName) {
-        return tableName + "." + columnName;
     }
 
     public void close() {

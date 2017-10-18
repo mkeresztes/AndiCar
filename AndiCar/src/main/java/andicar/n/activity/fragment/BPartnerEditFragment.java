@@ -184,7 +184,7 @@ public class BPartnerEditFragment extends BaseEditFragment {
 
         String columns[] = {DBAdapter.COL_NAME_GEN_ROWID, DBAdapter.COL_NAME_GEN_NAME, DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS};
         cAddressCursor = mDbAdapter.query(DBAdapter.TABLE_NAME_BPARTNERLOCATION, columns, selection, selectionArgs,
-                DBAdapter.COL_NAME_GEN_NAME);
+                DBAdapter.COL_NAME_GEN_NAME + ", " + DBAdapter.COL_NAME_GEN_ISACTIVE + " DESC");
 
         int listLayout = android.R.layout.simple_list_item_2;
         //noinspection deprecation

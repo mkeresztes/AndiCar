@@ -553,8 +553,8 @@ public class MileageEditFragment extends BaseEditFragment {
         data.put(DBAdapter.COL_NAME_MILEAGE__DATE_TO, mlDateTimeToInMillis / 1000);
 
         if (acTag.getText().toString().length() > 0) {
-            String selection = "UPPER (" + DBAdapter.COL_NAME_GEN_NAME + ") = ?";
-            String[] selectionArgs = {acTag.getText().toString().toUpperCase()};
+            String selection = "UPPER (" + DBAdapter.COL_NAME_GEN_NAME + ") = UPPER( ? )";
+            String[] selectionArgs = {acTag.getText().toString()};
             Cursor c = mDbAdapter.query(DBAdapter.TABLE_NAME_TAG, DBAdapter.COL_LIST_GEN_ROWID_NAME, selection, selectionArgs, null);
             String tagIdStr = null;
             if (c.moveToFirst()) {
