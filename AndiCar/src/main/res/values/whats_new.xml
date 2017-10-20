@@ -3,8 +3,9 @@
     <string name="whats_new">
         <![CDATA[
         <br><b><i>Whats new in this version:</i></b><br><br>
-		* a lot of fixes for Android Oreo<br>
-        * fixes for the scheduler system (automatic backups & to-do management)<br>
+		* Fixes for Android Oreo<br>
+        * Fixes for searching records<br>
+        * Fixes for duplicates in tags, gas stations, addresses<br>
         <br>Thank you for using <b><i>AndiCar</i></b>.<br><br>
         ]]>
     </string>
