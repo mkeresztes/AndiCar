@@ -21,7 +21,6 @@ package andicar.n.utils;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -31,14 +30,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.firebase.jobdispatcher.Constraint;
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.GooglePlayDriver;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.Lifetime;
-import com.firebase.jobdispatcher.RetryStrategy;
-import com.firebase.jobdispatcher.Trigger;
 
 import org.andicar2.activity.AndiCar;
 import org.andicar2.activity.R;
@@ -64,9 +55,8 @@ import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import andicar.n.persistence.AndiCarFileProvider;
-import andicar.n.service.FBJobService;
-import andicar.n.service.ToDoManagementService;
-import andicar.n.service.ToDoNotificationService;
+import andicar.n.service.JobStarter;
+import andicar.n.service.SecureBackupJob;
 
 //import org.andicar.andicar.n.activity.dialog.AndiCarDialogBuilder;
 
@@ -177,6 +167,8 @@ public class FileUtils {
         byte[] buf = new byte[1024];
         ZipOutputStream out;
         try {
+            mLastException = null;
+            mLastErrorMessage = null;
             out = new ZipOutputStream(new FileOutputStream(outZipFile));
             Set<String> inputFileNames = inputFiles.keySet();
             String inputFileKey;
@@ -320,35 +312,10 @@ public class FileUtils {
 
                 if (mPreferences.getBoolean(mResources.getString(R.string.pref_key_secure_backup_enabled), false) && !skipSecureBk) {
                     debugLogFileWriter.appendnl("Secure backup enabled. Calling FirebaseJobDispatcher for SecureBackup");
-                    Bundle myExtrasBundle = new Bundle();
-                    myExtrasBundle.putString(FBJobService.JOB_TYPE_KEY, FBJobService.JOB_TYPE_SECURE_BACKUP);
-                    myExtrasBundle.putString("bkFile", bkFile);
-                    myExtrasBundle.putString("attachName", bkFileName);
-                    FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(ctx));
+                    Bundle serviceParams = new Bundle();
+                    serviceParams.putString(SecureBackupJob.BK_FILE_KEY, bkFile);
 
-                    Job myJob = dispatcher.newJobBuilder()
-                            // the JobService that will be called
-                            .setService(FBJobService.class)
-                            // uniquely identifies the job
-                            .setTag(FBJobService.JOB_TYPE_SECURE_BACKUP)
-                            // one-off job
-                            .setRecurring(false)
-                            .setLifetime(Lifetime.FOREVER)
-                            // start between 0 and 30 seconds from now
-                            .setTrigger(Trigger.executionWindow(0, 30))
-                            // overwrite an existing job with the same tag
-                            .setReplaceCurrent(true)
-                            // retry with exponential backoff
-                            .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
-                            // constraints that need to be satisfied for the job to run
-                            .setExtras(myExtrasBundle)
-                            .setConstraints(
-                                    // only run on an unmetered network
-                                    (mPreferences.getBoolean(mResources.getString(R.string.pref_key_secure_backup_only_wifi), true) ? Constraint.ON_UNMETERED_NETWORK : Constraint.ON_ANY_NETWORK)
-                            )
-                            .build();
-
-                    dispatcher.mustSchedule(myJob);
+                    JobStarter.startServicesUsingFBJobDispacher(ctx, JobStarter.SERVICE_STARTER_START_SECURE_BACKUP, serviceParams);
 
                     debugLogFileWriter.appendnl("Calling FirebaseJobDispatcher terminated");
                 }
@@ -744,9 +711,10 @@ public class FileUtils {
             }
         }
         //update background services if need (scheduled tasks, etc.)
-        Intent intent = new Intent(ctx, ToDoNotificationService.class);
-        intent.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, false);
-        ctx.startService(intent);
+//        Intent intent = new Intent(ctx, ToDoNotificationService.class);
+//        intent.putExtra(ToDoNotificationJob.SET_JUST_NEXT_RUN_KEY, false);
+//        ctx.startService(intent);
+        Utils.setToDoNextRun(ctx);
 
         return mLastErrorMessage == null;
     }

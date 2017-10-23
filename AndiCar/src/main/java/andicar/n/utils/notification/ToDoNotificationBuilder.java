@@ -31,7 +31,7 @@ import android.os.Build;
 import org.andicar2.activity.R;
 
 import andicar.n.activity.dialogs.ToDoNotificationDialogActivity;
-import andicar.n.service.ToDoNotificationService;
+import andicar.n.service.ToDoNotificationJob;
 
 /**
  * Created by Miklos Keresztes on 9/6/16.
@@ -77,7 +77,7 @@ class ToDoNotificationBuilder extends Notification.Builder {
         this.setContentText(notificationText);
 
         Intent i = new Intent(context, ToDoNotificationDialogActivity.class);
-        i.putExtra(ToDoNotificationService.TODO_ID_KEY, toDoID);
+        i.putExtra(ToDoNotificationJob.TODO_ID_KEY, toDoID);
         i.putExtra(ToDoNotificationDialogActivity.TRIGGERED_BY_KEY, triggeredBy);
         i.putExtra(ToDoNotificationDialogActivity.CAR_UOM_CODE_KEY, carUOMCode);
         i.putExtra(ToDoNotificationDialogActivity.MINUTES_OR_DAYS_KEY, minutesOrDays);

@@ -19,8 +19,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="org.andicar2.activity"
-          android:versionCode="17102000"
-          android:versionName="17.10-3">
+          android:versionCode="17101800"
+          android:versionName="17.10-2">
 
     <!-- ************************************************************************************************* -->
     <!-- Normal Permissions (https://developer.android.com/guide/topics/security/normal-permissions.html) -->
@@ -207,25 +207,30 @@
         <activity android:name="andicar.n.activity.test.TestActivity"/>
 
         <service
-            android:name="andicar.n.service.SecureBackupService"
-            android:enabled="true" />
-        <service
-            android:name="andicar.n.service.BackupService"
-            android:enabled="true" />
-        <service
             android:name="andicar.n.service.ToDoManagementService"
             android:enabled="true" />
         <service
             android:name="andicar.n.service.GPSTrackService"
             android:enabled="true" />
         <service
-            android:name="andicar.n.service.ToDoNotificationService"
-            android:enabled="true" />
-        <service
-            android:name="andicar.n.service.FBJobService"
+            android:name="andicar.n.service.BackupJob"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="andicar.n.service.SecureBackupJob"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="andicar.n.service.ToDoNotificationJob"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
             </intent-filter>
         </service>
 

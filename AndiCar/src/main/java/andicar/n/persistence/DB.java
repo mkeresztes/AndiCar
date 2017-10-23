@@ -20,7 +20,6 @@ package andicar.n.persistence;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -35,10 +34,9 @@ import org.andicar2.activity.R;
 
 import java.util.Calendar;
 
-import andicar.n.broadcastreceiver.ServiceStarter;
-import andicar.n.service.ToDoManagementService;
 import andicar.n.utils.AndiCarCrashReporter;
 import andicar.n.utils.ConstantValues;
+import andicar.n.utils.Utils;
 
 /**
  * Database object names and database creation/update
@@ -1719,7 +1717,8 @@ public class DB {
                 editor.apply();
 
                 try {
-                    ServiceStarter.startServicesUsingFBJobDispacher(mCtx, ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
+//                    ServiceStarter.startServicesUsingFBJobDispacher(mCtx, ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE, null);
+                    Utils.setBackupNextRun(mCtx, AndiCar.getDefaultSharedPreferences().getBoolean(mCtx.getString(R.string.pref_key_backup_service_enabled), false));
                 }
                 catch (Exception e) {
                     AndiCarCrashReporter.sendCrash(e);
@@ -1784,9 +1783,9 @@ public class DB {
                     " WHERE " + COL_NAME_TASK__TODOCOUNT + " < 2 " +
                     " AND " + COL_NAME_GEN_ISACTIVE + " = 'Y' ";
             db.execSQL(updSql);
-            Intent intent = new Intent(mCtx, ToDoManagementService.class);
-            intent.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, false);
-            mCtx.startService(intent);
+//            Intent intent = new Intent(mCtx, ToDoManagementService.class);
+//            mCtx.startService(intent);
+            Utils.setToDoNextRun(mCtx);
 
         }
 

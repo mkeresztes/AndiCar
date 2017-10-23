@@ -53,14 +53,12 @@ import andicar.n.utils.Utils;
  */
 @SuppressWarnings("WrongConstant")
 public class ToDoManagementService extends Service {
-    public static final String SET_JUST_NEXT_RUN_KEY = "setJustNextRun";
     public static final String TASK_ID_KEY = "TaskID";
-    public static final String CAR_ID_KEY = "CarID";
 
     private DBAdapter mDb = null;
     private long mTaskID = 0;
     private long mCarID = 0;
-    private boolean isSetJustNextRun = false;
+//    private boolean isSetJustNextRun = false;
 
     private File debugLogFile = new File(ConstantValues.LOG_FOLDER + "ToDoManagementService.log");
     private LogFileWriter debugLogFileWriter = null;
@@ -74,9 +72,6 @@ public class ToDoManagementService extends Service {
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-//	public void onStart(Intent intent, int startId) {
-//		super.onStart(intent, startId);
-//        super.onStartCommand(intent, flags, startId);
         try {
             if (FileUtils.isFileSystemAccessGranted(getApplicationContext())) {
                 debugLogFileWriter = new LogFileWriter(debugLogFile, false);
@@ -86,24 +81,18 @@ public class ToDoManagementService extends Service {
             Bundle mBundleExtras = intent.getExtras();
             if (mBundleExtras != null) {
                 mTaskID = mBundleExtras.getLong(ToDoManagementService.TASK_ID_KEY);
-                mCarID = mBundleExtras.getLong(ToDoManagementService.CAR_ID_KEY);
-                isSetJustNextRun = mBundleExtras.getBoolean(SET_JUST_NEXT_RUN_KEY);
+                mCarID = mBundleExtras.getLong(ToDoNotificationJob.CAR_ID_KEY);
             }
             if (debugLogFileWriter != null) {
                 debugLogFileWriter.appendnl("TaskID = " + mTaskID);
                 debugLogFileWriter.appendnl("CarID = " + mCarID);
-                debugLogFileWriter.appendnl("Is set just next run = " + isSetJustNextRun);
             }
 
-            if (!isSetJustNextRun) {
-                mDb = new DBAdapter(this);
-                createTaskTodos();
-                mDb.close();
-            }
+            mDb = new DBAdapter(this);
+            createTaskTodos();
+            mDb.close();
 
-            Intent i = new Intent(this, ToDoNotificationService.class);
-            i.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, isSetJustNextRun);
-            this.startService(i);
+            Utils.setToDoNextRun(this);
 
             if (debugLogFileWriter != null) {
                 debugLogFileWriter.appendnl("Service terminated");
@@ -119,7 +108,6 @@ public class ToDoManagementService extends Service {
             } catch (Exception ignored) {
             }
         }
-//		stopSelf();
         return START_NOT_STICKY;
     }
 

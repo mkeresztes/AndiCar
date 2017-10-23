@@ -111,6 +111,8 @@ public class AndiCar extends MultiDexApplication {
                     e.putInt("appVersionCode", appVersion);
                     e.putBoolean(getString(R.string.pref_key_show_whats_new_dialog), true);
                     e.apply();
+                    Utils.setToDoNextRun(getApplicationContext());
+                    Utils.setBackupNextRun(getApplicationContext(), appPreferences.getBoolean(getString(R.string.pref_key_backup_service_enabled), false));
                 }
             }
         }

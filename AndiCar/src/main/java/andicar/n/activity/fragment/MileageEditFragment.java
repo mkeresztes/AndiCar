@@ -60,8 +60,8 @@ import andicar.n.activity.CommonDetailActivity;
 import andicar.n.activity.CommonListActivity;
 import andicar.n.activity.miscellaneous.GPSTrackMap;
 import andicar.n.persistence.DBAdapter;
-import andicar.n.service.ToDoManagementService;
-import andicar.n.service.ToDoNotificationService;
+import andicar.n.service.JobStarter;
+import andicar.n.service.ToDoNotificationJob;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.Utils;
 
@@ -634,10 +634,13 @@ public class MileageEditFragment extends BaseEditFragment {
         prefEditor.apply();
 
         //check if mileage to-do exists
-        Intent intent = new Intent(getActivity(), ToDoNotificationService.class);
-        intent.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, false);
-        intent.putExtra(ToDoManagementService.CAR_ID_KEY, mCarId);
-        getActivity().startService(intent);
+//        Intent intent = new Intent(getActivity(), ToDoNotificationService.class);
+//        intent.putExtra(ToDoNotificationJob.SET_JUST_NEXT_RUN_KEY, false);
+//        intent.putExtra(ToDoManagementService.CAR_ID_KEY, mCarId);
+//        getActivity().startService(intent);
+        Bundle serviceParams = new Bundle();
+        serviceParams.putLong(ToDoNotificationJob.CAR_ID_KEY, mCarId);
+        JobStarter.startServicesUsingFBJobDispacher(getActivity(), JobStarter.SERVICE_STARTER_START_TODO_NOTIFICATION_SERVICE, serviceParams);
 
         Bundle analyticsParams = new Bundle();
         analyticsParams.putInt(ConstantValues.ANALYTICS_IS_TEMPLATE_USED, isTemplateUsed ? 1 : 0);

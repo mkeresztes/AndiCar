@@ -22,6 +22,7 @@ package andicar.n.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -33,6 +34,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,12 +43,19 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.RetryStrategy;
+import com.firebase.jobdispatcher.Trigger;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.andicar2.activity.AndiCar;
 import org.andicar2.activity.BuildConfig;
 import org.andicar2.activity.R;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.math.BigDecimal;
@@ -60,8 +69,11 @@ import java.util.Date;
 import java.util.List;
 
 import andicar.n.activity.dialogs.GeneralNotificationDialogActivity;
+import andicar.n.persistence.DB;
 import andicar.n.persistence.DBAdapter;
 import andicar.n.persistence.DBReportAdapter;
+import andicar.n.service.BackupJob;
+import andicar.n.service.ToDoNotificationJob;
 
 /**
  * @author miki
@@ -557,6 +569,223 @@ public class Utils {
             appVersion = appVersion + " (Debug: " + ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).versionCode + ")";
         }
         return appVersion;
+    }
+
+    public static void setToDoNextRun(Context ctx) {
+        try {
+            String LogTag = "AndiCar";
+            Log.d(LogTag, "========== ToDo setNextRun begin ==========");
+            //@formatter:off
+        String sql =
+                " SELECT * " +
+                " FROM " + DBAdapter.TABLE_NAME_TODO +
+                " WHERE " +
+                        DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_GEN_ISACTIVE) + "='Y' " + " AND " +
+                        DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__ISDONE) + "='N' " + " AND " +
+                        DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__NOTIFICATIONDATE) + " IS NOT NULL " +
+//                        DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__NOTIFICATIONDATE) + " >= ? " +
+                " ORDER BY " +
+                        DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__NOTIFICATIONDATE) + " ASC ";
+        //@formatter:on
+            long currentSec = System.currentTimeMillis() / 1000;
+//        String selArgs[] = {Long.toString(currentSec)};
+            DBAdapter db = new DBAdapter(ctx);
+//        Cursor c = db.execSelectSql(sql, selArgs);
+            Cursor c = db.execSelectSql(sql, null);
+            FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(ctx));
+            Job fbJob;
+            Bundle jobParams = new Bundle();
+            long notificationDateInSeconds;
+        /*
+        if (c.moveToNext()) {
+            long notificationDate = c.getLong(DBAdapter.COL_POS_TODO__NOTIFICATIONDATE);
+            Intent i = new Intent(this, ToDoNotificationService.class);
+            i.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, false);
+            PendingIntent pIntent = PendingIntent.getService(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            am.set(AlarmManager.RTC_WAKEUP, notificationDate * 1000, pIntent);
+        }
+         */
+            while (c.moveToNext()) {
+                notificationDateInSeconds = c.getLong(DBAdapter.COL_POS_TODO__NOTIFICATIONDATE);
+                jobParams.putLong(ToDoNotificationJob.TODO_ID_KEY, c.getLong(DBAdapter.COL_POS_GEN_ROWID));
+                jobParams.putLong(ToDoNotificationJob.CAR_ID_KEY, c.getLong(DBAdapter.COL_POS_TODO__CAR_ID));
+                Log.d(LogTag,
+//                    "System.currentTimeMillis(): " + System.currentTimeMillis() + "; " +
+                        "Current date: " + DateFormat.getDateFormat(ctx).format(currentSec * 1000) + " " + DateFormat.getTimeFormat(ctx).format(currentSec * 1000) +
+                                " (currentSec: " + currentSec + "); " +
+                                "Next run for to-do " + c.getString(DBAdapter.COL_POS_GEN_NAME) + " (" + c.getString(DBAdapter.COL_POS_GEN_ROWID) + "): " +
+                                DateFormat.getDateFormat(ctx).format(notificationDateInSeconds * 1000) + " " + DateFormat.getTimeFormat(ctx).format(notificationDateInSeconds * 1000) +
+                                " (notificationDateInSeconds: " + notificationDateInSeconds + "); " +
+                                "Seconds left: " + (notificationDateInSeconds - currentSec));
+                fbJob = dispatcher.newJobBuilder()
+                        // the JobService that will be called
+                        .setService(ToDoNotificationJob.class)
+                        // uniquely identifies the job
+                        .setTag(ToDoNotificationJob.TAG + c.getString(DBAdapter.COL_POS_GEN_ROWID))
+                        // one-off job
+                        .setRecurring(false)
+                        .setLifetime(Lifetime.FOREVER)
+                        // start between 0 and 30 seconds from now
+                        .setTrigger(notificationDateInSeconds - currentSec <= 0 ? Trigger.NOW :
+                                Trigger.executionWindow((int) (notificationDateInSeconds - currentSec), (int) (notificationDateInSeconds - currentSec) + 30))
+                        // overwrite an existing job with the same tag
+                        .setReplaceCurrent(true)
+                        // retry with exponential backoff
+                        .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
+                        .setExtras(jobParams)
+                        .build();
+                dispatcher.mustSchedule(fbJob);
+            }
+            c.close();
+            db.close();
+            Log.d(LogTag, "========== setNextRun finished ==========");
+        }
+        catch (Exception e) {
+            AndiCarCrashReporter.sendCrash(e);
+        }
+    }
+
+    public static void setBackupNextRun(Context ctx, boolean enabled) {
+        LogFileWriter debugLogFileWriter = null;
+        try {
+            File debugLogFile = new File(ConstantValues.LOG_FOLDER + "BackupJobSchedule.log");
+            SharedPreferences preferences = AndiCar.getDefaultSharedPreferences();
+            FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(ctx));
+
+            if (FileUtils.isFileSystemAccessGranted(ctx)) {
+                debugLogFileWriter = new LogFileWriter(debugLogFile, false);
+            }
+
+            String LogTag = "AndiCar";
+            Log.d(LogTag, "========== Backup setNextRun begin ==========");
+            if (debugLogFileWriter != null) {
+                debugLogFileWriter.appendnl("========== setNextRun begin ==========");
+            }
+            Calendar nextSchedule = Calendar.getInstance();
+            Calendar currentDate = Calendar.getInstance();
+            Log.d(LogTag, "currentDate = " + currentDate.get(Calendar.YEAR) + "-" + (currentDate.get(Calendar.MONTH) + 1) + "-" + currentDate.get(Calendar.DAY_OF_MONTH)
+                    + " " + currentDate.get(Calendar.HOUR_OF_DAY) + ":" + currentDate.get(Calendar.MINUTE));
+
+            long timeInMillisecondsToNextRun;
+            String scheduleDays;
+
+            if (enabled) { //active schedule exists
+                nextSchedule.set(Calendar.HOUR_OF_DAY, preferences.getInt(ctx.getString(R.string.pref_key_backup_service_exec_hour), 21));
+                nextSchedule.set(Calendar.MINUTE, preferences.getInt(ctx.getString(R.string.pref_key_backup_service_exec_minute), 21));
+                nextSchedule.set(Calendar.SECOND, 0);
+                nextSchedule.set(Calendar.MILLISECOND, 0);
+                //set date to current day
+                nextSchedule.set(currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DAY_OF_MONTH));
+                Log.d(LogTag,
+                        "nextSchedule = " + nextSchedule.get(Calendar.YEAR) + "-" + (currentDate.get(Calendar.MONTH) + 1) + "-"
+                                + nextSchedule.get(Calendar.DAY_OF_MONTH) + " " + nextSchedule.get(Calendar.HOUR_OF_DAY) + ":" + nextSchedule.get(Calendar.MINUTE));
+                if (preferences.getString(ctx.getString(R.string.pref_key_backup_service_schedule_type), ConstantValues.BACKUP_SERVICE_DAILY).equals(ConstantValues.BACKUP_SERVICE_DAILY)) { //daily schedule
+                    if (debugLogFileWriter != null) {
+                        debugLogFileWriter.appendnl("Backup schedule is daily");
+                    }
+                    if (nextSchedule.compareTo(currentDate) < 0) { //current hour > scheduled hour => next run tomorrow
+                        nextSchedule.add(Calendar.DAY_OF_MONTH, 1);
+                    }
+                }
+                else { //weekly schedule
+                    scheduleDays = preferences.getString(ctx.getString(R.string.pref_key_backup_service_backup_days), "1111111");
+                    if (debugLogFileWriter != null) {
+                        debugLogFileWriter.appendnl("Backup schedule is weekly. Schedule days: ").append(scheduleDays);
+                    }
+                    Log.d(LogTag, "scheduleDays = " + scheduleDays);
+                    int daysToAdd = -1;
+                    Log.d(LogTag, "Calendar.DAY_OF_WEEK = " + currentDate.get(Calendar.DAY_OF_WEEK));
+                    for (int i = currentDate.get(Calendar.DAY_OF_WEEK) - 1; i < 7; i++) {
+                        Log.d(LogTag, "i = " + i);
+                        if (scheduleDays.substring(i, i + 1).equals("1")) {
+                            Log.d(LogTag, scheduleDays.substring(i, i + 1));
+                            if (i == (currentDate.get(Calendar.DAY_OF_WEEK) - 1) && nextSchedule.compareTo(currentDate) < 0) { //current hour > scheduled hour => get next run day
+                                Log.d(LogTag,
+                                        "currentDate = " + currentDate.get(Calendar.YEAR) + "-" + currentDate.get(Calendar.MONTH) + "-"
+                                                + currentDate.get(Calendar.DAY_OF_MONTH) + " " + currentDate.get(Calendar.HOUR_OF_DAY) + ":"
+                                                + currentDate.get(Calendar.MINUTE));
+                                Log.d(LogTag,
+                                        "nextSchedule = " + nextSchedule.get(Calendar.YEAR) + "-" + nextSchedule.get(Calendar.MONTH) + "-"
+                                                + nextSchedule.get(Calendar.DAY_OF_MONTH) + " " + nextSchedule.get(Calendar.HOUR_OF_DAY) + ":"
+                                                + nextSchedule.get(Calendar.MINUTE));
+                            }
+                            else {
+                                daysToAdd = i - (currentDate.get(Calendar.DAY_OF_WEEK) - 1);
+                                Log.d(LogTag, "daysToAdd = " + daysToAdd);
+                                break;
+                            }
+                        }
+                    }
+                    if (daysToAdd == -1) { //no next run day in this week
+                        for (int j = 0; j < currentDate.get(Calendar.DAY_OF_WEEK); j++) {
+                            if (scheduleDays.substring(j, j + 1).equals("1")) {
+                                daysToAdd = (7 - currentDate.get(Calendar.DAY_OF_WEEK)) + j + 1;
+                                break;
+                            }
+                        }
+                    }
+                    Log.d(LogTag, "daysToAdd = " + daysToAdd);
+                    nextSchedule.add(Calendar.DAY_OF_MONTH, daysToAdd);
+                    Log.d(LogTag,
+                            "nextSchedule = " + nextSchedule.get(Calendar.YEAR) + "-" + nextSchedule.get(Calendar.MONTH) + "-"
+                                    + nextSchedule.get(Calendar.DAY_OF_MONTH) + " " + nextSchedule.get(Calendar.HOUR_OF_DAY) + ":"
+                                    + nextSchedule.get(Calendar.MINUTE));
+                }
+                timeInMillisecondsToNextRun = nextSchedule.getTimeInMillis() - currentDate.getTimeInMillis();
+                Log.d(LogTag, "nextSchedule.getTimeInMillis() = " + nextSchedule.getTimeInMillis());
+                Log.d(LogTag, "currentDate.getTimeInMillis() = " + currentDate.getTimeInMillis());
+                Log.d(LogTag, "timeInMillisecondsToNextRun = " + timeInMillisecondsToNextRun);
+                //set next run of the service
+                long triggerTime = System.currentTimeMillis() + timeInMillisecondsToNextRun;
+                Log.d(LogTag, "triggerTime = " + triggerTime);
+                Log.i(LogTag, "BackupJob scheduled. Next start:" + DateFormat.getDateFormat(ctx).format(triggerTime) + " "
+                        + DateFormat.getTimeFormat(ctx).format(triggerTime));
+                if (debugLogFileWriter != null) {
+                    debugLogFileWriter.appendnl("BackupService scheduled. Next start: ").append(DateFormat.getDateFormat(ctx).format(triggerTime))
+                            .append(" ").append(DateFormat.getTimeFormat(ctx).format(triggerTime));
+                }
+
+                int timeInSecondsToNextRun = (int) (timeInMillisecondsToNextRun / 1000);
+                Job fbJob = dispatcher.newJobBuilder()
+                        // the JobService that will be called
+                        .setService(BackupJob.class)
+                        // uniquely identifies the job
+                        .setTag(BackupJob.TAG)
+                        // one-off job
+                        .setRecurring(false)
+                        .setLifetime(Lifetime.FOREVER)
+                        // start between 0 and 30 seconds from now
+                        .setTrigger(Trigger.executionWindow(timeInSecondsToNextRun, timeInSecondsToNextRun + 30))
+                        // overwrite an existing job with the same tag
+                        .setReplaceCurrent(true)
+                        // retry with exponential backoff
+                        .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
+                        .build();
+                dispatcher.mustSchedule(fbJob);
+            }
+            else { //no active schedule exists => remove scheduled runs
+                Log.i(LogTag, "BackupJob not scheduled.");
+                if (debugLogFileWriter != null) {
+                    debugLogFileWriter.appendnl("BackupService not scheduled. Removing active schedule found.");
+                }
+                dispatcher.cancel(BackupJob.TAG);
+            }
+            Log.d(LogTag, "========== setNextRun finished ==========");
+            if (debugLogFileWriter != null) {
+                debugLogFileWriter.appendnl("========== setNextRun finished ==========");
+            }
+        }
+        catch (Exception e) {
+            try {
+                if (debugLogFileWriter != null) {
+                    debugLogFileWriter.appendnl("Exception in setNextRun: ").append(e.getMessage()).append("\n").append(Utils.getStackTrace(e));
+                }
+            }
+            catch (Exception ignored) {
+            }
+            AndiCarCrashReporter.sendCrash(e);
+        }
     }
 
     public void shareGPSTrack(Context ctx, Resources mRes, long gpsTrackID) {

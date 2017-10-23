@@ -1,31 +1,11 @@
-/*
- * AndiCar
- *
- *  Copyright (c) 2016 Miklos Keresztes (miklos.keresztes@gmail.com)
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package andicar.n.service;
 
-import android.app.Service;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Log;
 
+import com.firebase.jobdispatcher.JobParameters;
+import com.firebase.jobdispatcher.JobService;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 
 import org.andicar2.activity.AndiCar;
@@ -46,39 +26,42 @@ import andicar.n.utils.SendGMailTask;
 import andicar.n.utils.Utils;
 import andicar.n.utils.notification.AndiCarNotification;
 
-public class SecureBackupService extends Service implements OnAsyncTaskListener {
-    private static final String LogTag = "AndiCar SecureBackup";
+/**
+ * Created by Miklos Keresztes on 17.10.2017.
+ */
+
+public class SecureBackupJob extends JobService implements OnAsyncTaskListener {
+    public static final String BK_FILE_KEY = "bkFile";
+    private static final String LogTag = "AndiCar SecureBackupJob";
     private static final int RETRY_COUNT_LIMIT = 5;
+    public static String TAG = "SecureBackupJob";
     private static int retryCount = 0;
-    private final SharedPreferences mPreferences;
+    private final SharedPreferences mPreferences = AndiCar.getDefaultSharedPreferences();
     private final ArrayList<String> mFilesToSend = new ArrayList<>();
     private String zippedBk;
     private LogFileWriter debugLogFileWriter = null;
 
-    public SecureBackupService() {
-        mPreferences = AndiCar.getDefaultSharedPreferences();
-    }
-
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        String bkFileToSend;
-        String bkFileName = "";
+    public boolean onStartJob(JobParameters jobParams) {
+        final String bkFileToSend;
+        final String bkFileName;
 
         try {
             if (FileUtils.isFileSystemAccessGranted(getApplicationContext())) {
                 FileUtils.createFolderIfNotExists(getApplicationContext(), ConstantValues.LOG_FOLDER);
-                File debugLogFile = new File(ConstantValues.LOG_FOLDER + "SecureBackupService.log");
+                File debugLogFile = new File(ConstantValues.LOG_FOLDER + "SecureBackupJob.log");
                 debugLogFileWriter = new LogFileWriter(debugLogFile, false);
                 debugLogFileWriter.appendnl("onStartCommand begin");
                 debugLogFileWriter.flush();
             }
 
-            if (intent == null) {
+            if (jobParams.getExtras() == null) {
                 if (debugLogFileWriter != null) {
-                    debugLogFileWriter.appendnl("intent is null. Terminating process.");
+                    debugLogFileWriter.appendnl("no params. Terminating process.");
                     debugLogFileWriter.flush();
                 }
-                return START_NOT_STICKY;
+                jobFinished(jobParams, false);
+                return false;
             }
             //check if secure backup is enabled
             if (!mPreferences.getBoolean(getString(R.string.pref_key_secure_backup_enabled), false)) {
@@ -86,7 +69,8 @@ public class SecureBackupService extends Service implements OnAsyncTaskListener 
                     debugLogFileWriter.appendnl("SecureBackup not activated. Terminating process.");
                     debugLogFileWriter.flush();
                 }
-                return START_NOT_STICKY;
+                jobFinished(jobParams, false);
+                return false;
             }
 
             //check if a google account was chosen
@@ -97,7 +81,8 @@ public class SecureBackupService extends Service implements OnAsyncTaskListener 
                     debugLogFileWriter.appendnl("no Google account chosen. Terminating process.");
                     debugLogFileWriter.flush();
                 }
-                return START_NOT_STICKY;
+                jobFinished(jobParams, false);
+                return false;
             }
             //check if destination email (sendTo) exists
             if (mPreferences.getString(getString(R.string.pref_key_secure_backup_emailTo), "").length() == 0) {
@@ -107,16 +92,24 @@ public class SecureBackupService extends Service implements OnAsyncTaskListener 
                     debugLogFileWriter.appendnl("No recipient email. Terminating process.");
                     debugLogFileWriter.flush();
                 }
-                return START_NOT_STICKY;
+                jobFinished(jobParams, false);
+                return false;
             }
 
-            bkFileToSend = intent.getExtras().getString("bkFile");
+            bkFileToSend = jobParams.getExtras().getString(BK_FILE_KEY);
             if (bkFileToSend != null) {
                 File bkFile = new File(bkFileToSend);
                 if (bkFile.exists()) {
                     bkFileName = bkFile.getName();
                 }
+                else {
+                    bkFileName = "";
+                }
             }
+            else {
+                bkFileName = "";
+            }
+
             if (bkFileToSend == null || bkFileName.length() == 0) {
                 AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR, (int) System.currentTimeMillis(),
                         getString(R.string.pref_category_secure_backup), String.format(getString(R.string.error_100), " (" + bkFileToSend + ")"), BackupListActivity.class, null);
@@ -125,25 +118,9 @@ public class SecureBackupService extends Service implements OnAsyncTaskListener 
                     debugLogFileWriter.flush();
                 }
                 Log.e(LogTag, "Backup file not found (" + bkFileToSend + ")");
-                return START_NOT_STICKY;
+                jobFinished(jobParams, false);
+                return false;
             }
-
-            //check if network available
-//            if (!Utils.isNetworkAvailable(this, mPreferences.getBoolean(getString(R.string.pref_key_secure_backup_only_wifi), true))) {
-//                //save the backup file for later delivery (when the network will e available)
-//                debugLogFileWriter.appendnl("\n").appendnl(Utils.getCurrentDateTimeForLog()).appendnl(" No network connection using only Wifi = ")
-//                        .append(mPreferences.getBoolean(getString(R.string.pref_key_secure_backup_only_wifi), true) ? "yes" : "no");
-//                debugLogFileWriter.flush();
-//                SharedPreferences.Editor editor = mPreferences.edit();
-//                editor.putString(getString(R.string.pref_key_postponed_secure_backupfile), bkFileToSend);
-//                editor.apply();
-//
-//                if (mPreferences.getBoolean(getString(R.string.pref_key_secure_backup_show_notification), true)) {
-//                    AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_INFO, ConstantValues.NOTIF_SECUREBK_POSTPONED_OR_SENT,
-//                            getString(R.string.pref_category_secure_backup), getString(R.string.secure_backup_sending_postponed), null, null);
-//                }
-//                return START_NOT_STICKY;
-//            }
 
             String errorMessage = FileUtils.createFolderIfNotExists(this, ConstantValues.TEMP_FOLDER);
             if (errorMessage != null) {
@@ -154,58 +131,80 @@ public class SecureBackupService extends Service implements OnAsyncTaskListener 
                     debugLogFileWriter.appendnl("Error in creating temporary folder: ").append(errorMessage);
                     debugLogFileWriter.flush();
                 }
-                return START_NOT_STICKY;
+                jobFinished(jobParams, false);
+                return false;
             }
-            Bundle fileBundle = new Bundle();
 
-            fileBundle.putString(bkFileName, bkFileToSend);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Bundle fileBundle = new Bundle();
+                    fileBundle.putString(bkFileName, bkFileToSend);
 
-            if (mPreferences.getBoolean(getString(R.string.pref_key_secure_backup_send_tracks), false)) {
-                if (debugLogFileWriter != null) {
-                    debugLogFileWriter.appendnl("Send gps track files option is: ON");
-                }
-                ArrayList<String> gpsTrackFiles = FileUtils.getFileNames(this, ConstantValues.TRACK_FOLDER, null);
-                if (gpsTrackFiles != null && gpsTrackFiles.size() > 0) {
-                    if (debugLogFileWriter != null) {
-                        debugLogFileWriter.appendnl("Preparing gps tracks to send.");
+                    try {
+                        if (mPreferences.getBoolean(getString(R.string.pref_key_secure_backup_send_tracks), false)) {
+                            if (debugLogFileWriter != null) {
+                                debugLogFileWriter.appendnl("Send gps track files option is: ON");
+                            }
+                            ArrayList<String> gpsTrackFiles = FileUtils.getFileNames(getApplicationContext(), ConstantValues.TRACK_FOLDER, null);
+                            if (gpsTrackFiles != null && gpsTrackFiles.size() > 0) {
+                                if (debugLogFileWriter != null) {
+                                    debugLogFileWriter.appendnl("Preparing gps tracks to send.");
+                                }
+                                String gpsTrackFile;
+                                for (String trackFile : gpsTrackFiles) {
+                                    gpsTrackFile = trackFile;
+                                    fileBundle.putString(ConstantValues.TRACK_FOLDER_NAME + "/" + gpsTrackFile, ConstantValues.TRACK_FOLDER + gpsTrackFile);
+                                }
+                            }
+                            else {
+                                if (debugLogFileWriter != null) {
+                                    debugLogFileWriter.appendnl("No gps track files found.");
+                                }
+                            }
+                        }
+                        else {
+                            if (debugLogFileWriter != null) {
+                                debugLogFileWriter.appendnl("Send gps track files option is: OFF");
+                            }
+                        }
+                        if (debugLogFileWriter != null) {
+                            debugLogFileWriter.flush();
+                        }
+
+                        zippedBk = ConstantValues.TEMP_FOLDER + bkFileName.replace(".db", "") + ".zi_";
+                        FileUtils.zipFiles(getApplicationContext(), fileBundle, zippedBk);
+                        if (FileUtils.mLastException != null) {
+                            Utils.showNotReportableErrorDialog(getApplicationContext(), FileUtils.mLastErrorMessage, null, true);
+                            return;
+                        }
+                        mFilesToSend.add(zippedBk);
+
+                        if (debugLogFileWriter != null) {
+                            debugLogFileWriter.appendnl("calling SendGMailTask.");
+                            debugLogFileWriter.flush();
+                        }
+                        new SendGMailTask(getApplicationContext(), mPreferences.getString(getString(R.string.pref_key_google_account), null),
+                                mPreferences.getString(getString(R.string.pref_key_secure_backup_emailTo), null),
+                                getString(R.string.secure_backup_mail_subject), getString(R.string.secure_backup_mail_body), mFilesToSend, SecureBackupJob.this).execute();
+                        if (debugLogFileWriter != null) {
+                            debugLogFileWriter.appendnl("onStartCommandEnded");
+                            debugLogFileWriter.flush();
+                        }
                     }
-                    String gpsTrackFile;
-                    for (String trackFile : gpsTrackFiles) {
-                        gpsTrackFile = trackFile;
-                        fileBundle.putString(ConstantValues.TRACK_FOLDER_NAME + "/" + gpsTrackFile, ConstantValues.TRACK_FOLDER + gpsTrackFile);
+                    catch (Exception e) {
+                        try {
+                            if (debugLogFileWriter != null) {
+                                debugLogFileWriter.appendnl(e.getMessage());
+                                debugLogFileWriter.appendnl(Utils.getStackTrace(e));
+                                debugLogFileWriter.flush();
+                            }
+                        }
+                        catch (Exception ignored) {
+                        }
                     }
                 }
-                else {
-                    if (debugLogFileWriter != null) {
-                        debugLogFileWriter.appendnl("No gps track files found.");
-                    }
-                }
-            }
-            else {
-                if (debugLogFileWriter != null) {
-                    debugLogFileWriter.appendnl("Send gps track files option is: OFF");
-                }
-            }
-            if (debugLogFileWriter != null) {
-                debugLogFileWriter.flush();
-            }
-
-            zippedBk = ConstantValues.TEMP_FOLDER + bkFileName.replace(".db", "") + ".zi_";
-            FileUtils.zipFiles(this, fileBundle, zippedBk);
-            mFilesToSend.add(zippedBk);
-
-            if (debugLogFileWriter != null) {
-                debugLogFileWriter.appendnl("calling SendGMailTask.");
-                debugLogFileWriter.flush();
-            }
-            new SendGMailTask(this, mPreferences.getString(getString(R.string.pref_key_google_account), null),
-                    mPreferences.getString(getString(R.string.pref_key_secure_backup_emailTo), null),
-                    getString(R.string.secure_backup_mail_subject), getString(R.string.secure_backup_mail_body), mFilesToSend, SecureBackupService.this).execute();
-            if (debugLogFileWriter != null) {
-                debugLogFileWriter.appendnl("onStartCommandEnded");
-                debugLogFileWriter.flush();
-            }
-            return START_STICKY;
+            }).start();
         }
         catch (Exception e) {
             try {
@@ -221,15 +220,16 @@ public class SecureBackupService extends Service implements OnAsyncTaskListener 
             catch (IOException ignored) {
             }
         }
-        return START_NOT_STICKY;
+
+        jobFinished(jobParams, false);
+        return true;
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public boolean onStopJob(JobParameters job) {
+        return false;
     }
 
-    //called when the SendGMailTask finished with success
     @Override
     public void onTaskCompleted() {
         //remove the postponed backup file if exists
@@ -252,15 +252,12 @@ public class SecureBackupService extends Service implements OnAsyncTaskListener 
                 debugLogFileWriter.appendnl("onTaskCompleted ended");
                 debugLogFileWriter.flush();
             }
-            stopSelf();
         }
         catch (IOException e) {
             AndiCarCrashReporter.sendCrash(e);
         }
-
     }
 
-    //called when the SendGMailTask cancelled or finished with error
     @Override
     public void onCancelled(Exception e) {
         try {
@@ -294,9 +291,9 @@ public class SecureBackupService extends Service implements OnAsyncTaskListener 
                                 debugLogFileWriter.appendnl(e.getMessage()).append(" (").append(Integer.toString(retryCount)).append(")");
                                 debugLogFileWriter.append("\n").append("retrying...");
                             }
-                            new SendGMailTask(this, mPreferences.getString(getString(R.string.pref_key_google_account), null),
+                            new SendGMailTask(getApplicationContext(), mPreferences.getString(getString(R.string.pref_key_google_account), null),
                                     mPreferences.getString(getString(R.string.pref_key_secure_backup_emailTo), null),
-                                    getString(R.string.secure_backup_mail_subject), getString(R.string.secure_backup_mail_body), mFilesToSend, SecureBackupService.this).execute();
+                                    getString(R.string.secure_backup_mail_subject), getString(R.string.secure_backup_mail_body), mFilesToSend, SecureBackupJob.this).execute();
                             if (debugLogFileWriter != null) {
                                 debugLogFileWriter.flush();
                             }
@@ -337,7 +334,6 @@ public class SecureBackupService extends Service implements OnAsyncTaskListener 
                 debugLogFileWriter.appendnl("onCanceled ended");
                 debugLogFileWriter.flush();
             }
-            stopSelf();
         }
         catch (Exception e1) {
             try {
@@ -352,21 +348,6 @@ public class SecureBackupService extends Service implements OnAsyncTaskListener 
             catch (IOException e2) {
                 e2.printStackTrace();
             }
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        try {
-            if (debugLogFileWriter != null) {
-                debugLogFileWriter.appendnl("onDestroy called.");
-                debugLogFileWriter.flush();
-                debugLogFileWriter.close();
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
