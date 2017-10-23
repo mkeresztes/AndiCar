@@ -71,7 +71,7 @@ public class BackupJob extends JobService {
                     DBAdapter db = new DBAdapter(getApplicationContext());
                     String dbPath = db.getDatabase().getPath();
                     db.close();
-                    String bkFile = FileUtils.backupDb(getApplicationContext(), dbPath, "abk_", false);
+                    String bkFile = FileUtils.backupDb(getApplicationContext(), dbPath, "abk_", false, null);
                     if (bkFile == null) {
                         if (debugLogFileWriter != null) {
                             debugLogFileWriter.appendnl("Backup terminated with error: ").append(FileUtils.mLastErrorMessage)
