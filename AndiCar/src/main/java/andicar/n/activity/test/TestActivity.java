@@ -71,7 +71,7 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
                 if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
                     IntentSender intentSender = Drive.DriveApi
                             .newOpenFileActivityBuilder()
-                            .setMimeType(new String[]{DriveFolder.MIME_TYPE, "text/plain", "image/png"})
+                            .setMimeType(new String[]{DriveFolder.MIME_TYPE})
                             .build(mGoogleApiClient);
                     try {
                         startIntentSenderForResult(
@@ -132,11 +132,11 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
                     Log.i(TAG, "Selected folder's Resource ID: " + driveId.getResourceId());
 
 ////                    selected file (can also be a folder)
-                    DriveFolder selectedFolder = driveId.asDriveFolder();
-                    PendingResult selectedFileMetadata = selectedFolder.getMetadata(mGoogleApiClient);
+                    final DriveFolder selectedFolder = driveId.asDriveFolder();
+                    final PendingResult selectedFolderMetadata = selectedFolder.getMetadata(mGoogleApiClient);
 
 //                    fetch the selected item's metadata asynchronously using a pending result
-                    selectedFileMetadata.setResultCallback(new ResultCallback() {
+                    selectedFolderMetadata.setResultCallback(new ResultCallback() {
                         @Override
                         public void onResult(@NonNull Result result) {
                             Metadata fileMetadata = ((DriveResource.MetadataResult) result).getMetadata();
@@ -144,7 +144,6 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
                             Log.i(TAG, "File title: " + fileMetadata.getTitle());
                             Log.i(TAG, "File size: " + fileMetadata.getFileSize());
                             Log.i(TAG, "File mime type: " + fileMetadata.getMimeType());
-                            Log.i(TAG, "File mime type: " + fileMetadata.getOriginalFilename());
                         }
                     });
                 }
