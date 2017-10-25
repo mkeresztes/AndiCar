@@ -42,92 +42,17 @@ import java.io.OutputStream;
 import java.util.Arrays;
 
 import andicar.n.persistence.AndiCarFileProvider;
+import andicar.n.service.GDriveUploaderTask;
 import andicar.n.utils.ConstantValues;
 
 @SuppressLint("SetTextI18n")
-public class TestActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class TestActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<DriveFolder.DriveFileResult> {
     private static final int REQUEST_CODE_RESOLVE_CONNECTION = 1;
     private static final int REQUEST_CODE_OPEN_DRIVE_FILE = 1000;
     private static final String TAG = "AndiCar";
-    GoogleAccountCredential mGoogleCredential;
     private SharedPreferences mPref = AndiCar.getDefaultSharedPreferences();
+    private GoogleAccountCredential mGoogleCredential;
     private GoogleApiClient mGoogleApiClient;
-
-    final private ResultCallback<DriveFolder.DriveFileResult> mFileUploadCallback = new ResultCallback<DriveFolder.DriveFileResult>() {
-        @Override
-        public void onResult(DriveFolder.DriveFileResult result) {
-            if (!result.getStatus().isSuccess()) {
-                Log.d(TAG, "Error while trying to create the file");
-                return;
-            }
-            Log.d(TAG, "Created a file with content: " + result.getDriveFile().getDriveId());
-        }
-    };
-    final private ResultCallback<DriveApi.DriveContentsResult> mDriveContentsCallback = new ResultCallback<DriveApi.DriveContentsResult>() {
-
-        @Override
-        public void onResult(DriveApi.DriveContentsResult result) {
-
-            if (!result.getStatus().isSuccess()) {
-                Log.d(TAG, "Error while trying to create new file contents");
-                return;
-            }
-
-            final DriveContents driveContents = result.getDriveContents();
-
-            // Perform I/O off the UI thread.
-            new Thread() {
-                @Override
-                public void run() {
-                    OutputStream outputStream = driveContents.getOutputStream();
-                    try {
-                        //getting image from the local storage
-//                /sdcard/andicar/backups/abk_2017-10-17-092529637.db
-                        InputStream inputStream = getContentResolver().openInputStream(
-                                AndiCarFileProvider.getUriForFile(getApplicationContext(), "org.andicar2.provider", new File("/sdcard/andicar/backups/abk_2017-10-17-092529637.db")));
-
-                        if (inputStream != null) {
-                            byte[] data = new byte[1024];
-                            while (inputStream.read(data) != -1) {
-                                //Reading data from local storage and writing to google drive
-                                outputStream.write(data);
-                            }
-                            inputStream.close();
-                        }
-
-                        outputStream.close();
-                    }
-                    catch (IOException e) {
-                        Log.e(TAG, e.getMessage());
-                    }
-
-
-                    MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
-                            .setTitle("abk_2017-10-17-092529637.db")
-                            .setMimeType("application/octet-stream")
-                            .setStarred(true).build();
-
-
-                    DriveApi.DriveIdResult exFolderResult = Drive.DriveApi
-                            .fetchDriveId(mGoogleApiClient, mPref.getString(getString(R.string.pref_key_google_drive_folder_id), "")) //existing folder id = 0B_cMuo4-XwcAZ3IzSG1jajFlWk0
-                            .await();
-
-                    if (!exFolderResult.getStatus().isSuccess()) {
-                        Log.d(TAG, "Cannot find DriveId. Are you authorized to view this file?");
-                        return;
-                    }
-
-                    final DriveFolder folder = exFolderResult.getDriveId().asDriveFolder();
-
-                    // create a file on root folder
-                    folder.createFile(mGoogleApiClient, changeSet, driveContents)
-                            .setResultCallback(mFileUploadCallback);
-
-                }
-            }.start();
-
-        }
-    };
     private TextView text1;
     private TextView text2;
     private TextView text3;
@@ -190,6 +115,31 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
             @Override
             public void onClick(View view) {
                 Drive.DriveApi.newDriveContents(mGoogleApiClient).setResultCallback(mDriveContentsCallback);
+            }
+        });
+
+        Button btn4 = (Button) findViewById(R.id.btn4);
+        btn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*
+                            .setTitle("abk_2017-10-17-092529637.db")
+                            .setMimeType("application/octet-stream")
+                            .setStarred(true).build();
+
+
+                    DriveApi.DriveIdResult exFolderResult = Drive.DriveApi
+                            .fetchDriveId(mGoogleApiClient, mPref.getString(getString(R.string.pref_key_google_drive_folder_id), "")) //existing folder id = 0B_cMuo4-XwcAZ3IzSG1jajFlWk0
+                            .await();
+                 */
+                try {
+                    new GDriveUploaderTask(getApplicationContext(), mGoogleApiClient, mPref.getString(getString(R.string.pref_key_google_drive_folder_id), ""),
+                            "/sdcard/andicar/backups/abk_2017-10-17-092529637.db",
+                            "application/octet-stream", TestActivity.this).execute();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -279,5 +229,91 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
                 }
                 break;
         }
+    }
+
+    final private ResultCallback<DriveFolder.DriveFileResult> mFileUploadCallback = new ResultCallback<DriveFolder.DriveFileResult>() {
+        @Override
+        public void onResult(DriveFolder.DriveFileResult result) {
+            if (!result.getStatus().isSuccess()) {
+                Log.d(TAG, "Error while trying to create the file");
+                return;
+            }
+            Log.d(TAG, "Created a file with content: " + result.getDriveFile().getDriveId());
+        }
+    };
+
+    final private ResultCallback<DriveApi.DriveContentsResult> mDriveContentsCallback = new ResultCallback<DriveApi.DriveContentsResult>() {
+
+        @Override
+        public void onResult(DriveApi.DriveContentsResult result) {
+
+            if (!result.getStatus().isSuccess()) {
+                Log.d(TAG, "Error while trying to create new file contents");
+                return;
+            }
+
+            final DriveContents driveContents = result.getDriveContents();
+
+            // Perform I/O off the UI thread.
+            new Thread() {
+                @Override
+                public void run() {
+                    OutputStream outputStream = driveContents.getOutputStream();
+                    try {
+                        //getting image from the local storage
+//                /sdcard/andicar/backups/abk_2017-10-17-092529637.db
+                        InputStream inputStream = getContentResolver().openInputStream(
+                                AndiCarFileProvider.getUriForFile(getApplicationContext(), "org.andicar2.provider", new File("/sdcard/andicar/backups/abk_2017-10-17-092529637.db")));
+
+                        if (inputStream != null) {
+                            byte[] data = new byte[1024];
+                            while (inputStream.read(data) != -1) {
+                                //Reading data from local storage and writing to google drive
+                                outputStream.write(data);
+                            }
+                            inputStream.close();
+                        }
+
+                        outputStream.close();
+                    }
+                    catch (IOException e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+
+
+                    MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
+                            .setTitle("abk_2017-10-17-092529637.db")
+                            .setMimeType("application/octet-stream")
+                            .setStarred(true).build();
+
+
+                    DriveApi.DriveIdResult exFolderResult = Drive.DriveApi
+                            .fetchDriveId(mGoogleApiClient, mPref.getString(getString(R.string.pref_key_google_drive_folder_id), "")) //existing folder id = 0B_cMuo4-XwcAZ3IzSG1jajFlWk0
+                            .await();
+
+                    if (!exFolderResult.getStatus().isSuccess()) {
+                        Log.d(TAG, "Cannot find DriveId. Are you authorized to view this file?");
+                        return;
+                    }
+
+                    final DriveFolder folder = exFolderResult.getDriveId().asDriveFolder();
+
+                    // create a file on root folder
+                    folder.createFile(mGoogleApiClient, changeSet, driveContents)
+                            .setResultCallback(mFileUploadCallback);
+
+                }
+            }.start();
+
+        }
+    };
+
+    @Override
+    public void onResult(@NonNull DriveFolder.DriveFileResult driveFileResult) {
+        if (!driveFileResult.getStatus().isSuccess()) {
+            Log.d(TAG, "Error while trying to create the file");
+            return;
+        }
+        Log.d(TAG, "Created a file with content: " + driveFileResult.getDriveFile().getDriveId());
     }
 }

@@ -34,6 +34,12 @@
         android:layout_height="wrap_content"
         android:text="Write file"/>
 
+    <Button
+        android:id="@+id/btn4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send in backround"/>
+
     <TextView
         android:id="@+id/text3"
         android:layout_width="wrap_content"
