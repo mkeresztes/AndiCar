@@ -125,7 +125,7 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
             @Override
             public void onClick(View view) {
                 try {
-                    new GDriveUploaderTask(getApplicationContext(), mGoogleApiClient, mPref.getString(getString(R.string.pref_key_google_drive_folder_id), ""),
+                    new GDriveUploaderTask(getApplicationContext(), mGoogleApiClient, mPref.getString(getString(R.string.pref_key_secure_backup_gdrive_folder_id), ""),
                             "/sdcard/andicar/backups/abk_2017-10-17-092529637.db",
                             "application/octet-stream", TestActivity.this).startUpload();
                 }
@@ -174,7 +174,7 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         text1.setText("Connected to: " + mGoogleCredential.getSelectedAccountName());
-        text2.setText(mPref.getString(getString(R.string.pref_key_google_drive_folder_name), ""));
+        text2.setText(mPref.getString(getString(R.string.pref_key_secure_backup_gdrive_folder_name), ""));
     }
 
     @Override
@@ -210,7 +210,7 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
                     Log.i(TAG, "Selected folder's ID: " + driveId.encodeToString());
                     Log.i(TAG, "Selected folder's Resource ID: " + driveId.getResourceId());
                     SharedPreferences.Editor e = mPref.edit();
-                    e.putString(getString(R.string.pref_key_google_drive_folder_id), driveId.getResourceId());
+                    e.putString(getString(R.string.pref_key_secure_backup_gdrive_folder_id), driveId.getResourceId());
                     e.apply();
 
 ////                    selected file (can also be a folder)
@@ -224,7 +224,7 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
                             Metadata fileMetadata = ((DriveResource.MetadataResult) result).getMetadata();
                             text2.setText(fileMetadata.getTitle());
                             SharedPreferences.Editor e = mPref.edit();
-                            e.putString(getString(R.string.pref_key_google_drive_folder_name), fileMetadata.getTitle());
+                            e.putString(getString(R.string.pref_key_secure_backup_gdrive_folder_name), fileMetadata.getTitle());
                             e.apply();
 //                            get the details out of the metadata object
                             Log.i(TAG, "File title: " + fileMetadata.getTitle());
@@ -294,7 +294,7 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
 
 
                     DriveApi.DriveIdResult exFolderResult = Drive.DriveApi
-                            .fetchDriveId(mGoogleApiClient, mPref.getString(getString(R.string.pref_key_google_drive_folder_id), "")) //existing folder id = 0B_cMuo4-XwcAZ3IzSG1jajFlWk0
+                            .fetchDriveId(mGoogleApiClient, mPref.getString(getString(R.string.pref_key_secure_backup_gdrive_folder_id), "")) //existing folder id = 0B_cMuo4-XwcAZ3IzSG1jajFlWk0
                             .await();
 
                     if (!exFolderResult.getStatus().isSuccess()) {

@@ -68,6 +68,19 @@
             android:summary="@string/pref_google_account_description"
             android:title="@string/pref_title_google_account"/>
 
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/secure_backup_method_entries"
+            android:entryValues="@array/secure_backup_method_values"
+            android:key="@string/pref_key_secure_backup_method"
+            android:title="@string/pref_securebackup_method_title" />
+
+        <Preference
+            android:key="@string/pref_key_secure_backup_gdrive_folder_id"
+            android:summary="@string/pref_securebackup_gdrive_description"
+            android:title="@string/pref_securebackup_gdrive_title" />
+
+
         <EditTextPreference
             android:inputType="textEmailAddress"
             android:key="@string/pref_key_secure_backup_emailTo"

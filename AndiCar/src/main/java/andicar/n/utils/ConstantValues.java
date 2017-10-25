@@ -52,6 +52,8 @@ public class ConstantValues {
     public static final int REQUEST_GOOGLE_PLAY_SERVICES = 1004;
     public static final int REQUEST_LOCATION_ACCESS = 1005;
     public static final int REQUEST_BACKUP_SERVICE_SCHEDULE = 1006;
+    public static final int REQUEST_OPEN_DRIVE_FOLDER = 1007;
+    public static final int REQUEST_RESOLVE_CONNECTION = 1008;
     public static final String[] GOOGLE_SCOPES = {GmailScopes.GMAIL_SEND};
     public static final int NOTIF_SECUREBK_NO_EMAIL_TO = 1000;
     public static final int NOTIF_SECUREBK_FILE_NOT_FOUND = 1001;

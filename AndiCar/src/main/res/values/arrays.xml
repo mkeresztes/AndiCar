@@ -118,6 +118,17 @@
     </string-array>
 
     <!--TODO DE/ES translation-->
+    <string-array name="secure_backup_method_entries">
+        <item>Google Drive</item>
+        <item>Email</item>
+    </string-array>
+
+    <string-array name="secure_backup_method_values" tools:ignore="MissingTranslation">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+
     <string-array name="bt_link_disconnect_entries">
         <item>Do nothing</item>
         <item>Pause / Resume (when reconnected)</item>

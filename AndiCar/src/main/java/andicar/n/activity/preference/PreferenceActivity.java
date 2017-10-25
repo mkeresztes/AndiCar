@@ -28,6 +28,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -43,6 +44,7 @@ import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
@@ -56,6 +58,17 @@ import android.widget.Toast;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.drive.Drive;
+import com.google.android.gms.drive.DriveFolder;
+import com.google.android.gms.drive.DriveId;
+import com.google.android.gms.drive.DriveResource;
+import com.google.android.gms.drive.Metadata;
+import com.google.android.gms.drive.OpenFileActivityBuilder;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
@@ -497,12 +510,13 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
      * activity is showing a two-pane settings UI.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class BackupRestorePreferenceFragment extends PreferenceFragment implements AndiCarAsyncTaskListener, Runnable {
+    public static class BackupRestorePreferenceFragment extends PreferenceFragment implements AndiCarAsyncTaskListener, Runnable, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
         public static final String SUCCESS_MSG_KEY = "Success";
         public static final String ERROR_MSG_KEY = "ErrorMsg";
         private static final String LogTag = "BackupRestorePref";
         private final Handler handler;
+
         SwitchPreference backupService;
         Preference backupServiceSchedule;
         SwitchPreference backupServiceShowNotification;
@@ -510,6 +524,8 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         PreferenceCategory secureBkCategory;
         SwitchPreference secureBkPreference;
         Preference secureBkGoogleAccountPreference;
+        ListPreference secureBkMethodPreference;
+        Preference secureBkGDriveFolderPreference;
         EditTextPreference secureBkEmailToPreference;
         SwitchPreference secureBkOnlyWiFiPreference;
         SwitchPreference secureBkSendTrackFilesPreference;
@@ -520,8 +536,8 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         ListPreference restorePreference;
         Preference listBackupsPreference;
 
-        GoogleAccountCredential googleCredential;
-
+        GoogleAccountCredential mGoogleCredential;
+        GoogleApiClient mGoogleApiClient;
         ProgressDialog mProgress;
         private boolean accessToStorageJustAsked = false;
         private boolean accessToAccountsJustAsked = false;
@@ -555,6 +571,26 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_backup_restore);
             setHasOptionsMenu(true);
 
+            // Initialize credentials and service object.
+            mGoogleCredential = GoogleAccountCredential.usingOAuth2(getActivity(), Arrays.asList(ConstantValues.GOOGLE_SCOPES)).setBackOff(new ExponentialBackOff());
+            mGoogleCredential.setSelectedAccountName(getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), ""));
+            if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), null) != null) {
+                bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_key_google_account)));
+            }
+
+            if (getPreferenceManager().getSharedPreferences().getBoolean(getString(R.string.pref_key_secure_backup_enabled), false) &&
+                    getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_method), "0").equals("0")) {
+                mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                        .addApi(Drive.API)
+                        .addScope(Drive.SCOPE_FILE)
+                        .addConnectionCallbacks(BackupRestorePreferenceFragment.this)
+                        .addOnConnectionFailedListener(BackupRestorePreferenceFragment.this)
+                        .setAccountName(mGoogleCredential.getSelectedAccountName())
+                        .build();
+
+                mGoogleApiClient.connect();
+            }
+
             backupService = (SwitchPreference) findPreference(getString(R.string.pref_key_backup_service_enabled));
             backupServiceSchedule = findPreference(getString(R.string.pref_key_backup_service_schedule));
             backupServiceShowNotification = (SwitchPreference) findPreference(getString(R.string.pref_key_backup_service_show_notification));
@@ -562,6 +598,10 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             secureBkCategory = (PreferenceCategory) findPreference(getString(R.string.pref_key_secure_backup_category));
             secureBkPreference = (SwitchPreference) findPreference(getString(R.string.pref_key_secure_backup_enabled));
             secureBkGoogleAccountPreference = findPreference(getString(R.string.pref_key_google_account));
+            secureBkMethodPreference = (ListPreference) findPreference(getString(R.string.pref_key_secure_backup_method));
+            bindPreferenceSummaryToValue(secureBkMethodPreference);
+            secureBkGDriveFolderPreference = findPreference(getString(R.string.pref_key_secure_backup_gdrive_folder_id));
+
             secureBkEmailToPreference = (EditTextPreference) findPreference(getString(R.string.pref_key_secure_backup_emailTo));
             secureBkOnlyWiFiPreference = (SwitchPreference) findPreference(getString(R.string.pref_key_secure_backup_only_wifi));
             secureBkShowNotification = (SwitchPreference) findPreference(getString(R.string.pref_key_secure_backup_show_notification));
@@ -572,11 +612,6 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             restorePreference = (ListPreference) findPreference(getString(R.string.pref_key_restore_data));
             listBackupsPreference = findPreference(getString(R.string.pref_key_list_backups));
 
-            // Initialize credentials and service object.
-            googleCredential = GoogleAccountCredential.usingOAuth2(getActivity(), Arrays.asList(ConstantValues.GOOGLE_SCOPES)).setBackOff(new ExponentialBackOff());
-            if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), null) != null) {
-                bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_key_google_account)));
-            }
             bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_key_secure_backup_emailTo)));
 
             backupPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -724,6 +759,9 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                             }
                         }
                         secureBkGoogleAccountPreference.setEnabled(true);
+                        secureBkMethodPreference.setEnabled(true);
+                        if (mGoogleApiClient != null && mGoogleApiClient.isConnected())
+                            secureBkGDriveFolderPreference.setEnabled(true);
                         secureBkEmailToPreference.setEnabled(true);
                         secureBkOnlyWiFiPreference.setEnabled(true);
                         secureBkShowNotification.setEnabled(true);
@@ -735,6 +773,8 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                         editor.apply();
                         secureBkGoogleAccountPreference.setSummary(R.string.pref_google_account_description);
                         secureBkGoogleAccountPreference.setEnabled(false);
+                        secureBkMethodPreference.setEnabled(false);
+                        secureBkGDriveFolderPreference.setEnabled(false);
                         secureBkEmailToPreference.setEnabled(false);
                         secureBkOnlyWiFiPreference.setEnabled(false);
                         secureBkShowNotification.setEnabled(false);
@@ -764,6 +804,29 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                     }
                     showGoogleAccountChooser();
                     return true;
+                }
+            });
+
+            secureBkGDriveFolderPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+//                    GoogleAccountCredential mGoogleCredential = GoogleAccountCredential.usingOAuth2(getActivity(),
+//                            Arrays.asList(ConstantValues.GOOGLE_SCOPES)).setBackOff(new ExponentialBackOff());
+
+//                    mGoogleCredential.setSelectedAccountName(AndiCar.getDefaultSharedPreferences().getString(getString(R.string.pref_key_google_account), ""));
+
+                    IntentSender intentSender = Drive.DriveApi
+                            .newOpenFileActivityBuilder()
+                            .setMimeType(new String[]{DriveFolder.MIME_TYPE})
+                            .build(mGoogleApiClient);
+                    try {
+                        BackupRestorePreferenceFragment.this.startIntentSenderForResult(
+                                intentSender, ConstantValues.REQUEST_OPEN_DRIVE_FOLDER, null, 0, 0, 0, null);
+                    } catch (IntentSender.SendIntentException e) {
+                        Log.i("AndiCar", "Failed to launch file chooser.");
+                    }
+                    return false;
                 }
             });
 
@@ -848,8 +911,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                         try {
 //                            ServiceStarter.startServicesDirect(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
                             Utils.setBackupNextRun(getActivity(), AndiCar.getDefaultSharedPreferences().getBoolean(getString(R.string.pref_key_backup_service_enabled), false));
-                        }
-                        catch (Exception ex) {
+                        } catch (Exception ex) {
                             AndiCarCrashReporter.sendCrash(ex);
                             Log.d(LogTag, ex.getMessage(), ex);
                         }
@@ -866,10 +928,24 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 secureBkPreference.setSummary(R.string.pref_securebackup_description);
             }
 
+            if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_gdrive_folder_name), "").length() > 0)
+                secureBkGDriveFolderPreference.setSummary(getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_gdrive_folder_name), ""));
+
+            PreferenceCategory secureBackupCategory = (PreferenceCategory) findPreference(getString(R.string.pref_key_secure_backup_category));
+            if (secureBackupCategory != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_method), "0").equals("0"))
+                    secureBackupCategory.removePreference(secureBkEmailToPreference);
+                else
+                    secureBackupCategory.removePreference(secureBkGDriveFolderPreference);
+            }
+
+
             //no access given to read google accounts => disable the secure backup
             if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_DENIED) {
                 secureBkPreference.setChecked(false);
                 secureBkGoogleAccountPreference.setEnabled(false);
+                secureBkMethodPreference.setEnabled(false);
+                secureBkGDriveFolderPreference.setEnabled(false);
                 secureBkOnlyWiFiPreference.setEnabled(false);
                 secureBkShowNotification.setEnabled(false);
                 secureBkEmailToPreference.setEnabled(false);
@@ -894,6 +970,9 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 } else {
                     if (getPreferenceManager().getSharedPreferences().getBoolean(getString(R.string.pref_key_secure_backup_enabled), false)) {
                         secureBkGoogleAccountPreference.setEnabled(true);
+                        secureBkMethodPreference.setEnabled(true);
+                        if (mGoogleApiClient != null && mGoogleApiClient.isConnected())
+                            secureBkGDriveFolderPreference.setEnabled(true);
                         secureBkOnlyWiFiPreference.setEnabled(true);
                         secureBkShowNotification.setEnabled(true);
                         secureBkEmailToPreference.setEnabled(true);
@@ -903,6 +982,8 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                         SharedPreferences.Editor editor = getPreferenceManager().getSharedPreferences().edit();
                         editor.putString(getString(R.string.pref_key_google_account), null);
                         editor.apply();
+                        secureBkMethodPreference.setEnabled(false);
+                        secureBkGDriveFolderPreference.setEnabled(false);
                         secureBkGoogleAccountPreference.setSummary(R.string.pref_google_account_description);
                         secureBkGoogleAccountPreference.setEnabled(false);
                         secureBkOnlyWiFiPreference.setEnabled(false);
@@ -921,7 +1002,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
 
             accountChoserIsShown = true;
             BackupRestorePreferenceFragment.this.startActivityForResult(
-                    googleCredential.newChooseAccountIntent(), ConstantValues.REQUEST_ACCOUNT_PICKER);
+                    mGoogleCredential.newChooseAccountIntent(), ConstantValues.REQUEST_ACCOUNT_PICKER);
         }
 
         private void fillBKFileList() {
@@ -1149,13 +1230,16 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                                 (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), null) == null ||
                                         !getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), "").equals(accountName))) {
                             editor.putString(getString(R.string.pref_key_google_account), accountName);
+                            editor.putString(getString(R.string.pref_key_secure_backup_gdrive_folder_id), "");
+                            editor.putString(getString(R.string.pref_key_secure_backup_gdrive_folder_name), "");
+                            secureBkGDriveFolderPreference.setSummary("");
                             if (settings.getString(getString(R.string.pref_key_secure_backup_emailTo), "").length() == 0) {
                                 editor.putString(getString(R.string.pref_key_secure_backup_emailTo), accountName);
                                 secureBkEmailToPreference.setSummary(accountName);
                             }
 
                             editor.apply();
-                            googleCredential.setSelectedAccountName(accountName);
+                            mGoogleCredential.setSelectedAccountName(accountName);
                             secureBkGoogleAccountPreference.setSummary(accountName);
                             if (!isGooglePlayServicesAvailable()) {
                                 editor.putBoolean(getString(R.string.pref_key_secure_backup_enabled), false);
@@ -1165,24 +1249,35 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                                 return;
                             }
                             //check the account: send a test email using it
-                            mProgress = new ProgressDialog(getActivity());
-                            mProgress.setMessage(getResources().getString(R.string.gen_validating_google_account));
-                            mProgress.show();
-                            try {
-                                new SendGMailTask(getActivity(), getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), null),
-                                        getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), null),
-                                        getResources().getString(R.string.gen_test_email_subject), getResources().getString(R.string.gen_test_email_body), null,
-                                        BackupRestorePreferenceFragment.this).execute();
-                            } catch (Exception e) {
-                                mProgress.hide();
-                                if (!(e instanceof GoogleAuthException)) {
-                                    AndiCarCrashReporter.sendCrash(e);
-                                    Log.e("AndiCar", e.getMessage(), e);
+                            if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_method), "0").equals("1")) {
+                                mProgress = new ProgressDialog(getActivity());
+                                mProgress.setMessage(getResources().getString(R.string.gen_validating_google_account));
+                                mProgress.show();
+                                try {
+                                    new SendGMailTask(getActivity(), getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), null),
+                                            getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), null),
+                                            getResources().getString(R.string.gen_test_email_subject), getResources().getString(R.string.gen_test_email_body), null,
+                                            BackupRestorePreferenceFragment.this).execute();
+                                } catch (Exception e) {
+                                    mProgress.hide();
+                                    if (!(e instanceof GoogleAuthException)) {
+                                        AndiCarCrashReporter.sendCrash(e);
+                                        Log.e("AndiCar", e.getMessage(), e);
+                                    } else {
+                                        Utils.showReportableErrorDialog(getActivity(), null, e.getMessage(), e, false);
+                                    }
                                 }
-                                else {
-                                    Utils.showReportableErrorDialog(getActivity(), null, e.getMessage(), e, false);
-                                }
+                            } else {
+                                mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                                        .addApi(Drive.API)
+                                        .addScope(Drive.SCOPE_FILE)
+                                        .addConnectionCallbacks(BackupRestorePreferenceFragment.this)
+                                        .addOnConnectionFailedListener(BackupRestorePreferenceFragment.this)
+                                        .setAccountName(mGoogleCredential.getSelectedAccountName())
+                                        .build();
+                                mGoogleApiClient.connect();
                             }
+
                         }
                     }
                     break;
@@ -1195,6 +1290,38 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                     if (resultCode != RESULT_OK) {
                         secureBkPreference.setChecked(false);
                         Toast.makeText(getActivity(), R.string.pref_securebackup_authorization_required, Toast.LENGTH_LONG).show();
+                    }
+                    break;
+                case ConstantValues.REQUEST_OPEN_DRIVE_FOLDER:
+                    if (resultCode == RESULT_OK) {
+                        DriveId driveId = data.getParcelableExtra(
+                                OpenFileActivityBuilder.EXTRA_RESPONSE_DRIVE_ID);//this extra contains the drive id of the selected file
+                        SharedPreferences.Editor e = AndiCar.getDefaultSharedPreferences().edit();
+                        e.putString(getString(R.string.pref_key_secure_backup_gdrive_folder_id), driveId.getResourceId());
+                        e.apply();
+
+                        final DriveFolder selectedFolder = driveId.asDriveFolder();
+                        final PendingResult selectedFolderMetadata = selectedFolder.getMetadata(mGoogleApiClient);
+
+                        selectedFolderMetadata.setResultCallback(new ResultCallback() {
+                            @Override
+                            public void onResult(@NonNull Result result) {
+                                Metadata fileMetadata = ((DriveResource.MetadataResult) result).getMetadata();
+                                SharedPreferences.Editor e = AndiCar.getDefaultSharedPreferences().edit();
+                                e.putString(getString(R.string.pref_key_secure_backup_gdrive_folder_name), fileMetadata.getTitle());
+                                e.apply();
+                                secureBkGDriveFolderPreference.setSummary(getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_gdrive_folder_name), ""));
+////                            get the details out of the metadata object
+//                                Log.i("AndiCar", "File title: " + fileMetadata.getTitle());
+//                                Log.i("AndiCar", "File size: " + fileMetadata.getFileSize());
+//                                Log.i("AndiCar", "File mime type: " + fileMetadata.getMimeType());
+                            }
+                        });
+                    }
+                    break;
+                case ConstantValues.REQUEST_RESOLVE_CONNECTION:
+                    if (resultCode == RESULT_OK) {
+                        mGoogleApiClient.connect();
                     }
                     break;
             }
@@ -1234,6 +1361,30 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 msg.setData(msgBundle);
                 handler.sendMessage(msg);
 //                Utils.showNotReportableErrorDialog(getActivity(), FileUtils.mLastErrorMessage, null, false);
+            }
+        }
+
+        @Override
+        public void onConnected(@Nullable Bundle bundle) {
+            secureBkGDriveFolderPreference.setEnabled(true);
+        }
+
+        @Override
+        public void onConnectionSuspended(int i) {
+
+        }
+
+        @Override
+        public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+            secureBkGDriveFolderPreference.setEnabled(false);
+            if (connectionResult.hasResolution()) {
+                try {
+                    connectionResult.startResolutionForResult(BackupRestorePreferenceFragment.this.getActivity(), ConstantValues.REQUEST_RESOLVE_CONNECTION);
+                } catch (IntentSender.SendIntentException e) {
+                    // Unable to resolve, message user appropriately
+                }
+            } else {
+                GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), getActivity(), 0).show();
             }
         }
     }
