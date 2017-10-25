@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 import andicar.n.activity.miscellaneous.BackupListActivity;
 import andicar.n.activity.preference.PreferenceActivity;
-import andicar.n.interfaces.OnAsyncTaskListener;
+import andicar.n.interfaces.AndiCarAsyncTaskListener;
 import andicar.n.utils.AndiCarCrashReporter;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
@@ -29,7 +29,7 @@ import andicar.n.utils.notification.AndiCarNotification;
  * Created by Miklos Keresztes on 17.10.2017.
  */
 
-public class SecureBackupJob extends JobService implements OnAsyncTaskListener {
+public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListener {
     public static final String BK_FILE_KEY = "bkFile";
     private static final String LogTag = "AndiCar SecureBackupJob";
     private static final int RETRY_COUNT_LIMIT = 5;

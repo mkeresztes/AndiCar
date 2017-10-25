@@ -22,7 +22,7 @@ package andicar.n.interfaces;
 /**
  * Created by miki on 8/31/16.
  */
-public interface OnAsyncTaskListener {
+public interface AndiCarAsyncTaskListener {
     void onTaskCompleted();
 
     void onCancelled(Exception e);

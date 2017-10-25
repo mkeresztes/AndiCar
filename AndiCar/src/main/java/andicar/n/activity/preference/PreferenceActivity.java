@@ -74,7 +74,7 @@ import andicar.n.activity.CommonListActivity;
 import andicar.n.activity.miscellaneous.BackupListActivity;
 import andicar.n.activity.miscellaneous.BackupScheduleActivity;
 import andicar.n.activity.miscellaneous.LogFilesListActivity;
-import andicar.n.interfaces.OnAsyncTaskListener;
+import andicar.n.interfaces.AndiCarAsyncTaskListener;
 import andicar.n.persistence.DBAdapter;
 import andicar.n.service.SendGMailTask;
 import andicar.n.utils.AndiCarCrashReporter;
@@ -497,7 +497,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
      * activity is showing a two-pane settings UI.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class BackupRestorePreferenceFragment extends PreferenceFragment implements OnAsyncTaskListener, Runnable {
+    public static class BackupRestorePreferenceFragment extends PreferenceFragment implements AndiCarAsyncTaskListener, Runnable {
 
         public static final String SUCCESS_MSG_KEY = "Success";
         public static final String ERROR_MSG_KEY = "ErrorMsg";

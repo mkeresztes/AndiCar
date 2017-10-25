@@ -53,7 +53,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 
-import andicar.n.interfaces.OnAsyncTaskListener;
+import andicar.n.interfaces.AndiCarAsyncTaskListener;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
 import andicar.n.utils.LogFileWriter;
@@ -64,7 +64,7 @@ import andicar.n.utils.Utils;
  */
 public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
 
-    private OnAsyncTaskListener mTaskCompleteListener = null;
+    private AndiCarAsyncTaskListener mTaskCompleteListener = null;
     private com.google.api.services.gmail.Gmail mGmailService = null;
     private String mEmailTo = null;
     private String mSubject = null;
@@ -83,7 +83,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
      * @param attachments the list of attachments if any
      * @param listener    a callback listener for task cancellation / execution completed
      */
-    public SendGMailTask(Context ctx, String fromAccount, String emailTo, String subject, String message, ArrayList<String> attachments, OnAsyncTaskListener listener) throws Exception {
+    public SendGMailTask(Context ctx, String fromAccount, String emailTo, String subject, String message, ArrayList<String> attachments, AndiCarAsyncTaskListener listener) throws Exception {
         try {
             if (FileUtils.isFileSystemAccessGranted(ctx)) {
                 FileUtils.createFolderIfNotExists(ctx, ConstantValues.LOG_FOLDER);
