@@ -49,7 +49,7 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
     private static final int REQUEST_CODE_RESOLVE_CONNECTION = 1;
     private static final int REQUEST_CODE_OPEN_DRIVE_FILE = 1000;
     private static final String TAG = "AndiCar";
-    final private ResultCallback<DriveFolder.DriveFileResult> fileCallback = new ResultCallback<DriveFolder.DriveFileResult>() {
+    final private ResultCallback<DriveFolder.DriveFileResult> mFileUploadCallback = new ResultCallback<DriveFolder.DriveFileResult>() {
         @Override
         public void onResult(DriveFolder.DriveFileResult result) {
             if (!result.getStatus().isSuccess()) {
@@ -62,7 +62,7 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
     GoogleAccountCredential mGoogleCredential;
     private SharedPreferences mPref = AndiCar.getDefaultSharedPreferences();
     private GoogleApiClient mGoogleApiClient;
-    final private ResultCallback<DriveApi.DriveContentsResult> driveContentsCallback = new ResultCallback<DriveApi.DriveContentsResult>() {
+    final private ResultCallback<DriveApi.DriveContentsResult> mDriveContentsCallback = new ResultCallback<DriveApi.DriveContentsResult>() {
 
         @Override
         public void onResult(DriveApi.DriveContentsResult result) {
@@ -120,7 +120,7 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
 
                     // create a file on root folder
                     folder.createFile(mGoogleApiClient, changeSet, driveContents)
-                            .setResultCallback(fileCallback);
+                            .setResultCallback(mFileUploadCallback);
 
                 }
             }.start();
@@ -188,7 +188,7 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Drive.DriveApi.newDriveContents(mGoogleApiClient).setResultCallback(driveContentsCallback);
+                Drive.DriveApi.newDriveContents(mGoogleApiClient).setResultCallback(mDriveContentsCallback);
             }
         });
     }
