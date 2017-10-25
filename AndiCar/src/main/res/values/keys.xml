@@ -72,6 +72,8 @@
     <string name="pref_key_secure_backup_category">secure_backup_category</string>
     <string name="pref_key_secure_backup_enabled">secure_backup_enabled</string>
     <string name="pref_key_google_account">google_account</string>
+    <string name="pref_key_google_drive_folder_id">google_drive_folder_id</string>
+    <string name="pref_key_google_drive_folder_name">google_drive_folder_name</string>
     <string name="pref_key_secure_backup_emailTo">secure_backup_emailTo</string>
     <string name="pref_key_secure_backup_only_wifi">secure_backup_only_wifi</string>
     <string name="pref_key_secure_backup_send_tracks">secure_backup_send_tracks</string>

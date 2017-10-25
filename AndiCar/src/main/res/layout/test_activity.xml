@@ -28,6 +28,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    <Button
+        android:id="@+id/btn3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Write file"/>
+
     <TextView
         android:id="@+id/text3"
         android:layout_width="wrap_content"
