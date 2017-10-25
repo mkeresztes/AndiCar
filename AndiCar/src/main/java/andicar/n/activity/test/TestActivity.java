@@ -49,6 +49,10 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
     private static final int REQUEST_CODE_RESOLVE_CONNECTION = 1;
     private static final int REQUEST_CODE_OPEN_DRIVE_FILE = 1000;
     private static final String TAG = "AndiCar";
+    GoogleAccountCredential mGoogleCredential;
+    private SharedPreferences mPref = AndiCar.getDefaultSharedPreferences();
+    private GoogleApiClient mGoogleApiClient;
+
     final private ResultCallback<DriveFolder.DriveFileResult> mFileUploadCallback = new ResultCallback<DriveFolder.DriveFileResult>() {
         @Override
         public void onResult(DriveFolder.DriveFileResult result) {
@@ -59,9 +63,6 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
             Log.d(TAG, "Created a file with content: " + result.getDriveFile().getDriveId());
         }
     };
-    GoogleAccountCredential mGoogleCredential;
-    private SharedPreferences mPref = AndiCar.getDefaultSharedPreferences();
-    private GoogleApiClient mGoogleApiClient;
     final private ResultCallback<DriveApi.DriveContentsResult> mDriveContentsCallback = new ResultCallback<DriveApi.DriveContentsResult>() {
 
         @Override
