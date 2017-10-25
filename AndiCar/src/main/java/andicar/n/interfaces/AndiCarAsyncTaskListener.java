@@ -23,7 +23,9 @@ package andicar.n.interfaces;
  * Created by miki on 8/31/16.
  */
 public interface AndiCarAsyncTaskListener {
-    void onTaskCompleted();
 
-    void onCancelled(Exception e);
+    void onTaskCompleted(String successMessage);
+
+    void onCancelled(String errorMsg, Exception e);
 }
+

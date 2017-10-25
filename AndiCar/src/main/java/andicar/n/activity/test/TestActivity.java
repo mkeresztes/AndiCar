@@ -41,12 +41,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 
+import andicar.n.interfaces.AndiCarAsyncTaskListener;
 import andicar.n.persistence.AndiCarFileProvider;
 import andicar.n.service.GDriveUploaderTask;
 import andicar.n.utils.ConstantValues;
+import andicar.n.utils.Utils;
 
 @SuppressLint("SetTextI18n")
-public class TestActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ResultCallback<DriveFolder.DriveFileResult> {
+public class TestActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, AndiCarAsyncTaskListener {
     private static final int REQUEST_CODE_RESOLVE_CONNECTION = 1;
     private static final int REQUEST_CODE_OPEN_DRIVE_FILE = 1000;
     private static final String TAG = "AndiCar";
@@ -135,12 +137,17 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     @Override
-    public void onResult(@NonNull DriveFolder.DriveFileResult driveFileResult) {
-        if (!driveFileResult.getStatus().isSuccess()) {
-            Log.d(TAG, "Error while trying to create the file");
-            return;
-        }
-        Log.d(TAG, "Created a file with content: " + driveFileResult.getDriveFile().getDriveId());
+    public void onTaskCompleted(String successMessage) {
+        Log.d(TAG, successMessage);
+    }
+
+    @Override
+    public void onCancelled(String errorMsg, Exception e) {
+        Log.d(TAG, "Task failed");
+        if (errorMsg != null)
+            Log.d(TAG, errorMsg);
+        if (e != null)
+            Log.d(TAG, Utils.getStackTrace(e));
     }
 
     @Override

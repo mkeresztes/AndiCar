@@ -230,7 +230,7 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
     }
 
     @Override
-    public void onTaskCompleted() {
+    public void onTaskCompleted(String successMessage) {
         //remove the postponed backup file if exists
         try {
             if (debugLogFileWriter != null) {
@@ -258,7 +258,7 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
     }
 
     @Override
-    public void onCancelled(Exception e) {
+    public void onCancelled(String errorMsg, Exception e) {
         try {
             if (debugLogFileWriter != null) {
                 debugLogFileWriter.appendnl("onCancelled start");

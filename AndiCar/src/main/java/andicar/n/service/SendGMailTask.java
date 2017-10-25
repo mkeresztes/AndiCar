@@ -260,7 +260,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
         mLastException = null;
         //callback to the listener
         if (mTaskCompleteListener != null) {
-            mTaskCompleteListener.onTaskCompleted();
+            mTaskCompleteListener.onTaskCompleted(null);
         }
     }
 
@@ -285,7 +285,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
         }
         //callback to the listener
         if (mTaskCompleteListener != null) {
-            mTaskCompleteListener.onCancelled(mLastException);
+            mTaskCompleteListener.onCancelled(null, mLastException);
         }
     }
 }

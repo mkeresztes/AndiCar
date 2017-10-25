@@ -1013,7 +1013,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         listen for google account verification gmail task
          */
         @Override
-        public void onTaskCompleted() {
+        public void onTaskCompleted(String successMessage) {
             if (mProgress != null && mProgress.isShowing()) {
                 mProgress.hide();
             }
@@ -1024,7 +1024,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         listen for google account verification gmail task
          */
         @Override
-        public void onCancelled(Exception e) {
+        public void onCancelled(String errorMsg, Exception e) {
             if (mProgress != null && mProgress.isShowing()) {
                 mProgress.hide();
             }

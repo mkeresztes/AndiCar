@@ -2,7 +2,6 @@ package andicar.n.service;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -17,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import andicar.n.interfaces.AndiCarAsyncTaskListener;
 import andicar.n.persistence.AndiCarFileProvider;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
@@ -28,36 +28,37 @@ import andicar.n.utils.Utils;
  */
 
 public class GDriveUploaderTask {
-    private static final String TAG = "AndiCar";
+//    private static final String TAG = "AndiCar";
 
     private GoogleApiClient mGoogleApiClient;
     private Context mCtx;
     private String mDriveFolderID;
     private String mFile;
     private String mMimeType;
-    private ResultCallback<DriveFolder.DriveFileResult> mFileUploadCallback;
-
-    private Exception mLastException = null;
+    private AndiCarAsyncTaskListener mTaskListener;
     private LogFileWriter debugLogFileWriter = null;
 
     public GDriveUploaderTask(Context ctx, GoogleApiClient googleApiClient, String driveFolderID, String file, String mimeType,
-                              ResultCallback<DriveFolder.DriveFileResult> fileUploadCallback) throws Exception {
+                              AndiCarAsyncTaskListener taskListener) throws Exception {
         try {
             if (FileUtils.isFileSystemAccessGranted(ctx)) {
                 FileUtils.createFolderIfNotExists(ctx, ConstantValues.LOG_FOLDER);
-                File debugLogFile = new File(ConstantValues.LOG_FOLDER + "GDRiveUploaderTask.log");
+                File debugLogFile = new File(ConstantValues.LOG_FOLDER + "GDriveUploaderTask.log");
                 debugLogFileWriter = new LogFileWriter(debugLogFile, false);
-                debugLogFileWriter.appendnl("SendGMailTask begin");
+                debugLogFileWriter.appendnl("GDriveUploaderTask begin");
                 debugLogFileWriter.flush();
             }
             mGoogleApiClient = googleApiClient;
             mCtx = ctx;
-            mDriveFolderID = driveFolderID + "x";
-            mFile = file + "x";
+            mDriveFolderID = driveFolderID;
+            mFile = file;
             mMimeType = mimeType;
-            mFileUploadCallback = fileUploadCallback;
+            mTaskListener = taskListener;
         }
         catch (Exception e) {
+            if (mTaskListener != null)
+                mTaskListener.onCancelled(null, e);
+
             if (debugLogFileWriter != null) {
                 try {
                     debugLogFileWriter.appendnl("An error occured: ").append(e.getMessage()).append(Utils.getStackTrace(e));
@@ -74,19 +75,21 @@ public class GDriveUploaderTask {
         Drive.DriveApi.newDriveContents(mGoogleApiClient).setResultCallback(mDriveContentsCallback);
     }
 
-//    @Override
-//    protected List<String> doInBackground(Void... params) {
-//        Drive.DriveApi.newDriveContents(mGoogleApiClient).setResultCallback(mDriveContentsCallback);
-//        return null;
-//    }
-
     final private ResultCallback<DriveApi.DriveContentsResult> mDriveContentsCallback = new ResultCallback<DriveApi.DriveContentsResult>() {
 
         @Override
         public void onResult(@NonNull DriveApi.DriveContentsResult result) {
 
             if (!result.getStatus().isSuccess()) {
-                Log.d(TAG, "Error while trying to create new file contents");
+                if (debugLogFileWriter != null) {
+                    try {
+                        debugLogFileWriter.appendnl("Error while trying to create new file contents: ").append(result.toString());
+                        debugLogFileWriter.flush();
+                    } catch (IOException ignored) {
+                    }
+                }
+                if (mTaskListener != null)
+                    mTaskListener.onCancelled("Error while trying to create new file contents", null);
                 return;
             }
 
@@ -114,29 +117,18 @@ public class GDriveUploaderTask {
                         .setMimeType(mMimeType)
                         .setStarred(false).build();
 
-//                DriveApi.DriveIdResult exFolderResult = Drive.DriveApi
-//                        .fetchDriveId(mGoogleApiClient, mDriveFolderID) //existing folder id = 0B_cMuo4-XwcAZ3IzSG1jajFlWk0
-//                        .await();
-//
-//                if (!exFolderResult.getStatus().isSuccess()) {
-//                    Log.d(TAG, "Cannot find DriveId. Are you authorized to view this file?");
-//                    return;
-//                }
-//
-//                DriveId driveId = exFolderResult.getDriveId();
-//                //showMessage("driveid" + driveId.getResourceId());
-//                final DriveFolder folder = driveId.asDriveFolder();
-//
-//
-//                // create a file on root folder
-//                folder.createFile(mGoogleApiClient, changeSet, driveContents)
-//                        .setResultCallback(mFileUploadCallback);
-
                 Drive.DriveApi.fetchDriveId(mGoogleApiClient, mDriveFolderID).setResultCallback(new ResultCallback<DriveApi.DriveIdResult>() {
                     @Override
                     public void onResult(@NonNull DriveApi.DriveIdResult driveIdResult) {
                         if (!driveIdResult.getStatus().isSuccess()) {
-                            Log.d(TAG, "Cannot find DriveId. Are you authorized to view this file?");
+                            if (mTaskListener != null)
+                                mTaskListener.onCancelled("Cannot find drive folder. Are you authorized to view this file?", null);
+
+                            try {
+                                debugLogFileWriter.appendnl("Cannot find DriveId. ").append(driveIdResult.toString());
+                                debugLogFileWriter.flush();
+                            } catch (IOException ignored) {
+                            }
                             return;
                         }
 
@@ -148,19 +140,42 @@ public class GDriveUploaderTask {
                     }
                 });
             } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
+                try {
+                    debugLogFileWriter.appendnl("Unexpected error!\n").append(Utils.getStackTrace(e));
+                    debugLogFileWriter.flush();
+                } catch (IOException ignored) {
+                }
+
+                if (mTaskListener != null)
+                    mTaskListener.onCancelled(null, e);
             }
         }
     };
 
-//    final private ResultCallback<DriveFolder.DriveFileResult> mFileUploadCallback = new ResultCallback<DriveFolder.DriveFileResult>() {
-//        @Override
-//        public void onResult(@NonNull DriveFolder.DriveFileResult result) {
-//            if (!result.getStatus().isSuccess()) {
-//                Log.d(TAG, "Error while trying to create the file");
-//                return;
-//            }
-//            Log.d(TAG, "Created a file with content: " + result.getDriveFile().getDriveId());
-//        }
-//    };
+    final private ResultCallback<DriveFolder.DriveFileResult> mFileUploadCallback = new ResultCallback<DriveFolder.DriveFileResult>() {
+        @Override
+        public void onResult(@NonNull DriveFolder.DriveFileResult result) {
+            if (!result.getStatus().isSuccess()) {
+                if (debugLogFileWriter != null) {
+                    try {
+                        debugLogFileWriter.appendnl("Error while trying to create the file: ").append(result.toString());
+                        debugLogFileWriter.flush();
+                    } catch (IOException ignored) {
+                    }
+                }
+                if (mTaskListener != null)
+                    mTaskListener.onCancelled("Error while trying to create the file", null);
+                return;
+            }
+            if (debugLogFileWriter != null) {
+                try {
+                    debugLogFileWriter.appendnl("Created a file with content: ").append(result.getDriveFile().getDriveId().toString());
+                    debugLogFileWriter.flush();
+                } catch (IOException ignored) {
+                }
+            }
+            if (mTaskListener != null)
+                mTaskListener.onTaskCompleted("Created a file with content: " + result.getDriveFile().getDriveId());
+        }
+    };
 }
