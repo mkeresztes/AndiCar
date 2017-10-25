@@ -76,10 +76,10 @@ import andicar.n.activity.miscellaneous.BackupScheduleActivity;
 import andicar.n.activity.miscellaneous.LogFilesListActivity;
 import andicar.n.interfaces.OnAsyncTaskListener;
 import andicar.n.persistence.DBAdapter;
+import andicar.n.service.SendGMailTask;
 import andicar.n.utils.AndiCarCrashReporter;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
-import andicar.n.utils.SendGMailTask;
 import andicar.n.utils.Utils;
 
 //import android.preference.PreferenceFragment;

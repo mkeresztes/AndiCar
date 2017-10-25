@@ -22,7 +22,6 @@ import andicar.n.utils.AndiCarCrashReporter;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
 import andicar.n.utils.LogFileWriter;
-import andicar.n.utils.SendGMailTask;
 import andicar.n.utils.Utils;
 import andicar.n.utils.notification.AndiCarNotification;
 

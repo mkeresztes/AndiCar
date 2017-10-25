@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package andicar.n.utils;
+package andicar.n.service;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -54,6 +54,10 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 
 import andicar.n.interfaces.OnAsyncTaskListener;
+import andicar.n.utils.ConstantValues;
+import andicar.n.utils.FileUtils;
+import andicar.n.utils.LogFileWriter;
+import andicar.n.utils.Utils;
 
 /**
  * Created by Miklos Keresztes on 8/1/16.
