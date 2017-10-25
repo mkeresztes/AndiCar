@@ -122,26 +122,25 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*
-                            .setTitle("abk_2017-10-17-092529637.db")
-                            .setMimeType("application/octet-stream")
-                            .setStarred(true).build();
-
-
-                    DriveApi.DriveIdResult exFolderResult = Drive.DriveApi
-                            .fetchDriveId(mGoogleApiClient, mPref.getString(getString(R.string.pref_key_google_drive_folder_id), "")) //existing folder id = 0B_cMuo4-XwcAZ3IzSG1jajFlWk0
-                            .await();
-                 */
                 try {
                     new GDriveUploaderTask(getApplicationContext(), mGoogleApiClient, mPref.getString(getString(R.string.pref_key_google_drive_folder_id), ""),
                             "/sdcard/andicar/backups/abk_2017-10-17-092529637.db",
-                            "application/octet-stream", TestActivity.this).execute();
+                            "application/octet-stream", TestActivity.this).startUpload();
                 }
                 catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
+    }
+
+    @Override
+    public void onResult(@NonNull DriveFolder.DriveFileResult driveFileResult) {
+        if (!driveFileResult.getStatus().isSuccess()) {
+            Log.d(TAG, "Error while trying to create the file");
+            return;
+        }
+        Log.d(TAG, "Created a file with content: " + driveFileResult.getDriveFile().getDriveId());
     }
 
     @Override
@@ -307,13 +306,4 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
 
         }
     };
-
-    @Override
-    public void onResult(@NonNull DriveFolder.DriveFileResult driveFileResult) {
-        if (!driveFileResult.getStatus().isSuccess()) {
-            Log.d(TAG, "Error while trying to create the file");
-            return;
-        }
-        Log.d(TAG, "Created a file with content: " + driveFileResult.getDriveFile().getDriveId());
-    }
 }

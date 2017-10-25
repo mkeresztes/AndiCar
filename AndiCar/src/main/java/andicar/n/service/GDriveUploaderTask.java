@@ -1,7 +1,6 @@
 package andicar.n.service;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -17,7 +16,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.List;
 
 import andicar.n.persistence.AndiCarFileProvider;
 import andicar.n.utils.ConstantValues;
@@ -29,7 +27,7 @@ import andicar.n.utils.Utils;
  * Created by Miklos Keresztes on 25.10.2017.
  */
 
-public class GDriveUploaderTask extends AsyncTask<Void, Void, List<String>> {
+public class GDriveUploaderTask {
     private static final String TAG = "AndiCar";
 
     private GoogleApiClient mGoogleApiClient;
@@ -54,8 +52,8 @@ public class GDriveUploaderTask extends AsyncTask<Void, Void, List<String>> {
             }
             mGoogleApiClient = googleApiClient;
             mCtx = ctx;
-            mDriveFolderID = driveFolderID;
-            mFile = file;
+            mDriveFolderID = driveFolderID + "x";
+            mFile = file + "x";
             mMimeType = mimeType;
             mFileUploadCallback = fileUploadCallback;
         }
@@ -72,11 +70,15 @@ public class GDriveUploaderTask extends AsyncTask<Void, Void, List<String>> {
         }
     }
 
-    @Override
-    protected List<String> doInBackground(Void... params) {
+    public void startUpload() {
         Drive.DriveApi.newDriveContents(mGoogleApiClient).setResultCallback(mDriveContentsCallback);
-        return null;
     }
+
+//    @Override
+//    protected List<String> doInBackground(Void... params) {
+//        Drive.DriveApi.newDriveContents(mGoogleApiClient).setResultCallback(mDriveContentsCallback);
+//        return null;
+//    }
 
     final private ResultCallback<DriveApi.DriveContentsResult> mDriveContentsCallback = new ResultCallback<DriveApi.DriveContentsResult>() {
 
@@ -145,8 +147,7 @@ public class GDriveUploaderTask extends AsyncTask<Void, Void, List<String>> {
                                 .setResultCallback(mFileUploadCallback);
                     }
                 });
-            }
-            catch (IOException e) {
+            } catch (Exception e) {
                 Log.e(TAG, e.getMessage());
             }
         }
