@@ -2,10 +2,15 @@ package andicar.n.service;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.drive.Drive;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
 
 import org.andicar2.activity.AndiCar;
@@ -29,16 +34,15 @@ import andicar.n.utils.notification.AndiCarNotification;
  * Created by Miklos Keresztes on 17.10.2017.
  */
 
-public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListener {
+public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     public static final String BK_FILE_KEY = "bkFile";
     private static final String LogTag = "AndiCar SecureBackupJob";
-    private static final int RETRY_COUNT_LIMIT = 5;
     public static String TAG = "SecureBackupJob";
-    private static int retryCount = 0;
     private final SharedPreferences mPreferences = AndiCar.getDefaultSharedPreferences();
-    private final ArrayList<String> mFilesToSend = new ArrayList<>();
+    private ArrayList<String> mFileToSend = new ArrayList<>();
     private String zippedBk;
     private LogFileWriter debugLogFileWriter = null;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     public boolean onStartJob(JobParameters jobParams) {
@@ -62,6 +66,7 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
                 jobFinished(jobParams, false);
                 return false;
             }
+
             //check if secure backup is enabled
             if (!mPreferences.getBoolean(getString(R.string.pref_key_secure_backup_enabled), false)) {
                 if (debugLogFileWriter != null) {
@@ -83,12 +88,26 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
                 jobFinished(jobParams, false);
                 return false;
             }
+
             //check if destination email (sendTo) exists
-            if (mPreferences.getString(getString(R.string.pref_key_secure_backup_emailTo), "").length() == 0) {
+            if (mPreferences.getString(getString(R.string.pref_key_secure_backup_method), "0").equals("1") && //GMai;
+                    mPreferences.getString(getString(R.string.pref_key_secure_backup_emailTo), "").length() == 0) {
                 AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR, (int) System.currentTimeMillis(),
                         getString(R.string.pref_category_secure_backup), getString(R.string.error_106), PreferenceActivity.class, null);
                 if (debugLogFileWriter != null) {
                     debugLogFileWriter.appendnl("No recipient email. Terminating process.");
+                    debugLogFileWriter.flush();
+                }
+                jobFinished(jobParams, false);
+                return false;
+            }
+
+            if (mPreferences.getString(getString(R.string.pref_key_secure_backup_method), "0").equals("0") && //GDrive;
+                    mPreferences.getString(getString(R.string.pref_key_secure_backup_gdrive_folder_id), "").equals("")) {
+                AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR, (int) System.currentTimeMillis(),
+                        getString(R.string.pref_category_secure_backup), getString(R.string.error_115), PreferenceActivity.class, null);
+                if (debugLogFileWriter != null) {
+                    debugLogFileWriter.appendnl("No drive folder selected. Terminating process.");
                     debugLogFileWriter.flush();
                 }
                 jobFinished(jobParams, false);
@@ -177,15 +196,33 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
                             Utils.showNotReportableErrorDialog(getApplicationContext(), FileUtils.mLastErrorMessage, null, true);
                             return;
                         }
-                        mFilesToSend.add(zippedBk);
 
-                        if (debugLogFileWriter != null) {
-                            debugLogFileWriter.appendnl("calling SendGMailTask.");
-                            debugLogFileWriter.flush();
+                        mFileToSend.add(zippedBk);
+
+                        if (mPreferences.getString(getString(R.string.pref_key_secure_backup_method), "0").equals("0")) { //GDrive
+                            if (debugLogFileWriter != null) {
+                                debugLogFileWriter.appendnl("calling GDriveUploader");
+                                debugLogFileWriter.flush();
+                            }
+                            mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext())
+                                    .addApi(Drive.API)
+                                    .addScope(Drive.SCOPE_FILE)
+                                    .addConnectionCallbacks(SecureBackupJob.this)
+                                    .addOnConnectionFailedListener(SecureBackupJob.this)
+                                    .setAccountName(mPreferences.getString(getString(R.string.pref_key_google_account), ""))
+                                    .build();
+                            mGoogleApiClient.connect();
+                        } else {
+                            if (debugLogFileWriter != null) {
+                                debugLogFileWriter.appendnl("calling SendGMailTask");
+                                debugLogFileWriter.flush();
+                            }
+
+                            new SendGMailTask(getApplicationContext(), mPreferences.getString(getString(R.string.pref_key_google_account), null),
+                                    mPreferences.getString(getString(R.string.pref_key_secure_backup_emailTo), null),
+                                    getString(R.string.secure_backup_mail_subject), getString(R.string.secure_backup_mail_body), mFileToSend, SecureBackupJob.this).execute();
                         }
-                        new SendGMailTask(getApplicationContext(), mPreferences.getString(getString(R.string.pref_key_google_account), null),
-                                mPreferences.getString(getString(R.string.pref_key_secure_backup_emailTo), null),
-                                getString(R.string.secure_backup_mail_subject), getString(R.string.secure_backup_mail_body), mFilesToSend, SecureBackupJob.this).execute();
+
                         if (debugLogFileWriter != null) {
                             debugLogFileWriter.appendnl("onStartCommandEnded");
                             debugLogFileWriter.flush();
@@ -239,7 +276,7 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
             }
 
             if (mPreferences.getBoolean(getString(R.string.pref_key_secure_backup_show_notification), true)) {
-                AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_INFO, ConstantValues.NOTIF_SECUREBK_POSTPONED_OR_SENT,
+                AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_INFO, ConstantValues.NOTIF_SECUREBK_SUCCEEDED,
                         getString(R.string.pref_category_secure_backup), getString(R.string.secure_backup_success_message), null, null);
             }
 
@@ -276,49 +313,19 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
                     }
                 }
                 else {
-                    //TODO move condition to instanceof
-                    if (e.getMessage() != null && e.getMessage().equals("connect timed out")) {
-                        if (retryCount < RETRY_COUNT_LIMIT) {
-                            retryCount++;
-                            //TODO remove this
-                            if (retryCount == 1 && debugLogFileWriter != null) {
-                                debugLogFileWriter.append("\n").append("====Exception Stack Trace====");
-                                debugLogFileWriter.append("\n").append(Utils.getStackTrace(e));
-                                debugLogFileWriter.append("\n").append("=======End Stack Trace=======");
-                            }
-                            if (debugLogFileWriter != null) {
-                                debugLogFileWriter.appendnl(e.getMessage()).append(" (").append(Integer.toString(retryCount)).append(")");
-                                debugLogFileWriter.append("\n").append("retrying...");
-                            }
-                            new SendGMailTask(getApplicationContext(), mPreferences.getString(getString(R.string.pref_key_google_account), null),
-                                    mPreferences.getString(getString(R.string.pref_key_secure_backup_emailTo), null),
-                                    getString(R.string.secure_backup_mail_subject), getString(R.string.secure_backup_mail_body), mFilesToSend, SecureBackupJob.this).execute();
-                            if (debugLogFileWriter != null) {
-                                debugLogFileWriter.flush();
-                            }
-                            return;
-                        }
-                        else {
-                            if (debugLogFileWriter != null) {
-                                debugLogFileWriter.appendnl(e.getMessage()).append(" (").append(Integer.toString(retryCount)).append(")");
-                                debugLogFileWriter.append("\n").append("Max retry count reached. Exiting.");
-                            }
-                        }
-                    }
-                    else {
+                    if (e.getMessage() != null && !e.getMessage().equals("connect timed out")) {
                         AndiCarCrashReporter.sendCrash(e);
                         AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_REPORTABLE_ERROR, (int) System.currentTimeMillis(), getString(R.string.pref_category_secure_backup),
                                 e.getLocalizedMessage(), null, e);
-                        if (debugLogFileWriter != null) {
-                            debugLogFileWriter.appendnl("Error: ").append(e.getMessage() != null ? e.getMessage() : "");
-                            debugLogFileWriter.append("\n").append("====Exception Stack Trace====");
-                            debugLogFileWriter.append("\n").append(Utils.getStackTrace(e));
-                            debugLogFileWriter.append("\n").append("=======End Stack Trace=======");
-                            debugLogFileWriter.flush();
-                        }
+                    }
+                    if (debugLogFileWriter != null) {
+                        debugLogFileWriter.appendnl("Error: ").append(e.getMessage() != null ? e.getMessage() : "");
+                        debugLogFileWriter.append("\n").append("====Exception Stack Trace====");
+                        debugLogFileWriter.append("\n").append(Utils.getStackTrace(e));
+                        debugLogFileWriter.append("\n").append("=======End Stack Trace=======");
+                        debugLogFileWriter.flush();
                     }
                 }
-//                Log.e(LogTag, e.getMessage() != null ? e.getMessage() : "", e);
             }
 
             if (debugLogFileWriter != null) {
@@ -358,6 +365,56 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
             if (tmpFile.exists()) {
                 tmpFile.delete();
             }
+        }
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        try {
+            if (debugLogFileWriter != null)
+                debugLogFileWriter.appendnl("Connected ...");
+
+            new GDriveUploader(getApplicationContext(), mGoogleApiClient, mPreferences.getString(getString(R.string.pref_key_secure_backup_gdrive_folder_id), ""),
+                    mFileToSend.get(0), "application/octet-stream", this).startUpload();
+        } catch (Exception e) {
+            try {
+                if (debugLogFileWriter != null) {
+                    debugLogFileWriter.append("\n").append("====Exception Catches on onConnected() method====");
+                    debugLogFileWriter.append("\n").append("====Stack Trace====");
+                    debugLogFileWriter.append("\n").append(Utils.getStackTrace(e));
+                    debugLogFileWriter.append("\n").append("=======End Stack Trace=======");
+                    debugLogFileWriter.flush();
+                }
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        try {
+            if (debugLogFileWriter != null) {
+                debugLogFileWriter.append("\n").append("Connection suspended");
+                debugLogFileWriter.flush();
+            }
+        } catch (IOException e2) {
+            e2.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        try {
+            AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR,
+                    (int) System.currentTimeMillis(), getString(R.string.pref_category_secure_backup), connectionResult.getErrorMessage(), null, null);
+
+            if (debugLogFileWriter != null) {
+                debugLogFileWriter.appendnl("Connection failed with error message: ").append(connectionResult.getErrorMessage());
+                debugLogFileWriter.flush();
+            }
+        } catch (IOException e2) {
+            e2.printStackTrace();
         }
     }
 }

@@ -938,7 +938,7 @@
     <string name="error_102">Access denied to external storage!</string>
     <string name="error_103">The log folder (%1s) can not be created.</string>
     <string name="error_105">Cannot delete %1s!</string>
-    <string name="error_106">Incomplete configured: no recipient email</string>
+    <string name="error_106">Secure backup incomplete configured: no recipient email</string>
     <string name="error_107">Incomplete configured: no Google account chosen.</string>
     <string name="error_108">AndiCar is not authorized, or the authorization was removed, to send emails on your behalf. Secure backup was disabled. You can re-enable it from Settings -> Backup &amp; Restore.</string>
     <string name="error_109">Access denied to external storage. Grant it to use this feature!</string>
@@ -946,5 +946,6 @@
     <string name="error_112">Please choose a value for to UOM!</string>
     <string name="error_113">Unknown activity type (%1s)!</string>
     <string name="error_114">A minimum of 2 to-do record required!</string>
+    <string name="error_115">Secure backup incomplete configured: no drive folder selected</string>
 
 </resources>

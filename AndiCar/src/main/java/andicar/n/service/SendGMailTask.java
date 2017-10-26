@@ -83,7 +83,8 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
      * @param attachments the list of attachments if any
      * @param listener    a callback listener for task cancellation / execution completed
      */
-    public SendGMailTask(Context ctx, String fromAccount, String emailTo, String subject, String message, ArrayList<String> attachments, AndiCarAsyncTaskListener listener) throws Exception {
+    public SendGMailTask(Context ctx, String fromAccount, String emailTo, String subject, String message,
+                         ArrayList<String> attachments, AndiCarAsyncTaskListener listener) throws Exception {
         try {
             if (FileUtils.isFileSystemAccessGranted(ctx)) {
                 FileUtils.createFolderIfNotExists(ctx, ConstantValues.LOG_FOLDER);

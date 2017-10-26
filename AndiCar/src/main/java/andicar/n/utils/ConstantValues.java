@@ -57,7 +57,7 @@ public class ConstantValues {
     public static final String[] GOOGLE_SCOPES = {GmailScopes.GMAIL_SEND};
     public static final int NOTIF_SECUREBK_NO_EMAIL_TO = 1000;
     public static final int NOTIF_SECUREBK_FILE_NOT_FOUND = 1001;
-    public static final int NOTIF_SECUREBK_POSTPONED_OR_SENT = 1002;
+    public static final int NOTIF_SECUREBK_SUCCEEDED = 1002;
     public static final int NOTIF_BACKUP_SERVICE_SUCCESS = 1003;
     public static final long ONE_DAY_IN_MILISECONDS = 86400000;
     public static final int BACKUP_SERVICE_INTENT_REQUEST_CODE = 0;
