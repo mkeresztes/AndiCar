@@ -70,6 +70,8 @@ import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.DriveResource;
 import com.google.android.gms.drive.Metadata;
 import com.google.android.gms.drive.OpenFileActivityBuilder;
+import com.google.android.gms.drive.query.Filters;
+import com.google.android.gms.drive.query.SearchableField;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
@@ -910,7 +912,9 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         private static void showGDriveFolderSelector(Activity activity) {
             IntentSender intentSender = Drive.DriveApi
                     .newOpenFileActivityBuilder()
-                    .setMimeType(new String[]{DriveFolder.MIME_TYPE})
+//                    .setMimeType(new String[]{DriveFolder.MIME_TYPE})
+                    .setActivityTitle(activity.getString(R.string.pref_securebackup_gdrive_folder_selector_title))
+                    .setSelectionFilter(Filters.eq(SearchableField.MIME_TYPE, DriveFolder.MIME_TYPE))
                     .build(mGoogleApiClient);
             try {
                 activity.startIntentSenderForResult(

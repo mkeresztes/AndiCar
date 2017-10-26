@@ -88,6 +88,7 @@
     <string name="pref_securebackup_method_title">Method</string>
     <string name="pref_securebackup_gdrive_title">Drive folder</string>
     <string name="pref_securebackup_gdrive_description">Will be used to store the backup files. Should be a dedicated one.</string>
+    <string name="pref_securebackup_gdrive_folder_selector_title">Choose a folder</string>
     <string name="pref_securebackup_email_to_title">Send to</string>
     <string name="pref_securebackup_only_on_wifi_title">Send only over wifi connection</string>
     <string name="pref_securebackup_send_tracks_title">Send GPS track files</string>
