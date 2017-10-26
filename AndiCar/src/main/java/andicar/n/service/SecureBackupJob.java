@@ -299,8 +299,13 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
         try {
             if (debugLogFileWriter != null) {
                 debugLogFileWriter.appendnl("onCancelled start");
+                if (errorMsg != null)
+                    debugLogFileWriter.appendnl(errorMsg);
+                if (e != null)
+                    debugLogFileWriter.appendnl(Utils.getStackTrace(e));
                 debugLogFileWriter.flush();
             }
+
             if (e != null) {
                 if (e instanceof UserRecoverableAuthIOException) {
                     //no Google authorization
@@ -326,7 +331,9 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
                         debugLogFileWriter.flush();
                     }
                 }
-            }
+            } else
+                AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR, (int) System.currentTimeMillis(), getString(R.string.pref_category_secure_backup),
+                        (errorMsg != null ? errorMsg : getString(R.string.error_056)), null, null);
 
             if (debugLogFileWriter != null) {
                 debugLogFileWriter.appendnl("Removing temporary files");

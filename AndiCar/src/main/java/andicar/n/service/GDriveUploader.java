@@ -9,7 +9,12 @@ import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveApi;
 import com.google.android.gms.drive.DriveContents;
 import com.google.android.gms.drive.DriveFolder;
+import com.google.android.gms.drive.DriveResource;
+import com.google.android.gms.drive.Metadata;
 import com.google.android.gms.drive.MetadataChangeSet;
+
+import org.andicar2.activity.AndiCar;
+import org.andicar2.activity.R;
 
 import java.io.File;
 import java.io.IOException;
@@ -122,10 +127,12 @@ public class GDriveUploader {
                     public void onResult(@NonNull DriveApi.DriveIdResult driveIdResult) {
                         if (!driveIdResult.getStatus().isSuccess()) {
                             if (mTaskListener != null)
-                                mTaskListener.onCancelled("Cannot find drive folder. Are you authorized to view this file?", null);
+                                mTaskListener.onCancelled("Cannot find drive folder " +
+                                        AndiCar.getDefaultSharedPreferences().getString(mCtx.getResources().getString(R.string.pref_key_secure_backup_gdrive_folder_name), "N/A"), null);
 
                             try {
-                                debugLogFileWriter.appendnl("Cannot find DriveId. ").append(driveIdResult.toString());
+                                debugLogFileWriter.appendnl("Cannot find folder: ")
+                                        .append(AndiCar.getDefaultSharedPreferences().getString(mCtx.getResources().getString(R.string.pref_key_secure_backup_gdrive_folder_name), "N/A"));
                                 debugLogFileWriter.flush();
                             } catch (IOException ignored) {
                             }
@@ -133,10 +140,46 @@ public class GDriveUploader {
                         }
 
                         final DriveFolder folder = driveIdResult.getDriveId().asDriveFolder();
+                        folder.getMetadata(mGoogleApiClient).setResultCallback(new ResultCallback<DriveResource.MetadataResult>() {
+                            @Override
+                            public void onResult(@NonNull DriveResource.MetadataResult metadataResult) {
+                                Metadata folderMetadata = metadataResult.getMetadata();
 
-                        // create a file on root folder
-                        folder.createFile(mGoogleApiClient, changeSet, driveContents)
-                                .setResultCallback(mFileUploadCallback);
+                                if (!folderMetadata.isFolder()) {
+                                    if (mTaskListener != null)
+                                        mTaskListener.onCancelled("Selected drive resource (" + folderMetadata.getTitle() + ") is not a folder!", null);
+
+                                    try {
+                                        debugLogFileWriter.appendnl("Selected drive resource (" + folderMetadata.getTitle() + ") is not a folder!");
+                                        debugLogFileWriter.flush();
+                                    } catch (IOException ignored) {
+                                    }
+                                } else if (folderMetadata.isTrashed() || folderMetadata.isExplicitlyTrashed()) {
+                                    if (mTaskListener != null)
+                                        mTaskListener.onCancelled("Selected drive folder (" + folderMetadata.getTitle() + ")  was deleted!", null);
+
+                                    try {
+                                        debugLogFileWriter.appendnl("Selected drive folder (" + folderMetadata.getTitle() + ")  was deleted!");
+                                        debugLogFileWriter.flush();
+                                    } catch (IOException ignored) {
+                                    }
+                                } else if (folderMetadata.isRestricted() || folderMetadata.isEditable()) {
+                                    if (mTaskListener != null)
+                                        mTaskListener.onCancelled("Selected drive folder (" + folderMetadata.getTitle() + ")  is restricted!", null);
+
+                                    try {
+                                        debugLogFileWriter.appendnl("Selected drive folder (" + folderMetadata.getTitle() + ")  is restricted!");
+                                        debugLogFileWriter.flush();
+                                    } catch (IOException ignored) {
+                                    }
+                                } else {
+                                    // create a file on root folder
+                                    folder.createFile(mGoogleApiClient, changeSet, driveContents)
+                                            .setResultCallback(mFileUploadCallback);
+                                }
+                            }
+                        });
+
                     }
                 });
             } catch (Exception e) {
