@@ -22,6 +22,7 @@ package andicar.n.activity.preference;
 
 import android.Manifest;
 import android.accounts.AccountManager;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -510,12 +511,17 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
      * activity is showing a two-pane settings UI.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @SuppressLint("HandlerLeak")
     public static class BackupRestorePreferenceFragment extends PreferenceFragment implements AndiCarAsyncTaskListener, Runnable, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
         public static final String SUCCESS_MSG_KEY = "Success";
         public static final String ERROR_MSG_KEY = "ErrorMsg";
         private static final String LogTag = "BackupRestorePref";
         private final Handler handler;
+        private boolean accessToStorageJustAsked = false;
+        private boolean accessToAccountsJustAsked = false;
+        private boolean accountChooserIsShown = false;
+        private String fPath;
 
         SwitchPreference backupService;
         Preference backupServiceSchedule;
@@ -539,10 +545,6 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         GoogleAccountCredential mGoogleCredential;
         GoogleApiClient mGoogleApiClient;
         ProgressDialog mProgress;
-        private boolean accessToStorageJustAsked = false;
-        private boolean accessToAccountsJustAsked = false;
-        private boolean accountChoserIsShown = false;
-        private String fPath;
 
         {
             handler = new Handler() {
@@ -811,11 +813,6 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-//                    GoogleAccountCredential mGoogleCredential = GoogleAccountCredential.usingOAuth2(getActivity(),
-//                            Arrays.asList(ConstantValues.GOOGLE_SCOPES)).setBackOff(new ExponentialBackOff());
-
-//                    mGoogleCredential.setSelectedAccountName(AndiCar.getDefaultSharedPreferences().getString(getString(R.string.pref_key_google_account), ""));
-
                     IntentSender intentSender = Drive.DriveApi
                             .newOpenFileActivityBuilder()
                             .setMimeType(new String[]{DriveFolder.MIME_TYPE})
@@ -855,7 +852,6 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 }
             });
 
-//            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
             if (!FileUtils.isFileSystemAccessGranted(getActivity())) {
                 accessToStorageJustAsked = true;
                 ActivityCompat.requestPermissions(this.getActivity(),
@@ -997,10 +993,10 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         }
 
         private void showGoogleAccountChooser() {
-            if (accountChoserIsShown)
+            if (accountChooserIsShown)
                 return;
 
-            accountChoserIsShown = true;
+            accountChooserIsShown = true;
             BackupRestorePreferenceFragment.this.startActivityForResult(
                     mGoogleCredential.newChooseAccountIntent(), ConstantValues.REQUEST_ACCOUNT_PICKER);
         }
@@ -1222,7 +1218,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                     }
                     break;
                 case ConstantValues.REQUEST_ACCOUNT_PICKER:
-                    accountChoserIsShown = false;
+                    accountChooserIsShown = false;
                     if (resultCode == RESULT_OK && data != null && data.getExtras() != null) {
                         String accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                         //account changed
