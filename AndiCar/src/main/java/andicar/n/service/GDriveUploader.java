@@ -27,7 +27,7 @@ import andicar.n.utils.Utils;
  * Created by Miklos Keresztes on 25.10.2017.
  */
 
-public class GDriveUploaderTask {
+public class GDriveUploader {
 //    private static final String TAG = "AndiCar";
 
     private GoogleApiClient mGoogleApiClient;
@@ -38,14 +38,14 @@ public class GDriveUploaderTask {
     private AndiCarAsyncTaskListener mTaskListener;
     private LogFileWriter debugLogFileWriter = null;
 
-    public GDriveUploaderTask(Context ctx, GoogleApiClient googleApiClient, String driveFolderID, String file, String mimeType,
-                              AndiCarAsyncTaskListener taskListener) throws Exception {
+    public GDriveUploader(Context ctx, GoogleApiClient googleApiClient, String driveFolderID, String file, String mimeType,
+                          AndiCarAsyncTaskListener taskListener) throws Exception {
         try {
             if (FileUtils.isFileSystemAccessGranted(ctx)) {
                 FileUtils.createFolderIfNotExists(ctx, ConstantValues.LOG_FOLDER);
-                File debugLogFile = new File(ConstantValues.LOG_FOLDER + "GDriveUploaderTask.log");
+                File debugLogFile = new File(ConstantValues.LOG_FOLDER + "GDriveUploader.log");
                 debugLogFileWriter = new LogFileWriter(debugLogFile, false);
-                debugLogFileWriter.appendnl("GDriveUploaderTask begin");
+                debugLogFileWriter.appendnl("GDriveUploader begin");
                 debugLogFileWriter.flush();
             }
             mGoogleApiClient = googleApiClient;

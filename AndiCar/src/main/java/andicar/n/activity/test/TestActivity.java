@@ -43,7 +43,7 @@ import java.util.Arrays;
 
 import andicar.n.interfaces.AndiCarAsyncTaskListener;
 import andicar.n.persistence.AndiCarFileProvider;
-import andicar.n.service.GDriveUploaderTask;
+import andicar.n.service.GDriveUploader;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.Utils;
 
@@ -125,7 +125,7 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
             @Override
             public void onClick(View view) {
                 try {
-                    new GDriveUploaderTask(getApplicationContext(), mGoogleApiClient, mPref.getString(getString(R.string.pref_key_secure_backup_gdrive_folder_id), ""),
+                    new GDriveUploader(getApplicationContext(), mGoogleApiClient, mPref.getString(getString(R.string.pref_key_secure_backup_gdrive_folder_id), ""),
                             "/sdcard/andicar/backups/abk_2017-10-17-092529637.db",
                             "application/octet-stream", TestActivity.this).startUpload();
                 }
