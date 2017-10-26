@@ -90,15 +90,15 @@
             android:title="@string/pref_securebackup_email_to_title"/>
 
         <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/pref_key_secure_backup_only_wifi"
-            android:title="@string/pref_securebackup_only_on_wifi_title"/>
-
-        <SwitchPreference
             android:defaultValue="false"
             android:key="@string/pref_key_secure_backup_send_tracks"
             android:summary="@string/pref_securebackup_send_tracks_description"
             android:title="@string/pref_securebackup_send_tracks_title"/>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_key_secure_backup_only_wifi"
+            android:title="@string/pref_securebackup_only_on_wifi_title"/>
 
         <SwitchPreference
             android:defaultValue="true"
