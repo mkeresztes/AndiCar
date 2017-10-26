@@ -158,11 +158,10 @@ public class AndiCar extends MultiDexApplication {
                 }
             }
         }
-
         if (oldAppVersion <= 17101200) {
             try {
-                Log.d("AndiCar", "========== Fixing Duplicate Entries =========");
                 //fix duplicate tags with same name
+                Log.d("AndiCar", "========== Fixing Duplicate Entries =========");
                 DBAdapter db = new DBAdapter(getApplicationContext());
                 FileUtils.createFolderIfNotExists(getApplicationContext(), ConstantValues.SYSTEM_BACKUP_FOLDER);
                 FileUtils.backupDb(getApplicationContext(), db.getDatabase().getPath(), "sbku_", true, ConstantValues.SYSTEM_BACKUP_FOLDER);
@@ -267,7 +266,13 @@ public class AndiCar extends MultiDexApplication {
                 AndiCarCrashReporter.sendCrash(ex);
             }
         }
-
+        if (oldAppVersion <= 17101200) {
+            //if secure backup is enabled set the method to GMail. Else use GDrive
+            if (appPreferences.getBoolean(getString(R.string.pref_key_secure_backup_enabled), false))
+                e.putString(getString(R.string.pref_key_secure_backup_method), "1"); //"1" == GMail
+            else
+                e.putString(getString(R.string.pref_key_secure_backup_method), "0"); //"0" == GDrive
+        }
         e.apply();
     }
 

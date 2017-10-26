@@ -413,11 +413,20 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         try {
+            String message = "";
+            if (connectionResult.getErrorMessage() != null && connectionResult.getErrorMessage().length() > 0)
+                message = connectionResult.getErrorMessage();
+            else if (connectionResult.getErrorCode() == ConnectionResult.SIGN_IN_REQUIRED)
+                message = "Sign in or grant access to AndiCar to Google Drive";
+            else if (connectionResult.getErrorCode() == ConnectionResult.SIGN_IN_FAILED)
+                message = "Sign in to Google Drive failed";
+
             AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR,
-                    (int) System.currentTimeMillis(), getString(R.string.pref_category_secure_backup), connectionResult.getErrorMessage(), null, null);
+                    (int) System.currentTimeMillis(), getString(R.string.pref_category_secure_backup), message, null, null);
+
 
             if (debugLogFileWriter != null) {
-                debugLogFileWriter.appendnl("Connection failed with error message: ").append(connectionResult.getErrorMessage());
+                debugLogFileWriter.appendnl("Connection failed: ").append(message);
                 debugLogFileWriter.flush();
             }
         } catch (IOException e2) {

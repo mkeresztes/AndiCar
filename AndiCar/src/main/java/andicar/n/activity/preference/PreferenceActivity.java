@@ -1464,7 +1464,8 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 mProgress.dismiss();
             }
             secureBkGDriveFolderPreference.setEnabled(true);
-            if (isShouldShowGDriveFolderSelector) {
+            if (isShouldShowGDriveFolderSelector
+                    || AndiCar.getDefaultSharedPreferences().getString(getString(R.string.pref_key_secure_backup_gdrive_folder_id), "").equals("")) {
                 showGDriveFolderSelector(getActivity());
                 isShouldShowGDriveFolderSelector = false;
             }
