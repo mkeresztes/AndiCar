@@ -163,7 +163,7 @@ public class GDriveUploader {
                                         debugLogFileWriter.flush();
                                     } catch (IOException ignored) {
                                     }
-                                } else if (folderMetadata.isRestricted() || folderMetadata.isEditable()) {
+                                } else if (folderMetadata.isRestricted()) {
                                     if (mTaskListener != null)
                                         mTaskListener.onCancelled("Selected drive folder (" + folderMetadata.getTitle() + ")  is restricted!", null);
 
