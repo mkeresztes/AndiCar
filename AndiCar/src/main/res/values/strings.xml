@@ -947,5 +947,12 @@
     <string name="error_113">Unknown activity type (%1s)!</string>
     <string name="error_114">A minimum of 2 to-do record required!</string>
     <string name="error_115">Secure backup incomplete configured: no drive folder selected</string>
+    <string name="error_116">Error while trying to upload the backup (%1s)</string>
+    <string name="error_117">Cannot find drive folder \"%1s\"</string>
+    <string name="error_118">Selected drive resource (%1s) is not a folder!</string>
+    <string name="error_119">Selected drive folder (%1s)  was deleted!</string>
+    <string name="error_120">Selected drive folder (%1s)  is restricted!</string>
+    <string name="error_121">Access denied to Google Drive. Open Settings -> Backup &amp; Restore and try to revalidate your Google account.</string>
+    <string name="error_122">Authentication error. Open Settings -> Backup &amp; Restore and try to revalidate your Google account.</string>
 
 </resources>

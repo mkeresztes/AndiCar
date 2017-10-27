@@ -627,11 +627,18 @@
     <string name="error_105">Nem lehet törölni a %1s!</string>
     <string name="error_106">A biztonságos mentés hiányosan van konfigurálva: nincs cimzett.</string>
     <string name="error_107">A biztonságos mentés hiányosan van konfigurálva: nincs kiválasztott Google fiók.</string>
-    <string name="error_108">Az AndiCarnak nincs hozzáférése az Ön Google fiókjához, hogy email-t küldjön az Ön nevében. Emiatt a biztonságos mentés kikapcsolódott. Visszkapcsolhatja a Beálításoknál a Biztonságos mentés opciónál.</string>
+    <string name="error_108">Az AndiCarnak nincs hozzáférése az Ön Google fiókjához, hogy email-t küldjön az Ön nevében. Emiatt a biztonságos mentés kikapcsolódott. Visszkapcsolhatja a Beálítások -> Biztonsági mentés &amp; visszaállítás opciónál.</string>
     <string name="error_109">Nincs engedélyezve a hozzáférés a külső adattározóhoz. Ennek a funkciónak szüksége van ehez az engedélyhez!</string>
     <string name="error_111">Válasszon egy kezdő mértékegységet!</string>
     <string name="error_112">Válassza ki, hogy mílyen mértékegységre alakít!</string>
     <string name="error_113">Ismeretlen ablaktípus (%1s)!</string>
     <string name="error_114">Legalább 2 tennivaló szükséges!</string>
     <string name="error_115">A biztonságos mentés hiányosan van konfigurálva: nincs drive mappa kiválasztva</string>
+    <string name="error_116">Hiba a feltöltés közben (%1s)</string>
+    <string name="error_117">A \"%1s\" drive mappa nem található</string>
+    <string name="error_118">A kiválasztott hely (%1s) nem mappa!</string>
+    <string name="error_119">A kiválasztott hely (%1s) nem létezik!</string>
+    <string name="error_120">A kiválasztott hely (%1s) elérhetetlen!</string>
+    <string name="error_121">Nincs hozzaférési jog a Google Drivehoz. Menjen a Beálítások -> Biztonsági mentés &amp; visszaállítás és próbálja újra leellenőrizni a Google fiókot.</string>
+    <string name="error_122">Bejelentkezési hiba. Menjen a Beálítások -> Biztonsági mentés &amp; visszaállítás és próbálja újra leellenőrizni a Google fiókot.</string>
 </resources>

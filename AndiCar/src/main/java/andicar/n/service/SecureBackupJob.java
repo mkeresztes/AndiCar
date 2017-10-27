@@ -201,7 +201,7 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
 
                         if (mPreferences.getString(getString(R.string.pref_key_secure_backup_destination), "0").equals("0")) { //GDrive
                             if (debugLogFileWriter != null) {
-                                debugLogFileWriter.appendnl("calling GDriveUploader");
+                                debugLogFileWriter.appendnl("calling GDriveUploader for file: ").append(zippedBk);
                                 debugLogFileWriter.flush();
                             }
                             mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext())
@@ -214,7 +214,7 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
                             mGoogleApiClient.connect();
                         } else {
                             if (debugLogFileWriter != null) {
-                                debugLogFileWriter.appendnl("calling SendGMailTask");
+                                debugLogFileWriter.appendnl("calling SendGMailTask for file: ").append(zippedBk);
                                 debugLogFileWriter.flush();
                             }
 
@@ -271,7 +271,7 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
         //remove the postponed backup file if exists
         try {
             if (debugLogFileWriter != null) {
-                debugLogFileWriter.appendnl("onAndiCarTaskCompleted start");
+                debugLogFileWriter.appendnl("Success.");
                 debugLogFileWriter.flush();
             }
 
@@ -282,12 +282,6 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
 
             //remove temporary zipped file(s)
             removeTemporaryFiles();
-
-            //stop the service
-            if (debugLogFileWriter != null) {
-                debugLogFileWriter.appendnl("onAndiCarTaskCompleted ended");
-                debugLogFileWriter.flush();
-            }
         }
         catch (IOException e) {
             AndiCarCrashReporter.sendCrash(e);
@@ -298,7 +292,7 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
     public void onAndiCarTaskCancelled(String errorMsg, Exception e) {
         try {
             if (debugLogFileWriter != null) {
-                debugLogFileWriter.appendnl("onAndiCarTaskCancelled start");
+                debugLogFileWriter.appendnl("Task failed!");
                 if (errorMsg != null)
                     debugLogFileWriter.appendnl(errorMsg);
                 if (e != null)
@@ -413,13 +407,15 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         try {
-            String message = "";
+            String message = getString(R.string.error_056);
             if (connectionResult.getErrorMessage() != null && connectionResult.getErrorMessage().length() > 0)
                 message = connectionResult.getErrorMessage();
-            else if (connectionResult.getErrorCode() == ConnectionResult.SIGN_IN_REQUIRED)
-                message = "Sign in or grant access to AndiCar to Google Drive";
-            else if (connectionResult.getErrorCode() == ConnectionResult.SIGN_IN_FAILED)
-                message = "Sign in to Google Drive failed";
+            else if (connectionResult.getErrorCode() == ConnectionResult.SIGN_IN_REQUIRED) {
+                message = getString(R.string.error_121);
+            }
+            else if (connectionResult.getErrorCode() == ConnectionResult.SIGN_IN_FAILED) {
+                message = getString(R.string.error_122);
+            }
 
             AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR,
                     (int) System.currentTimeMillis(), getString(R.string.pref_category_secure_backup), message, null, null);

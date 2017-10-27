@@ -626,11 +626,18 @@
     <string name="error_105">Nu se poate șterge %1s!</string>
     <string name="error_106">Salvările de siguranță sun incomplet configurate: nu este completat destinatarul</string>.
     <string name="error_107">Configurat incomplet: nu s-a ales niciun cont Google.</string>
-    <string name="error_108">AndiCar nu este autorizat să trimită emailuri în numele tău. Din acest motiv Secure Backup a fost dezactivat. Se poate reactiva din Configurări -> Backup &amp; Restore.</string>
+    <string name="error_108">AndiCar nu este autorizat să trimită emailuri în numele tău. Din acest motiv Secure Backup a fost dezactivat. Se poate reactiva din Setări -> Copie de siguranță &amp; restaurare date.</string>
     <string name="error_109">Nu este permis accesul la dispozitivul de stocare extern. Această funcționalitate necesită acest acces!</string>
     <string name="error_111">Alegeți o unitate de pornire!</string>
     <string name="error_112">Alegeți unitatea în care doriți conversia!</string>
     <string name="error_113">Tip fereastră invalid (%1s)!</string>
     <string name="error_114">Sunt necesare cel puţin 2 sarcini!</string>
     <string name="error_115">Salvările de siguranță sun incomplet configurate: nu s-a selectat niciun folder destinație.</string>
+    <string name="error_116">Eroare în timpul încărcării fișierului (%1s)</string>
+    <string name="error_117">Folder \"%1s\" nu se găsește</string>
+    <string name="error_118">Destinația selectată (%1s) nu este un folder!</string>
+    <string name="error_119">Destinația selectată (%1s) a fost ștearsă!</string>
+    <string name="error_120">Destinația selectată (%1s) este restricționată!</string>
+    <string name="error_121">Accesul la Google Drive este interzis. Deschide Setări -> Copie de siguranță &amp; restaurare date și încearcă revalidarea contului.</string>
+    <string name="error_122">Eroare de autentificare. Deschide Setări -> Copie de siguranță &amp; restaurare date și încearcă revalidarea contului.</string>
 </resources>

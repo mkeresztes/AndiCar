@@ -1,6 +1,7 @@
 package andicar.n.service;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -42,6 +43,7 @@ public class GDriveUploader {
     private String mMimeType;
     private AndiCarAsyncTaskListener mTaskListener;
     private LogFileWriter debugLogFileWriter = null;
+    private Resources mResource;
 
     public GDriveUploader(Context ctx, GoogleApiClient googleApiClient, String driveFolderID, String file, String mimeType,
                           AndiCarAsyncTaskListener taskListener) throws Exception {
@@ -50,7 +52,7 @@ public class GDriveUploader {
                 FileUtils.createFolderIfNotExists(ctx, ConstantValues.LOG_FOLDER);
                 File debugLogFile = new File(ConstantValues.LOG_FOLDER + "GDriveUploader.log");
                 debugLogFileWriter = new LogFileWriter(debugLogFile, false);
-                debugLogFileWriter.appendnl("GDriveUploader begin");
+                debugLogFileWriter.appendnl("GDriveUploader started for file: ").append(file);
                 debugLogFileWriter.flush();
             }
             mGoogleApiClient = googleApiClient;
@@ -59,6 +61,7 @@ public class GDriveUploader {
             mFile = file;
             mMimeType = mimeType;
             mTaskListener = taskListener;
+            mResource = ctx.getResources();
         }
         catch (Exception e) {
             if (mTaskListener != null) {
@@ -67,7 +70,7 @@ public class GDriveUploader {
 
             if (debugLogFileWriter != null) {
                 try {
-                    debugLogFileWriter.appendnl("An error occured: ").append(e.getMessage()).append(Utils.getStackTrace(e));
+                    debugLogFileWriter.appendnl("An error occurred: ").append(e.getMessage()).append(Utils.getStackTrace(e));
                     debugLogFileWriter.flush();
                 }
                 catch (IOException ignored) {
@@ -89,13 +92,13 @@ public class GDriveUploader {
             if (!result.getStatus().isSuccess()) {
                 if (debugLogFileWriter != null) {
                     try {
-                        debugLogFileWriter.appendnl("Error while trying to create new file contents: ").append(result.toString());
+                        debugLogFileWriter.appendnl("Error while trying to upload the backup: ").append(result.toString());
                         debugLogFileWriter.flush();
                     } catch (IOException ignored) {
                     }
                 }
                 if (mTaskListener != null) {
-                    mTaskListener.onAndiCarTaskCancelled("Error while trying to create new file contents", null);
+                    mTaskListener.onAndiCarTaskCancelled(String.format(mResource.getString(R.string.error_116), result.toString()), null);
                 }
                 return;
             }
@@ -128,9 +131,10 @@ public class GDriveUploader {
                     @Override
                     public void onResult(@NonNull DriveApi.DriveIdResult driveIdResult) {
                         if (!driveIdResult.getStatus().isSuccess()) {
-                            if (mTaskListener != null)
-                                mTaskListener.onAndiCarTaskCancelled("Cannot find drive folder " +
-                                        AndiCar.getDefaultSharedPreferences().getString(mCtx.getResources().getString(R.string.pref_key_secure_backup_gdrive_folder_name), "N/A"), null);
+                            if (mTaskListener != null) {
+                                mTaskListener.onAndiCarTaskCancelled(String.format(mResource.getString(R.string.error_117),
+                                        AndiCar.getDefaultSharedPreferences().getString(mCtx.getResources().getString(R.string.pref_key_secure_backup_gdrive_folder_name), "N/A")), null);
+                            }
 
                             try {
                                 debugLogFileWriter.appendnl("Cannot find folder: ")
@@ -149,7 +153,7 @@ public class GDriveUploader {
 
                                 if (!folderMetadata.isFolder()) {
                                     if (mTaskListener != null) {
-                                        mTaskListener.onAndiCarTaskCancelled("Selected drive resource (" + folderMetadata.getTitle() + ") is not a folder!", null);
+                                        mTaskListener.onAndiCarTaskCancelled(String.format(mResource.getString(R.string.error_118), folderMetadata.getTitle()), null);
                                     }
 
                                     try {
@@ -159,7 +163,7 @@ public class GDriveUploader {
                                     }
                                 } else if (folderMetadata.isTrashed() || folderMetadata.isExplicitlyTrashed()) {
                                     if (mTaskListener != null) {
-                                        mTaskListener.onAndiCarTaskCancelled("Selected drive folder (" + folderMetadata.getTitle() + ")  was deleted!", null);
+                                        mTaskListener.onAndiCarTaskCancelled(String.format(mResource.getString(R.string.error_119), folderMetadata.getTitle()), null);
                                     }
 
                                     try {
@@ -169,7 +173,7 @@ public class GDriveUploader {
                                     }
                                 } else if (folderMetadata.isRestricted()) {
                                     if (mTaskListener != null) {
-                                        mTaskListener.onAndiCarTaskCancelled("Selected drive folder (" + folderMetadata.getTitle() + ")  is restricted!", null);
+                                        mTaskListener.onAndiCarTaskCancelled(String.format(mResource.getString(R.string.error_120), folderMetadata.getTitle()), null);
                                     }
 
                                     try {
@@ -207,25 +211,25 @@ public class GDriveUploader {
             if (!result.getStatus().isSuccess()) {
                 if (debugLogFileWriter != null) {
                     try {
-                        debugLogFileWriter.appendnl("Error while trying to create the file: ").append(result.toString());
+                        debugLogFileWriter.appendnl("mFileUploadCallback: Error while trying to create the file: ").append(result.toString());
                         debugLogFileWriter.flush();
                     } catch (IOException ignored) {
                     }
                 }
                 if (mTaskListener != null) {
-                    mTaskListener.onAndiCarTaskCancelled("Error while trying to create the file", null);
+                    mTaskListener.onAndiCarTaskCancelled(String.format(mResource.getString(R.string.error_116), result.toString()), null);
                 }
                 return;
             }
             if (debugLogFileWriter != null) {
                 try {
-                    debugLogFileWriter.appendnl("Created a file with content: ").append(result.getDriveFile().getDriveId().toString());
+                    debugLogFileWriter.appendnl("Success. Created a file with content: ").append(result.getDriveFile().getDriveId().toString());
                     debugLogFileWriter.flush();
                 } catch (IOException ignored) {
                 }
             }
             if (mTaskListener != null) {
-                mTaskListener.onAndiCarTaskCompleted("Created a file with content: " + result.getDriveFile().getDriveId());
+                mTaskListener.onAndiCarTaskCompleted(mResource.getString(R.string.secure_backup_success_message));
             }
         }
     };
