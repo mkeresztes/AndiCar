@@ -267,11 +267,11 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
     }
 
     @Override
-    public void onTaskCompleted(String successMessage) {
+    public void onAndiCarTaskCompleted(String successMessage) {
         //remove the postponed backup file if exists
         try {
             if (debugLogFileWriter != null) {
-                debugLogFileWriter.appendnl("onTaskCompleted start");
+                debugLogFileWriter.appendnl("onAndiCarTaskCompleted start");
                 debugLogFileWriter.flush();
             }
 
@@ -285,7 +285,7 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
 
             //stop the service
             if (debugLogFileWriter != null) {
-                debugLogFileWriter.appendnl("onTaskCompleted ended");
+                debugLogFileWriter.appendnl("onAndiCarTaskCompleted ended");
                 debugLogFileWriter.flush();
             }
         }
@@ -295,10 +295,10 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
     }
 
     @Override
-    public void onCancelled(String errorMsg, Exception e) {
+    public void onAndiCarTaskCancelled(String errorMsg, Exception e) {
         try {
             if (debugLogFileWriter != null) {
-                debugLogFileWriter.appendnl("onCancelled start");
+                debugLogFileWriter.appendnl("onAndiCarTaskCancelled start");
                 if (errorMsg != null)
                     debugLogFileWriter.appendnl(errorMsg);
                 if (e != null)
@@ -351,7 +351,7 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
         catch (Exception e1) {
             try {
                 if (debugLogFileWriter != null) {
-                    debugLogFileWriter.append("\n").append("====Exception Catches on onCancelled() method====");
+                    debugLogFileWriter.append("\n").append("====Exception Catches on onAndiCarTaskCancelled() method====");
                     debugLogFileWriter.append("\n").append("====Stack Trace====");
                     debugLogFileWriter.append("\n").append(Utils.getStackTrace(e1));
                     debugLogFileWriter.append("\n").append("=======End Stack Trace=======");

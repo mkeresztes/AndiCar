@@ -261,7 +261,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
         mLastException = null;
         //callback to the listener
         if (mTaskCompleteListener != null) {
-            mTaskCompleteListener.onTaskCompleted(null);
+            mTaskCompleteListener.onAndiCarTaskCompleted(null);
         }
     }
 
@@ -270,7 +270,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
         super.onCancelled(result);
         try {
             if (debugLogFileWriter != null) {
-                debugLogFileWriter.appendnl("onCancelled(result) called with result:");
+                debugLogFileWriter.appendnl("onAndiCarTaskCancelled(result) called with result:");
                 if (result != null) {
                     for (String s : result) {
                         debugLogFileWriter.append("\n\t").append(s);
@@ -286,7 +286,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
         }
         //callback to the listener
         if (mTaskCompleteListener != null) {
-            mTaskCompleteListener.onCancelled(null, mLastException);
+            mTaskCompleteListener.onAndiCarTaskCancelled(null, mLastException);
         }
     }
 }

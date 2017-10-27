@@ -1175,7 +1175,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         listen for google account verification gmail task
          */
         @Override
-        public void onTaskCompleted(String successMessage) {
+        public void onAndiCarTaskCompleted(String successMessage) {
             if (mProgress != null) {
                 mProgress.dismiss();
             }
@@ -1186,7 +1186,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         listen for google account verification gmail task
          */
         @Override
-        public void onCancelled(String errorMsg, Exception e) {
+        public void onAndiCarTaskCancelled(String errorMsg, Exception e) {
             if (mProgress != null) {
                 mProgress.dismiss();
             }

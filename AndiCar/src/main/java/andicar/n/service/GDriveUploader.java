@@ -61,8 +61,9 @@ public class GDriveUploader {
             mTaskListener = taskListener;
         }
         catch (Exception e) {
-            if (mTaskListener != null)
-                mTaskListener.onCancelled(null, e);
+            if (mTaskListener != null) {
+                mTaskListener.onAndiCarTaskCancelled(null, e);
+            }
 
             if (debugLogFileWriter != null) {
                 try {
@@ -93,8 +94,9 @@ public class GDriveUploader {
                     } catch (IOException ignored) {
                     }
                 }
-                if (mTaskListener != null)
-                    mTaskListener.onCancelled("Error while trying to create new file contents", null);
+                if (mTaskListener != null) {
+                    mTaskListener.onAndiCarTaskCancelled("Error while trying to create new file contents", null);
+                }
                 return;
             }
 
@@ -127,7 +129,7 @@ public class GDriveUploader {
                     public void onResult(@NonNull DriveApi.DriveIdResult driveIdResult) {
                         if (!driveIdResult.getStatus().isSuccess()) {
                             if (mTaskListener != null)
-                                mTaskListener.onCancelled("Cannot find drive folder " +
+                                mTaskListener.onAndiCarTaskCancelled("Cannot find drive folder " +
                                         AndiCar.getDefaultSharedPreferences().getString(mCtx.getResources().getString(R.string.pref_key_secure_backup_gdrive_folder_name), "N/A"), null);
 
                             try {
@@ -146,8 +148,9 @@ public class GDriveUploader {
                                 Metadata folderMetadata = metadataResult.getMetadata();
 
                                 if (!folderMetadata.isFolder()) {
-                                    if (mTaskListener != null)
-                                        mTaskListener.onCancelled("Selected drive resource (" + folderMetadata.getTitle() + ") is not a folder!", null);
+                                    if (mTaskListener != null) {
+                                        mTaskListener.onAndiCarTaskCancelled("Selected drive resource (" + folderMetadata.getTitle() + ") is not a folder!", null);
+                                    }
 
                                     try {
                                         debugLogFileWriter.appendnl("Selected drive resource (" + folderMetadata.getTitle() + ") is not a folder!");
@@ -155,8 +158,9 @@ public class GDriveUploader {
                                     } catch (IOException ignored) {
                                     }
                                 } else if (folderMetadata.isTrashed() || folderMetadata.isExplicitlyTrashed()) {
-                                    if (mTaskListener != null)
-                                        mTaskListener.onCancelled("Selected drive folder (" + folderMetadata.getTitle() + ")  was deleted!", null);
+                                    if (mTaskListener != null) {
+                                        mTaskListener.onAndiCarTaskCancelled("Selected drive folder (" + folderMetadata.getTitle() + ")  was deleted!", null);
+                                    }
 
                                     try {
                                         debugLogFileWriter.appendnl("Selected drive folder (" + folderMetadata.getTitle() + ")  was deleted!");
@@ -164,8 +168,9 @@ public class GDriveUploader {
                                     } catch (IOException ignored) {
                                     }
                                 } else if (folderMetadata.isRestricted()) {
-                                    if (mTaskListener != null)
-                                        mTaskListener.onCancelled("Selected drive folder (" + folderMetadata.getTitle() + ")  is restricted!", null);
+                                    if (mTaskListener != null) {
+                                        mTaskListener.onAndiCarTaskCancelled("Selected drive folder (" + folderMetadata.getTitle() + ")  is restricted!", null);
+                                    }
 
                                     try {
                                         debugLogFileWriter.appendnl("Selected drive folder (" + folderMetadata.getTitle() + ")  is restricted!");
@@ -189,8 +194,9 @@ public class GDriveUploader {
                 } catch (IOException ignored) {
                 }
 
-                if (mTaskListener != null)
-                    mTaskListener.onCancelled(null, e);
+                if (mTaskListener != null) {
+                    mTaskListener.onAndiCarTaskCancelled(null, e);
+                }
             }
         }
     };
@@ -206,8 +212,9 @@ public class GDriveUploader {
                     } catch (IOException ignored) {
                     }
                 }
-                if (mTaskListener != null)
-                    mTaskListener.onCancelled("Error while trying to create the file", null);
+                if (mTaskListener != null) {
+                    mTaskListener.onAndiCarTaskCancelled("Error while trying to create the file", null);
+                }
                 return;
             }
             if (debugLogFileWriter != null) {
@@ -217,8 +224,9 @@ public class GDriveUploader {
                 } catch (IOException ignored) {
                 }
             }
-            if (mTaskListener != null)
-                mTaskListener.onTaskCompleted("Created a file with content: " + result.getDriveFile().getDriveId());
+            if (mTaskListener != null) {
+                mTaskListener.onAndiCarTaskCompleted("Created a file with content: " + result.getDriveFile().getDriveId());
+            }
         }
     };
 }

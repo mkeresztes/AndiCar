@@ -137,12 +137,12 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     @Override
-    public void onTaskCompleted(String successMessage) {
+    public void onAndiCarTaskCompleted(String successMessage) {
         Log.d(TAG, successMessage);
     }
 
     @Override
-    public void onCancelled(String errorMsg, Exception e) {
+    public void onAndiCarTaskCancelled(String errorMsg, Exception e) {
         Log.d(TAG, "Task failed");
         if (errorMsg != null)
             Log.d(TAG, errorMsg);

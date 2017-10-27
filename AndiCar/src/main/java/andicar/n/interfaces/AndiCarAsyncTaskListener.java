@@ -24,8 +24,8 @@ package andicar.n.interfaces;
  */
 public interface AndiCarAsyncTaskListener {
 
-    void onTaskCompleted(String successMessage);
+    void onAndiCarTaskCompleted(String successMessage);
 
-    void onCancelled(String errorMsg, Exception e);
+    void onAndiCarTaskCancelled(String errorMsg, Exception e);
 }
 
