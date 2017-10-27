@@ -576,42 +576,29 @@ public class Utils {
             String LogTag = "AndiCar";
             Log.d(LogTag, "========== ToDo setNextRun begin ==========");
             //@formatter:off
-        String sql =
+            String sql =
                 " SELECT * " +
                 " FROM " + DBAdapter.TABLE_NAME_TODO +
                 " WHERE " +
                         DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_GEN_ISACTIVE) + "='Y' " + " AND " +
                         DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__ISDONE) + "='N' " + " AND " +
                         DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__NOTIFICATIONDATE) + " IS NOT NULL " +
-//                        DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__NOTIFICATIONDATE) + " >= ? " +
                 " ORDER BY " +
                         DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__NOTIFICATIONDATE) + " ASC ";
-        //@formatter:on
+            //@formatter:on
             long currentSec = System.currentTimeMillis() / 1000;
-//        String selArgs[] = {Long.toString(currentSec)};
             DBAdapter db = new DBAdapter(ctx);
-//        Cursor c = db.execSelectSql(sql, selArgs);
             Cursor c = db.execSelectSql(sql, null);
             FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(ctx));
             Job fbJob;
             Bundle jobParams = new Bundle();
             long notificationDateInSeconds;
-        /*
-        if (c.moveToNext()) {
-            long notificationDate = c.getLong(DBAdapter.COL_POS_TODO__NOTIFICATIONDATE);
-            Intent i = new Intent(this, ToDoNotificationService.class);
-            i.putExtra(ToDoManagementService.SET_JUST_NEXT_RUN_KEY, false);
-            PendingIntent pIntent = PendingIntent.getService(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            am.set(AlarmManager.RTC_WAKEUP, notificationDate * 1000, pIntent);
-        }
-         */
+
             while (c.moveToNext()) {
                 notificationDateInSeconds = c.getLong(DBAdapter.COL_POS_TODO__NOTIFICATIONDATE);
                 jobParams.putLong(ToDoNotificationJob.TODO_ID_KEY, c.getLong(DBAdapter.COL_POS_GEN_ROWID));
                 jobParams.putLong(ToDoNotificationJob.CAR_ID_KEY, c.getLong(DBAdapter.COL_POS_TODO__CAR_ID));
                 Log.d(LogTag,
-//                    "System.currentTimeMillis(): " + System.currentTimeMillis() + "; " +
                         "Current date: " + DateFormat.getDateFormat(ctx).format(currentSec * 1000) + " " + DateFormat.getTimeFormat(ctx).format(currentSec * 1000) +
                                 " (currentSec: " + currentSec + "); " +
                                 "Next run for to-do " + c.getString(DBAdapter.COL_POS_GEN_NAME) + " (" + c.getString(DBAdapter.COL_POS_GEN_ROWID) + "): " +
