@@ -586,7 +586,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         PreferenceCategory secureBkCategory;
         static SwitchPreference secureBkPreference;
         Preference secureBkGoogleAccountPreference;
-        ListPreference secureBkMethodPreference;
+        ListPreference secureBkDestinationPreference;
         static Preference secureBkGDriveFolderPreference;
         static EditTextPreference secureBkEmailToPreference;
         SwitchPreference secureBkOnlyWiFiPreference;
@@ -633,7 +633,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             }
 
             if (getPreferenceManager().getSharedPreferences().getBoolean(getString(R.string.pref_key_secure_backup_enabled), false) &&
-                    getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_method), "0").equals("0")) {
+                    getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_destination), "0").equals("0")) {
                 mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                         .addApi(Drive.API)
                         .addScope(Drive.SCOPE_FILE)
@@ -652,9 +652,9 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             secureBkCategory = (PreferenceCategory) findPreference(getString(R.string.pref_key_secure_backup_category));
             secureBkPreference = (SwitchPreference) findPreference(getString(R.string.pref_key_secure_backup_enabled));
             secureBkGoogleAccountPreference = findPreference(getString(R.string.pref_key_google_account));
-            secureBkMethodPreference = (ListPreference) findPreference(getString(R.string.pref_key_secure_backup_method));
-            setPreferenceSummaryByValue(secureBkMethodPreference, secureBkMethodPreference.getValue());
-//            setDefaultPreferenceChangeListener(secureBkMethodPreference);
+            secureBkDestinationPreference = (ListPreference) findPreference(getString(R.string.pref_key_secure_backup_destination));
+            setPreferenceSummaryByValue(secureBkDestinationPreference, secureBkDestinationPreference.getValue());
+//            setDefaultPreferenceChangeListener(secureBkDestinationPreference);
             secureBkGDriveFolderPreference = findPreference(getString(R.string.pref_key_secure_backup_gdrive_folder_id));
 
             secureBkEmailToPreference = (EditTextPreference) findPreference(getString(R.string.pref_key_secure_backup_emailTo));
@@ -814,7 +814,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                             }
                         }
                         secureBkGoogleAccountPreference.setEnabled(true);
-                        secureBkMethodPreference.setEnabled(true);
+                        secureBkDestinationPreference.setEnabled(true);
                         if (mGoogleApiClient != null && mGoogleApiClient.isConnected())
                             secureBkGDriveFolderPreference.setEnabled(true);
                         if (isGMailAccessGranted) {
@@ -831,7 +831,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                         editor.apply();
                         secureBkGoogleAccountPreference.setSummary(R.string.pref_google_account_description);
                         secureBkGoogleAccountPreference.setEnabled(false);
-                        secureBkMethodPreference.setEnabled(false);
+                        secureBkDestinationPreference.setEnabled(false);
                         secureBkGDriveFolderPreference.setEnabled(false);
                         secureBkEmailToPreference.setEnabled(false);
                         secureBkOnlyWiFiPreference.setEnabled(false);
@@ -865,7 +865,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 }
             });
 
-            secureBkMethodPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            secureBkDestinationPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     setPreferenceSummaryByValue(preference, newValue);
@@ -897,7 +897,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             revalidateAccountPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    validateGoogleAccount(getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_method), "0"));
+                    validateGoogleAccount(getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_destination), "0"));
                     return true;
                 }
             });
@@ -994,7 +994,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 secureBkGDriveFolderPreference.setSummary(getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_gdrive_folder_name), ""));
 
             if (secureBkCategory != null) {
-                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_method), "0").equals("0")) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_destination), "0").equals("0")) {
                     secureBkCategory.removePreference(secureBkEmailToPreference);
                 }
                 else {
@@ -1007,7 +1007,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_DENIED) {
                 secureBkPreference.setChecked(false);
                 secureBkGoogleAccountPreference.setEnabled(false);
-                secureBkMethodPreference.setEnabled(false);
+                secureBkDestinationPreference.setEnabled(false);
                 secureBkGDriveFolderPreference.setEnabled(false);
                 secureBkOnlyWiFiPreference.setEnabled(false);
                 secureBkShowNotification.setEnabled(false);
@@ -1033,7 +1033,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 } else {
                     if (getPreferenceManager().getSharedPreferences().getBoolean(getString(R.string.pref_key_secure_backup_enabled), false)) {
                         secureBkGoogleAccountPreference.setEnabled(true);
-                        secureBkMethodPreference.setEnabled(true);
+                        secureBkDestinationPreference.setEnabled(true);
                         if (mGoogleApiClient != null && mGoogleApiClient.isConnected())
                             secureBkGDriveFolderPreference.setEnabled(true);
                         secureBkOnlyWiFiPreference.setEnabled(true);
@@ -1047,7 +1047,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                         SharedPreferences.Editor editor = getPreferenceManager().getSharedPreferences().edit();
                         editor.putString(getString(R.string.pref_key_google_account), null);
                         editor.apply();
-                        secureBkMethodPreference.setEnabled(false);
+                        secureBkDestinationPreference.setEnabled(false);
                         secureBkGDriveFolderPreference.setEnabled(false);
                         secureBkGoogleAccountPreference.setSummary(R.string.pref_google_account_description);
                         secureBkGoogleAccountPreference.setEnabled(false);
@@ -1064,7 +1064,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         @Override
         public void onStop() {
             super.onStop();
-            if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_method), "0").equals("0")) {
+            if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_destination), "0").equals("0")) {
                 if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
                     secureBkPreference.setChecked(false);
                 }
@@ -1330,7 +1330,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                                 return;
                             }
                             //check the account: send a test email using it
-                            validateGoogleAccount(getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_method), "0"));
+                            validateGoogleAccount(getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_destination), "0"));
                         }
                     }
                     break;

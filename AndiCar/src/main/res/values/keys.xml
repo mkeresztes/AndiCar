@@ -73,7 +73,7 @@
     <string name="pref_key_secure_backup_enabled">secure_backup_enabled</string>
     <string name="pref_key_google_account">google_account</string>
 
-    <string name="pref_key_secure_backup_method">secure_backup_destination</string>
+    <string name="pref_key_secure_backup_destination">secure_backup_destination</string>
     <string name="pref_key_secure_backup_gdrive_folder_id">secure_backup_gdrive_folder_id</string>
     <string name="pref_key_secure_backup_gdrive_folder_name">secure_backup_gdrive_folder_name</string>
     <string name="pref_key_secure_backup_emailTo">secure_backup_emailTo</string>

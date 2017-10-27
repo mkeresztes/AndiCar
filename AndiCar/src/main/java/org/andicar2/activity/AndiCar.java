@@ -268,10 +268,12 @@ public class AndiCar extends MultiDexApplication {
         }
         if (oldAppVersion <= 17101200) {
             //if secure backup is enabled set the method to GMail. Else use GDrive
-            if (appPreferences.getBoolean(getString(R.string.pref_key_secure_backup_enabled), false))
-                e.putString(getString(R.string.pref_key_secure_backup_method), "1"); //"1" == GMail
-            else
-                e.putString(getString(R.string.pref_key_secure_backup_method), "0"); //"0" == GDrive
+            if (appPreferences.getBoolean(getString(R.string.pref_key_secure_backup_enabled), false)) {
+                e.putString(getString(R.string.pref_key_secure_backup_destination), "1"); //"1" == GMail
+            }
+            else {
+                e.putString(getString(R.string.pref_key_secure_backup_destination), "0"); //"0" == GDrive
+            }
         }
         e.apply();
     }

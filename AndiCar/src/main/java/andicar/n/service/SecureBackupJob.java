@@ -90,7 +90,7 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
             }
 
             //check if destination email (sendTo) exists
-            if (mPreferences.getString(getString(R.string.pref_key_secure_backup_method), "0").equals("1") && //GMai;
+            if (mPreferences.getString(getString(R.string.pref_key_secure_backup_destination), "0").equals("1") && //GMai;
                     mPreferences.getString(getString(R.string.pref_key_secure_backup_emailTo), "").length() == 0) {
                 AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR, (int) System.currentTimeMillis(),
                         getString(R.string.pref_category_secure_backup), getString(R.string.error_106), PreferenceActivity.class, null);
@@ -102,7 +102,7 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
                 return false;
             }
 
-            if (mPreferences.getString(getString(R.string.pref_key_secure_backup_method), "0").equals("0") && //GDrive;
+            if (mPreferences.getString(getString(R.string.pref_key_secure_backup_destination), "0").equals("0") && //GDrive;
                     mPreferences.getString(getString(R.string.pref_key_secure_backup_gdrive_folder_id), "").equals("")) {
                 AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR, (int) System.currentTimeMillis(),
                         getString(R.string.pref_category_secure_backup), getString(R.string.error_115), PreferenceActivity.class, null);
@@ -199,7 +199,7 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
 
                         mFileToSend.add(zippedBk);
 
-                        if (mPreferences.getString(getString(R.string.pref_key_secure_backup_method), "0").equals("0")) { //GDrive
+                        if (mPreferences.getString(getString(R.string.pref_key_secure_backup_destination), "0").equals("0")) { //GDrive
                             if (debugLogFileWriter != null) {
                                 debugLogFileWriter.appendnl("calling GDriveUploader");
                                 debugLogFileWriter.flush();

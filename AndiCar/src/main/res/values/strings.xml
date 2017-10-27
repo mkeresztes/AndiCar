@@ -85,7 +85,7 @@
     <string name="pref_backup_service_choose_a_day">Select at least one day</string>
 
     <string name="pref_securebackup_authorization_required">This service require your authorization.</string>
-    <string name="pref_securebackup_method_title">Method</string>
+    <string name="pref_securebackup_destination_title">Destination</string>
     <string name="pref_securebackup_gdrive_title">Drive folder</string>
     <string name="pref_securebackup_gdrive_description">Will be used to store the backup files. Should be a dedicated one.</string>
     <string name="pref_securebackup_gdrive_folder_selector_title">Choose a folder</string>
