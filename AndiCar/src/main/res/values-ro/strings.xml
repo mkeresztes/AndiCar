@@ -641,4 +641,5 @@
     <string name="error_121">Accesul la Google Drive este interzis. Deschide Setări -> Copie de siguranță &amp; restaurare date și încearcă revalidarea contului.</string>
     <string name="error_122">Eroare de autentificare. Deschide Setări -> Copie de siguranță &amp; restaurare date și încearcă revalidarea contului.</string>
     <string name="error_123">Nu există conexiune la rețea. Nu se poate valida contul.</string>
+    <string name="error_124">Memorie insuficientă. Schimbați destinația la Google Drive (Setări -> Copie de siguranță &amp; restaurare date).</string>
 </resources>

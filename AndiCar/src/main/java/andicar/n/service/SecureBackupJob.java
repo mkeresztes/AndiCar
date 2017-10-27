@@ -291,14 +291,14 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
     @Override
     public void onAndiCarTaskCancelled(String errorMsg, Exception e) {
         try {
-            if (debugLogFileWriter != null) {
-                debugLogFileWriter.appendnl("Task failed!");
-                if (errorMsg != null)
-                    debugLogFileWriter.appendnl(errorMsg);
-                if (e != null)
-                    debugLogFileWriter.appendnl(Utils.getStackTrace(e));
-                debugLogFileWriter.flush();
-            }
+//            if (debugLogFileWriter != null) {
+//                debugLogFileWriter.appendnl("Task failed!");
+//                if (errorMsg != null)
+//                    debugLogFileWriter.appendnl(errorMsg);
+//                if (e != null)
+//                    debugLogFileWriter.appendnl(Utils.getStackTrace(e));
+//                debugLogFileWriter.flush();
+//            }
 
             if (e != null) {
                 if (e instanceof UserRecoverableAuthIOException) {
@@ -308,15 +308,23 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
                             getString(R.string.error_108), null, null);
                     if (debugLogFileWriter != null) {
                         debugLogFileWriter.appendnl("AndiCar is not authorized.");
+                        debugLogFileWriter.append("\n").append("====Exception Stack Trace====");
+                        debugLogFileWriter.append("\n").append(Utils.getStackTrace(e));
+                        debugLogFileWriter.append("\n").append("=======End Stack Trace=======");
                         debugLogFileWriter.flush();
                     }
                 }
                 else {
-                    if (e.getMessage() != null && !e.getMessage().equals("connect timed out")) {
-                        AndiCarCrashReporter.sendCrash(e);
-                        AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_REPORTABLE_ERROR, (int) System.currentTimeMillis(), getString(R.string.pref_category_secure_backup),
-                                e.getLocalizedMessage(), null, e);
+                    if (Utils.getStackTrace(e).contains("OutOfMemoryError")) {
+                        Utils.showNotReportableErrorDialog(this, getString(R.string.error_124), e.getMessage(), true);
                     }
+                    else if (Utils.getStackTrace(e).contains("connect timed out")) {
+                        Utils.showNotReportableErrorDialog(this, getString(R.string.gen_error), e.getMessage(), true);
+                    }
+                    else {
+                        Utils.showReportableErrorDialog(this, getString(R.string.error_sorry), e.getMessage(), e, true);
+                    }
+
                     if (debugLogFileWriter != null) {
                         debugLogFileWriter.appendnl("Error: ").append(e.getMessage() != null ? e.getMessage() : "");
                         debugLogFileWriter.append("\n").append("====Exception Stack Trace====");
@@ -325,9 +333,23 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
                         debugLogFileWriter.flush();
                     }
                 }
-            } else
-                AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR, (int) System.currentTimeMillis(), getString(R.string.pref_category_secure_backup),
-                        (errorMsg != null ? errorMsg : getString(R.string.error_056)), null, null);
+            }
+            else {
+                if (errorMsg != null) {
+                    Utils.showNotReportableErrorDialog(this, getString(R.string.error_sorry), errorMsg, true);
+                    if (debugLogFileWriter != null) {
+                        debugLogFileWriter.appendnl("Error message: ").append(errorMsg);
+                        debugLogFileWriter.flush();
+                    }
+                }
+                else {
+                    Utils.showNotReportableErrorDialog(this, getString(R.string.error_sorry), null, true);
+                    if (debugLogFileWriter != null) {
+                        debugLogFileWriter.appendnl("Unknown error.");
+                        debugLogFileWriter.flush();
+                    }
+                }
+            }
 
             if (debugLogFileWriter != null) {
                 debugLogFileWriter.appendnl("Removing temporary files");
