@@ -929,7 +929,7 @@
     <string name="error_074">%1$s is not a directory.</string>
     <string name="error_075">Failed to list contents of %1$s.</string>
     <string name="error_076">Failed to delete directory %1$s.</string>
-    <string name="error_077">Canot rename destination directory.</string>
+    <string name="error_077">Cannot rename destination directory.</string>
     <string name="error_078">Cannot create destination folder %1$s.</string>
     <string name="error_079">Destination %1$s cannot be written to.</string>
     <string name="error_080">Empty zip file. Restore aborted.</string>
