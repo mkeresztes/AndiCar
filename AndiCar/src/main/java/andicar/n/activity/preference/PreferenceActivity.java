@@ -1064,18 +1064,19 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         @Override
         public void onStop() {
             super.onStop();
-            if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_destination), "0").equals("0")) {
-                if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()
-                        || AndiCar.getDefaultSharedPreferences().getString(getString(R.string.pref_key_secure_backup_gdrive_folder_id), "").equals("")) {
-                    secureBkPreference.setChecked(false);
-                    Toast.makeText(getActivity(), getString(R.string.error_115), Toast.LENGTH_LONG).show();
-                }
+            if (getPreferenceManager().getSharedPreferences().getBoolean(getString(R.string.pref_key_secure_backup_enabled), false)) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_destination), "0").equals("0")) {
+                    if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()
+                            || AndiCar.getDefaultSharedPreferences().getString(getString(R.string.pref_key_secure_backup_gdrive_folder_id), "").equals("")) {
+                        secureBkPreference.setChecked(false);
+                        Toast.makeText(getActivity(), getString(R.string.error_115), Toast.LENGTH_LONG).show();
+                    }
 
-            }
-            else {
-                if (!isGMailAccessGranted) {
-                    secureBkPreference.setChecked(false);
-                    Toast.makeText(getActivity(), getString(R.string.error_106), Toast.LENGTH_LONG).show();
+                } else {
+                    if (!isGMailAccessGranted) {
+                        secureBkPreference.setChecked(false);
+                        Toast.makeText(getActivity(), getString(R.string.error_106), Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         }
