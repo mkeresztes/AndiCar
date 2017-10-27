@@ -62,7 +62,7 @@ import andicar.n.utils.Utils;
 /**
  * Created by Miklos Keresztes on 8/1/16.
  */
-public class SendGMailTask extends AsyncTask<Context, Void, List<String>> {
+public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
 
     private AndiCarAsyncTaskListener mTaskCompleteListener = null;
     private com.google.api.services.gmail.Gmail mGmailService = null;
@@ -136,10 +136,10 @@ public class SendGMailTask extends AsyncTask<Context, Void, List<String>> {
     /**
      * Background task to call Gmail API.
      *
-     * @param ctx no parameters needed for this task.
+     * @param params no parameters needed for this task.
      */
     @Override
-    protected List<String> doInBackground(Context... ctx) {
+    protected List<String> doInBackground(Void... params) {
         try {
             if (debugLogFileWriter != null) {
                 debugLogFileWriter.appendnl("doInBackground begin");

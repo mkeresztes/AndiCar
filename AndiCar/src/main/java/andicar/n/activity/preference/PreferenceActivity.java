@@ -1387,7 +1387,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                     new SendGMailTask(getActivity(), getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), null),
                             getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), null),
                             getResources().getString(R.string.gen_test_email_subject), getResources().getString(R.string.gen_test_email_body), null,
-                            BackupRestorePreferenceFragment.this).execute(getActivity());
+                            BackupRestorePreferenceFragment.this).execute();
                 }
                 catch (Exception e) {
                     if (mProgress != null) {
