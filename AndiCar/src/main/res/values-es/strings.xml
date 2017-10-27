@@ -95,7 +95,7 @@
 
     <string name="pref_category_secure_backup">Copia de seguridad segura</string>
     <string name="pref_securebackup_title">Habilitalo copia de seguridad segura</string>
-    <string name="pref_securebackup_description">Cada vez que una copia de seguridad de base de datos es creada, este Servicio automáticamente lo enviara como un correo adjunto a una pre configurada casilla de correo. De esta manera tu datos guardados estarán disponibles inclusive si pierdes tu teléfono.</string>
+    <string name="pref_securebackup_description">Este servicio enviará automáticamente las copias de seguridad fuera de su dispositivo. De esta manera tu datos guardados estarán disponibles inclusive si pierdes tu teléfono.</string>
 
     <string name="pref_category_gps_tracking">Preferencias de Seguimiento GPS</string>
     <string name="pref_gps_track__file_format">Escoge el formato de archivo(s) usado para el seguimiento gps</string>

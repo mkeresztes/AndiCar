@@ -282,7 +282,7 @@
     <!--Google translate-->
     <string name="pref_securebackup_title">Enable secure backups</string>
     <!--AddOn_SecureBackup_Description-->
-    <string name="pref_securebackup_description">Recommended. This service will automatically send the backups to an email address. In this way, your recorded data will be available even if you lose your phone.</string>
+    <string name="pref_securebackup_description">Recommended. This service will automatically send the backups outside of your device. In this way, your recorded data will be available even if you lose your phone.</string>
 
     <!--APP_Activity_GPSPreferences-->
     <string name="pref_category_gps_tracking">GPS Tracking Preferences</string>
@@ -939,7 +939,7 @@
     <string name="error_103">The log folder (%1s) can not be created.</string>
     <string name="error_105">Cannot delete %1s!</string>
     <string name="error_106">Secure backup incomplete configured: no recipient email</string>
-    <string name="error_107">Incomplete configured: no Google account chosen.</string>
+    <string name="error_107">Secure backup incomplete configured: no Google account chosen.</string>
     <string name="error_108">AndiCar is not authorized, or the authorization was removed, to send emails on your behalf. Secure backup was disabled. You can re-enable it from Settings -> Backup &amp; Restore.</string>
     <string name="error_109">Access denied to external storage. Grant it to use this feature!</string>
     <string name="error_111">Please choose a value for from UOM!</string>

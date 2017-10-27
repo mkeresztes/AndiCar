@@ -96,7 +96,7 @@
 
     <string name="pref_category_secure_backup">Sichere backup</string>
     <string name="pref_securebackup_title">Einschalten sichere backup</string>
-    <string name="pref_securebackup_description">Jede Sicherung der Datenbank wird automatisch per Email an eine angegebene Email-Adresse gesendet. Dadurch bleiben die Daten selbst bei einem Verlust des Gerätes erhalten.</string>
+    <string name="pref_securebackup_description">Dieser Service sendet die Backups automatisch nach außerhalb des Geräts.. Dadurch bleiben die Daten selbst bei einem Verlust des Gerätes erhalten.</string>
 
     <string name="pref_category_gps_tracking">GPS Tracking Einstellungen</string>
     <string name="pref_gps_track__file_format">Dateiformat für die Aufzeichnung</string>

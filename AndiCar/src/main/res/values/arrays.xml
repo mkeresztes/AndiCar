@@ -118,7 +118,7 @@
     </string-array>
 
     <!--TODO DE/ES translation-->
-    <string-array name="secure_backup_method_entries">
+    <string-array name="secure_backup_method_entries" tools:ignore="MissingTranslation">
         <item>Google Drive</item>
         <item>Email</item>
     </string-array>

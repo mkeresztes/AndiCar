@@ -108,6 +108,10 @@
     <string name="pref_backup_service_choose_a_day">Alegeți măcar o zi</string>
 
     <string name="pref_securebackup_authorization_required">Autorizarea este obligatoriu.</string>
+    <string name="pref_securebackup_destination_title">Destinație</string>
+    <string name="pref_securebackup_gdrive_title">Folder Drive</string>
+    <string name="pref_securebackup_gdrive_description">Aici se vor încărca salvările de siguranță. Ar trebui să fie unul dedicat.</string>
+    <string name="pref_securebackup_gdrive_folder_selector_title">Alege un folder</string>
     <string name="pref_securebackup_email_to_title">Destinatar</string>
     <string name="pref_securebackup_only_on_wifi_title">Numai peste WiFi</string>
     <string name="pref_securebackup_send_tracks_title">Trimite și fișierele GPS</string>
@@ -115,7 +119,7 @@
 
     <string name="pref_category_secure_backup">Backup sigur</string>
     <string name="pref_securebackup_title">Activare backup sigur</string>
-    <string name="pref_securebackup_description">La fiecare backup al bazei de date, acest serviciu o va trimite ca atașament către o adresă preconfigurată. În acest fel datele dvs. vor fi disponibile chiar dacă veți pierde telefonul.</string>
+    <string name="pref_securebackup_description">La fiecare backup al bazei de date, acest serviciu o va salva în afara telefonului. În acest fel datele dvs. vor fi disponibile chiar dacă veți pierde telefonul.</string>
 
     <string name="pref_category_gps_tracking">Preferințe trasee GPS</string>
     <string name="pref_gps_track__file_format">Alege formatul pentru stocarea traseelor GPS</string>
@@ -620,7 +624,7 @@
     <string name="error_102">Nu există drept de acces pentru spațiul de stocare adițional!</string>
     <string name="error_103">Nu se poate crea folderul de log (%1s).</string>
     <string name="error_105">Nu se poate șterge %1s!</string>
-    <string name="error_106">Configurat incomplet: nu este completat destinatarul</string>.
+    <string name="error_106">Salvările de siguranță sun incomplet configurate: nu este completat destinatarul</string>.
     <string name="error_107">Configurat incomplet: nu s-a ales niciun cont Google.</string>
     <string name="error_108">AndiCar nu este autorizat să trimită emailuri în numele tău. Din acest motiv Secure Backup a fost dezactivat. Se poate reactiva din Configurări -> Backup &amp; Restore.</string>
     <string name="error_109">Nu este permis accesul la dispozitivul de stocare extern. Această funcționalitate necesită acest acces!</string>
@@ -628,4 +632,5 @@
     <string name="error_112">Alegeți unitatea în care doriți conversia!</string>
     <string name="error_113">Tip fereastră invalid (%1s)!</string>
     <string name="error_114">Sunt necesare cel puţin 2 sarcini!</string>
+    <string name="error_115">Salvările de siguranță sun incomplet configurate: nu s-a selectat niciun folder destinație.</string>
 </resources>
