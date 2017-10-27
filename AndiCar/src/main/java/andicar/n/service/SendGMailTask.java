@@ -62,7 +62,7 @@ import andicar.n.utils.Utils;
 /**
  * Created by Miklos Keresztes on 8/1/16.
  */
-public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
+public class SendGMailTask extends AsyncTask<Context, Void, List<String>> {
 
     private AndiCarAsyncTaskListener mTaskCompleteListener = null;
     private com.google.api.services.gmail.Gmail mGmailService = null;
@@ -71,6 +71,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
     private String mMessage = null;
     private ArrayList<String> mAttachments = null;
     private Exception mLastException = null;
+    private String mLastError = null;
 
     private LogFileWriter debugLogFileWriter = null;
 
@@ -109,6 +110,15 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
             mMessage = message;
             mAttachments = attachments;
             mTaskCompleteListener = listener;
+
+            if (!Utils.isNetworkAvailable(ctx)) {
+                if (debugLogFileWriter != null) {
+                    debugLogFileWriter.appendnl("No network connectivity!");
+                    debugLogFileWriter.flush();
+                }
+                mLastError = "Network connection required for this action!";
+                cancel(true);
+            }
         }
         catch (Exception e) {
             if (debugLogFileWriter != null) {
@@ -126,15 +136,16 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
     /**
      * Background task to call Gmail API.
      *
-     * @param params no parameters needed for this task.
+     * @param ctx no parameters needed for this task.
      */
     @Override
-    protected List<String> doInBackground(Void... params) {
+    protected List<String> doInBackground(Context... ctx) {
         try {
             if (debugLogFileWriter != null) {
                 debugLogFileWriter.appendnl("doInBackground begin");
                 debugLogFileWriter.flush();
             }
+
             return sendGMail();
         }
         catch (Exception e) {
@@ -177,12 +188,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
 
         MimeBodyPart mimeBodyText = new MimeBodyPart();
         mimeBodyText.setContent(mMessage, "text/html");
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            mimeBodyText.setHeader("Content-Type", "text/html; charset=\"UTF-8\"");
-//        }
-//        else
-//            mimeBodyText.setHeader("Content-Type", "text/plain");
-
+        mimeBodyText.setHeader("Content-Type", "text/html; charset=\"UTF-8\"");
 
         Multipart mp = new MimeMultipart();
         mp.addBodyPart(mimeBodyText);
@@ -270,7 +276,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
         super.onCancelled(result);
         try {
             if (debugLogFileWriter != null) {
-                debugLogFileWriter.appendnl("onAndiCarTaskCancelled(result) called with result:");
+                debugLogFileWriter.appendnl("onCancelled(result) called with result:");
                 if (result != null) {
                     for (String s : result) {
                         debugLogFileWriter.append("\n\t").append(s);
@@ -286,7 +292,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
         }
         //callback to the listener
         if (mTaskCompleteListener != null) {
-            mTaskCompleteListener.onAndiCarTaskCancelled(null, mLastException);
+            mTaskCompleteListener.onAndiCarTaskCancelled(mLastError, mLastException);
         }
     }
 }

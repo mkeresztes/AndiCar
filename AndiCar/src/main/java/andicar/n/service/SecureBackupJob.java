@@ -220,7 +220,7 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
 
                             new SendGMailTask(getApplicationContext(), mPreferences.getString(getString(R.string.pref_key_google_account), null),
                                     mPreferences.getString(getString(R.string.pref_key_secure_backup_emailTo), null),
-                                    getString(R.string.secure_backup_mail_subject), getString(R.string.secure_backup_mail_body), mFileToSend, SecureBackupJob.this).execute();
+                                    getString(R.string.secure_backup_mail_subject), getString(R.string.secure_backup_mail_body), mFileToSend, SecureBackupJob.this).execute(getApplicationContext());
                         }
 
                         if (debugLogFileWriter != null) {

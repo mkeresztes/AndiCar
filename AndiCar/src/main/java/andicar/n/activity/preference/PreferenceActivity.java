@@ -59,7 +59,6 @@ import android.widget.Toast;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.Result;
@@ -258,6 +257,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                     final DriveFolder selectedFolder = driveId.asDriveFolder();
                     final PendingResult selectedFolderMetadata = selectedFolder.getMetadata(mGoogleApiClient);
 
+                    //noinspection unchecked
                     selectedFolderMetadata.setResultCallback(new ResultCallback() {
                         @Override
                         public void onResult(@NonNull Result result) {
@@ -1198,11 +1198,12 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                     getActivity().startActivityForResult(
                             ((UserRecoverableAuthIOException) e).getIntent(), ConstantValues.REQUEST_GMAIL_AUTHORIZATION);
                 } else {
-                    AndiCarCrashReporter.sendCrash(e);
+                    Utils.showReportableErrorDialog(getActivity(), errorMsg, null, e, false);
                     Log.d("SendGMailTask", "The following error occurred:\n" + e.getMessage(), e);
                 }
             } else {
-                Log.d("SendGMailTask", "Request cancelled.");
+                Utils.showNotReportableErrorDialog(getActivity(), errorMsg, null, false);
+                Log.d("SendGMailTask", "Request cancelled: " + errorMsg);
             }
 
         }
@@ -1382,10 +1383,11 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             mProgress.show();
             if (method.equals("1")) {
                 try {
+
                     new SendGMailTask(getActivity(), getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), null),
                             getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), null),
                             getResources().getString(R.string.gen_test_email_subject), getResources().getString(R.string.gen_test_email_body), null,
-                            BackupRestorePreferenceFragment.this).execute();
+                            BackupRestorePreferenceFragment.this).execute(getActivity());
                 }
                 catch (Exception e) {
                     if (mProgress != null) {
@@ -1496,7 +1498,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                     // Unable to resolve, message user appropriately
                 }
             } else {
-                GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), getActivity(), 0).show();
+                GoogleApiAvailability.getInstance().getErrorDialog(getActivity(), connectionResult.getErrorCode(), 0).show();
             }
         }
     }
