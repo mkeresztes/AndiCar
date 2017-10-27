@@ -954,5 +954,6 @@
     <string name="error_120">Selected drive folder (%1s)  is restricted!</string>
     <string name="error_121">Access denied to Google Drive. Open Settings -> Backup &amp; Restore and try to revalidate your Google account.</string>
     <string name="error_122">Authentication error. Open Settings -> Backup &amp; Restore and try to revalidate your Google account.</string>
+    <string name="error_123">No network connection. Can\'t validate the account.</string>
 
 </resources>

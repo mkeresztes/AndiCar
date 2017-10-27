@@ -1381,9 +1381,13 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         }
 
         private void validateGoogleAccount(String method) {
+            if (!Utils.isNetworkAvailable(getActivity())) {
+                Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.error_123), null, false);
+            }
             mProgress = new ProgressDialog(getActivity());
             mProgress.setMessage(getResources().getString(R.string.gen_validating_google_account));
             mProgress.show();
+
             if (method.equals("1")) {
                 try {
 

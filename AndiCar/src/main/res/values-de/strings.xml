@@ -531,4 +531,5 @@
     <string name="error_067">Kann nicht teilen. Keine Anwendung mit Teilen-Funktion gefunden.</string>
     <string name="error_071">Ungültige Datenbank.</string>
     <string name="error_072">Unbekannter Backup-Dateityp.</string>
+    <string name="error_123">Keine Netzwerk Verbindung. Das Konto kann nicht validiert werden.</string>
 </resources>

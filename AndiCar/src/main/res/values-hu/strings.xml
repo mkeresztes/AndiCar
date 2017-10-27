@@ -641,4 +641,5 @@
     <string name="error_120">A kiválasztott hely (%1s) elérhetetlen!</string>
     <string name="error_121">Nincs hozzaférési jog a Google Drivehoz. Menjen a Beálítások -> Biztonsági mentés &amp; visszaállítás és próbálja újra leellenőrizni a Google fiókot.</string>
     <string name="error_122">Bejelentkezési hiba. Menjen a Beálítások -> Biztonsági mentés &amp; visszaállítás és próbálja újra leellenőrizni a Google fiókot.</string>
+    <string name="error_123">Nincs hálózati kapcsolat. Nem lehet ellenőrizni a fiókot.</string>
 </resources>

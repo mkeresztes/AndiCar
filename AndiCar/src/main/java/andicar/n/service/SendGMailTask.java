@@ -110,15 +110,6 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
             mMessage = message;
             mAttachments = attachments;
             mTaskCompleteListener = listener;
-
-            if (!Utils.isNetworkAvailable(ctx)) {
-                if (debugLogFileWriter != null) {
-                    debugLogFileWriter.appendnl("No network connectivity!");
-                    debugLogFileWriter.flush();
-                }
-                mLastError = "Network connection required for this action!";
-                cancel(true);
-            }
         }
         catch (Exception e) {
             if (debugLogFileWriter != null) {
