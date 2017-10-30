@@ -1084,9 +1084,9 @@ public class CommonListActivity extends AppCompatActivity
 
             reportContent = reportContent + "\"" +
                     reportCursor.getColumnName(i)
-                    .replaceAll("_DTypeN", "")
-                    .replaceAll("_DTypeD", "")
-                    .replaceAll("_DTypeL", "")
+                            .replaceAll("_DTypeN", "")
+                            .replaceAll("_DTypeD", "")
+                            .replaceAll("_DTypeL", "")
                             .replaceAll("_DTypeR", "") + "\"";
         }
         reportContent = reportContent + "\n";
