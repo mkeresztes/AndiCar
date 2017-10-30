@@ -229,124 +229,189 @@ public class DBReportAdapter extends DBAdapter {
                     sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_GEN_ROWID) + ", " + //#0
 
                     sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + " || '; ' || " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) +
-                    " || '; ' ||  '%1$s' AS " + FIRST_LINE_LIST_NAME + ", " + //#1
+                        " || '; ' ||  '%1$s' AS " + FIRST_LINE_LIST_NAME + ", " + //#1
 
                     sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + " || ': ' || '%1$s -> %2$s = %3$s ' || " +
-                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + " || ' %4$s' AS " + SECOND_LINE_LIST_NAME + ", " + //#2
+                        sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + " || ' %4$s' AS " + SECOND_LINE_LIST_NAME + ", " + //#2
 
                     " COALESCE( " + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + " || '; ', '') || " +
-                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_GEN_USER_COMMENT) + " AS " + THIRD_LINE_LIST_NAME + ", " + //#3
+                        sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_GEN_USER_COMMENT) + " AS " + THIRD_LINE_LIST_NAME + ", " + //#3
 
                     sqlConcatTableColumn(TABLE_NAME_GPSTRACK, COL_NAME_GEN_ROWID) + " AS gpsTrackId, " + //#4
+
                     sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) + " AS Seconds, " + //#5
+
                     sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + ", " + //#6
+
                     sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + ", " + //#7
-                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) +
-                    " - " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + " AS Mileage, " + //#8
+
+                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " - " +
+                        sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + " AS Mileage, " + //#8
+
                     sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) + " AS CarID, " + //#9
+
                     sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) + " AS ExpenseTypeID, " + //#10
+
                     sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + " AS CurrencyCode, " + //#11
+
                     "( SELECT " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__RATE) +
                     " FROM " + TABLE_NAME_REIMBURSEMENT_CAR_RATES +
-                    " WHERE " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__CAR_ID) +
-                    " = " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
-                    " AND " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__EXPENSETYPE_ID) +
-                    " = " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) +
-                    " AND " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDFROM) +
-                    " <= " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) +
-                    " AND " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDTO) +
-                    " >= " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) +
-                    " ORDER BY " +
-                    sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDFROM) + " DESC, " +
-                    sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_GEN_ROWID) + " DESC " +
+                    " WHERE " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__CAR_ID) + " = " +
+                                        sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                        " AND " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__EXPENSETYPE_ID) + " = " +
+                                        sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) +
+                        " AND " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDFROM) + " <= " +
+                                        sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) +
+                        " AND " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDTO) + " >= " +
+                                        sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) +
+                    " ORDER BY " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDFROM) + " DESC, " +
+                                    sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_GEN_ROWID) + " DESC " +
                     " LIMIT 1 ) AS ReimbursementRate, " + //#12
 
                     sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE_TO) + " AS SecondsTo, " + //#13
-                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE_TO) +
-                    " - " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) + " AS TripTime " + //#14
 
-                    " FROM " + TABLE_NAME_MILEAGE +
-                    " JOIN " + TABLE_NAME_EXPENSETYPE + " ON " +
-                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__EXPENSETYPE_ID) +
-                    "=" + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) +
-                    " JOIN " + TABLE_NAME_DRIVER + " ON " +
-                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DRIVER_ID) +
-                    "=" + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_ROWID) +
-                    " JOIN " + TABLE_NAME_UOM + " ON " +
-                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__UOMLENGTH_ID) +
-                    "=" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
-                    " JOIN " + TABLE_NAME_CAR + " ON " +
-                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID) +
-                    "=" + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
-                    " JOIN " + TABLE_NAME_CURRENCY + " ON " +
-                    sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) +
-                    "=" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
-                    " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
-                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__TAG_ID) +
-                    "=" + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
-                    " LEFT OUTER JOIN " + TABLE_NAME_GPSTRACK + " ON " +
-                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_GEN_ROWID) +
-                    "=" + sqlConcatTableColumn(TABLE_NAME_GPSTRACK, COL_NAME_GPSTRACK__MILEAGE_ID)
+                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE_TO) + " - " +
+                        sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) + " AS TripTime " + //#14
+
+            " FROM " + TABLE_NAME_MILEAGE +
+                        " JOIN " + TABLE_NAME_EXPENSETYPE +
+                            " ON " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__EXPENSETYPE_ID) + "=" +
+                                        sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) +
+                        " JOIN " + TABLE_NAME_DRIVER +
+                            " ON " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DRIVER_ID) + "=" +
+                                        sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_ROWID) +
+                        " JOIN " + TABLE_NAME_UOM +
+                            " ON " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__UOMLENGTH_ID) + "=" +
+                                        sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
+                        " JOIN " + TABLE_NAME_CAR +
+                            " ON " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID) + "=" +
+                                        sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                            " JOIN " + TABLE_NAME_CURRENCY +
+                                " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + "=" +
+                                            sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
+                        " LEFT OUTER JOIN " + TABLE_NAME_TAG +
+                            " ON " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__TAG_ID) + "=" +
+                                        sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
+                        " LEFT OUTER JOIN " + TABLE_NAME_GPSTRACK +
+                            " ON " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_GEN_ROWID) + "=" +
+                                        sqlConcatTableColumn(TABLE_NAME_GPSTRACK, COL_NAME_GPSTRACK__MILEAGE_ID)
                     + " WHERE 1=1 ";
+
     //used in exported report
-    private static final String mileageListReportSelect = "SELECT " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_GEN_ROWID) + " AS MileageId, " + "DATETIME("
-            + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) + ", 'unixepoch', 'localtime') AS " + COL_NAME_MILEAGE__DATE + ", " +
+    private static final String mileageListReportSelect =
+            "SELECT " +
+                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_GEN_ROWID) + " AS MileageId, " + //#0
 
-            "CASE strftime(\"%w\", " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) + ", 'unixepoch', 'localtime') "
-            + "WHEN \"0\" THEN '[#d0]' " + "WHEN \"1\" THEN '[#d1]' " + "WHEN \"2\" THEN '[#d2]' " + "WHEN \"3\" THEN '[#d3]' " + "WHEN \"4\" THEN '[#d4]' "
-            + "WHEN \"5\" THEN '[#d5]' " + "WHEN \"6\" THEN '[#d6]' " + "END AS " + ConstantValues.DAY_OF_WEEK_NAME + ", " +
+                    "DATETIME(" + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) + ", 'unixepoch', 'localtime') AS " + COL_NAME_MILEAGE__DATE + ", " + //#1
 
-            "DATETIME(" + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE_TO) + ", 'unixepoch', 'localtime') AS " + COL_NAME_MILEAGE__DATE_TO
-            + ", " +
+                    "CASE strftime(\"%w\", " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) + ", 'unixepoch', 'localtime') " +
+                        "WHEN \"0\" THEN '[#d0]' " +
+                        "WHEN \"1\" THEN '[#d1]' " +
+                        "WHEN \"2\" THEN '[#d2]' " +
+                        "WHEN \"3\" THEN '[#d3]' " +
+                        "WHEN \"4\" THEN '[#d4]' " +
+                        "WHEN \"5\" THEN '[#d5]' " +
+                        "WHEN \"6\" THEN '[#d6]' " +
+                    "END AS " + ConstantValues.DAY_OF_WEEK_NAME + ", " + //#2
 
-            "CASE strftime(\"%w\", " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE_TO) + ", 'unixepoch', 'localtime') "
-            + "WHEN \"0\" THEN '[#d0]' " + "WHEN \"1\" THEN '[#d1]' " + "WHEN \"2\" THEN '[#d2]' " + "WHEN \"3\" THEN '[#d3]' " + "WHEN \"4\" THEN '[#d4]' "
-            + "WHEN \"5\" THEN '[#d5]' " + "WHEN \"6\" THEN '[#d6]' " + "END AS " + ConstantValues.DAY_OF_WEEK_NAME + ", " +
+                    "DATETIME(" + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE_TO) + ", 'unixepoch', 'localtime') AS " + COL_NAME_MILEAGE__DATE_TO + ", " + //#3
 
-            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + " AS CarName, " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME)
-            + " AS DriverName, " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + " AS " + COL_NAME_MILEAGE__INDEXSTART + "_DTypeN, "
-            + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " AS " + COL_NAME_MILEAGE__INDEXSTOP + "_DTypeN, "
-            + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " - "
-            + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + " AS Mileage_DTypeN, "
-            + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + " AS UomCode, " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME)
-            + " AS ExpenseTypeName, " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_GEN_USER_COMMENT) + ", " + " COALESCE( "
-            + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + " || '; ', '') AS Tag, " + "( SELECT "
-            + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__RATE) + " FROM " + TABLE_NAME_REIMBURSEMENT_CAR_RATES
-            + " WHERE " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__CAR_ID) + " = "
-            + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) + " AND "
-            + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__EXPENSETYPE_ID) + " = "
-            + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) + " AND "
-            + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDFROM) + " <= "
-            + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) + " AND "
-            + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDTO) + " >= "
-            + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) + " ORDER BY "
-            + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDFROM) + " DESC, "
-            + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_GEN_ROWID) + " DESC " + " LIMIT 1" + ") AS ReimbursementRate_DTypeR, "
-            + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + " || '/' || " + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE)
-            + " AS '', " + "(" + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " - "
-            + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + ") * " + "( SELECT "
-            + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__RATE) + " FROM " + TABLE_NAME_REIMBURSEMENT_CAR_RATES
-            + " WHERE " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__CAR_ID) + " = "
-            + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) + " AND "
-            + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__EXPENSETYPE_ID) + " = "
-            + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) + " AND "
-            + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDFROM) + " <= "
-            + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) + " AND "
-            + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDTO) + " >= "
-            + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) + " ORDER BY "
-            + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDFROM) + " DESC, "
-            + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_GEN_ROWID) + " DESC " + " LIMIT 1 " + ") AS ReimbursementValue_DTypeR, "
-            + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + " AS '' " + " FROM " + TABLE_NAME_MILEAGE + " JOIN "
-            + TABLE_NAME_EXPENSETYPE + " ON " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__EXPENSETYPE_ID) + "="
-            + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) + " JOIN " + TABLE_NAME_DRIVER + " ON "
-            + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DRIVER_ID) + "=" + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_ROWID)
-            + " JOIN " + TABLE_NAME_UOM + " ON " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__UOMLENGTH_ID) + "="
-            + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) + " JOIN " + TABLE_NAME_CAR + " ON "
-            + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID) + "=" + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) + " JOIN "
-            + TABLE_NAME_CURRENCY + " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + "="
-            + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) + " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON "
-            + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__TAG_ID) + "=" + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID)
+                    "CASE strftime(\"%w\", " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE_TO) + ", 'unixepoch', 'localtime') " +
+                        "WHEN \"0\" THEN '[#d0]' " +
+                        "WHEN \"1\" THEN '[#d1]' " +
+                        "WHEN \"2\" THEN '[#d2]' " +
+                        "WHEN \"3\" THEN '[#d3]' " +
+                        "WHEN \"4\" THEN '[#d4]' " +
+                        "WHEN \"5\" THEN '[#d5]' " +
+                        "WHEN \"6\" THEN '[#d6]' " +
+                    "END AS " + ConstantValues.DAY_OF_WEEK_NAME + ", " + //#4
+
+                    sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + " AS CarName, " + //#5
+
+                    sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) + " AS DriverName, " + //#6
+
+                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + " AS " + COL_NAME_MILEAGE__INDEXSTART + "_DTypeN, " + //#7
+
+                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " AS " + COL_NAME_MILEAGE__INDEXSTOP + "_DTypeN, " + //#8
+
+                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " - " +
+                            sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + " AS Mileage_DTypeN, "  + //#9
+
+                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + " AS UomCode, " + //#10
+
+                    sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + " AS ExpenseTypeName, " + //#11
+
+                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_GEN_USER_COMMENT) + ", " + //#12
+
+                    " COALESCE( " + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + " || '; ', '') AS Tag, " + //#13
+
+                    "( SELECT " +
+                            sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__RATE) +
+                        " FROM " +
+                            TABLE_NAME_REIMBURSEMENT_CAR_RATES +
+                        " WHERE " +
+                            sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__CAR_ID) + " = " +
+                                        sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                            " AND " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__EXPENSETYPE_ID) + " = " +
+                                        sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) +
+                            " AND " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDFROM) + " <= " +
+
+                                         sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) +
+                            " AND " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDTO) + " >= " +
+                                        sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) +
+                        " ORDER BY " +
+                            sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDFROM) + " DESC, " +
+                            sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_GEN_ROWID) + " DESC " +
+                        " LIMIT 1" + ") AS ReimbursementRate_DTypeR, " + //#14
+
+                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + " || '/' || " +
+                            sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + " AS '', " + //#15
+
+                    "(" + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " - " +
+                            sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + ") " +
+                    " * " +
+                    "( SELECT " +
+                        sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__RATE) +
+                    " FROM " +
+                        TABLE_NAME_REIMBURSEMENT_CAR_RATES +
+                    " WHERE " +
+                        sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__CAR_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                        " AND " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__EXPENSETYPE_ID) + " = " +
+                                    sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) +
+                        " AND " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDFROM) + " <= " +
+                                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) +
+                        " AND " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDTO) + " >= " +
+                                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) +
+                    " ORDER BY " +
+                        sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDFROM) + " DESC, " +
+                        sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_GEN_ROWID) + " DESC " +
+                    " LIMIT 1 " + ") AS ReimbursementValue_DTypeR, " + //#16
+
+                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + " AS '' " + //#17
+
+            " FROM " +
+                    TABLE_NAME_MILEAGE +
+                        " JOIN " + TABLE_NAME_EXPENSETYPE +
+                                    " ON " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__EXPENSETYPE_ID) + "=" +
+                                                sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) +
+                        " JOIN " + TABLE_NAME_DRIVER +
+                                    " ON " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DRIVER_ID) + "=" +
+                                                sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_ROWID) +
+                        " JOIN " + TABLE_NAME_UOM +
+                                    " ON " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__UOMLENGTH_ID) + "=" +
+                                                sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
+                        " JOIN " + TABLE_NAME_CAR +
+                                    " ON " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID) + "=" +
+                                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                            " JOIN " + TABLE_NAME_CURRENCY +
+                                        " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + "=" +
+                                                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
+                        " LEFT OUTER JOIN " + TABLE_NAME_TAG +
+                                    " ON " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__TAG_ID) + "=" +
+                                                sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID)
             + " WHERE 1=1 ";
+
     //used in main activity and refuel list activity
     private static final String refuelListViewSelect =
         "SELECT "
