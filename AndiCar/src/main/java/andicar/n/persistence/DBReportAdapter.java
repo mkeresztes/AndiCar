@@ -947,8 +947,13 @@ public class DBReportAdapter extends DBAdapter {
                                     ") " + //mileage until the to-do
                                     " / " +
                                     "( " + //avg. daily mileage
-                                        "( " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__INDEXCURRENT) + " - Minimums.Mileage ) " +
-                                        " / " + " (strftime('%J','now', 'localtime') - COALESCE(strftime('%J', datetime(Minimums.Date, 'unixepoch'), 'localtime'), 0) ) " +
+                                        "( " +
+                                            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__INDEXCURRENT) + " - Minimums.Mileage " +
+                                        ") " +
+                                        "/ " +
+                                        "(" +
+                                            "strftime('%J','now', 'localtime') - COALESCE(strftime('%J', datetime(Minimums.Date, 'unixepoch'), 'localtime'), 0) " +
+                                        ") " +
                                     ") " +
                         " ELSE 99999999999 " +
                     " END " + " AS EstDaysUntilDueMileage, " + //Estimated days until the due mileage #7
@@ -958,14 +963,15 @@ public class DBReportAdapter extends DBAdapter {
 
                     " CASE " +
                         " WHEN " + sqlConcatTableColumn(TABLE_NAME_TASK, COL_NAME_TASK__SCHEDULEDFOR) + " = '" + TaskEditFragment.TASK_SCHEDULED_FOR_BOTH + "' " +
-                                        " AND Minimums.Mileage IS NOT NULL AND Minimums.Date IS NOT NULL " +
+                                        " AND Minimums.Mileage IS NOT NULL " +
+                                        " AND Minimums.Date IS NOT NULL " +
                                         " AND " +
                                             "( " +
                                                 "( " +
                                                     "( " +
                                                         sqlConcatTableColumn(TABLE_NAME_TODO, COL_NAME_TODO__DUEMILEAGE) +
                                                             " - " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__INDEXCURRENT) +
-                                                    ") " + //no of mileages until the to-do
+                                                    ") " + //mileage until the to-do
                                                     "/ " +
                                                     "( " +
                                                         "( " +
@@ -1000,7 +1006,8 @@ public class DBReportAdapter extends DBAdapter {
                                     ") " +
                                 ") " +
                         " WHEN " + sqlConcatTableColumn(TABLE_NAME_TASK, COL_NAME_TASK__SCHEDULEDFOR) + " = '" + TaskEditFragment.TASK_SCHEDULED_FOR_BOTH + "' " +
-                                        "AND Minimums.Mileage IS NOT NULL AND Minimums.Date IS NOT NULL " +
+                                        "AND Minimums.Mileage IS NOT NULL " +
+                                        "AND Minimums.Date IS NOT NULL " +
                                         "AND " +
                                             "( " +
                                                 "( " +
