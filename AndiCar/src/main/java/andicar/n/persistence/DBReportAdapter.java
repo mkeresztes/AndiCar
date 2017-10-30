@@ -335,11 +335,11 @@ public class DBReportAdapter extends DBAdapter {
                     sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " AS " + COL_NAME_MILEAGE__INDEXSTOP + "_DTypeN, " + //#8
 
                     sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " - " +
-                            sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + " AS Mileage_DTypeN, "  + //#9
+                            sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + " AS Distance_CalcSUM_DTypeN, "  + //#9
 
                     sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + " AS UomCode, " + //#10
 
-                    sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + " AS ExpenseTypeName, " + //#11
+                    sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + " AS TripType, " + //#11
 
                     sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_GEN_USER_COMMENT) + ", " + //#12
 
@@ -386,7 +386,7 @@ public class DBReportAdapter extends DBAdapter {
                     " ORDER BY " +
                         sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDFROM) + " DESC, " +
                         sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_GEN_ROWID) + " DESC " +
-                    " LIMIT 1 " + ") AS ReimbursementValue_DTypeR, " + //#16
+                    " LIMIT 1 " + ") AS ReimbursementValue_CalcSUM_DTypeR, " + //#16
 
                     sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + " AS '' " + //#17
 
@@ -513,7 +513,7 @@ public class DBReportAdapter extends DBAdapter {
 
                     sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_NAME) + " AS FuelCategory, " + //#3
 
-                    sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + " AS ExpenseTypeName, " + //#4
+                    sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + " AS FillUpType, " + //#4
 
                     sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX) + " AS " + COL_NAME_REFUEL__INDEX + "_DTypeN, " + //#5
 
@@ -521,13 +521,16 @@ public class DBReportAdapter extends DBAdapter {
 
                     sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY) + " AS " + COL_NAME_REFUEL__QUANTITY + "_DTypeN, " + //#7
 
-                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__PRICE) + " AS " + COL_NAME_REFUEL__PRICE + "_DTypeN, " + //#8
+                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + " AS UOM, " + //#8
 
-                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + " AS UOMCode, " + //#9
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__PRICE) + " AS " + COL_NAME_REFUEL__PRICE + "_DTypeN, " + //#9
 
-                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + " AS CurrencyCode, " + //#10
+                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + " AS Currency, " + //#10
 
-                    "DATETIME(" + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__DATE) + ", 'unixepoch', 'localtime') AS Date, " + //#11
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY) + " * " +
+                            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__PRICE) + " AS Amount_CalcSUM_DTypeN, " + //11
+
+                    "DATETIME(" + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__DATE) + ", 'unixepoch', 'localtime') AS Date, " + //#12
 
                     "CASE strftime(\"%w\", " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__DATE) + ", 'unixepoch', 'localtime') " +
                         "WHEN \"0\" THEN '[#d0]' " +
@@ -538,27 +541,21 @@ public class DBReportAdapter extends DBAdapter {
 
                         "WHEN \"5\" THEN '[#d5]' " +
                         "WHEN \"6\" THEN '[#d6]' " +
-                    "END AS " + ConstantValues.DAY_OF_WEEK_NAME + ", " + //#12
-                        " AND pr." + COL_NAME_REFUEL__ISFULLREFUEL + " = 'Y' " +
-                        " AND pr." + COL_NAME_REFUEL__CAR_ID + " = " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) +
-                        " AND pr." + COL_NAME_REFUEL__INDEX + " < " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX) +
+                    "END AS " + ConstantValues.DAY_OF_WEEK_NAME + ", " + //#13
 
-                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITYENTERED) + " AS " + COL_NAME_REFUEL__QUANTITYENTERED + "_DTypeN, " + //#13
-                        " AND pr." + COL_NAME_REFUEL__ISFULLREFUEL + " = 'Y' " +
-                        " AND pr." + COL_NAME_REFUEL__CAR_ID + " = " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) +
-                        " AND pr." + COL_NAME_REFUEL__INDEX + " < " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX) +
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITYENTERED) + " AS " + COL_NAME_REFUEL__QUANTITYENTERED + "_DTypeN, " + //#14
 
-                    sqlConcatTableColumn("UomVolEntered", COL_NAME_UOM__CODE) + " AS UomEntered, " + //#14
+                    sqlConcatTableColumn("UomVolEntered", COL_NAME_UOM__CODE) + " AS UomEntered, " + //#15
 
-                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLCONVERSIONRATE) + ", " + //#15
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLCONVERSIONRATE) + ", " + //#16
 
-                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__PRICEENTERED) + " AS " + COL_NAME_REFUEL__PRICEENTERED + "_DTypeN, " + //#16
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__PRICEENTERED) + " AS " + COL_NAME_REFUEL__PRICEENTERED + "_DTypeN, " + //#17
 
-                    sqlConcatTableColumn("CurrencyEntered", COL_NAME_CURRENCY__CODE) + " AS CurrencyEntered, " + //#17
+                    sqlConcatTableColumn("CurrencyEntered", COL_NAME_CURRENCY__CODE) + " AS CurrencyEntered, " + //#18
 
-                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCYRATE) + " AS " + COL_NAME_REFUEL__CURRENCYRATE + "_DTypeN, " + //#18
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCYRATE) + " AS " + COL_NAME_REFUEL__CURRENCYRATE + "_DTypeN, " + //#19
 
-                    sqlConcatTableColumn(TABLE_NAME_BPARTNER, COL_NAME_GEN_NAME) + " AS Vendor, " + //#19
+                    sqlConcatTableColumn(TABLE_NAME_BPARTNER, COL_NAME_GEN_NAME) + " AS Vendor, " + //#20
 
                     sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_GEN_NAME) +
                         " || COALESCE( '; ' || " + sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_BPARTNERLOCATION__ADDRESS) + ", '') " +
@@ -566,16 +563,19 @@ public class DBReportAdapter extends DBAdapter {
                         " || COALESCE( '; ' || " + sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_BPARTNERLOCATION__REGION) + ", '') " +
                         " || COALESCE( '; ' || " + sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_BPARTNERLOCATION__COUNTRY) + ", '') " +
                         " || COALESCE( '; ' || " + sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_BPARTNERLOCATION__POSTAL) + ", '') "
-                        + " AS Location, " + //#20
+                        + " AS Location, " + //#21
 
-                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_GEN_USER_COMMENT) + ", " + //#21
-                        " COALESCE( " + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + " || '; ', '') AS Tag, " + //#22
-                        " '[#rv1]' AS FuelCons, " + //#23
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_GEN_USER_COMMENT) + ", " + //#22
 
-                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + " || '/100' || " + sqlConcatTableColumn("CarLengthUOM", COL_NAME_UOM__CODE) + " AS '', " + //#24
-                        " '[#rv2]' AS FuelEff, " + //#25
+                    " COALESCE( " + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + " || '; ', '') AS Tag, " + //#23
 
-                    sqlConcatTableColumn("CarLengthUOM", COL_NAME_UOM__CODE) + " || '/' || " + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + " AS '', " + //#26
+                    " '[#rv1]' AS FuelCons, " + //#24
+
+                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + " || '/100' || " + sqlConcatTableColumn("CarLengthUOM", COL_NAME_UOM__CODE) + " AS '', " + //#25
+
+                    " '[#rv2]' AS FuelEff, " + //#26
+
+                    sqlConcatTableColumn("CarLengthUOM", COL_NAME_UOM__CODE) + " || '/' || " + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + " AS '', " + //#27
 
                     " COALESCE(" +
                         "(SELECT " + COL_NAME_REFUEL__INDEX +
@@ -585,9 +585,9 @@ public class DBReportAdapter extends DBAdapter {
                             " AND pr." + COL_NAME_REFUEL__CAR_ID + " = " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) +
                             " AND pr." + COL_NAME_REFUEL__INDEX + " < " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX) +
                         " ORDER BY pr." + COL_NAME_REFUEL__INDEX + " DESC " +
-                        " LIMIT 1 " + "), -1) AS PreviousFullRefuelIndex_DoNotExport, " + //#27
+                        " LIMIT 1 " + "), -1) AS PreviousFullRefuelIndex_DoNotExport, " + //#28
 
-                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + " AS CarID_DoNotExport " + //#28
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + " AS CarID_DoNotExport " + //#29
         " FROM " + TABLE_NAME_REFUEL +
                 " JOIN " + TABLE_NAME_EXPENSETYPE + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__EXPENSETYPE_ID) +
                                 "=" + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) +
@@ -704,11 +704,11 @@ public class DBReportAdapter extends DBAdapter {
 
                     sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__DOCUMENTNO) + ", " + //#4
 
-                    sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_NAME) + " AS ExpenseCategoryName, " + //#5
+                    sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_NAME) + " AS Category, " + //#5
 
-                    sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + " AS ExpenseTypeName, " + //#6
+                    sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + " AS Type, " + //#6
 
-                    sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__AMOUNT) + " AS " + COL_NAME_EXPENSE__AMOUNT + "_DTypeN, " +//#7
+                    sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__AMOUNT) + " AS " + COL_NAME_EXPENSE__AMOUNT + "_CalcSUM_DTypeN, " +//#7
 
                     sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + " AS CurrencyCode, " + //#8
 
@@ -758,7 +758,8 @@ public class DBReportAdapter extends DBAdapter {
                                     "=" + sqlConcatTableColumn(TABLE_NAME_BPARTNERLOCATION, COL_NAME_GEN_ROWID) +
                     " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__TAG_ID) +
                                     "=" + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
-            " WHERE 1=1 ";
+                    " WHERE " +
+                        "COALESCE(" + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__FROMTABLE) + ", '') = '' ";
 
     //used in main activity and GPS Track list activity
     private static final String gpsTrackListViewSelect =

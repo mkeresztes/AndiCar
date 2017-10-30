@@ -1069,10 +1069,13 @@ public class CommonListActivity extends AppCompatActivity
         BigDecimal oldFullRefuelIndex;
         BigDecimal distance;
         BigDecimal fuelQty;
+        BigDecimal colSums[] = new BigDecimal[reportCursor.getColumnCount()];
 
         //create header row
         boolean appendComma = false;
         for (i = 0; i < reportCursor.getColumnCount(); i++) {
+            colSums[i] = BigDecimal.ZERO;
+
             if (reportCursor.getColumnName(i).endsWith("DoNotExport")) {
                 continue;
             }
@@ -1087,7 +1090,8 @@ public class CommonListActivity extends AppCompatActivity
                             .replaceAll("_DTypeN", "")
                             .replaceAll("_DTypeD", "")
                             .replaceAll("_DTypeL", "")
-                            .replaceAll("_DTypeR", "") + "\"";
+                            .replaceAll("_DTypeR", "")
+                            .replaceAll("_CalcSUM", "") + "\"";
         }
         reportContent = reportContent + "\n";
 
@@ -1099,6 +1103,11 @@ public class CommonListActivity extends AppCompatActivity
         while (reportCursor.moveToNext()) {
             appendComma = false;
             for (i = 0; i < reportCursor.getColumnCount(); i++) {
+
+                if (reportCursor.getColumnName(i).contains("_CalcSUM")) {
+                    colSums[i] = colSums[i].add(new BigDecimal(reportCursor.getString(i) != null ? reportCursor.getString(i) : "0"));
+                }
+
                 if (reportCursor.getColumnName(i).endsWith("DoNotExport")) {
                     continue;
                 }
@@ -1167,7 +1176,7 @@ public class CommonListActivity extends AppCompatActivity
                     if (mActivityType == ACTIVITY_TYPE_REFUEL) {
                         if (colVal.contains("[#rv1]") || colVal.contains("[#rv2]")) {
                             try {
-                                oldFullRefuelIndex = new BigDecimal(reportCursor.getDouble(27));
+                                oldFullRefuelIndex = new BigDecimal(reportCursor.getDouble(28));
                             }
                             catch (Exception e) {
                                 colVal = colVal.replace("[#rv1]", "Error #1! Please contact me at andicar.support@gmail.com").replace("[#rv2]",
@@ -1181,7 +1190,7 @@ public class CommonListActivity extends AppCompatActivity
                             // calculate the cons and fuel eff.
                             distance = (new BigDecimal(reportCursor.getString(5))).subtract(oldFullRefuelIndex);
                             try {
-                                Double t = dbReportAdapter.getFuelQtyForCons(reportCursor.getLong(28), oldFullRefuelIndex, reportCursor.getDouble(5));
+                                Double t = dbReportAdapter.getFuelQtyForCons(reportCursor.getLong(29), oldFullRefuelIndex, reportCursor.getDouble(5));
                                 fuelQty = (new BigDecimal(t == null ? 0d : t));
                             }
                             catch (NullPointerException e) {
@@ -1214,6 +1223,33 @@ public class CommonListActivity extends AppCompatActivity
             }
             reportContent = reportContent + "\n";
         }
+
+        //append sums
+        appendComma = false;
+        for (i = 0; i < reportCursor.getColumnCount(); i++) {
+            if (reportCursor.getColumnName(i).endsWith("DoNotExport")) {
+                continue;
+            }
+
+            if (appendComma) {
+                reportContent = reportContent + ",";
+            }
+            appendComma = true;
+
+            if (reportCursor.getColumnName(i).contains("_CalcSUM")) {
+
+                if (reportCursor.getColumnName(i).endsWith("_DTypeN")) {
+                    reportContent = reportContent + Utils.numberToString(colSums[i], false, 4, ConstantValues.ROUNDING_MODE_LENGTH);
+                }
+                else if (reportCursor.getColumnName(i).endsWith("_DTypeL")) {
+                    reportContent = reportContent + Utils.numberToString(colSums[i], false, 4, ConstantValues.ROUNDING_MODE_LENGTH);
+                }
+                else if (reportCursor.getColumnName(i).endsWith("_DTypeR")) {
+                    reportContent = reportContent + Utils.numberToString(colSums[i], false, 5, ConstantValues.ROUNDING_MODE_RATES);
+                }
+            }
+        }
+
         return reportContent;
     }
 
@@ -1224,19 +1260,26 @@ public class CommonListActivity extends AppCompatActivity
         BigDecimal fuelQty;
         int i;
         String colVal;
+        BigDecimal colSums[] = new BigDecimal[reportCursor.getColumnCount()];
 
         String reportContent = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n" + "<html>\n" + "<head>\n" + "<title>" + title
                 + "</title>\n" + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" + "</head>\n" + "<body>\n"
                 + "<table  WIDTH=100% BORDER=1 BORDERCOLOR=\"#000000\" CELLPADDING=4 CELLSPACING=0>\n" + "<TR VALIGN=TOP>\n"; //table header
         //create table header
         for (i = 0; i < reportCursor.getColumnCount(); i++) {
+            colSums[i] = BigDecimal.ZERO;
+
             if (reportCursor.getColumnName(i).endsWith("DoNotExport")) {
                 continue;
             }
 
             reportContent = reportContent + "<TH>"
-                    + reportCursor.getColumnName(i).replaceAll("_DTypeN", "").replaceAll("_DTypeD", "").replaceAll("_DTypeL", "").replaceAll("_DTypeR", "")
-                    + "</TH>\n";
+                    + reportCursor.getColumnName(i)
+                    .replaceAll("_DTypeN", "")
+                    .replaceAll("_DTypeD", "")
+                    .replaceAll("_DTypeL", "")
+                    .replaceAll("_DTypeR", "")
+                    .replaceAll("_CalcSUM", "") + "</TH>\n";
         }
         reportContent = reportContent + "</TR>\n"; //end table header
 
@@ -1250,6 +1293,11 @@ public class CommonListActivity extends AppCompatActivity
         while (reportCursor.moveToNext()) {
             reportContent = reportContent + "<TR VALIGN=TOP>\n";
             for (i = 0; i < reportCursor.getColumnCount(); i++) {
+
+                if (reportCursor.getColumnName(i).contains("_CalcSUM")) {
+                    colSums[i] = colSums[i].add(new BigDecimal(reportCursor.getString(i) != null ? reportCursor.getString(i) : "0"));
+                }
+
 
                 if (reportCursor.getColumnName(i).endsWith("DoNotExport")) {
                     continue;
@@ -1317,7 +1365,7 @@ public class CommonListActivity extends AppCompatActivity
                     if (mActivityType == ACTIVITY_TYPE_REFUEL) {
                         if (colVal.contains("[#rv1]") || colVal.contains("[#rv2]")) {
                             try {
-                                oldFullRefuelIndex = new BigDecimal(reportCursor.getDouble(27));
+                                oldFullRefuelIndex = new BigDecimal(reportCursor.getDouble(28));
                             }
                             catch (Exception e) {
                                 colVal = colVal.replace("[#rv1]", "Error #1! Please contact me at andicar.support@gmail.com").replace("[#rv2]",
@@ -1331,7 +1379,7 @@ public class CommonListActivity extends AppCompatActivity
                             // calculate the cons and fuel eff.
                             distance = (new BigDecimal(reportCursor.getString(5))).subtract(oldFullRefuelIndex);
                             try {
-                                Double t = dbReportAdapter.getFuelQtyForCons(reportCursor.getLong(28), oldFullRefuelIndex, reportCursor.getDouble(5));
+                                Double t = dbReportAdapter.getFuelQtyForCons(reportCursor.getLong(29), oldFullRefuelIndex, reportCursor.getDouble(5));
                                 fuelQty = (new BigDecimal(t == null ? 0d : t));
                             }
                             catch (NullPointerException e) {
@@ -1360,10 +1408,45 @@ public class CommonListActivity extends AppCompatActivity
                             .replace("[#d4]", getString(R.string.day_of_week_4)).replace("[#d5]", getString(R.string.day_of_week_5))
                             .replace("[#d6]", getString(R.string.day_of_week_6));
                 }
-                reportContent = reportContent + "<TD>" + colVal + "</TD>\n";
+
+                if (reportCursor.getColumnName(i).contains("_DTypeN")
+                        || reportCursor.getColumnName(i).endsWith("_DTypeL")
+                        || reportCursor.getColumnName(i).contains("_DTypeR")
+                        || reportCursor.getColumnName(i).endsWith("_DTypeD")) {
+                    reportContent = reportContent + "<TD align=\"right\">" + colVal + "</TD>\n";
+                }
+                else {
+                    reportContent = reportContent + "<TD>" + colVal + "</TD>\n";
+                }
+
             }
             reportContent = reportContent + "</TR>\n";
         }
+
+        //append sums
+        reportContent = reportContent + "<TR VALIGN=TOP>\n";
+        for (i = 0; i < reportCursor.getColumnCount(); i++) {
+            if (reportCursor.getColumnName(i).endsWith("DoNotExport")) {
+                continue;
+            }
+
+            if (reportCursor.getColumnName(i).contains("_CalcSUM")) {
+                if (reportCursor.getColumnName(i).endsWith("_DTypeN")) {
+                    reportContent = reportContent + "<TD align=\"right\"><B><I>" + Utils.numberToString(colSums[i], false, 4, ConstantValues.ROUNDING_MODE_LENGTH) + "</I></B></TD>\n";
+                }
+                else if (reportCursor.getColumnName(i).endsWith("_DTypeL")) {
+                    reportContent = reportContent + "<TD align=\"right\"><B><I>" + Utils.numberToString(colSums[i], false, 4, ConstantValues.ROUNDING_MODE_LENGTH) + "</I></B></TD>\n";
+                }
+                else if (reportCursor.getColumnName(i).endsWith("_DTypeR")) {
+                    reportContent = reportContent + "<TD align=\"right\"><B><I>" + Utils.numberToString(colSums[i], false, 5, ConstantValues.ROUNDING_MODE_RATES) + "</I></B></TD>\n";
+                }
+            }
+            else {
+                reportContent = reportContent + "<TD></TD>\n";
+            }
+        }
+        reportContent = reportContent + "</TR>\n";
+
         reportContent = reportContent + "</table>\n"
                 + "<br><br><p align=\"center\"> Created with <a href=\"http://www.andicar.org\" target=\"new\">AndiCar</a>\n" + "</body>\n" + "</html>";
 
