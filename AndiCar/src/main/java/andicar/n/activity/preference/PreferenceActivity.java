@@ -1470,18 +1470,22 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
 
         @Override
         public void onConnected(@Nullable Bundle bundle) {
-            if (mProgress != null) {
-                mProgress.dismiss();
+            try {
+                if (mProgress != null) {
+                    mProgress.dismiss();
+                }
+                secureBkGDriveFolderPreference.setEnabled(true);
+                if (isShouldShowGDriveFolderSelector
+                        || AndiCar.getDefaultSharedPreferences().getString(getString(R.string.pref_key_secure_backup_gdrive_folder_id), "").equals("")) {
+                    showGDriveFolderSelector(getActivity());
+                    isShouldShowGDriveFolderSelector = false;
+                }
+                if (isShouldShowGDriveDoneToast) {
+                    Toast.makeText(getActivity(), R.string.gen_done, Toast.LENGTH_SHORT).show();
+                    isShouldShowGDriveDoneToast = false;
+                }
             }
-            secureBkGDriveFolderPreference.setEnabled(true);
-            if (isShouldShowGDriveFolderSelector
-                    || AndiCar.getDefaultSharedPreferences().getString(getString(R.string.pref_key_secure_backup_gdrive_folder_id), "").equals("")) {
-                showGDriveFolderSelector(getActivity());
-                isShouldShowGDriveFolderSelector = false;
-            }
-            if (isShouldShowGDriveDoneToast) {
-                Toast.makeText(getActivity(), R.string.gen_done, Toast.LENGTH_SHORT).show();
-                isShouldShowGDriveDoneToast = false;
+            catch (IllegalStateException ignored) {
             }
         }
 
