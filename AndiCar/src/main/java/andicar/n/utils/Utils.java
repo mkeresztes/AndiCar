@@ -277,6 +277,7 @@ public class Utils {
     public static boolean isNetworkAvailable(Context ctx) {
         ConnectivityManager cm =
                 (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        //noinspection ConstantConditions
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
     }
@@ -521,6 +522,7 @@ public class Utils {
     }
 
     public static float getScreenWidthInPixel(Context ctx) {
+        //noinspection ConstantConditions
         Display display = ((WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -546,6 +548,7 @@ public class Utils {
         return sw.getBuffer().toString();
     }
 
+    @SuppressWarnings("SameParameterValue")
     public static void sendAnalyticsEvent(Context ctx, String screenName, Bundle params, boolean sendAlways) {
         if (!Utils.isDebugVersion() || sendAlways) {
             FirebaseAnalytics.getInstance(ctx).logEvent(screenName, params);
