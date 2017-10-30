@@ -1783,8 +1783,6 @@ public class DB {
                     " WHERE " + COL_NAME_TASK__TODOCOUNT + " < 2 " +
                     " AND " + COL_NAME_GEN_ISACTIVE + " = 'Y' ";
             db.execSQL(updSql);
-//            Utils.setToDoNextRun(mCtx);
-
         }
 
         @SuppressWarnings("BooleanMethodIsAlwaysInverted")

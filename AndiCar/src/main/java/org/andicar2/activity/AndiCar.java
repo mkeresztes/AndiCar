@@ -123,7 +123,6 @@ public class AndiCar extends MultiDexApplication {
     }
 
     private void updateApp(int oldAppVersion) {
-
         SharedPreferences.Editor e = appPreferences.edit();
         //version upgrade
         if (oldAppVersion <= 17092000) {
@@ -276,6 +275,8 @@ public class AndiCar extends MultiDexApplication {
             }
         }
         e.apply();
+
+        Utils.setToDoNextRun(getApplicationContext());
     }
 
     @SuppressLint("WrongConstant")
