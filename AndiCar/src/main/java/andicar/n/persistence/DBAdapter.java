@@ -37,7 +37,7 @@ import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
 
 //@formatter:off
-public class DBAdapter extends DB {
+@SuppressWarnings("JavaDoc") public class DBAdapter extends DB {
 
     public DBAdapter(Context ctx) {
         super(ctx);
