@@ -1082,13 +1082,12 @@ public class CommonListActivity extends AppCompatActivity
             }
             appendComma = true;
 
-            reportContent = reportContent + "\""
-                    + reportCursor.getColumnName(i)
+            reportContent = reportContent + "\"" +
+                    reportCursor.getColumnName(i)
                     .replaceAll("_DTypeN", "")
                     .replaceAll("_DTypeD", "")
                     .replaceAll("_DTypeL", "")
-                    .replaceAll("_DTypeR", "")
-                    + "\"";
+                            .replaceAll("_DTypeR", "") + "\"";
         }
         reportContent = reportContent + "\n";
 
