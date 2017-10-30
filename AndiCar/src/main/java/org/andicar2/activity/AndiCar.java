@@ -76,7 +76,6 @@ public class AndiCar extends MultiDexApplication {
             ConstantValues.BASE_FOLDER = Environment.getExternalStorageDirectory().getAbsolutePath() + "/andicar";
         }
         else {
-//            ConstantValues.BASE_FOLDER = getApplicationContext().getApplicationInfo().dataDir + "/andicar";
             ConstantValues.BASE_FOLDER = getApplicationContext().getFilesDir().getAbsolutePath();
         }
 
