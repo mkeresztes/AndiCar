@@ -1473,7 +1473,7 @@ public class DBReportAdapter extends DBAdapter {
                     reportSql = reportSql + whereCondition;
                 }
 
-                reportSql = reportSql + " ORDER BY " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + " DESC";
+                reportSql = reportSql + " ORDER BY " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + " ASC";
                 break;
             case REFUEL_LIST_SELECT_NAME:
                 reportSql = refuelListViewSelect;
@@ -1489,7 +1489,7 @@ public class DBReportAdapter extends DBAdapter {
                     reportSql = reportSql + whereCondition;
                 }
 
-                reportSql = reportSql + " ORDER BY " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX) + " DESC";
+                reportSql = reportSql + " ORDER BY " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__INDEX) + " ASC";
                 break;
             case EXPENSE_LIST_SELECT_NAME:
                 reportSql = expenseListViewSelect;
@@ -1505,7 +1505,7 @@ public class DBReportAdapter extends DBAdapter {
                     reportSql = reportSql + whereCondition;
                 }
 
-                reportSql = reportSql + " ORDER BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__DATE) + " DESC";
+                reportSql = reportSql + " ORDER BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__DATE) + " ASC";
                 break;
             case GPS_TRACK_LIST_SELECT_NAME:
                 reportSql = gpsTrackListViewSelect;
@@ -1521,7 +1521,7 @@ public class DBReportAdapter extends DBAdapter {
                     reportSql = reportSql + whereCondition;
                 }
 
-                reportSql = reportSql + " ORDER BY " + sqlConcatTableColumn(TABLE_NAME_GPSTRACK, COL_NAME_GPSTRACK__DATE) + " DESC";
+                reportSql = reportSql + " ORDER BY " + sqlConcatTableColumn(TABLE_NAME_GPSTRACK, COL_NAME_GPSTRACK__DATE) + " ASC";
                 break;
             case TODO_LIST_SELECT_NAME:
                 reportSql = todoListViewSelect;
@@ -1541,16 +1541,6 @@ public class DBReportAdapter extends DBAdapter {
                 reportSql = reportSql + " ORDER BY EstimatedDueDate_DTypeL ASC, " + "COALESCE (ScheduledDate_DTypeD , 99999999999) ASC, "
                         + "COALESCE(EstimatedScheduledMileageDate_DTypeL, 99999999999) ASC ";
                 break;
-//			case "reimbursementRateListReportSelect":
-//				reportSql = reimbursementRateListReportSelect;
-//				if (whereCondition.length() > 0)
-//					reportSql = reportSql + whereCondition;
-//
-//				reportSql = reportSql + " ORDER BY " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__CAR_ID) + ", "
-//						+ sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__EXPENSETYPE_ID) + ", "
-//						+ sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__VALIDFROM) + " DESC";
-//
-//				break;
             case CAR_LIST_SELECT_NAME:
                 reportSql = carListViewSelect;
                 break;
