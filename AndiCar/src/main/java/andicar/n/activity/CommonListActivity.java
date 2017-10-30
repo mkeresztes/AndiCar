@@ -227,13 +227,13 @@ public class CommonListActivity extends AppCompatActivity
 
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.removeAllViews();
 
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -310,7 +310,7 @@ public class CommonListActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.item_list);
+        mRecyclerView = findViewById(R.id.item_list);
         assert mRecyclerView != null;
 
         getRecordsList();
@@ -1083,7 +1083,11 @@ public class CommonListActivity extends AppCompatActivity
             appendComma = true;
 
             reportContent = reportContent + "\""
-                    + reportCursor.getColumnName(i).replaceAll("_DTypeN", "").replaceAll("_DTypeD", "").replaceAll("_DTypeL", "").replaceAll("_DTypeR", "")
+                    + reportCursor.getColumnName(i)
+                    .replaceAll("_DTypeN", "")
+                    .replaceAll("_DTypeD", "")
+                    .replaceAll("_DTypeL", "")
+                    .replaceAll("_DTypeR", "")
                     + "\"";
         }
         reportContent = reportContent + "\n";
