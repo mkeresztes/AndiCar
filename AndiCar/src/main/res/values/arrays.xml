@@ -170,6 +170,7 @@
         <item>Expense charts</item>
         <item>Fuel efficiency graph</item>
         <item>Fuel consumption graph</item>
+        <item>Fuel price evolution</item>
     </string-array>
 
     <string-array name="pref_main_zone_content_chooser_values" tools:ignore="MissingTranslation">
@@ -185,5 +186,6 @@
         <item>CEX</item> <!--Expense charts-->
         <item>CFE</item> <!--Fuel efficiency-->
         <item>CFC</item> <!--Fuel consumption-->
+        <item>CFP</item> <!--Fuel price evolution-->
     </string-array>
 </resources>

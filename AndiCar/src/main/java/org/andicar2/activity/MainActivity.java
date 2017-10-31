@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity
     private static final String LAST_GPS_TRACK_RECORD = "LGT";
     private static final String FUEL_EFF_LINE_CHART = "CFE";
     private static final String FUEL_CONS_LINE_CHART = "CFC";
+    private static final String FUEL_PRICE_LINE_CHART = "CFP";
     private static final String STATISTICS_ZONE = "STS";
     private final View.OnClickListener btnEditClickListener = new View.OnClickListener() {
         @Override
@@ -190,17 +191,17 @@ public class MainActivity extends AppCompatActivity
             mChartPeriodEndInSeconds = savedInstanceState.getLong("mChartPeriodEndInSeconds", -1);
         }
         //set up the main toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mNavViewDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mNavViewDrawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
                 this, mNavViewDrawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         assert mNavViewDrawer != null;
         mNavViewDrawer.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        mNavigationView = (MainNavigationView) findViewById(R.id.nav_view);
+        mNavigationView = findViewById(R.id.nav_view);
         assert mNavigationView != null;
         mNavigationView.setNavigationItemSelectedListener(this);
         LinearLayout carInfo = mNavigationView.getHeaderView(0).findViewById(R.id.car_info);
@@ -339,7 +340,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         //for debug
-        TextView tvDebugInfo = (TextView) findViewById(R.id.tvDebugInfo);
+        TextView tvDebugInfo = findViewById(R.id.tvDebugInfo);
         if (tvDebugInfo != null) {
             if (Utils.isDebugVersion() && ConstantValues.DEBUG_IS_SHOW_INFO_IN_FRAGMENTS) {
                 Display display = getWindowManager().getDefaultDisplay();
@@ -356,7 +357,7 @@ public class MainActivity extends AppCompatActivity
                 tvDebugInfo.setVisibility(View.GONE);
             }
         }
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         if (mLastSelectedCarID > -1) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -754,15 +755,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_ADD_CAR && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REQUEST_CODE_ADD_CAR && resultCode == Activity.RESULT_OK && data.getExtras() != null) {
             setSelectedCar(data.getExtras().getInt(DBAdapter.COL_NAME_GEN_ROWID), false);
             //switch back the navigation menu to the primary layout
             mNavigationView.mForceSecondary = false;
             mNavigationView.changeMenuLayout();
         }
-//        else if (requestCode == REQUEST_CODE_CHART_DETAIL) {
-//            mRedrawCharts = false;
-//        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -1352,7 +1350,7 @@ public class MainActivity extends AppCompatActivity
         LineChartComponent lineChartComponent;
         StatisticsComponent statisticsComponent;
         String zoneContent;
-        LinearLayout zoneContainer = (LinearLayout) findViewById(R.id.zoneContainer);
+        LinearLayout zoneContainer = findViewById(R.id.zoneContainer);
         if (zoneContainer == null) {
             return;
         }
@@ -1419,6 +1417,10 @@ public class MainActivity extends AppCompatActivity
                                 zoneContent.equals(FUEL_CONS_LINE_CHART) ? fuelConsTitle : fuelEffTitle);
                         zoneContainer.addView(lineChartComponent);
                         break;
+                    case FUEL_PRICE_LINE_CHART:
+                        lineChartComponent = new LineChartComponent(this, LineChartComponent.SHOW_FUEL_PRICE_EVOLUTION, getString(R.string.line_chart_fuel_price_title));
+                        zoneContainer.addView(lineChartComponent);
+                        break;
                     case STATISTICS_ZONE:
                         mIsCanShowFilterMenu = true;
                         statisticsComponent = new StatisticsComponent(this);
@@ -1441,15 +1443,6 @@ public class MainActivity extends AppCompatActivity
                 inflater.inflate(R.menu.main_activity_pie_chart_filter_menu, mMenu);
             }
         }
-
-//        if (mPreferences.getBoolean(getString(R.string.pref_key_main_show_statistics), true)) {
-//            llStatisticsZone.setVisibility(View.VISIBLE);
-//            fillStatisticsZone();
-//        }
-//        else {
-//            llStatisticsZone.setVisibility(View.GONE);
-//        }
-//
     }
 
     @Override
@@ -1483,8 +1476,8 @@ public class MainActivity extends AppCompatActivity
         TextView tvToDoText1;
         TextView tvToDoText2;
 
-        tvToDoText1 = (TextView) findViewById(R.id.tvToDoText1);
-        tvToDoText2 = (TextView) findViewById(R.id.tvToDoText2);
+        tvToDoText1 = findViewById(R.id.tvToDoText1);
+        tvToDoText2 = findViewById(R.id.tvToDoText2);
 
         whereConditions.putString(DBReportAdapter.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__ISDONE) + "=", "N");
         DBReportAdapter reportDb = new DBReportAdapter(this, DBReportAdapter.TODO_LIST_SELECT_NAME, whereConditions);
