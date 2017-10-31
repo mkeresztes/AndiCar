@@ -26,6 +26,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -74,7 +75,7 @@ public class ToDoManagementService extends Service {
         try {
 //            if (FileUtils.isFileSystemAccessGranted(getApplicationContext())) {
                 debugLogFileWriter = new LogFileWriter(debugLogFile, false);
-                debugLogFileWriter.appendnl("Starting BackupService");
+            debugLogFileWriter.appendnl("Starting ToDoManagementService");
 //            }
 
             Bundle mBundleExtras = intent.getExtras();
@@ -104,6 +105,7 @@ public class ToDoManagementService extends Service {
                 if (debugLogFileWriter != null) {
                     debugLogFileWriter.appendnl("Exception in service: ").append(e.getMessage()).append("\n").append(Utils.getStackTrace(e));
                 }
+                Log.d("AndiCar", e.getMessage(), e);
             } catch (Exception ignored) {
             }
         }

@@ -355,20 +355,11 @@ public class FileUtils {
     public static String createFolderIfNotExists(Context ctx, String what) {
         File file;
 
-//        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-        if (!FileUtils.isFileSystemAccessGranted(ctx)) {
+        if (!FileUtils.isFileSystemAccessGranted(ctx) && !what.equals(ConstantValues.LOG_FOLDER)) {
             return mResources.getString(R.string.error_102);
         }
 
         try {
-//			file = Environment.getExternalStorageDirectory();
-//            if(!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-//                return mResources.getString(R.string.error_020);
-//            }
-//			if (!file.exists() || !file.isDirectory()) {
-//				return mResources.getString(R.string.error_020);
-//			}
-
             if (what.equals("ALL") || what.equals(ConstantValues.REPORT_FOLDER)) {
                 file = new File(ConstantValues.REPORT_FOLDER);
                 if (!file.exists()) {

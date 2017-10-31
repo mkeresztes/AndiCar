@@ -86,6 +86,7 @@ public class AndiCar extends MultiDexApplication {
         ConstantValues.TEMP_FOLDER = ConstantValues.BASE_FOLDER + "/" + ConstantValues.TEMP_FOLDER_NAME + "/";
         //the log folder will be in the internal storage to avoid access permission
         ConstantValues.LOG_FOLDER = getApplicationContext().getFilesDir().getAbsolutePath() + "/" + ConstantValues.LOG_FOLDER_NAME + "/";
+        FileUtils.createFolderIfNotExists(getApplicationContext(), ConstantValues.LOG_FOLDER);
 
         initPreferences();
 
