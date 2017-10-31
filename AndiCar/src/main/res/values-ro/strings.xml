@@ -246,6 +246,7 @@
     <string name="gen_category">Categorie:</string>
     <string name="gen_created_on">"Creat in"</string>
     <string name="gen_current_index">Odometru curent:</string>
+    <string name="gen_is_gas_station">Este benzinărie</string>
     <string name="gen_menu_rate_app">Evaluați aplicația</string>
 
     <string name="mileage_draft_edit">Schiță. Completați datele de sosire pentru a termina.</string>

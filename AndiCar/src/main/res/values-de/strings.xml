@@ -208,6 +208,7 @@
     <string name="gen_category">Kategorie:</string>
     <string name="gen_created_on">"Erzeugt am"</string>
     <string name="gen_current_index">Aktueller Kilometerstand:</string>
+    <string name="gen_is_gas_station">Ist Tankstelle</string>
     <string name="gen_menu_rate_app">Bewerte diese App</string>
 
     <string name="mileage_edit_option_mileage_label">Entfernung</string>
