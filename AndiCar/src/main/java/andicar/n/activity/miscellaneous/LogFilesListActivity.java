@@ -50,7 +50,7 @@ public class LogFilesListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_file_list);
-        lvLogFileList = (ListView) findViewById(R.id.lvLogFileList);
+        lvLogFileList = findViewById(R.id.lvLogFileList);
 
         mLogFileList = FileUtils.listLogFiles(this);
         fillLogFilesList();

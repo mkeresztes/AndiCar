@@ -765,11 +765,15 @@ public class Utils {
             if (debugLogFileWriter != null) {
                 debugLogFileWriter.appendnl("========== setNextRun finished ==========");
             }
+            debugLogFileWriter.flush();
+            debugLogFileWriter.close();
         }
         catch (Exception e) {
             try {
                 if (debugLogFileWriter != null) {
                     debugLogFileWriter.appendnl("Exception in setNextRun: ").append(e.getMessage()).append("\n").append(Utils.getStackTrace(e));
+                    debugLogFileWriter.flush();
+                    debugLogFileWriter.close();
                 }
             }
             catch (Exception ignored) {

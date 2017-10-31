@@ -120,8 +120,7 @@ public class FileUtils {
         Pattern p = null;
         Matcher m;
 
-//        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-        if (!FileUtils.isFileSystemAccessGranted(ctx)) {
+        if (!FileUtils.isFileSystemAccessGranted(ctx) && !folder.equals(ConstantValues.LOG_FOLDER)) {
             return null;
         }
         if (!fileDir.exists() || !fileDir.isDirectory()) {
