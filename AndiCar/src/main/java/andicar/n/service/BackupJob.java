@@ -40,6 +40,8 @@ public class BackupJob extends JobService {
                 debugLogFileWriter.appendnl("No access to file system. Terminating job.");
                 debugLogFileWriter.flush();
                 debugLogFileWriter.close();
+                AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR, (int) System.currentTimeMillis(),
+                        getString(R.string.pref_backup_service_category), getString(R.string.error_070), null, null);
                 jobFinished(jobParams, false);
                 return false;
             }
@@ -58,6 +60,10 @@ public class BackupJob extends JobService {
             try {
                 if (debugLogFileWriter != null) {
                     debugLogFileWriter.appendnl("Exception(2) in BackupService: ").append(e.getMessage()).append("\n").append(Utils.getStackTrace(e));
+                    debugLogFileWriter.flush();
+                    debugLogFileWriter.close();
+                    AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR, (int) System.currentTimeMillis(),
+                            getString(R.string.pref_backup_service_category), e.getMessage(), null, e);
                 }
             }
             catch (Exception ignored) {
@@ -102,7 +108,8 @@ public class BackupJob extends JobService {
                 }
                 catch (IOException e) {
                     try {
-                        Utils.showNotReportableErrorDialog(getApplicationContext(), e.getMessage(), null, true);
+                        AndiCarNotification.showGeneralNotification(getApplicationContext(), AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR, (int) System.currentTimeMillis(),
+                                getString(R.string.pref_backup_service_category), e.getMessage(), null, e);
                         if (debugLogFileWriter != null) {
                             debugLogFileWriter.appendnl("Backup service terminated");
                             debugLogFileWriter.flush();

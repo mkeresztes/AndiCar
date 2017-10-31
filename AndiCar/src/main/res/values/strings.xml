@@ -941,7 +941,6 @@
     <string name="error_106">Secure backup incomplete configured: no recipient email</string>
     <string name="error_107">Secure backup incomplete configured: no Google account chosen.</string>
     <string name="error_108">AndiCar is not authorized, or the authorization was removed, to send emails on your behalf. Secure backup was disabled. You can re-enable it from Settings -> Backup &amp; Restore.</string>
-    <string name="error_109">Access denied to external storage. Grant it to use this feature!</string>
     <string name="error_111">Please choose a value for from UOM!</string>
     <string name="error_112">Please choose a value for to UOM!</string>
     <string name="error_113">Unknown activity type (%1s)!</string>

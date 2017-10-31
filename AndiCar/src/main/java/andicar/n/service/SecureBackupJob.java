@@ -193,7 +193,8 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
                         zippedBk = ConstantValues.TEMP_FOLDER + bkFileName.replace(".db", "") + ".zi_";
                         FileUtils.zipFiles(getApplicationContext(), fileBundle, zippedBk);
                         if (FileUtils.mLastException != null) {
-                            Utils.showNotReportableErrorDialog(getApplicationContext(), FileUtils.mLastErrorMessage, null, true);
+                            AndiCarNotification.showGeneralNotification(getApplicationContext(), AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR,
+                                    (int) System.currentTimeMillis(), getString(R.string.pref_category_secure_backup), FileUtils.mLastErrorMessage, null, null);
                             return;
                         }
 
@@ -251,7 +252,8 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
                     debugLogFileWriter.append("\n").append("=======End Stack Trace=======");
                     debugLogFileWriter.flush();
                 }
-                Utils.showReportableErrorDialog(this, null, e.getMessage(), e, true);
+                AndiCarNotification.showGeneralNotification(getApplicationContext(), AndiCarNotification.NOTIFICATION_TYPE_REPORTABLE_ERROR,
+                        (int) System.currentTimeMillis(), getString(R.string.pref_category_secure_backup), e.getMessage(), null, e);
             }
             catch (IOException ignored) {
             }
@@ -291,15 +293,6 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
     @Override
     public void onAndiCarTaskCancelled(String errorMsg, Exception e) {
         try {
-//            if (debugLogFileWriter != null) {
-//                debugLogFileWriter.appendnl("Task failed!");
-//                if (errorMsg != null)
-//                    debugLogFileWriter.appendnl(errorMsg);
-//                if (e != null)
-//                    debugLogFileWriter.appendnl(Utils.getStackTrace(e));
-//                debugLogFileWriter.flush();
-//            }
-
             if (e != null) {
                 if (e instanceof UserRecoverableAuthIOException) {
                     //no Google authorization
@@ -316,13 +309,16 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
                 }
                 else {
                     if (Utils.getStackTrace(e).contains("OutOfMemoryError")) {
-                        Utils.showNotReportableErrorDialog(this, getString(R.string.error_124), e.getMessage(), true);
+                        AndiCarNotification.showGeneralNotification(getApplicationContext(), AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR,
+                                (int) System.currentTimeMillis(), getString(R.string.pref_category_secure_backup), getString(R.string.error_124), null, e);
                     }
                     else if (Utils.getStackTrace(e).contains("connect timed out")) {
-                        Utils.showNotReportableErrorDialog(this, getString(R.string.gen_error), e.getMessage(), true);
+                        AndiCarNotification.showGeneralNotification(getApplicationContext(), AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR,
+                                (int) System.currentTimeMillis(), getString(R.string.pref_category_secure_backup), e.getMessage(), null, e);
                     }
                     else {
-                        Utils.showReportableErrorDialog(this, getString(R.string.error_sorry), e.getMessage(), e, true);
+                        AndiCarNotification.showGeneralNotification(getApplicationContext(), AndiCarNotification.NOTIFICATION_TYPE_REPORTABLE_ERROR,
+                                (int) System.currentTimeMillis(), getString(R.string.pref_category_secure_backup), e.getMessage(), null, e);
                     }
 
                     if (debugLogFileWriter != null) {
@@ -336,14 +332,16 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
             }
             else {
                 if (errorMsg != null) {
-                    Utils.showNotReportableErrorDialog(this, getString(R.string.error_sorry), errorMsg, true);
+                    AndiCarNotification.showGeneralNotification(getApplicationContext(), AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR,
+                            (int) System.currentTimeMillis(), getString(R.string.pref_category_secure_backup), errorMsg, null, null);
                     if (debugLogFileWriter != null) {
                         debugLogFileWriter.appendnl("Error message: ").append(errorMsg);
                         debugLogFileWriter.flush();
                     }
                 }
                 else {
-                    Utils.showNotReportableErrorDialog(this, getString(R.string.error_sorry), null, true);
+                    AndiCarNotification.showGeneralNotification(getApplicationContext(), AndiCarNotification.NOTIFICATION_TYPE_NOT_REPORTABLE_ERROR,
+                            (int) System.currentTimeMillis(), getString(R.string.pref_category_secure_backup), getString(R.string.error_sorry), null, null);
                     if (debugLogFileWriter != null) {
                         debugLogFileWriter.appendnl("Unknown error.");
                         debugLogFileWriter.flush();

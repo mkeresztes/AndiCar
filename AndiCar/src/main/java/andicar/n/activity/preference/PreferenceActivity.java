@@ -931,24 +931,24 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
 
 //            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
             if (!FileUtils.isFileSystemAccessGranted(getActivity())) {
-                backupPreference.setSummary(R.string.error_109);
+                backupPreference.setSummary(R.string.error_070);
                 backupPreference.setEnabled(false);
 
-                listBackupsPreference.setSummary(R.string.error_109);
+                listBackupsPreference.setSummary(R.string.error_070);
                 listBackupsPreference.setEnabled(false);
 
-                restorePreference.setSummary(R.string.error_109);
+                restorePreference.setSummary(R.string.error_070);
                 restorePreference.setEnabled(false);
 
                 backupService.setEnabled(false);
-                backupService.setSummary(R.string.error_109);
+                backupService.setSummary(R.string.error_070);
                 backupServiceSchedule.setEnabled(false);
                 backupServiceSchedule.setSummary("");
                 backupServiceShowNotification.setEnabled(false);
 
                 secureBkPreference.setChecked(false);
                 secureBkCategory.setEnabled(false);
-                secureBkPreference.setSummary(R.string.error_109);
+                secureBkPreference.setSummary(R.string.error_070);
 
                 return;
             } else {

@@ -607,7 +607,7 @@
     <string name="error_067">Nu se poate partaja. Nu există nicio aplicație instalată pentru această operație.</string>
     <string name="error_068">Nu este disponibil niciun serviciu de localizare.</string>
     <string name="error_069">Este necesar accesul la datele de locație!</string>
-    <string name="error_070">Nu este permis accesul la spațiul de stocare!</string>
+    <string name="error_070">Nu este permis accesul la spațiul de stocare! Această funcționalitate necesită acest acces!</string>
     <string name="error_071">Bază de date invalidă.</string>
     <string name="error_072">Tip fișier backup necunoscut.</string>
     <string name="error_073">%1$s nu există.</string>
@@ -627,7 +627,6 @@
     <string name="error_106">Salvările de siguranță sun incomplet configurate: nu este completat destinatarul</string>.
     <string name="error_107">Configurat incomplet: nu s-a ales niciun cont Google.</string>
     <string name="error_108">AndiCar nu este autorizat să trimită emailuri în numele tău. Din acest motiv Secure Backup a fost dezactivat. Se poate reactiva din Setări -> Copie de siguranță &amp; restaurare date.</string>
-    <string name="error_109">Nu este permis accesul la dispozitivul de stocare extern. Această funcționalitate necesită acest acces!</string>
     <string name="error_111">Alegeți o unitate de pornire!</string>
     <string name="error_112">Alegeți unitatea în care doriți conversia!</string>
     <string name="error_113">Tip fereastră invalid (%1s)!</string>

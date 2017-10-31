@@ -69,6 +69,7 @@ class GeneralNotificationBuilder extends Notification.Builder {
             if (exception != null) {
                 resultIntent.putExtra(GeneralNotificationDialogActivity.NOTIF_EXCEPTION_STRING_KEY, Utils.getStackTrace(exception));
             }
+            resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
 
         switch (notificationType) {

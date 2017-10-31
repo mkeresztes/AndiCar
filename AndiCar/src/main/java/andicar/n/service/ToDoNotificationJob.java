@@ -12,7 +12,6 @@ import org.andicar2.activity.R;
 import andicar.n.activity.fragment.TaskEditFragment;
 import andicar.n.persistence.DB;
 import andicar.n.persistence.DBAdapter;
-import andicar.n.utils.Utils;
 import andicar.n.utils.notification.AndiCarNotification;
 
 /**
@@ -66,7 +65,8 @@ public class ToDoNotificationJob extends JobService {
                     mDb.close();
                 }
                 catch (Exception e) {
-                    Utils.showReportableErrorDialog(getApplicationContext(), e.getMessage(), null, e, true);
+                    AndiCarNotification.showGeneralNotification(getApplicationContext(), AndiCarNotification.NOTIFICATION_TYPE_REPORTABLE_ERROR,
+                            (int) System.currentTimeMillis(), getString(R.string.todo_alert_title), e.getMessage(), null, e);
                 }
             }
         }).start();
