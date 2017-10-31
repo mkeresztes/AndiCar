@@ -43,7 +43,7 @@ import andicar.n.utils.Utils;
  *
  * @author miki
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "SpellCheckingInspection", "WeakerAccess"})
 public class DB {
     //@formatter:off
 
@@ -213,6 +213,9 @@ public class DB {
     public static final String COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID = TABLE_NAME_GPSTRACK + "_ID";
     public static final String COL_NAME_GPSTRACKDETAIL__FILE = "File";
     public static final String COL_NAME_GPSTRACKDETAIL__FILEFORMAT = "Format"; // see StaticValues.gpsTrackFormat...
+
+    //business partner
+    public static final String COL_NAME_BPARTNER__ISGASSTATION = "IsGasStation";
     // business partner location
     public static final String COL_NAME_BPARTNERLOCATION__BPARTNER_ID = TABLE_NAME_BPARTNER + "_ID";
     public static final String COL_NAME_BPARTNERLOCATION__ADDRESS = "Address";
@@ -444,6 +447,8 @@ public class DB {
     public static final int COL_POS_GPSTRACKDETAIL__GPSTRACK_ID = 4;
     public static final int COL_POS_GPSTRACKDETAIL__FILE = 5;
     public static final int COL_POS_GPSTRACKDETAIL__FILEFORMAT = 6;
+    //business partner
+    public static final int COL_POS_BPARTNER__ISGASSTATION = 4;
     // business partner location
     public static final int COL_POS_BPARTNERLOCATION__BPARTNER_ID = 4;
     public static final int COL_POS_BPARTNERLOCATION__ADDRESS = 5;
@@ -533,7 +538,7 @@ public class DB {
             COL_NAME_GPSTRACK__TOTALPAUSETIME, COL_NAME_GPSTRACK__EXPENSETYPE_ID};
     public static final String[] COL_LIST_GPSTRACKDETAIL_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT,
             COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID, COL_NAME_GPSTRACKDETAIL__FILE, COL_NAME_GPSTRACKDETAIL__FILEFORMAT};
-    public static final String[] COL_LIST_BPARTNER_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT};
+    public static final String[] COL_LIST_BPARTNER_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT, COL_NAME_BPARTNER__ISGASSTATION};
     // business partner location
     public static final String[] COL_LIST_BPARTNERLOCATION_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT,
             COL_NAME_BPARTNERLOCATION__BPARTNER_ID, COL_NAME_BPARTNERLOCATION__ADDRESS, COL_NAME_BPARTNERLOCATION__POSTAL, COL_NAME_BPARTNERLOCATION__CITY,
@@ -799,7 +804,8 @@ public class DB {
                         COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
                         COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
-                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_BPARTNER__ISGASSTATION + " TEXT DEFAULT 'N' " +
                     ");";
 
     private static final String CREATE_SQL_BPARTNERLOCATION_TABLE =
@@ -1363,6 +1369,9 @@ public class DB {
             } else if (oldVersion == 501) {
                 upgradeDbTo502(db, oldVersion);
             }
+            else if (oldVersion == 502) {
+                upgradeDbTo503(db, oldVersion);
+            }
 
             // !!!!!!!!!!!!!!DON'T FORGET onCREATE !!!!!!!!!!!!!!!!
 
@@ -1782,6 +1791,23 @@ public class DB {
                     " SET " + COL_NAME_TASK__TODOCOUNT + " = 2 " +
                     " WHERE " + COL_NAME_TASK__TODOCOUNT + " < 2 " +
                     " AND " + COL_NAME_GEN_ISACTIVE + " = 'Y' ";
+            db.execSQL(updSql);
+
+            upgradeDbTo503(db, oldVersion);
+        }
+
+        private void upgradeDbTo503(SQLiteDatabase db, int oldVersion) throws SQLException {
+            String updSql;
+            updSql = "ALTER TABLE " + TABLE_NAME_BPARTNER + " ADD " + COL_NAME_BPARTNER__ISGASSTATION + " TEXT DEFAULT 'N' ";
+            db.execSQL(updSql);
+
+            updSql = "UPDATE " + TABLE_NAME_BPARTNER +
+                    " SET " + COL_NAME_BPARTNER__ISGASSTATION + " = 'Y' " +
+                    " WHERE " + COL_NAME_GEN_ROWID + " IN " +
+                    "( " +
+                    "SELECT DISTINCT " + COL_NAME_REFUEL__BPARTNER_ID +
+                    " FROM " + TABLE_NAME_REFUEL +
+                    ")";
             db.execSQL(updSql);
         }
 

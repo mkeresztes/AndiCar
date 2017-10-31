@@ -59,9 +59,16 @@
                 android:tag="@string/gen_required"/>
         </LinearLayout>
 
+        <CheckBox
+            android:id="@+id/ckIsGasStation"
+            style="@style/AndiCarCheckBox"
+            android:layout_marginTop="5dp"
+            android:text="@string/gen_is_gas_station"/>
+
         <TextView
             android:id="@+id/tvUserCommentLabel"
             style="@style/AndiCarLabelStyle"
+            android:layout_marginTop="5dp"
             android:text="@string/gen_comment_label"/>
 
         <AutoCompleteTextView

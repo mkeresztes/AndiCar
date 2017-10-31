@@ -1136,19 +1136,19 @@ public abstract class BaseEditFragment extends Fragment {
         mUserCommentAdapter = null;
         String[] comments = null;
         if (this instanceof MileageEditFragment) {
-            comments = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_MILEAGE, null, mCarId, 60);
+            comments = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_MILEAGE, null, null, mCarId, 60);
         }
         else if (this instanceof RefuelEditFragment) {
-            comments = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_REFUEL, null, mCarId, 60);
+            comments = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_REFUEL, null, null, mCarId, 60);
         }
         else if (this instanceof ExpenseEditFragment) {
-            comments = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_EXPENSE, null, mCarId, 60);
+            comments = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_EXPENSE, null, null, mCarId, 60);
         }
         else if (this instanceof GPSTrackEditFragment) {
-            comments = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_GPSTRACK, null, mCarId, 60);
+            comments = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_GPSTRACK, null, null, mCarId, 60);
         }
         else if (this instanceof GPSTrackControllerFragment) {
-            comments = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_GPSTRACK, null, mCarId, 60);
+            comments = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_GPSTRACK, null, null, mCarId, 60);
         }
 
         if (comments != null) {
@@ -1162,7 +1162,7 @@ public abstract class BaseEditFragment extends Fragment {
         mTagAdapter = null;
         String[] tags;
 //		if(this instanceof MileageEditFragment)
-        tags = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_TAG, null, 0, 0);
+        tags = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_TAG, null, null, 0, 0);
 
         if (tags != null) {
             mTagAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, tags);

@@ -1121,17 +1121,26 @@ import andicar.n.utils.FileUtils;
      *
      * @return a string array containing the last limitCount user comment from
      * fromTable for the carId and DriverId
+     * @param  completeWhereClause: the complete where clause for the select (including the WHERE keyword!). If null, default where clauses will be used
      */
     @Nullable
-    public String[] getAutoCompleteText(String fromTable, @Nullable String fromColumn, long whereId, int limitCount) {
+    public String[] getAutoCompleteText(String fromTable, @Nullable String fromColumn, String completeWhereClause, long whereId, int limitCount) {
         String[] retVal;
         ArrayList<String> commentList = new ArrayList<>();
         String selectSql;
+
+        if(completeWhereClause != null)
+            completeWhereClause = " " + completeWhereClause;
+
         switch (fromTable) {
             case TABLE_NAME_MILEAGE:
                 selectSql =
                         "SELECT DISTINCT " + COL_NAME_GEN_USER_COMMENT +
-                        " FROM " + TABLE_NAME_MILEAGE +
+                        " FROM " + TABLE_NAME_MILEAGE;
+                if(completeWhereClause != null)
+                    selectSql = selectSql + completeWhereClause;
+                else
+                    selectSql = selectSql +
                         " WHERE " +
                                 COL_NAME_MILEAGE__CAR_ID + " = " + whereId +
                                 " AND " + COL_NAME_GEN_USER_COMMENT + " IS NOT NULL " +
@@ -1143,7 +1152,11 @@ import andicar.n.utils.FileUtils;
             case TABLE_NAME_REFUEL:
                 selectSql =
                         "SELECT DISTINCT " + COL_NAME_GEN_USER_COMMENT +
-                        " FROM " + TABLE_NAME_REFUEL +
+                        " FROM " + TABLE_NAME_REFUEL;
+                if(completeWhereClause != null)
+                    selectSql = selectSql + completeWhereClause;
+                else
+                    selectSql = selectSql +
                         " WHERE " +
                                 COL_NAME_REFUEL__CAR_ID + " = " + whereId +
                                 " AND " + COL_NAME_GEN_USER_COMMENT + " IS NOT NULL " +
@@ -1155,7 +1168,11 @@ import andicar.n.utils.FileUtils;
             case TABLE_NAME_EXPENSE:
                 selectSql =
                         "SELECT DISTINCT " + COL_NAME_GEN_USER_COMMENT +
-                        " FROM " + TABLE_NAME_EXPENSE +
+                        " FROM " + TABLE_NAME_EXPENSE;
+                if(completeWhereClause != null)
+                    selectSql = selectSql + completeWhereClause;
+                else
+                    selectSql = selectSql +
                         " WHERE " +
                                 COL_NAME_EXPENSE__CAR_ID + " = " + whereId +
                                 " AND " + COL_NAME_GEN_USER_COMMENT + " IS NOT NULL " +
@@ -1167,7 +1184,11 @@ import andicar.n.utils.FileUtils;
             case TABLE_NAME_GPSTRACK:
                 selectSql =
                         "SELECT DISTINCT " + COL_NAME_GEN_USER_COMMENT +
-                        " FROM " + TABLE_NAME_GPSTRACK +
+                        " FROM " + TABLE_NAME_GPSTRACK;
+                if(completeWhereClause != null)
+                    selectSql = selectSql + completeWhereClause;
+                else
+                    selectSql = selectSql +
                         " WHERE " +
                                 COL_NAME_GPSTRACK__CAR_ID + " = " + whereId +
                                 " AND " + COL_NAME_GEN_USER_COMMENT + " IS NOT NULL " +
@@ -1179,7 +1200,11 @@ import andicar.n.utils.FileUtils;
             case TABLE_NAME_BPARTNER:
                 selectSql =
                         "SELECT DISTINCT " + COL_NAME_GEN_NAME +
-                        " FROM " + TABLE_NAME_BPARTNER +
+                        " FROM " + TABLE_NAME_BPARTNER;
+                if(completeWhereClause != null)
+                    selectSql = selectSql + completeWhereClause;
+                else
+                    selectSql = selectSql +
                         " WHERE " +
                                 COL_NAME_GEN_ISACTIVE + " = 'Y' " +
                                 " AND LENGTH(TRIM(" + COL_NAME_GEN_NAME + ")) > 0 " +
@@ -1189,7 +1214,11 @@ import andicar.n.utils.FileUtils;
             case TABLE_NAME_BPARTNERLOCATION:
                 selectSql =
                         "SELECT DISTINCT " + fromColumn +
-                        " FROM " + TABLE_NAME_BPARTNERLOCATION +
+                        " FROM " + TABLE_NAME_BPARTNERLOCATION;
+                if(completeWhereClause != null)
+                    selectSql = selectSql + completeWhereClause;
+                else
+                    selectSql = selectSql +
                         " WHERE " +
                                 COL_NAME_GEN_ISACTIVE + " = \'Y\' " +
                                 " AND LENGTH(TRIM(" + fromColumn + ")) > 0";
@@ -1205,7 +1234,11 @@ import andicar.n.utils.FileUtils;
             case TABLE_NAME_TAG:
                 selectSql =
                         "SELECT " + COL_NAME_GEN_NAME +
-                        " FROM " + TABLE_NAME_TAG +
+                        " FROM " + TABLE_NAME_TAG;
+                if(completeWhereClause != null)
+                    selectSql = selectSql + completeWhereClause;
+                else
+                    selectSql = selectSql +
                         " WHERE " +
                                 COL_NAME_GEN_ISACTIVE + " = \'Y\' " +
                                 " AND LENGTH(TRIM(" + COL_NAME_GEN_NAME + ")) > 0 " +

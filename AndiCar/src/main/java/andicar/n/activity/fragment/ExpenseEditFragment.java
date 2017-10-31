@@ -246,7 +246,7 @@ public class ExpenseEditFragment extends BaseEditFragment {
                 c2.close();
             }
             mAddressAdapter = null;
-            String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS, mBPartnerId, 0);
+            String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS, null, mBPartnerId, 0);
             if (entries != null) {
                 mAddressAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, entries);
             }
@@ -356,7 +356,7 @@ public class ExpenseEditFragment extends BaseEditFragment {
 
 
                     mAddressAdapter = null;
-                    String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS, mBPartnerId, 0);
+                    String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS, null, mBPartnerId, 0);
                     if (entries != null) {
                         mAddressAdapter = new ArrayAdapter<>(ExpenseEditFragment.this.getActivity(), android.R.layout.simple_list_item_1, entries);
                     }
@@ -419,7 +419,7 @@ public class ExpenseEditFragment extends BaseEditFragment {
         Utils.initSpinner(mDbAdapter, spnUOM, DBAdapter.TABLE_NAME_UOM, DBAdapter.WHERE_CONDITION_ISACTIVE, mUOMId, true);
         //setup bpartner adapter
         mBPartnerAdapter = null;
-        String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNER, null, 0, 0);
+        String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNER, null, null, 0, 0);
         if (entries != null) {
             mBPartnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, entries);
         }

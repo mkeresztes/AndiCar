@@ -378,7 +378,7 @@ public class SearchDialogFragment extends DialogFragment {
         String tableName;
 
         //set adapter for records
-        records = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_TAG, null, 0, 0);
+        records = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_TAG, null, null, 0, 0);
         if (records != null) {
             mTagAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, records);
         }
@@ -398,7 +398,7 @@ public class SearchDialogFragment extends DialogFragment {
         else {
             tableName = "";
         }
-        records = mDbAdapter.getAutoCompleteText(tableName, null, mCarId, 20);
+        records = mDbAdapter.getAutoCompleteText(tableName, null, null, mCarId, 20);
         if (records != null) {
             mCommentAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, records);
         }

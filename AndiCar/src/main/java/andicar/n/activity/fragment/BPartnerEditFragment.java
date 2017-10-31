@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -26,6 +27,9 @@ public class BPartnerEditFragment extends BaseEditFragment {
     private SimpleCursorAdapter listCursorAdapter;
 
     private ListView lvAddressList;
+    private CheckBox ckIsGasStation;
+
+    private boolean mIsGasStation = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,12 @@ public class BPartnerEditFragment extends BaseEditFragment {
         }
     }
 
+    @Override
+    public void initDefaultValues() {
+        super.initDefaultValues();
+        mIsGasStation = false;
+    }
+
     private void loadDataFromDB() {
         Cursor c = mDbAdapter.fetchRecord(DBAdapter.TABLE_NAME_BPARTNER, DBAdapter.COL_LIST_BPARTNER_TABLE, mRowId);
 
@@ -57,6 +67,7 @@ public class BPartnerEditFragment extends BaseEditFragment {
         mName = c.getString(DBAdapter.COL_POS_GEN_NAME);
         mUserComment = c.getString(DBAdapter.COL_POS_GEN_USER_COMMENT);
         mIsActive = c.getString(DBAdapter.COL_POS_GEN_ISACTIVE).equals("Y");
+        mIsGasStation = c.getString(DBAdapter.COL_POS_BPARTNER__ISGASSTATION).equals("Y");
         c.close();
 
         fillAddressList();
@@ -65,6 +76,7 @@ public class BPartnerEditFragment extends BaseEditFragment {
     @Override
     protected void loadSpecificViewsFromLayoutXML() {
         ckIsActive = mRootView.findViewById(R.id.ckIsActive);
+        ckIsGasStation = mRootView.findViewById(R.id.ckIsGasStation);
         lvAddressList = mRootView.findViewById(R.id.lvAddressList);
         lvAddressList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -99,6 +111,7 @@ public class BPartnerEditFragment extends BaseEditFragment {
         etName.setText(mName);
         acUserComment.setText(mUserComment);
         ckIsActive.setChecked(mIsActive);
+        ckIsGasStation.setChecked(mIsGasStation);
         showAddresses();
     }
 
@@ -113,6 +126,7 @@ public class BPartnerEditFragment extends BaseEditFragment {
         cvData.put(DBAdapter.COL_NAME_GEN_NAME, etName.getText().toString());
         cvData.put(DBAdapter.COL_NAME_GEN_ISACTIVE, (ckIsActive.isChecked() ? "Y" : "N"));
         cvData.put(DBAdapter.COL_NAME_GEN_USER_COMMENT, acUserComment.getText().toString());
+        cvData.put(DBAdapter.COL_NAME_BPARTNER__ISGASSTATION, (ckIsGasStation.isChecked() ? "Y" : "N"));
 
         int dbRetVal;
         String errMsg;

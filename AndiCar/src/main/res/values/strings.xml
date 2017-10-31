@@ -471,6 +471,7 @@
     <string name="gen_created_on">"Created on"</string>
     <!--ToDo_CurrentIndex-->
     <string name="gen_current_index">Current odometer:</string>
+    <string name="gen_is_gas_station">Gas station</string>
 
     <string name="gen_menu_rate_app">Rate this app</string>
 

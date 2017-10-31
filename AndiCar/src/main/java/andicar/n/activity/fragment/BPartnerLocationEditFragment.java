@@ -157,62 +157,62 @@ public class BPartnerLocationEditFragment extends BaseEditFragment {
 
     @Override
     protected void initSpecificControls() {
-        String t[] = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__CITY, -1, 0);
+        String t[] = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__CITY, null, -1, 0);
         if (t != null) {
             ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, t);
 //            acCity.setOnKeyListener(this);
             acCity.setAdapter(cityAdapter);
         }
 
-        t = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__REGION, -1, 0);
+        t = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__REGION, null, -1, 0);
         if (t != null) {
             ArrayAdapter<String> regionAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, t);
             acRegion.setAdapter(regionAdapter);
         }
 
-        t = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__COUNTRY, -1, 0);
+        t = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__COUNTRY, null, -1, 0);
         if (t != null) {
             ArrayAdapter<String> countryAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, t);
             acCountry.setAdapter(countryAdapter);
         }
 
-        t = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__CONTACTPERSON, -1, 0);
+        t = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__CONTACTPERSON, null, -1, 0);
         if (t != null) {
             ArrayAdapter<String> contactAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, t);
             acContact.setAdapter(contactAdapter);
         }
 
-        t = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__EMAIL, -1, 0);
+        t = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__EMAIL, null, -1, 0);
         if (t != null) {
             ArrayAdapter<String> emailAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, t);
             acEmail.setAdapter(emailAdapter);
         }
 
-        t = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__PHONE, mBPartnerId, 0);
+        t = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__PHONE, null, mBPartnerId, 0);
         if (t != null) {
             ArrayAdapter<String> phoneAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, t);
             acPhone1.setAdapter(phoneAdapter);
         }
 
-        t = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__PHONE2, mBPartnerId, 0);
+        t = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__PHONE2, null, mBPartnerId, 0);
         if (t != null) {
             ArrayAdapter<String> phone2Adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, t);
             acPhone2.setAdapter(phone2Adapter);
         }
 
-        t = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__POSTAL, -1, 0);
+        t = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__POSTAL, null, -1, 0);
         if (t != null) {
             ArrayAdapter<String> postalAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, t);
             acPostal.setAdapter(postalAdapter);
         }
 
-        t = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__FAX, mBPartnerId, 0);
+        t = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__FAX, null, mBPartnerId, 0);
         if (t != null) {
             ArrayAdapter<String> faxAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, t);
             acFax.setAdapter(faxAdapter);
         }
 
-        t = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_GEN_USER_COMMENT, -1, 0);
+        t = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_GEN_USER_COMMENT, null, -1, 0);
         if (t != null) {
             ArrayAdapter<String> faxAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, t);
             acUserComment.setAdapter(faxAdapter);

@@ -49,6 +49,7 @@ import org.andicar2.activity.R;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import andicar.n.persistence.DB;
 import andicar.n.persistence.DBAdapter;
 import andicar.n.service.JobStarter;
 import andicar.n.service.ToDoNotificationJob;
@@ -205,7 +206,7 @@ public class RefuelEditFragment extends BaseEditFragment {
                 mBPartnerLocationId = c.getLong(DBAdapter.COL_POS_REFUEL__BPARTNER_LOCATION_ID);
             }
             mAddressAdapter = null;
-            String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS, mBPartnerId, 0);
+            String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS, null, mBPartnerId, 0);
             if (entries != null) {
                 mAddressAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, entries);
             }
@@ -378,7 +379,7 @@ public class RefuelEditFragment extends BaseEditFragment {
 
 
                     mAddressAdapter = null;
-                    String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS, mBPartnerId, 0);
+                    String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS, null, mBPartnerId, 0);
                     if (entries != null) {
                         mAddressAdapter = new ArrayAdapter<>(RefuelEditFragment.this.getActivity(), android.R.layout.simple_list_item_1, entries);
                     }
@@ -426,7 +427,10 @@ public class RefuelEditFragment extends BaseEditFragment {
 
         //setup bpartner adapter
         mBPartnerAdapter = null;
-        String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNER, null, 0, 0);
+        String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNER, null,
+                "WHERE " + DB.COL_NAME_GEN_ISACTIVE + " = 'Y' " +
+                        " AND LENGTH(TRIM(" + DB.COL_NAME_GEN_NAME + ")) > 0 " +
+                        " AND " + DB.COL_NAME_BPARTNER__ISGASSTATION + " = 'Y'", 0, 0);
         if (entries != null) {
             mBPartnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, entries);
         }
@@ -582,6 +586,7 @@ public class RefuelEditFragment extends BaseEditFragment {
             else {
                 ContentValues tmpData = new ContentValues();
                 tmpData.put(DBAdapter.COL_NAME_GEN_NAME, acBPartner.getText().toString());
+                tmpData.put(DBAdapter.COL_NAME_BPARTNER__ISGASSTATION, "Y");
                 mBPartnerId = mDbAdapter.createRecord(DBAdapter.TABLE_NAME_BPARTNER, tmpData);
                 if (mBPartnerId >= 0) {
                     data.put(DBAdapter.COL_NAME_REFUEL__BPARTNER_ID, mBPartnerId);
