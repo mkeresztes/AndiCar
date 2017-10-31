@@ -50,13 +50,13 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
         final String bkFileName;
 
         try {
-            if (FileUtils.isFileSystemAccessGranted(getApplicationContext())) {
+//            if (FileUtils.isFileSystemAccessGranted(getApplicationContext())) {
                 FileUtils.createFolderIfNotExists(getApplicationContext(), ConstantValues.LOG_FOLDER);
                 File debugLogFile = new File(ConstantValues.LOG_FOLDER + "SecureBackupJob.log");
                 debugLogFileWriter = new LogFileWriter(debugLogFile, false);
                 debugLogFileWriter.appendnl("onStartCommand begin");
                 debugLogFileWriter.flush();
-            }
+//            }
 
             if (jobParams.getExtras() == null) {
                 if (debugLogFileWriter != null) {

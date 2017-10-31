@@ -87,13 +87,13 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
     public SendGMailTask(Context ctx, String fromAccount, String emailTo, String subject, String message,
                          ArrayList<String> attachments, AndiCarAsyncTaskListener listener) throws Exception {
         try {
-            if (FileUtils.isFileSystemAccessGranted(ctx)) {
+//            if (FileUtils.isFileSystemAccessGranted(ctx)) {
                 FileUtils.createFolderIfNotExists(ctx, ConstantValues.LOG_FOLDER);
                 File debugLogFile = new File(ConstantValues.LOG_FOLDER + "SendGMailTask.log");
                 debugLogFileWriter = new LogFileWriter(debugLogFile, false);
                 debugLogFileWriter.appendnl("SendGMailTask started for attachments: " + attachments.toString());
                 debugLogFileWriter.flush();
-            }
+//            }
 
             HttpTransport transport = AndroidHttp.newCompatibleTransport();
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();

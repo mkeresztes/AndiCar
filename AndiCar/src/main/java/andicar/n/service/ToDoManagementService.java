@@ -34,7 +34,6 @@ import java.util.Calendar;
 import andicar.n.activity.fragment.TaskEditFragment;
 import andicar.n.persistence.DBAdapter;
 import andicar.n.utils.ConstantValues;
-import andicar.n.utils.FileUtils;
 import andicar.n.utils.LogFileWriter;
 import andicar.n.utils.Utils;
 
@@ -73,10 +72,10 @@ public class ToDoManagementService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         try {
-            if (FileUtils.isFileSystemAccessGranted(getApplicationContext())) {
+//            if (FileUtils.isFileSystemAccessGranted(getApplicationContext())) {
                 debugLogFileWriter = new LogFileWriter(debugLogFile, false);
                 debugLogFileWriter.appendnl("Starting BackupService");
-            }
+//            }
 
             Bundle mBundleExtras = intent.getExtras();
             if (mBundleExtras != null) {

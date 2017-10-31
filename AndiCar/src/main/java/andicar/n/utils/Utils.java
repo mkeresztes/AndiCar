@@ -643,9 +643,9 @@ public class Utils {
             SharedPreferences preferences = AndiCar.getDefaultSharedPreferences();
             FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(ctx));
 
-            if (FileUtils.isFileSystemAccessGranted(ctx)) {
+//            if (FileUtils.isFileSystemAccessGranted(ctx)) {
                 debugLogFileWriter = new LogFileWriter(debugLogFile, false);
-            }
+//            }
 
             String LogTag = "AndiCar";
             Log.d(LogTag, "========== Backup setNextRun begin ==========");

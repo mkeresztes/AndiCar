@@ -48,13 +48,13 @@ public class GDriveUploader {
     public GDriveUploader(Context ctx, GoogleApiClient googleApiClient, String driveFolderID, String file, String mimeType,
                           AndiCarAsyncTaskListener taskListener) throws Exception {
         try {
-            if (FileUtils.isFileSystemAccessGranted(ctx)) {
+//            if (FileUtils.isFileSystemAccessGranted(ctx)) {
                 FileUtils.createFolderIfNotExists(ctx, ConstantValues.LOG_FOLDER);
                 File debugLogFile = new File(ConstantValues.LOG_FOLDER + "GDriveUploader.log");
                 debugLogFileWriter = new LogFileWriter(debugLogFile, false);
                 debugLogFileWriter.appendnl("GDriveUploader started for file: ").append(file);
                 debugLogFileWriter.flush();
-            }
+//            }
             mGoogleApiClient = googleApiClient;
             mCtx = ctx;
             mDriveFolderID = driveFolderID;

@@ -33,11 +33,13 @@ public class BackupJob extends JobService {
     @Override
     public boolean onStartJob(JobParameters jobParams) {
         try {
-            if (FileUtils.isFileSystemAccessGranted(getApplicationContext())) {
-                debugLogFileWriter = new LogFileWriter(debugLogFile, false);
-                debugLogFileWriter.appendnl("Starting BackupService");
-            }
-            else {
+            debugLogFileWriter = new LogFileWriter(debugLogFile, false);
+            debugLogFileWriter.appendnl("Starting BackupService");
+
+            if (!FileUtils.isFileSystemAccessGranted(getApplicationContext())) {
+                debugLogFileWriter.appendnl("No access to file system. Terminating job.");
+                debugLogFileWriter.flush();
+                debugLogFileWriter.close();
                 jobFinished(jobParams, false);
                 return false;
             }
@@ -91,9 +93,7 @@ public class BackupJob extends JobService {
                     }
                     deleteOldBackups();
 
-                    //TODO schedule eagain
                     Utils.setBackupNextRun(getApplicationContext(), true);
-//                setNextRun();
                     if (debugLogFileWriter != null) {
                         debugLogFileWriter.appendnl("Backup service terminated");
                         debugLogFileWriter.flush();

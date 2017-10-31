@@ -57,14 +57,14 @@ public class BTConnectionListener extends BroadcastReceiver {
 
         try {
             try {
-                if (FileUtils.isFileSystemAccessGranted(context)) {
+//                if (FileUtils.isFileSystemAccessGranted(context)) {
                     FileUtils.createFolderIfNotExists(context, ConstantValues.LOG_FOLDER);
                     File debugLogFile = new File(ConstantValues.LOG_FOLDER + "BTCBroadcast.log");
                     debugLogFileWriter = new LogFileWriter(debugLogFile, true);
                     debugLogFileWriter.appendnl("onReceive called for: ").append(intent.getAction());
                     debugLogFileWriter.flush();
                     debugLogFileWriter.close();
-                }
+//                }
             }
             catch (Exception ignored) {
             }

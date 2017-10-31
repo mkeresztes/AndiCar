@@ -84,7 +84,8 @@ public class AndiCar extends MultiDexApplication {
         ConstantValues.SYSTEM_BACKUP_FOLDER = ConstantValues.BASE_FOLDER + "/" + ConstantValues.SYSTEM_BACKUP_FOLDER_NAME + "/";
         ConstantValues.TRACK_FOLDER = ConstantValues.BASE_FOLDER + "/" + ConstantValues.TRACK_FOLDER_NAME + "/";
         ConstantValues.TEMP_FOLDER = ConstantValues.BASE_FOLDER + "/" + ConstantValues.TEMP_FOLDER_NAME + "/";
-        ConstantValues.LOG_FOLDER = ConstantValues.BASE_FOLDER + "/" + ConstantValues.LOG_FOLDER_NAME + "/";
+        //the log folder will be in the internal storage to avoid access permission
+        ConstantValues.LOG_FOLDER = getApplicationContext().getFilesDir().getAbsolutePath() + "/" + ConstantValues.LOG_FOLDER_NAME + "/";
 
         initPreferences();
 
@@ -273,6 +274,16 @@ public class AndiCar extends MultiDexApplication {
                 e.putString(getString(R.string.pref_key_secure_backup_destination), "0"); //"0" == GDrive
             }
         }
+        if (oldAppVersion <= 17102700) {
+            //delete the old log files
+            try {
+                FileUtils.deleteDirectory(new File(ConstantValues.BASE_FOLDER + "/log/"));
+            }
+            catch (IOException e1) {
+                Log.d("AndiCar", e1.getMessage(), e1);
+            }
+        }
+
         e.apply();
 
         Utils.setToDoNextRun(getApplicationContext());
