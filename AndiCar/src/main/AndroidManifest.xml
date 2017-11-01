@@ -19,8 +19,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="org.andicar2.activity"
-          android:versionCode="17103101"
-          android:versionName="17.10-5">
+          android:versionCode="17103103"
+          android:versionName="17.11-1">
 
     <!-- ************************************************************************************************* -->
     <!-- Normal Permissions (https://developer.android.com/guide/topics/security/normal-permissions.html) -->
@@ -131,7 +131,7 @@
         </activity>
 
         <activity
-            android:name="andicar.n.activity.miscellaneous.LogFilesListActivity"
+            android:name="andicar.n.activity.miscellaneous.FileListActivity"
             android:label="@string/pref_log_files_title"
             android:parentActivityName="andicar.n.activity.preference.PreferenceActivity">
             <meta-data

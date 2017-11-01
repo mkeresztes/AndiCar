@@ -108,6 +108,8 @@
 
     <string name="pref_key_user_pressed_5_star_button">user_pressed_5_star_button</string>
     <string name="pref_key_show_whats_new_dialog">show_whats_new_dialog</string>
+    <string name="pref_key_show_welcome_screen">show_welcome_screen</string>
+    <string name="pref_key_app_version">appVersionCode</string>
 
 
     <string name="chart_key_legendAtRight">legendAtRight</string>

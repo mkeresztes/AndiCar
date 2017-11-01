@@ -66,6 +66,7 @@ import andicar.n.activity.CommonListActivity;
 import andicar.n.activity.dialogs.DateRangeSearchDialogFragment;
 import andicar.n.activity.dialogs.GPSTrackControllerDialogActivity;
 import andicar.n.activity.dialogs.ToDoNotificationDialogActivity;
+import andicar.n.activity.dialogs.WelcomeDialog;
 import andicar.n.activity.dialogs.WhatsNewDialog;
 import andicar.n.activity.fragment.BaseEditFragment;
 import andicar.n.activity.fragment.TaskEditFragment;
@@ -240,7 +241,14 @@ public class MainActivity extends AppCompatActivity
 //        }
 
         try {
-            if (mPreferences.getBoolean(getString(R.string.pref_key_show_whats_new_dialog), false)) {
+            if (mPreferences.getBoolean(getString(R.string.pref_key_show_welcome_screen), false)) {
+                WelcomeDialog dialog = new WelcomeDialog(this);
+                dialog.show();
+                SharedPreferences.Editor e = mPreferences.edit();
+                e.putBoolean(getString(R.string.pref_key_show_welcome_screen), false);
+                e.apply();
+            }
+            else if (mPreferences.getBoolean(getString(R.string.pref_key_show_whats_new_dialog), false)) {
                 SharedPreferences.Editor e = mPreferences.edit();
                 e.putBoolean(getString(R.string.pref_key_show_whats_new_dialog), false);
                 e.apply();
@@ -343,13 +351,20 @@ public class MainActivity extends AppCompatActivity
         TextView tvDebugInfo = findViewById(R.id.tvDebugInfo);
         if (tvDebugInfo != null) {
             if (Utils.isDebugVersion() && ConstantValues.DEBUG_IS_SHOW_INFO_IN_FRAGMENTS) {
+                //noinspection UnusedAssignment
                 Display display = getWindowManager().getDefaultDisplay();
+                //noinspection UnusedAssignment
                 float density = getResources().getDisplayMetrics().density;
+                //noinspection UnusedAssignment
                 Point size = new Point();
                 display.getSize(size);
+                //noinspection UnusedAssignment
                 int width = size.x;
+                //noinspection UnusedAssignment
                 int height = size.y;
+                //noinspection UnusedAssignment
                 String debugInfo = tvDebugInfo.getText().toString();
+                //noinspection UnusedAssignment
                 debugInfo = debugInfo.substring(0, debugInfo.indexOf(";", 0) + 1) + " Size in pixel: " + width + " x " + height + "; Size in dp: " + (width / density) + " x " + (height / density) + "; Density: " + density;
                 tvDebugInfo.setText(debugInfo);
             }
@@ -1924,7 +1939,7 @@ public class MainActivity extends AppCompatActivity
 
         String abt = String.format(getString(R.string.app_short_about), Integer.toString(Calendar.getInstance().get(Calendar.YEAR)));
 
-        TextView tvShortAboutLbl = (TextView) findViewById(R.id.tvShortAboutLbl);
+        TextView tvShortAboutLbl = findViewById(R.id.tvShortAboutLbl);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             tvShortAboutLbl.setText(Html.fromHtml(abt, Html.FROM_HTML_MODE_COMPACT));
         }

@@ -57,7 +57,7 @@ public class AndiCar extends MultiDexApplication {
     }
 
     public static int getAppVersion() {
-        return appPreferences.getInt("appVersionCode", 0);
+        return appPreferences.getInt(appResources.getString(R.string.pref_key_app_version), 0);
     }
 
     @Override
@@ -93,32 +93,31 @@ public class AndiCar extends MultiDexApplication {
         //check if the app was updated
         int appVersion;
         int oldAppVersion;
+        SharedPreferences.Editor e = appPreferences.edit();
 
         try {
             appVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
-            oldAppVersion = appPreferences.getInt("appVersionCode", getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
+            oldAppVersion = appPreferences.getInt(getString(R.string.pref_key_app_version), getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
             Log.d("AndiCar", "Internal file storage: " + getApplicationContext().getFilesDir().getAbsolutePath());
             Log.d("AndiCar", "External file storage: " + getApplicationContext().getApplicationInfo().dataDir);
             Log.d("AndiCar", "BASE_FOLDER: " + ConstantValues.BASE_FOLDER);
 
-            if (!appPreferences.contains("appVersionCode")) {
-                SharedPreferences.Editor e = appPreferences.edit();
-                e.putInt("appVersionCode", appVersion);
-                e.apply();
+            if (!appPreferences.contains(getString(R.string.pref_key_app_version))) {
+                e.putInt(getString(R.string.pref_key_app_version), appVersion);
+                e.putBoolean(getString(R.string.pref_key_show_welcome_screen), true);
             } else {
                 if (oldAppVersion != appVersion) {
                     updateApp(oldAppVersion);
-                    SharedPreferences.Editor e = appPreferences.edit();
-                    e.putInt("appVersionCode", appVersion);
+                    e.putInt(getString(R.string.pref_key_app_version), appVersion);
                     e.putBoolean(getString(R.string.pref_key_show_whats_new_dialog), true);
-                    e.apply();
                     Utils.setToDoNextRun(getApplicationContext());
                     Utils.setBackupNextRun(getApplicationContext(), appPreferences.getBoolean(getString(R.string.pref_key_backup_service_enabled), false));
                 }
             }
+            e.apply();
         }
-        catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+        catch (PackageManager.NameNotFoundException ex) {
+            ex.printStackTrace();
         }
 
     }

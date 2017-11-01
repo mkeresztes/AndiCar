@@ -88,7 +88,7 @@ import java.util.List;
 import andicar.n.activity.CommonListActivity;
 import andicar.n.activity.miscellaneous.BackupListActivity;
 import andicar.n.activity.miscellaneous.BackupScheduleActivity;
-import andicar.n.activity.miscellaneous.LogFilesListActivity;
+import andicar.n.activity.miscellaneous.FileListActivity;
 import andicar.n.interfaces.AndiCarAsyncTaskListener;
 import andicar.n.persistence.DBAdapter;
 import andicar.n.service.SendGMailTask;
@@ -412,19 +412,12 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             listLogFilesPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Intent i = new Intent(GeneralPreferenceFragment.this.getActivity(), LogFilesListActivity.class);
+                    Intent i = new Intent(GeneralPreferenceFragment.this.getActivity(), FileListActivity.class);
+                    i.putExtra(FileListActivity.file_type_extras_key, FileListActivity.LIST_TYPE_LOG);
                     GeneralPreferenceFragment.this.startActivity(i);
                     return true;
                 }
             });
-
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-//            setDefaultPreferenceChangeListener(findPreference("example_text"));
-//            setDefaultPreferenceChangeListener(findPreference("example_list"));
         }
 
         @Override
@@ -1098,8 +1091,6 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             } else {
                 listBackupsPreference.setSummary(R.string.pref_backup_list_description);
                 listBackupsPreference.setEnabled(true);
-//                restorePreference.setSummary(R.string.pref_restore_description);
-//                restorePreference.setEnabled(true);
             }
 
             CharSequence bkEntries[] = bkFiles.toArray(new CharSequence[bkFiles.size()]);

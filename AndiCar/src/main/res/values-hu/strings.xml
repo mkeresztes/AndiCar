@@ -18,6 +18,13 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="main_activity_welcome_title">Üdvözöljük az AndiCar alkalmazásban</string>
+    <string name="main_activity_welcome_message">Szia! Köszönjük, hogy telepítetted az AndiCart.\n\n
+        Az alkalmazás első lépése az autó / jármű aktuális információinak megadása.\n\n
+        Ha korábban használtad az AndiCar-t, lehetőség van arra, hogy visszaállítsd a régi adatokat (ha létezik biztonsági mentés).</string>
+    <string name="main_activity_welcome_restore">Visszaállítás</string>
+    <string name="main_activity_welcome_car_info">Autó</string>
+
     <string name="activity_new_trip">AndiCar új út</string>
 
     <string name="pref_general_title">Általános beállítások</string>

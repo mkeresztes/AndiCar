@@ -18,6 +18,13 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="main_activity_welcome_title">Bine ați venit</string>
+    <string name="main_activity_welcome_message">Bună! Îți mulțumim că ai instalat AndiCar.\n\n
+        Primul pas pentru a utiliza această aplicație este să introduci informațiile despre mașină / vehicul.\n\n
+        Dacă ai folosit anterior AndiCar, există posibilitatea de a restaura datele vechi (dacă există copii de sigutanță).</string>
+    <string name="main_activity_welcome_restore">Restaurare</string>
+    <string name="main_activity_welcome_car_info">Mașină</string>
+
     <string name="activity_new_trip">AndiCar kilometraj nou</string>
 
     <string name="pref_general_title">Setări generale</string>

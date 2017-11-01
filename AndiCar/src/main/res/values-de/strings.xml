@@ -18,6 +18,13 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="main_activity_welcome_title">Wilkommen zu AndiCar</string>
+    <string name="main_activity_welcome_message">Hallo! Danke, dass Sie AndiCar installiert haben.\n\n
+        Der erste Schritt, um diese App zu nutzen, ist die Eingabe der aktuellen Informationen zu Ihrem Auto / Fahrzeug.\n\n
+        Wenn Sie AndiCar zuvor verwendet haben, besteht die Möglichkeit, die alten Daten wiederherzustellen (falls Datensicherungen vorhanden sind).</string>
+    <string name="main_activity_welcome_restore">Wiederherstellen</string>
+    <string name="main_activity_welcome_car_info">Auto</string>
+
     <string name="activity_new_trip">AndiCar Reiseaufzeichnung</string>
 
     <string name="title_list_activity" tools:ignore="PluralsCandidate">%1$s: %2$s Aufzeichnungen</string>
@@ -210,6 +217,7 @@
     <string name="gen_current_index">Aktueller Kilometerstand:</string>
     <string name="gen_is_gas_station">Ist Tankstelle</string>
     <string name="gen_menu_rate_app">Bewerte diese App</string>
+    <string name="gen_close">Schließen</string>
 
     <string name="mileage_edit_option_mileage_label">Entfernung</string>
     <string name="mileage_edit_insert_ok_message">Fahrt hinzugefügt.</string>

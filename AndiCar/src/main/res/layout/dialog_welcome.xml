@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/list_view_margin_horizontal"
+            android:paddingRight="@dimen/list_view_margin_horizontal"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:id="@+id/ivAppIco"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                app:srcCompat="@mipmap/ic_launcher"
+                android:contentDescription="@string/content_description_dialog_icon"/>
+
+            <TextView
+                android:id="@+id/tvTitle"
+                style="@style/AndiCarWelcomeDialogTitle"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/main_activity_welcome_title"/>
+        </LinearLayout>
+
+        <TextView
+            style="@style/AndiCarDialogButtonSeparatorView"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/tvWelcomeMessage"
+            style="@style/AndiCarDialogDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_marginTop="8dp"
+            android:text="@string/main_activity_welcome_message"/>
+
+        <TextView
+            style="@style/AndiCarDialogButtonSeparatorView"
+            android:layout_marginTop="8dp"/>
+
+        <LinearLayout
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnRestore"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/main_activity_welcome_restore"
+                android:textColor="@color/primary_accent"/>
+
+            <Button
+                android:id="@+id/btnAddCar"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/main_activity_welcome_car_info"
+                android:textColor="@color/primary_accent"/>
+
+            <Button
+                android:id="@+id/btnClose"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/gen_ok"
+                android:textColor="@color/primary_accent"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
