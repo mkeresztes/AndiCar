@@ -31,7 +31,7 @@ public class WhatsNewDialog extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.dialog_whats_new);
-        TextView tvWhatsNew = (TextView) findViewById(R.id.whatsNew);
+        TextView tvWhatsNew = findViewById(R.id.whatsNew);
         tvWhatsNew.setMovementMethod(LinkMovementMethod.getInstance());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -40,7 +40,7 @@ public class WhatsNewDialog extends AppCompatActivity {
             tvWhatsNew.setText(Html.fromHtml(getString(R.string.whats_new)));
         }
 
-        Button btnClose = (Button) findViewById(R.id.btnClose);
+        Button btnClose = findViewById(R.id.btnClose);
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,8 +48,8 @@ public class WhatsNewDialog extends AppCompatActivity {
             }
         });
 
-        Button btnFiveStars = (Button) findViewById(R.id.btnFiveStars);
-        if (getIntent().getExtras().getBoolean(IS_SHOW_FIVE_STARS_BUTTON_KEY, false)
+        Button btnFiveStars = findViewById(R.id.btnFiveStars);
+        if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(IS_SHOW_FIVE_STARS_BUTTON_KEY, false)
                 && Utils.isCanShowRateApp(getApplicationContext()) //the user have enough records to be able to evaluate the app
                 && !AndiCar.getDefaultSharedPreferences().getBoolean(getString(R.string.pref_key_user_pressed_5_star_button), false) //the user not pressed the 5 star button until now
                 ) {
