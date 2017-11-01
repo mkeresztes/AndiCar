@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.Pair;
 import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,6 +43,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 
+import andicar.n.persistence.DBAdapter;
 import andicar.n.persistence.DBReportAdapter;
 import andicar.n.utils.Utils;
 
@@ -108,14 +110,23 @@ public class LineChartComponent extends LinearLayout {
             divider = 10f;
         }
         else {
-            if (Utils.getScreenWidthInDP(mCtx) < 900)
-                divider = 4f;
-            else
-                divider = 6f;
+            if (Utils.getScreenWidthInDP(mCtx) < 900) {
+                if (mWhatData == SHOW_FUEL_PRICE_EVOLUTION) {
+                    divider = 3f;
+                }
+                else {
+                    divider = 4f;
+                }
+            }
+            else {
+                if (mWhatData == SHOW_FUEL_PRICE_EVOLUTION) {
+                    divider = 4f;
+                }
+                else {
+                    divider = 6f;
+                }
+            }
         }
-
-        if (mWhatData == SHOW_FUEL_PRICE_EVOLUTION)
-            divider = divider / 2;
 
         mChart.getLayoutParams().height = Math.round(Utils.getScreenWidthInPixel(mCtx) / divider);
         mChart.requestLayout();
@@ -172,7 +183,7 @@ public class LineChartComponent extends LinearLayout {
             xAxis.setGranularity(1f);
             xAxis.setValueFormatter(new DateAxisFormatter());
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-            xAxis.setLabelRotationAngle(-90);
+            xAxis.setLabelRotationAngle(-15);
         }
 
         leftAxis = mChart.getAxisLeft();
@@ -188,8 +199,14 @@ public class LineChartComponent extends LinearLayout {
         if (menuButton != null) {
             mChartFilterMenu = new PopupMenu(mCtx, menuButton);
             mChartFilterMenu.getMenuInflater().inflate(R.menu.menu_list_chart_data_selection, mChartFilterMenu.getMenu());
-            SubMenu mnuFuelTypes = mChartFilterMenu.getMenu().addSubMenu(R.string.pref_fuel_type_title);
-            mnuFuelTypes.add(-10, -10, Menu.NONE, "Test");
+            if (mWhatData == SHOW_FUEL_PRICE_EVOLUTION) {
+                SubMenu mnuFuelTypes = mChartFilterMenu.getMenu().addSubMenu(R.string.pref_fuel_type_title);
+                DBAdapter dbAdapter = new DBAdapter(mCtx);
+                ArrayList<Pair<Long, String>> fuelTypes = dbAdapter.getCarFuelTypes(mLastSelectedCarID);
+                for (Pair<Long, String> fuelType : fuelTypes) {
+                    mnuFuelTypes.add(-10, -1 * fuelType.first.intValue(), Menu.NONE, fuelType.second);
+                }
+            }
 
             menuButton.setOnClickListener(new OnClickListener() {
                 @Override

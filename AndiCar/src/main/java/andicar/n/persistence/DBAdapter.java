@@ -24,6 +24,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.support.annotation.Nullable;
+import android.support.v4.util.Pair;
 import android.util.Log;
 
 import org.andicar2.activity.R;
@@ -1712,6 +1713,33 @@ import andicar.n.utils.FileUtils;
         if (selectCursor.moveToFirst()) {
             retVal = selectCursor.getDouble(0);
         }
+        selectCursor.close();
+        return retVal;
+    }
+
+    @Nullable
+    public ArrayList<Pair<Long, String>> getCarFuelTypes(long carID) {
+        ArrayList<Pair<Long, String>> retVal = null;
+        String selectSql;
+        Cursor selectCursor;
+        selectSql = "SELECT " + DBAdapter.COL_NAME_GEN_ROWID + ", " + DBAdapter.COL_NAME_GEN_NAME +
+                    " FROM " + TABLE_NAME_EXPENSETYPE +
+                    " WHERE EXISTS" +
+                        " (SELECT * " +
+                            "FROM " + DBAdapter.TABLE_NAME_REFUEL +
+                            " WHERE " +
+                                    sqlConcatTableColumn(DBAdapter.TABLE_NAME_REFUEL, DBAdapter.COL_NAME_REFUEL__CAR_ID) +
+                                        " = " + carID +
+                                    " AND " + sqlConcatTableColumn(DBAdapter.TABLE_NAME_REFUEL, DBAdapter.COL_NAME_REFUEL__EXPENSETYPE_ID) +
+                                        " = " + sqlConcatTableColumn(DBAdapter.TABLE_NAME_EXPENSETYPE, DBAdapter.COL_NAME_GEN_ROWID) + ") ";
+
+        selectCursor = execSelectSql(selectSql, null);
+        if(selectCursor.getCount() > 0){
+            retVal = new ArrayList<>();
+            while (selectCursor.moveToNext())
+                { retVal.add(new Pair<>(selectCursor.getLong(0), selectCursor.getString(1))); }
+        }
+
         selectCursor.close();
         return retVal;
     }
