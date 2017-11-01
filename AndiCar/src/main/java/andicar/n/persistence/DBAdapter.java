@@ -1718,20 +1718,20 @@ import andicar.n.utils.FileUtils;
     }
 
     @Nullable
-    public ArrayList<Pair<Long, String>> getCarFuelTypes(long carID) {
+    public ArrayList<Pair<Long, String>> getFuelTypesForCar(long carID) {
         ArrayList<Pair<Long, String>> retVal = null;
         String selectSql;
         Cursor selectCursor;
         selectSql = "SELECT " + DBAdapter.COL_NAME_GEN_ROWID + ", " + DBAdapter.COL_NAME_GEN_NAME +
-                    " FROM " + TABLE_NAME_EXPENSETYPE +
+                " FROM " + TABLE_NAME_EXPENSECATEGORY +
                     " WHERE EXISTS" +
                         " (SELECT * " +
                             "FROM " + DBAdapter.TABLE_NAME_REFUEL +
                             " WHERE " +
                                     sqlConcatTableColumn(DBAdapter.TABLE_NAME_REFUEL, DBAdapter.COL_NAME_REFUEL__CAR_ID) +
                                         " = " + carID +
-                                    " AND " + sqlConcatTableColumn(DBAdapter.TABLE_NAME_REFUEL, DBAdapter.COL_NAME_REFUEL__EXPENSETYPE_ID) +
-                                        " = " + sqlConcatTableColumn(DBAdapter.TABLE_NAME_EXPENSETYPE, DBAdapter.COL_NAME_GEN_ROWID) + ") ";
+                " AND " + sqlConcatTableColumn(DBAdapter.TABLE_NAME_REFUEL, DBAdapter.COL_NAME_REFUEL__EXPENSECATEGORY_ID) +
+                " = " + sqlConcatTableColumn(DBAdapter.TABLE_NAME_EXPENSECATEGORY, DBAdapter.COL_NAME_GEN_ROWID) + ") ";
 
         selectCursor = execSelectSql(selectSql, null);
         if(selectCursor.getCount() > 0){

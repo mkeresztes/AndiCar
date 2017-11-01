@@ -74,11 +74,17 @@ public class LineChartComponent extends LinearLayout {
     private int mWhatData;
     private long mLastSelectedCarID;
     private ArrayList<Long> mChartDates = new ArrayList<>();
+    private long mSelectedFuelTypeID;
+    private String mSelectedFuelTypeName;
 
     public LineChartComponent(Context context, int what, @Nullable String title) {
         super(context);
         mCtx = context;
         mWhatData = what;
+        if (mWhatData == SHOW_FUEL_PRICE_EVOLUTION) {
+            mSelectedFuelTypeID = mPreferences.getLong(mCtx.getString(R.string.pref_key_selected_fuel_type_id_for_fuel_prices), -1L);
+            mSelectedFuelTypeName = mPreferences.getString(mCtx.getString(R.string.pref_key_selected_fuel_type_name_for_fuel_prices), "");
+        }
         mChartTitleText = title;
         init();
     }
@@ -138,13 +144,13 @@ public class LineChartComponent extends LinearLayout {
 
         switch (mWhatData) {
             case SHOW_FUEL_EFF:
-                mChartFilterNoRecords = mPreferences.getInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_fuel_eff), 5);
+                mChartFilterNoRecords = mPreferences.getInt(mCtx.getString(R.string.pref_key_no_of_records_for_fuel_eff), 5);
                 break;
             case SHOW_FUEL_CONS:
-                mChartFilterNoRecords = mPreferences.getInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_fuel_cons), 5);
+                mChartFilterNoRecords = mPreferences.getInt(mCtx.getString(R.string.pref_key_no_of_records_for_fuel_cons), 5);
                 break;
             case SHOW_FUEL_PRICE_EVOLUTION:
-                mChartFilterNoRecords = mPreferences.getInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_fuel_prices), 5);
+                mChartFilterNoRecords = mPreferences.getInt(mCtx.getString(R.string.pref_key_no_of_records_for_fuel_prices), 5);
                 break;
             default:
                 mChartFilterNoRecords = 5;
@@ -152,14 +158,91 @@ public class LineChartComponent extends LinearLayout {
 
         mLastSelectedCarID = mPreferences.getLong(mCtx.getString(R.string.pref_key_last_selected_car_id), -1);
 
+        ImageButton menuButton = rootView.findViewById(R.id.btnMenu);
+        if (menuButton != null) {
+            mChartFilterMenu = new PopupMenu(mCtx, menuButton);
+            mChartFilterMenu.getMenuInflater().inflate(R.menu.menu_list_chart_data_selection, mChartFilterMenu.getMenu());
+            if (mWhatData == SHOW_FUEL_PRICE_EVOLUTION) {
+                try {
+                    DBAdapter dbAdapter = new DBAdapter(mCtx);
+                    ArrayList<Pair<Long, String>> fuelTypes = dbAdapter.getFuelTypesForCar(mLastSelectedCarID);
+                    dbAdapter.close();
+                    if (fuelTypes != null) {
+                        SubMenu mnuFuelTypes = mChartFilterMenu.getMenu().addSubMenu(R.string.pref_fuel_type_title);
+                        boolean savedFuelTypeExists = false;
+                        for (Pair<Long, String> fuelType : fuelTypes) {
+                            //noinspection ConstantConditions
+                            if (fuelType.first == mSelectedFuelTypeID)
+                                savedFuelTypeExists = true;
+                            //noinspection ConstantConditions
+                            mnuFuelTypes.add(-10, -1 * fuelType.first.intValue(), Menu.NONE, fuelType.second);
+                        }
+                        if (!savedFuelTypeExists) {
+                            mSelectedFuelTypeID = fuelTypes.get(0).first;
+                            mSelectedFuelTypeName = fuelTypes.get(0).second;
+                        }
+                    }
+                } catch (Exception ignored) {
+                }
+            }
+
+            menuButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mChartFilterMenu.show();
+                }
+            });
+
+            mChartFilterMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    SharedPreferences.Editor e = mPreferences.edit();
+
+                    if (menuItem.getItemId() == R.id.chart_filter_last_5) {
+                        mChartFilterNoRecords = 5;
+                    } else if (menuItem.getItemId() == R.id.chart_filter_last_10) {
+                        mChartFilterNoRecords = 10;
+                    } else if (menuItem.getItemId() == R.id.chart_filter_all) {
+                        mChartFilterNoRecords = -1;
+                    } else if (menuItem.getItemId() < 0) {
+                        mSelectedFuelTypeID = -1 * menuItem.getItemId();
+                        mSelectedFuelTypeName = menuItem.getTitle().toString();
+                        mChartTitle.setText(String.format(mCtx.getString(R.string.line_chart_fuel_price_title), mSelectedFuelTypeName));
+                    } else
+                        return false;
+
+                    switch (mWhatData) {
+                        case SHOW_FUEL_EFF:
+                            e.putInt(mCtx.getString(R.string.pref_key_no_of_records_for_fuel_eff), mChartFilterNoRecords);
+                            break;
+                        case SHOW_FUEL_CONS:
+                            e.putInt(mCtx.getString(R.string.pref_key_no_of_records_for_fuel_cons), mChartFilterNoRecords);
+                            break;
+                        case SHOW_FUEL_PRICE_EVOLUTION:
+                            e.putInt(mCtx.getString(R.string.pref_key_no_of_records_for_fuel_prices), mChartFilterNoRecords);
+                            e.putLong(mCtx.getString(R.string.pref_key_selected_fuel_type_id_for_fuel_prices), mSelectedFuelTypeID);
+                            e.putString(mCtx.getString(R.string.pref_key_selected_fuel_type_name_for_fuel_prices), mSelectedFuelTypeName);
+                    }
+
+                    e.apply();
+                    setData(mWhatData);
+                    return true;
+                }
+            });
+        }
+
         mChartHeader = rootView.findViewById(R.id.chartHeader);
         mInfo = rootView.findViewById(R.id.tvInfo);
         mInfo.setVisibility(GONE);
 
         mChartTitle = rootView.findViewById(R.id.chartTitle);
         mChart = rootView.findViewById(R.id.lineChart);
-        if (mChartTitle != null) {
+        if (mChartTitleText != null) {
             mChartTitle.setText(mChartTitleText);
+        } else {
+            if (mWhatData == SHOW_FUEL_PRICE_EVOLUTION) {
+                mChartTitle.setText(String.format(mCtx.getString(R.string.line_chart_fuel_price_title), mSelectedFuelTypeName));
+            }
         }
 
         mChart.setDrawGridBackground(false);
@@ -194,59 +277,6 @@ public class LineChartComponent extends LinearLayout {
         leftAxis.setDrawLimitLinesBehindData(true);
         mChart.getAxisRight().setEnabled(false);
 
-
-        ImageButton menuButton = rootView.findViewById(R.id.btnMenu);
-        if (menuButton != null) {
-            mChartFilterMenu = new PopupMenu(mCtx, menuButton);
-            mChartFilterMenu.getMenuInflater().inflate(R.menu.menu_list_chart_data_selection, mChartFilterMenu.getMenu());
-            if (mWhatData == SHOW_FUEL_PRICE_EVOLUTION) {
-                SubMenu mnuFuelTypes = mChartFilterMenu.getMenu().addSubMenu(R.string.pref_fuel_type_title);
-                DBAdapter dbAdapter = new DBAdapter(mCtx);
-                ArrayList<Pair<Long, String>> fuelTypes = dbAdapter.getCarFuelTypes(mLastSelectedCarID);
-                for (Pair<Long, String> fuelType : fuelTypes) {
-                    mnuFuelTypes.add(-10, -1 * fuelType.first.intValue(), Menu.NONE, fuelType.second);
-                }
-            }
-
-            menuButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mChartFilterMenu.show();
-                }
-            });
-
-            mChartFilterMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem menuItem) {
-                    SharedPreferences.Editor e = mPreferences.edit();
-                    if (menuItem.getItemId() == R.id.chart_filter_last_5) {
-                        mChartFilterNoRecords = 5;
-                    }
-                    else if (menuItem.getItemId() == R.id.chart_filter_last_10) {
-                        mChartFilterNoRecords = 10;
-                    } else if (menuItem.getItemId() == R.id.chart_filter_all) {
-                        mChartFilterNoRecords = -1;
-                    } else
-                        return false;
-
-                    switch (mWhatData) {
-                        case SHOW_FUEL_EFF:
-                            e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_fuel_eff), mChartFilterNoRecords);
-                            break;
-                        case SHOW_FUEL_CONS:
-                            e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_fuel_cons), mChartFilterNoRecords);
-                            break;
-                        case SHOW_FUEL_PRICE_EVOLUTION:
-                            e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_fuel_prices), mChartFilterNoRecords);
-                    }
-
-                    e.apply();
-                    setData(mWhatData);
-                    return true;
-                }
-            });
-        }
-
         setData(mWhatData);
     }
 
@@ -260,8 +290,11 @@ public class LineChartComponent extends LinearLayout {
         Bundle sqlWWhereCondition = new Bundle();
 
         sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_REFUEL, DBReportAdapter.COL_NAME_REFUEL__CAR_ID) + "=", Long.toString(mLastSelectedCarID));
-        if (whatData != SHOW_FUEL_PRICE_EVOLUTION)
+        if (whatData != SHOW_FUEL_PRICE_EVOLUTION) {
             sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_REFUEL, DBReportAdapter.COL_NAME_REFUEL__ISFULLREFUEL) + "=", "Y");
+        } else
+            sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_REFUEL, DBReportAdapter.COL_NAME_REFUEL__EXPENSECATEGORY_ID) + "=",
+                    Long.toString(mSelectedFuelTypeID));
 
         dbReportAdapter.setReportSql(DBReportAdapter.REFUEL_LIST_SELECT_NAME, sqlWWhereCondition);
         Cursor mCursor = dbReportAdapter.fetchReport(mChartFilterNoRecords);

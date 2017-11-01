@@ -65,7 +65,6 @@
     <string name="main_activity_gps_track_header_caption">Ultimul traseu GPS</string>
     <string name="main_activity_expense_header_caption">Ultima cheltuială</string>
     <string name="main_activity_list_no_data">Nu există înregistrări</string>
-    <string name="pref_main_screen_show_tatistics">Arată statisticile</string>
     <string name="pref_main_screen_zone1_content">Conținutul zonei 1</string>
     <string name="pref_main_screen_zone2_content">Conținutul zonei 2</string>
     <string name="pref_main_screen_zone3_content">Conținutul zonei 3</string>
@@ -450,6 +449,7 @@
     <string name="line_chart_info_1">Sunt necesare cel puțin 2 alimentări pline pentru a apărea ceva aici.</string>
     <string name="line_chart_info_2">Încă un plin ca să apară aici un … punctuleț :)</string>
     <string name="line_chart_info_3">Încă un plin ca să apară aici o diagramă adevărată.</string>
+    <string name="line_chart_fuel_price_title">Evoluţie preţ combustibil (%1$s)</string>
 
     <string name="search_dialog_title">Introdu criteriile</string>
     <string name="gen_date_from_label">De la:</string>

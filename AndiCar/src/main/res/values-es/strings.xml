@@ -59,7 +59,6 @@
     <string name="pref_category_main_screen">Pantalla Principal</string>
     <string name="pref_main_screen_addbtn_title">Botón Agregar</string>
     <string name="pref_main_screen_show_todo_zone">Mostrar zona de tareas</string>
-    <string name="pref_main_screen_show_tatistics">Mostrar estadísticas</string>
     <string name="pref_main_screen_zone1_content">Contenido de la Zona 1</string>
     <string name="pref_main_screen_zone2_content">Contenido de la Zona 2</string>
     <string name="pref_main_screen_zone3_content">Contenido de la Zona 3</string>
@@ -383,6 +382,7 @@
     <string name="line_chart_filter_last_5">Últimos 5</string>
     <string name="line_chart_filter_last_10">Últimos 10</string>
     <string name="line_chart_filter_all">Todas</string>
+    <string name="line_chart_fuel_price_title">Precios del combustible (%1$s)</string>
 
     <string name="mileage_type">Tipo de viaje:</string>
     <string name="fillup_type">Tipo de recargas:</string>

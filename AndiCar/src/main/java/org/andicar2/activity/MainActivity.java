@@ -1433,7 +1433,7 @@ public class MainActivity extends AppCompatActivity
                         zoneContainer.addView(lineChartComponent);
                         break;
                     case FUEL_PRICE_LINE_CHART:
-                        lineChartComponent = new LineChartComponent(this, LineChartComponent.SHOW_FUEL_PRICE_EVOLUTION, getString(R.string.line_chart_fuel_price_title));
+                        lineChartComponent = new LineChartComponent(this, LineChartComponent.SHOW_FUEL_PRICE_EVOLUTION, null);
                         zoneContainer.addView(lineChartComponent);
                         break;
                     case STATISTICS_ZONE:

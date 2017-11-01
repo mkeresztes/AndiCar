@@ -118,7 +118,9 @@
     <string name="record_component_record_id_key">record_id_key</string>
     <string name="record_component_table_key">table_key</string>
 
-    <string name="line_chart_filter_no_of_records_key_fuel_eff">line_chart_filter_no_of_records_key_fuel_eff</string>
-    <string name="line_chart_filter_no_of_records_key_fuel_cons">line_chart_filter_no_of_records_key_fuel_cons</string>
-    <string name="line_chart_filter_no_of_records_key_fuel_prices">line_chart_filter_no_of_records_key_fuel_prices</string>
+    <string name="pref_key_no_of_records_for_fuel_eff">no_of_records_for_fuel_eff</string>
+    <string name="pref_key_no_of_records_for_fuel_cons">no_of_records_for_fuel_cons</string>
+    <string name="pref_key_no_of_records_for_fuel_prices">no_of_records_for_fuel_prices</string>
+    <string name="pref_key_selected_fuel_type_id_for_fuel_prices">selected_fuel_type_id_for_fuel_prices</string>
+    <string name="pref_key_selected_fuel_type_name_for_fuel_prices">selected_fuel_type_name_for_fuel_prices</string>
 </resources>

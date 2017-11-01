@@ -107,6 +107,7 @@
         <item>Költség grafikonok</item>
         <item>Üzemanyag hatékonyság</item>
         <item>Üzemanyag fogyasztás</item>
+        <item>Üzemanyag árváltozás</item>
     </string-array>
 
 </resources>

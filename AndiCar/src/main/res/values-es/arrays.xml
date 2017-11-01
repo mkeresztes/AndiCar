@@ -90,8 +90,9 @@
         <item>Gráfico recarga (cantidad)</item>
         <item>Gráfico recarga (suma)</item>
         <item>Gráfico gasto</item>
-        <item>Fuel efficiency</item>
-        <item>Fuel consumption</item>
+        <item>Eficiencia de combustible</item>
+        <item>El consumo de combustible</item>
+        <item>Precios del combustible</item>
     </string-array>
 
 </resources>

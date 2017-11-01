@@ -66,7 +66,7 @@
     <string name="line_chart_info_1">A minimum of 2 FULL fill-ups needed for showing something here.</string>
     <string name="line_chart_info_2">Just one new full fill-up for a beautiful … dot here :)</string>
     <string name="line_chart_info_3">Just one new full fill-up for showing a real chart.</string>
-    <string name="line_chart_fuel_price_title">Fuel price evolution</string>
+    <string name="line_chart_fuel_price_title">Fuel price evolution (%1$s)</string>
 
     <string name="title_list_activity" tools:ignore="PluralsCandidate">%1$s: %2$s record(s)</string>
     <string name="error_report_sent">Thank you for helping make AndiCar better!</string>
@@ -229,7 +229,7 @@
     <!--PREF_MainScreen_ShowToDoZone-->
     <string name="pref_main_screen_show_todo_zone">Show next To-Do</string>
     <!--PREF_MainScreen_ShowStatistics-->
-    <string name="pref_main_screen_show_tatistics">Show statistics</string>
+    <string name="pref_main_screen_show_statistics">Show statistics</string>
     <string name="pref_main_screen_zone1_content">Zone 1 content</string>
     <string name="pref_main_screen_zone2_content">Zone 2 content</string>
     <string name="pref_main_screen_zone3_content">Zone 3 content</string>

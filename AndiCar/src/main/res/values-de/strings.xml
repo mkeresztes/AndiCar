@@ -60,7 +60,6 @@
     <string name="pref_category_main_screen">Hauptanzeige</string>
     <string name="pref_main_screen_addbtn_title">Taste hinzufügen</string>
     <string name="pref_main_screen_show_todo_zone">Bereich To-do anzeigen</string>
-    <string name="pref_main_screen_show_tatistics">Statistiken anzeigen</string>
     <string name="pref_main_screen_zone1_content">Zone 1 Inhalt</string>
     <string name="pref_main_screen_zone2_content">Zone 2 Inhalt</string>
     <string name="pref_main_screen_zone3_content">Zone 3 Inhalt</string>
@@ -387,6 +386,7 @@
     <string name="line_chart_filter_last_5">Letzte 5</string>
     <string name="line_chart_filter_last_10">Letzte 10</string>
     <string name="line_chart_filter_all">Alle</string>
+    <string name="line_chart_fuel_price_title">Treibstoffpreise (%1$s)</string>
 
     <string name="mileage_type">Art:</string>
     <string name="fillup_type">Auftanken Art:</string>

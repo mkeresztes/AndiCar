@@ -108,8 +108,9 @@
         <item>Auftanken Diagramm (quantität)</item>
         <item>Auftanken Diagramm (betrag)</item>
         <item>Ausgaben Diagramm</item>
-        <item>Fuel efficiency</item>
-        <item>Fuel consumption</item>
+        <item>Kraftstoffeffizienz</item>
+        <item>Kraftstoffverbrauch</item>
+        <item>Treibstoffpreise</item>
     </string-array>
 
 </resources>
