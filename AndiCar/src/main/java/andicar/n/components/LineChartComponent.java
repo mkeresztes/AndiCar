@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -19,6 +21,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
@@ -27,6 +30,7 @@ import com.github.mikephil.charting.data.CandleEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.MPPointF;
@@ -49,6 +53,7 @@ import andicar.n.utils.Utils;
 public class LineChartComponent extends LinearLayout {
     public static final int SHOW_FUEL_EFF = 1;
     public static final int SHOW_FUEL_CONS = 2;
+    public static final int SHOW_FUEL_PRICE_EVOLUTION = 3;
     private static final float LEFT_AXIS_TEXT_SIZE = 10f;
     private static final float VALUE_FONT_SIZE = 12f;
 
@@ -59,13 +64,14 @@ public class LineChartComponent extends LinearLayout {
     private LineChart mChart;
     private PopupMenu mChartFilterMenu;
     private YAxis leftAxis;
-
+    private XAxis xAxis;
 
     private SharedPreferences mPreferences = AndiCar.getDefaultSharedPreferences();
     private String mChartTitleText;
     private int mChartFilterNoRecords = 5;
     private int mWhatData;
     private long mLastSelectedCarID;
+    private ArrayList<Long> mChartDates = new ArrayList<>();
 
     public LineChartComponent(Context context, int what, @Nullable String title) {
         super(context);
@@ -107,6 +113,10 @@ public class LineChartComponent extends LinearLayout {
             else
                 divider = 6f;
         }
+
+        if (mWhatData == SHOW_FUEL_PRICE_EVOLUTION)
+            divider = divider / 2;
+
         mChart.getLayoutParams().height = Math.round(Utils.getScreenWidthInPixel(mCtx) / divider);
         mChart.requestLayout();
     }
@@ -115,10 +125,19 @@ public class LineChartComponent extends LinearLayout {
     private void init() {
         View rootView = inflate(mCtx, R.layout.component_line_chart, this);
 
-        if (mWhatData == SHOW_FUEL_EFF)
-            mChartFilterNoRecords = mPreferences.getInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_1), 5);
-        else
-            mChartFilterNoRecords = mPreferences.getInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_2), 5);
+        switch (mWhatData) {
+            case SHOW_FUEL_EFF:
+                mChartFilterNoRecords = mPreferences.getInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_fuel_eff), 5);
+                break;
+            case SHOW_FUEL_CONS:
+                mChartFilterNoRecords = mPreferences.getInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_fuel_cons), 5);
+                break;
+            case SHOW_FUEL_PRICE_EVOLUTION:
+                mChartFilterNoRecords = mPreferences.getInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_fuel_prices), 5);
+                break;
+            default:
+                mChartFilterNoRecords = 5;
+        }
 
         mLastSelectedCarID = mPreferences.getLong(mCtx.getString(R.string.pref_key_last_selected_car_id), -1);
 
@@ -145,8 +164,16 @@ public class LineChartComponent extends LinearLayout {
         mv.setChartView(mChart); // For bounds control
         mChart.setMarker(mv); // Set the marker to the chart
 
-        XAxis xAxis = mChart.getXAxis();
-        xAxis.setEnabled(false);
+        xAxis = mChart.getXAxis();
+        if (mWhatData == SHOW_FUEL_CONS || mWhatData == SHOW_FUEL_EFF)
+            xAxis.setEnabled(false);
+        else {
+            xAxis.setEnabled(true);
+            xAxis.setGranularity(1f);
+            xAxis.setValueFormatter(new DateAxisFormatter());
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            xAxis.setLabelRotationAngle(-90);
+        }
 
         leftAxis = mChart.getAxisLeft();
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
@@ -161,6 +188,8 @@ public class LineChartComponent extends LinearLayout {
         if (menuButton != null) {
             mChartFilterMenu = new PopupMenu(mCtx, menuButton);
             mChartFilterMenu.getMenuInflater().inflate(R.menu.menu_list_chart_data_selection, mChartFilterMenu.getMenu());
+            SubMenu mnuFuelTypes = mChartFilterMenu.getMenu().addSubMenu(R.string.pref_fuel_type_title);
+            mnuFuelTypes.add(-10, -10, Menu.NONE, "Test");
 
             menuButton.setOnClickListener(new OnClickListener() {
                 @Override
@@ -175,25 +204,25 @@ public class LineChartComponent extends LinearLayout {
                     SharedPreferences.Editor e = mPreferences.edit();
                     if (menuItem.getItemId() == R.id.chart_filter_last_5) {
                         mChartFilterNoRecords = 5;
-                        if (mWhatData == SHOW_FUEL_EFF)
-                            e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_1), 5);
-                        else
-                            e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_2), 5);
                     }
                     else if (menuItem.getItemId() == R.id.chart_filter_last_10) {
                         mChartFilterNoRecords = 10;
-                        if (mWhatData == SHOW_FUEL_EFF)
-                            e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_1), 10);
-                        else
-                            e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_2), 10);
-                    }
-                    else {
+                    } else if (menuItem.getItemId() == R.id.chart_filter_all) {
                         mChartFilterNoRecords = -1;
-                        if (mWhatData == SHOW_FUEL_EFF)
-                            e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_1), -1);
-                        else
-                            e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_2), -1);
+                    } else
+                        return false;
+
+                    switch (mWhatData) {
+                        case SHOW_FUEL_EFF:
+                            e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_fuel_eff), mChartFilterNoRecords);
+                            break;
+                        case SHOW_FUEL_CONS:
+                            e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_fuel_cons), mChartFilterNoRecords);
+                            break;
+                        case SHOW_FUEL_PRICE_EVOLUTION:
+                            e.putInt(mCtx.getString(R.string.line_chart_filter_no_of_records_key_fuel_prices), mChartFilterNoRecords);
                     }
+
                     e.apply();
                     setData(mWhatData);
                     return true;
@@ -208,11 +237,14 @@ public class LineChartComponent extends LinearLayout {
         float minValue = 1000f;
         float maxValue = 0f;
 
+        mChartDates.clear();
+
         DBReportAdapter dbReportAdapter = new DBReportAdapter(mCtx, null, null);
         Bundle sqlWWhereCondition = new Bundle();
 
         sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_REFUEL, DBReportAdapter.COL_NAME_REFUEL__CAR_ID) + "=", Long.toString(mLastSelectedCarID));
-        sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_REFUEL, DBReportAdapter.COL_NAME_REFUEL__ISFULLREFUEL) + "=", "Y");
+        if (whatData != SHOW_FUEL_PRICE_EVOLUTION)
+            sqlWWhereCondition.putString(DBReportAdapter.sqlConcatTableColumn(DBReportAdapter.TABLE_NAME_REFUEL, DBReportAdapter.COL_NAME_REFUEL__ISFULLREFUEL) + "=", "Y");
 
         dbReportAdapter.setReportSql(DBReportAdapter.REFUEL_LIST_SELECT_NAME, sqlWWhereCondition);
         Cursor mCursor = dbReportAdapter.fetchReport(mChartFilterNoRecords);
@@ -231,51 +263,61 @@ public class LineChartComponent extends LinearLayout {
         BigDecimal previousFullRefuelIndex;
         BigDecimal distance;
         BigDecimal fuelQty;
-        BigDecimal fuelCons;
-        BigDecimal fuelEff;
+        BigDecimal yValue;
+        Long xValue;
         Double tmpFuelQty;
-
 
         if (mCursor.moveToLast()) {
             setChartsLineHeight(false);
-            previousFullRefuelIndex = new BigDecimal(mCursor.getDouble(13));
-            if (previousFullRefuelIndex.compareTo(BigDecimal.ZERO) >= 0) {
-                distance = (new BigDecimal(mCursor.getString(11))).subtract(previousFullRefuelIndex);
+            if (whatData == SHOW_FUEL_CONS || whatData == SHOW_FUEL_EFF) {
+                previousFullRefuelIndex = new BigDecimal(mCursor.getDouble(13));
+                if (previousFullRefuelIndex.compareTo(BigDecimal.ZERO) >= 0) {
+                    distance = (new BigDecimal(mCursor.getString(11))).subtract(previousFullRefuelIndex);
 
-                tmpFuelQty = dbReportAdapter.getFuelQtyForCons(mCursor.getLong(16), previousFullRefuelIndex, mCursor.getDouble(11));
-                fuelQty = new BigDecimal(tmpFuelQty == null ? 0d : tmpFuelQty);
-                fuelCons = fuelQty.multiply(new BigDecimal("100")).divide(distance, 10, RoundingMode.HALF_UP);
-                if (fuelCons.compareTo(new BigDecimal(0.5)) > 0) { //if < 0.5 => consider invalid fill-up, eliminate from graph
-                    fuelEff = distance.divide(fuelQty, 10, RoundingMode.HALF_UP);
-
-                    switch (whatData) {
-                        case SHOW_FUEL_EFF:
-                            values.add(new Entry(i, fuelEff.floatValue()));
-                            if (fuelEff.floatValue() < minValue) {
-                                minValue = fuelEff.floatValue();
-                            }
-                            if (fuelEff.floatValue() > maxValue) {
-                                maxValue = fuelEff.floatValue();
-                            }
-                            break;
-                        case SHOW_FUEL_CONS:
-                            values.add(new Entry(i, fuelCons.floatValue()));
-                            if (fuelCons.floatValue() < minValue) {
-                                minValue = fuelCons.floatValue();
-                            }
-                            if (fuelCons.floatValue() > maxValue) {
-                                maxValue = fuelCons.floatValue();
-                            }
+                    tmpFuelQty = dbReportAdapter.getFuelQtyForCons(mCursor.getLong(16), previousFullRefuelIndex, mCursor.getDouble(11));
+                    fuelQty = new BigDecimal(tmpFuelQty == null ? 0d : tmpFuelQty);
+                    //fuel cons
+                    yValue = fuelQty.multiply(new BigDecimal("100")).divide(distance, 10, RoundingMode.HALF_UP);
+                    if (yValue.compareTo(new BigDecimal(0.5)) > 0) { //if < 0.5 => consider invalid fill-up, eliminate from graph
+                        switch (whatData) {
+                            case SHOW_FUEL_EFF:
+                                //fuel eff
+                                yValue = distance.divide(fuelQty, 10, RoundingMode.HALF_UP);
+                                values.add(new Entry(i, yValue.floatValue()));
+                                break;
+                            case SHOW_FUEL_CONS:
+                                values.add(new Entry(i, yValue.floatValue()));
+                        }
+                        if (yValue.floatValue() < minValue) {
+                            minValue = yValue.floatValue();
+                        }
+                        if (yValue.floatValue() > maxValue) {
+                            maxValue = yValue.floatValue();
+                        }
+                        i++;
                     }
-                    i++;
                 }
+            } else if (whatData == SHOW_FUEL_PRICE_EVOLUTION) {
+                yValue = new BigDecimal(mCursor.getDouble(8)); //price
+                mChartDates.add(mCursor.getLong(4)); //date
+                values.add(new Entry(i, yValue.floatValue()));
+
+                if (yValue.floatValue() < minValue) {
+                    minValue = yValue.floatValue();
+                }
+                if (yValue.floatValue() > maxValue) {
+                    maxValue = yValue.floatValue();
+                }
+                i++;
             }
         }
         else {
             //no data
             setChartsLineHeight(true);
-            mInfo.setVisibility(VISIBLE);
-            mInfo.setText(R.string.line_chart_info_1);
+            if (whatData == SHOW_FUEL_CONS || whatData == SHOW_FUEL_EFF) {
+                mInfo.setText(R.string.line_chart_info_1);
+            }
+
             mChartHeader.setVisibility(GONE);
             try {
                 mCursor.close();
@@ -286,36 +328,51 @@ public class LineChartComponent extends LinearLayout {
         }
 
         while (mCursor.moveToPrevious()) {
-            previousFullRefuelIndex = new BigDecimal(mCursor.getDouble(13));
-            distance = (new BigDecimal(mCursor.getString(11))).subtract(previousFullRefuelIndex);
+            if (whatData == SHOW_FUEL_CONS || whatData == SHOW_FUEL_EFF) {
+                previousFullRefuelIndex = new BigDecimal(mCursor.getDouble(13));
+                distance = (new BigDecimal(mCursor.getString(11))).subtract(previousFullRefuelIndex);
 
-            tmpFuelQty = dbReportAdapter.getFuelQtyForCons(mCursor.getLong(16), previousFullRefuelIndex, mCursor.getDouble(11));
-            fuelQty = new BigDecimal(tmpFuelQty == null ? 0d : tmpFuelQty);
-            fuelCons = fuelQty.multiply(new BigDecimal("100")).divide(distance, 10, RoundingMode.HALF_UP);
-            fuelEff = distance.divide(fuelQty, 10, RoundingMode.HALF_UP);
-            if (fuelCons.compareTo(new BigDecimal(0.5)) < 0) //consider invalid fill-up. eliminate from graph
-                continue;
+                tmpFuelQty = dbReportAdapter.getFuelQtyForCons(mCursor.getLong(16), previousFullRefuelIndex, mCursor.getDouble(11));
+                fuelQty = new BigDecimal(tmpFuelQty == null ? 0d : tmpFuelQty);
+                //fuel cons
+                yValue = fuelQty.multiply(new BigDecimal("100")).divide(distance, 10, RoundingMode.HALF_UP);
+                if (yValue.compareTo(new BigDecimal(0.5)) < 0) //consider invalid fill-up. eliminate from graph
+                    continue;
 
-            switch (whatData) {
-                case SHOW_FUEL_EFF:
-                    values.add(new Entry(i, fuelEff.floatValue()));
-                    if (fuelEff.floatValue() < minValue) {
-                        minValue = fuelEff.floatValue();
-                    }
-                    if (fuelEff.floatValue() > maxValue) {
-                        maxValue = fuelEff.floatValue();
-                    }
-                    break;
-                case SHOW_FUEL_CONS:
-                    values.add(new Entry(i, fuelCons.floatValue()));
-                    if (fuelCons.floatValue() < minValue) {
-                        minValue = fuelCons.floatValue();
-                    }
-                    if (fuelCons.floatValue() > maxValue) {
-                        maxValue = fuelCons.floatValue();
-                    }
+                switch (whatData) {
+                    case SHOW_FUEL_EFF:
+                        yValue = distance.divide(fuelQty, 10, RoundingMode.HALF_UP);
+                        values.add(new Entry(i, yValue.floatValue()));
+                        if (yValue.floatValue() < minValue) {
+                            minValue = yValue.floatValue();
+                        }
+                        if (yValue.floatValue() > maxValue) {
+                            maxValue = yValue.floatValue();
+                        }
+                        break;
+                    case SHOW_FUEL_CONS:
+                        values.add(new Entry(i, yValue.floatValue()));
+                        if (yValue.floatValue() < minValue) {
+                            minValue = yValue.floatValue();
+                        }
+                        if (yValue.floatValue() > maxValue) {
+                            maxValue = yValue.floatValue();
+                        }
+                }
+                i++;
+            } else if (whatData == SHOW_FUEL_PRICE_EVOLUTION) {
+                yValue = new BigDecimal(mCursor.getDouble(8)); //price
+                mChartDates.add(mCursor.getLong(4)); //date
+                values.add(new Entry(i, yValue.floatValue()));
+
+                if (yValue.floatValue() < minValue) {
+                    minValue = yValue.floatValue();
+                }
+                if (yValue.floatValue() > maxValue) {
+                    maxValue = yValue.floatValue();
+                }
+                i++;
             }
-            i++;
         }
 
         try {
@@ -325,19 +382,28 @@ public class LineChartComponent extends LinearLayout {
         catch (Exception ignored) {
         }
 
-        if (values.size() == 0) {
-            mInfo.setVisibility(VISIBLE);
-            mInfo.setText(R.string.line_chart_info_2);
-            setChartsLineHeight(true);
-            return;
-        }
-        else if (values.size() == 1) {
-            mInfo.setVisibility(VISIBLE);
-            mInfo.setText(R.string.line_chart_info_3);
+        if (whatData == SHOW_FUEL_CONS || whatData == SHOW_FUEL_EFF) {
+            if (values.size() == 0) {
+                mInfo.setVisibility(VISIBLE);
+                mInfo.setText(R.string.line_chart_info_2);
+                setChartsLineHeight(true);
+                return;
+            } else if (values.size() == 1) {
+                mInfo.setVisibility(VISIBLE);
+                mInfo.setText(R.string.line_chart_info_3);
+            }
+        } else {
+            mInfo.setVisibility(GONE);
         }
 
-        leftAxis.setAxisMaximum(Math.round(maxValue) + 1);
-        leftAxis.setAxisMinimum(Math.round(minValue) - 1);
+        if (whatData == SHOW_FUEL_CONS || whatData == SHOW_FUEL_EFF) {
+            leftAxis.setAxisMaximum(Math.round(maxValue) + 1);
+            leftAxis.setAxisMinimum(Math.round(minValue) - 1);
+        } else {
+            leftAxis.setAxisMaximum(maxValue + 0.2f);
+            leftAxis.setAxisMinimum(minValue - 0.2f);
+            xAxis.setLabelCount(mChartDates.size(), true);
+        }
 
         LineDataSet set1;
 
@@ -398,7 +464,7 @@ public class LineChartComponent extends LinearLayout {
             tvContent = findViewById(R.id.tvContent);
         }
 
-        // callbacks everytime the MarkerView is redrawn, can be used to update the
+        // callbacks every time the MarkerView is redrawn, can be used to update the
         // content (user-interface)
         @Override
         public void refreshContent(Entry e, Highlight highlight) {
@@ -423,4 +489,16 @@ public class LineChartComponent extends LinearLayout {
         }
     }
 
+    private class DateAxisFormatter implements IAxisValueFormatter {
+
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            try {
+                return Utils.getFormattedDateTime((mChartDates.get((int) value)) * 1000, true);
+            } catch (Exception ignored) {
+                return "";
+            }
+
+        }
+    }
 }
