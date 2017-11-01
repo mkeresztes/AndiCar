@@ -178,7 +178,7 @@ public class FileListActivity extends AppCompatActivity implements Runnable {
                 lvFileList.setAdapter(null);
             }
             else {
-                mListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, mFileList);
+                mListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mFileList);
                 lvFileList.setAdapter(mListAdapter);
             }
 
