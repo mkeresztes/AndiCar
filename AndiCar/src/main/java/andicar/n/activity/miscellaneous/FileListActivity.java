@@ -58,7 +58,7 @@ import andicar.n.utils.Utils;
 public class FileListActivity extends AppCompatActivity implements Runnable {
     public final static int LIST_TYPE_LOG = 0;
     public final static int LIST_TYPE_BACKUP = 1;
-    public final static String file_type_extras_key = "file_type";
+    public final static String list_type_extras_key = "list_type";
 
     ArrayList<String> mFileList;
     ArrayAdapter<String> mListAdapter;
@@ -78,7 +78,7 @@ public class FileListActivity extends AppCompatActivity implements Runnable {
         if (getIntent().getExtras() == null)
             return;
         else {
-            mListType = getIntent().getExtras().getInt(file_type_extras_key);
+            mListType = getIntent().getExtras().getInt(list_type_extras_key);
         }
 
         if (mListType == LIST_TYPE_LOG) {

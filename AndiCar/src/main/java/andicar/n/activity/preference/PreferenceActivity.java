@@ -413,7 +413,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     Intent i = new Intent(GeneralPreferenceFragment.this.getActivity(), FileListActivity.class);
-                    i.putExtra(FileListActivity.file_type_extras_key, FileListActivity.LIST_TYPE_LOG);
+                    i.putExtra(FileListActivity.list_type_extras_key, FileListActivity.LIST_TYPE_LOG);
                     GeneralPreferenceFragment.this.startActivity(i);
                     return true;
                 }

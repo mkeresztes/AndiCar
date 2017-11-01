@@ -55,7 +55,7 @@ public class WelcomeDialog extends Dialog {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getContext(), FileListActivity.class);
-                i.putExtra(FileListActivity.file_type_extras_key, FileListActivity.LIST_TYPE_BACKUP);
+                i.putExtra(FileListActivity.list_type_extras_key, FileListActivity.LIST_TYPE_BACKUP);
                 getContext().startActivity(i);
                 hide();
             }
