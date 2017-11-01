@@ -91,7 +91,12 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
                 FileUtils.createFolderIfNotExists(ctx, ConstantValues.LOG_FOLDER);
                 File debugLogFile = new File(ConstantValues.LOG_FOLDER + "SendGMailTask.log");
                 debugLogFileWriter = new LogFileWriter(debugLogFile, false);
+            if (attachments != null) {
                 debugLogFileWriter.appendnl("SendGMailTask started for attachments: " + attachments.toString());
+            }
+            else {
+                debugLogFileWriter.appendnl("No attachments.");
+            }
                 debugLogFileWriter.flush();
 //            }
 
