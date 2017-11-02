@@ -32,9 +32,11 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.MPPointF;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import org.andicar2.activity.AndiCar;
 import org.andicar2.activity.R;
@@ -66,7 +68,7 @@ public class LineChartComponent extends LinearLayout {
     private TextView mInfo;
     private LineChart mChart;
     private PopupMenu mChartFilterMenu;
-    private YAxis leftAxis;
+    private YAxis yAxis;
     private XAxis xAxis;
 
     private SharedPreferences mPreferences = AndiCar.getDefaultSharedPreferences();
@@ -267,17 +269,17 @@ public class LineChartComponent extends LinearLayout {
         else {
             xAxis.setEnabled(true);
             xAxis.setGranularity(1f);
-            xAxis.setValueFormatter(new DateAxisFormatter());
+            xAxis.setValueFormatter(new XAxisFormatter());
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
             xAxis.setLabelRotationAngle(-15);
         }
 
-        leftAxis = mChart.getAxisLeft();
-        leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-        leftAxis.setTextSize(LEFT_AXIS_TEXT_SIZE);
-        leftAxis.enableGridDashedLine(10f, 10f, 0f);
-        leftAxis.setDrawZeroLine(false);
-        leftAxis.setDrawLimitLinesBehindData(true);
+        yAxis = mChart.getAxisLeft();
+        yAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
+        yAxis.setTextSize(LEFT_AXIS_TEXT_SIZE);
+        yAxis.enableGridDashedLine(10f, 10f, 0f);
+        yAxis.setDrawZeroLine(false);
+        yAxis.setDrawLimitLinesBehindData(true);
         mChart.getAxisRight().setEnabled(false);
 
         setData(mWhatData);
@@ -449,8 +451,8 @@ public class LineChartComponent extends LinearLayout {
             mInfo.setVisibility(GONE);
         }
 
-        leftAxis.setAxisMaximum(maxValue + (maxValue * 0.1f));
-        leftAxis.setAxisMinimum(minValue - (minValue * 0.1f)); //add 10% boundary
+        yAxis.setAxisMaximum(maxValue + (maxValue * 0.1f));
+        yAxis.setAxisMinimum(minValue - (minValue * 0.1f)); //add 10% boundary
 
         if (whatData == SHOW_FUEL_PRICE_EVOLUTION) {
             xAxis.setLabelCount(mChartDates.size(), true);
@@ -500,6 +502,7 @@ public class LineChartComponent extends LinearLayout {
         // set data
         mChart.setData(data);
         mChart.animateX(250);
+        data.setValueFormatter(new DataValueFormatter());
         Legend l = mChart.getLegend();
         //hide the legend
         l.setEnabled(false);
@@ -540,7 +543,7 @@ public class LineChartComponent extends LinearLayout {
         }
     }
 
-    private class DateAxisFormatter implements IAxisValueFormatter {
+    private class XAxisFormatter implements IAxisValueFormatter {
 
         @Override
         public String getFormattedValue(float value, AxisBase axis) {
@@ -550,6 +553,16 @@ public class LineChartComponent extends LinearLayout {
                 return "";
             }
 
+        }
+    }
+
+
+    private class DataValueFormatter implements IValueFormatter {
+
+        @Override
+        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            // write your logic here
+            return Utils.numberToString(value, true, ConstantValues.DECIMALS_PRICE, ConstantValues.ROUNDING_MODE_PRICE);
         }
     }
 
