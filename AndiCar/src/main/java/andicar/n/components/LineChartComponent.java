@@ -178,6 +178,7 @@ public class LineChartComponent extends LinearLayout {
                             mnuFuelTypes.add(-10, -1 * fuelType.first.intValue(), Menu.NONE, fuelType.second);
                         }
                         if (!savedFuelTypeExists) {
+                            //noinspection ConstantConditions
                             mSelectedFuelTypeID = fuelTypes.get(0).first;
                             mSelectedFuelTypeName = fuelTypes.get(0).second;
                         }
@@ -446,12 +447,13 @@ public class LineChartComponent extends LinearLayout {
             mInfo.setVisibility(GONE);
         }
 
-        if (whatData == SHOW_FUEL_CONS || whatData == SHOW_FUEL_EFF) {
-            leftAxis.setAxisMaximum(Math.round(maxValue) + 1);
-            leftAxis.setAxisMinimum(Math.round(minValue) - 1);
-        } else {
-            leftAxis.setAxisMaximum(maxValue + 0.2f);
-            leftAxis.setAxisMinimum(minValue - 0.2f);
+        maxValue = Math.round(maxValue + 0.5); //round up
+        minValue = Math.round(minValue - 0.5); //round down
+
+        leftAxis.setAxisMaximum(maxValue + (maxValue * 0.1f)); //add 10% boundary
+        leftAxis.setAxisMinimum(minValue - (minValue * 0.1f)); //add 10% boundary
+
+        if (whatData == SHOW_FUEL_PRICE_EVOLUTION) {
             xAxis.setLabelCount(mChartDates.size(), true);
         }
 
