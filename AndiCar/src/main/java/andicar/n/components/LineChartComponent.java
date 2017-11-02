@@ -555,9 +555,8 @@ public class LineChartComponent extends LinearLayout {
 
         private TextView tvContent;
 
-        public MyMarkerView(Context context, int layoutResource) {
+        public AndiCarMarkerView(Context context, int layoutResource) {
             super(context, layoutResource);
-            // this markerview only displays a textview
             tvContent = (TextView) findViewById(R.id.tvContent);
         }
 
