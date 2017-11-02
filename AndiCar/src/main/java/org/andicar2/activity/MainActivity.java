@@ -756,8 +756,8 @@ public class MainActivity extends AppCompatActivity
                     Utils.numberToString(c.getDouble(4), true, 0, RoundingMode.HALF_UP) + " " + db.getUOMCode(db.getCarUOMLengthID(c.getLong(0))));
         }
         else {
-            mNavigationView.setHeaderLabels(getString(R.string.main_activity_no_car), "", "");
-            setTitle(getString(R.string.main_activity_no_car));
+            mNavigationView.setHeaderLabels(getString(R.string.main_activity_no_car_title), "", "");
+            setTitle(getString(R.string.main_activity_no_car_title));
         }
         c.close();
         db.close();

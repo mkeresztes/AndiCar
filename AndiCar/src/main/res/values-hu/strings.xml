@@ -135,6 +135,7 @@
     <string name="pref_gps_track_minimum_time_title">Min. idő a pontok között</string>
     <string name="pref_gps_track_file_location">A nyomkövetési fájlai megtalálhatóak a(z) %1$s könyvtárban</string>
     <string name="pref_gps_track_accuracy_title">Pontosság</string>
+
     <string name="pref_bt_link_title">Bluetooth csatlakozás érzékelő</string>
     <string name="pref_bt_link_description">A GPS Követő Kezelő automatikus indítása amikor Bluetooth kapcsolat egy autóval létrejött.</string>
     <string name="pref_bt_link_on_disconnect_label">A Bluetooth kapcsolat megszünésekor:</string>
@@ -205,6 +206,7 @@
     <string name="gen_fillup_detail">A tankolás részletei</string>
     <string name="gen_expense_detail">Költség részletei</string>
     <string name="gen_gps_track_detail">GPS nyomkövetés részletei</string>
+    <string name="gps_track_no_car">Nincs autó a rendszerben!\nA GPS nyomkövetést nem lehet elindítani.</string>
 
     <string name="gen_menu">Menü</string>
     <string name="gen_save">Mentés</string>
@@ -397,7 +399,6 @@
     <string name="todo_mileage_left">Hátralévő kilométer</string>
     <string name="todo_is_done">Kész</string>
 
-    <string name="main_activity_no_car">Nincs autó meghatározva</string>
     <string name="main_activity_no_to_do">Nincs tennivaló</string>
     <string name="main_activity_statistics_header_caption">Statisztikák  - </string>
     <string name="main_activity_mileage_header_caption">Legutóbbi út</string>
@@ -411,6 +412,7 @@
     <string name="main_activity_statistics_total_expense_label">Teljes költség:</string>
     <string name="main_activity_statistics_mileage_expense_label">Fuvarköltség:</string>
     <string name="main_activity_app_version">Alkalmazás verzió: %1$s (DB %2$s)</string>
+    <string name="main_activity_no_car_title">Határozzon meg egy autót</string>
 
     <string name="bt_car_link_activity_title">Kapcsolt eszközök</string>
     <!--<string name="AddOn_BTStarter_DeviceLinkActivityTitle">Eszköz párosítása autóhoz</string>-->

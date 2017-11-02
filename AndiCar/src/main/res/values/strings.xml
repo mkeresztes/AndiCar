@@ -70,7 +70,6 @@
 
     <string name="title_list_activity" tools:ignore="PluralsCandidate">%1$s: %2$s record(s)</string>
     <string name="error_report_sent">Thank you for helping make AndiCar better!</string>
-    <string name="main_activity_no_car">No car defined yet</string>
 
     <string name="pref_backup_now_title">Backup now</string>
     <string name="pref_backup_now_description">Manually backup your data.</string>
@@ -150,6 +149,8 @@
     <string name="gps_track_map_trip_end_date">Ended at:</string>
     <!--GPSTrackShowOnMap_PauseInfo-->
     <string name="gps_track_map_pause_info">Pause from: %1$s\n\tto: %2$s\n\nDuration: %3$s</string>
+
+    <string name="gps_track_no_car">No car defined!\nGPS tracking cannot be started.</string>
 
     <string name="bt_link_link_to_car_bt_disabled_title">Bluetooth is disabled</string>
     <string name="bt_link_link_to_car_bt_disabled_message">Bluetooth is disabled. Enable it to make a link.</string>
@@ -736,6 +737,8 @@
     <string name="main_activity_statistics_mileage_expense_label">Mileage exp.:</string>
     <!--MainActivity_AppVersion-->
     <string name="main_activity_app_version">Application version: %1$s (DB %2$s)</string>
+    <string name="main_activity_no_car_title">First, define a car</string>
+
 
     <!--AddOn_BTStarter_DeviceListActivityTitle-->
     <string name="bt_car_link_activity_title">Linked devices</string>

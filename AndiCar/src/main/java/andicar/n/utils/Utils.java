@@ -379,6 +379,14 @@ public class Utils {
         ctx.startActivity(notif);
     }
 
+    public static void showWarningDialog(Context ctx, String message, String detail) {
+        Intent notif = new Intent(ctx, GeneralNotificationDialogActivity.class);
+        notif.putExtra(GeneralNotificationDialogActivity.NOTIF_MESSAGE_KEY, message);
+        notif.putExtra(GeneralNotificationDialogActivity.NOTIF_DETAIL_KEY, detail);
+        notif.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_WARNING);
+        ctx.startActivity(notif);
+    }
+
     public static void showNotReportableErrorDialog(Context ctx, String message, String detail, boolean fromService) {
         try {
             Intent notif = new Intent(ctx, GeneralNotificationDialogActivity.class);

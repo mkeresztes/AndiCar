@@ -116,6 +116,7 @@
     <string name="pref_gps_track_minimum_time_title">Min. Zeit zwischen Punkten</string>
     <string name="pref_gps_track_file_location">Die Aufzeichnungsdateien befinden sich im Ordner %1$s</string>
     <string name="pref_gps_track_accuracy_title">Präzision</string>
+    <string name="gps_track_no_car">Kein Auto definiert! GPS-Tracking kann nicht gestartet werden..</string>
 
     <string name="pref_bt_link_title">Bluetooth Verbindungserkennung</string>
     <string name="pref_bt_link_description">Starte GPS-Aufzeichnung, wenn eine Bluetooth-Verbindung zu einem Fahrzeug hergestellt ist.</string>
@@ -360,6 +361,7 @@
     <string name="main_activity_statistics_total_expense_label">Gesamtausgaben:</string>
     <string name="main_activity_statistics_mileage_expense_label">Fahrtausgaben.:</string>
     <string name="main_activity_app_version">App-Version: %1$s (DB %2$s)</string>
+    <string name="main_activity_no_car_title">Definieren Sie ein Auto</string>
 
     <string name="bt_car_link_activity_title">Verbunden Geräte</string>
     <!--<string name="AddOn_BTStarter_DeviceLinkActivityTitle">Gerät mit Fahrzeug verbinden</string>-->

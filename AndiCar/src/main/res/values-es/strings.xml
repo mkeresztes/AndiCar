@@ -117,6 +117,7 @@
     <string name="pref_gps_track_accuracy_title">Precisión</string>
     <string name="pref_bt_link_title">Detector de enlace de Bluetooth</string>
     <string name="pref_bt_link_description">Automáticamente comenzar el Seguimiento GPS cuando una coneccion Bluetooth al un Automóvil es creada.</string>
+    <string name="gps_track_no_car">¡Ningún auto definido!\nEl seguimiento GPS no se puede iniciar.</string>
 
     <string name="pref_title_google_account">Elija una cuenta de Google</string>
     <string name="pref_title_revalidate_google_account">Revalidar su cuenta de Google</string>
@@ -356,6 +357,7 @@
     <string name="main_activity_statistics_total_expense_label">Gastos Total:</string>
     <string name="main_activity_statistics_mileage_expense_label">Costo por kilómetro:</string>
     <string name="main_activity_app_version">Versión de aplicación: %1$s (DB %2$s)</string>
+    <string name="main_activity_no_car_title">Define un auto</string>
 
     <string name="bt_car_link_activity_title">Dispositivos asociados</string>
     <!--<string name="AddOn_BTStarter_DeviceLinkActivityTitle">Asociar dispositivo al automóvil</string>-->

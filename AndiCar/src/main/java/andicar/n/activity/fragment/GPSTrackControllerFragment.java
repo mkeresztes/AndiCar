@@ -115,7 +115,9 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
         isUseTemplate = true;
 
         initDefaultValues();
-        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        if (getActivity() != null && getActivity().getWindow() != null) {
+            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        }
 
         if (mOperationType != null && mOperationType.equals(GPS_TRACK_FROM_BT_CONNECTION)) {
             setCarId(mArgumentsBundle.getLong(GPS_TRACK_BT_CAR_ID_KEY));
@@ -133,13 +135,10 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        getActivity().bindService(new Intent(getActivity(), GPSTrackService.class), mServiceConnection, Context.BIND_WAIVE_PRIORITY);
+        if (getActivity() != null) {
+            getActivity().bindService(new Intent(getActivity(), GPSTrackService.class), mServiceConnection, Context.BIND_WAIVE_PRIORITY);
+        }
     }
-
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//    }
 
     @Override
     protected void loadSpecificViewsFromLayoutXML() {
@@ -152,7 +151,6 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
         ckIsCreateMileage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (isChecked) {
                 if (((CheckBox) view).isChecked()) {
                     llIndexStartZone.setVisibility(View.VISIBLE);
                     etIndexStart.setText(Utils.numberToString(mDbAdapter.getCarCurrentIndex(mCarId), false, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH));
@@ -195,7 +193,9 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
 
                     mGPSTrackService.setServiceStatus(GPSTrackService.GPS_TRACK_SERVICE_STOPPED);
 
-                    GPSTrackControllerFragment.this.getActivity().finish();
+                    if (GPSTrackControllerFragment.this.getActivity() != null) {
+                        GPSTrackControllerFragment.this.getActivity().finish();
+                    }
                 }
                 else {
                     String strRetVal = GPSTrackControllerFragment.this.checkNumeric(vgRoot, false);
@@ -222,7 +222,9 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
                     gpsTrackIntent.putExtra(GPS_TRACK_ARGUMENT_START_TIME_FOR_MILEAGE, System.currentTimeMillis());
                     gpsTrackIntent.putExtra(GPS_TRACK_ARGUMENT_CREATE_MILEAGE, ckIsCreateMileage.isChecked());
                     gpsTrackIntent.putExtra(GPS_TRACK_ARGUMENT_INDEX_FOR_MILEAGE, etIndexStart.getText().toString());
-                    GPSTrackControllerFragment.this.getContext().startService(gpsTrackIntent);
+                    if (GPSTrackControllerFragment.this.getContext() != null) {
+                        GPSTrackControllerFragment.this.getContext().startService(gpsTrackIntent);
+                    }
 
                     Bundle analyticsParams = new Bundle();
                     analyticsParams.putInt(ConstantValues.ANALYTICS_IS_TEMPLATE_USED, (isTemplateUsed ? 1 : 0));
@@ -230,7 +232,9 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
                     analyticsParams.putInt(ConstantValues.ANALYTICS_IS_FROM_BT_CONNECTION, (mOperationType != null && mOperationType.equals(GPS_TRACK_FROM_BT_CONNECTION) ? 1 : 0));
                     Utils.sendAnalyticsEvent(getActivity(), "GPSTrack", analyticsParams, false);
 
-                    GPSTrackControllerFragment.this.getActivity().finish();
+                    if (GPSTrackControllerFragment.this.getActivity() != null) {
+                        GPSTrackControllerFragment.this.getActivity().finish();
+                    }
                 }
             }
         });
@@ -250,7 +254,9 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
                     mGPSTrackService.setServiceStatus(GPSTrackService.GPS_TRACK_SERVICE_PAUSED);
                     btnGPSTrackPauseResume.setText(R.string.gps_track_resume); // setImageDrawable(Utils.getDrawable(mResource, R.drawable.ic_button_gps_play_black_24dp_pad4dp));
                 }
-                GPSTrackControllerFragment.this.getActivity().finish();
+                if (GPSTrackControllerFragment.this.getActivity() != null) {
+                    GPSTrackControllerFragment.this.getActivity().finish();
+                }
             }
         });
 
@@ -259,7 +265,9 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GPSTrackControllerFragment.this.getActivity().finish();
+                if (GPSTrackControllerFragment.this.getActivity() != null) {
+                    GPSTrackControllerFragment.this.getActivity().finish();
+                }
             }
         });
 
@@ -274,8 +282,10 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
     @Override
     protected void showValuesInUI() {
         if (mCarId <= 0) {
-            Utils.showInfoDialog(getContext(), getString(R.string.main_activity_no_car), null);
-            getActivity().finish();
+            Utils.showWarningDialog(getContext(), getString(R.string.gps_track_no_car), null);
+            if (getActivity() != null) {
+                getActivity().finish();
+            }
         }
         etName.setHint(mName);
     }
@@ -302,7 +312,9 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
             setViewsEditable(vgRoot, false);
         }
         else {
-            getActivity().setTitle(getString(R.string.gps_controller_start_track));
+            if (getActivity() != null) {
+                getActivity().setTitle(getString(R.string.gps_controller_start_track));
+            }
             if (mCarId <= 0) {
                 setCarId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_last_selected_car_id), -1));
             }
@@ -321,8 +333,10 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
     public void onStop() {
         try {
             super.onStop();
-            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            getActivity().unbindService(mServiceConnection);
+            if (getActivity() != null) {
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                getActivity().unbindService(mServiceConnection);
+            }
         }
         catch (Exception ignored) {
         }

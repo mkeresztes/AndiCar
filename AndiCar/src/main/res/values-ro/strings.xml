@@ -138,6 +138,7 @@
     <string name="pref_gps_track_minimum_time_title">Timpul min. între două puncte</string>
     <string name="pref_gps_track_file_location">Fișierele cu trasee sunt în locația %1$s</string>
     <string name="pref_gps_track_accuracy_title">Precizie</string>
+
     <string name="pref_bt_link_title">Detector legatură Bluetooth</string>
     <string name="pref_bt_link_description">Pornire automată a GPS Track la detectarea unei conexiuni Bluetooth.</string>
     <string name="pref_bt_link_on_disconnect_label">La terminarea conexiunii Bluetooth:</string>
@@ -287,6 +288,7 @@
 
     <string name="gps_track_edit_track_files_header_caption">Fișiere trasee</string>
     <string name="gps_track_edit_track_statistics">Statistici</string>
+    <string name="gps_track_no_car">Nu există mașină definită.\nUrmărirea GPS nu poate fi pornită.</string>
 
     <!--<string name="GPSTrackControllerActivity_FileFormatLabel">Format fișier traseu:</string>-->
     <string name="gps_track_controller_create_mileage_label">Crează kilometraj</string>
@@ -401,7 +403,6 @@
     <string name="todo_mileage_left">Kilometri rămași:</string>
     <string name="todo_is_done">Executat</string>
 
-    <string name="main_activity_no_car">Nu există mașină definită</string>
     <string name="main_activity_no_to_do">Nu există sarcină</string>
     <string name="main_activity_statistics_header_caption">Statistici </string>
     <string name="main_activity_statistics_last_odometer_label">Ultimul odometru introdus: </string>
@@ -410,6 +411,7 @@
     <string name="main_activity_statistics_total_expense_label">Total cheltuieli:</string>
     <string name="main_activity_statistics_mileage_expense_label">Cost per kilometru.:</string>
     <string name="main_activity_app_version">Versiune aplicație: %1$s (DB %2$s)</string>
+    <string name="main_activity_no_car_title">Definiți o mașină</string>
 
     <string name="bt_car_link_activity_title">Bluetooth conectate</string>
     <!--<string name="AddOn_BTStarter_DeviceLinkActivityTitle">Bluetooth conectat la mașina</string>-->
