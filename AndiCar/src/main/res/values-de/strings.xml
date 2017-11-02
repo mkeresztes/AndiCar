@@ -390,6 +390,7 @@
     <string name="line_chart_filter_last_10">Letzte 10</string>
     <string name="line_chart_filter_all">Alle</string>
     <string name="line_chart_fuel_price_title">Treibstoffpreise (%1$s)</string>
+    <string name="line_chart_fuel_price_marker_text">%1$s am\n%2$s</string>
 
     <string name="mileage_type">Art:</string>
     <string name="fillup_type">Auftanken Art:</string>

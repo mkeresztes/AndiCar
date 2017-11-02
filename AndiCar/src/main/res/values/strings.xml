@@ -67,6 +67,8 @@
     <string name="line_chart_info_2">Just one new full fill-up for a beautiful … dot here :)</string>
     <string name="line_chart_info_3">Just one new full fill-up for showing a real chart.</string>
     <string name="line_chart_fuel_price_title">Fuel price evolution (%1$s)</string>
+    <!--1.24 on 30.10.2017-->
+    <string name="line_chart_fuel_price_marker_text">%1$s on\n%2$s</string>
 
     <string name="title_list_activity" tools:ignore="PluralsCandidate">%1$s: %2$s record(s)</string>
     <string name="error_report_sent">Thank you for helping make AndiCar better!</string>

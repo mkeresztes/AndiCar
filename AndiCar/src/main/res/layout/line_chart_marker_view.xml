@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="40dp"
-    android:background="@drawable/line_chart_marker">
-
+    android:layout_height="wrap_content"
+    android:background="@color/primary_accent">
+    <!--android:background="@drawable/line_chart_marker"-->
     <TextView
         android:id="@+id/tvContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:gravity="center_horizontal"
         android:text=""
         android:textColor="@android:color/white"
         android:ellipsize="end"

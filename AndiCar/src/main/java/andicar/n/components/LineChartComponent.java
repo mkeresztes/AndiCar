@@ -45,6 +45,7 @@ import java.util.ArrayList;
 
 import andicar.n.persistence.DBAdapter;
 import andicar.n.persistence.DBReportAdapter;
+import andicar.n.utils.ConstantValues;
 import andicar.n.utils.Utils;
 
 /**
@@ -255,9 +256,16 @@ public class LineChartComponent extends LinearLayout {
         mChart.setPinchZoom(true);
         // create a custom MarkerView (extend MarkerView) and specify the layout
         // to use for it
-        ChartMarkerView mv = new ChartMarkerView(mCtx, R.layout.line_chart_marker_view);
-        mv.setChartView(mChart); // For bounds control
-        mChart.setMarker(mv); // Set the marker to the chart
+
+        if (mWhatData == SHOW_FUEL_PRICE_EVOLUTION) {
+            AndiCarMarkerView mv = new AndiCarMarkerView(mCtx, R.layout.line_chart_marker_view);
+            mv.setChartView(mChart); // For bounds control
+            mChart.setMarker(mv); // Set the marker to the chart
+        } else {
+            ChartMarkerView mv = new ChartMarkerView(mCtx, R.layout.line_chart_marker_view);
+            mv.setChartView(mChart); // For bounds control
+            mChart.setMarker(mv); // Set the marker to the chart
+        }
 
         xAxis = mChart.getXAxis();
         if (mWhatData == SHOW_FUEL_CONS || mWhatData == SHOW_FUEL_EFF)
@@ -557,14 +565,23 @@ public class LineChartComponent extends LinearLayout {
 
         public AndiCarMarkerView(Context context, int layoutResource) {
             super(context, layoutResource);
-            tvContent = (TextView) findViewById(R.id.tvContent);
+            tvContent = findViewById(R.id.tvContent);
         }
 
-        // callbacks everytime the MarkerView is redrawn, can be used to update the
+        // callbacks every time the MarkerView is redrawn, can be used to update the
         // content (user-interface)
         @Override
         public void refreshContent(Entry e, Highlight highlight) {
-            tvContent.setText(e.getY() + "% at " + e.getX()); // set the entry-value as the display text
+            String content = String.format(mCtx.getString(R.string.line_chart_fuel_price_marker_text),
+                    Utils.numberToString(e.getY(), true, ConstantValues.DECIMALS_PRICE, ConstantValues.ROUNDING_MODE_PRICE),
+                    Utils.getFormattedDateTime((mChartDates.get((int) e.getX())) * 1000, true));
+            tvContent.setText(content);
+
+            //resize the marker view.
+            //see https://github.com/PhilJay/MPAndroidChart/blob/master/MPChartLib/src/main/java/com/github/mikephil/charting/components/MarkerView.java
+            measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+                    MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+            layout(0, 0, getMeasuredWidth(), getMeasuredHeight());
         }
     }
 }

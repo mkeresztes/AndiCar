@@ -454,6 +454,7 @@
     <string name="line_chart_info_2">Még egy teletank, hogy megjelenjen egy szép … pötty :)</string>
     <string name="line_chart_info_3">Még egy teletank, hogy megjelenjen egy valódi grafikon.</string>
     <string name="line_chart_fuel_price_title">Üzemanyag árváltozás (%1$s)</string>
+    <string name="line_chart_fuel_price_marker_text">%1$s\n%2$s</string>
 
     <string name="search_dialog_title">Kritérium megadása</string>
     <string name="gen_date_from_label">Dátumtól:</string>
