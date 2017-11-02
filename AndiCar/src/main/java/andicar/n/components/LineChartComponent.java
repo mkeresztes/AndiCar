@@ -257,15 +257,9 @@ public class LineChartComponent extends LinearLayout {
         // create a custom MarkerView (extend MarkerView) and specify the layout
         // to use for it
 
-        if (mWhatData == SHOW_FUEL_PRICE_EVOLUTION) {
-            AndiCarMarkerView mv = new AndiCarMarkerView(mCtx, R.layout.line_chart_marker_view);
-            mv.setChartView(mChart); // For bounds control
-            mChart.setMarker(mv); // Set the marker to the chart
-        } else {
-            ChartMarkerView mv = new ChartMarkerView(mCtx, R.layout.line_chart_marker_view);
-            mv.setChartView(mChart); // For bounds control
-            mChart.setMarker(mv); // Set the marker to the chart
-        }
+        AndiCarMarkerView mv = new AndiCarMarkerView(mCtx, R.layout.line_chart_marker_view);
+        mv.setChartView(mChart); // For bounds control
+        mChart.setMarker(mv); // Set the marker to the chart
 
         xAxis = mChart.getXAxis();
         if (mWhatData == SHOW_FUEL_CONS || mWhatData == SHOW_FUEL_EFF)
@@ -572,9 +566,14 @@ public class LineChartComponent extends LinearLayout {
         // content (user-interface)
         @Override
         public void refreshContent(Entry e, Highlight highlight) {
-            String content = String.format(mCtx.getString(R.string.line_chart_fuel_price_marker_text),
+            String content;
+            if (mWhatData == SHOW_FUEL_PRICE_EVOLUTION)
+                content = String.format(mCtx.getString(R.string.line_chart_fuel_price_marker_text),
                     Utils.numberToString(e.getY(), true, ConstantValues.DECIMALS_PRICE, ConstantValues.ROUNDING_MODE_PRICE),
                     Utils.getFormattedDateTime((mChartDates.get((int) e.getX())) * 1000, true));
+            else
+                content = Utils.numberToString(e.getY(), true, ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF);
+
             tvContent.setText(content);
 
             //resize the marker view.
