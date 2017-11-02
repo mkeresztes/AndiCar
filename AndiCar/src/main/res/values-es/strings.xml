@@ -70,6 +70,7 @@
     <string name="pref_main_screen_zone9_content">Contenido de la Zona 9</string>
     <string name="pref_main_screen_zone10_content">Contenido de la Zona 10</string>
     <string name="pref_main_screen_zone11_content">Contenido de la Zona 11</string>
+    <string name="pref_main_screen_zone12_content">Contenido de la Zona 12</string>
 
     <string name="pref_todo_type_title">Tipo de tareas</string>
     <string name="pref_todo_type_summary">Agregar, borrar, modificar tipo de tareas</string>

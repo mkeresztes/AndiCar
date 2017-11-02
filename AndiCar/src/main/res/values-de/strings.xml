@@ -71,6 +71,7 @@
     <string name="pref_main_screen_zone9_content">Zone 9 Inhalt</string>
     <string name="pref_main_screen_zone10_content">Zone 10 Inhalt</string>
     <string name="pref_main_screen_zone11_content">Zone 11 Inhalt</string>
+    <string name="pref_main_screen_zone12_content">Zone 12 Inhalt</string>
 
     <string name="pref_todo_type_title">Aufgabenarten</string>
     <string name="pref_todo_type_summary">Aufgabenarten hinzufügen, löschen, ändern.</string>

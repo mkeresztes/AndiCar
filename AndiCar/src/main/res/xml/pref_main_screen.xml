@@ -41,7 +41,7 @@
 
     <!--suppress AndroidDomInspection -->
     <ListPreference
-        android:defaultValue="CFC"
+        android:defaultValue="CFP"
         android:entries="@array/pref_main_zone_content_chooser_entries"
         android:entryValues="@array/pref_main_zone_content_chooser_values"
         android:key="@string/pref_key_main_zone2_content"
@@ -49,39 +49,39 @@
 
     <!--suppress AndroidDomInspection -->
     <ListPreference
-        android:defaultValue="LTR"
+        android:defaultValue="CFE"
         android:entries="@array/pref_main_zone_content_chooser_entries"
         android:entryValues="@array/pref_main_zone_content_chooser_values"
         android:key="@string/pref_key_main_zone3_content"
-        android:title="@string/pref_main_screen_zone3_content" />
+        android:title="@string/pref_main_screen_zone3_content"/>
+
+    <!--suppress AndroidDomInspection -->
+    <ListPreference
+        android:defaultValue="LTR"
+        android:entries="@array/pref_main_zone_content_chooser_entries"
+        android:entryValues="@array/pref_main_zone_content_chooser_values"
+        android:key="@string/pref_key_main_zone4_content"
+        android:title="@string/pref_main_screen_zone4_content"/>
 
     <!--suppress AndroidDomInspection -->
     <ListPreference
         android:defaultValue="CTR"
         android:entries="@array/pref_main_zone_content_chooser_entries"
         android:entryValues="@array/pref_main_zone_content_chooser_values"
-        android:key="@string/pref_key_main_zone4_content"
-        android:title="@string/pref_main_screen_zone4_content" />
+        android:key="@string/pref_key_main_zone5_content"
+        android:title="@string/pref_main_screen_zone5_content"/>
 
     <!--suppress AndroidDomInspection -->
     <ListPreference
         android:defaultValue="LFU"
         android:entries="@array/pref_main_zone_content_chooser_entries"
         android:entryValues="@array/pref_main_zone_content_chooser_values"
-        android:key="@string/pref_key_main_zone5_content"
-        android:title="@string/pref_main_screen_zone5_content" />
+        android:key="@string/pref_key_main_zone6_content"
+        android:title="@string/pref_main_screen_zone6_content"/>
 
     <!--suppress AndroidDomInspection -->
     <ListPreference
         android:defaultValue="CFQ"
-        android:entries="@array/pref_main_zone_content_chooser_entries"
-        android:entryValues="@array/pref_main_zone_content_chooser_values"
-        android:key="@string/pref_key_main_zone6_content"
-        android:title="@string/pref_main_screen_zone6_content" />
-
-    <!--suppress AndroidDomInspection -->
-    <ListPreference
-        android:defaultValue="CFV"
         android:entries="@array/pref_main_zone_content_chooser_entries"
         android:entryValues="@array/pref_main_zone_content_chooser_values"
         android:key="@string/pref_key_main_zone7_content"
@@ -89,7 +89,7 @@
 
     <!--suppress AndroidDomInspection -->
     <ListPreference
-        android:defaultValue="LEX"
+        android:defaultValue="CFV"
         android:entries="@array/pref_main_zone_content_chooser_entries"
         android:entryValues="@array/pref_main_zone_content_chooser_values"
         android:key="@string/pref_key_main_zone8_content"
@@ -97,26 +97,34 @@
 
     <!--suppress AndroidDomInspection -->
     <ListPreference
-        android:defaultValue="CEX"
+        android:defaultValue="LEX"
         android:entries="@array/pref_main_zone_content_chooser_entries"
         android:entryValues="@array/pref_main_zone_content_chooser_values"
         android:key="@string/pref_key_main_zone9_content"
-        android:title="@string/pref_main_screen_zone9_content" />
+        android:title="@string/pref_main_screen_zone9_content"/>
+
+    <!--suppress AndroidDomInspection -->
+    <ListPreference
+        android:defaultValue="CEX"
+        android:entries="@array/pref_main_zone_content_chooser_entries"
+        android:entryValues="@array/pref_main_zone_content_chooser_values"
+        android:key="@string/pref_key_main_zone10_content"
+        android:title="@string/pref_main_screen_zone10_content"/>
 
     <!--suppress AndroidDomInspection -->
     <ListPreference
         android:defaultValue="LGT"
         android:entries="@array/pref_main_zone_content_chooser_entries"
         android:entryValues="@array/pref_main_zone_content_chooser_values"
-        android:key="@string/pref_key_main_zone10_content"
-        android:title="@string/pref_main_screen_zone10_content" />
+        android:key="@string/pref_key_main_zone11_content"
+        android:title="@string/pref_main_screen_zone11_content"/>
 
     <!--suppress AndroidDomInspection -->
     <ListPreference
         android:defaultValue="DNU"
         android:entries="@array/pref_main_zone_content_chooser_entries"
         android:entryValues="@array/pref_main_zone_content_chooser_values"
-        android:key="@string/pref_key_main_zone11_content"
-        android:title="@string/pref_main_screen_zone11_content" />
+        android:key="@string/pref_key_main_zone12_content"
+        android:title="@string/pref_main_screen_zone12_content"/>
 
 </PreferenceScreen>
