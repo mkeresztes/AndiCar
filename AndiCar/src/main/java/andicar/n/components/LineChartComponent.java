@@ -150,7 +150,7 @@ public class LineChartComponent extends LinearLayout {
                 mChartFilterNoRecords = mPreferences.getInt(mCtx.getString(R.string.pref_key_no_of_records_for_fuel_cons), 5);
                 break;
             case SHOW_FUEL_PRICE_EVOLUTION:
-                mChartFilterNoRecords = mPreferences.getInt(mCtx.getString(R.string.pref_key_no_of_records_for_fuel_prices), 5);
+                mChartFilterNoRecords = mPreferences.getInt(mCtx.getString(R.string.pref_key_no_of_records_for_fuel_prices), 10);
                 break;
             default:
                 mChartFilterNoRecords = 5;
