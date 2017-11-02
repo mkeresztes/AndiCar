@@ -327,15 +327,15 @@ public class MainActivity extends AppCompatActivity
         db.close();
 
         //if first use, set FuelEff or FuelCons based on the first car definition
-        if (!mPreferences.contains(getString(R.string.pref_key_main_zone2_content))
+        if (!mPreferences.contains(getString(R.string.pref_key_main_zone3_content))
                 && mLastSelectedCarID > 0) {
             SharedPreferences.Editor e = mPreferences.edit();
             if (mCarUOMVolumeCode != null &&
                     (mCarUOMVolumeCode.equals("gal US") || mCarUOMVolumeCode.equals("gal GB"))) {
-                e.putString(getString(R.string.pref_key_main_zone2_content), FUEL_EFF_LINE_CHART);
+                e.putString(getString(R.string.pref_key_main_zone3_content), FUEL_EFF_LINE_CHART);
             }
             else {
-                e.putString(getString(R.string.pref_key_main_zone2_content), FUEL_CONS_LINE_CHART);
+                e.putString(getString(R.string.pref_key_main_zone3_content), FUEL_CONS_LINE_CHART);
             }
             e.apply();
         }
