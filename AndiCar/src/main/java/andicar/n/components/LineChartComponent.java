@@ -447,10 +447,7 @@ public class LineChartComponent extends LinearLayout {
             mInfo.setVisibility(GONE);
         }
 
-        maxValue = Math.round(maxValue + 0.5); //round up
-        minValue = Math.round(minValue - 0.5); //round down
-
-        leftAxis.setAxisMaximum(maxValue + (maxValue * 0.1f)); //add 10% boundary
+        leftAxis.setAxisMaximum(maxValue + (maxValue * 0.1f));
         leftAxis.setAxisMinimum(minValue - (minValue * 0.1f)); //add 10% boundary
 
         if (whatData == SHOW_FUEL_PRICE_EVOLUTION) {

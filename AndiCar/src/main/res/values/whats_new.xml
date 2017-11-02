@@ -3,8 +3,9 @@
     <string name="whats_new">
         <![CDATA[
         <br><b><i>Whats new in this version:</i></b><br><br>
-		* Google Drive integration for secure backup. Now, you can choose Drive as the destination for securing your data. Go to Settings -> Backup & restore and in the secure backup section, choose Google Drive for the destination.<br>
-        * Minor bug fixes<br>
+		* A new chart for showing fuel price evolution. Is one of the available charts for the main screen content.<br>
+		* Enhancements in shared reports (sorting, sums).<br>
+        * Bug fixes<br>
         <br>Thank you for using <b><i>AndiCar</i></b>.<br><br>
         ]]>
     </string>

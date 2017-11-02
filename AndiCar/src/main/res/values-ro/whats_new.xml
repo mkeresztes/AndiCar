@@ -3,8 +3,9 @@
     <string name="whats_new">
         <![CDATA[
         <br><b><i>Noutăţi în această versiune:</i></b><br><br>
-		* Integrare cu Google Drive pentru backup sigur. De acum poţi alege din Setări -> Copie de siguranță &amp; restaurare date Google Drive pentru destinaţia salvărilor de siguranţă.<br>
-        * Mici corecţii de erori.<br>
+		* Un grafic nou pentru evoluția prețuilui combustibulului.<br>
+		* Înbunătățiri în rapoartele partajate (ordonare, totaluri).<br>
+        * Corecţii de erori.<br>
         <br>Mulţumesc că utilizezi <b><i>AndiCar</i></b>.<br><br>
         ]]>
     </string>
