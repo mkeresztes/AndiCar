@@ -26,7 +26,7 @@ public class ToDoNotificationJob extends JobService {
     public static final int TRIGGERED_BY_TIME = 0;
     private static final String LOG_TAG = "AndiCarToDoNotifJob";
 
-    private DBAdapter mDb = null;
+//    private DBAdapter mDb = null;
 
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
@@ -37,7 +37,7 @@ public class ToDoNotificationJob extends JobService {
             @Override
             public void run() {
                 try {
-                    mDb = new DBAdapter(getApplicationContext());
+                    DBAdapter dbAdapter = new DBAdapter(ToDoNotificationJob.this);
                     long mToDoID = -1;
                     long mCarID = -1;
                     if (mBundleExtras != null) {
@@ -56,13 +56,13 @@ public class ToDoNotificationJob extends JobService {
                     sql = sql + " AND " + DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__CAR_ID) + " = " + mCarID;
                 //@formatter:on
 
-                    Cursor toDoCursor = mDb.execSelectSql(sql, null);
+                    Cursor toDoCursor = dbAdapter.execSelectSql(sql, null);
                     while (toDoCursor.moveToNext()) {
-                        checkAndNotifyForToDo(toDoCursor);
+                        checkAndNotifyForToDo(toDoCursor, dbAdapter);
 //                        Log.d(LOG_TAG, "onStartCommand: cursor move #" + toDoCursor.getPosition());
                     }
                     toDoCursor.close();
-                    mDb.close();
+                    dbAdapter.close();
                 }
                 catch (Exception e) {
                     AndiCarNotification.showGeneralNotification(getApplicationContext(), AndiCarNotification.NOTIFICATION_TYPE_REPORTABLE_ERROR,
@@ -81,7 +81,7 @@ public class ToDoNotificationJob extends JobService {
         return false;
     }
 
-    private void checkAndNotifyForToDo(Cursor toDoCursor) {
+    private void checkAndNotifyForToDo(Cursor toDoCursor, DBAdapter dbAdapter) {
         long toDoID = toDoCursor.getLong(DBAdapter.COL_POS_GEN_ROWID);
         //@formatter:off
         String sql = " SELECT * " +
@@ -89,7 +89,7 @@ public class ToDoNotificationJob extends JobService {
                         " WHERE " + DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TASK, DBAdapter.COL_NAME_GEN_ROWID) + " = ?";
         //@formatter:on
         String argValues[] = {Long.toString(toDoCursor.getLong(DBAdapter.COL_POS_TODO__TASK_ID))};
-        Cursor taskCursor = mDb.query(sql, argValues);
+        Cursor taskCursor = dbAdapter.query(sql, argValues);
         boolean showNotification = false;
         String contentText = "";
         String carUOMCode = "";
@@ -103,12 +103,12 @@ public class ToDoNotificationJob extends JobService {
         if (taskCursor != null && taskCursor.moveToNext()) {
 
             if (toDoCursor.getString(DBAdapter.COL_POS_TODO__CAR_ID) != null) {
-                Cursor carCursor = mDb.fetchRecord(DBAdapter.TABLE_NAME_CAR, DBAdapter.COL_LIST_CAR_TABLE,
+                Cursor carCursor = dbAdapter.fetchRecord(DBAdapter.TABLE_NAME_CAR, DBAdapter.COL_LIST_CAR_TABLE,
                         toDoCursor.getLong(DBAdapter.COL_POS_TODO__CAR_ID));
                 if (carCursor != null) {
                     contentText = getString(R.string.gen_car_label) + " " + carCursor.getString(DBAdapter.COL_POS_GEN_NAME);
                     carCurrentOdometer = carCursor.getLong(DBAdapter.COL_POS_CAR__INDEXCURRENT);
-                    carUOMCode = mDb.getUOMCode(carCursor.getLong(DBAdapter.COL_POS_CAR__UOMLENGTH_ID));
+                    carUOMCode = dbAdapter.getUOMCode(carCursor.getLong(DBAdapter.COL_POS_CAR__UOMLENGTH_ID));
                     carCursor.close();
                 }
             }
