@@ -1374,40 +1374,43 @@ public class MainActivity extends AppCompatActivity
 
         mIsCanShowFilterMenu = false;
 
-        for (int i = 1; i <= 11; i++) {
+        for (int i = 1; i <= 12; i++) {
             switch (i) {
                 case 1:
                     zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone1_content), STATISTICS_ZONE);
                     break;
                 case 2:
-                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone2_content), FUEL_CONS_LINE_CHART);
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone2_content), FUEL_PRICE_LINE_CHART);
                     break;
                 case 3:
-                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone3_content), LAST_TRIP_RECORD);
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone3_content), FUEL_CONS_LINE_CHART);
                     break;
                 case 4:
-                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone4_content), TRIPS_PIE_CHART);
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone4_content), LAST_TRIP_RECORD);
                     break;
                 case 5:
-                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone5_content), LAST_FILL_UP_RECORD);
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone5_content), TRIPS_PIE_CHART);
                     break;
                 case 6:
-                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone6_content), FUEL_QTY_PIE_CHART);
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone6_content), LAST_FILL_UP_RECORD);
                     break;
                 case 7:
-                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone7_content), FUEL_VALUE_PIE_CHART);
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone7_content), FUEL_QTY_PIE_CHART);
                     break;
                 case 8:
-                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone8_content), LAST_EXPENSE_RECORD);
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone8_content), FUEL_VALUE_PIE_CHART);
                     break;
                 case 9:
-                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone9_content), EXPENSES_PIE_CHART);
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone9_content), LAST_EXPENSE_RECORD);
                     break;
                 case 10:
-                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone10_content), LAST_GPS_TRACK_RECORD);
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone10_content), EXPENSES_PIE_CHART);
                     break;
                 case 11:
-                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone11_content), DO_NOT_USE);
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone11_content), LAST_GPS_TRACK_RECORD);
+                    break;
+                case 12:
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone12_content), DO_NOT_USE);
                     break;
                 default:
                     continue;

@@ -1665,6 +1665,13 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                     setDefaultPreferenceChangeListener(mainZone11Content);
                 }
             }
+
+            Preference mainZone12Content = findPreference(getString(R.string.pref_key_main_zone12_content));
+            if (mainZone12Content != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_zone12_content), null) != null) {
+                    setDefaultPreferenceChangeListener(mainZone12Content);
+                }
+            }
         }
 
         @Override
