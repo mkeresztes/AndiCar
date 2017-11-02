@@ -550,4 +550,22 @@ public class LineChartComponent extends LinearLayout {
 
         }
     }
+
+    private class AndiCarMarkerView extends MarkerView {
+
+        private TextView tvContent;
+
+        public MyMarkerView(Context context, int layoutResource) {
+            super(context, layoutResource);
+            // this markerview only displays a textview
+            tvContent = (TextView) findViewById(R.id.tvContent);
+        }
+
+        // callbacks everytime the MarkerView is redrawn, can be used to update the
+        // content (user-interface)
+        @Override
+        public void refreshContent(Entry e, Highlight highlight) {
+            tvContent.setText(e.getY() + "% at " + e.getX()); // set the entry-value as the display text
+        }
+    }
 }
