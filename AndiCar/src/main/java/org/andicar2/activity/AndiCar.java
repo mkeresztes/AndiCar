@@ -285,16 +285,16 @@ public class AndiCar extends MultiDexApplication {
         }
         if (oldAppVersion <= 17102700) {
             //migrate the main screen zones
-            e.putString(getString(R.string.pref_key_main_zone12_content), appPreferences.getString(getString(R.string.pref_key_main_zone11_content), "LGT"));
-            e.putString(getString(R.string.pref_key_main_zone11_content), appPreferences.getString(getString(R.string.pref_key_main_zone10_content), "CEX"));
-            e.putString(getString(R.string.pref_key_main_zone10_content), appPreferences.getString(getString(R.string.pref_key_main_zone9_content), "LEX"));
-            e.putString(getString(R.string.pref_key_main_zone9_content), appPreferences.getString(getString(R.string.pref_key_main_zone8_content), "CFV"));
-            e.putString(getString(R.string.pref_key_main_zone8_content), appPreferences.getString(getString(R.string.pref_key_main_zone7_content), "CFQ"));
-            e.putString(getString(R.string.pref_key_main_zone7_content), appPreferences.getString(getString(R.string.pref_key_main_zone6_content), "LFU"));
-            e.putString(getString(R.string.pref_key_main_zone6_content), appPreferences.getString(getString(R.string.pref_key_main_zone5_content), "CTR"));
-            e.putString(getString(R.string.pref_key_main_zone5_content), appPreferences.getString(getString(R.string.pref_key_main_zone4_content), "LTR"));
-            e.putString(getString(R.string.pref_key_main_zone4_content), appPreferences.getString(getString(R.string.pref_key_main_zone3_content), "CFE"));
-            e.putString(getString(R.string.pref_key_main_zone3_content), appPreferences.getString(getString(R.string.pref_key_main_zone2_content), "CFP"));
+            e.putString(getString(R.string.pref_key_main_zone12_content), appPreferences.getString(getString(R.string.pref_key_main_zone11_content), "DNU"));
+            e.putString(getString(R.string.pref_key_main_zone11_content), appPreferences.getString(getString(R.string.pref_key_main_zone10_content), "LGT"));
+            e.putString(getString(R.string.pref_key_main_zone10_content), appPreferences.getString(getString(R.string.pref_key_main_zone9_content), "CEX"));
+            e.putString(getString(R.string.pref_key_main_zone9_content), appPreferences.getString(getString(R.string.pref_key_main_zone8_content), "LEX"));
+            e.putString(getString(R.string.pref_key_main_zone8_content), appPreferences.getString(getString(R.string.pref_key_main_zone7_content), "CFV"));
+            e.putString(getString(R.string.pref_key_main_zone7_content), appPreferences.getString(getString(R.string.pref_key_main_zone6_content), "CFQ"));
+            e.putString(getString(R.string.pref_key_main_zone6_content), appPreferences.getString(getString(R.string.pref_key_main_zone5_content), "LFU"));
+            e.putString(getString(R.string.pref_key_main_zone5_content), appPreferences.getString(getString(R.string.pref_key_main_zone4_content), "CTR"));
+            e.putString(getString(R.string.pref_key_main_zone4_content), appPreferences.getString(getString(R.string.pref_key_main_zone3_content), "LTR"));
+            e.putString(getString(R.string.pref_key_main_zone3_content), appPreferences.getString(getString(R.string.pref_key_main_zone2_content), "CFE"));
             e.putString(getString(R.string.pref_key_main_zone2_content), appPreferences.getString(getString(R.string.pref_key_main_zone1_content), "STS"));
             e.putString(getString(R.string.pref_key_main_zone1_content), "CFP");
         }
