@@ -200,7 +200,7 @@ public class AndiCar extends MultiDexApplication {
                 }
                 c.close();
 
-                //fix duplicat bpartners
+                //fix duplicate bpartner
                 sql = "select max(_id), name, count(*) from DEF_BPARTNER group by name having count(*) > 1";
                 c = db.execSelectSql(sql, null);
                 while (c.moveToNext()) {
@@ -230,7 +230,7 @@ public class AndiCar extends MultiDexApplication {
                     db.execUpdate(sql);
                 }
 
-                //fix duplicat bpartner locations
+                //fix duplicate bpartner locations
                 sql = "select max(_id), name, DEF_BPARTNER_ID, count(*) from DEF_BPARTNERLOCATION group by name, DEF_BPARTNER_ID having count(*) > 1";
                 c = db.execSelectSql(sql, null);
                 long bpID;

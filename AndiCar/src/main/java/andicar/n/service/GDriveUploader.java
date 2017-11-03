@@ -45,7 +45,7 @@ public class GDriveUploader {
     private LogFileWriter debugLogFileWriter = null;
     private Resources mResource;
 
-    public GDriveUploader(Context ctx, GoogleApiClient googleApiClient, String driveFolderID, String file, String mimeType,
+    public GDriveUploader(Context ctx, GoogleApiClient googleApiClient, String driveFolderID, String file,
                           AndiCarAsyncTaskListener taskListener) throws Exception {
         try {
 //            if (FileUtils.isFileSystemAccessGranted(ctx)) {
@@ -59,7 +59,7 @@ public class GDriveUploader {
             mCtx = ctx;
             mDriveFolderID = driveFolderID;
             mFile = file;
-            mMimeType = mimeType;
+            mMimeType = "application/octet-stream";
             mTaskListener = taskListener;
             mResource = ctx.getResources();
         }

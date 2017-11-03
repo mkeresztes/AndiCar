@@ -127,7 +127,7 @@ public class Utils {
      *
      * @param inStr                   the input string
      * @param appendMinute            append or not minutes
-     * @param appendSecondMillisecond append or not seconds+miliseconds
+     * @param appendSecondMillisecond append or not seconds+milliseconds
      * @param separator               separator for date part of the string
      * @return the completed input string with the datetime string
      */
@@ -274,6 +274,7 @@ public class Utils {
 //				(hours < 10 ? "0" : "") + hours + ":" + minutes;
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isNetworkAvailable(Context ctx) {
         ConnectivityManager cm =
                 (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -372,31 +373,31 @@ public class Utils {
     }
 
     public static void showInfoDialog(Context ctx, String message, String detail) {
-        Intent notif = new Intent(ctx, GeneralNotificationDialogActivity.class);
-        notif.putExtra(GeneralNotificationDialogActivity.NOTIF_MESSAGE_KEY, message);
-        notif.putExtra(GeneralNotificationDialogActivity.NOTIF_DETAIL_KEY, detail);
-        notif.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_INFO);
-        ctx.startActivity(notif);
+        Intent intent = new Intent(ctx, GeneralNotificationDialogActivity.class);
+        intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_MESSAGE_KEY, message);
+        intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_DETAIL_KEY, detail);
+        intent.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_INFO);
+        ctx.startActivity(intent);
     }
 
-    public static void showWarningDialog(Context ctx, String message, String detail) {
-        Intent notif = new Intent(ctx, GeneralNotificationDialogActivity.class);
-        notif.putExtra(GeneralNotificationDialogActivity.NOTIF_MESSAGE_KEY, message);
-        notif.putExtra(GeneralNotificationDialogActivity.NOTIF_DETAIL_KEY, detail);
-        notif.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_WARNING);
-        ctx.startActivity(notif);
+    public static void showWarningDialog(Context ctx, String message, @SuppressWarnings("SameParameterValue") String detail) {
+        Intent intent = new Intent(ctx, GeneralNotificationDialogActivity.class);
+        intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_MESSAGE_KEY, message);
+        intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_DETAIL_KEY, detail);
+        intent.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_WARNING);
+        ctx.startActivity(intent);
     }
 
     public static void showNotReportableErrorDialog(Context ctx, String message, String detail, boolean fromService) {
         try {
-            Intent notif = new Intent(ctx, GeneralNotificationDialogActivity.class);
-            notif.putExtra(GeneralNotificationDialogActivity.NOTIF_MESSAGE_KEY, message);
-            notif.putExtra(GeneralNotificationDialogActivity.NOTIF_DETAIL_KEY, detail);
-            notif.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_NOT_REPORTABLE_ERROR);
+            Intent intent = new Intent(ctx, GeneralNotificationDialogActivity.class);
+            intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_MESSAGE_KEY, message);
+            intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_DETAIL_KEY, detail);
+            intent.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_NOT_REPORTABLE_ERROR);
             if (fromService) {
-                notif.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             }
-            ctx.startActivity(notif);
+            ctx.startActivity(intent);
         }
         catch (Exception ignored) {
         }
@@ -404,21 +405,21 @@ public class Utils {
 
     public static void showReportableErrorDialog(Context ctx, String message, String detail, Exception e, boolean fromService) {
         try {
-            Intent notif = new Intent(ctx, GeneralNotificationDialogActivity.class);
+            Intent intent = new Intent(ctx, GeneralNotificationDialogActivity.class);
             if (e != null) {
-                notif.putExtra(GeneralNotificationDialogActivity.NOTIF_EXCEPTION_STRING_KEY, Utils.getStackTrace(e));
-                notif.putExtra(GeneralNotificationDialogActivity.NOTIF_EXCEPTION_KEY, e);
+                intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_EXCEPTION_STRING_KEY, Utils.getStackTrace(e));
+                intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_EXCEPTION_KEY, e);
             }
             else {
-                notif.putExtra(GeneralNotificationDialogActivity.NOTIF_EXCEPTION_STRING_KEY, "");
+                intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_EXCEPTION_STRING_KEY, "");
             }
-            notif.putExtra(GeneralNotificationDialogActivity.NOTIF_MESSAGE_KEY, message);
-            notif.putExtra(GeneralNotificationDialogActivity.NOTIF_DETAIL_KEY, detail);
-            notif.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_REPORTABLE_ERROR);
+            intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_MESSAGE_KEY, message);
+            intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_DETAIL_KEY, detail);
+            intent.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_REPORTABLE_ERROR);
             if (fromService) {
-                notif.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             }
-            ctx.startActivity(notif);
+            ctx.startActivity(intent);
         }
         catch (Exception ignored) {
         }
@@ -570,6 +571,7 @@ public class Utils {
         return Build.VERSION.RELEASE + "; API Level: " + Build.VERSION.SDK_INT;
     }
 
+    @SuppressWarnings("SameReturnValue")
     public static boolean isDebugVersion() {
         return BuildConfig.DEBUG;
     }
@@ -657,9 +659,8 @@ public class Utils {
 
             String LogTag = "AndiCar";
             Log.d(LogTag, "========== Backup setNextRun begin ==========");
-            if (debugLogFileWriter != null) {
-                debugLogFileWriter.appendnl("========== setNextRun begin ==========");
-            }
+            debugLogFileWriter.appendnl("========== setNextRun begin ==========");
+
             Calendar nextSchedule = Calendar.getInstance();
             Calendar currentDate = Calendar.getInstance();
             Log.d(LogTag, "currentDate = " + currentDate.get(Calendar.YEAR) + "-" + (currentDate.get(Calendar.MONTH) + 1) + "-" + currentDate.get(Calendar.DAY_OF_MONTH)
@@ -679,18 +680,14 @@ public class Utils {
                         "nextSchedule = " + nextSchedule.get(Calendar.YEAR) + "-" + (currentDate.get(Calendar.MONTH) + 1) + "-"
                                 + nextSchedule.get(Calendar.DAY_OF_MONTH) + " " + nextSchedule.get(Calendar.HOUR_OF_DAY) + ":" + nextSchedule.get(Calendar.MINUTE));
                 if (preferences.getString(ctx.getString(R.string.pref_key_backup_service_schedule_type), ConstantValues.BACKUP_SERVICE_DAILY).equals(ConstantValues.BACKUP_SERVICE_DAILY)) { //daily schedule
-                    if (debugLogFileWriter != null) {
-                        debugLogFileWriter.appendnl("Backup schedule is daily");
-                    }
+                    debugLogFileWriter.appendnl("Backup schedule is daily");
                     if (nextSchedule.compareTo(currentDate) < 0) { //current hour > scheduled hour => next run tomorrow
                         nextSchedule.add(Calendar.DAY_OF_MONTH, 1);
                     }
                 }
                 else { //weekly schedule
                     scheduleDays = preferences.getString(ctx.getString(R.string.pref_key_backup_service_backup_days), "1111111");
-                    if (debugLogFileWriter != null) {
-                        debugLogFileWriter.appendnl("Backup schedule is weekly. Schedule days: ").append(scheduleDays);
-                    }
+                    debugLogFileWriter.appendnl("Backup schedule is weekly. Schedule days: ").append(scheduleDays);
                     Log.d(LogTag, "scheduleDays = " + scheduleDays);
                     int daysToAdd = -1;
                     Log.d(LogTag, "Calendar.DAY_OF_WEEK = " + currentDate.get(Calendar.DAY_OF_WEEK));
@@ -739,10 +736,8 @@ public class Utils {
                 Log.d(LogTag, "triggerTime = " + triggerTime);
                 Log.i(LogTag, "BackupJob scheduled. Next start:" + DateFormat.getDateFormat(ctx).format(triggerTime) + " "
                         + DateFormat.getTimeFormat(ctx).format(triggerTime));
-                if (debugLogFileWriter != null) {
-                    debugLogFileWriter.appendnl("BackupService scheduled. Next start: ").append(DateFormat.getDateFormat(ctx).format(triggerTime))
-                            .append(" ").append(DateFormat.getTimeFormat(ctx).format(triggerTime));
-                }
+                debugLogFileWriter.appendnl("BackupService scheduled. Next start: ").append(DateFormat.getDateFormat(ctx).format(triggerTime))
+                        .append(" ").append(DateFormat.getTimeFormat(ctx).format(triggerTime));
 
                 int timeInSecondsToNextRun = (int) (timeInMillisecondsToNextRun / 1000);
                 Job fbJob = dispatcher.newJobBuilder()
@@ -764,15 +759,11 @@ public class Utils {
             }
             else { //no active schedule exists => remove scheduled runs
                 Log.i(LogTag, "BackupJob not scheduled.");
-                if (debugLogFileWriter != null) {
-                    debugLogFileWriter.appendnl("BackupService not scheduled. Removing active schedule found.");
-                }
+                debugLogFileWriter.appendnl("BackupService not scheduled. Removing active schedule found.");
                 dispatcher.cancel(BackupJob.TAG);
             }
             Log.d(LogTag, "========== setNextRun finished ==========");
-            if (debugLogFileWriter != null) {
-                debugLogFileWriter.appendnl("========== setNextRun finished ==========");
-            }
+            debugLogFileWriter.appendnl("========== setNextRun finished ==========");
             debugLogFileWriter.flush();
             debugLogFileWriter.close();
         }

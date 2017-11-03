@@ -24,13 +24,13 @@ public class JobStarter {
     public static final String SERVICE_STARTER_START_SECURE_BACKUP = "SecureBackup";
 
     /**
-     * Start the services using FirebaseJobDispacher
+     * Start the services using FirebaseJobDispatcher
      *
      * @param context       context
      * @param whatService   see SERVICE_STARTER_... constants
      * @param serviceParams additional params for the job
      */
-    public static void startServicesUsingFBJobDispacher(Context context, String whatService, Bundle serviceParams) {
+    public static void startServicesUsingFBJobDispatcher(Context context, String whatService, Bundle serviceParams) {
         Bundle dispatcherParams = new Bundle();
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(context));
         Job fbJob;

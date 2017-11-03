@@ -82,7 +82,7 @@ public class ChartDetailDialog extends AppCompatActivity {
 
             setContentView(R.layout.dialog_chart_details);
 
-            Button btnClose = (Button) findViewById(R.id.btnClose);
+            Button btnClose = findViewById(R.id.btnClose);
             btnClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -91,12 +91,12 @@ public class ChartDetailDialog extends AppCompatActivity {
                 }
             });
 
-            mChart = (HorizontalBarChart) findViewById(R.id.horizontalBarChart);
+            mChart = findViewById(R.id.horizontalBarChart);
             if (mChart == null) {
                 return;
             }
 
-            LinearLayout llChartContainer = (LinearLayout) findViewById(R.id.llChartContainer);
+            LinearLayout llChartContainer = findViewById(R.id.llChartContainer);
 
             if (cdList != null) {
                 llChartContainer.getLayoutParams().height = Math.round((cdList.size() * chartBarHeight) + chartLegendHeight);
@@ -157,7 +157,7 @@ public class ChartDetailDialog extends AppCompatActivity {
 
         float barWidth = 4f;
         float spaceForBar = 5f;
-        ArrayList<BarEntry> yVals1 = new ArrayList<>();
+        ArrayList<BarEntry> yValues1 = new ArrayList<>();
         BarDataSet set1;
 
         List<LegendEntry> legendEntries = new ArrayList<>();
@@ -165,7 +165,7 @@ public class ChartDetailDialog extends AppCompatActivity {
 
         for (int i = 0; i < cdList.size(); i++) {
             DBReportAdapter.chartData cd = cdList.get(i);
-            yVals1.add(new BarEntry(i * spaceForBar, cd.value));
+            yValues1.add(new BarEntry(i * spaceForBar, cd.value));
 
             LegendEntry entry = new LegendEntry();
             entry.formColor = ConstantValues.CHART_COLORS.get(i % ConstantValues.CHART_COLORS.size());
@@ -180,7 +180,7 @@ public class ChartDetailDialog extends AppCompatActivity {
         }
         mChartLegend.setCustom(legendEntries);
 
-        set1 = new BarDataSet(yVals1, "");
+        set1 = new BarDataSet(yValues1, "");
 
         set1.setDrawIcons(false);
         set1.setColors(ConstantValues.CHART_COLORS);

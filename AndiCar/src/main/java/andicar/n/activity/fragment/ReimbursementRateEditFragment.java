@@ -1,9 +1,11 @@
 package andicar.n.activity.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.DatePicker;
@@ -119,9 +121,11 @@ public class ReimbursementRateEditFragment extends BaseEditFragment {
         tvValidFromValue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerDialog dp = new DatePickerDialog(ReimbursementRateEditFragment.this.getActivity(), dateChanged, calValidFrom.get(Calendar.YEAR), calValidFrom.get(Calendar.MONTH), calValidFrom.get(Calendar.DAY_OF_MONTH));
+                if (getActivity() == null)
+                    return;
+
+                DatePickerDialog dp = new DatePickerDialog(getActivity(), dateChanged, calValidFrom.get(Calendar.YEAR), calValidFrom.get(Calendar.MONTH), calValidFrom.get(Calendar.DAY_OF_MONTH));
                 dp.getDatePicker().setTag(mResource.getString(R.string.gen_valid_from_label));
-//                dp.setTitle(mResource.getString(R.string.gen_valid_from_label));
                 dp.show();
             }
         });
@@ -129,9 +133,11 @@ public class ReimbursementRateEditFragment extends BaseEditFragment {
         tvValidToValue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerDialog dp = new DatePickerDialog(ReimbursementRateEditFragment.this.getActivity(), dateChanged, calValidTo.get(Calendar.YEAR), calValidTo.get(Calendar.MONTH), calValidTo.get(Calendar.DAY_OF_MONTH));
+                if (getActivity() == null)
+                    return;
+
+                DatePickerDialog dp = new DatePickerDialog(getActivity(), dateChanged, calValidTo.get(Calendar.YEAR), calValidTo.get(Calendar.MONTH), calValidTo.get(Calendar.DAY_OF_MONTH));
                 dp.getDatePicker().setTag(mResource.getString(R.string.gen_valid_to_label));
-//                dp.setTitle(mResource.getString(R.string.gen_valid_to_label));
                 dp.show();
             }
         });
@@ -146,6 +152,7 @@ public class ReimbursementRateEditFragment extends BaseEditFragment {
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void showValuesInUI() {
         tvValidFromValue.setText(DateFormat.getDateFormat(getContext()).format(calValidFrom.getTime()));
@@ -215,7 +222,7 @@ public class ReimbursementRateEditFragment extends BaseEditFragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong("mValidFromDate", mValidFromDate);
         outState.putLong("mValidToDate", mValidToDate);
@@ -224,6 +231,7 @@ public class ReimbursementRateEditFragment extends BaseEditFragment {
         outState.putString("mRateUOM", mRateUOM);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void setCarId(long carId) {
         super.setCarId(carId);

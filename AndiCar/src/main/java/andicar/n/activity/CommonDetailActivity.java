@@ -129,7 +129,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                         .commit();
             }
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_REFUEL) {
-                setTitle(R.string.gen_fillup_detail);
+                setTitle(R.string.gen_fill_up_detail);
                 RefuelEditFragment fragment = new RefuelEditFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()

@@ -20,10 +20,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <ListPreference
         android:defaultValue="0"
-        android:entries="@array/pref_main_addbtn_entries"
-        android:entryValues="@array/pref_main_addbtn_values"
-        android:key="@string/pref_key_main_addbtn"
-        android:title="@string/pref_main_screen_addbtn_title"
+        android:entries="@array/pref_main_btn_add_entries"
+        android:entryValues="@array/pref_main_btn_add_values"
+        android:key="@string/pref_key_main_btn_add"
+        android:title="@string/pref_main_screen_btn_add_title"
         />
 
     <SwitchPreference

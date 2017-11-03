@@ -917,16 +917,12 @@ public class DBReportAdapter extends DBAdapter {
                                         " OR " + sqlConcatTableColumn(TABLE_NAME_TASK, COL_NAME_TASK__SCHEDULEDFOR) + " == '" + TaskEditFragment.TASK_SCHEDULED_FOR_BOTH + "' )" +
                                     " AND " + sqlConcatTableColumn(TABLE_NAME_TODO, COL_NAME_TODO__DUEMILEAGE) + " < " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__INDEXCURRENT) +
                                 " THEN '[#5]' " + //overdue - Todo_OverdueLabel mileage
-//                            " WHEN " + sqlConcatTableColumn(TABLE_NAME_TASK, COL_NAME_TASK__SCHEDULEDFOR) + " == '" + TaskEditFragment.TASK_SCHEDULED_FOR_BOTH + "' " +
-//                                    " AND ( " + sqlConcatTableColumn(TABLE_NAME_TODO, COL_NAME_TODO__DUEMILEAGE) + " < " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__INDEXCURRENT) +
-//                                            " OR " + sqlConcatTableColumn(TABLE_NAME_TODO, COL_NAME_TODO__DUEDATE) + " < strftime('%s','now')) " +
-//                                " THEN '[#5]' " + //overdue - Todo_OverdueLabel date + mileage
                             " ELSE '[#6]' " + //scheduled - Todo_ScheduledLabel
                         " END AS " + FIRST_LINE_LIST_NAME + ", " + //datetime(task_todo.DueDate, 'unixepoch', 'localtime') // #1
 
                     " CASE " +
                         " WHEN " + sqlConcatTableColumn(TABLE_NAME_TASK, COL_NAME_TASK__SCHEDULEDFOR) + " == '" + TaskEditFragment.TASK_SCHEDULED_FOR_TIME + "' " +
-                                " THEN '[#7] [#8]' " + //duedate label/ToDo_ScheduledDateLabel + date
+                    " THEN '[#7] [#8]' " + //due date label/ToDo_ScheduledDateLabel + date
                         " WHEN " + sqlConcatTableColumn(TABLE_NAME_TASK, COL_NAME_TASK__SCHEDULEDFOR) + " == '" + TaskEditFragment.TASK_SCHEDULED_FOR_MILEAGE + "' " +
                                 " THEN '[#10] [#11] ' || COALESCE (" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + ", '') || " + " ' ([#13] [#14])' " + //duemileage label/ToDo_ScheduledMileageLabel + mileage + (estimated date)
                         " ELSE '[#7] [#8] [#9] [#11] ' || COALESCE (" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + ", '') || " + "' ([#13] [#14])' " +

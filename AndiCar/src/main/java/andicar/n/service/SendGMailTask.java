@@ -71,7 +71,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
     private String mMessage = null;
     private ArrayList<String> mAttachments = null;
     private Exception mLastException = null;
-    private String mLastError = null;
+    private final String mLastError = null;
 
     private LogFileWriter debugLogFileWriter = null;
 
@@ -119,7 +119,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
         catch (Exception e) {
             if (debugLogFileWriter != null) {
                 try {
-                    debugLogFileWriter.appendnl("An error occured: ").append(e.getMessage()).append(Utils.getStackTrace(e));
+                    debugLogFileWriter.appendnl("An error occurred: ").append(e.getMessage()).append(Utils.getStackTrace(e));
                     debugLogFileWriter.flush();
                 }
                 catch (IOException ignored) {
@@ -147,7 +147,7 @@ public class SendGMailTask extends AsyncTask<Void, Void, List<String>> {
         catch (Exception e) {
             try {
                 if (debugLogFileWriter != null) {
-                    debugLogFileWriter.appendnl("An error occured: ").append(e.getMessage()).append(Utils.getStackTrace(e));
+                    debugLogFileWriter.appendnl("An error occurred: ").append(e.getMessage()).append(Utils.getStackTrace(e));
                     debugLogFileWriter.flush();
                 }
             }

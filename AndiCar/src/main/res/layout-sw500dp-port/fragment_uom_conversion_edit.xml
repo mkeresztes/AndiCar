@@ -134,7 +134,7 @@
                     style="@style/AndiCarLabelStyle"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="@string/uom_conversion_edit_convertion_factor_label"/>
+                    android:text="@string/uom_conversion_edit_conversion_factor_label" />
 
                 <EditText
                     android:id="@+id/etConversionFactor"

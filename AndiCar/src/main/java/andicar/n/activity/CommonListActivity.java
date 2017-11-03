@@ -27,8 +27,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -109,7 +107,6 @@ public class CommonListActivity extends AppCompatActivity
     private static final String LAST_SELECTED_ITEM_ID_KEY = "LastSelectedItemId";
     private static final String WHERE_CONDITION_FOR_DB_KEY = "WhereConditionsForFB";
     private static final String WHERE_CONDITION_FOR_SEARCH_INIT_KEY = "WhereConditionsForSearchInit";
-    private final Handler handler;
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -128,27 +125,6 @@ public class CommonListActivity extends AppCompatActivity
     private BaseViewAdapter mRecyclerViewAdapter;
     private RecyclerView mRecyclerView;
     private ProgressDialog progressDialog;
-
-    {
-        handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                try {
-                    progressDialog.dismiss();
-                    Toast toast;
-                    if (msg.peekData() == null) {
-                        toast = Toast.makeText(CommonListActivity.this, getString(msg.what), Toast.LENGTH_LONG);
-                    }
-                    else {
-                        toast = Toast.makeText(CommonListActivity.this, msg.peekData().getString("ErrorMsg"), Toast.LENGTH_LONG);
-                    }
-                    toast.show();
-                }
-                catch (Exception ignored) {
-                }
-            }
-        };
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -338,7 +314,7 @@ public class CommonListActivity extends AppCompatActivity
                 break;
             case ACTIVITY_TYPE_REFUEL:
                 mReportDb.setReportSql(DBReportAdapter.REFUEL_LIST_SELECT_NAME, mWhereConditionsForDB);
-                title = getString(R.string.gen_fillups);
+                title = getString(R.string.gen_fill_ups);
                 break;
             case ACTIVITY_TYPE_EXPENSE:
                 mReportDb.setReportSql(DBReportAdapter.EXPENSE_LIST_SELECT_NAME, mWhereConditionsForDB);
@@ -922,7 +898,7 @@ public class CommonListActivity extends AppCompatActivity
             if (searchParams.containsKey(SearchDialogFragment.DATE_FROM_IN_MILLIS_KEY)) {
                 Calendar now = Calendar.getInstance();
                 long estDueDay = (searchParams.getLong(SearchDialogFragment.DATE_FROM_IN_MILLIS_KEY) - now.getTimeInMillis())
-                        / ConstantValues.ONE_DAY_IN_MILISECONDS;
+                        / ConstantValues.ONE_DAY_IN_MILLISECONDS;
                 mWhereConditionsForDB.putString("EstDueDays >= ", Long.toString(estDueDay));
                 mWhereConditionsForSearchInit.putLong(SearchDialogFragment.DATE_FROM_IN_MILLIS_KEY,
                         Utils.roundDate(searchParams.getLong(SearchDialogFragment.DATE_FROM_IN_MILLIS_KEY), ConstantValues.DATE_DECODE_TO_ZERO) / 1000);
@@ -931,7 +907,7 @@ public class CommonListActivity extends AppCompatActivity
             if (searchParams.containsKey(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY)) {
                 Calendar now = Calendar.getInstance();
                 long estDueDay = (searchParams.getLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY) - now.getTimeInMillis())
-                        / ConstantValues.ONE_DAY_IN_MILISECONDS;
+                        / ConstantValues.ONE_DAY_IN_MILLISECONDS;
                 mWhereConditionsForDB.putString("EstDueDays <= ", Long.toString(estDueDay));
                 mWhereConditionsForSearchInit.putLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY,
                         Utils.roundDate(searchParams.getLong(SearchDialogFragment.DATE_TO_IN_MILLIS_KEY), ConstantValues.DATE_DECODE_TO_24) / 1000);
@@ -999,21 +975,14 @@ public class CommonListActivity extends AppCompatActivity
             dbReportAdapter = new DBReportAdapter(this, DBReportAdapter.TODO_LIST_REPORT_SELECT, mWhereConditionsForDB);
             c = dbReportAdapter.fetchReport(-1);
         }
-//        else if (mActivityType == ACTIVITY_TYPE_REIMBURSEMENT_RATE) {
-//            reportTitle = "ReimbursementRateReport_";
-//            dbReportAdapter = new DBReportAdapter(this, "reimbursementRateListReportSelect", mWhereConditionsForDB);
-//            c = dbReportAdapter.fetchReport(-1);
-//        }
         else {
-            handler.sendEmptyMessage(R.string.error_035);
+            progressDialog.dismiss();
+            Utils.showReportableErrorDialog(this, getString(R.string.error_035), null, null, false);
             return;
         }
         if (c == null) {
-            Message msg = new Message();
-            Bundle msgBundle = new Bundle();
-            msgBundle.putString("ErrorMsg", dbReportAdapter.mErrorMessage);
-            msg.setData(msgBundle);
-            handler.sendMessage(msg);
+            progressDialog.dismiss();
+            Utils.showReportableErrorDialog(this, getString(R.string.error_sorry), dbReportAdapter.mErrorMessage, dbReportAdapter.mException, false);
         }
 
         reportTitle = Utils.appendDateTime(reportTitle, false, false, null);
@@ -1043,7 +1012,8 @@ public class CommonListActivity extends AppCompatActivity
 
         int i = FileUtils.writeReportFile(this, reportContent, reportFileName);
         if (i != -1) { //error
-            handler.sendEmptyMessage(R.string.error_034);
+            progressDialog.dismiss();
+            Utils.showNotReportableErrorDialog(this, getString(R.string.error_sorry), getString(R.string.error_034), false);
             return;
         }
 
@@ -1051,7 +1021,6 @@ public class CommonListActivity extends AppCompatActivity
         shareIntent.setType("text/html");
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, " AndiCar report " + reportTitle + (mReportFormat == 0 ? ".csv" : ".html"));
         shareIntent.putExtra(Intent.EXTRA_TEXT, "Sent by AndiCar (http://www.andicar.org)");
-//        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + ConstantValues.REPORT_FOLDER + reportFileName));
         shareIntent.putExtra(Intent.EXTRA_STREAM, AndiCarFileProvider.getUriForFile(this, "org.andicar2.provider", new File(ConstantValues.REPORT_FOLDER + reportFileName)));
         try {
             startActivity(Intent.createChooser(shareIntent, getString(R.string.gen_share)));
@@ -1059,11 +1028,11 @@ public class CommonListActivity extends AppCompatActivity
         catch (ActivityNotFoundException e) {
             Toast.makeText(this, R.string.error_067, Toast.LENGTH_LONG).show();
         }
-        handler.sendEmptyMessage(-1);
+        progressDialog.dismiss();
     }
 
     private String createCSVContent(Cursor reportCursor, DBReportAdapter dbReportAdapter) {
-        String reportContent = "";
+        StringBuilder reportContent = new StringBuilder();
         String colVal;
         int i;
         BigDecimal oldFullRefuelIndex;
@@ -1081,19 +1050,18 @@ public class CommonListActivity extends AppCompatActivity
             }
 
             if (appendComma) {
-                reportContent = reportContent + ",";
+                reportContent.append(",");
             }
             appendComma = true;
 
-            reportContent = reportContent + "\"" +
-                    reportCursor.getColumnName(i)
-                            .replaceAll("_DTypeN", "")
-                            .replaceAll("_DTypeD", "")
-                            .replaceAll("_DTypeL", "")
-                            .replaceAll("_DTypeR", "")
-                            .replaceAll("_CalcSUM", "") + "\"";
+            reportContent.append("\"").append(reportCursor.getColumnName(i)
+                    .replaceAll("_DTypeN", "")
+                    .replaceAll("_DTypeD", "")
+                    .replaceAll("_DTypeL", "")
+                    .replaceAll("_DTypeR", "")
+                    .replaceAll("_CalcSUM", "")).append("\"");
         }
-        reportContent = reportContent + "\n";
+        reportContent.append("\n");
 
         long currentTime = System.currentTimeMillis();
         long days;
@@ -1113,7 +1081,7 @@ public class CommonListActivity extends AppCompatActivity
                 }
 
                 if (appendComma) {
-                    reportContent = reportContent + ",";
+                    reportContent.append(",");
                 }
                 appendComma = true;
 
@@ -1152,14 +1120,14 @@ public class CommonListActivity extends AppCompatActivity
                                 colVal = getString(R.string.todo_estimated_mileage_date_no_data);
                             }
                             else {
-                                cal.setTimeInMillis(currentTime + (days * ConstantValues.ONE_DAY_IN_MILISECONDS));
+                                cal.setTimeInMillis(currentTime + (days * ConstantValues.ONE_DAY_IN_MILLISECONDS));
                                 if (cal.get(Calendar.YEAR) - now.get(Calendar.YEAR) > 5) {
                                     colVal = getString(R.string.todo_estimated_mileage_date_too_far);
                                 }
                                 else {
-                                    if (cal.getTimeInMillis() - now.getTimeInMillis() < 365 * ConstantValues.ONE_DAY_IN_MILISECONDS) // 1 year
+                                    if (cal.getTimeInMillis() - now.getTimeInMillis() < 365 * ConstantValues.ONE_DAY_IN_MILLISECONDS) // 1 year
                                     {
-                                        colVal = DateFormat.getDateFormat(this).format(currentTime + (days * ConstantValues.ONE_DAY_IN_MILISECONDS));
+                                        colVal = DateFormat.getDateFormat(this).format(currentTime + (days * ConstantValues.ONE_DAY_IN_MILLISECONDS));
                                     }
                                     else {
                                         colVal = DateFormat.format("MMM, yyyy", cal).toString();
@@ -1181,7 +1149,7 @@ public class CommonListActivity extends AppCompatActivity
                             catch (Exception e) {
                                 colVal = colVal.replace("[#rv1]", "Error #1! Please contact me at andicar.support@gmail.com").replace("[#rv2]",
                                         "Error #1! Please contact me at andicar.support@gmail.com");
-                                reportContent = reportContent + "\"" + colVal + "\"";
+                                reportContent.append("\"").append(colVal).append("\"");
                                 continue;
                             }
                             if (oldFullRefuelIndex.compareTo(BigDecimal.ZERO) < 0 || reportCursor.getString(6).equals("N")) { //this is not a full refuel
@@ -1196,7 +1164,7 @@ public class CommonListActivity extends AppCompatActivity
                             catch (NullPointerException e) {
                                 colVal = colVal.replace("[#rv1]", "Error#2! Please contact me at andicar.support@gmail.com").replace("[#rv2]",
                                         "Error#2! Please contact me at andicar.support@gmail.com");
-                                reportContent = reportContent + "\"" + colVal + "\"";
+                                reportContent.append("\"").append(colVal).append("\"");
                                 continue;
                             }
                             try {
@@ -1209,7 +1177,7 @@ public class CommonListActivity extends AppCompatActivity
                             catch (Exception e) {
                                 colVal = colVal.replace("[#rv1]", "Error#3! Please contact me at andicar.support@gmail.com").replace("[#rv2]",
                                         "Error#3! Please contact me at andicar.support@gmail.com");
-                                reportContent = reportContent + "\"" + colVal + "\"";
+                                reportContent.append("\"").append(colVal).append("\"");
                                 continue;
                             }
                         }
@@ -1219,9 +1187,9 @@ public class CommonListActivity extends AppCompatActivity
                             .replace("[#d4]", getString(R.string.day_of_week_4)).replace("[#d5]", getString(R.string.day_of_week_5))
                             .replace("[#d6]", getString(R.string.day_of_week_6));
                 }
-                reportContent = reportContent + "\"" + colVal + "\"";
+                reportContent.append("\"").append(colVal).append("\"");
             }
-            reportContent = reportContent + "\n";
+            reportContent.append("\n");
         }
 
         //append sums
@@ -1232,25 +1200,25 @@ public class CommonListActivity extends AppCompatActivity
             }
 
             if (appendComma) {
-                reportContent = reportContent + ",";
+                reportContent.append(",");
             }
             appendComma = true;
 
             if (reportCursor.getColumnName(i).contains("_CalcSUM")) {
 
                 if (reportCursor.getColumnName(i).endsWith("_DTypeN")) {
-                    reportContent = reportContent + Utils.numberToString(colSums[i], false, 4, ConstantValues.ROUNDING_MODE_LENGTH);
+                    reportContent.append(Utils.numberToString(colSums[i], false, 4, ConstantValues.ROUNDING_MODE_LENGTH));
                 }
                 else if (reportCursor.getColumnName(i).endsWith("_DTypeL")) {
-                    reportContent = reportContent + Utils.numberToString(colSums[i], false, 4, ConstantValues.ROUNDING_MODE_LENGTH);
+                    reportContent.append(Utils.numberToString(colSums[i], false, 4, ConstantValues.ROUNDING_MODE_LENGTH));
                 }
                 else if (reportCursor.getColumnName(i).endsWith("_DTypeR")) {
-                    reportContent = reportContent + Utils.numberToString(colSums[i], false, 5, ConstantValues.ROUNDING_MODE_RATES);
+                    reportContent.append(Utils.numberToString(colSums[i], false, 5, ConstantValues.ROUNDING_MODE_RATES));
                 }
             }
         }
 
-        return reportContent;
+        return reportContent.toString();
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -1262,9 +1230,9 @@ public class CommonListActivity extends AppCompatActivity
         String colVal;
         BigDecimal colSums[] = new BigDecimal[reportCursor.getColumnCount()];
 
-        String reportContent = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n" + "<html>\n" + "<head>\n" + "<title>" + title
+        StringBuilder reportContent = new StringBuilder("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n" + "<html>\n" + "<head>\n" + "<title>" + title
                 + "</title>\n" + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" + "</head>\n" + "<body>\n"
-                + "<table  WIDTH=100% BORDER=1 BORDERCOLOR=\"#000000\" CELLPADDING=4 CELLSPACING=0>\n" + "<TR VALIGN=TOP>\n"; //table header
+                + "<table  WIDTH=100% BORDER=1 BORDERCOLOR=\"#000000\" CELLPADDING=4 CELLSPACING=0>\n" + "<TR VALIGN=TOP>\n"); //table header
         //create table header
         for (i = 0; i < reportCursor.getColumnCount(); i++) {
             colSums[i] = BigDecimal.ZERO;
@@ -1273,15 +1241,14 @@ public class CommonListActivity extends AppCompatActivity
                 continue;
             }
 
-            reportContent = reportContent + "<TH>"
-                    + reportCursor.getColumnName(i)
+            reportContent.append("<TH>").append(reportCursor.getColumnName(i)
                     .replaceAll("_DTypeN", "")
                     .replaceAll("_DTypeD", "")
                     .replaceAll("_DTypeL", "")
                     .replaceAll("_DTypeR", "")
-                    .replaceAll("_CalcSUM", "") + "</TH>\n";
+                    .replaceAll("_CalcSUM", "")).append("</TH>\n");
         }
-        reportContent = reportContent + "</TR>\n"; //end table header
+        reportContent.append("</TR>\n"); //end table header
 
         long currentTime = System.currentTimeMillis();
         long days;
@@ -1291,7 +1258,7 @@ public class CommonListActivity extends AppCompatActivity
         long date = 0;
 
         while (reportCursor.moveToNext()) {
-            reportContent = reportContent + "<TR VALIGN=TOP>\n";
+            reportContent.append("<TR VALIGN=TOP>\n");
             for (i = 0; i < reportCursor.getColumnCount(); i++) {
 
                 if (reportCursor.getColumnName(i).contains("_CalcSUM")) {
@@ -1345,14 +1312,14 @@ public class CommonListActivity extends AppCompatActivity
                             colVal = getString(R.string.todo_estimated_mileage_date_no_data);
                         }
                         else {
-                            cal.setTimeInMillis(currentTime + (days * ConstantValues.ONE_DAY_IN_MILISECONDS));
+                            cal.setTimeInMillis(currentTime + (days * ConstantValues.ONE_DAY_IN_MILLISECONDS));
                             if (cal.get(Calendar.YEAR) - now.get(Calendar.YEAR) > 5) {
                                 colVal = getString(R.string.todo_estimated_mileage_date_too_far);
                             }
                             else {
-                                if (cal.getTimeInMillis() - now.getTimeInMillis() < 365 * ConstantValues.ONE_DAY_IN_MILISECONDS) // 1 year
+                                if (cal.getTimeInMillis() - now.getTimeInMillis() < 365 * ConstantValues.ONE_DAY_IN_MILLISECONDS) // 1 year
                                 {
-                                    colVal = DateFormat.getDateFormat(this).format(currentTime + (days * ConstantValues.ONE_DAY_IN_MILISECONDS));
+                                    colVal = DateFormat.getDateFormat(this).format(currentTime + (days * ConstantValues.ONE_DAY_IN_MILLISECONDS));
                                 }
                                 else {
                                     colVal = DateFormat.format("MMM, yyyy", cal).toString();
@@ -1370,7 +1337,7 @@ public class CommonListActivity extends AppCompatActivity
                             catch (Exception e) {
                                 colVal = colVal.replace("[#rv1]", "Error #1! Please contact me at andicar.support@gmail.com").replace("[#rv2]",
                                         "Error #1! Please contact me at andicar.support@gmail.com");
-                                reportContent = reportContent + "<TD>" + colVal + "</TD>\n";
+                                reportContent.append("<TD>").append(colVal).append("</TD>\n");
                                 continue;
                             }
                             if (oldFullRefuelIndex.compareTo(BigDecimal.ZERO) < 0 || reportCursor.getString(6).equals("N")) { //this is not a full refuel
@@ -1385,7 +1352,7 @@ public class CommonListActivity extends AppCompatActivity
                             catch (NullPointerException e) {
                                 colVal = colVal.replace("[#rv1]", "Error#2! Please contact me at andicar.support@gmail.com").replace("[#rv2]",
                                         "Error#2! Please contact me at andicar.support@gmail.com");
-                                reportContent = reportContent + "<TD>" + colVal + "</TD>\n";
+                                reportContent.append("<TD>").append(colVal).append("</TD>\n");
                                 continue;
                             }
                             try {
@@ -1398,7 +1365,7 @@ public class CommonListActivity extends AppCompatActivity
                             catch (Exception e) {
                                 colVal = colVal.replace("[#rv1]", "Error#3! Please contact me at andicar.support@gmail.com").replace("[#rv2]",
                                         "Error#3! Please contact me at andicar.support@gmail.com");
-                                reportContent = reportContent + "<TD>" + colVal + "</TD>\n";
+                                reportContent.append("<TD>").append(colVal).append("</TD>\n");
                                 continue;
                             }
                         }
@@ -1413,18 +1380,18 @@ public class CommonListActivity extends AppCompatActivity
                         || reportCursor.getColumnName(i).endsWith("_DTypeL")
                         || reportCursor.getColumnName(i).contains("_DTypeR")
                         || reportCursor.getColumnName(i).endsWith("_DTypeD")) {
-                    reportContent = reportContent + "<TD align=\"right\">" + colVal + "</TD>\n";
+                    reportContent.append("<TD align=\"right\">").append(colVal).append("</TD>\n");
                 }
                 else {
-                    reportContent = reportContent + "<TD>" + colVal + "</TD>\n";
+                    reportContent.append("<TD>").append(colVal).append("</TD>\n");
                 }
 
             }
-            reportContent = reportContent + "</TR>\n";
+            reportContent.append("</TR>\n");
         }
 
         //append sums
-        reportContent = reportContent + "<TR VALIGN=TOP>\n";
+        reportContent.append("<TR VALIGN=TOP>\n");
         for (i = 0; i < reportCursor.getColumnCount(); i++) {
             if (reportCursor.getColumnName(i).endsWith("DoNotExport")) {
                 continue;
@@ -1432,25 +1399,24 @@ public class CommonListActivity extends AppCompatActivity
 
             if (reportCursor.getColumnName(i).contains("_CalcSUM")) {
                 if (reportCursor.getColumnName(i).endsWith("_DTypeN")) {
-                    reportContent = reportContent + "<TD align=\"right\"><B><I>" + Utils.numberToString(colSums[i], false, 4, ConstantValues.ROUNDING_MODE_LENGTH) + "</I></B></TD>\n";
+                    reportContent.append("<TD align=\"right\"><B><I>").append(Utils.numberToString(colSums[i], false, 4, ConstantValues.ROUNDING_MODE_LENGTH)).append("</I></B></TD>\n");
                 }
                 else if (reportCursor.getColumnName(i).endsWith("_DTypeL")) {
-                    reportContent = reportContent + "<TD align=\"right\"><B><I>" + Utils.numberToString(colSums[i], false, 4, ConstantValues.ROUNDING_MODE_LENGTH) + "</I></B></TD>\n";
+                    reportContent.append("<TD align=\"right\"><B><I>").append(Utils.numberToString(colSums[i], false, 4, ConstantValues.ROUNDING_MODE_LENGTH)).append("</I></B></TD>\n");
                 }
                 else if (reportCursor.getColumnName(i).endsWith("_DTypeR")) {
-                    reportContent = reportContent + "<TD align=\"right\"><B><I>" + Utils.numberToString(colSums[i], false, 5, ConstantValues.ROUNDING_MODE_RATES) + "</I></B></TD>\n";
+                    reportContent.append("<TD align=\"right\"><B><I>").append(Utils.numberToString(colSums[i], false, 5, ConstantValues.ROUNDING_MODE_RATES)).append("</I></B></TD>\n");
                 }
             }
             else {
-                reportContent = reportContent + "<TD></TD>\n";
+                reportContent.append("<TD></TD>\n");
             }
         }
-        reportContent = reportContent + "</TR>\n";
+        reportContent.append("</TR>\n");
 
-        reportContent = reportContent + "</table>\n"
-                + "<br><br><p align=\"center\"> Created with <a href=\"http://www.andicar.org\" target=\"new\">AndiCar</a>\n" + "</body>\n" + "</html>";
+        reportContent.append("</table>\n" + "<br><br><p align=\"center\"> Created with <a href=\"http://www.andicar.org\" target=\"new\">AndiCar</a>\n" + "</body>\n" + "</html>");
 
-        return reportContent;
+        return reportContent.toString();
     }
 
 

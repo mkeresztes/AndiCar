@@ -93,7 +93,6 @@ import andicar.n.view.MainNavigationView;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DateRangeSearchDialogFragment.DateRangeSearchDialogFragmentListener {
 
-    public static final String DO_NOT_USE = "DNU";
     private static final int REQUEST_CODE_ADD_CAR = 1;
     private static final int REQUEST_CODE_SETTINGS = 2;
     //    private static final int REQUEST_CODE_CHART_DETAIL = 3;
@@ -103,6 +102,8 @@ public class MainActivity extends AppCompatActivity
     private static final int CHART_FILTER_CURRENT_YEAR = 4;
     private static final int CHART_FILTER_PREVIOUS_YEAR = 5;
     private static final int CHART_FILTER_CUSTOM_PERIOD = 6;
+
+    private static final String DO_NOT_USE = "DNU";
     private static final String LAST_TRIP_RECORD = "LTR";
     private static final String TRIPS_PIE_CHART = "CTR";
     private static final String LAST_FILL_UP_RECORD = "LFU";
@@ -234,8 +235,8 @@ public class MainActivity extends AppCompatActivity
 //                && getIntent().getExtras().getString("msg.body", "").length() > 0) {
 //            Utils.showInfoDialog(this, getIntent().getExtras().getString("msg.title", ""), getIntent().getExtras().getString("msg.body", ""));
 //            Intent notif = new Intent(this, GeneralNotificationDialogActivity.class);
-//            notif.putExtra(GeneralNotificationDialogActivity.NOTIF_MESSAGE_KEY, getIntent().getExtras().getString("msg.title", ""));
-//            notif.putExtra(GeneralNotificationDialogActivity.NOTIF_DETAIL_KEY, getIntent().getExtras().getString("msg.body", ""));
+//            notif.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_MESSAGE_KEY, getIntent().getExtras().getString("msg.title", ""));
+//            notif.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_DETAIL_KEY, getIntent().getExtras().getString("msg.body", ""));
 //            notif.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_INFO);
 //            startActivity(notif);
 //        }
@@ -377,7 +378,7 @@ public class MainActivity extends AppCompatActivity
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    switch (mPreferences.getString(getString(R.string.pref_key_main_addbtn), "")) {
+                    switch (mPreferences.getString(getString(R.string.pref_key_main_btn_add), "")) {
                         case "0":
                             MainActivity.this.showPopup(v);
                             break;
@@ -581,7 +582,7 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.nav_rate) {
             Uri uri = Uri.parse("market://details?id=" + getPackageName());
             Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-            // To count with Play market backstack, After pressing back button,
+            // To count with Play market back stack, After pressing back button,
             // to taken back to our application, we need to add following flags to intent.
             goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
                     Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
@@ -1557,14 +1558,14 @@ public class MainActivity extends AppCompatActivity
                         timeStr = getString(R.string.todo_overdue_label);
                     }
                     else {
-                        cal.setTimeInMillis(time + (estMileageDueDays * ConstantValues.ONE_DAY_IN_MILISECONDS));
+                        cal.setTimeInMillis(time + (estMileageDueDays * ConstantValues.ONE_DAY_IN_MILLISECONDS));
                         if (cal.get(Calendar.YEAR) - now.get(Calendar.YEAR) > 5) {
                             timeStr = getString(R.string.todo_estimated_mileage_date_too_far);
                         }
                         else {
-                            if (cal.getTimeInMillis() - now.getTimeInMillis() < 365 * ConstantValues.ONE_DAY_IN_MILISECONDS) // 1 year
+                            if (cal.getTimeInMillis() - now.getTimeInMillis() < 365 * ConstantValues.ONE_DAY_IN_MILLISECONDS) // 1 year
                             {
-                                timeStr = Utils.getFormattedDateTime(time + (estMileageDueDays * ConstantValues.ONE_DAY_IN_MILISECONDS), false);
+                                timeStr = Utils.getFormattedDateTime(time + (estMileageDueDays * ConstantValues.ONE_DAY_IN_MILLISECONDS), false);
                             }
                             else {
                                 timeStr = DateFormat.format("MMM, yyyy", cal).toString();
@@ -1625,7 +1626,7 @@ public class MainActivity extends AppCompatActivity
                         notificationTrigger = ToDoNotificationJob.TRIGGERED_BY_MILEAGE;
                     }
 
-                    if (taskCursor.getInt(DBAdapter.COL_POS_TASK__TIMEFREQUENCYTYPE) == TaskEditFragment.TASK_TIMEFREQUENCYTYPE_DAILY) {
+                    if (taskCursor.getInt(DBAdapter.COL_POS_TASK__TIMEFREQUENCYTYPE) == TaskEditFragment.TASK_TIME_FREQUENCY_TYPE_DAILY) {
                         minutesOrDays = MainActivity.this.getString(R.string.gen_minutes);
                     }
                     else {

@@ -26,8 +26,8 @@ import andicar.n.utils.notification.AndiCarNotification;
 
 public class BackupJob extends JobService {
     private static final SharedPreferences mPreferences = AndiCar.getDefaultSharedPreferences();
-    public static String TAG = "BackupJob";
-    private File debugLogFile = new File(ConstantValues.LOG_FOLDER + "BackupJob.log");
+    public static final String TAG = "BackupJob";
+    private final File debugLogFile = new File(ConstantValues.LOG_FOLDER + "BackupJob.log");
     private LogFileWriter debugLogFileWriter = null;
 
     @Override
@@ -93,7 +93,7 @@ public class BackupJob extends JobService {
                             debugLogFileWriter.appendnl("Backup terminated with success to: ").append(bkFile);
                         }
                         if (mPreferences.getBoolean(getString(R.string.pref_key_backup_service_show_notification), true)) {
-                            AndiCarNotification.showGeneralNotification(getApplicationContext(), AndiCarNotification.NOTIFICATION_TYPE_INFO, ConstantValues.NOTIF_BACKUP_SERVICE_SUCCESS,
+                            AndiCarNotification.showGeneralNotification(getApplicationContext(), AndiCarNotification.NOTIFICATION_TYPE_INFO, ConstantValues.NOTIFICATION_BACKUP_SERVICE_SUCCESS,
                                     getString(R.string.pref_backup_service_category), getString(R.string.backup_service_success_message), null, null);
                         }
                     }

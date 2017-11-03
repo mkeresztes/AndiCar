@@ -55,7 +55,7 @@ public class BackupListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_backup_list);
 
-        lvBackupList = (ListView) findViewById(R.id.lvBackupList);
+        lvBackupList = findViewById(R.id.lvBackupList);
 
         fillBkList();
     }

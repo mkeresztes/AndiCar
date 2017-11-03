@@ -56,7 +56,7 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
 
     public static final String GPS_TRACK_ARGUMENT_CAR_ID = "GPSTrackCarID";
     public static final String GPS_TRACK_ARGUMENT_DRIVER_ID = "GPSTrackDriverID";
-    public static final String GPS_TRACK_ARGUMENT_EXPENSETYPE_ID = "GPSTrackExpenseTypeID";
+    public static final String GPS_TRACK_ARGUMENT_EXPENSE_TYPE_ID = "GPSTrackExpenseTypeID";
     public static final String GPS_TRACK_ARGUMENT_NAME = "GPSTrackName";
     public static final String GPS_TRACK_ARGUMENT_COMMENT = "GPSTrackComment";
     public static final String GPS_TRACK_ARGUMENT_TAG = "GPSTrackTag";
@@ -188,7 +188,7 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
                         || mGPSTrackService.getServiceStatus() == GPSTrackService.GPS_TRACK_SERVICE_PAUSED)) {
                     //if the service is active => stop it
                     SharedPreferences.Editor prefEditor = mPreferences.edit();
-                    prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_gps_track_last_selected_exptype_id), mExpTypeId);
+                    prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_gps_track_last_selected_expense_type_id), mExpTypeId);
                     prefEditor.apply();
 
                     mGPSTrackService.setServiceStatus(GPSTrackService.GPS_TRACK_SERVICE_STOPPED);
@@ -218,7 +218,7 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
                     gpsTrackIntent.putExtra(GPS_TRACK_ARGUMENT_TAG, acTag.getText().toString());
                     gpsTrackIntent.putExtra(GPS_TRACK_ARGUMENT_CAR_ID, mCarId);
                     gpsTrackIntent.putExtra(GPS_TRACK_ARGUMENT_DRIVER_ID, mDriverId);
-                    gpsTrackIntent.putExtra(GPS_TRACK_ARGUMENT_EXPENSETYPE_ID, mExpTypeId);
+                    gpsTrackIntent.putExtra(GPS_TRACK_ARGUMENT_EXPENSE_TYPE_ID, mExpTypeId);
                     gpsTrackIntent.putExtra(GPS_TRACK_ARGUMENT_START_TIME_FOR_MILEAGE, System.currentTimeMillis());
                     gpsTrackIntent.putExtra(GPS_TRACK_ARGUMENT_CREATE_MILEAGE, ckIsCreateMileage.isChecked());
                     gpsTrackIntent.putExtra(GPS_TRACK_ARGUMENT_INDEX_FOR_MILEAGE, etIndexStart.getText().toString());
@@ -351,7 +351,7 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
         Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, DBAdapter.WHERE_CONDITION_ISACTIVE, mCarId, false);
         setDriverId(serviceArguments.getLong(GPS_TRACK_ARGUMENT_DRIVER_ID, mDriverId));
         Utils.initSpinner(mDbAdapter, spnDriver, DBAdapter.TABLE_NAME_DRIVER, DBAdapter.WHERE_CONDITION_ISACTIVE, mDriverId, false);
-        setExpTypeId(serviceArguments.getLong(GPS_TRACK_ARGUMENT_EXPENSETYPE_ID, mExpTypeId));
+        setExpTypeId(serviceArguments.getLong(GPS_TRACK_ARGUMENT_EXPENSE_TYPE_ID, mExpTypeId));
         Utils.initSpinner(mDbAdapter, spnExpType, DBAdapter.TABLE_NAME_EXPENSETYPE, DBAdapter.WHERE_CONDITION_ISACTIVE, mExpTypeId, false);
         etName.setText(serviceArguments.getString(GPS_TRACK_ARGUMENT_NAME, ""));
         acUserComment.setText(serviceArguments.getString(GPS_TRACK_ARGUMENT_COMMENT, ""));

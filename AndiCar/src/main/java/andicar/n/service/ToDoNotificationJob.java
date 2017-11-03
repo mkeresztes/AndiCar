@@ -24,7 +24,7 @@ public class ToDoNotificationJob extends JobService {
     public static final String CAR_ID_KEY = "CarID";
     public static final int TRIGGERED_BY_MILEAGE = 1;
     public static final int TRIGGERED_BY_TIME = 0;
-    private static final String LOG_TAG = "AndiCarToDoNotifJob";
+    private static final String LOG_TAG = "AndiCar";
 
 //    private DBAdapter mDb = null;
 
@@ -126,7 +126,6 @@ public class ToDoNotificationJob extends JobService {
             }
             if (taskCursor.getString(DBAdapter.COL_POS_TASK__SCHEDULEDFOR).equals(TaskEditFragment.TASK_SCHEDULED_FOR_MILEAGE)
                     || taskCursor.getString(DBAdapter.COL_POS_TASK__SCHEDULEDFOR).equals(TaskEditFragment.TASK_SCHEDULED_FOR_BOTH)) {
-                //				todoDueMileage = toDoCursor.getLong(MainDbAdapter.TODO_COL_DUEMILAGE_POS);
                 todoAlarmMileage = toDoCursor.getLong(DBAdapter.COL_POS_TODO__NOTIFICATIONMILEAGE);
                 if (todoAlarmMileage <= carCurrentOdometer) {
                     showNotification = true;
@@ -134,7 +133,7 @@ public class ToDoNotificationJob extends JobService {
                 }
 
             }
-            if (taskCursor.getInt(DBAdapter.COL_POS_TASK__TIMEFREQUENCYTYPE) == TaskEditFragment.TASK_TIMEFREQUENCYTYPE_DAILY) {
+            if (taskCursor.getInt(DBAdapter.COL_POS_TASK__TIMEFREQUENCYTYPE) == TaskEditFragment.TASK_TIME_FREQUENCY_TYPE_DAILY) {
                 minutesOrDays = getString(R.string.gen_minutes);
             }
             else {

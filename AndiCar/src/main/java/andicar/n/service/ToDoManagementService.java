@@ -60,7 +60,7 @@ public class ToDoManagementService extends Service {
     private long mCarID = 0;
 //    private boolean isSetJustNextRun = false;
 
-    private File debugLogFile = new File(ConstantValues.LOG_FOLDER + "ToDoManagementService.log");
+    private final File debugLogFile = new File(ConstantValues.LOG_FOLDER + "ToDoManagementService.log");
     private LogFileWriter debugLogFileWriter = null;
 
     //	private static int mTodoCount = 3;
@@ -298,7 +298,7 @@ public class ToDoManagementService extends Service {
                 setNextToDoCalendar(nextToDoCalendar, frequencyType, timeFrequency, isLastDayOfMonth);
                 nextToDoContent.put(DBAdapter.COL_NAME_TODO__DUEDATE, nextToDoCalendar.getTimeInMillis() / 1000);
                 //set the alarm date
-                if (taskCursor.getInt(DBAdapter.COL_POS_TASK__TIMEFREQUENCYTYPE) == TaskEditFragment.TASK_TIMEFREQUENCYTYPE_DAILY) {
+                if (taskCursor.getInt(DBAdapter.COL_POS_TASK__TIMEFREQUENCYTYPE) == TaskEditFragment.TASK_TIME_FREQUENCY_TYPE_DAILY) {
                     nextToDoCalendar.add(Calendar.MINUTE, -1 * taskCursor.getInt(DBAdapter.COL_POS_TASK__TIMEREMINDERSTART));
                 }
                 else {
@@ -423,7 +423,7 @@ public class ToDoManagementService extends Service {
 
                 nextToDoContent.put(DBAdapter.COL_NAME_TODO__DUEDATE, nextToDoCalendar.getTimeInMillis() / 1000);
                 //set the alarm date
-                if (taskCursor.getInt(DBAdapter.COL_POS_TASK__TIMEFREQUENCYTYPE) == TaskEditFragment.TASK_TIMEFREQUENCYTYPE_DAILY) {
+                if (taskCursor.getInt(DBAdapter.COL_POS_TASK__TIMEFREQUENCYTYPE) == TaskEditFragment.TASK_TIME_FREQUENCY_TYPE_DAILY) {
                     nextToDoCalendar.add(Calendar.MINUTE, -1 * taskCursor.getInt(DBAdapter.COL_POS_TASK__TIMEREMINDERSTART));
                 }
                 else {
@@ -482,13 +482,11 @@ public class ToDoManagementService extends Service {
 
     @SuppressLint("WrongConstant")
     private void setNextToDoCalendar(Calendar nextToDoCalendar, int frequencyType, int timeFrequency, boolean isLastDayOfMonth) {
-        if (frequencyType == TaskEditFragment.TASK_TIMEFREQUENCYTYPE_DAILY) {
+        if (frequencyType == TaskEditFragment.TASK_TIME_FREQUENCY_TYPE_DAILY) {
             nextToDoCalendar.add(Calendar.DAY_OF_YEAR, timeFrequency);
-        }
-        else if (frequencyType == TaskEditFragment.TASK_TIMEFREQUENCYTYPE_WEEKLY) {
+        } else if (frequencyType == TaskEditFragment.TASK_TIME_FREQUENCY_TYPE_WEEKLY) {
             nextToDoCalendar.add(Calendar.WEEK_OF_YEAR, timeFrequency);
-        }
-        else if (frequencyType == TaskEditFragment.TASK_TIMEFREQUENCYTYPE_MONTHLY) {
+        } else if (frequencyType == TaskEditFragment.TASK_TIME_FREQUENCY_TYPE_MONTHLY) {
             if (isLastDayOfMonth) { //last day of the month
                 nextToDoCalendar.set(Calendar.DAY_OF_MONTH, 1);
                 nextToDoCalendar.add(Calendar.MONTH, timeFrequency + 1); //go to the first day of the next month
@@ -497,8 +495,7 @@ public class ToDoManagementService extends Service {
             else {
                 nextToDoCalendar.add(Calendar.MONTH, timeFrequency);
             }
-        }
-        else if (frequencyType == TaskEditFragment.TASK_TIMEFREQUENCYTYPE_YEARLY) {
+        } else if (frequencyType == TaskEditFragment.TASK_TIME_FREQUENCY_TYPE_YEARLY) {
             nextToDoCalendar.add(Calendar.YEAR, timeFrequency);
         }
     }

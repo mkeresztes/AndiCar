@@ -80,18 +80,22 @@ public class ToDoNotificationDialogActivity extends AppCompatActivity {
         setContentView(R.layout.dialog_todo_notification);
 
         setTitle("AndiCar " + getString(R.string.todo_alert_title));
-        TextView tvText1 = (TextView) findViewById(R.id.tvText1);
-        TextView tvText2 = (TextView) findViewById(R.id.tvText2);
-        TextView tvText3 = (TextView) findViewById(R.id.tvText3);
-        TextView tvText4 = (TextView) findViewById(R.id.tvText4);
-        EditText etPostpone = (EditText) findViewById(R.id.etPostpone);
-        TextView tvPostponeUOM = (TextView) findViewById(R.id.tvPostponeUOM);
+        TextView tvText1 = findViewById(R.id.tvText1);
+        TextView tvText2 = findViewById(R.id.tvText2);
+        TextView tvText3 = findViewById(R.id.tvText3);
+        TextView tvText4 = findViewById(R.id.tvText4);
+        EditText etPostpone = findViewById(R.id.etPostpone);
+        TextView tvPostponeUOM = findViewById(R.id.tvPostponeUOM);
 //		findViewById(R.id.fakeFocus).requestFocus();
-        LinearLayout llActionZone = (LinearLayout) findViewById(R.id.llActionZone);
-        Button btnSave = (Button) findViewById(R.id.btnSave);
-        Button btnCancel = (Button) findViewById(R.id.btnCancel);
+        LinearLayout llActionZone = findViewById(R.id.llActionZone);
+        Button btnSave = findViewById(R.id.btnSave);
+        Button btnCancel = findViewById(R.id.btnCancel);
 
         Bundle mBundleExtras = getIntent().getExtras();
+        if (mBundleExtras == null) {
+            Utils.showReportableErrorDialog(this, getString(R.string.error_sorry), "ToDo notification dialog - no extras", null, false);
+            return;
+        }
         if (mBundleExtras.getBoolean(STARTED_FROM_NOTIFICATION_KEY, true)) {
             btnCancel.setVisibility(View.GONE);
         }
@@ -266,8 +270,8 @@ public class ToDoNotificationDialogActivity extends AppCompatActivity {
             finish();
             return false;
         }
-        CheckBox ckIsDone = (CheckBox) findViewById(R.id.ckIsDone);
-        EditText etPostpone = (EditText) findViewById(R.id.etPostpone);
+        CheckBox ckIsDone = findViewById(R.id.ckIsDone);
+        EditText etPostpone = findViewById(R.id.etPostpone);
         BigDecimal postPoneFor;
 
         DBAdapter mDbAdapter = new DBAdapter(getApplication());
@@ -357,7 +361,7 @@ public class ToDoNotificationDialogActivity extends AppCompatActivity {
 //            this.startService(i);
             Bundle serviceParams = new Bundle();
             serviceParams.putLong(ToDoNotificationJob.TODO_ID_KEY, mToDoID);
-            JobStarter.startServicesUsingFBJobDispacher(this, JobStarter.SERVICE_STARTER_START_TODO_NOTIFICATION_SERVICE, serviceParams);
+            JobStarter.startServicesUsingFBJobDispatcher(this, JobStarter.SERVICE_STARTER_START_TODO_NOTIFICATION_SERVICE, serviceParams);
         }
     }
 }

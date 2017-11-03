@@ -27,7 +27,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -85,6 +84,10 @@ public class TaskCarLinkActivity extends AppCompatActivity {
 
         mDbAdapter = new DBAdapter(getApplicationContext());
 
+        if (getIntent().getExtras() == null) {
+            Utils.showReportableErrorDialog(this, getString(R.string.error_sorry), "Task-car link no extras", null, false);
+            return;
+        }
         mTaskID = getIntent().getExtras().getLong(DBAdapter.COL_NAME_TASK_CAR__TASK_ID, -1);
         mRowId = getIntent().getExtras().getLong(DBAdapter.COL_NAME_GEN_ROWID, -1);
 
@@ -99,7 +102,7 @@ public class TaskCarLinkActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_task_car_link);
 
-        tvDateTimeValue = (TextView) findViewById(R.id.tvDateTimeValue);
+        tvDateTimeValue = findViewById(R.id.tvDateTimeValue);
         tvDateTimeValue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,10 +152,10 @@ public class TaskCarLinkActivity extends AppCompatActivity {
 
             }
         });
-        etIndexStart = (EditText) findViewById(R.id.etIndexStart);
+        etIndexStart = findViewById(R.id.etIndexStart);
 
-        LinearLayout llStartingDateZone = (LinearLayout) findViewById(R.id.llStartingDateZone);
-        LinearLayout llStartingMileageZone = (LinearLayout) findViewById(R.id.llStartingMileageZone);
+        LinearLayout llStartingDateZone = findViewById(R.id.llStartingDateZone);
+        LinearLayout llStartingMileageZone = findViewById(R.id.llStartingMileageZone);
 
         if (!isTimingEnabled || !isRecurrent || !isDifferentStartingTime) {
             llStartingDateZone.setVisibility(View.GONE);
@@ -195,7 +198,7 @@ public class TaskCarLinkActivity extends AppCompatActivity {
         }
         showDateTime();
 
-        spnCar = (Spinner) findViewById(R.id.spnCar);
+        spnCar = findViewById(R.id.spnCar);
         String mLinkDialogCarSelectCondition =
                 DBAdapter.WHERE_CONDITION_ISACTIVE +
                         " AND " + DBAdapter.COL_NAME_GEN_ROWID +
@@ -248,7 +251,7 @@ public class TaskCarLinkActivity extends AppCompatActivity {
         }
 
 
-        Button btnCancel = (Button) findViewById(R.id.btnCancel);
+        Button btnCancel = findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -256,11 +259,11 @@ public class TaskCarLinkActivity extends AppCompatActivity {
             }
         });
 
-        Button btnDone = (Button) findViewById(R.id.btnDone);
+        Button btnDone = findViewById(R.id.btnDone);
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int notFilledViewID = Utils.checkMandatoryFields((ViewGroup) TaskCarLinkActivity.this.findViewById(R.id.vgRoot));
+                int notFilledViewID = Utils.checkMandatoryFields(TaskCarLinkActivity.this.findViewById(R.id.vgRoot));
                 if (notFilledViewID > -1) {
                     TaskCarLinkActivity.this.findViewById(notFilledViewID).setBackgroundResource(R.drawable.ui_mandatory_border_edittext);
                     Toast.makeText(TaskCarLinkActivity.this.getApplicationContext(), TaskCarLinkActivity.this.getString(R.string.gen_fill_mandatory), Toast.LENGTH_LONG).show();
@@ -279,6 +282,7 @@ public class TaskCarLinkActivity extends AppCompatActivity {
         mDbAdapter.close();
     }
 
+    @SuppressLint("SetTextI18n")
     private void showDateTime() {
         tvDateTimeValue.setText(DateFormat.getDateFormat(getApplicationContext()).format(mDateTimeCalendar.getTime()) + " "
                 + DateFormat.getTimeFormat(getApplicationContext()).format(mDateTimeCalendar.getTime()));

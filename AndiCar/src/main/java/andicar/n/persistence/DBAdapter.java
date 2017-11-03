@@ -116,7 +116,7 @@ import andicar.n.utils.FileUtils;
                 ContentValues expenseContent;
                 expenseContent = new ContentValues();
 
-                expenseContent.put(DBAdapter.COL_NAME_GEN_NAME, ConstantValues.EXPENSES_COL_FROMREFUEL_TABLE_NAME);
+                expenseContent.put(DBAdapter.COL_NAME_GEN_NAME, ConstantValues.EXPENSES_COL_FROM_REFUEL_TABLE_NAME);
                 expenseContent.put(DBAdapter.COL_NAME_GEN_USER_COMMENT, content.getAsString(DBAdapter.COL_NAME_GEN_USER_COMMENT));
                 expenseContent.put(DBAdapter.COL_NAME_EXPENSE__CAR_ID, content.getAsString(DBAdapter.COL_NAME_REFUEL__CAR_ID));
                 expenseContent.put(DBAdapter.COL_NAME_EXPENSE__DRIVER_ID, content.getAsString(DBAdapter.COL_NAME_REFUEL__DRIVER_ID));
@@ -138,7 +138,7 @@ import andicar.n.utils.FileUtils;
                 expenseContent.put(DBAdapter.COL_NAME_EXPENSE__CURRENCY_ID, content.getAsString(DBAdapter.COL_NAME_REFUEL__CURRENCY_ID));
                 expenseContent.put(DBAdapter.COL_NAME_EXPENSE__DATE, content.getAsString(DBAdapter.COL_NAME_REFUEL__DATE));
                 expenseContent.put(DBAdapter.COL_NAME_EXPENSE__DOCUMENTNO, content.getAsString(DBAdapter.COL_NAME_REFUEL__DOCUMENTNO));
-                expenseContent.put(DBAdapter.COL_NAME_EXPENSE__FROMTABLE, ConstantValues.EXPENSES_COL_FROMREFUEL_TABLE_NAME);
+                expenseContent.put(DBAdapter.COL_NAME_EXPENSE__FROMTABLE, ConstantValues.EXPENSES_COL_FROM_REFUEL_TABLE_NAME);
                 expenseContent.put(DBAdapter.COL_NAME_EXPENSE__FROMRECORD_ID, retVal);
                 expenseContent.put(DBAdapter.COL_NAME_EXPENSE__BPARTNER_ID, content.getAsString(DBAdapter.COL_NAME_REFUEL__BPARTNER_ID));
                 expenseContent.put(DBAdapter.COL_NAME_EXPENSE__BPARTNER_LOCATION_ID,
@@ -523,14 +523,14 @@ import andicar.n.utils.FileUtils;
                                     content.getAsString(DBAdapter.COL_NAME_REFUEL__CURRENCYENTERED_ID));
                             expenseContent.put(DBAdapter.COL_NAME_EXPENSE__CURRENCYRATE, content.getAsString(DBAdapter.COL_NAME_REFUEL__CURRENCYRATE));
 
-                            BigDecimal convertionRate = new BigDecimal(content.getAsString(DBAdapter.COL_NAME_REFUEL__CURRENCYRATE));
-                            amt = (amt.multiply(convertionRate)).setScale(ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT);
+                            BigDecimal conversionRate = new BigDecimal(content.getAsString(DBAdapter.COL_NAME_REFUEL__CURRENCYRATE));
+                            amt = (amt.multiply(conversionRate)).setScale(ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT);
                             expenseContent.put(DBAdapter.COL_NAME_EXPENSE__AMOUNT, amt.toString());
 
                             expenseContent.put(DBAdapter.COL_NAME_EXPENSE__CURRENCY_ID, content.getAsString(DBAdapter.COL_NAME_REFUEL__CURRENCY_ID));
                             expenseContent.put(DBAdapter.COL_NAME_EXPENSE__DATE, content.getAsString(DBAdapter.COL_NAME_REFUEL__DATE));
                             expenseContent.put(DBAdapter.COL_NAME_EXPENSE__DOCUMENTNO, content.getAsString(DBAdapter.COL_NAME_REFUEL__DOCUMENTNO));
-                            expenseContent.put(DBAdapter.COL_NAME_EXPENSE__FROMTABLE, ConstantValues.EXPENSES_COL_FROMREFUEL_TABLE_NAME);
+                            expenseContent.put(DBAdapter.COL_NAME_EXPENSE__FROMTABLE, ConstantValues.EXPENSES_COL_FROM_REFUEL_TABLE_NAME);
                             expenseContent.put(DBAdapter.COL_NAME_EXPENSE__BPARTNER_ID, content.getAsString(DBAdapter.COL_NAME_REFUEL__BPARTNER_ID));
                             expenseContent.put(DBAdapter.COL_NAME_EXPENSE__BPARTNER_LOCATION_ID,
                                     content.getAsString(DBAdapter.COL_NAME_REFUEL__BPARTNER_LOCATION_ID));
@@ -940,7 +940,7 @@ import andicar.n.utils.FileUtils;
                 //check refuels
                 checkSql = "SELECT * " + "FROM " + TABLE_NAME_REFUEL + " " + "WHERE " + COL_NAME_GEN_ROWID + " = " + "( SELECT " + COL_NAME_EXPENSE__FROMRECORD_ID
                         + " " + "FROM " + TABLE_NAME_EXPENSE + " " + "WHERE " + COL_NAME_GEN_ROWID + " = " + rowId + " " + " AND " + COL_NAME_EXPENSE__FROMTABLE
-                        + " = '" + ConstantValues.EXPENSES_COL_FROMREFUEL_TABLE_NAME + "' ) " + "LIMIT 1";
+                        + " = '" + ConstantValues.EXPENSES_COL_FROM_REFUEL_TABLE_NAME + "' ) " + "LIMIT 1";
                 checkCursor = mDb.rawQuery(checkSql, null);
                 if (checkCursor.moveToFirst()) { //record exists
                     checkCursor.close();

@@ -47,13 +47,13 @@ public class TaskEditFragment extends BaseEditFragment {
     public static final String TASK_SCHEDULED_FOR_TIME = "T";
     public static final String TASK_SCHEDULED_FOR_MILEAGE = "M";
     public static final String TASK_SCHEDULED_FOR_BOTH = "B";
-    public static final int TASK_TIMEFREQUENCYTYPE_DAILY = 1;
-    public static final int TASK_TIMEFREQUENCYTYPE_WEEKLY = 2;
-    public static final int TASK_TIMEFREQUENCYTYPE_MONTHLY = 3;
-    public static final int TASK_TIMEFREQUENCYTYPE_YEARLY = 4;
+    private static final int TASK_TIME_FREQUENCY_TYPE_ONETIME = 0;
+    public static final int TASK_TIME_FREQUENCY_TYPE_DAILY = 1;
+    public static final int TASK_TIME_FREQUENCY_TYPE_WEEKLY = 2;
+    public static final int TASK_TIME_FREQUENCY_TYPE_MONTHLY = 3;
+    public static final int TASK_TIME_FREQUENCY_TYPE_YEARLY = 4;
     private static final String TASK_CAR_LINK_ID_KEY = "TaskCarLinkId";
     private static final int TASK_CAR_LINK_REQUEST_CODE = 1;
-    private static final int TASK_TIMEFREQUENCYTYPE_ONETIME = 0;
     private EditText etFrequency = null;
     private EditText etTimeReminder = null;
     private EditText etMileage = null;
@@ -186,9 +186,9 @@ public class TaskEditFragment extends BaseEditFragment {
 //            initDateTime(startingTimeInMilliseconds);
         }
         else {
-            mlDateTimeInMillis = System.currentTimeMillis() + ConstantValues.ONE_DAY_IN_MILISECONDS;
+            mlDateTimeInMillis = System.currentTimeMillis() + ConstantValues.ONE_DAY_IN_MILLISECONDS;
             initDateTimeFields();
-//            initDateTime(System.currentTimeMillis() + StaticValues.ONE_DAY_IN_MILISECONDS);
+//            initDateTime(System.currentTimeMillis() + StaticValues.ONE_DAY_IN_MILLISECONDS);
         }
 
         mTimeReminder = c.getString(DBAdapter.COL_POS_TASK__TIMEREMINDERSTART);
@@ -210,7 +210,7 @@ public class TaskEditFragment extends BaseEditFragment {
         mTimeReminder = "30";
         mReminderMileage = "300";
         mNoOfNextToDo = "3";
-        mTimeFrequencyTypeId = TASK_TIMEFREQUENCYTYPE_DAILY;
+        mTimeFrequencyTypeId = TASK_TIME_FREQUENCY_TYPE_DAILY;
         isDiffStartingTime = true;
         isTimingEnabled = true;
         isMileageEnabled = true;
@@ -333,7 +333,7 @@ public class TaskEditFragment extends BaseEditFragment {
 
                 if (checkedId == rbOneTime.getId()) {
                     isRecurrent = false;
-                    mTimeFrequencyTypeId = TASK_TIMEFREQUENCYTYPE_ONETIME;
+                    mTimeFrequencyTypeId = TASK_TIME_FREQUENCY_TYPE_ONETIME;
                 }
                 else { //
                     isRecurrent = true;
@@ -354,7 +354,7 @@ public class TaskEditFragment extends BaseEditFragment {
                     return;
                 }
                 mTimeFrequencyTypeId = l + 1; //0 is one time
-                if (mTimeFrequencyTypeId != TASK_TIMEFREQUENCYTYPE_MONTHLY) {
+                if (mTimeFrequencyTypeId != TASK_TIME_FREQUENCY_TYPE_MONTHLY) {
                     mOnLastDayOfMonth = false;
                 }
                 initDateTimeFields();
@@ -372,7 +372,7 @@ public class TaskEditFragment extends BaseEditFragment {
         ckOnLastDay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (mTimeFrequencyTypeId == TASK_TIMEFREQUENCYTYPE_MONTHLY) {
+                if (mTimeFrequencyTypeId == TASK_TIME_FREQUENCY_TYPE_MONTHLY) {
                     if (isChecked) {
                         isTimeOnly = true; //just the time because we know the day (last day of month)
                         TaskEditFragment.this.initDateTimeFields();
@@ -381,7 +381,7 @@ public class TaskEditFragment extends BaseEditFragment {
                         isTimeOnly = false;
                         //noinspection WrongConstant
                         if (mDateTimeCalendar.get(Calendar.YEAR) == 1970) {
-                            mlDateTimeInMillis = System.currentTimeMillis() + ConstantValues.ONE_DAY_IN_MILISECONDS;
+                            mlDateTimeInMillis = System.currentTimeMillis() + ConstantValues.ONE_DAY_IN_MILLISECONDS;
                             TaskEditFragment.this.initDateTimeFields();
                         }
                         else {
@@ -474,7 +474,6 @@ public class TaskEditFragment extends BaseEditFragment {
     @Override
     protected void initSpecificControls() {
         Utils.initSpinner(mDbAdapter, spnTaskType, DBAdapter.TABLE_NAME_TASKTYPE, DBAdapter.WHERE_CONDITION_ISACTIVE, mTaskTypeId, false);
-//        Utils.initSpinner(mDbAdapter, spnCar, null, DBAdapter.TABLE_NAME_CAR, DBAdapter.WHERE_CONDITION_ISACTIVE, mCarId, false);
     }
 
     @Override
@@ -529,7 +528,7 @@ public class TaskEditFragment extends BaseEditFragment {
                 ckIsDifferentStartingTime.setVisibility(View.VISIBLE);
                 llRecurrentTimeSettings.setVisibility(View.VISIBLE);
                 llTimeReminder.setVisibility(View.VISIBLE);
-                if (mTimeFrequencyTypeId == TASK_TIMEFREQUENCYTYPE_DAILY) {
+                if (mTimeFrequencyTypeId == TASK_TIME_FREQUENCY_TYPE_DAILY) {
                     tvTimeReminderUnitLbl.setText(R.string.gen_minutes);
                     if (mRowId == -1) { //new record
                         etTimeReminder.setText("30");
@@ -543,7 +542,7 @@ public class TaskEditFragment extends BaseEditFragment {
                     }
                 }
 
-                if (mTimeFrequencyTypeId == TASK_TIMEFREQUENCYTYPE_MONTHLY && !isDiffStartingTime) {
+                if (mTimeFrequencyTypeId == TASK_TIME_FREQUENCY_TYPE_MONTHLY && !isDiffStartingTime) {
                     llLastMonthDay.setVisibility(View.VISIBLE);
                 }
                 else {
@@ -560,7 +559,7 @@ public class TaskEditFragment extends BaseEditFragment {
                 else {
                     tvFirstTimeRunExplanation.setVisibility(View.GONE);
                     llStartingTime.setVisibility(View.VISIBLE);
-                    if (mTimeFrequencyTypeId == TASK_TIMEFREQUENCYTYPE_MONTHLY && ckOnLastDay.isChecked()) {
+                    if (mTimeFrequencyTypeId == TASK_TIME_FREQUENCY_TYPE_MONTHLY && ckOnLastDay.isChecked()) {
                         spnLastDayMonth.setVisibility(View.VISIBLE);
 //                        btnPickDate.setVisibility(View.GONE);
                         tvOrLastDay.setVisibility(View.GONE);
@@ -785,7 +784,7 @@ public class TaskEditFragment extends BaseEditFragment {
                     data.put(DBAdapter.COL_NAME_TASK__STARTINGTIME, (Long) null);
                 }
                 else {
-                    if (mTimeFrequencyTypeId == TASK_TIMEFREQUENCYTYPE_MONTHLY && ckOnLastDay.isChecked()) {
+                    if (mTimeFrequencyTypeId == TASK_TIME_FREQUENCY_TYPE_MONTHLY && ckOnLastDay.isChecked()) {
                         mDateTimeCalendar.set(Calendar.MONTH, spnLastDayMonth.getSelectedItemPosition());
                         data.put(DBAdapter.COL_NAME_TASK__STARTINGTIME, mDateTimeCalendar.getTimeInMillis() / 1000);
                     }
@@ -831,13 +830,11 @@ public class TaskEditFragment extends BaseEditFragment {
                 return false;
             }
             else {
-                if (isFinishAfterSave) {
+                if (isFinishAfterSave && getActivity() != null) {
                     //generate the To-Dos
                     Intent intent = new Intent(getActivity(), ToDoManagementService.class);
                     intent.putExtra(ToDoManagementService.TASK_ID_KEY, mRowId);
                     getActivity().startService(intent);
-//                finish();
-//                    return true;
                 }
             }
         }
@@ -860,11 +857,11 @@ public class TaskEditFragment extends BaseEditFragment {
                     mDbAdapter.deleteRecords(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__TASK_ID + " = ? AND "
                             + DBAdapter.COL_NAME_TODO__ISDONE + " = 'N'", deleteArgs);
 
-                    Intent intent = new Intent(getActivity(), ToDoManagementService.class);
-                    intent.putExtra(ToDoManagementService.TASK_ID_KEY, mRowId);
-                    getActivity().startService(intent);
-//                    finish();
-//                    return true;
+                    if (getActivity() != null) {
+                        Intent intent = new Intent(getActivity(), ToDoManagementService.class);
+                        intent.putExtra(ToDoManagementService.TASK_ID_KEY, mRowId);
+                        getActivity().startService(intent);
+                    }
                 }
             }
         }
@@ -909,40 +906,40 @@ public class TaskEditFragment extends BaseEditFragment {
             return true;
         }
         else if (item.getItemId() == ConstantValues.CONTEXT_MENU_DELETE_ID) {
-            final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-            alertDialog.setTitle(R.string.gen_confirm);
-            alertDialog.setMessage(R.string.gen_delete_confirmation);
-            alertDialog.setCancelable(false);
+            if (getActivity() != null) {
+                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+                alertDialog.setTitle(R.string.gen_confirm);
+                alertDialog.setMessage(R.string.gen_delete_confirmation);
+                alertDialog.setCancelable(false);
 
-            alertDialog.setPositiveButton(R.string.gen_yes,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            String[] deleteArgs = {Long.toString(mLongClickId)};
-                            mDbAdapter.deleteRecords(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__ISDONE + " = 'N' " + " AND "
-                                    + DBAdapter.COL_NAME_TODO__CAR_ID + " = " + "(SELECT " + DBAdapter.COL_NAME_TASK_CAR__CAR_ID + " FROM "
-                                    + DBAdapter.TABLE_NAME_TASK_CAR + " WHERE " + DBAdapter.COL_NAME_GEN_ROWID + " = ? )", deleteArgs);
-                            int deleteResult = mDbAdapter.deleteRecord(DBAdapter.TABLE_NAME_TASK_CAR, mLongClickId);
-                            if (deleteResult != -1) {
-                                Utils.showNotReportableErrorDialog(TaskEditFragment.this.getActivity(), TaskEditFragment.this.getString(R.string.gen_error),
-                                        TaskEditFragment.this.getString(deleteResult), false);
+                alertDialog.setPositiveButton(R.string.gen_yes,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String[] deleteArgs = {Long.toString(mLongClickId)};
+                                mDbAdapter.deleteRecords(DBAdapter.TABLE_NAME_TODO, DBAdapter.COL_NAME_TODO__ISDONE + " = 'N' " + " AND "
+                                        + DBAdapter.COL_NAME_TODO__CAR_ID + " = " + "(SELECT " + DBAdapter.COL_NAME_TASK_CAR__CAR_ID + " FROM "
+                                        + DBAdapter.TABLE_NAME_TASK_CAR + " WHERE " + DBAdapter.COL_NAME_GEN_ROWID + " = ? )", deleteArgs);
+                                int deleteResult = mDbAdapter.deleteRecord(DBAdapter.TABLE_NAME_TASK_CAR, mLongClickId);
+                                if (deleteResult != -1) {
+                                    Utils.showNotReportableErrorDialog(TaskEditFragment.this.getActivity(), TaskEditFragment.this.getString(R.string.gen_error),
+                                            TaskEditFragment.this.getString(deleteResult), false);
+                                } else {
+                                    fillLinkedCarsData();
+                                }
                             }
-                            else {
-                                fillLinkedCarsData();
+                        });
+
+                alertDialog.setNegativeButton(R.string.gen_cancel,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
                             }
-                        }
-                    });
+                        });
 
-            alertDialog.setNegativeButton(R.string.gen_cancel,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-
-            alertDialog.show();
-
+                alertDialog.show();
+            }
             return true;
         }
         else {

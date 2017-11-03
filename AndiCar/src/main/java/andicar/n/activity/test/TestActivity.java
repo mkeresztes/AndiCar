@@ -47,12 +47,13 @@ import andicar.n.service.GDriveUploader;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.Utils;
 
+@SuppressWarnings({"FieldCanBeLocal", "unchecked", "unused", "NullableProblems"})
 @SuppressLint("SetTextI18n")
 public class TestActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, AndiCarAsyncTaskListener {
     private static final int REQUEST_CODE_RESOLVE_CONNECTION = 1;
     private static final int REQUEST_CODE_OPEN_DRIVE_FILE = 1000;
     private static final String TAG = "AndiCar";
-    private SharedPreferences mPref = AndiCar.getDefaultSharedPreferences();
+    private final SharedPreferences mPref = AndiCar.getDefaultSharedPreferences();
     private GoogleAccountCredential mGoogleCredential;
     private GoogleApiClient mGoogleApiClient;
     private TextView text1;
@@ -64,9 +65,9 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test_activity);
 
-        text1 = (TextView) findViewById(R.id.text1);
-        text2 = (TextView) findViewById(R.id.text2);
-        text3 = (TextView) findViewById(R.id.text3);
+        text1 = findViewById(R.id.text1);
+        text2 = findViewById(R.id.text2);
+        text3 = findViewById(R.id.text3);
 
         mGoogleCredential = GoogleAccountCredential.usingOAuth2(this, Arrays.asList(ConstantValues.GOOGLE_SCOPES)).setBackOff(new ExponentialBackOff());
         mGoogleCredential.setSelectedAccountName(mPref.getString(getString(R.string.pref_key_google_account), ""));
@@ -79,7 +80,7 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
                 .setAccountName(mGoogleCredential.getSelectedAccountName())
                 .build();
 
-        Button btn1 = (Button) findViewById(R.id.btn1);
+        Button btn1 = findViewById(R.id.btn1);
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,7 +93,7 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         });
 
-        Button btn2 = (Button) findViewById(R.id.btn2);
+        Button btn2 = findViewById(R.id.btn2);
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,15 +105,14 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
                     try {
                         startIntentSenderForResult(
                                 intentSender, REQUEST_CODE_OPEN_DRIVE_FILE, null, 0, 0, 0);
-                    }
-                    catch (IntentSender.SendIntentException e) {
+                    } catch (IntentSender.SendIntentException e) {
                         Log.i("AndiCar", "Failed to launch file chooser.");
                     }
                 }
             }
         });
 
-        Button btn3 = (Button) findViewById(R.id.btn3);
+        Button btn3 = findViewById(R.id.btn3);
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,16 +120,16 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         });
 
-        Button btn4 = (Button) findViewById(R.id.btn4);
+        Button btn4 = findViewById(R.id.btn4);
         btn4.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SdCardPath")
             @Override
             public void onClick(View view) {
                 try {
                     new GDriveUploader(getApplicationContext(), mGoogleApiClient, mPref.getString(getString(R.string.pref_key_secure_backup_gdrive_folder_id), ""),
                             "/sdcard/andicar/backups/abk_2017-10-17-092529637.db",
-                            "application/octet-stream", TestActivity.this).startUpload();
-                }
-                catch (Exception e) {
+                            TestActivity.this).startUpload();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -161,12 +161,10 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
         if (connectionResult.hasResolution()) {
             try {
                 connectionResult.startResolutionForResult(this, REQUEST_CODE_RESOLVE_CONNECTION);
-            }
-            catch (IntentSender.SendIntentException e) {
+            } catch (IntentSender.SendIntentException e) {
                 // Unable to resolve, message user appropriately
             }
-        }
-        else {
+        } else {
             GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this, 0).show();
         }
     }
@@ -268,7 +266,7 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
                     try {
                         //getting image from the local storage
 //                /sdcard/andicar/backups/abk_2017-10-17-092529637.db
-                        InputStream inputStream = getContentResolver().openInputStream(
+                        @SuppressLint("SdCardPath") InputStream inputStream = getContentResolver().openInputStream(
                                 AndiCarFileProvider.getUriForFile(getApplicationContext(), "org.andicar2.provider", new File("/sdcard/andicar/backups/abk_2017-10-17-092529637.db")));
 
                         if (inputStream != null) {
@@ -281,8 +279,7 @@ public class TestActivity extends AppCompatActivity implements GoogleApiClient.C
                         }
 
                         outputStream.close();
-                    }
-                    catch (IOException e) {
+                    } catch (IOException e) {
                         Log.e(TAG, e.getMessage());
                     }
 

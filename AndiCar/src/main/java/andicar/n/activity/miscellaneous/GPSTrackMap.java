@@ -92,38 +92,40 @@ public class GPSTrackMap extends FragmentActivity {
         setContentView(R.layout.gpstrack_map);
 
         Bundle mExtras = getIntent().getExtras();
-        mResource = getResources();
-        mErrMsg = mResource.getString(R.string.error_056);
-        //get the the track id
-        mTrackId = mExtras.getLong(GPS_TRACK_ID);
+        if (mExtras != null) {
+            mResource = getResources();
+            mErrMsg = mResource.getString(R.string.error_056);
+            //get the the track id
+            mTrackId = mExtras.getLong(GPS_TRACK_ID);
 
-        DBAdapter dbAdapter = new DBAdapter(this);
-        Cursor c = dbAdapter.fetchRecord(DBAdapter.TABLE_NAME_GPSTRACK, DBAdapter.COL_LIST_GPSTRACK_TABLE, mTrackId);
-        mInfoName = c != null ? c.getString(DBAdapter.COL_POS_GEN_NAME) : "";
-        mInfoDateTimeStart = Utils.getFormattedDateTime((c != null ? c.getLong(DBAdapter.COL_POS_GPSTRACK__DATE) : 0) * 1000, false); //format[0].format(new Date(c.getLong(DBAdapter.COL_POS_GPSTRACK__DATE) * 1000));
-        mInfoDateTimeEnd = Utils.getFormattedDateTime(((c != null ? c.getLong(DBAdapter.COL_POS_GPSTRACK__DATE) : 0) * 1000) + ((c != null ? c.getLong(DBAdapter.COL_POS_GPSTRACK__TOTALTIME) : 0) * 1000), false);
+            DBAdapter dbAdapter = new DBAdapter(this);
+            Cursor c = dbAdapter.fetchRecord(DBAdapter.TABLE_NAME_GPSTRACK, DBAdapter.COL_LIST_GPSTRACK_TABLE, mTrackId);
+            mInfoName = c != null ? c.getString(DBAdapter.COL_POS_GEN_NAME) : "";
+            mInfoDateTimeStart = Utils.getFormattedDateTime((c != null ? c.getLong(DBAdapter.COL_POS_GPSTRACK__DATE) : 0) * 1000, false); //format[0].format(new Date(c.getLong(DBAdapter.COL_POS_GPSTRACK__DATE) * 1000));
+            mInfoDateTimeEnd = Utils.getFormattedDateTime(((c != null ? c.getLong(DBAdapter.COL_POS_GPSTRACK__DATE) : 0) * 1000) + ((c != null ? c.getLong(DBAdapter.COL_POS_GPSTRACK__TOTALTIME) : 0) * 1000), false);
 
-        mInfoTotalTime = c != null ? c.getLong(DBAdapter.COL_POS_GPSTRACK__TOTALTIME) : 0;
-        mInfoMovingTime = c != null ? c.getLong(DBAdapter.COL_POS_GPSTRACK__MOVINGTIME) : 0;
-        mInfoTotalPauseTime = c != null ? c.getLong(DBAdapter.COL_POS_GPSTRACK__TOTALPAUSETIME) : 0;
-        mInfoNonMovingTime = mInfoTotalTime - mInfoTotalPauseTime - mInfoMovingTime;
-        mInfoDistance = c != null ? c.getDouble(DBAdapter.COL_POS_GPSTRACK__DISTANCE) : 0;
-        mInfoMaxSpeed = c != null ? c.getDouble(DBAdapter.COL_POS_GPSTRACK__MAXSPEED) : 0;
-        mInfoAvgSpeed = c != null ? c.getDouble(DBAdapter.COL_POS_GPSTRACK__AVGSPEED) : 0;
-        mInfoAvgMovingSpeed = c != null ? c.getDouble(DBAdapter.COL_POS_GPSTRACK__AVGMOVINGSPEED) : 0;
-        mCarUOMLengthCode = dbAdapter.getUOMCode(dbAdapter.getCarUOMLengthID(c != null ? c.getLong(DBAdapter.COL_POS_GPSTRACK__CAR_ID) : -1));
-        if (c != null) {
-            c.close();
+            mInfoTotalTime = c != null ? c.getLong(DBAdapter.COL_POS_GPSTRACK__TOTALTIME) : 0;
+            mInfoMovingTime = c != null ? c.getLong(DBAdapter.COL_POS_GPSTRACK__MOVINGTIME) : 0;
+            mInfoTotalPauseTime = c != null ? c.getLong(DBAdapter.COL_POS_GPSTRACK__TOTALPAUSETIME) : 0;
+            mInfoNonMovingTime = mInfoTotalTime - mInfoTotalPauseTime - mInfoMovingTime;
+            mInfoDistance = c != null ? c.getDouble(DBAdapter.COL_POS_GPSTRACK__DISTANCE) : 0;
+            mInfoMaxSpeed = c != null ? c.getDouble(DBAdapter.COL_POS_GPSTRACK__MAXSPEED) : 0;
+            mInfoAvgSpeed = c != null ? c.getDouble(DBAdapter.COL_POS_GPSTRACK__AVGSPEED) : 0;
+            mInfoAvgMovingSpeed = c != null ? c.getDouble(DBAdapter.COL_POS_GPSTRACK__AVGMOVINGSPEED) : 0;
+            mCarUOMLengthCode = dbAdapter.getUOMCode(dbAdapter.getCarUOMLengthID(c != null ? c.getLong(DBAdapter.COL_POS_GPSTRACK__CAR_ID) : -1));
+            if (c != null) {
+                c.close();
+            }
+
+            DisplayMetrics metrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(metrics);
+            if (metrics.densityDpi <= DisplayMetrics.DENSITY_HIGH) {
+                trackLineWidth = 3;
+            }
+
+            loadTrackFiles = true;
+            setUpMapIfNeeded();
         }
-
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        if (metrics.densityDpi <= DisplayMetrics.DENSITY_HIGH) {
-            trackLineWidth = 3;
-        }
-
-        loadTrackFiles = true;
-        setUpMapIfNeeded();
     }
 
     @Override

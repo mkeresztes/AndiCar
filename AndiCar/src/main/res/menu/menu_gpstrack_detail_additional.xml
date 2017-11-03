@@ -35,7 +35,7 @@
     <!--it is used for hiding the item in case of no mileage created based on the gps track-->
     <!--see GPSTrackEditFragment:onCreateOptionsMenu()-->
     <item
-        android:id="@+id/action_show_mileag_edit"
+        android:id="@+id/action_show_mileage_edit"
         android:icon="@drawable/ic_menu_trip_white"
         android:title="@string/gen_trip_detail"
         app:showAsAction="ifRoom"/>

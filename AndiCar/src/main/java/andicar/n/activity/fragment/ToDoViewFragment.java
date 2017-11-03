@@ -74,7 +74,7 @@ public class ToDoViewFragment extends BaseEditFragment {
         Cursor todoReportCursor = reportDb.fetchReport(1);
 
         if (todoReportCursor != null && todoReportCursor.moveToFirst()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && getContext() != null) {
                 tvText2.setTextColor(getResources().getColor(R.color.todo_overdue_text_color, getContext().getTheme()));
             }
             else {

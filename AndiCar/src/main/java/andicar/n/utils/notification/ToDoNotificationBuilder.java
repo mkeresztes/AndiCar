@@ -39,8 +39,8 @@ import andicar.n.service.ToDoNotificationJob;
  * Helper class for AndiCarNotification.Builder
  */
 class ToDoNotificationBuilder extends Notification.Builder {
-    private static final String NOTIF_CHANEL_TODO_ID = "toDoNotifID";
-    private static final CharSequence NOTIF_CHANEL_TODO_NAME = "AndiCar to-do notifications";
+    private static final String NOTIFICATION_CHANEL_TODO_ID = "toDoNotification";
+    private static final CharSequence NOTIFICATION_CHANEL_TODO_NAME = "AndiCar to-do notifications";
 
     /**
      * Used for To-Do notification
@@ -58,13 +58,13 @@ class ToDoNotificationBuilder extends Notification.Builder {
         super(context);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notifChanel = new NotificationChannel(NOTIF_CHANEL_TODO_ID, NOTIF_CHANEL_TODO_NAME, NotificationManager.IMPORTANCE_HIGH);
-            notifChanel.setDescription(NOTIF_CHANEL_TODO_NAME.toString());
-            notifChanel.enableLights(true);
-            notifChanel.setLightColor(Color.RED);
-            notifChanel.enableVibration(true);
-            notificationManager.createNotificationChannel(notifChanel);
-            this.setChannelId(notifChanel.getId());
+            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANEL_TODO_ID, NOTIFICATION_CHANEL_TODO_NAME, NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.setDescription(NOTIFICATION_CHANEL_TODO_NAME.toString());
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.enableVibration(true);
+            notificationManager.createNotificationChannel(notificationChannel);
+            this.setChannelId(notificationChannel.getId());
         }
 
         this.setAutoCancel(true);

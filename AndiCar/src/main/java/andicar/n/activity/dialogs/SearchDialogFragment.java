@@ -22,6 +22,7 @@ package andicar.n.activity.dialogs;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -102,9 +103,10 @@ public class SearchDialogFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSearchType = getArguments().getInt(SEARCH_TYPE_KEY);
-        mSearchArgs = getArguments().getBundle(SEARCH_ARGS_KEY);
-
+        if (getArguments() != null) {
+            mSearchType = getArguments().getInt(SEARCH_TYPE_KEY);
+            mSearchArgs = getArguments().getBundle(SEARCH_ARGS_KEY);
+        }
         mDbAdapter = new DBAdapter(getContext());
 
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Light_Dialog);
@@ -123,7 +125,7 @@ public class SearchDialogFragment extends DialogFragment {
 
     @SuppressLint("SetTextI18n")
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_search, container);
 
         getDialog().setTitle(R.string.search_dialog_title);
@@ -183,7 +185,7 @@ public class SearchDialogFragment extends DialogFragment {
             else {
                 lExpCatZone.setVisibility(View.VISIBLE);
                 if (mSearchType == SEARCH_TYPE_REFUEL) {
-                    tvExpCategoryLabel.setText(R.string.fillup_category);
+                    tvExpCategoryLabel.setText(R.string.fill_up_category);
                     Utils.initSpinner(mDbAdapter, spnExpCategory, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
                             " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mSearchArgs.getLong(CATEGORY_ID_KEY, -1), true);
                 }
@@ -228,7 +230,7 @@ public class SearchDialogFragment extends DialogFragment {
             tvExpTypeLabel.setText(R.string.mileage_type);
         }
         else if (mSearchType == SEARCH_TYPE_REFUEL) {
-            tvExpTypeLabel.setText(R.string.fillup_type);
+            tvExpTypeLabel.setText(R.string.fill_up_type);
         }
 
         acUserComment.setText(mSearchArgs.getString(COMMENT_KEY, "%"));
@@ -251,7 +253,10 @@ public class SearchDialogFragment extends DialogFragment {
         tvDateFromSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                @SuppressLint("WrongConstant") DatePickerDialog dp = new DatePickerDialog(getContext(), onDateChanged,
+                if (getContext() == null)
+                    return;
+
+                DatePickerDialog dp = new DatePickerDialog(getContext(), onDateChanged,
                         mDateFromCalendar.get(Calendar.YEAR), mDateFromCalendar.get(Calendar.MONTH), mDateFromCalendar.get(Calendar.DAY_OF_MONTH));
                 dp.getDatePicker().setTag("dateFromDialog");
                 dp.show();
@@ -283,7 +288,10 @@ public class SearchDialogFragment extends DialogFragment {
         tvDateToSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                @SuppressLint("WrongConstant") DatePickerDialog dp = new DatePickerDialog(getContext(), onDateChanged,
+                if (getContext() == null)
+                    return;
+
+                DatePickerDialog dp = new DatePickerDialog(getContext(), onDateChanged,
                         mDateToCalendar.get(Calendar.YEAR), mDateToCalendar.get(Calendar.MONTH), mDateToCalendar.get(Calendar.DAY_OF_MONTH));
                 dp.getDatePicker().setTag("dateToDialog");
                 dp.show();
@@ -363,7 +371,9 @@ public class SearchDialogFragment extends DialogFragment {
                     searchParams.putInt(STATUS_KEY, spnStatus.getSelectedItemPosition());
                 }
 
-                listener.onFinishSearchDialog(searchParams);
+                if (listener != null)
+                    listener.onFinishSearchDialog(searchParams);
+
                 dismiss();
             }
         });
@@ -378,11 +388,13 @@ public class SearchDialogFragment extends DialogFragment {
         String tableName;
 
         //set adapter for records
-        records = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_TAG, null, null, 0, 0);
-        if (records != null) {
-            mTagAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, records);
+        if (getContext() != null) {
+            records = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_TAG, null, null, 0, 0);
+            if (records != null) {
+                mTagAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, records);
+            }
+            acTag.setAdapter(mTagAdapter);
         }
-        acTag.setAdapter(mTagAdapter);
 
         //set adapter for user comment
         if (mSearchType == SEARCH_TYPE_MILEAGE) {

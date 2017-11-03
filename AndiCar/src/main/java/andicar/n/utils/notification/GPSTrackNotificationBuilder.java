@@ -42,25 +42,27 @@ import static android.app.Notification.VISIBILITY_PUBLIC;
 
 class GPSTrackNotificationBuilder extends Notification.Builder {
 
-    private static final String NOTIF_CHANEL_GPSTRACK_ID = "gpsTrackNotifID";
-    private static final CharSequence NOTIF_CHANEL_GPSTRACK_NAME = "AndiCar GPS Tracking notifications";
+    private static final String NOTIFICATION_CHANEL_GPSTRACK_ID = "gpsTrackNotifications";
+    private static final CharSequence NOTIFICATION_CHANEL_GPSTRACK_NAME = "AndiCar GPS Tracking notifications";
 
     GPSTrackNotificationBuilder(Context context, int what) {
         super(context);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            NotificationChannel notifChanel = new NotificationChannel(NOTIF_CHANEL_GPSTRACK_ID, NOTIF_CHANEL_GPSTRACK_NAME, NotificationManager.IMPORTANCE_HIGH);
-            notifChanel.setDescription(NOTIF_CHANEL_GPSTRACK_NAME.toString());
-            notifChanel.enableLights(true);
-            notifChanel.setLightColor(Color.RED);
-            notifChanel.enableVibration(true);
-            notifChanel.setLockscreenVisibility(VISIBILITY_PUBLIC);
-            notificationManager.createNotificationChannel(notifChanel);
-            this.setChannelId(notifChanel.getId());
+            if (notificationManager != null) {
+                NotificationChannel notificationChanel = new NotificationChannel(NOTIFICATION_CHANEL_GPSTRACK_ID, NOTIFICATION_CHANEL_GPSTRACK_NAME, NotificationManager.IMPORTANCE_HIGH);
+                notificationChanel.setDescription(NOTIFICATION_CHANEL_GPSTRACK_NAME.toString());
+                notificationChanel.enableLights(true);
+                notificationChanel.setLightColor(Color.RED);
+                notificationChanel.enableVibration(true);
+                notificationChanel.setLockscreenVisibility(VISIBILITY_PUBLIC);
+                notificationManager.createNotificationChannel(notificationChanel);
+                this.setChannelId(notificationChanel.getId());
+            }
         }
 
-        if (what == AndiCarNotification.NOTIF_GPS_TRACKING_STARTED_ID) {
+        if (what == AndiCarNotification.GPS_TRACKING_STARTED_ID) {
             this.setContentTitle(context.getText(R.string.gps_track_service_track_in_progress_title));
             this.setContentText(context.getString(R.string.gps_track_service_track_in_progress_message));
             this.setSmallIcon(R.drawable.ic_notif_gpstrack);
@@ -92,8 +94,7 @@ class GPSTrackNotificationBuilder extends Notification.Builder {
                 this.addAction(actionPause);
                 this.addAction(actionStop);
             }
-        }
-        else if (what == AndiCarNotification.NOTIF_GPS_PAUSED_ID) {
+        } else if (what == AndiCarNotification.GPS_PAUSED_ID) {
             this.setContentTitle(context.getText(R.string.gps_track_service_tracking_paused_title));
             this.setContentText(context.getString(R.string.gps_track_service_tracking_paused_message));
             this.setSmallIcon(R.drawable.ic_notif_pause);
@@ -125,8 +126,7 @@ class GPSTrackNotificationBuilder extends Notification.Builder {
                 this.addAction(actionResume);
                 this.addAction(actionStop);
             }
-        }
-        else if (what == AndiCarNotification.NOTIF_GPS_DISABLED_ID) {
+        } else if (what == AndiCarNotification.GPS_DISABLED_ID) {
             this.setContentTitle(context.getText(R.string.gps_track_service_auto_shut_down_title));
             this.setContentText(context.getString(R.string.gps_track_service_gps_disabled_message));
             this.setSmallIcon(R.drawable.ic_notif_andicar_error);
@@ -134,8 +134,7 @@ class GPSTrackNotificationBuilder extends Notification.Builder {
             this.setWhen(System.currentTimeMillis());
             //noinspection deprecation
             this.setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE);
-        }
-        else if (what == AndiCarNotification.NOTIF_GPS_OUTOFSERVICE_ID) {
+        } else if (what == AndiCarNotification.GPS_OUT_OF_SERVICE_ID) {
             this.setContentTitle(context.getText(R.string.gps_track_service_auto_shut_down_title));
             this.setContentText(context.getString(R.string.gps_track_service_gps_out_of_service));
             this.setSmallIcon(R.drawable.ic_notif_andicar_error);

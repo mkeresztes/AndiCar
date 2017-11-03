@@ -37,9 +37,9 @@ import andicar.n.utils.notification.AndiCarNotification;
 public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     public static final String BK_FILE_KEY = "bkFile";
     private static final String LogTag = "AndiCar SecureBackupJob";
-    public static String TAG = "SecureBackupJob";
+    public static final String TAG = "SecureBackupJob";
     private final SharedPreferences mPreferences = AndiCar.getDefaultSharedPreferences();
-    private ArrayList<String> mFileToSend = new ArrayList<>();
+    private final ArrayList<String> mFileToSend = new ArrayList<>();
     private String zippedBk;
     private LogFileWriter debugLogFileWriter = null;
     private GoogleApiClient mGoogleApiClient;
@@ -278,7 +278,7 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
             }
 
             if (mPreferences.getBoolean(getString(R.string.pref_key_secure_backup_show_notification), true)) {
-                AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_INFO, ConstantValues.NOTIF_SECUREBK_SUCCEEDED,
+                AndiCarNotification.showGeneralNotification(this, AndiCarNotification.NOTIFICATION_TYPE_INFO, ConstantValues.NOTIFICATION_SECURE_BK_SUCCEEDED,
                         getString(R.string.pref_category_secure_backup), getString(R.string.secure_backup_success_message), null, null);
             }
 
@@ -396,7 +396,7 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
                 debugLogFileWriter.appendnl("Connected ...");
 
             new GDriveUploader(getApplicationContext(), mGoogleApiClient, mPreferences.getString(getString(R.string.pref_key_secure_backup_gdrive_folder_id), ""),
-                    mFileToSend.get(0), "application/octet-stream", this).startUpload();
+                    mFileToSend.get(0), this).startUpload();
         } catch (Exception e) {
             try {
                 if (debugLogFileWriter != null) {

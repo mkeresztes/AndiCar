@@ -25,7 +25,7 @@ public class RecordComponent extends LinearLayout {
     private View mButtonsLine;
     private ImageButton mMapButton;
     private ImageButton mEditButton;
-    private ImageButton mhowListButton;
+    private ImageButton mShowListButton;
     private ImageButton mNewButton;
     private String mHeaderText;
     private String mFirstLineText;
@@ -65,7 +65,7 @@ public class RecordComponent extends LinearLayout {
         mButtonsLine = rootView.findViewById(R.id.lineButtons);
         mMapButton = rootView.findViewById(R.id.btnMap);
         mEditButton = rootView.findViewById(R.id.btnEdit);
-        mhowListButton = rootView.findViewById(R.id.btnShowList);
+        mShowListButton = rootView.findViewById(R.id.btnShowList);
         mNewButton = rootView.findViewById(R.id.btnAddNew);
 
         mLineHeader.setText(mHeaderText);
@@ -87,7 +87,7 @@ public class RecordComponent extends LinearLayout {
     }
 
     public void setShowListButtonOnClickListener(View.OnClickListener listener) {
-        mhowListButton.setOnClickListener(listener);
+        mShowListButton.setOnClickListener(listener);
     }
 
     public void setAddNewButtonOnClickListener(View.OnClickListener listener) {
@@ -194,7 +194,7 @@ public class RecordComponent extends LinearLayout {
     }
 
     public void setWhatList(int whatList) {
-        mhowListButton.setTag(R.string.record_component_table_key, whatList);
+        mShowListButton.setTag(R.string.record_component_table_key, whatList);
     }
 
     public void setRecordId(long recordId) {

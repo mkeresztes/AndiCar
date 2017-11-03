@@ -11,8 +11,8 @@
 
         <item
             android:id="@+id/mnuRefuel"
-            android:icon="@drawable/ic_drop_down_menu_fillup_black_24dp_pad2dp"
-            android:title="@string/gen_fillup"/>
+            android:icon="@drawable/ic_drop_down_menu_fill_up_black_24dp_pad2dp"
+            android:title="@string/gen_fill_up" />
 
         <item
             android:id="@+id/mnuExpense"

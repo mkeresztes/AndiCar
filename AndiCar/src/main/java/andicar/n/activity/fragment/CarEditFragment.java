@@ -105,50 +105,51 @@ public class CarEditFragment extends BaseEditFragment {
     public void initDefaultValues() {
         super.initDefaultValues();
 
-        String locale;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            locale = getContext().getResources().getConfiguration().getLocales().get(0).getCountry();
-        }
-        else {
-            //noinspection deprecation
-            locale = getContext().getResources().getConfiguration().locale.getCountry();
-        }
-        switch (locale) {
-            case "US":
-                setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "USD"));
-                mUOMLengthId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "mi");
-                mUOMVolumeId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "gal US");
+        if (getContext() != null && getContext().getResources() != null) {
+            String locale;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                locale = getContext().getResources().getConfiguration().getLocales().get(0).getCountry();
+            } else {
+                //noinspection deprecation
+                locale = getContext().getResources().getConfiguration().locale.getCountry();
+            }
+            switch (locale) {
+                case "US":
+                    setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "USD"));
+                    mUOMLengthId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "mi");
+                    mUOMVolumeId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "gal US");
 
-                break;
-            case "CA":
-                setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "CAD"));
-                mUOMLengthId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "mi");
-                mUOMVolumeId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "gal US");
+                    break;
+                case "CA":
+                    setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "CAD"));
+                    mUOMLengthId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "mi");
+                    mUOMVolumeId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "gal US");
 
-                break;
-            case "HU":
-                setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "HUF"));
-                mUOMLengthId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "km");
-                mUOMVolumeId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "l");
+                    break;
+                case "HU":
+                    setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "HUF"));
+                    mUOMLengthId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "km");
+                    mUOMVolumeId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "l");
 
-                break;
-            case "RO":
-                setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "RON"));
-                mUOMLengthId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "km");
-                mUOMVolumeId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "l");
+                    break;
+                case "RO":
+                    setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "RON"));
+                    mUOMLengthId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "km");
+                    mUOMVolumeId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "l");
 
-                break;
-            case "GB":
-                setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "GBP"));
-                mUOMLengthId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "mi");
-                mUOMVolumeId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "gal GB");
+                    break;
+                case "GB":
+                    setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "GBP"));
+                    mUOMLengthId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "mi");
+                    mUOMVolumeId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "gal GB");
 
-                break;
-            default:
-                setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "EUR"));
-                mUOMLengthId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "km");
-                mUOMVolumeId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "l");
-                break;
+                    break;
+                default:
+                    setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "EUR"));
+                    mUOMLengthId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "km");
+                    mUOMVolumeId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "l");
+                    break;
+            }
         }
 
         mCarModel = "";
@@ -296,10 +297,11 @@ public class CarEditFragment extends BaseEditFragment {
             dbRetVal = ((Long) mDbAdapter.createRecord(DBAdapter.TABLE_NAME_CAR, cvData)).intValue();
             if (dbRetVal > 0) {
                 //used when new car definition is launched from the main navigation
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra(DBAdapter.COL_NAME_GEN_ROWID, dbRetVal);
-                getActivity().setResult(Activity.RESULT_OK, resultIntent);
-
+                if (getActivity() != null) {
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra(DBAdapter.COL_NAME_GEN_ROWID, dbRetVal);
+                    getActivity().setResult(Activity.RESULT_OK, resultIntent);
+                }
                 return true;
             }
             else {

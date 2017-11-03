@@ -18,6 +18,7 @@ public class ExpenseViewAdapter extends BaseViewAdapter {
         mViewAdapterType = VIEW_ADAPTER_TYPE_EXPENSE;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void cursorViewBinder(DefaultViewHolder holder, @SuppressLint("RecyclerView") int position) {
         String line1Content;
@@ -30,19 +31,17 @@ public class ExpenseViewAdapter extends BaseViewAdapter {
 
         try {
             line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(4) * 1000, false));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             line1Content = "Error#1! Please contact me at andicar.support@gmail.com";
         }
 
         try {
             line2Content = String.format(mCursor.getString(2),
-                Utils.numberToString(mCursor.getDouble(5), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
-                Utils.numberToString(mCursor.getDouble(6), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
-                Utils.numberToString(mCursor.getDouble(8), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
-                Utils.numberToString(mCursor.getDouble(7), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH));
-        }
-        catch (Exception e) {
+                    Utils.numberToString(mCursor.getDouble(5), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
+                    Utils.numberToString(mCursor.getDouble(6), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
+                    Utils.numberToString(mCursor.getDouble(8), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT),
+                    Utils.numberToString(mCursor.getDouble(7), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH));
+        } catch (Exception e) {
             line2Content = "Error#2! Please contact me at andicar.support@gmail.com";
         }
 
@@ -53,25 +52,21 @@ public class ExpenseViewAdapter extends BaseViewAdapter {
             if (line2Content != null && line2Content.length() > 0) {
                 holder.mSecondLine.setVisibility(View.VISIBLE);
                 holder.mSecondLine.setText(line2Content);
-            }
-            else {
+            } else {
                 holder.mSecondLine.setVisibility(View.GONE);
             }
-        }
-        else {
+        } else {
             //wider screens => two line lists
             if (line2Content != null && line2Content.length() > 0) {
                 holder.mFirstLine.setText(line1Content + "; " + line2Content);
-            }
-            else {
+            } else {
                 holder.mFirstLine.setText(line1Content);
             }
         }
 
         if (line3Content == null) {
             holder.mThirdLine.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             holder.mThirdLine.setVisibility(View.VISIBLE);
             holder.mThirdLine.setText(line3Content);
         }

@@ -1726,7 +1726,7 @@ public class DB {
                 editor.apply();
 
                 try {
-//                    ServiceStarter.startServicesUsingFBJobDispacher(mCtx, ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE, null);
+//                    ServiceStarter.startServicesUsingFBJobDispatcher(mCtx, ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE, null);
                     Utils.setBackupNextRun(mCtx, AndiCar.getDefaultSharedPreferences().getBoolean(mCtx.getString(R.string.pref_key_backup_service_enabled), false));
                 }
                 catch (Exception e) {

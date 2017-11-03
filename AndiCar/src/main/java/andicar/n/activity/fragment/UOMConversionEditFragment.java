@@ -40,7 +40,7 @@ public class UOMConversionEditFragment extends BaseEditFragment {
     private String mUOMFromType = "";
     private long mUOMFromId;
     private long mUOMToId;
-    private String mConvertionFactor;
+    private String mConversionFactor;
 
 
     private Spinner spnUomFrom;
@@ -71,7 +71,7 @@ public class UOMConversionEditFragment extends BaseEditFragment {
         mName = c.getString(DBAdapter.COL_POS_GEN_NAME);
         mIsActive = c.getString(DBAdapter.COL_POS_GEN_ISACTIVE).equals("Y");
         mUserComment = c.getString(DBAdapter.COL_POS_GEN_USER_COMMENT);
-        mConvertionFactor = c.getString(DBAdapter.COL_POS_UOMCONVERSION__RATE);
+        mConversionFactor = c.getString(DBAdapter.COL_POS_UOMCONVERSION__RATE);
         mUOMFromId = c.getLong(DBAdapter.COL_POS_UOMCONVERSION__UOMFROM_ID);
         mUOMToId = c.getLong(DBAdapter.COL_POS_UOMCONVERSION__UOMTO_ID);
         c.close();
@@ -89,7 +89,7 @@ public class UOMConversionEditFragment extends BaseEditFragment {
         mUOMFromType = "";
         mUOMFromId = -1;
         mUOMToId = -1;
-        mConvertionFactor = "";
+        mConversionFactor = "";
     }
 
     @Override
@@ -147,7 +147,7 @@ public class UOMConversionEditFragment extends BaseEditFragment {
     @Override
     protected void showValuesInUI() {
         etName.setText(mName);
-        etConversionFactor.setText(mConvertionFactor);
+        etConversionFactor.setText(mConversionFactor);
         ckIsActive.setChecked(mIsActive);
         acUserComment.setText(mUserComment);
     }

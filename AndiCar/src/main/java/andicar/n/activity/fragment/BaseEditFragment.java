@@ -27,6 +27,7 @@ import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -73,7 +74,7 @@ import andicar.n.utils.DataEntryTemplate;
 import andicar.n.utils.Utils;
 
 /**
- * Base class for all edit activities. Implement common functionalities:
+ * Base class for all edit activities. Implement common functionality:
  * -initialise global resources: Bundle mArgumentsBundle, Resources mResource, SharedPreferences mPreferences
  * <p>
  * -implement common initialisations routines for:
@@ -98,6 +99,7 @@ public abstract class BaseEditFragment extends Fragment {
     public static final String IS_FUEL_KEY = "IsFuel";
     public static final String BPARTNER_ID_KEY = "mBPartnerId";
     public final View.OnTouchListener spinnerOnTouchListener = new View.OnTouchListener() {
+        @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(View view, MotionEvent me) {
             return false;
@@ -247,7 +249,7 @@ public abstract class BaseEditFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         // inflate the layout based on the fragment type
         if (this instanceof MileageEditFragment) {
@@ -495,6 +497,7 @@ public abstract class BaseEditFragment extends Fragment {
     /**
      * Data initialisation for common UI elements
      */
+    @SuppressWarnings("UnusedAssignment")
     @SuppressLint("SetTextI18n")
     protected void initCommonControls() {
         long checkID;
@@ -668,7 +671,8 @@ public abstract class BaseEditFragment extends Fragment {
                         });
 
                         // Show
-                        dateTimeDialogFragment.show(BaseEditFragment.this.getActivity().getSupportFragmentManager(), "dialog_time");
+                        if (BaseEditFragment.this.getActivity() != null)
+                            dateTimeDialogFragment.show(BaseEditFragment.this.getActivity().getSupportFragmentManager(), "dialog_time");
                     }
                 }
             });
@@ -713,19 +717,19 @@ public abstract class BaseEditFragment extends Fragment {
         }
 
         if (this instanceof RefuelEditFragment) {
-            setExpTypeId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_refuel_last_selected_exptype_id), -1));
-            setExpCategoryId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_refuel_last_selected_expcategory_id), -1));
+            setExpTypeId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_refuel_last_selected_expense_type_id), -1));
+            setExpCategoryId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_refuel_last_selected_expense_category_id), -1));
         }
         else if (this instanceof ExpenseEditFragment) {
-            setExpTypeId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_expense_last_selected_exptype_id), -1));
-            setExpCategoryId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_expense_last_selected_expcategory_id), -1));
+            setExpTypeId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_expense_last_selected_expense_type_id), -1));
+            setExpCategoryId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_expense_last_selected_expense_category_id), -1));
         }
         else if (this instanceof MileageEditFragment) {
-            setExpTypeId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_mileage_last_selected_exptype_id), -1));
+            setExpTypeId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_mileage_last_selected_expense_type_id), -1));
             setExpCategoryId(-1);
         }
         else if (this instanceof GPSTrackControllerFragment) {
-            setExpTypeId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_gps_track_last_selected_exptype_id), -1));
+            setExpTypeId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_gps_track_last_selected_expense_type_id), -1));
             setExpCategoryId(-1);
         }
         else {
@@ -777,6 +781,7 @@ public abstract class BaseEditFragment extends Fragment {
 //	void updateDateTime2Fields() {
 //		mDateTimeCalendar2.set(mYear2, mMonth2, mDay2, mHour2, mMinute2, 0);
 //		mlDateTime2InSeconds = mDateTimeCalendar2.getTimeInMillis() / 1000;
+    @SuppressLint("SetTextI18n")
     @SuppressWarnings("WrongConstant")
     void showDateTime() {
 //        if(mDateTimeCalendar.get(Calendar.YEAR) == 1970) {
@@ -790,7 +795,7 @@ public abstract class BaseEditFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong("mRowId", mRowId);
         outState.putLong("mCarId", mCarId);
@@ -853,8 +858,7 @@ public abstract class BaseEditFragment extends Fragment {
             showDateTime();
             showValuesInUI();
             return true;
-        }
-        else if (id == R.id.action_delete) {
+        } else if (id == R.id.action_delete && getActivity() != null) {
             final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
             alertDialog.setTitle(R.string.gen_confirm);
             alertDialog.setMessage(R.string.gen_delete_confirmation);
@@ -949,14 +953,13 @@ public abstract class BaseEditFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean actionDone(boolean finishAfterSave) {
+    private void actionDone(boolean finishAfterSave) {
         if (!beforeSave()) {
-            return true;
+            return;
         }
-        if (saveData() && finishAfterSave) {
+        if (saveData() && finishAfterSave && getActivity() != null) {
             getActivity().finish();
         }
-        return false;
     }
 
 //	}
@@ -1151,7 +1154,7 @@ public abstract class BaseEditFragment extends Fragment {
             comments = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_GPSTRACK, null, null, mCarId, 60);
         }
 
-        if (comments != null) {
+        if (comments != null && getContext() != null) {
             mUserCommentAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, comments);
         }
 
@@ -1164,7 +1167,7 @@ public abstract class BaseEditFragment extends Fragment {
 //		if(this instanceof MileageEditFragment)
         tags = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_TAG, null, null, 0, 0);
 
-        if (tags != null) {
+        if (tags != null && getContext() != null) {
             mTagAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, tags);
         }
 
@@ -1212,14 +1215,4 @@ public abstract class BaseEditFragment extends Fragment {
         mCurrencyId = currencyId;
     }
 
-//    protected void sendAnalyticsEvent(String screenName, Bundle params) {
-//
-//        if (!BuildConfig.DEBUG) {
-//            FirebaseAnalytics firebaseAnalytics;
-//            firebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
-//            firebaseAnalytics.logEvent(screenName, params);
-//        }
-//
-//    }
-//
 }

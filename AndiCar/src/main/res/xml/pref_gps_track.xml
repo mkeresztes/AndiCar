@@ -74,8 +74,8 @@
 
         <ListPreference
             android:defaultValue="20"
-            android:entries="@array/gpstrack_preference_maxaccuracy_entries"
-            android:entryValues="@array/gpstrack_preference_maxaccuracy_values"
+            android:entries="@array/gpstrack_preference_max_accuracy_entries"
+            android:entryValues="@array/gpstrack_preference_max_accuracy_values"
             android:key="@string/pref_key_gps_track_min_accuracy"
             android:title="@string/pref_gps_track_accuracy_title"/>
 

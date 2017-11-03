@@ -95,7 +95,7 @@
     </string-array>
 
     <!-- Used in gps track (maximum value of accuracy) -->
-    <string-array name="gpstrack_preference_maxaccuracy_entries">
+    <string-array name="gpstrack_preference_max_accuracy_entries">
         <item>10 m / 10.94 yd</item>
         <item>20 m / 21.87 yd</item>
         <item>50 m / 54.68 yd</item>
@@ -107,7 +107,7 @@
 
     <!-- values in meter -->
     <!--do not translate-->
-    <string-array name="gpstrack_preference_maxaccuracy_values" tools:ignore="MissingTranslation">
+    <string-array name="gpstrack_preference_max_accuracy_values" tools:ignore="MissingTranslation">
         <item>10</item>
         <item>20</item>
         <item>50</item>
@@ -141,7 +141,7 @@
         <item>2</item>
     </string-array>
 
-    <string-array name="pref_main_addbtn_entries">
+    <string-array name="pref_main_btn_add_entries">
         <item>Show the menu</item>
         <item>New trip</item>
         <item>New fill-up</item>
@@ -149,7 +149,7 @@
         <item>New GPS track</item>
     </string-array>
 
-    <string-array name="pref_main_addbtn_values" tools:ignore="MissingTranslation">
+    <string-array name="pref_main_btn_add_values" tools:ignore="MissingTranslation">
         <item>0</item>
         <item>1</item>
         <item>2</item>

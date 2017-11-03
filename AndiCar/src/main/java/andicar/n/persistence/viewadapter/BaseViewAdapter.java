@@ -230,7 +230,7 @@ public abstract class BaseViewAdapter
                     notificationTrigger = ToDoNotificationJob.TRIGGERED_BY_MILEAGE;
                 }
 
-                if (taskCursor.getInt(DBAdapter.COL_POS_TASK__TIMEFREQUENCYTYPE) == TaskEditFragment.TASK_TIMEFREQUENCYTYPE_DAILY) {
+                if (taskCursor.getInt(DBAdapter.COL_POS_TASK__TIMEFREQUENCYTYPE) == TaskEditFragment.TASK_TIME_FREQUENCY_TYPE_DAILY) {
                     minutesOrDays = AndiCar.getAppResources().getString(R.string.gen_minutes);
                 }
                 else {

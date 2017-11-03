@@ -46,7 +46,7 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(icicle);
         setContentView(R.layout.activity_about);
 
-        TextView tvAbout1 = (TextView) findViewById(R.id.tvAbout1);
+        TextView tvAbout1 = findViewById(R.id.tvAbout1);
         tvAbout1.setMovementMethod(LinkMovementMethod.getInstance());
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 			tvAbout1.setText(Html.fromHtml(getString(R.string.app_about1_html), Html.FROM_HTML_MODE_COMPACT));
@@ -57,7 +57,7 @@ public class AboutActivity extends AppCompatActivity {
 		}
 
 
-        TextView tvAbout2 = (TextView) findViewById(R.id.tvAbout2);
+        TextView tvAbout2 = findViewById(R.id.tvAbout2);
         tvAbout2.setMovementMethod(LinkMovementMethod.getInstance());
         String abt = String.format(getString(R.string.app_about2_html), Integer.toString(Calendar.getInstance().get(Calendar.YEAR)));
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

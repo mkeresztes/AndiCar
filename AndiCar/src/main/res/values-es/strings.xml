@@ -28,6 +28,34 @@
     <string name="activity_new_trip">AndiCar registro de viaje</string>
 
     <string name="title_list_activity" tools:ignore="PluralsCandidate">%1$s: %2$s registros</string>
+    <string name="error_report_sent">¡Gracias por ayudar a mejorar AndiCar!</string>
+
+    <string name="pref_backup_now_title">Copia ahora</string>
+    <string name="pref_backup_now_description">Haga una copia de respaldo manual de sus datos.</string>
+    <string name="pref_backup_list_description">Ver, eliminar &amp; compartir copias de seguridad existentes.</string>
+
+    <string name="pref_restore_backup_not_found_summary">Archivos de respaldo no encontrados.</string>
+    <string name="pref_restore_list_title">Elija una copia de seguridad</string>
+
+    <!--Daily at 17:30-->
+    <string name="pref_backup_service_schedule_summary_daily">Todos los días a las %1$s</string>
+    <!--Every monday, sunday at 17:30-->
+    <string name="pref_backup_service_schedule_summary_weekly">Todos los %1$s a las %2$s</string>
+    <string name="pref_backup_service_choose_a_day">Seleccione al menos un día</string>
+
+    <string name="pref_secure_backup_authorization_required">Este servicio requiere su autorización.</string>
+    <string name="pref_secure_backup_destination_title">Destino</string>
+    <string name="pref_secure_backup_gdrive_title">Carpeta de Google Drive</string>
+    <string name="pref_secure_backup_gdrive_description">Se usará para almacenar los archivos de respaldo. Debería ser uno dedicado.</string>
+    <string name="pref_secure_backup_gdrive_folder_selector_title">Elige una carpeta</string>
+    <string name="pref_secure_backup_email_to_title">Enviar a</string>
+    <string name="pref_secure_backup_only_on_wifi_title">Enviar solo a través de una conexión wifi</string>
+    <string name="pref_secure_backup_send_tracks_title">Enviar archivos de seguimiento de GPS</string>
+    <string name="pref_secure_backup_send_tracks_description">Junto con la copia de seguridad de la base de datos también envía los archivos de seguimiento del GPS.</string>
+
+    <string name="pref_google_account_description">Se usará para enviar el correo electrónico con el archivo de copia de seguridad adjunto.</string>
+    <string name="pref_show_notification_on_success_description">Mostrar una notificación de éxito. Independientemente de esta opción.</string>
+
     <string name="pref_general_title">Configuración general</string>
     <string name="pref_car_driver_category_title">Automóviles y Conductores</string>
     <string name="pref_car_title">Automóviles</string>
@@ -57,7 +85,7 @@
     <string name="pref_partner_summary">Agregar, borrar, modificar Estaciones de servicio, vendedores y ubicaciones</string>
     <string name="pref_reminder_category_title">Recordatorios</string>
     <string name="pref_category_main_screen">Pantalla Principal</string>
-    <string name="pref_main_screen_addbtn_title">Botón Agregar</string>
+    <string name="pref_main_screen_btn_add_title">Botón Agregar</string>
     <string name="pref_main_screen_show_todo_zone">Mostrar zona de tareas</string>
     <string name="pref_main_screen_zone1_content">Contenido de la Zona 1</string>
     <string name="pref_main_screen_zone2_content">Contenido de la Zona 2</string>
@@ -101,8 +129,8 @@
     <string name="pref_backup_service_schedule_title">Programar</string>
 
     <string name="pref_category_secure_backup">Copia de seguridad segura</string>
-    <string name="pref_securebackup_title">Habilitalo copia de seguridad segura</string>
-    <string name="pref_securebackup_description">Este servicio enviará automáticamente las copias de seguridad fuera de su dispositivo. De esta manera tu datos guardados estarán disponibles inclusive si pierdes tu teléfono.</string>
+    <string name="pref_secure_backup_title">Habilitalo copia de seguridad segura</string>
+    <string name="pref_secure_backup_description">Este servicio enviará automáticamente las copias de seguridad fuera de su dispositivo. De esta manera tu datos guardados estarán disponibles inclusive si pierdes tu teléfono.</string>
 
     <string name="pref_category_gps_tracking">Preferencias de Seguimiento GPS</string>
     <string name="pref_gps_track__file_format">Escoge el formato de archivo(s) usado para el seguimiento gps</string>
@@ -157,12 +185,12 @@
     <string name="gen_add_new">Agregar nuevo</string>
     <string name="gen_edit">Editar</string>
     <string name="gen_trips">Kilometrajes</string>
-    <string name="gen_fillups">Recargas</string>
+    <string name="gen_fill_ups">Recargas</string>
     <string name="gen_expenses">Gastos</string>
     <string name="gen_gps_tracks">Registro GPS</string>
 
     <string name="gen_trip">Kilometraje</string>
-    <string name="gen_fillup">Recarga</string>
+    <string name="gen_fill_up">Recarga</string>
     <string name="gen_expense">Gasto</string>
     <string name="gen_gps_track">Registro GPS</string>
 
@@ -222,10 +250,12 @@
     <string name="mileage_edit_insert_ok_message">Kilómetros agregados.</string>
     <string name="mileage_edit_update_ok_message">Kilómetros actualizados.</string>
 
-    <string name="fillup_edit_is_full_label">Esta lleno</string>
-    <string name="fillup_edit_qty_in_base_uom_label">Cantidad en base UM:</string>
-    <string name="fillup_edit_no_conversion_rate_message">No hay relacion de conversion definida para estos UM\'s</string>
-    <string name="fillup_edit_gas_station">Estación:</string>
+    <string name="fill_up_edit_is_full_label">Esta lleno</string>
+    <string name="fill_up_edit_qty_in_base_uom_label">Cantidad en base UM:</string>
+    <string name="fill_up_edit_no_conversion_rate_message">No hay relacion de conversion definida para estos UM\'s</string>
+    <string name="fill_up_edit_gas_station">Estación:</string>
+
+    <string name="activity_gps_track_controller">Controlador de seguimiento GPS</string>
 
     <string name="gps_track_detail_var_1">Distancia:</string>
     <string name="gps_track_detail_var_2">Velocidad máxima:</string>
@@ -284,7 +314,7 @@
 
     <string name="uom_conversion_edit_from_uom_label">Desde UM:</string>
     <string name="uom_conversion_edit_to_uom_label">A UM:</string>
-    <string name="uom_conversion_edit_convertion_factor_label">Relación de Conversión:</string>
+    <string name="uom_conversion_edit_conversion_factor_label">Relación de Conversión:</string>
 
     <string name="expense_category_edit_exclude_label">Excluir de los kilómetros el costo calculado</string>
 
@@ -382,15 +412,32 @@
     <string name="data_template_updated_msg">plantilla actualizada</string>
     <string name="data_template_created_msg">Nueva plantilla creada basada en valores actuales</string>
 
+    <string name="tripChart1Title">Viajes por tipos (top 3)</string>
+    <string name="tripChart2Title">Viajes por etiquetas (top 3)</string>
+    <string name="tripChart3Title">Viajes por conductor (top 3)</string>
+    <string name="fillUpQuantityChart1Title">Rellenos por tipos - cantidad (top 3)</string>
+    <string name="fillUpQuantityChart2Title">Rellenos por etiquetas - cantidad (top 3)</string>
+    <string name="fillUpQuantityChart3Title">Rellenos por tipo de combustible - cantidad (top 3)</string>
+    <string name="fillUpValueChart1Title">Rellenos por tipos - valor (top 3)</string>
+    <string name="fillUpValueChart2Title">Rellenos por etiquetas - valor (top 3)</string>
+    <string name="fillUpValueChart3Title">Rellenos por tipo de combustible - valor (top 3)</string>
+    <string name="expenseChart1Title">Gastos por tipos (top 3)</string>
+    <string name="expenseChart2Title">Gastos por categoría (top 3)</string>
+    <string name="expenseChart3Title">Gastos por etiquetas (top 3)</string>
+    <string name="chartFooterText">Total: %1$s</string>
+
     <string name="line_chart_filter_last_5">Últimos 5</string>
     <string name="line_chart_filter_last_10">Últimos 10</string>
     <string name="line_chart_filter_all">Todas</string>
+    <string name="line_chart_info_1">Se necesitan un mínimo de 2 LLENOS COMPLETOS para mostrar algo aquí.</string>
+    <string name="line_chart_info_2">Solo un nuevo llenado completo para un hermoso … punto aquí :)</string>
+    <string name="line_chart_info_3">Solo un nuevo llenado completo para mostrar un cuadro real.</string>
     <string name="line_chart_fuel_price_title">Precios del combustible (%1$s)</string>
     <string name="line_chart_fuel_price_marker_text">%1$s el\n%2$s</string>
 
     <string name="mileage_type">Tipo de viaje:</string>
-    <string name="fillup_type">Tipo de recargas:</string>
-    <string name="fillup_category">Categoría de combustible:</string>
+    <string name="fill_up_type">Tipo de recargas:</string>
+    <string name="fill_up_category">Categoría de combustible:</string>
 
     <string name="whats_new_dialog_btn_five_stars_caption">Te doy\n★★★★★\npor esto!</string>
 

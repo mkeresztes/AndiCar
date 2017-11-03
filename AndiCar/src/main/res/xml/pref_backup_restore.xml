@@ -60,8 +60,8 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="@string/pref_key_secure_backup_enabled"
-            android:summary="@string/pref_securebackup_description"
-            android:title="@string/pref_securebackup_title"/>
+            android:summary="@string/pref_secure_backup_description"
+            android:title="@string/pref_secure_backup_title" />
 
         <Preference
             android:key="@string/pref_key_google_account"
@@ -73,12 +73,12 @@
             android:entries="@array/secure_backup_method_entries"
             android:entryValues="@array/secure_backup_method_values"
             android:key="@string/pref_key_secure_backup_destination"
-            android:title="@string/pref_securebackup_destination_title"/>
+            android:title="@string/pref_secure_backup_destination_title" />
 
         <Preference
             android:key="@string/pref_key_secure_backup_gdrive_folder_id"
-            android:summary="@string/pref_securebackup_gdrive_description"
-            android:title="@string/pref_securebackup_gdrive_title" />
+            android:summary="@string/pref_secure_backup_gdrive_description"
+            android:title="@string/pref_secure_backup_gdrive_title" />
 
 
         <EditTextPreference
@@ -87,18 +87,18 @@
             android:maxLines="1"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:title="@string/pref_securebackup_email_to_title"/>
+            android:title="@string/pref_secure_backup_email_to_title" />
 
         <SwitchPreference
             android:defaultValue="false"
             android:key="@string/pref_key_secure_backup_send_tracks"
-            android:summary="@string/pref_securebackup_send_tracks_description"
-            android:title="@string/pref_securebackup_send_tracks_title"/>
+            android:summary="@string/pref_secure_backup_send_tracks_description"
+            android:title="@string/pref_secure_backup_send_tracks_title" />
 
         <SwitchPreference
             android:defaultValue="true"
             android:key="@string/pref_key_secure_backup_only_wifi"
-            android:title="@string/pref_securebackup_only_on_wifi_title"/>
+            android:title="@string/pref_secure_backup_only_on_wifi_title" />
 
         <SwitchPreference
             android:defaultValue="true"

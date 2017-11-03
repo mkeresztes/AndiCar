@@ -30,7 +30,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -58,7 +57,6 @@ public class BackupScheduleActivity extends AppCompatActivity {
     private static String mScheduleType;
     private final int[] ckDayOfWeekIDs = {R.id.ckDayOfWeek0, R.id.ckDayOfWeek1, R.id.ckDayOfWeek2, R.id.ckDayOfWeek3, R.id.ckDayOfWeek4, R.id.ckDayOfWeek5,
             R.id.ckDayOfWeek6};
-    private final String LogTag = "BackupScheduleActivity";
     private Spinner spnScheduleFrequency = null;
     private LinearLayout llDayList = null;
     private EditText etKeepLastNo = null;
@@ -74,10 +72,10 @@ public class BackupScheduleActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_backup_schedule);
 
-        llDayList = (LinearLayout) findViewById(R.id.llDayList);
+        llDayList = findViewById(R.id.llDayList);
         llDayList.setVisibility(View.GONE);
 
-        spnScheduleFrequency = (Spinner) findViewById(R.id.spnScheduleFrequency);
+        spnScheduleFrequency = findViewById(R.id.spnScheduleFrequency);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.backup_schedule_type_entries, R.layout.ui_element_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnScheduleFrequency.setAdapter(adapter);
@@ -109,7 +107,7 @@ public class BackupScheduleActivity extends AppCompatActivity {
         }
 
 
-        etKeepLastNo = (EditText) findViewById(R.id.etKeepLastNo);
+        etKeepLastNo = findViewById(R.id.etKeepLastNo);
         etKeepLastNo.setText(String.valueOf(mPreference.getInt(getString(R.string.pref_key_backup_service_keep_last_backups_no), 3)));
         etKeepLastNo.setSelection(etKeepLastNo.getText().length());
         editTextStandardBackground = etKeepLastNo.getBackground();
@@ -130,7 +128,7 @@ public class BackupScheduleActivity extends AppCompatActivity {
             }
         });
 
-        tvDateTimeValue = (TextView) findViewById(R.id.tvDateTimeValue);
+        tvDateTimeValue = findViewById(R.id.tvDateTimeValue);
         tvDateTimeValue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,7 +137,7 @@ public class BackupScheduleActivity extends AppCompatActivity {
             }
         });
 
-        Button btnCancel = (Button) findViewById(R.id.btnCancel);
+        Button btnCancel = findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -152,11 +150,12 @@ public class BackupScheduleActivity extends AppCompatActivity {
             ((CheckBox) findViewById(ckDayOfWeekIDs[i])).setChecked(backupDays.charAt(i) == '1');
         }
 
-        Button btnDone = (Button) findViewById(R.id.btnDone);
+        Button btnDone = findViewById(R.id.btnDone);
         btnDone.setOnClickListener(new View.OnClickListener() {
+            @SuppressWarnings("StringConcatenationInLoop")
             @Override
             public void onClick(View view) {
-                int notFilledViewID = Utils.checkMandatoryFields((ViewGroup) BackupScheduleActivity.this.findViewById(R.id.vgRoot));
+                int notFilledViewID = Utils.checkMandatoryFields(BackupScheduleActivity.this.findViewById(R.id.vgRoot));
                 if (notFilledViewID > -1) {
                     BackupScheduleActivity.this.findViewById(notFilledViewID).setBackgroundResource(R.drawable.ui_mandatory_border_edittext);
                     Toast.makeText(BackupScheduleActivity.this.getApplicationContext(), BackupScheduleActivity.this.getString(R.string.gen_fill_mandatory), Toast.LENGTH_LONG).show();
@@ -166,8 +165,7 @@ public class BackupScheduleActivity extends AppCompatActivity {
                 for (int i = 0; i < 7; i++) {
                     if (((CheckBox) BackupScheduleActivity.this.findViewById(ckDayOfWeekIDs[i])).isChecked()) {
                         backupDays = backupDays + "1";
-                    }
-                    else {
+                    } else {
                         backupDays = backupDays + "0";
                     }
                 }
@@ -189,15 +187,6 @@ public class BackupScheduleActivity extends AppCompatActivity {
                 editor.putString(BackupScheduleActivity.this.getString(R.string.pref_key_backup_service_backup_days), backupDays);
 
                 editor.apply();
-
-//                //start the service to update the next run
-//                try {
-//                    ServiceStarter.startServicesUsingFBJobDispacher(BackupScheduleActivity.this.getApplicationContext(), ConstantValues.SERVICE_STARTER_START_BACKUP_SERVICE);
-//                }
-//                catch (Exception e) {
-//                    AndiCarCrashReporter.sendCrash(e);
-//                    Log.d(LogTag, e.getMessage(), e);
-//                }
 
                 BackupScheduleActivity.this.finish();
             }
@@ -231,7 +220,9 @@ public class BackupScheduleActivity extends AppCompatActivity {
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             mHourOfDay = hourOfDay;
             mMinute = minute;
-            ((TextView) getActivity().findViewById(R.id.tvDateTimeValue)).setText(Utils.getTimeString(getContext(), hourOfDay, minute));
+            if (getActivity() != null) {
+                ((TextView) getActivity().findViewById(R.id.tvDateTimeValue)).setText(Utils.getTimeString(getContext(), hourOfDay, minute));
+            }
         }
     }
 }

@@ -226,14 +226,14 @@ public class FileUtils {
                 if (ze.isDirectory()) {
                     continue;
                 }
-                FileOutputStream fout = new FileOutputStream(file);
+                FileOutputStream fileOutputStream = new FileOutputStream(file);
                 try {
                     while ((count = zis.read(buffer)) != -1) {
-                        fout.write(buffer, 0, count);
+                        fileOutputStream.write(buffer, 0, count);
                     }
                 }
                 finally {
-                    fout.close();
+                    fileOutputStream.close();
                 }
             }
         }
@@ -277,7 +277,7 @@ public class FileUtils {
 
             debugLogFileWriter = new LogFileWriter(debugLogFile, false);
 
-            bkFileName = Utils.appendDateTime(bkPrefix == null ? ConstantValues.BACKUP_PREFIX : bkPrefix, true, true, "-") + ConstantValues.BACKUP_SUFIX;
+            bkFileName = Utils.appendDateTime(bkPrefix == null ? ConstantValues.BACKUP_PREFIX : bkPrefix, true, true, "-") + ConstantValues.BACKUP_SUFFIX;
             bkFile = bkFile + bkFileName;
 
             debugLogFileWriter.appendnl("db backup started to: ").append(bkFile);
@@ -314,7 +314,7 @@ public class FileUtils {
                     Bundle serviceParams = new Bundle();
                     serviceParams.putString(SecureBackupJob.BK_FILE_KEY, bkFile);
 
-                    JobStarter.startServicesUsingFBJobDispacher(ctx, JobStarter.SERVICE_STARTER_START_SECURE_BACKUP, serviceParams);
+                    JobStarter.startServicesUsingFBJobDispatcher(ctx, JobStarter.SERVICE_STARTER_START_SECURE_BACKUP, serviceParams);
 
                     debugLogFileWriter.appendnl("Calling FirebaseJobDispatcher terminated");
                 }
@@ -738,7 +738,7 @@ public class FileUtils {
         return -1;
     }
 
-    @SuppressWarnings("SimplifiableIfStatement")
+    @SuppressWarnings({"SimplifiableIfStatement", "BooleanMethodIsAlwaysInverted"})
     public static boolean isFileSystemAccessGranted(Context ctx) {
         if (ConstantValues.BASE_FOLDER.equals(ctx.getFilesDir().getAbsolutePath())) //internal storage used => access granted
         {

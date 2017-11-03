@@ -22,7 +22,7 @@
     <string name="pref_key_last_selected_car_id">last_selected_car_id</string>
     <string name="pref_key_last_selected_driver_id">last_selected_driver_id</string>
 
-    <string name="pref_key_main_addbtn">main_addbtn</string>
+    <string name="pref_key_main_btn_add">main_btn_add</string>
     <string name="pref_key_main_show_next_todo">main_show_next_todo</string>
     <string name="pref_key_main_zone1_content">main_zone1_content</string>
     <string name="pref_key_main_zone2_content">main_zone2_content</string>
@@ -37,15 +37,15 @@
     <string name="pref_key_main_zone11_content">main_zone11_content</string>
     <string name="pref_key_main_zone12_content">main_zone12_content</string>
 
-    <string name="pref_key_mileage_last_selected_exptype_id">mileage_last_selected_exptype_id</string>
+    <string name="pref_key_mileage_last_selected_expense_type_id">mileage_last_selected_expense_type_id</string>
     <string name="pref_key_mileage_insert_mode">mileage_insert_mode</string>
 
     <string name="pref_key_refuel_insert_mode">refuel_insert_mode</string>
-    <string name="pref_key_refuel_last_selected_exptype_id">refuel_last_selected_exptype_id</string>
-    <string name="pref_key_refuel_last_selected_expcategory_id">refuel_last_selected_expcategory_id</string>
+    <string name="pref_key_refuel_last_selected_expense_type_id">refuel_last_selected_expense_type_id</string>
+    <string name="pref_key_refuel_last_selected_expense_category_id">refuel_last_selected_expense_category_id</string>
 
-    <string name="pref_key_expense_last_selected_exptype_id">expense_last_selected_exptype_id</string>
-    <string name="pref_key_expense_last_selected_expcategory_id">expense_last_selected_expcategory_id</string>
+    <string name="pref_key_expense_last_selected_expense_type_id">expense_last_selected_expense_type_id</string>
+    <string name="pref_key_expense_last_selected_expense_category_id">expense_last_selected_expense_category_id</string>
 
     <string name="pref_key_gen_remember_last_tag">gen_remember_last_tag</string>
     <string name="pref_key_gen_last_tag_id">gen_last_tag_id</string>
@@ -99,7 +99,7 @@
     <string name="pref_key_gps_track_min_time">pref_key_gps_track_min_time</string>
     <string name="pref_key_gps_track_create_mileage">gps_track_create_mileage</string>
     <string name="pref_key_gps_track_min_accuracy">gps_track_min_accuracy</string>
-    <string name="pref_key_gps_track_last_selected_exptype_id">gps_track_last_selected_exptype_id</string>
+    <string name="pref_key_gps_track_last_selected_expense_type_id">gps_track_last_selected_expense_type_id</string>
 
     <string name="pref_key_bt_device_link">bt_device_link</string>
     <string name="pref_key_bt_on_disconnect">bt_on_disconnect</string>

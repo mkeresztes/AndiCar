@@ -73,7 +73,7 @@
         <item>10 min</item>
     </string-array>
 
-    <string-array name="gpstrack_preference_maxaccuracy_entries">
+    <string-array name="gpstrack_preference_max_accuracy_entries">
         <item>10 m / 10.94 yd</item>
         <item>20 m / 21.87 yd</item>
         <item>50 m / 54.68 yd</item>
@@ -89,7 +89,7 @@
         <item>Stoppen Sie das Tracking</item>
     </string-array>
 
-    <string-array name="pref_main_addbtn_entries">
+    <string-array name="pref_main_btn_add_entries">
         <item>Menü anzeigen</item>
         <item>Neue Kilometerstand</item>
         <item>Neue Auftanken</item>

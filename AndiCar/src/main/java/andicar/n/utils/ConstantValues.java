@@ -39,10 +39,10 @@ public class ConstantValues {
 
     public static final int DATABASE_VERSION = 503;
     public static final String DATABASE_NAME = "AndiCar.db";
-    public static final String EXPENSES_COL_FROMREFUEL_TABLE_NAME = "Refuel";
+    public static final String EXPENSES_COL_FROM_REFUEL_TABLE_NAME = "Refuel";
     public static final String DAY_OF_WEEK_NAME = "DayOfWeek";
     public static final String BACKUP_PREFIX = "bk_";
-    public static final String BACKUP_SUFIX = ".db";
+    public static final String BACKUP_SUFFIX = ".db";
     public static final String BACKUP_SERVICE_DAILY = "D";
     public static final String BACKUP_SERVICE_WEEKLY = "W";
     public static final int REQUEST_ACCESS_EXTERNAL_STORAGE = 1000;
@@ -55,17 +55,15 @@ public class ConstantValues {
     public static final int REQUEST_GMAIL_AUTHORIZATION = 1002;
     public static final int REQUEST_GDRIVE_AUTHORIZATION = 1008;
     public static final String[] GOOGLE_SCOPES = {GmailScopes.GMAIL_SEND};
-    public static final int NOTIF_SECUREBK_NO_EMAIL_TO = 1000;
-    public static final int NOTIF_SECUREBK_FILE_NOT_FOUND = 1001;
-    public static final int NOTIF_SECUREBK_SUCCEEDED = 1002;
-    public static final int NOTIF_BACKUP_SERVICE_SUCCESS = 1003;
-    public static final long ONE_DAY_IN_MILISECONDS = 86400000;
+    public static final int NOTIFICATION_SECURE_BK_NO_EMAIL_TO = 1000;
+    public static final int NOTIFICATION_SECURE_BK_FILE_NOT_FOUND = 1001;
+    public static final int NOTIFICATION_SECURE_BK_SUCCEEDED = 1002;
+    public static final int NOTIFICATION_BACKUP_SERVICE_SUCCESS = 1003;
+    public static final long ONE_DAY_IN_MILLISECONDS = 86400000;
     public static final int BACKUP_SERVICE_INTENT_REQUEST_CODE = 0;
     public static final String BACKUP_SERVICE_OPERATION = "Operation";
     public static final String BACKUP_SERVICE_OPERATION_SET_NEXT_RUN = "SetNextRun";
     public static final String BACKUP_SERVICE_OPERATION_NORMAL = "Normal";
-    //    public static final int DECIMALS_QUANTITY = 2;
-//    public static final RoundingMode ROUNDING_MODE_QUANTITY = RoundingMode.HALF_UP;
     public static final int DECIMALS_LENGTH = 2;
     public static final RoundingMode ROUNDING_MODE_LENGTH = RoundingMode.HALF_UP;
     public static final int DECIMALS_AMOUNT = 2;

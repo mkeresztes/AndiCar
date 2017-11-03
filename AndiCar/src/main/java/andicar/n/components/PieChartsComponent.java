@@ -1,5 +1,6 @@
 package andicar.n.components;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -145,6 +146,7 @@ public class PieChartsComponent extends LinearLayout {
         mChartsLine.requestLayout();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public void drawChart(int chartIndex, ArrayList<DBReportAdapter.chartData> chartData, String title) {
         AndiCarPieChart chart;
 
@@ -175,9 +177,10 @@ public class PieChartsComponent extends LinearLayout {
         setChartData(chart, title, chartData);
         chart.getDescription().setEnabled(false);
 
-        //simulate the onClick action (becouse PieChart does not receive this action).
-        //the implemntation based on https://stackoverflow.com/questions/17831395/how-can-i-detect-a-click-in-an-ontouch-listener
+        //simulate the onClick action (because PieChart does not receive this action).
+        //the implementation based on https://stackoverflow.com/questions/17831395/how-can-i-detect-a-click-in-an-ontouch-listener
         chart.setOnTouchListener(new View.OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 switch (motionEvent.getAction()) {
@@ -190,8 +193,7 @@ public class PieChartsComponent extends LinearLayout {
                             if (apc.getChartDataEntries() == null || apc.getChartDataEntries().size() == 0) {
                                 Toast.makeText(mCtx, mCtx.getString(R.string.chart_no_data), Toast.LENGTH_SHORT).show();
                                 return false;
-                            }
-                            else {
+                            } else {
                                 Intent i = new Intent(mCtx, ChartDetailDialog.class);
                                 i.putExtra(ChartDetailDialog.CHART_DATA_EXTRAS_KEY, apc.getChartDataEntries());
                                 i.putExtra(ChartDetailDialog.CHART_TITLE_KEY, apc.getTitle());

@@ -117,7 +117,7 @@
                     style="@style/AndiCarLabelStyle"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="@string/fillup_type"/>
+                    android:text="@string/fill_up_type" />
 
                 <Spinner
                     android:id="@+id/spnExpType"
@@ -140,7 +140,7 @@
                     style="@style/AndiCarLabelStyle"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:text="@string/fillup_category"/>
+                    android:text="@string/fill_up_category" />
 
                 <Spinner
                     android:id="@+id/spnExpCategory"
@@ -230,7 +230,7 @@
                     android:layout_weight="1"
                     android:layout_marginLeft="5dp"
                     android:layout_marginStart="5dp"
-                    android:text="@string/fillup_edit_is_full_label"/>
+                    android:text="@string/fill_up_edit_is_full_label" />
 
             </LinearLayout>
 
@@ -244,7 +244,7 @@
                     android:id="@+id/tvBaseUOMQtyLabel"
                     style="@style/AndiCarLabelStyle"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="@string/fillup_edit_qty_in_base_uom_label"/>
+                    android:text="@string/fill_up_edit_qty_in_base_uom_label" />
 
                 <TextView
                     android:id="@+id/tvBaseUOMQtyValue"
@@ -369,7 +369,7 @@
                 <TextView
                     android:id="@+id/tvConvertedAmountLabel"
                     style="@style/AndiCarLabelStyle"
-                    android:text="@string/fillup_edit_qty_in_base_uom_label"
+                    android:text="@string/fill_up_edit_qty_in_base_uom_label"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
             </LinearLayout>
 
@@ -384,7 +384,7 @@
                 <TextView
                     android:id="@+id/tvBPartnerLabel"
                     style="@style/AndiCarLabelStyle"
-                    android:text="@string/fillup_edit_gas_station"/>
+                    android:text="@string/fill_up_edit_gas_station" />
 
                 <AutoCompleteTextView
                     android:id="@+id/acBPartner"

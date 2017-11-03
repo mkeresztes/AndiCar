@@ -57,8 +57,8 @@
     <string name="pref_partner_summary">Adaugă, şterge, modifică benzinării, parteneri şi locaţii</string>
     <string name="pref_reminder_category_title">Memento</string>
     <string name="pref_category_main_screen">Ecran principal</string>
-    <string name="pref_main_screen_addbtn_title">Butonul adăugare</string>
-    <string name="pref_main_screen_addbtn_hint">Apăsând lung pe butonul de adăugare, se va afișa meniul</string>
+    <string name="pref_main_screen_btn_add_title">Butonul adăugare</string>
+    <string name="pref_main_screen_btn_add_hint">Apăsând lung pe butonul de adăugare, se va afișa meniul</string>
     <string name="pref_main_screen_show_todo_zone">Arată următoarea sarcină</string>
     <string name="main_activity_mileage_header_caption">Ultimul kilometraj</string>
     <string name="main_activity_refuel_header_caption">Ultima alimentare</string>
@@ -113,19 +113,19 @@
     <string name="pref_backup_service_schedule_summary_weekly">În fiecare %1$s la ora %2$s</string>
     <string name="pref_backup_service_choose_a_day">Alegeți măcar o zi</string>
 
-    <string name="pref_securebackup_authorization_required">Autorizarea este obligatoriu.</string>
-    <string name="pref_securebackup_destination_title">Destinație</string>
-    <string name="pref_securebackup_gdrive_title">Folder Drive</string>
-    <string name="pref_securebackup_gdrive_description">Aici se vor încărca salvările de siguranță. Ar trebui să fie unul dedicat.</string>
-    <string name="pref_securebackup_gdrive_folder_selector_title">Alege un folder</string>
-    <string name="pref_securebackup_email_to_title">Destinatar</string>
-    <string name="pref_securebackup_only_on_wifi_title">Numai peste WiFi</string>
-    <string name="pref_securebackup_send_tracks_title">Trimite și fișierele GPS</string>
-    <string name="pref_securebackup_send_tracks_description">Împreună cu baza de date, trimite și fișierele de urmărire GPS.</string>
+    <string name="pref_secure_backup_authorization_required">Autorizarea este obligatoriu.</string>
+    <string name="pref_secure_backup_destination_title">Destinație</string>
+    <string name="pref_secure_backup_gdrive_title">Folder Drive</string>
+    <string name="pref_secure_backup_gdrive_description">Aici se vor încărca salvările de siguranță. Ar trebui să fie unul dedicat.</string>
+    <string name="pref_secure_backup_gdrive_folder_selector_title">Alege un folder</string>
+    <string name="pref_secure_backup_email_to_title">Destinatar</string>
+    <string name="pref_secure_backup_only_on_wifi_title">Numai peste WiFi</string>
+    <string name="pref_secure_backup_send_tracks_title">Trimite și fișierele GPS</string>
+    <string name="pref_secure_backup_send_tracks_description">Împreună cu baza de date, trimite și fișierele de urmărire GPS.</string>
 
     <string name="pref_category_secure_backup">Backup sigur</string>
-    <string name="pref_securebackup_title">Activare backup sigur</string>
-    <string name="pref_securebackup_description">La fiecare backup al bazei de date, acest serviciu o va salva în afara telefonului. În acest fel datele dvs. vor fi disponibile chiar dacă veți pierde telefonul.</string>
+    <string name="pref_secure_backup_title">Activare backup sigur</string>
+    <string name="pref_secure_backup_description">La fiecare backup al bazei de date, acest serviciu o va salva în afara telefonului. În acest fel datele dvs. vor fi disponibile chiar dacă veți pierde telefonul.</string>
 
     <string name="pref_category_gps_tracking">Preferințe trasee GPS</string>
     <string name="pref_gps_track__file_format">Alege formatul pentru stocarea traseelor GPS</string>
@@ -185,13 +185,13 @@
     <string name="gen_mail_sent">Email trimis</string>
     <string name="gen_internet_access_required">Configurarea acestui serviciu necesită conexiune la Internet.</string>
     <string name="gen_trips">Kilometraje</string>
-    <string name="gen_fillups">Alimentări</string>
+    <string name="gen_fill_ups">Alimentări</string>
     <string name="gen_expenses">Cheltuieli</string>
     <string name="gen_gps_tracks">Trasee GPS</string>
     <string name="gen_todo_detail">Detaliu sarcină</string>
 
     <string name="gen_trip">Kilometraj</string>
-    <string name="gen_fillup">Alimentare</string>
+    <string name="gen_fill_up">Alimentare</string>
     <string name="gen_expense">Cheltuială</string>
     <string name="gen_gps_track">Traseu GPS</string>
 
@@ -206,7 +206,7 @@
     <string name="gen_done_and_new">Gata &amp; Nouă</string>
     <string name="gen_set_date">Setare data/ora</string>
     <string name="gen_trip_detail">Detaliile kilometrajului</string>
-    <string name="gen_fillup_detail">Detaliile alimentării</string>
+    <string name="gen_fill_up_detail">Detaliile alimentării</string>
     <string name="gen_expense_detail">Detaliile cheltuielii</string>
     <string name="gen_gps_track_detail">Detaliile înregistrării GPS</string>
 
@@ -262,12 +262,12 @@
     <string name="mileage_edit_update_ok_message">Kilometraj actualizat.</string>
     <string name="mileage_type">Tip kilometraj:</string>
 
-    <string name="fillup_type">Tip alimentare:</string>
-    <string name="fillup_category">Tip combustibil:</string>
-    <string name="fillup_edit_is_full_label">Plin</string>
-    <string name="fillup_edit_qty_in_base_uom_label">Cantitate în UM bază:</string>
-    <string name="fillup_edit_no_conversion_rate_message">Nu sunt definite conversii pentru aceste UM</string>
-    <string name="fillup_edit_gas_station">Stație:</string>
+    <string name="fill_up_type">Tip alimentare:</string>
+    <string name="fill_up_category">Tip combustibil:</string>
+    <string name="fill_up_edit_is_full_label">Plin</string>
+    <string name="fill_up_edit_qty_in_base_uom_label">Cantitate în UM bază:</string>
+    <string name="fill_up_edit_no_conversion_rate_message">Nu sunt definite conversii pentru aceste UM</string>
+    <string name="fill_up_edit_gas_station">Stație:</string>
 
     <string name="whats_new_dialog_btn_five_stars_caption">Îţi dau\n★★★★★\npentru asta!</string>
 
@@ -344,7 +344,7 @@
 
     <string name="uom_conversion_edit_from_uom_label">Din um:</string>
     <string name="uom_conversion_edit_to_uom_label">În um:</string>
-    <string name="uom_conversion_edit_convertion_factor_label">Factor de conversie:</string>
+    <string name="uom_conversion_edit_conversion_factor_label">Factor de conversie:</string>
 
     <string name="expense_category_edit_exclude_label">Exclude din costul per Km</string>
 

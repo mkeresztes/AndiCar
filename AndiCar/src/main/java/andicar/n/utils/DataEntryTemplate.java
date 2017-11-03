@@ -113,65 +113,65 @@ public class DataEntryTemplate {
                         Toast.makeText(mEditFragment.getActivity(), R.string.data_template_updated_msg, Toast.LENGTH_LONG).show();
                     }
                     else if (menuItem.getItemId() == R.id.de_new) {
-                        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(mEditFragment.getActivity());
-                        alertDialog.setTitle(R.string.data_template_new);
-                        alertDialog.setMessage(R.string.data_template_new_msg);
-                        alertDialog.setCancelable(false);
+                        if (mEditFragment.getActivity() != null) {
+                            final AlertDialog.Builder alertDialog = new AlertDialog.Builder(mEditFragment.getActivity());
+                            alertDialog.setTitle(R.string.data_template_new);
+                            alertDialog.setMessage(R.string.data_template_new_msg);
+                            alertDialog.setCancelable(false);
 
-                        final EditText input = new EditText(mEditFragment.getActivity());
-                        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.MATCH_PARENT);
-                        input.setLayoutParams(lp);
-                        input.setHint(R.string.gen_required);
-                        input.setPadding(50, input.getPaddingTop(), 50, 50);
+                            final EditText input = new EditText(mEditFragment.getActivity());
+                            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.MATCH_PARENT);
+                            input.setLayoutParams(lp);
+                            input.setHint(R.string.gen_required);
+                            input.setPadding(50, input.getPaddingTop(), 50, 50);
 
-                        alertDialog.setView(input);
+                            alertDialog.setView(input);
 
-                        alertDialog.setPositiveButton(R.string.gen_save,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        String name = input.getText().toString();
-                                        if (name.trim().length() == 0) {
-                                            Toast.makeText(mEditFragment.getActivity(), R.string.gen_fill_mandatory, Toast.LENGTH_LONG).show();
-                                            return;
-                                        }
-                                        ContentValues cv = new ContentValues();
-                                        cv.put("Name", name);
-                                        cv.put("Comment", name);
-                                        int dbRetVal = ((Long) DataEntryTemplate.this.saveTemplate(-1, cv)).intValue();
-                                        String strErrMsg;
-                                        if (dbRetVal < 0) {
-                                            if (dbRetVal == -1) // DB Error
-                                            {
-                                                strErrMsg = mDbAdapter.mErrorMessage;
+                            alertDialog.setPositiveButton(R.string.gen_save,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            String name = input.getText().toString();
+                                            if (name.trim().length() == 0) {
+                                                Toast.makeText(mEditFragment.getActivity(), R.string.gen_fill_mandatory, Toast.LENGTH_LONG).show();
+                                                return;
                                             }
-                                            else
-                                            // precondition error
-                                            {
-                                                strErrMsg = mResource.getString(-1 * dbRetVal);
+                                            ContentValues cv = new ContentValues();
+                                            cv.put("Name", name);
+                                            cv.put("Comment", name);
+                                            int dbRetVal = ((Long) DataEntryTemplate.this.saveTemplate(-1, cv)).intValue();
+                                            String strErrMsg;
+                                            if (dbRetVal < 0) {
+                                                if (dbRetVal == -1) // DB Error
+                                                {
+                                                    strErrMsg = mDbAdapter.mErrorMessage;
+                                                } else
+                                                // precondition error
+                                                {
+                                                    strErrMsg = mResource.getString(-1 * dbRetVal);
+                                                }
+                                                Toast.makeText(mEditFragment.getActivity(), strErrMsg, Toast.LENGTH_LONG).show();
+                                            } else {
+                                                DataEntryTemplate.this.updateTemplateList(dbRetVal);
+                                                mTemplateID = dbRetVal;
+                                                pmOperations.getMenu().getItem(1).setEnabled(true);
+                                                pmOperations.getMenu().getItem(2).setEnabled(true);
                                             }
-                                            Toast.makeText(mEditFragment.getActivity(), strErrMsg, Toast.LENGTH_LONG).show();
                                         }
-                                        else {
-                                            DataEntryTemplate.this.updateTemplateList(dbRetVal);
-                                            mTemplateID = dbRetVal;
-                                            pmOperations.getMenu().getItem(1).setEnabled(true);
-                                            pmOperations.getMenu().getItem(2).setEnabled(true);
+                                    });
+
+                            alertDialog.setNegativeButton(R.string.gen_cancel,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.cancel();
                                         }
-                                    }
-                                });
+                                    });
 
-                        alertDialog.setNegativeButton(R.string.gen_cancel,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                    }
-                                });
-
-                        alertDialog.show();
+                            alertDialog.show();
+                        }
                     }
                     else if (menuItem.getItemId() == R.id.de_delete) {
                         mDbAdapter.deleteRecord(DBAdapter.TABLE_NAME_DATA_TEMPLATE, mTemplateID);
@@ -333,21 +333,21 @@ public class DataEntryTemplate {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setCarId(tmpID);
                     if (mRootView.findViewById(R.id.lCarZone) != null && mRootView.findViewById(R.id.lCarZone).getVisibility() == View.VISIBLE) {
-                        tmpActivity.setSpinnerSelectedID((Spinner) mRootView.findViewById(R.id.spnCar), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_CAR, tmpID));
+                        tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnCar), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_CAR, tmpID));
                     }
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnDriver")) {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setDriverId(tmpID);
                     if (mRootView.findViewById(R.id.lDriverZone) != null && mRootView.findViewById(R.id.lDriverZone).getVisibility() == View.VISIBLE) {
-                        tmpActivity.setSpinnerSelectedID((Spinner) mRootView.findViewById(R.id.spnDriver), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_DRIVER, tmpID));
+                        tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnDriver), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_DRIVER, tmpID));
                     }
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnExpType")) {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setExpTypeId(tmpID);
                     if (mRootView.findViewById(R.id.lExpTypeZone) != null && mRootView.findViewById(R.id.lExpTypeZone).getVisibility() == View.VISIBLE) {
-                        tmpActivity.setSpinnerSelectedID((Spinner) mRootView.findViewById(R.id.spnExpType), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_EXPENSETYPE, tmpID));
+                        tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnExpType), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_EXPENSETYPE, tmpID));
                     }
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("rbInsertModeIndex")) {
@@ -392,39 +392,39 @@ public class DataEntryTemplate {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setCarId(tmpID);
                     if (mRootView.findViewById(R.id.lCarZone) != null && mRootView.findViewById(R.id.lCarZone).getVisibility() == View.VISIBLE) {
-                        tmpActivity.setSpinnerSelectedID((Spinner) mRootView.findViewById(R.id.spnCar), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_CAR, tmpID));
+                        tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnCar), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_CAR, tmpID));
                     }
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnDriver")) {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setDriverId(tmpID);
                     if (mRootView.findViewById(R.id.lDriverZone) != null && mRootView.findViewById(R.id.lDriverZone).getVisibility() == View.VISIBLE) {
-                        tmpActivity.setSpinnerSelectedID((Spinner) mRootView.findViewById(R.id.spnDriver), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_DRIVER, tmpID));
+                        tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnDriver), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_DRIVER, tmpID));
                     }
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnExpType")) {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setExpTypeId(tmpID);
                     if (mRootView.findViewById(R.id.lExpTypeZone) != null && mRootView.findViewById(R.id.lExpTypeZone).getVisibility() == View.VISIBLE) {
-                        tmpActivity.setSpinnerSelectedID((Spinner) mRootView.findViewById(R.id.spnExpType), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_EXPENSETYPE, tmpID));
+                        tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnExpType), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_EXPENSETYPE, tmpID));
                     }
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnExpCategory")) {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setExpCategoryId(tmpID);
                     if (mRootView.findViewById(R.id.lExpCatZone) != null && mRootView.findViewById(R.id.lExpCatZone).getVisibility() == View.VISIBLE) {
-                        tmpActivity.setSpinnerSelectedID((Spinner) mRootView.findViewById(R.id.spnExpCategory), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_EXPENSECATEGORY, tmpID));
+                        tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnExpCategory), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_EXPENSECATEGORY, tmpID));
                     }
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnCurrency")) {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setCurrencyId(tmpID);
-                    tmpActivity.setSpinnerSelectedID((Spinner) mRootView.findViewById(R.id.spnCurrency), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_CURRENCY, tmpID));
+                    tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnCurrency), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_CURRENCY, tmpID));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnUomVolume")) {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setUOMVolumeId(tmpID);
-                    tmpActivity.setSpinnerSelectedID((Spinner) mRootView.findViewById(R.id.spnUomVolume), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_UOM, tmpID));
+                    tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnUomVolume), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_UOM, tmpID));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("etUserInput")) {
                     ((EditText) mRootView.findViewById(R.id.etUserInput)).setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
@@ -461,39 +461,39 @@ public class DataEntryTemplate {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setCarId(tmpID);
                     if (mRootView.findViewById(R.id.lCarZone) != null && mRootView.findViewById(R.id.lCarZone).getVisibility() == View.VISIBLE) {
-                        tmpActivity.setSpinnerSelectedID((Spinner) mRootView.findViewById(R.id.spnCar), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_CAR, tmpID));
+                        tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnCar), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_CAR, tmpID));
                     }
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnDriver")) {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setDriverId(tmpID);
                     if (mRootView.findViewById(R.id.lDriverZone) != null && mRootView.findViewById(R.id.lDriverZone).getVisibility() == View.VISIBLE) {
-                        tmpActivity.setSpinnerSelectedID((Spinner) mRootView.findViewById(R.id.spnDriver), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_DRIVER, tmpID));
+                        tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnDriver), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_DRIVER, tmpID));
                     }
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnExpCategory")) {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setExpCategoryId(tmpID);
                     if (mRootView.findViewById(R.id.lExpCatZone) != null && mRootView.findViewById(R.id.lExpCatZone).getVisibility() == View.VISIBLE) {
-                        tmpActivity.setSpinnerSelectedID((Spinner) mRootView.findViewById(R.id.spnExpCategory), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_EXPENSECATEGORY, tmpID));
+                        tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnExpCategory), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_EXPENSECATEGORY, tmpID));
                     }
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnExpType")) {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setExpTypeId(tmpID);
                     if (mRootView.findViewById(R.id.lExpTypeZone) != null && mRootView.findViewById(R.id.lExpTypeZone).getVisibility() == View.VISIBLE) {
-                        tmpActivity.setSpinnerSelectedID((Spinner) mRootView.findViewById(R.id.spnExpType), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_EXPENSETYPE, tmpID));
+                        tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnExpType), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_EXPENSETYPE, tmpID));
                     }
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnCurrency")) {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setCurrencyId(tmpID);
-                    tmpActivity.setSpinnerSelectedID((Spinner) mRootView.findViewById(R.id.spnCurrency), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_CURRENCY, tmpID));
+                    tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnCurrency), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_CURRENCY, tmpID));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnUOM")) {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setUOMId(tmpID);
-                    tmpActivity.setSpinnerSelectedID((Spinner) mRootView.findViewById(R.id.spnUOM), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_UOM, tmpID));
+                    tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnUOM), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_UOM, tmpID));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("etQuantity")) {
                     ((EditText) mRootView.findViewById(R.id.etQuantity)).setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
@@ -533,21 +533,21 @@ public class DataEntryTemplate {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setCarId(tmpID);
                     if (mRootView.findViewById(R.id.lCarZone) != null && mRootView.findViewById(R.id.lCarZone).getVisibility() == View.VISIBLE) {
-                        tmpActivity.setSpinnerSelectedID((Spinner) mRootView.findViewById(R.id.spnCar), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_CAR, tmpID));
+                        tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnCar), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_CAR, tmpID));
                     }
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnDriver")) {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setDriverId(tmpID);
                     if (mRootView.findViewById(R.id.lDriverZone) != null && mRootView.findViewById(R.id.lDriverZone).getVisibility() == View.VISIBLE) {
-                        tmpActivity.setSpinnerSelectedID((Spinner) mRootView.findViewById(R.id.spnDriver), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_DRIVER, tmpID));
+                        tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnDriver), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_DRIVER, tmpID));
                     }
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnExpType")) {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setExpTypeId(tmpID);
                     if (mRootView.findViewById(R.id.lExpTypeZone) != null && mRootView.findViewById(R.id.lExpTypeZone).getVisibility() == View.VISIBLE) {
-                        tmpActivity.setSpinnerSelectedID((Spinner) mRootView.findViewById(R.id.spnExpType), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_EXPENSETYPE, tmpID));
+                        tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnExpType), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_EXPENSETYPE, tmpID));
                     }
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("etName")) {

@@ -37,6 +37,7 @@ public class SettingsDefaultViewAdapter extends BaseViewAdapter {
         super(cursor, parentActivity, isTwoPane, scrollToPosition, lastSelectedItemId);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void cursorViewBinder(DefaultViewHolder holder, @SuppressLint("RecyclerView") int position) {
         String line1Content;
@@ -68,25 +69,21 @@ public class SettingsDefaultViewAdapter extends BaseViewAdapter {
             if (line2Content != null && line2Content.length() > 0) {
                 holder.mSecondLine.setVisibility(View.VISIBLE);
                 holder.mSecondLine.setText(line2Content);
-            }
-            else {
+            } else {
                 holder.mSecondLine.setVisibility(View.GONE);
             }
-        }
-        else {
+        } else {
             //wider screens => two line lists
             if (line2Content != null && line2Content.length() > 0) {
                 holder.mFirstLine.setText(line1Content + "; " + line2Content);
-            }
-            else {
+            } else {
                 holder.mFirstLine.setText(line1Content);
             }
         }
 
         if (line3Content == null) {
             holder.mThirdLine.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             holder.mThirdLine.setVisibility(View.VISIBLE);
             holder.mThirdLine.setText(line3Content);
         }

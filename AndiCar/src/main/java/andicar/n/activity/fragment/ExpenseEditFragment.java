@@ -246,9 +246,11 @@ public class ExpenseEditFragment extends BaseEditFragment {
                 c2.close();
             }
             mAddressAdapter = null;
-            String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS, null, mBPartnerId, 0);
-            if (entries != null) {
-                mAddressAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, entries);
+            if (getActivity() != null) {
+                String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS, null, mBPartnerId, 0);
+                if (entries != null) {
+                    mAddressAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, entries);
+                }
             }
         }
         else {
@@ -354,13 +356,14 @@ public class ExpenseEditFragment extends BaseEditFragment {
                         mBPartnerId = 0;
                     }
 
-
                     mAddressAdapter = null;
-                    String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS, null, mBPartnerId, 0);
-                    if (entries != null) {
-                        mAddressAdapter = new ArrayAdapter<>(ExpenseEditFragment.this.getActivity(), android.R.layout.simple_list_item_1, entries);
+                    if (ExpenseEditFragment.this.getActivity() != null) {
+                        String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS, null, mBPartnerId, 0);
+                        if (entries != null) {
+                            mAddressAdapter = new ArrayAdapter<>(ExpenseEditFragment.this.getActivity(), android.R.layout.simple_list_item_1, entries);
+                        }
+                        acAddress.setAdapter(mAddressAdapter);
                     }
-                    acAddress.setAdapter(mAddressAdapter);
                 }
             }
         });
@@ -419,11 +422,13 @@ public class ExpenseEditFragment extends BaseEditFragment {
         Utils.initSpinner(mDbAdapter, spnUOM, DBAdapter.TABLE_NAME_UOM, DBAdapter.WHERE_CONDITION_ISACTIVE, mUOMId, true);
         //setup bpartner adapter
         mBPartnerAdapter = null;
-        String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNER, null, null, 0, 0);
-        if (entries != null) {
-            mBPartnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, entries);
+        if (getContext() != null) {
+            String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNER, null, null, 0, 0);
+            if (entries != null) {
+                mBPartnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, entries);
+            }
+            acBPartner.setAdapter(mBPartnerAdapter);
         }
-        acBPartner.setAdapter(mBPartnerAdapter);
     }
 
     @SuppressLint("SetTextI18n")
@@ -502,7 +507,6 @@ public class ExpenseEditFragment extends BaseEditFragment {
             data.put(DBAdapter.COL_NAME_EXPENSE__INDEX, (String) null);
         }
 
-        //        data.put( MainDbAdapter.EXPENSE_COL_AMOUNTENTERED_NAME, etUserInput.getText().toString());
         if (mEnteredAmount != null) {
             data.put(DBAdapter.COL_NAME_EXPENSE__AMOUNTENTERED, mEnteredAmount.toString());
         }
@@ -693,8 +697,8 @@ public class ExpenseEditFragment extends BaseEditFragment {
         }
 
         prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_last_selected_driver_id), mDriverId);
-        prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_expense_last_selected_exptype_id), mExpTypeId);
-        prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_expense_last_selected_expcategory_id), mExpCategoryId);
+        prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_expense_last_selected_expense_type_id), mExpTypeId);
+        prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_expense_last_selected_expense_category_id), mExpCategoryId);
         prefEditor.apply();
 
         //check if mileage to-do exists
@@ -705,7 +709,7 @@ public class ExpenseEditFragment extends BaseEditFragment {
 //            getActivity().startService(intent);
             Bundle serviceParams = new Bundle();
             serviceParams.putLong(ToDoNotificationJob.CAR_ID_KEY, mCarId);
-            JobStarter.startServicesUsingFBJobDispacher(getActivity(), JobStarter.SERVICE_STARTER_START_TODO_NOTIFICATION_SERVICE, serviceParams);
+            JobStarter.startServicesUsingFBJobDispatcher(getActivity(), JobStarter.SERVICE_STARTER_START_TODO_NOTIFICATION_SERVICE, serviceParams);
         }
 
         analyticsParams.putInt(ConstantValues.ANALYTICS_IS_TEMPLATE_USED, (isTemplateUsed ? 1 : 0));
@@ -784,7 +788,7 @@ public class ExpenseEditFragment extends BaseEditFragment {
             tvCalculatedTextLabel.setText(mResource.getString(R.string.gen_price_label));
             etQuantity.setHint(null);
             etQuantity.setTag(null);
-            //reset to default look (mybe was marked for mandatory)
+            //reset to default look (maybe was marked for mandatory)
             etQuantity.setBackground(etIndex.getBackground());
 //            etUserInput.setTag(null);
             if (etUserInput.getText().length() > 0) {
@@ -798,6 +802,7 @@ public class ExpenseEditFragment extends BaseEditFragment {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void calculatePrice() {
         if (!viewsLoaded) {
             return;
@@ -820,21 +825,19 @@ public class ExpenseEditFragment extends BaseEditFragment {
                     mEnteredPrice = mEnteredAmount.divide(mQuantity, ConstantValues.DECIMALS_PRICE, ConstantValues.ROUNDING_MODE_PRICE);
                     tvCalculatedTextContent.setText(Utils.numberToString(mEnteredPrice, true, ConstantValues.DECIMALS_PRICE, ConstantValues.ROUNDING_MODE_PRICE) + " "
                             + mCurrencyCode);
-                }
-                else {
+                } else {
                     mEnteredPrice = null;
                     tvCalculatedTextContent.setText(null);
                 }
+            } catch (NumberFormatException ignored) {
             }
-            catch (NumberFormatException ignored) {
-            }
-        }
-        else {
+        } else {
             mEnteredPrice = null;
             tvCalculatedTextContent.setText(null);
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void calculateAmount() {
         if (!viewsLoaded) {
             return;
@@ -856,11 +859,9 @@ public class ExpenseEditFragment extends BaseEditFragment {
                 mEnteredAmount = mEnteredPrice.multiply(mQuantity).setScale(ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT);
                 tvCalculatedTextContent.setText(Utils.numberToString(mEnteredAmount, true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " "
                         + mCurrencyCode);
+            } catch (NumberFormatException ignored) {
             }
-            catch (NumberFormatException ignored) {
-            }
-        }
-        else {
+        } else {
             mEnteredAmount = null;
             tvCalculatedTextContent.setText(null);
         }

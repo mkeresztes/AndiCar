@@ -93,15 +93,16 @@ public class BTCarLinkFragment extends BaseEditFragment {
 
         BluetoothAdapter mBtAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mRowId < 0) {
-            if (mBtAdapter == null) {
-                Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.gen_error), getString(R.string.error_064), false);
-                getActivity().finish();
-                return;
-            }
-            else if (!mBtAdapter.isEnabled()) {
-                Utils.showInfoDialog(getActivity(), getString(R.string.bt_link_link_to_car_bt_disabled_title), getString(R.string.bt_link_link_to_car_bt_disabled_message));
-                getActivity().finish();
-                return;
+            if (getActivity() != null) {
+                if (mBtAdapter == null) {
+                    Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.gen_error), getString(R.string.error_064), false);
+                    getActivity().finish();
+                    return;
+                } else if (!mBtAdapter.isEnabled()) {
+                    Utils.showInfoDialog(getActivity(), getString(R.string.bt_link_link_to_car_bt_disabled_title), getString(R.string.bt_link_link_to_car_bt_disabled_message));
+                    getActivity().finish();
+                    return;
+                }
             }
         }
         // Get a set of currently paired devices

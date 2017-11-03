@@ -57,8 +57,8 @@
     <string name="pref_partner_summary">Benzinkutak, Szolgáltatók és címeik szerkesztése</string>
     <string name="pref_reminder_category_title">Emlékeztetők</string>
     <string name="pref_category_main_screen">Főképernyő beállításai</string>
-    <string name="pref_main_screen_addbtn_title">Új rekord gomb</string>
-    <string name="pref_main_screen_addbtn_hint">Hosszan nyomva az új rekord gombot, megjelenik a menü</string>
+    <string name="pref_main_screen_btn_add_title">Új rekord gomb</string>
+    <string name="pref_main_screen_btn_add_hint">Hosszan nyomva az új rekord gombot, megjelenik a menü</string>
     <string name="pref_main_screen_show_todo_zone">Következő feladat zóna</string>
     <string name="pref_main_screen_zone1_content">1. zóna tartalma</string>
     <string name="pref_main_screen_zone2_content">2. zóna tartalma</string>
@@ -109,20 +109,20 @@
     <string name="pref_backup_service_schedule_summary_weekly">Minden %1$s, %2$s-kor</string>
     <string name="pref_backup_service_choose_a_day">Válasszon legalább egy napot ki</string>
 
-    <string name="pref_securebackup_authorization_required">Az engedélyezés szükséges.</string>
-    <string name="pref_securebackup_destination_title">Módszer</string>
-    <string name="pref_securebackup_gdrive_title">Drive mappa</string>
-    <string name="pref_securebackup_gdrive_description">Ide lesznek feltöltve a mentések. Ajánlott egy dedikált mappa.</string>
-    <string name="pref_securebackup_gdrive_folder_selector_title">Válassz egy mappát</string>
+    <string name="pref_secure_backup_authorization_required">Az engedélyezés szükséges.</string>
+    <string name="pref_secure_backup_destination_title">Módszer</string>
+    <string name="pref_secure_backup_gdrive_title">Drive mappa</string>
+    <string name="pref_secure_backup_gdrive_description">Ide lesznek feltöltve a mentések. Ajánlott egy dedikált mappa.</string>
+    <string name="pref_secure_backup_gdrive_folder_selector_title">Válassz egy mappát</string>
 
-    <string name="pref_securebackup_email_to_title">Cimzett</string>
-    <string name="pref_securebackup_only_on_wifi_title">Csak WiFi-n keresztül</string>
-    <string name="pref_securebackup_send_tracks_title">Küld el a GPS nyomkövetéseket is</string>
-    <string name="pref_securebackup_send_tracks_description">Az adatbázissal együtt, küld el a GPS nyomkövetéseket is.</string>
+    <string name="pref_secure_backup_email_to_title">Cimzett</string>
+    <string name="pref_secure_backup_only_on_wifi_title">Csak WiFi-n keresztül</string>
+    <string name="pref_secure_backup_send_tracks_title">Küld el a GPS nyomkövetéseket is</string>
+    <string name="pref_secure_backup_send_tracks_description">Az adatbázissal együtt, küld el a GPS nyomkövetéseket is.</string>
 
     <string name="pref_category_secure_backup">Biztonságos mentés</string>
-    <string name="pref_securebackup_title">Aktiválja a biztonságos mentést</string>
-    <string name="pref_securebackup_description">Minden alkalommal mikor biztonsági mentés készül, ez a szolgáltatás elmenti a telefonon kivüli helyre. Ez esetben az adatok akkor is megmaradnak, ha a telefonját ellopják.</string>
+    <string name="pref_secure_backup_title">Aktiválja a biztonságos mentést</string>
+    <string name="pref_secure_backup_description">Minden alkalommal mikor biztonsági mentés készül, ez a szolgáltatás elmenti a telefonon kivüli helyre. Ez esetben az adatok akkor is megmaradnak, ha a telefonját ellopják.</string>
 
     <string name="pref_category_gps_tracking">GPS nyomkövetés beállításai</string>
     <string name="pref_gps_track__file_format">Válassz fájl formátum(okat) a nyom követéshez</string>
@@ -182,13 +182,13 @@
     <string name="gen_mail_sent">Email elküldve</string>
     <string name="gen_internet_access_required">Internet kapcsolat sükséges a konfiguráláshoz.</string>
     <string name="gen_trips">Útak</string>
-    <string name="gen_fillups">Tankolások</string>
+    <string name="gen_fill_ups">Tankolások</string>
     <string name="gen_expenses">Költségek</string>
     <string name="gen_gps_tracks">GPS nyomkövetések</string>
     <string name="gen_todo_detail">A feladat részletei</string>
 
     <string name="gen_trip">Út</string>
-    <string name="gen_fillup">Tankolás</string>
+    <string name="gen_fill_up">Tankolás</string>
     <string name="gen_expense">Költség</string>
     <string name="gen_gps_track">GPS nyomkövetés</string>
 
@@ -203,7 +203,7 @@
     <string name="gen_done_and_new">Kész &amp; Új</string>
     <string name="gen_set_date">Dátum/idő beállítása</string>
     <string name="gen_trip_detail">Az út részletei</string>
-    <string name="gen_fillup_detail">A tankolás részletei</string>
+    <string name="gen_fill_up_detail">A tankolás részletei</string>
     <string name="gen_expense_detail">Költség részletei</string>
     <string name="gen_gps_track_detail">GPS nyomkövetés részletei</string>
     <string name="gps_track_no_car">Nincs autó a rendszerben!\nA GPS nyomkövetést nem lehet elindítani.</string>
@@ -261,12 +261,12 @@
     <string name="mileage_edit_update_ok_message">Út frissítve.</string>
     <string name="mileage_type">Út típusa:</string>
 
-    <string name="fillup_type">Tankolás típusa:</string>
-    <string name="fillup_category">Üzemanyag típus:</string>
-    <string name="fillup_edit_is_full_label">Tele</string>
-    <string name="fillup_edit_qty_in_base_uom_label">Mennyiség alap megységben:</string>
-    <string name="fillup_edit_no_conversion_rate_message">Nincs átváltás a mértékegységekhez</string>
-    <string name="fillup_edit_gas_station">Töltőállomás:</string>
+    <string name="fill_up_type">Tankolás típusa:</string>
+    <string name="fill_up_category">Üzemanyag típus:</string>
+    <string name="fill_up_edit_is_full_label">Tele</string>
+    <string name="fill_up_edit_qty_in_base_uom_label">Mennyiség alap megységben:</string>
+    <string name="fill_up_edit_no_conversion_rate_message">Nincs átváltás a mértékegységekhez</string>
+    <string name="fill_up_edit_gas_station">Töltőállomás:</string>
 
     <string name="whats_new_dialog_btn_five_stars_caption">Ez\n★★★★★\nérdemel!</string>
 
@@ -341,7 +341,7 @@
 
     <string name="uom_conversion_edit_from_uom_label">megységről:</string>
     <string name="uom_conversion_edit_to_uom_label">megységre:</string>
-    <string name="uom_conversion_edit_convertion_factor_label">Váltószám:</string>
+    <string name="uom_conversion_edit_conversion_factor_label">Váltószám:</string>
 
     <string name="expense_category_edit_exclude_label">Kizárás az költség számításából</string>
 

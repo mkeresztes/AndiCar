@@ -62,17 +62,17 @@
                     android:text="@string/error_sorry" />
 
                 <TextView
-                    android:id="@+id/tvNotifMessage"
+                    android:id="@+id/tvNotificationMessage"
                     style="@style/AndiCarDialogMessage" />
             </LinearLayout>
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvNotifDetail"
+            android:id="@+id/tvNotificationDetail"
             style="@style/AndiCarDialogDetail" />
 
         <TextView
-            android:id="@+id/tvNotifDateTime"
+            android:id="@+id/tvNotificationDateTime"
             style="@style/AndiCarDialogDate" />
 
         <LinearLayout

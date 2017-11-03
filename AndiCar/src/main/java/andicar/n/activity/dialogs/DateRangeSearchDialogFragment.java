@@ -21,6 +21,7 @@ package andicar.n.activity.dialogs;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -85,7 +86,7 @@ public class DateRangeSearchDialogFragment extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_search_date_range, container);
 
         getDialog().setTitle(R.string.search_dialog_title);
@@ -114,6 +115,8 @@ public class DateRangeSearchDialogFragment extends DialogFragment {
         tvDateFromSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (getContext() == null)
+                    return;
                 DatePickerDialog dp = new DatePickerDialog(getContext(), onDateChanged,
                         mDateFromCalendar.get(Calendar.YEAR), mDateFromCalendar.get(Calendar.MONTH), mDateFromCalendar.get(Calendar.DAY_OF_MONTH));
                 dp.getDatePicker().setTag("dateFromDialog");
@@ -149,6 +152,9 @@ public class DateRangeSearchDialogFragment extends DialogFragment {
         tvDateToSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (getContext() == null)
+                    return;
+
                 DatePickerDialog dp = new DatePickerDialog(getContext(), onDateChanged,
                         mDateToCalendar.get(Calendar.YEAR), mDateToCalendar.get(Calendar.MONTH), mDateToCalendar.get(Calendar.DAY_OF_MONTH));
                 dp.getDatePicker().setTag("dateToDialog");
@@ -189,7 +195,8 @@ public class DateRangeSearchDialogFragment extends DialogFragment {
                     searchParams.putLong(DATE_TO_IN_MILLIS_KEY, mDateToCalendar.getTimeInMillis());
                 }
 
-                listener.onFinishSearchDialog(searchParams);
+                if (listener != null)
+                    listener.onFinishSearchDialog(searchParams);
                 dismiss();
             }
         });

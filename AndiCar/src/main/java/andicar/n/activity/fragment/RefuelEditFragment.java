@@ -25,6 +25,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -173,7 +174,7 @@ public class RefuelEditFragment extends BaseEditFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
         showDateTime();
@@ -196,7 +197,6 @@ public class RefuelEditFragment extends BaseEditFragment {
         setDriverId(c.getLong(DBAdapter.COL_POS_REFUEL__DRIVER_ID));
         setExpCategoryId(c.getLong(DBAdapter.COL_POS_REFUEL__EXPENSECATEGORY_ID));
         setExpTypeId(c.getLong(DBAdapter.COL_POS_REFUEL__EXPENSETYPE_ID));
-//        mUOMVolumeId = c.getLong(DBAdapter.COL_POS_REFUEL__UOMVOLUMEENTERED_ID);
         setUOMVolumeId(c.getLong(DBAdapter.COL_POS_REFUEL__UOMVOLUMEENTERED_ID));
         setCurrencyId(c.getLong(DBAdapter.COL_POS_REFUEL__CURRENCYENTERED_ID));
         if (c.getString(DBAdapter.COL_POS_REFUEL__BPARTNER_ID) != null && c.getString(DBAdapter.COL_POS_REFUEL__BPARTNER_ID).length() > 0) {
@@ -206,9 +206,11 @@ public class RefuelEditFragment extends BaseEditFragment {
                 mBPartnerLocationId = c.getLong(DBAdapter.COL_POS_REFUEL__BPARTNER_LOCATION_ID);
             }
             mAddressAdapter = null;
-            String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS, null, mBPartnerId, 0);
-            if (entries != null) {
-                mAddressAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, entries);
+            if (getActivity() != null) {
+                String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS, null, mBPartnerId, 0);
+                if (entries != null) {
+                    mAddressAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, entries);
+                }
             }
         }
         else {
@@ -343,7 +345,7 @@ public class RefuelEditFragment extends BaseEditFragment {
                 if (charSequence.toString().length() == 0) {
                     acAddress.setEnabled(false);
                     acAddress.setText(null);
-                    acAddress.setHint(mResource.getString(R.string.fillup_edit_gas_station).replace(":", "") + " "
+                    acAddress.setHint(mResource.getString(R.string.fill_up_edit_gas_station).replace(":", "") + " "
                             + mResource.getString(R.string.gen_required).toLowerCase());
                 }
                 else {
@@ -379,11 +381,13 @@ public class RefuelEditFragment extends BaseEditFragment {
 
 
                     mAddressAdapter = null;
-                    String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS, null, mBPartnerId, 0);
-                    if (entries != null) {
-                        mAddressAdapter = new ArrayAdapter<>(RefuelEditFragment.this.getActivity(), android.R.layout.simple_list_item_1, entries);
+                    if (getActivity() != null) {
+                        String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNERLOCATION, DBAdapter.COL_NAME_BPARTNERLOCATION__ADDRESS, null, mBPartnerId, 0);
+                        if (entries != null) {
+                            mAddressAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, entries);
+                        }
+                        acAddress.setAdapter(mAddressAdapter);
                     }
-                    acAddress.setAdapter(mAddressAdapter);
                 }
             }
         });
@@ -427,14 +431,16 @@ public class RefuelEditFragment extends BaseEditFragment {
 
         //setup bpartner adapter
         mBPartnerAdapter = null;
-        String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNER, null,
-                "WHERE " + DB.COL_NAME_GEN_ISACTIVE + " = 'Y' " +
-                        " AND LENGTH(TRIM(" + DB.COL_NAME_GEN_NAME + ")) > 0 " +
-                        " AND " + DB.COL_NAME_BPARTNER__ISGASSTATION + " = 'Y'", 0, 0);
-        if (entries != null) {
-            mBPartnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, entries);
+        if (getActivity() != null) {
+            String[] entries = mDbAdapter.getAutoCompleteText(DBAdapter.TABLE_NAME_BPARTNER, null,
+                    "WHERE " + DB.COL_NAME_GEN_ISACTIVE + " = 'Y' " +
+                            " AND LENGTH(TRIM(" + DB.COL_NAME_GEN_NAME + ")) > 0 " +
+                            " AND " + DB.COL_NAME_BPARTNER__ISGASSTATION + " = 'Y'", 0, 0);
+            if (entries != null) {
+                mBPartnerAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, entries);
+            }
+            acBPartner.setAdapter(mBPartnerAdapter);
         }
-        acBPartner.setAdapter(mBPartnerAdapter);
     }
 
     @SuppressLint("SetTextI18n")
@@ -516,7 +522,7 @@ public class RefuelEditFragment extends BaseEditFragment {
         calculateBaseUOMQty();
 
         ContentValues data = new ContentValues();
-        data.put(DBAdapter.COL_NAME_GEN_NAME, ConstantValues.EXPENSES_COL_FROMREFUEL_TABLE_NAME);
+        data.put(DBAdapter.COL_NAME_GEN_NAME, ConstantValues.EXPENSES_COL_FROM_REFUEL_TABLE_NAME);
         data.put(DBAdapter.COL_NAME_GEN_ISACTIVE, "Y");
         data.put(DBAdapter.COL_NAME_GEN_USER_COMMENT, acUserComment.getText().toString());
         data.put(DBAdapter.COL_NAME_REFUEL__CAR_ID, mCarId);
@@ -688,8 +694,8 @@ public class RefuelEditFragment extends BaseEditFragment {
         }
 
         prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_last_selected_driver_id), mDriverId);
-        prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_refuel_last_selected_exptype_id), mExpTypeId);
-        prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_refuel_last_selected_expcategory_id), mExpCategoryId);
+        prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_refuel_last_selected_expense_type_id), mExpTypeId);
+        prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_refuel_last_selected_expense_category_id), mExpCategoryId);
         prefEditor.putInt(AndiCar.getAppResources().getString(R.string.pref_key_refuel_insert_mode), mInsertMode);
         prefEditor.apply();
 
@@ -699,7 +705,7 @@ public class RefuelEditFragment extends BaseEditFragment {
 //        getActivity().startService(intent);
         Bundle serviceParams = new Bundle();
         serviceParams.putLong(ToDoNotificationJob.CAR_ID_KEY, mCarId);
-        JobStarter.startServicesUsingFBJobDispacher(getActivity(), JobStarter.SERVICE_STARTER_START_TODO_NOTIFICATION_SERVICE, serviceParams);
+        JobStarter.startServicesUsingFBJobDispatcher(getActivity(), JobStarter.SERVICE_STARTER_START_TODO_NOTIFICATION_SERVICE, serviceParams);
 
         analyticsParams.putInt(ConstantValues.ANALYTICS_IS_TEMPLATE_USED, isTemplateUsed ? 1 : 0);
         Utils.sendAnalyticsEvent(getActivity(), "RefuelEdit", analyticsParams, false);
@@ -708,7 +714,7 @@ public class RefuelEditFragment extends BaseEditFragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong("mUOMVolumeId", mUOMVolumeId);
         outState.putLong("mCarDefaultCurrencyId", mCarDefaultCurrencyId);
@@ -820,6 +826,7 @@ public class RefuelEditFragment extends BaseEditFragment {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void calculatePriceAmount() {
         if (etQuantity == null) {
             return;
@@ -843,8 +850,7 @@ public class RefuelEditFragment extends BaseEditFragment {
                     mAmountEntered = qtyBd.multiply(mPriceEntered);
                     tvCalculatedTextContent.setText(Utils.numberToString(mAmountEntered, true,
                             ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " + mCurrencyCode);
-                }
-                else { //INSERT_MODE__AMOUNT - calculate price
+                } else { //INSERT_MODE__AMOUNT - calculate price
                     mAmountEntered = new BigDecimal(userInputStr);
                     mPriceEntered = mAmountEntered.divide(qtyBd, 10, RoundingMode.HALF_UP);
                     tvCalculatedTextContent.setText(Utils.numberToString(mPriceEntered, true,
@@ -863,19 +869,19 @@ public class RefuelEditFragment extends BaseEditFragment {
                             + String.format(mResource.getString(R.string.gen_converted_amount_label), mCarDefaultCurrencyCode) + " = "
                             + Utils.numberToString(mAmountConverted, true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT));
                 }
-            }
-            catch (NumberFormatException ignored) {
+            } catch (NumberFormatException ignored) {
             }
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void calculateBaseUOMQty() {
         if (mUOMVolumeId == mCarDefaultUOMVolumeId || tvBaseUOMQtyValue == null) {
             return;
         }
 
         if (mUOMVolumeConversionRate == null) {
-            tvBaseUOMQtyValue.setText(mResource.getString(R.string.fillup_edit_no_conversion_rate_message));
+            tvBaseUOMQtyValue.setText(mResource.getString(R.string.fill_up_edit_no_conversion_rate_message));
             return;
         }
         String qtyStr = etQuantity.getText().toString();
@@ -884,8 +890,7 @@ public class RefuelEditFragment extends BaseEditFragment {
                 mBaseUOMQty = (new BigDecimal(qtyStr)).multiply(mUOMVolumeConversionRate);
 
                 tvBaseUOMQtyValue.setText(Utils.numberToString(mBaseUOMQty, true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " " + mCarDefaultUOMVolumeCode);
-            }
-            catch (NumberFormatException ignored) {
+            } catch (NumberFormatException ignored) {
             }
         }
     }

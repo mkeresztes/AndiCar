@@ -90,9 +90,11 @@ public class UOMEditFragment extends BaseEditFragment {
 
     @Override
     protected void initSpecificControls() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.uom_type_entries, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnUomType.setAdapter(adapter);
+        if (getActivity() != null) {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.uom_type_entries, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spnUomType.setAdapter(adapter);
+        }
     }
 
     @Override

@@ -26,15 +26,15 @@
     <!-- _______________________________________ -->
 
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="navigation_drawer_logo_description">AndiCar logo</string>
-    <string name="navigation_drawer_expand_collapse_description">Expand / Collapse menu</string>
+    <string name="navigation_drawer_open" tools:ignore="MissingTranslation">Open navigation drawer</string>
+    <string name="navigation_drawer_close" tools:ignore="MissingTranslation">Close navigation drawer</string>
+    <string name="navigation_drawer_logo_description" tools:ignore="MissingTranslation">AndiCar logo</string>
+    <string name="navigation_drawer_expand_collapse_description" tools:ignore="MissingTranslation">Expand / Collapse menu</string>
 
-    <string name="content_description_dialog_icon">DialogIcon</string>
+    <string name="content_description_dialog_icon" tools:ignore="MissingTranslation">DialogIcon</string>
 
     <!--APP_Activity_GPSTrackController-->
-    <string name="activity_gps_track_controller">AndiCar GPS Track</string>
+    <string name="activity_gps_track_controller">GPS Track controller</string>
 
     <string name="activity_new_trip">AndiCar trip record</string>
 
@@ -86,15 +86,15 @@
     <string name="pref_backup_service_schedule_summary_weekly">Every %1$s at %2$s</string>
     <string name="pref_backup_service_choose_a_day">Select at least one day</string>
 
-    <string name="pref_securebackup_authorization_required">This service require your authorization.</string>
-    <string name="pref_securebackup_destination_title">Destination</string>
-    <string name="pref_securebackup_gdrive_title">Drive folder</string>
-    <string name="pref_securebackup_gdrive_description">Will be used to store the backup files. Should be a dedicated one.</string>
-    <string name="pref_securebackup_gdrive_folder_selector_title">Choose a folder</string>
-    <string name="pref_securebackup_email_to_title">Send to</string>
-    <string name="pref_securebackup_only_on_wifi_title">Send only over wifi connection</string>
-    <string name="pref_securebackup_send_tracks_title">Send GPS track files</string>
-    <string name="pref_securebackup_send_tracks_description">Along with the database backup also send the GPS track files.</string>
+    <string name="pref_secure_backup_authorization_required">This service requires your authorization.</string>
+    <string name="pref_secure_backup_destination_title">Destination</string>
+    <string name="pref_secure_backup_gdrive_title">Drive folder</string>
+    <string name="pref_secure_backup_gdrive_description">Will be used to store the backup files. Should be a dedicated one.</string>
+    <string name="pref_secure_backup_gdrive_folder_selector_title">Choose a folder</string>
+    <string name="pref_secure_backup_email_to_title">Send to</string>
+    <string name="pref_secure_backup_only_on_wifi_title">Send only over wifi connection</string>
+    <string name="pref_secure_backup_send_tracks_title">Send GPS track files</string>
+    <string name="pref_secure_backup_send_tracks_description">Along with the database backup also send the GPS track files.</string>
 
     <string name="pref_google_account_description">It will be used for sending the email with the backup file attached.</string>
     <string name="pref_show_notification_on_success_description">Show a notification on success. Regardless of this option, a notification will be shown if an error occurred.</string>
@@ -109,13 +109,13 @@
     <string name="gen_test_email_subject">AndiCar Email test</string>
     <string name="gen_test_email_body">This is a test email for account validation.</string>
     <string name="gen_trip_detail">Trip detail</string>
-    <string name="gen_fillup_detail">Fill-up detail</string>
+    <string name="gen_fill_up_detail">Fill-up detail</string>
     <string name="gen_expense_detail">Expense detail</string>
     <string name="gen_gps_track_detail">GPS Track detail</string>
     <string name="gen_menu">Menu</string>
     <string name="gen_save">Save</string>
     <string name="gen_trip">Trip</string>
-    <string name="gen_fillup">Fill-up</string>
+    <string name="gen_fill_up">Fill-up</string>
     <string name="gen_expense">Expense</string>
     <string name="gen_gps_track">GPS Track</string>
     <string name="gen_todo_detail">To-Do detail</string>
@@ -129,8 +129,8 @@
     <string name="secure_backup_mail_body">Please visit https://sites.google.com/site/andicarfree/howto#TOC-Restore-your-data-from-secure-backup if you need to restore this backup. &lt;br&gt; &lt;br&gt; Sent by AndiCar - http://www.andicar.org"</string>
 
     <string name="mileage_type">Trip type:</string>
-    <string name="fillup_type">Fill-up type:</string>
-    <string name="fillup_category">Fuel category:</string>
+    <string name="fill_up_type">Fill-up type:</string>
+    <string name="fill_up_category">Fuel category:</string>
 
     <string name="search_dialog_note">Note: % means any string</string>
 
@@ -225,14 +225,13 @@
     <string name="pref_todo_type_title">To-do types</string>
     <!--PREF_MainScreenCategoryTitle-->
     <string name="pref_category_main_screen">Main screen</string>
-    <string name="pref_main_screen_addbtn_title">Add button</string>
-    <string name="pref_main_screen_addbtn_hint">Long pressing the add button will show the menu</string>
+    <string name="pref_main_screen_btn_add_title">Add button</string>
+    <string name="pref_main_screen_btn_add_hint">Long pressing the add button will show the menu</string>
 
 
     <!--PREF_MainScreen_ShowToDoZone-->
     <string name="pref_main_screen_show_todo_zone">Show next To-Do</string>
     <!--PREF_MainScreen_ShowStatistics-->
-    <string name="pref_main_screen_show_statistics">Show statistics</string>
     <string name="pref_main_screen_zone1_content">Zone 1 content</string>
     <string name="pref_main_screen_zone2_content">Zone 2 content</string>
     <string name="pref_main_screen_zone3_content">Zone 3 content</string>
@@ -292,9 +291,9 @@
     <!--AddOn_SecureBackup_Title-->
     <string name="pref_category_secure_backup">Secure backup</string>
     <!--Google translate-->
-    <string name="pref_securebackup_title">Enable secure backups</string>
+    <string name="pref_secure_backup_title">Enable secure backups</string>
     <!--AddOn_SecureBackup_Description-->
-    <string name="pref_securebackup_description">Recommended. This service will automatically send the backups outside of your device. In this way, your recorded data will be available even if you lose your phone.</string>
+    <string name="pref_secure_backup_description">Recommended. This service will automatically send the backups outside of your device. In this way, your recorded data will be available even if you lose your phone.</string>
 
     <!--APP_Activity_GPSPreferences-->
     <string name="pref_category_gps_tracking">GPS Tracking Preferences</string>
@@ -385,7 +384,7 @@
     <!--MENU_MileageCaption-->
     <string name="gen_trips">Trips</string>
     <!--MENU_RefuelCaption-->
-    <string name="gen_fillups">Fill-ups</string>
+    <string name="gen_fill_ups">Fill-ups</string>
     <!--MENU_ExpenseCaption-->
     <string name="gen_expenses">Expenses</string>
     <!--MENU_GPSTrackCaption-->
@@ -494,13 +493,13 @@
     <!--MileageEditActivity_UpdateOkMessage-->
     <string name="mileage_edit_update_ok_message">Mileage updated.</string>
     <!--RefuelEditActivity_IsFullLabel-->
-    <string name="fillup_edit_is_full_label">Is full</string>
+    <string name="fill_up_edit_is_full_label">Is full</string>
     <!--RefuelEditActivity_QtyInBaseUOMLabel-->
-    <string name="fillup_edit_qty_in_base_uom_label">Quantity in base UOM:</string>
+    <string name="fill_up_edit_qty_in_base_uom_label">Quantity in base UOM:</string>
     <!--RefuelEditActivity_NoConversionRateMessage-->
-    <string name="fillup_edit_no_conversion_rate_message">No conversion rate defined for these UOMs</string>
+    <string name="fill_up_edit_no_conversion_rate_message">No conversion rate defined for these UOMs</string>
     <!--RefuelEditActivity_GasStation-->
-    <string name="fillup_edit_gas_station">Station:</string>
+    <string name="fill_up_edit_gas_station">Station:</string>
 
     <!--GPSTrackReport_GPSTrackVar_1 -> GPSTrackReport_GPSTrackVar_13 -->
     <string name="gps_track_detail_var_1">Distance:</string>
@@ -605,8 +604,7 @@
     <string name="uom_conversion_edit_from_uom_label">From uom:</string>
     <!--UOMConversionEditActivity_UOMToLabel-->
     <string name="uom_conversion_edit_to_uom_label">To uom:</string>
-    <!--UOMConversionEditActivity_ConvertionRateLabel-->
-    <string name="uom_conversion_edit_convertion_factor_label">Conversion factor:</string>
+    <string name="uom_conversion_edit_conversion_factor_label">Conversion factor:</string>
     <!--ExpenseCategoryEditActivity_IsExcludeLabel-->
     <string name="expense_category_edit_exclude_label">Exclude from mileage cost calculation</string>
 

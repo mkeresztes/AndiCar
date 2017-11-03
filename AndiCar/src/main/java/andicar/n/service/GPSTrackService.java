@@ -187,7 +187,7 @@ public class GPSTrackService extends Service {
         mPreferences = AndiCar.getDefaultSharedPreferences();
 
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+        if (mLocationManager == null || !mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Toast.makeText(this, R.string.gps_track_service_gps_disabled_message, Toast.LENGTH_SHORT).show();
             stopSelf();
             return;
@@ -241,111 +241,112 @@ public class GPSTrackService extends Service {
         }
         else {
             if (intent == null) {
-                Utils.showReportableErrorDialog(this, "intent is null", null, null, true);
+                Utils.showReportableErrorDialog(this, "GPS Track Service error", "Intent is null", null, true);
                 stopSelf();
+                return START_NOT_STICKY;
             }
-            else{
-                mArguments = intent.getExtras();
-                sName = mArguments.getString(GPSTrackControllerFragment.GPS_TRACK_ARGUMENT_NAME, null);
+            mArguments = intent.getExtras();
+            if (mArguments == null) {
+                Utils.showReportableErrorDialog(this, "GPS Track Service error", "No argument", null, true);
+                stopSelf();
+                return START_NOT_STICKY;
+            }
+            sName = mArguments.getString(GPSTrackControllerFragment.GPS_TRACK_ARGUMENT_NAME, null);
 
-                String sUserComment = mArguments.getString(GPSTrackControllerFragment.GPS_TRACK_ARGUMENT_COMMENT, null);
-                //enable extended logging for debug
-                isEnableDebugLog = (sUserComment != null && sUserComment.trim().toLowerCase().contains("debug"));
+            String sUserComment = mArguments.getString(GPSTrackControllerFragment.GPS_TRACK_ARGUMENT_COMMENT, null);
+            //enable extended logging for debug
+            isEnableDebugLog = (sUserComment != null && sUserComment.trim().toLowerCase().contains("debug"));
 
-                if (isEnableDebugLog) {
-                    FileUtils.createFolderIfNotExists(this, ConstantValues.LOG_FOLDER);
-                    debugLogFile = new File(ConstantValues.LOG_FOLDER + "gpsDBG" + System.currentTimeMillis() + ".log");
-                    logDebugInfo(debugLogFile, "onCreate() started", null);
+            if (isEnableDebugLog) {
+                FileUtils.createFolderIfNotExists(this, ConstantValues.LOG_FOLDER);
+                debugLogFile = new File(ConstantValues.LOG_FOLDER + "gpsDBG" + System.currentTimeMillis() + ".log");
+                logDebugInfo(debugLogFile, "onCreate() started", null);
+            }
+
+            String sTag = mArguments.getString(GPSTrackControllerFragment.GPS_TRACK_ARGUMENT_TAG, null);
+            long mCarId = mArguments.getLong(GPSTrackControllerFragment.GPS_TRACK_ARGUMENT_CAR_ID,
+                    mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_last_selected_car_id), 1));
+            long mDriverId = mArguments.getLong(GPSTrackControllerFragment.GPS_TRACK_ARGUMENT_DRIVER_ID,
+                    mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_last_selected_driver_id), 1));
+            long mExpenseTypeId = mArguments.getLong(GPSTrackControllerFragment.GPS_TRACK_ARGUMENT_EXPENSE_TYPE_ID,
+                    mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_mileage_last_selected_expense_type_id), 1));
+            isUseKML = mPreferences.getBoolean(AndiCar.getAppResources().getString(R.string.pref_key_gps_track_is_use_kml), false);
+            isUseGPX = mPreferences.getBoolean(AndiCar.getAppResources().getString(R.string.pref_key_gps_track_is_use_gpx), false);
+            isUseCSV = mPreferences.getBoolean(AndiCar.getAppResources().getString(R.string.pref_key_gps_track_is_use_csv), false);
+            iMinAccuracy = Integer.parseInt(mPreferences.getString(AndiCar.getAppResources().getString(R.string.pref_key_gps_track_min_accuracy), "20"));
+
+            mDbAdapter = new DBAdapter(this);
+
+            //create the master record
+            //use direct table insert for increasing the speed of the DB operation
+            ContentValues cvData = new ContentValues();
+            cvData.put(DBAdapter.COL_NAME_GEN_NAME, sName);
+            cvData.put(DBAdapter.COL_NAME_GEN_USER_COMMENT, sUserComment);
+            cvData.put(DBAdapter.COL_NAME_GPSTRACK__CAR_ID, mCarId);
+            cvData.put(DBAdapter.COL_NAME_GPSTRACK__DRIVER_ID, mDriverId);
+            cvData.put(DBAdapter.COL_NAME_GPSTRACK__EXPENSETYPE_ID, mExpenseTypeId);
+            cvData.put(DBAdapter.COL_NAME_GPSTRACK__DATE, (System.currentTimeMillis() / 1000));
+            if (sTag != null && sTag.length() > 0) {
+                long mTagId;
+                String selection = "UPPER (" + DBAdapter.COL_NAME_GEN_NAME + ") = ?";
+                String[] selectionArgs = {sTag.toUpperCase(Locale.US)};
+                Cursor c = mDbAdapter.query(DBAdapter.TABLE_NAME_TAG, DBAdapter.COL_LIST_GEN_ROWID_NAME, selection, selectionArgs, null);
+                String tagIdStr = null;
+                if (c.moveToFirst()) {
+                    tagIdStr = c.getString(DBAdapter.COL_POS_GEN_ROWID);
                 }
-
-                String sTag = mArguments.getString(GPSTrackControllerFragment.GPS_TRACK_ARGUMENT_TAG, null);
-                long mCarId = mArguments.getLong(GPSTrackControllerFragment.GPS_TRACK_ARGUMENT_CAR_ID,
-                        mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_last_selected_car_id), 1));
-                long mDriverId = mArguments.getLong(GPSTrackControllerFragment.GPS_TRACK_ARGUMENT_DRIVER_ID,
-                        mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_last_selected_driver_id), 1));
-                long mExpenseTypeId = mArguments.getLong(GPSTrackControllerFragment.GPS_TRACK_ARGUMENT_EXPENSETYPE_ID,
-                        mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_mileage_last_selected_exptype_id), 1));
-                isUseKML = mPreferences.getBoolean(AndiCar.getAppResources().getString(R.string.pref_key_gps_track_is_use_kml), false);
-                isUseGPX = mPreferences.getBoolean(AndiCar.getAppResources().getString(R.string.pref_key_gps_track_is_use_gpx), false);
-                isUseCSV = mPreferences.getBoolean(AndiCar.getAppResources().getString(R.string.pref_key_gps_track_is_use_csv), false);
-                iMinAccuracy = Integer.parseInt(mPreferences.getString(AndiCar.getAppResources().getString(R.string.pref_key_gps_track_min_accuracy), "20"));
-
-                mDbAdapter = new DBAdapter(this);
-
-                //create the master record
-                //use direct table insert for increasing the speed of the DB operation
-                ContentValues cvData = new ContentValues();
-                cvData.put(DBAdapter.COL_NAME_GEN_NAME, sName);
-                cvData.put(DBAdapter.COL_NAME_GEN_USER_COMMENT, sUserComment);
-                cvData.put(DBAdapter.COL_NAME_GPSTRACK__CAR_ID, mCarId);
-                cvData.put(DBAdapter.COL_NAME_GPSTRACK__DRIVER_ID, mDriverId);
-                cvData.put(DBAdapter.COL_NAME_GPSTRACK__EXPENSETYPE_ID, mExpenseTypeId);
-                cvData.put(DBAdapter.COL_NAME_GPSTRACK__DATE, (System.currentTimeMillis() / 1000));
-                if (sTag != null && sTag.length() > 0) {
-                    long mTagId;
-                    String selection = "UPPER (" + DBAdapter.COL_NAME_GEN_NAME + ") = ?";
-                    String[] selectionArgs = {sTag.toUpperCase(Locale.US)};
-                    Cursor c = mDbAdapter.query(DBAdapter.TABLE_NAME_TAG, DBAdapter.COL_LIST_GEN_ROWID_NAME, selection, selectionArgs, null);
-                    String tagIdStr = null;
-                    if (c.moveToFirst()) {
-                        tagIdStr = c.getString(DBAdapter.COL_POS_GEN_ROWID);
-                    }
-                    c.close();
-                    if (tagIdStr != null && tagIdStr.length() > 0) {
-                        mTagId = Long.parseLong(tagIdStr);
+                c.close();
+                if (tagIdStr != null && tagIdStr.length() > 0) {
+                    mTagId = Long.parseLong(tagIdStr);
+                    cvData.put(DBAdapter.COL_NAME_GPSTRACK__TAG_ID, mTagId);
+                } else {
+                    ContentValues tmpData = new ContentValues();
+                    tmpData.put(DBAdapter.COL_NAME_GEN_NAME, sTag);
+                    mTagId = mDbAdapter.createRecord(DBAdapter.TABLE_NAME_TAG, tmpData);
+                    if (mTagId >= 0) {
                         cvData.put(DBAdapter.COL_NAME_GPSTRACK__TAG_ID, mTagId);
                     }
-                    else {
-                        ContentValues tmpData = new ContentValues();
-                        tmpData.put(DBAdapter.COL_NAME_GEN_NAME, sTag);
-                        mTagId = mDbAdapter.createRecord(DBAdapter.TABLE_NAME_TAG, tmpData);
-                        if (mTagId >= 0) {
-                            cvData.put(DBAdapter.COL_NAME_GPSTRACK__TAG_ID, mTagId);
-                        }
-                    }
                 }
-                else {
-                    cvData.put(DBAdapter.COL_NAME_GPSTRACK__TAG_ID, (String) null);
-                }
-
-                gpsTrackId = mDbAdapter.createRecord(DBAdapter.TABLE_NAME_GPSTRACK, cvData);
-                if (gpsTrackId < 0) {
-                    Utils.showReportableErrorDialog(this, getString(R.string.error_sorry), mDbAdapter.mErrorMessage, mDbAdapter.mException, true);
-                    stopSelf();
-                }
-
-                if (isEnableDebugLog) {
-                    logDebugInfo(debugLogFile, "onCreate(): Track saved in DB gpsTrackId = " + gpsTrackId, null);
-                }
-
-                long lMileId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "mi");
-                long lCarUomId = mDbAdapter.getCarUOMLengthID(mCarId);
-                isUseMetricUnits = lCarUomId != lMileId;
-
-                //create the track detail file(s)
-                try {
-                    createFiles();
-
-                    // Display a notification about starting the service.
-                    showNotification(AndiCarNotification.NOTIF_GPS_TRACKING_STARTED_ID);
-                }
-                catch (IOException ex) {
-                    Logger.getLogger(GPSTrackService.class.getName()).log(Level.SEVERE, null, ex);
-                    Utils.showNotReportableErrorDialog(getApplicationContext(), getString(R.string.error_034), ex.getMessage(), true);
-                    //            showNotification(AndiCarNotification.NOTIF_FILESYSTEM_ERROR_ID, true);
-                    if (isEnableDebugLog) {
-                        logDebugInfo(debugLogFile, "File system error", ex);
-                    }
-                    stopSelf();
-                }
-                //close the database
-                if (mDbAdapter != null) {
-                    mDbAdapter.close();
-                    mDbAdapter = null;
-                }
-
-                mGPSTrackServiceStatus = GPS_TRACK_SERVICE_RUNNING;
+            } else {
+                cvData.put(DBAdapter.COL_NAME_GPSTRACK__TAG_ID, (String) null);
             }
+
+            gpsTrackId = mDbAdapter.createRecord(DBAdapter.TABLE_NAME_GPSTRACK, cvData);
+            if (gpsTrackId < 0) {
+                Utils.showReportableErrorDialog(this, getString(R.string.error_sorry), mDbAdapter.mErrorMessage, mDbAdapter.mException, true);
+                stopSelf();
+            }
+
+            if (isEnableDebugLog) {
+                logDebugInfo(debugLogFile, "onCreate(): Track saved in DB gpsTrackId = " + gpsTrackId, null);
+            }
+
+            long lMileId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "mi");
+            long lCarUomId = mDbAdapter.getCarUOMLengthID(mCarId);
+            isUseMetricUnits = lCarUomId != lMileId;
+
+            //create the track detail file(s)
+            try {
+                createFiles();
+
+                // Display a notification about starting the service.
+                showNotification(AndiCarNotification.GPS_TRACKING_STARTED_ID);
+            } catch (IOException ex) {
+                Logger.getLogger(GPSTrackService.class.getName()).log(Level.SEVERE, null, ex);
+                Utils.showNotReportableErrorDialog(getApplicationContext(), getString(R.string.error_034), ex.getMessage(), true);
+                //            showNotification(AndiCarNotification.NOTIF_FILESYSTEM_ERROR_ID, true);
+                if (isEnableDebugLog) {
+                    logDebugInfo(debugLogFile, "File system error", ex);
+                }
+                stopSelf();
+            }
+            //close the database
+            if (mDbAdapter != null) {
+                mDbAdapter.close();
+                mDbAdapter = null;
+            }
+
+            mGPSTrackServiceStatus = GPS_TRACK_SERVICE_RUNNING;
         }
         return START_STICKY;
     }
@@ -586,7 +587,7 @@ public class GPSTrackService extends Service {
             }
             Logger.getLogger(GPSTrackService.class.getName()).log(Level.SEVERE, null, ex);
             Utils.showNotReportableErrorDialog(this, getString(R.string.error_034), ex.getMessage(), true);
-//            showNotification(AndiCarNotification.NOTIF_FILESYSTEM_ERROR_ID, true);
+//            showNotification(AndiCarNotification.NOTIFICATION_FILESYSTEM_ERROR_ID, true);
         }
     }
 
@@ -906,7 +907,7 @@ public class GPSTrackService extends Service {
         switch (status) {
             case GPS_TRACK_SERVICE_PAUSED:
                 mLocationManager.removeUpdates(mLocationListener);
-                showNotification(AndiCarNotification.NOTIF_GPS_PAUSED_ID);
+                showNotification(AndiCarNotification.GPS_PAUSED_ID);
                 try {
                     appendGOPTrackPoint(GPS_TRACK_POINT__PAUSE_START); //Pause Start Point
                 }
@@ -926,10 +927,10 @@ public class GPSTrackService extends Service {
                         Long.parseLong(mPreferences.getString(AndiCar.getAppResources().getString(R.string.pref_key_gps_track_min_time), "0")) * 1000, 0, mLocationListener);
 
                 if (!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    showNotification(AndiCarNotification.NOTIF_GPS_DISABLED_ID);
+                    showNotification(AndiCarNotification.GPS_DISABLED_ID);
                 }
                 else {
-                    showNotification(AndiCarNotification.NOTIF_GPS_TRACKING_STARTED_ID);
+                    showNotification(AndiCarNotification.GPS_TRACKING_STARTED_ID);
                 }
                 break;
             case GPS_TRACK_SERVICE_STOPPED:
@@ -1053,7 +1054,6 @@ public class GPSTrackService extends Service {
         cvData.put(DBAdapter.COL_NAME_GPSTRACK__DISTANCE, (Math.round(dTotalDistance * 100) * 1d) / 100);
         cvData.put(DBAdapter.COL_NAME_GPSTRACK__AVGSPEED, (Math.round(dAvgSpeed * 100) * 1d) / 100);
         cvData.put(DBAdapter.COL_NAME_GPSTRACK__AVGMOVINGSPEED, (Math.round(dAvgMovingSpeed * 100) * 1d) / 100);
-//        cvData.put(DBAdapter.COL_NAME_GPSTRACK__MAXSPEED, (Math.round(dCalculatedMaxSpeed * 100) * 1d) / 100);
         cvData.put(DBAdapter.COL_NAME_GPSTRACK__MAXSPEED, (Math.round(fSensorMaxSpeed * 100) * 1f) / 100);
         cvData.put(DBAdapter.COL_NAME_GPSTRACK__TOTALTRACKPOINTS, dTotalTrackPoints);
         cvData.put(DBAdapter.COL_NAME_GPSTRACK__INVALIDTRACKPOINTS, dTotalSkippedTrackPoints);
@@ -1257,10 +1257,10 @@ public class GPSTrackService extends Service {
         public void onStatusChanged(String provider, int status, Bundle extras) {
             if (provider.equals(LocationManager.GPS_PROVIDER)) {
                 if (status == LocationProvider.OUT_OF_SERVICE) {
-                    showNotification(AndiCarNotification.NOTIF_GPS_OUTOFSERVICE_ID);
+                    showNotification(AndiCarNotification.GPS_OUT_OF_SERVICE_ID);
                 }
                 if (status == LocationProvider.AVAILABLE) {
-                    showNotification(AndiCarNotification.NOTIF_GPS_TRACKING_STARTED_ID);
+                    showNotification(AndiCarNotification.GPS_TRACKING_STARTED_ID);
                 }
             }
         }
@@ -1271,7 +1271,7 @@ public class GPSTrackService extends Service {
             {
                 return;
             }
-            showNotification(AndiCarNotification.NOTIF_GPS_TRACKING_STARTED_ID);
+            showNotification(AndiCarNotification.GPS_TRACKING_STARTED_ID);
         }
 
         @Override
@@ -1282,7 +1282,7 @@ public class GPSTrackService extends Service {
             }
 
             if (provider.equals(LocationManager.GPS_PROVIDER)) {
-                showNotification(AndiCarNotification.NOTIF_GPS_DISABLED_ID);
+                showNotification(AndiCarNotification.GPS_DISABLED_ID);
             }
         }
     }

@@ -60,11 +60,10 @@ public class FileListActivity extends AppCompatActivity implements Runnable {
     public final static int LIST_TYPE_BACKUP = 1;
     public final static String list_type_extras_key = "list_type";
 
-    ArrayList<String> mFileList;
-    ArrayAdapter<String> mListAdapter;
+    private ArrayList<String> mFileList;
     private ListView lvFileList;
     private int mListType;
-    static ProgressDialog mProgress;
+    private static ProgressDialog mProgress;
     private String mBackupFile;
 
     @Override
@@ -160,6 +159,7 @@ public class FileListActivity extends AppCompatActivity implements Runnable {
     }
 
     private void fillFileList() {
+        ArrayAdapter<String> mListAdapter;
         if (mListType == LIST_TYPE_LOG) {
             lvFileList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
             mFileList = FileUtils.listLogFiles(this);

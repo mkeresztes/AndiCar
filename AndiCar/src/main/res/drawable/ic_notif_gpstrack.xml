@@ -19,12 +19,12 @@
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
                 android:oneshot="false">
     <item
-        android:drawable="@drawable/ic_notif_gpstrack1"
+        android:drawable="@drawable/ic_notification_gpstrack1"
         android:duration="500"/>
     <item
-        android:drawable="@drawable/ic_notif_gpstrack2"
+        android:drawable="@drawable/ic_notification_gpstrack2"
         android:duration="500"/>
     <item
-        android:drawable="@drawable/ic_notif_gpstrack3"
+        android:drawable="@drawable/ic_notification_gpstrack3"
         android:duration="500"/>
 </animation-list>

@@ -28,6 +28,7 @@ import android.database.SQLException;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -209,7 +210,7 @@ public class MileageEditFragment extends BaseEditFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
         showDateTime();
@@ -462,7 +463,8 @@ public class MileageEditFragment extends BaseEditFragment {
                     });
 
                     // Show
-                    dateTimeDialogFragment.show(MileageEditFragment.this.getActivity().getSupportFragmentManager(), "dialog_time");
+                    if (MileageEditFragment.this.getActivity() != null)
+                        dateTimeDialogFragment.show(MileageEditFragment.this.getActivity().getSupportFragmentManager(), "dialog_time");
                 }
             });
         }
@@ -630,7 +632,7 @@ public class MileageEditFragment extends BaseEditFragment {
         }
 
         prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_last_selected_driver_id), mDriverId);
-        prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_mileage_last_selected_exptype_id), mExpTypeId);
+        prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_mileage_last_selected_expense_type_id), mExpTypeId);
         prefEditor.apply();
 
         //check if mileage to-do exists
@@ -640,7 +642,7 @@ public class MileageEditFragment extends BaseEditFragment {
 //        getActivity().startService(intent);
         Bundle serviceParams = new Bundle();
         serviceParams.putLong(ToDoNotificationJob.CAR_ID_KEY, mCarId);
-        JobStarter.startServicesUsingFBJobDispacher(getActivity(), JobStarter.SERVICE_STARTER_START_TODO_NOTIFICATION_SERVICE, serviceParams);
+        JobStarter.startServicesUsingFBJobDispatcher(getActivity(), JobStarter.SERVICE_STARTER_START_TODO_NOTIFICATION_SERVICE, serviceParams);
 
         Bundle analyticsParams = new Bundle();
         analyticsParams.putInt(ConstantValues.ANALYTICS_IS_TEMPLATE_USED, isTemplateUsed ? 1 : 0);
@@ -650,7 +652,7 @@ public class MileageEditFragment extends BaseEditFragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong("mUOMLengthId", mUOMLengthId);
         outState.putLong("mGpsTrackId", mGpsTrackId);
@@ -722,12 +724,12 @@ public class MileageEditFragment extends BaseEditFragment {
         mlTripDurationInSeconds = (mlDateTimeToInMillis - mlDateTimeInMillis) / 1000;
     }
 
+    @SuppressLint("SetTextI18n")
     void showTripDuration() {
         if (mlTripDurationInSeconds > 0) {
             tvTripDurationContent.setVisibility(View.VISIBLE);
             tvTripDurationContent.setText("; " + mResource.getString(R.string.gen_duration) + " " + Utils.getDaysHoursMinutesFromSec(mlTripDurationInSeconds));
-        }
-        else {
+        } else {
             tvTripDurationContent.setVisibility(View.GONE);
         }
     }
@@ -844,6 +846,7 @@ public class MileageEditFragment extends BaseEditFragment {
         showReimbursementValue();
     }
 
+    @SuppressLint("SetTextI18n")
     private void showDateTimeTo() {
         if (tvDateTimeToValue == null) {
             return;

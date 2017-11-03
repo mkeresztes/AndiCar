@@ -465,7 +465,7 @@ public class LineChartComponent extends LinearLayout {
             mChart.clear();
         }
 
-        // create a dataset and give it a type
+        // create a data set and give it a type
         set1 = new LineDataSet(values, "DataSet 1");
 
         set1.setDrawIcons(false);
@@ -494,9 +494,9 @@ public class LineChartComponent extends LinearLayout {
         }
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(set1); // add the datasets
+        dataSets.add(set1); // add the data sets
 
-        // create a data object with the datasets
+        // create a data object with the data sets
         LineData data = new LineData(dataSets);
 
         // set data

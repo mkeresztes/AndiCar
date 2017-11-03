@@ -78,10 +78,12 @@
     <string name="DB_FuelType_DieselSyntheticComment">Gewonnen aus verschiedenen Quellen wie Holz, Stroh, Mais oder sogar Müll und Lebensmittelabfällen</string>
     <string name="DB_FuelType_GasolineRegular">Normalbenzin</string>
     <string name="DB_FuelType_GasolineRegularComment">Oktanzahl 87</string>
-    <string name="DB_FuelType_GasolineMidgrade">Premium</string>
-    <string name="DB_FuelType_GasolineMidgradeComment">Oktanzahl 91 – 93</string>
-    <string name="DB_FuelType_GasolinePremium">Super premium</string>
-    <string name="DB_FuelType_GasolinePremiumComment">Oktanzahl 94 – 98</string>
+    <string name="DB_FuelType_GasolineMidgrade">Midgrade</string>
+    <string name="DB_FuelType_GasolineMidgradeComment">Oktanzahl 89</string>
+    <string name="DB_FuelType_GasolinePremium">Premium</string>
+    <string name="DB_FuelType_GasolinePremiumComment">Oktanzahl 91 – 93</string>
+    <string name="DB_FuelType_GasolinePremium2">Super premium gasoline</string>
+    <string name="DB_FuelType_GasolinePremiumComment2">Oktanzahl 94 – 98</string>
     <string name="DB_FuelType_LPG">LPG</string>
     <string name="DB_FuelType_LPGComment">Autogas</string>
 

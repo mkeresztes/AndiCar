@@ -19,7 +19,7 @@
             android:layout_alignParentRight="true"
             android:background="@null"
             android:contentDescription="@string/gen_menu"
-            android:src="@drawable/ic_button_more_vert"
+            android:src="@drawable/ic_button_more_vertical"
             />
 
         <TextView

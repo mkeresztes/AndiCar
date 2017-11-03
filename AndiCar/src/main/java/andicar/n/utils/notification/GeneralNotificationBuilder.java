@@ -40,8 +40,8 @@ import andicar.n.utils.Utils;
  */
 class GeneralNotificationBuilder extends Notification.Builder {
 
-    private static final String NOTIF_CHANEL_GENERAL_ID = "generalNotifID";
-    private static final CharSequence NOTIF_CHANEL_GENERAL_NAME = "AndiCar general notifications";
+    private static final String NOTIFICATION_CHANEL_GENERAL_ID = "generalNotifications";
+    private static final CharSequence NOTIFICATION_CHANEL_GENERAL_NAME = "AndiCar general notifications";
     /**
      * @param context           context
      * @param notificationType  : see AndiCarNotification class constants
@@ -63,11 +63,11 @@ class GeneralNotificationBuilder extends Notification.Builder {
         }
         else {
             resultIntent = new Intent(context, GeneralNotificationDialogActivity.class);
-            resultIntent.putExtra(GeneralNotificationDialogActivity.NOTIF_MESSAGE_KEY, contentTitle);
-            resultIntent.putExtra(GeneralNotificationDialogActivity.NOTIF_DETAIL_KEY, contentText);
-            resultIntent.putExtra(GeneralNotificationDialogActivity.NOTIF_DATETIME, System.currentTimeMillis());
+            resultIntent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_MESSAGE_KEY, contentTitle);
+            resultIntent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_DETAIL_KEY, contentText);
+            resultIntent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_DATETIME, System.currentTimeMillis());
             if (exception != null) {
-                resultIntent.putExtra(GeneralNotificationDialogActivity.NOTIF_EXCEPTION_STRING_KEY, Utils.getStackTrace(exception));
+                resultIntent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_EXCEPTION_STRING_KEY, Utils.getStackTrace(exception));
             }
             resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
@@ -102,13 +102,13 @@ class GeneralNotificationBuilder extends Notification.Builder {
         this.setSubText(Utils.getFormattedDateTime(System.currentTimeMillis(), false));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notifChanel = new NotificationChannel(NOTIF_CHANEL_GENERAL_ID, NOTIF_CHANEL_GENERAL_NAME, NotificationManager.IMPORTANCE_HIGH);
-            notifChanel.setDescription(NOTIF_CHANEL_GENERAL_NAME.toString());
-            notifChanel.enableLights(true);
-            notifChanel.setLightColor(Color.RED);
-            notifChanel.enableVibration(true);
-            notificationManager.createNotificationChannel(notifChanel);
-            this.setChannelId(notifChanel.getId());
+            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANEL_GENERAL_ID, NOTIFICATION_CHANEL_GENERAL_NAME, NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.setDescription(NOTIFICATION_CHANEL_GENERAL_NAME.toString());
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.enableVibration(true);
+            notificationManager.createNotificationChannel(notificationChannel);
+            this.setChannelId(notificationChannel.getId());
         }
 
         PendingIntent resultPendingIntent = PendingIntent.getActivity(context, requestCode, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);

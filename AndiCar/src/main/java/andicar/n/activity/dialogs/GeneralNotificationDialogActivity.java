@@ -43,23 +43,23 @@ public class GeneralNotificationDialogActivity extends AppCompatActivity {
     /**
      * The extras key for notification message
      */
-    public final static String NOTIF_MESSAGE_KEY = "notifMessage";
+    public final static String NOTIFICATION_MESSAGE_KEY = "notificationMessage";
     /**
      * The extras key for notification detail
      */
-    public final static String NOTIF_DETAIL_KEY = "notifDetail";
+    public final static String NOTIFICATION_DETAIL_KEY = "notificationDetail";
     /**
      * The extras key for notification timestamp
      */
-    public final static String NOTIF_DATETIME = "notifDateTime";
+    public final static String NOTIFICATION_DATETIME = "notificationDateTime";
     /**
      * The extras key for the exception string object
      */
-    public final static String NOTIF_EXCEPTION_STRING_KEY = "notifExceptionStr";
+    public final static String NOTIFICATION_EXCEPTION_STRING_KEY = "notificationExceptionStr";
     /**
      * The extras key for the exception object
      */
-    public final static String NOTIF_EXCEPTION_KEY = "notifException";
+    public final static String NOTIFICATION_EXCEPTION_KEY = "notificationException";
     /**
      * reportable error: show the report to developer button
      */
@@ -98,18 +98,18 @@ public class GeneralNotificationDialogActivity extends AppCompatActivity {
         setContentView(R.layout.dialog_general_notification);
 
 //        TextView tvDialogTitle = (TextView) findViewById(R.id.tvDialogTitle);
-        ImageView ivIcon = (ImageView) findViewById(R.id.ivIcon);
-        TextView tvErrorSorry = (TextView) findViewById(R.id.tvErrorSorry);
-        TextView tvNotifMessage = (TextView) findViewById(R.id.tvNotifMessage);
-        TextView tvNotifDetail = (TextView) findViewById(R.id.tvNotifDetail);
-        TextView tvNotifDateTime = (TextView) findViewById(R.id.tvNotifDateTime);
-        Button btnClose = (Button) findViewById(R.id.btnClose);
-        Button btnReportIssue = (Button) findViewById(R.id.btnReportIssue);
+        ImageView ivIcon = findViewById(R.id.ivIcon);
+        TextView tvErrorSorry = findViewById(R.id.tvErrorSorry);
+        TextView tvNotifMessage = findViewById(R.id.tvNotificationMessage);
+        TextView tvNotifDetail = findViewById(R.id.tvNotificationDetail);
+        TextView tvNotifDateTime = findViewById(R.id.tvNotificationDateTime);
+        Button btnClose = findViewById(R.id.btnClose);
+        Button btnReportIssue = findViewById(R.id.btnReportIssue);
 
         Bundle extras = getIntent().getExtras();
 
-        if (extras.getString(NOTIF_MESSAGE_KEY) != null) {
-            tvNotifMessage.setText(extras.getString(NOTIF_MESSAGE_KEY));
+        if (extras.getString(NOTIFICATION_MESSAGE_KEY) != null) {
+            tvNotifMessage.setText(extras.getString(NOTIFICATION_MESSAGE_KEY));
             tvNotifMessage.setVisibility(View.VISIBLE);
         }
         else {
@@ -117,8 +117,8 @@ public class GeneralNotificationDialogActivity extends AppCompatActivity {
             tvNotifMessage.setVisibility(View.GONE);
         }
 
-        if (extras.getString(NOTIF_DETAIL_KEY) != null) {
-            tvNotifDetail.setText(extras.getString(NOTIF_DETAIL_KEY));
+        if (extras.getString(NOTIFICATION_DETAIL_KEY) != null) {
+            tvNotifDetail.setText(extras.getString(NOTIFICATION_DETAIL_KEY));
             tvNotifDetail.setVisibility(View.VISIBLE);
         }
         else {
@@ -126,8 +126,8 @@ public class GeneralNotificationDialogActivity extends AppCompatActivity {
             tvNotifDetail.setVisibility(View.GONE);
         }
 
-        if (extras.getLong(NOTIF_DATETIME, 0L) != 0L) {
-            tvNotifDateTime.setText(Utils.getFormattedDateTime(extras.getLong(NOTIF_DATETIME), false));
+        if (extras.getLong(NOTIFICATION_DATETIME, 0L) != 0L) {
+            tvNotifDateTime.setText(Utils.getFormattedDateTime(extras.getLong(NOTIFICATION_DATETIME), false));
             tvNotifDateTime.setVisibility(View.VISIBLE);
         }
         else {
@@ -135,9 +135,9 @@ public class GeneralNotificationDialogActivity extends AppCompatActivity {
             tvNotifDateTime.setVisibility(View.GONE);
         }
 
-        if (extras.getString(NOTIF_EXCEPTION_STRING_KEY) != null) {
-            exceptionStackTrace = extras.getString(NOTIF_EXCEPTION_STRING_KEY);
-            e = (Exception) extras.getSerializable(NOTIF_EXCEPTION_KEY);
+        if (extras.getString(NOTIFICATION_EXCEPTION_STRING_KEY) != null) {
+            exceptionStackTrace = extras.getString(NOTIFICATION_EXCEPTION_STRING_KEY);
+            e = (Exception) extras.getSerializable(NOTIFICATION_EXCEPTION_KEY);
             Log.d(LogTag, exceptionStackTrace);
         }
 

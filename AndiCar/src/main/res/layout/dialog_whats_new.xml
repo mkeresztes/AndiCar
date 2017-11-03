@@ -54,7 +54,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/gen_ok"
-                    android:textColor="@color/primary_accent" />
+                    android:textColor="@color/primary_accent"
+                    tools:ignore="ButtonOrder" />
 
                 <Button
                     android:id="@+id/btnFiveStars"

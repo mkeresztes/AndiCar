@@ -42,19 +42,17 @@ public class ServiceStarter extends BroadcastReceiver {
     public void onReceive(Context context, Intent rIntent) {
         Log.d(LOG_TAG, "onReceive called for: " + rIntent.getAction());
         try {
-//            if (FileUtils.isFileSystemAccessGranted(context)) {
                 FileUtils.createFolderIfNotExists(context, ConstantValues.LOG_FOLDER);
                 File debugLogFile = new File(ConstantValues.LOG_FOLDER + "SSBroadcast.log");
                 LogFileWriter debugLogFileWriter = new LogFileWriter(debugLogFile, true);
                 debugLogFileWriter.appendnl("onReceive called for: ").append(rIntent.getAction());
                 debugLogFileWriter.flush();
                 debugLogFileWriter.close();
-//            }
         }
         catch (Exception ignored) {
         }
 
-        if (rIntent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)
+        if (rIntent.getAction() != null && rIntent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)
                 || rIntent.getAction().equals(Intent.ACTION_DATE_CHANGED)
                 || rIntent.getAction().equals(Intent.ACTION_MY_PACKAGE_REPLACED)) {
             Utils.setBackupNextRun(context, AndiCar.getDefaultSharedPreferences().getBoolean(context.getString(R.string.pref_key_backup_service_enabled), false));

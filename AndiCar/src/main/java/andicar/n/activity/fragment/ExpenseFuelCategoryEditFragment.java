@@ -3,6 +3,7 @@ package andicar.n.activity.fragment;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.widget.CheckBox;
 
 import org.andicar2.activity.R;
@@ -131,7 +132,7 @@ public class ExpenseFuelCategoryEditFragment extends BaseEditFragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(BaseEditFragment.IS_FUEL_KEY, mIsFuel);
     }

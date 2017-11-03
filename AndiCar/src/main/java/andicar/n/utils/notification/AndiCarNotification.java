@@ -33,13 +33,10 @@ public class AndiCarNotification {
     public static final int NOTIFICATION_TYPE_WARNING = 102;
     public static final int NOTIFICATION_TYPE_INFO = 103;
 
-    public static final int NOTIF_GPS_TRACKING_STARTED_ID = 1;
-    //    public static final int NOTIF_GPS_ACCURACY_WARNING_ID = 2;
-//    public static final int NOTIF_FILESYSTEM_ERROR_ID = 3;
-//    public static final int NOTIF_GPS_ACCURACY_SHUTDOWN_ID = 4;
-    public static final int NOTIF_GPS_DISABLED_ID = 5;
-    public static final int NOTIF_GPS_OUTOFSERVICE_ID = 6;
-    public static final int NOTIF_GPS_PAUSED_ID = 16;
+    public static final int GPS_TRACKING_STARTED_ID = 1;
+    public static final int GPS_DISABLED_ID = 5;
+    public static final int GPS_OUT_OF_SERVICE_ID = 6;
+    public static final int GPS_PAUSED_ID = 16;
 
     /**
      * @param context           context
@@ -56,24 +53,27 @@ public class AndiCarNotification {
                                                String contentText, Class resultIntentClass, Exception exception) {
         // Gets an instance of the NotificationManager service
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        GeneralNotificationBuilder notifBuilder =
+        GeneralNotificationBuilder generalNotificationBuilder =
                 new GeneralNotificationBuilder(context, notificationManager, notificationType, notificationId, contentTitle,
                         contentText, resultIntentClass, exception);
         // Builds the notification and issues it.
-        notificationManager.notify(notificationId, notifBuilder.build());
+        if (notificationManager != null)
+            notificationManager.notify(notificationId, generalNotificationBuilder.build());
     }
 
     public static void showToDoNotification(Context context, long toDoID, String notificationTitle, String notificationText, int triggeredBy, String carUOMCode, String minutesOrDays) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        ToDoNotificationBuilder notifBuilder =
+        ToDoNotificationBuilder toDoNotificationBuilder =
                 new ToDoNotificationBuilder(context, notificationManager, toDoID, notificationTitle, notificationText, triggeredBy, carUOMCode, minutesOrDays);
         // Gets an instance of the NotificationManager service
         // Builds the notification and issues it.
 
-        Notification n = notifBuilder.build();
+        Notification n = toDoNotificationBuilder.build();
         n.flags |= Notification.FLAG_NO_CLEAR;
-        notificationManager.notify(((Long) toDoID).intValue(), n);
+        if (notificationManager != null) {
+            notificationManager.notify(((Long) toDoID).intValue(), n);
+        }
     }
 
     public static Notification showGPSTrackNotification(Context context, int what) {
@@ -84,8 +84,8 @@ public class AndiCarNotification {
         // Builds the notification and issues it.
         Notification notification = notificationBuilder.build();
 
-        if (what == AndiCarNotification.NOTIF_GPS_TRACKING_STARTED_ID
-                || what == AndiCarNotification.NOTIF_GPS_PAUSED_ID) {
+        if (what == AndiCarNotification.GPS_TRACKING_STARTED_ID
+                || what == AndiCarNotification.GPS_PAUSED_ID) {
             notification.flags |= Notification.FLAG_NO_CLEAR;
             notification.flags |= Notification.FLAG_ONGOING_EVENT;
         }

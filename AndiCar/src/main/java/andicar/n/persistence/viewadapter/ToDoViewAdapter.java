@@ -104,14 +104,14 @@ public class ToDoViewAdapter extends BaseViewAdapter {
                         timeStr = mRes.getString(R.string.todo_overdue_label);
                     }
                     else {
-                        cal.setTimeInMillis(time + (estMileageDueDays * ConstantValues.ONE_DAY_IN_MILISECONDS));
+                        cal.setTimeInMillis(time + (estMileageDueDays * ConstantValues.ONE_DAY_IN_MILLISECONDS));
                         if (cal.get(Calendar.YEAR) - now.get(Calendar.YEAR) > 5) {
                             timeStr = mRes.getString(R.string.todo_estimated_mileage_date_too_far);
                         }
                         else {
-                            if (cal.getTimeInMillis() - now.getTimeInMillis() < 365 * ConstantValues.ONE_DAY_IN_MILISECONDS) // 1 year
+                            if (cal.getTimeInMillis() - now.getTimeInMillis() < 365 * ConstantValues.ONE_DAY_IN_MILLISECONDS) // 1 year
                             {
-                                timeStr = Utils.getFormattedDateTime(time + (estMileageDueDays * ConstantValues.ONE_DAY_IN_MILISECONDS), true);
+                                timeStr = Utils.getFormattedDateTime(time + (estMileageDueDays * ConstantValues.ONE_DAY_IN_MILLISECONDS), true);
                             }
                             else {
                                 timeStr = DateFormat.format("MMM, yyyy", cal).toString();

@@ -112,7 +112,7 @@ import andicar.n.utils.Utils;
  */
 @SuppressWarnings("JavaDoc")
 public class PreferenceActivity extends AppCompatPreferenceActivity {
-    static GoogleApiClient mGoogleApiClient;
+    private static GoogleApiClient mGoogleApiClient;
 
     /**
      * A preference value change listener that updates the preference's summary
@@ -906,7 +906,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             IntentSender intentSender = Drive.DriveApi
                     .newOpenFileActivityBuilder()
 //                    .setMimeType(new String[]{DriveFolder.MIME_TYPE})
-                    .setActivityTitle(activity.getString(R.string.pref_securebackup_gdrive_folder_selector_title))
+                    .setActivityTitle(activity.getString(R.string.pref_secure_backup_gdrive_folder_selector_title))
                     .setSelectionFilter(Filters.eq(SearchableField.MIME_TYPE, DriveFolder.MIME_TYPE))
                     .build(mGoogleApiClient);
             try {
@@ -980,7 +980,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                     backupServiceShowNotification.setEnabled(false);
                 }
                 secureBkCategory.setEnabled(true);
-                secureBkPreference.setSummary(R.string.pref_securebackup_description);
+                secureBkPreference.setSummary(R.string.pref_secure_backup_description);
             }
 
             if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_secure_backup_gdrive_folder_name), "").length() > 0)
@@ -1008,7 +1008,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 secureBkSendTrackFilesPreference.setEnabled(false);
                 revalidateAccountPreference.setEnabled(false);
             } else {
-                secureBkPreference.setSummary(R.string.pref_securebackup_description);
+                secureBkPreference.setSummary(R.string.pref_secure_backup_description);
 
                 if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_google_account), "").length() == 0 && !isAccessToAccountsJustAsked) {
                     secureBkPreference.setChecked(false);
@@ -1348,7 +1348,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 mGoogleApiClient.connect();
             }
             else {
-                Toast.makeText(ctx, R.string.pref_securebackup_authorization_required, Toast.LENGTH_LONG).show();
+                Toast.makeText(ctx, R.string.pref_secure_backup_authorization_required, Toast.LENGTH_LONG).show();
             }
         }
 
@@ -1368,7 +1368,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             else {
                 secureBkEmailToPreference.setText("");
                 secureBkEmailToPreference.setSummary("");
-                Toast.makeText(ctx, R.string.pref_securebackup_authorization_required, Toast.LENGTH_LONG).show();
+                Toast.makeText(ctx, R.string.pref_secure_backup_authorization_required, Toast.LENGTH_LONG).show();
             }
         }
 
@@ -1582,9 +1582,9 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
 
             getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
-            Preference mainAddBtn = findPreference(getString(R.string.pref_key_main_addbtn));
+            Preference mainAddBtn = findPreference(getString(R.string.pref_key_main_btn_add));
             if (mainAddBtn != null) {
-                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_addbtn), null) != null) {
+                if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_main_btn_add), null) != null) {
                     setDefaultPreferenceChangeListener(mainAddBtn);
                 }
             }
@@ -1689,9 +1689,9 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
             try {
-                if (s.equals(getString(R.string.pref_key_main_addbtn))) {
+                if (s.equals(getString(R.string.pref_key_main_btn_add))) {
                     if (!sharedPreferences.getString(s, "").equals("0")) {
-                        Toast.makeText(getActivity(), R.string.pref_main_screen_addbtn_hint, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), R.string.pref_main_screen_btn_add_hint, Toast.LENGTH_LONG).show();
                     }
                 }
             }

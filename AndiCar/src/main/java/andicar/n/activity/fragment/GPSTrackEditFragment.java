@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -81,7 +82,7 @@ public class GPSTrackEditFragment extends BaseEditFragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong("mMileageId", mMileageId);
         outState.putString("mStatistics", mStatistics);
@@ -241,10 +242,10 @@ public class GPSTrackEditFragment extends BaseEditFragment {
         if (isVisible()) {
             inflater.inflate(R.menu.menu_gpstrack_detail_additional, menu);
             if (mMileageId < 0) {
-                menu.findItem(R.id.action_show_mileag_edit).setVisible(false);
+                menu.findItem(R.id.action_show_mileage_edit).setVisible(false);
             }
             else {
-                menu.findItem(R.id.action_show_mileag_edit).setVisible(true);
+                menu.findItem(R.id.action_show_mileage_edit).setVisible(true);
             }
         }
     }
@@ -259,18 +260,17 @@ public class GPSTrackEditFragment extends BaseEditFragment {
             return true;
         }
         else if (id == R.id.action_send) {
-//            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-            if (!FileUtils.isFileSystemAccessGranted(getActivity())) {
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ConstantValues.REQUEST_ACCESS_EXTERNAL_STORAGE);
-            }
-            else {
-                Utils u = new Utils();
-                u.shareGPSTrack(getActivity(), mResource, mRowId);
+            if (getActivity() != null) {
+                if (!FileUtils.isFileSystemAccessGranted(getActivity())) {
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, ConstantValues.REQUEST_ACCESS_EXTERNAL_STORAGE);
+                } else {
+                    Utils u = new Utils();
+                    u.shareGPSTrack(getActivity(), mResource, mRowId);
+                }
             }
             return true;
-        }
-        else if (id == R.id.action_show_mileag_edit && mMileageId > 0) {
+        } else if (id == R.id.action_show_mileage_edit && mMileageId > 0) {
             Intent gpstrackEditIntent = new Intent(getActivity(), CommonDetailActivity.class);
             gpstrackEditIntent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_MILEAGE);
             gpstrackEditIntent.putExtra(BaseEditFragment.DETAIL_OPERATION_KEY, BaseEditFragment.DETAIL_OPERATION_EDIT);

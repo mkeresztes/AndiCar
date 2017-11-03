@@ -45,6 +45,7 @@ public class MileageViewAdapter extends BaseViewAdapter {
         mViewAdapterType = VIEW_ADAPTER_TYPE_MILEAGE;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void cursorViewBinder(DefaultViewHolder holder, @SuppressLint("RecyclerView") int position) {
         BigDecimal reimbursementRate = BigDecimal.ZERO;
@@ -57,16 +58,14 @@ public class MileageViewAdapter extends BaseViewAdapter {
 
         try {
             line1Content = String.format(mCursor.getString(1), Utils.getFormattedDateTime(mCursor.getLong(5) * 1000, false)
-                + (mCursor.getLong(14) != 0L ? " (" + Utils.getDaysHoursMinutesFromSec(mCursor.getLong(14)) + ")" : ""));
-        }
-        catch (Exception e) {
+                    + (mCursor.getLong(14) != 0L ? " (" + Utils.getDaysHoursMinutesFromSec(mCursor.getLong(14)) + ")" : ""));
+        } catch (Exception e) {
             line1Content = "Error#1! Please contact me at andicar.support@gmail.com";
         }
 
         try {
             reimbursementRate = new BigDecimal(mCursor.getDouble(12));
-        }
-        catch (Exception ignored) {
+        } catch (Exception ignored) {
         }
 
         String stopIndexStr = mCursor.getString(7);
@@ -74,24 +73,22 @@ public class MileageViewAdapter extends BaseViewAdapter {
         if (stopIndexStr == null) {
             stopIndexStr = "N/A";
             mileageStr = "Draft";
-        }
-        else {
+        } else {
             stopIndexStr = Utils.numberToString(mCursor.getDouble(7), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH);
             mileageStr = Utils.numberToString(mCursor.getDouble(8), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH);
         }
 
         try {
             line2Content = String.format(mCursor.getString(2),
-                Utils.numberToString(mCursor.getDouble(6), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH),
-                stopIndexStr,
-                mileageStr,
-                (reimbursementRate.compareTo(BigDecimal.ZERO) == 0) ? "" : "("
-                        + AndiCar.getAppResources().getText(R.string.gen_reimbursement).toString()
-                        + " "
-                        + Utils.numberToString(reimbursementRate.multiply(new BigDecimal(mCursor.getDouble(8))), true,
-                        ConstantValues.DECIMALS_RATES, ConstantValues.ROUNDING_MODE_RATES) + " " + mCursor.getString(11) + ")");
-        }
-        catch (Exception e) {
+                    Utils.numberToString(mCursor.getDouble(6), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH),
+                    stopIndexStr,
+                    mileageStr,
+                    (reimbursementRate.compareTo(BigDecimal.ZERO) == 0) ? "" : "("
+                            + AndiCar.getAppResources().getText(R.string.gen_reimbursement).toString()
+                            + " "
+                            + Utils.numberToString(reimbursementRate.multiply(new BigDecimal(mCursor.getDouble(8))), true,
+                            ConstantValues.DECIMALS_RATES, ConstantValues.ROUNDING_MODE_RATES) + " " + mCursor.getString(11) + ")");
+        } catch (Exception e) {
             line2Content = "Error#2! Please contact me at andicar.support@gmail.com";
         }
 
@@ -105,30 +102,25 @@ public class MileageViewAdapter extends BaseViewAdapter {
                 holder.mSecondLine.setText(line2Content);
                 if (mileageStr.equals("Draft")) {
                     holder.mSecondLine.setTextColor(ContextCompat.getColor(holder.mSecondLine.getContext(), android.R.color.holo_red_dark));
-                }
-                else {
+                } else {
                     holder.mSecondLine.setTextColor(ContextCompat.getColor(holder.mSecondLine.getContext(), android.R.color.primary_text_light));
                 }
-            }
-            else {
+            } else {
                 holder.mSecondLine.setVisibility(View.GONE);
             }
-        }
-        else {
+        } else {
             //wider screens => two line lists
             holder.mFirstLine.setText(line1Content + "; " + line2Content);
             if (mileageStr.equals("Draft")) {
                 holder.mFirstLine.setTextColor(ContextCompat.getColor(holder.mFirstLine.getContext(), android.R.color.holo_red_dark));
-            }
-            else {
+            } else {
                 holder.mFirstLine.setTextColor(ContextCompat.getColor(holder.mFirstLine.getContext(), android.R.color.primary_text_light));
             }
         }
 
         if (mCursor.getString(3) == null || mCursor.getString(3).length() == 0) {
             holder.mThirdLine.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             holder.mThirdLine.setVisibility(View.VISIBLE);
             holder.mThirdLine.setText(mCursor.getString(3));
         }

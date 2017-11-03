@@ -94,7 +94,8 @@ public class CurrencyEditFragment extends BaseEditFragment {
         if (mRowId == -1) {
             dbRetVal = ((Long) mDbAdapter.createRecord(DBAdapter.TABLE_NAME_CURRENCY, cvData)).intValue();
             if (dbRetVal > 0) {
-                getActivity().setResult(RESULT_OK, (new Intent()).putExtra("mRowId", dbRetVal));
+                if (getActivity() != null)
+                    getActivity().setResult(RESULT_OK, (new Intent()).putExtra("mRowId", dbRetVal));
                 return true;
             }
             else {
