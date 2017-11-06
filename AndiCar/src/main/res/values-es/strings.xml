@@ -56,6 +56,64 @@
     <string name="pref_google_account_description">Se usará para enviar el correo electrónico con el archivo de copia de seguridad adjunto.</string>
     <string name="pref_show_notification_on_success_description">Mostrar una notificación de éxito. Independientemente de esta opción.</string>
 
+    <string name="pref_bt_link_on_disconnect_label">Cuando está desconectado de Bluetooth:</string>
+
+    <string name="gen_internet_access_required">Se requiere acceso a Internet para configurar este servicio.</string>
+    <string name="gen_mail_sent">Correo enviado</string>
+    <string name="gen_report_to_dev">Informe</string>
+    <string name="gen_validating_google_account">Validar la cuenta …</string>
+    <string name="gen_test_email_subject">Prueba de correo electrónico de AndiCar</string>
+    <string name="gen_test_email_body">Este es un correo electrónico de prueba para la validación de la cuenta.</string>
+    <string name="gen_trip_detail">Detalle del viaje</string>
+    <string name="gen_fill_up_detail">Detalle de relleno</string>
+    <string name="gen_expense_detail">Detalle de gastos</string>
+    <string name="gen_gps_track_detail">Detalle de seguimiento de GPS</string>
+    <string name="gen_menu">Menú</string>
+    <string name="gen_save">Guardar</string>
+
+    <string name="gen_todo_detail">To-Do detail</string>
+
+    <string name="mileage_draft_edit">Borrador. Llena la llegada para completarlo.</string>
+
+    <string name="data_template_new">Nueva plantilla …</string>
+    <string name="data_template_new_msg">Se creará una nueva plantilla, basada en los valores actuales.\n\nNombre:</string>
+    <string name="data_template_update">Actualizar plantilla</string>
+
+    <string name="secure_backup_mail_body">Visite https://sites.google.com/site/andicarfree/howto#TOC-Restore-your-data-from-secure-backup si necesita restaurar esta copia de seguridad. &lt;br&gt; &lt;br&gt; Enviado por AndiCar - http://www.andicar.org"</string>
+
+    <string name="search_dialog_note">Nota: % significa cualquier cadena</string>
+
+    <string name="gps_controller_start_track">Comience un nuevo seguimiento de GPS</string>
+
+    <string name="gen_gpstrack_map">Mapa</string>
+    <!--GPSTrackShowOnMap_TripStartTitle-->
+    <string name="gps_track_map_trip_start_title">Punto de partida</string>
+    <!--GPSTrackShowOnMap_TripEndTitle-->
+    <string name="gps_track_map_trip_end_title">Punto final</string>
+    <!--GPSTrackShowOnMap_TripPauseTitle-->
+    <string name="gps_track_map_trip_pause_title">Punto de pausa</string>
+    <!--GPSTrackShowOnMap_TripStartDate-->
+    <string name="gps_track_map_trip_start_date">Comenzó a las:</string>
+    <!--GPSTrackShowOnMap_TripEndDate-->
+    <string name="gps_track_map_trip_end_date">Terminado a las:</string>
+    <!--GPSTrackShowOnMap_PauseInfo-->
+    <string name="gps_track_map_pause_info">Pausa de %1$s\n\ta: %2$s\n\nDuración: %3$s</string>
+
+    <string name="bt_link_link_to_car_bt_disabled_title">Bluetooth está deshabilitado</string>
+    <string name="bt_link_link_to_car_bt_disabled_message">Bluetooth está deshabilitado. Habilítalo para crear un enlace.</string>
+
+    <string name="pref_reimbursement_rate_title">Tasas de reembolso</string>
+
+    <string name="pref_main_screen_btn_add_hint">Al presionar prolongadamente el botón Agregar se mostrará el menú</string>
+    <string name="gps_track_detail_var_12">Tiempo de pausa:</string>
+    <string name="gps_track_detail_var_13">Tiempo de espera:</string>
+
+    <string name="gps_track_service_tracking_paused_title">Seguimiento GPS AndiCar en pausa</string>
+    <!--GPSTrackService_TrackPausedMessage-->
+    <string name="gps_track_service_tracking_paused_message">Seguimiento en pausa</string>
+    <string name="gps_track_stop">Para</string>
+    <string name="gps_track_start">Iniciarlo</string>
+
     <string name="pref_general_title">Configuración general</string>
     <string name="pref_car_driver_category_title">Automóviles y Conductores</string>
     <string name="pref_car_title">Automóviles</string>
@@ -532,6 +590,7 @@
         ]]>
     </string>
 
+    <string name="error_sorry">Lo siento, pero ocurrió un error inesperado :(</string>
     <string name="error_000">Error de base de datos.</string>
     <string name="error_001">El comienzo del índice esta entre los kilómetros existentes</string>
     <string name="error_002">Comenzar índice entre los kilómetros existentes</string>
@@ -579,13 +638,45 @@
     <string name="error_048">Este etiqueta no puede ser borrado porque esta siendo usado en gasto(s).</string>
     <string name="error_049">Este etiqueta no puede ser borrado porque esta siendo usado en gps track(s).</string>
     <string name="error_058">Directorio Temporal (%1s) no puede ser creado. no puedes usar el servicio copia de seguridad segura hasta que hallas creado el directorio en tu dispositivo.</string>
+    <string name="error_059">Registro duplicado.</string>
     <string name="error_060">Este tipo no puede ser borrado porque esta siendo usado en tarea(s).</string>
     <string name="error_061">Tarea! desconocida\nProbablemente la tarea fue modificada y la lista de tareas recreada.</string>
     <string name="error_064">Tu dispositivo no soporta Bluetooth!</string>
-    <string name="error_059">Registro duplicado.</string>
     <string name="error_065">Número invalido.</string>
+    <string name="error_067">No puedo compartir. No se encontró ninguna aplicación con capacidades de intercambio.</string>
+    <string name="error_068">No se encontró un proveedor de GPS!</string>
+    <string name="error_069">Acceso denegado a la ubicación ¡Concédelo para usar esta característica!</string>
+    <string name="error_070">Acceso denegado al almacenamiento externo. ¡Concédelo para usar esta característica!</string>
     <string name="error_071">Base de datos no válida.</string>
     <string name="error_072">Tipo de archivo de copia de seguridad desconocido.</string>
+    <string name="error_073">%1$s no existe.</string>
+    <string name="error_074">%1$s no es un directorio.</string>
+    <string name="error_075">Error al enumerar los contenidos de %1$s.</string>
+    <string name="error_076">Error al eliminar el directorio %1$s.</string>
+    <string name="error_077">No se puede cambiar el nombre del directorio de destino.</string>
+    <string name="error_078">No se puede crear la carpeta de destino %1$s.</string>
+    <string name="error_079">No se puede escribir el destino %1$s.</string>
+    <string name="error_080">Archivo zip vacío. Restaurar abortado.</string>
+    <string name="error_081">Archivo de base de datos no encontrado en el archivo de copia de seguridad. Restaurar abortado.</string>
+    <string name="error_100">¡Archivo no encontrado %1s!</string>
+    <string name="error_102">¡Acceso denegado al almacenamiento externo!</string>
+    <string name="error_103">La carpeta de registro (%1s) no se puede crear.</string>
+    <string name="error_105">No se puede eliminar %1s!</string>
+    <string name="error_106">Copia de seguridad segura incompleta configurada: sin correo electrónico del destinatario</string>
+    <string name="error_107">Copia de seguridad segura incompleta configurada: no se eligió una cuenta de Google.</string>
+    <string name="error_108">AndiCar no está autorizado, o la autorización fue eliminada, para enviar correos electrónicos en su nombre. La copia de seguridad segura estaba deshabilitada. Puede volver a habilitarlo desde Configuración -> Copia de seguridad &amp; Restaurar.</string>
+    <string name="error_111">Por favor, elija un valor para la unidad de medida de origen!</string>
+    <string name="error_112">Por favor, elija un valor para la unidad de medida de destino!</string>
+    <string name="error_113">Tipo de pantalla desconocido (%1s)!</string>
     <string name="error_114">Se requiere un mínimo de 2 registros de tareas!</string>
+    <string name="error_115">Copia de seguridad segura incompleta configurada: no se seleccionó ninguna carpeta de unidad</string>
+    <string name="error_116">Error al cargar la copia de seguridad (%1s)</string>
+    <string name="error_117">No se puede encontrar la carpeta de unidad \"%1s\"</string>
+    <string name="error_118">¡El recurso de accionamiento seleccionado (%1s) no es una carpeta!</string>
+    <string name="error_119">La carpeta de unidad seleccionada (%1s) se eliminó.</string>
+    <string name="error_120">La carpeta de unidad seleccionada (%1s) está restringida.</string>
+    <string name="error_121">Acceso denegado a Google Drive. Abra Configuración -> Copia de seguridad &amp; Restaure y trate de revalidar su cuenta de Google.</string>
+    <string name="error_122">Error de autenticación. Abrir configuración &amp; Copia de seguridad y amp; Restaure y trate de revalidar su cuenta de Google.</string>
     <string name="error_123">No hay conexion de red. No se puede validar la cuenta.</string>
+    <string name="error_124">Error de memoria insuficiente. Cambie el destino de la copia de seguridad segura a Google Drive (Configuración -> Copia de seguridad &amp; Restaurar).</string>
 </resources>

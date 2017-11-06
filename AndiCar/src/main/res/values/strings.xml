@@ -155,7 +155,7 @@
     <string name="gps_track_no_car">No car defined!\nGPS tracking cannot be started.</string>
 
     <string name="bt_link_link_to_car_bt_disabled_title">Bluetooth is disabled</string>
-    <string name="bt_link_link_to_car_bt_disabled_message">Bluetooth is disabled. Enable it to make a link.</string>
+    <string name="bt_link_link_to_car_bt_disabled_message">Bluetooth is disabled. Enable it to create a link.</string>
 
     <!--translated resources-->
 
@@ -946,10 +946,10 @@
     <string name="error_078">Cannot create destination folder %1$s.</string>
     <string name="error_079">Destination %1$s cannot be written to.</string>
     <string name="error_080">Empty zip file. Restore aborted.</string>
-    <string name="error_081">Database file not found in backup archive. Restore aborted.</string>
-    <string name="error_100">File not found%1s!</string>
+    <string name="error_081">Database file not found in the backup archive. Restore aborted.</string>
+    <string name="error_100">File not found %1s!</string>
     <string name="error_102">Access denied to external storage!</string>
-    <string name="error_103">The log folder (%1s) can not be created.</string>
+    <string name="error_103">The log folder (%1s) cannot be created.</string>
     <string name="error_105">Cannot delete %1s!</string>
     <string name="error_106">Secure backup incomplete configured: no recipient email</string>
     <string name="error_107">Secure backup incomplete configured: no Google account chosen.</string>
@@ -961,9 +961,9 @@
     <string name="error_115">Secure backup incomplete configured: no drive folder selected</string>
     <string name="error_116">Error while trying to upload the backup (%1s)</string>
     <string name="error_117">Cannot find drive folder \"%1s\"</string>
-    <string name="error_118">Selected drive resource (%1s) is not a folder!</string>
-    <string name="error_119">Selected drive folder (%1s)  was deleted!</string>
-    <string name="error_120">Selected drive folder (%1s)  is restricted!</string>
+    <string name="error_118">The selected drive resource (%1s) is not a folder!</string>
+    <string name="error_119">The selected drive folder (%1s) was deleted!</string>
+    <string name="error_120">The selected drive folder (%1s) is restricted!</string>
     <string name="error_121">Access denied to Google Drive. Open Settings -> Backup &amp; Restore and try to revalidate your Google account.</string>
     <string name="error_122">Authentication error. Open Settings -> Backup &amp; Restore and try to revalidate your Google account.</string>
     <string name="error_123">No network connection. Can\'t validate the account.</string>

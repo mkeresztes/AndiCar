@@ -75,6 +75,7 @@
     <string name="pref_main_screen_zone8_content">Conținutul zonei 8</string>
     <string name="pref_main_screen_zone9_content">Conținutul zonei 9</string>
     <string name="pref_main_screen_zone10_content">Conținutul zonei 10</string>
+    <string name="pref_main_screen_zone11_content">Conținutul zonei 11</string>
     <string name="pref_main_screen_zone12_content">Conținutul zonei 12</string>
 
     <string name="pref_todo_type_title">Tipuri de sarcini</string>

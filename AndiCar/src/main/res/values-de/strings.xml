@@ -56,6 +56,57 @@
     <string name="pref_google_account_description">Es wird zum Senden der E-Mail mit der angehängten Sicherungsdatei verwendet.</string>
     <string name="pref_show_notification_on_success_description">Zeigt eine Benachrichtigung über den Erfolg an. Unabhängig von dieser Option wird eine Benachrichtigung angezeigt, wenn ein Fehler aufgetreten ist.</string>
 
+    <string name="pref_bt_link_on_disconnect_label">Wenn Sie von Bluetooth getrennt werden:</string>
+
+    <string name="gen_internet_access_required">Internetzugang zum Konfigurieren dieses Dienstes erforderlich.</string>
+    <string name="gen_mail_sent">E-Mail gesendet</string>
+    <string name="gen_report_to_dev">Bericht</string>
+    <string name="gen_validating_google_account">Konto validieren …</string>
+    <string name="gen_test_email_subject">AndiCar E-Mail-Test</string>
+    <string name="gen_test_email_body">Dies ist eine Test-E-Mail zur Kontoverifizierung.</string>
+    <string name="gen_trip_detail">Reisedetail</string>
+    <string name="gen_fill_up_detail">Auffülldetail</string>
+    <string name="gen_expense_detail">Aufwandsdetail</string>
+    <string name="gen_gps_track_detail">GPS-Track-Detail</string>
+    <string name="gen_menu">Menü</string>
+    <string name="gen_save">Speichern</string>
+
+    <string name="gen_todo_detail">To-Do-Details</string>
+
+    <string name="mileage_draft_edit">Entwurf. Füllen Sie die Ankunft aus, um sie zu vervollständigen.</string>
+
+    <string name="data_template_new">Neue Vorlage …</string>
+    <string name="data_template_new_msg">Eine neue Vorlage basierend auf den aktuellen Werten wird erstellt.\n\nName:</string>
+    <string name="data_template_update">Vorlage aktualisieren</string>
+
+    <string name="secure_backup_mail_body">Bitte besuchen Sie https://sites.google.com/site/andicarfree/howto#TOC-Restore-your-data-from-secure-backup, wenn Sie diese Sicherung wiederherstellen müssen. &lt;br&gt; &lt;br&gt; Gesendet von AndiCar - http://www.andicar.org"</string>
+
+    <string name="search_dialog_note">Hinweis: % bedeutet eine beliebige Zeichenfolge</string>
+
+    <string name="gps_controller_start_track">Starten Sie einen neuen GPS Track</string>
+
+    <string name="gen_gpstrack_map">Karte</string>
+    <!--GPSTrackShowOnMap_TripStartTitle-->
+    <string name="gps_track_map_trip_start_title">Ausgangspunkt</string>
+    <!--GPSTrackShowOnMap_TripEndTitle-->
+    <string name="gps_track_map_trip_end_title">Endpunkt</string>
+    <!--GPSTrackShowOnMap_TripPauseTitle-->
+    <string name="gps_track_map_trip_pause_title">Pausepunkt</string>
+    <!--GPSTrackShowOnMap_TripStartDate-->
+    <string name="gps_track_map_trip_start_date">Begonnen um:</string>
+    <!--GPSTrackShowOnMap_TripEndDate-->
+    <string name="gps_track_map_trip_end_date">Beendet um:</string>
+    <!--GPSTrackShowOnMap_PauseInfo-->
+    <string name="gps_track_map_pause_info">Pause von %1$s\n\tbis: %2$s\n\nDauer: %3$s</string>
+
+    <string name="bt_link_link_to_car_bt_disabled_title">Bluetooth ist deaktiviert</string>
+    <string name="bt_link_link_to_car_bt_disabled_message">Bluetooth ist deaktiviert. Aktivieren Sie es, um eine Verknüpfung zu erstellen.</string>
+
+    <string name="pref_main_screen_btn_add_hint">Langes Drücken der Add-Taste zeigt das Menü</string>
+    <string name="gps_track_detail_var_13">Wartezeit:</string>
+    <string name="gps_track_stop">Hör auf</string>
+    <string name="gps_track_start">Starte es</string>
+
     <string name="pref_general_title">Allgemeine Einstellungen</string>
     <string name="pref_car_driver_category_title">Fahrzeige und Fahrer</string>
     <string name="pref_car_title">Fahrzeuge</string>
@@ -536,6 +587,7 @@
         ]]>
     </string>
 
+    <string name="error_sorry">Es tut mir leid, aber ein unerwarteter Fehler ist aufgetreten :(</string>
     <string name="error_000">Datenbank Fehler.</string>
     <string name="error_001">Der Start index ist innerhalb existierender Strecke</string>
     <string name="error_002">Stop Index ist innerhalb existierender Strecke</string>
@@ -589,7 +641,39 @@
     <string name="error_064">Ihr Gerät unterstützt kein Bluetooth!</string>
     <string name="error_065">Ungültige Nummer.</string>
     <string name="error_067">Kann nicht teilen. Keine Anwendung mit Teilen-Funktion gefunden.</string>
+    <string name="error_068">Kein GPS-Anbieter gefunden!</string>
+    <string name="error_069">Zugriff auf Standort verweigert Erlauben Sie es, diese Funktion zu nutzen!</string>
+    <string name="error_070">Der Zugriff auf den externen Speicher wurde verweigert. Erlauben Sie es, diese Funktion zu nutzen!</string>
     <string name="error_071">Ungültige Datenbank.</string>
     <string name="error_072">Unbekannter Backup-Dateityp.</string>
+    <string name="error_073">%1$s existiert nicht.</string>
+    <string name="error_074">%1$s ist kein Verzeichnis.</string>
+    <string name="error_075">Der Inhalt der Liste konnte nicht aufgelistet werden %1$s.</string>
+    <string name="error_076">Verzeichnis %1$s konnte nicht gelöscht werden.</string>
+    <string name="error_077">Zielverzeichnis kann nicht umbenannt werden.</string>
+    <string name="error_078">Zielordner %1$s kann nicht erstellt werden.</string>
+    <string name="error_079">Ziel %1$s kann nicht beschrieben werden.</string>
+    <string name="error_080">Leere Zip-Datei. Die Wiederherstellung wurde abgebrochen.</string>
+    <string name="error_081">Die Datenbankdatei wurde nicht im Backup-Archiv gefunden. Die Wiederherstellung wurde abgebrochen.</string>
+    <string name="error_100">Datei nicht gefunden %1s!</string>
+    <string name="error_102">Zugriff auf externen Speicher verweigert!</string>
+    <string name="error_103">Der Protokollordner (%1s) kann nicht erstellt werden.</string>
+    <string name="error_105">Kann %1s nicht löschen!</string>
+    <string name="error_106">Sicheres Backup unvollständig konfiguriert: keine Empfänger-E-Mail</string>
+    <string name="error_107">Sicheres Backup unvollständig konfiguriert: Kein Google-Konto ausgewählt.</string>
+    <string name="error_108">AndiCar ist nicht berechtigt, oder die Autorisierung wurde entfernt, um E-Mails in Ihrem Namen zu versenden. Die sichere Sicherung wurde deaktiviert. Sie können es wieder aktivieren unter Einstellungen -> Backup &amp; Wiederherstellen.</string>
+    <string name="error_111">Bitte wählen Sie einen Wert für die Quell-Maßeinheit!</string>
+    <string name="error_112">Bitte wählen Sie einen Wert für die Ziel-Maßeinheit!</string>
+    <string name="error_113">Unbekannter Bildschirmtyp (%1s)!</string>
+    <string name="error_114">Ein Minimum von 2 To-Do-Aufzeichnungen sind erforderlich!</string>
+    <string name="error_115">Sicheres Backup unvollständig konfiguriert: kein Laufwerksordner ausgewählt</string>
+    <string name="error_116">Fehler beim Hochladen der Sicherung (%1s)</string>
+    <string name="error_117">Kann den Laufwerksordner \"%1s\" nicht finden</string>
+    <string name="error_118">Die ausgewählte Laufwerksressource (%1s) ist kein Ordner!</string>
+    <string name="error_119">Der ausgewählte Laufwerksordner (%1s) wurde gelöscht!</string>
+    <string name="error_120">Der ausgewählte Laufwerksordner (%1s) ist eingeschränkt!</string>
+    <string name="error_121">Zugriff auf Google Drive verweigert Öffnen Sie Einstellungen -> Sichern &amp; Wiederherstellen und versuchen Sie Ihr Google-Konto erneut zu validieren.</string>
+    <string name="error_122">Authentifizierungsfehler. Öffnen Sie Einstellungen -> Backup &amp; Stellen Sie Ihr Google-Konto wieder her und versuchen Sie es erneut.</string>
     <string name="error_123">Keine Netzwerk Verbindung. Das Konto kann nicht validiert werden.</string>
+    <string name="error_124">Außerhalb des Speicherfehler. Bitte wechseln Sie das sichere Backup-Ziel auf Google Drive (Einstellungen -> Sichern &amp; Wiederherstellen).</string>
 </resources>
