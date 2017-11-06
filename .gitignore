@@ -37,7 +37,8 @@ captures/
 # Intellij
 #*.iml
 *.iml
-.idea/
+.idea/*
+!.idea/dictionaries/*
 
 
 # Keystore files
