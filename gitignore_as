@@ -31,6 +31,7 @@ local.properties
 
 # Android Studio
 .idea/
+!.idea/dictionaries/*
 .gradle
 /*/local.properties
 /*/out
