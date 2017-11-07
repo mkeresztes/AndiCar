@@ -163,6 +163,12 @@
         <item name="android:background">@android:color/background_dark</item>
     </style>
 
+    <style name="AndiCarVerticalSeparatorView">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@android:color/background_dark</item>
+    </style>
+
     <style name="AndiCarDialogButtonSeparatorView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
