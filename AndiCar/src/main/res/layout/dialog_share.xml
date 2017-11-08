@@ -21,14 +21,14 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/vgRoot"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+    android:layout_height="fill_parent"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:scrollbars="vertical">
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:orientation="vertical">
 
         <LinearLayout
@@ -51,14 +51,14 @@
                 android:id="@+id/tvReportFormat"
                 style="@style/AndiCarLabelStyle"
                 android:layout_width="0dp"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:text="@string/share_dialog_format_label"/>
 
             <Spinner
                 android:id="@+id/spnReportFormat"
                 style="@style/AndiCarSpinnerStyle"
                 android:layout_width="0dp"
-                android:layout_weight="3"
+                android:layout_weight="2"
                 android:entries="@array/report_formats"/>
         </LinearLayout>
 
