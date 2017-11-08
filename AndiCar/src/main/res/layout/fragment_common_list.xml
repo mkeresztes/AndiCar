@@ -49,7 +49,7 @@
         android:background="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_add_e91e63_outlined_36dp_pad0dp"
+        app:srcCompat="@drawable/ic_button_add_ff5722_42dp_pad0dp"
         android:layout_marginRight="16dp"
         android:contentDescription="@string/gen_add_new" />
 
@@ -58,11 +58,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:background="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/btnAdd"
         app:layout_constraintEnd_toStartOf="@+id/btnAdd"
         app:layout_constraintStart_toEndOf="@+id/btnCharts"
-        app:srcCompat="@drawable/ic_info_3f51b5_outlined_36dp_pad0dp" />
+        app:layout_constraintTop_toTopOf="@+id/btnAdd"
+        app:srcCompat="@drawable/ic_button_info_3f51b5_outlined_36dp_pad0dp" />
 
     <ImageButton
         android:id="@+id/btnCharts"
@@ -70,10 +72,12 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:background="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/btnAdd"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_chart_4caf50_outlined_36dp_pad0dp"
+        app:layout_constraintTop_toTopOf="@+id/btnAdd"
+        app:srcCompat="@drawable/ic_button_chart_4caf50_outlined_36dp_pad0dp"
         android:layout_marginLeft="16dp" />
 
 </android.support.constraint.ConstraintLayout>

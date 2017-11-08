@@ -250,6 +250,9 @@ public class CommonListActivity extends AppCompatActivity
         if (mActivityType == ACTIVITY_TYPE_TODO) {
 //            fab.setVisibility(View.GONE);
             btnAdd.setVisibility(View.GONE);
+            View separator = findViewById(R.id.separator);
+            if (separator != null)
+                separator.setVisibility(View.GONE);
         }
 
         // The detail container view will be present only in the
