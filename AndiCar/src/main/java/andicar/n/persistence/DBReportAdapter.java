@@ -43,6 +43,7 @@ public class DBReportAdapter extends DBAdapter {
 
     public static final String MILEAGE_LIST_SELECT_NAME = "mileageListViewSelect";
     public static final String MILEAGE_LIST_REPORT_SELECT = "mileageListReportSelect";
+    public static final String MILEAGE_LIST_STATISTICS_SELECT_BY_TYPES = "mileageListStatisticsByType";
 
     public static final String REFUEL_LIST_SELECT_NAME = "refuelListViewSelect";
     public static final String REFUEL_LIST_REPORT_SELECT = "refuelListReportSelect";
@@ -1410,6 +1411,23 @@ public class DBReportAdapter extends DBAdapter {
                                 " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) + "=" + sqlConcatTableColumn("CarIndex", "MCarID") +
             " WHERE 1=1 ";
 
+    //statistics selects
+    private String mileageListStatisticsByType =
+            "SELECT " +
+                    sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + ", " + //#0
+                    " SUM( " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " - " +
+                                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + "), " + //#1 - total mileage
+                    " SUM(" + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE_TO) + " - " +
+                                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) + ") " + //#2 - on board time
+            " FROM " + TABLE_NAME_MILEAGE +
+                    " JOIN " + TABLE_NAME_EXPENSETYPE + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__EXPENSETYPE_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) +
+            " WHERE 1 = 1 #WhereConditions# " +
+            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) +
+            " ORDER BY 1 DESC";
+
+
     private String mReportSqlName;
     private Bundle mSearchCondition;
 
@@ -1614,6 +1632,13 @@ public class DBReportAdapter extends DBAdapter {
                 if (whereCondition.length() > 0) {
                     reportSql = reportSql + whereCondition;
                 }
+                break;
+            case MILEAGE_LIST_STATISTICS_SELECT_BY_TYPES:
+                reportSql = mileageListStatisticsByType;
+                if (whereCondition.length() > 0)
+                    reportSql = reportSql.replace("#WhereConditions#", whereCondition);
+                else
+                    reportSql = reportSql.replace("#WhereConditions#", "");
                 break;
         }
 

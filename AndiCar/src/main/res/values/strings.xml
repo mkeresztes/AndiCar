@@ -71,6 +71,7 @@
     <string name="line_chart_fuel_price_marker_text">%1$s on\n%2$s</string>
 
     <string name="title_list_activity" tools:ignore="PluralsCandidate">%1$s: %2$s record(s)</string>
+    <string name="title_statistics_activity">%1$s statistics</string>
     <string name="error_report_sent">Thank you for helping make AndiCar better!</string>
 
     <string name="pref_backup_now_title">Backup now</string>

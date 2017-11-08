@@ -125,7 +125,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                 }
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.item_detail_container, fragment)
+                        .add(R.id.statistics_container, fragment)
                         .commit();
             }
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_REFUEL) {
@@ -133,7 +133,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                 RefuelEditFragment fragment = new RefuelEditFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.item_detail_container, fragment)
+                        .add(R.id.statistics_container, fragment)
                         .commit();
             }
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_EXPENSE) {
@@ -141,7 +141,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                 ExpenseEditFragment fragment = new ExpenseEditFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.item_detail_container, fragment)
+                        .add(R.id.statistics_container, fragment)
                         .commit();
             }
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_GPS_TRACK) {
@@ -150,7 +150,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                     GPSTrackControllerFragment fragment = new GPSTrackControllerFragment();
                     fragment.setArguments(arguments);
                     getSupportFragmentManager().beginTransaction()
-                            .add(R.id.item_detail_container, fragment)
+                            .add(R.id.statistics_container, fragment)
                             .commit();
                 }
                 else {
@@ -158,7 +158,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                     GPSTrackEditFragment fragment = new GPSTrackEditFragment();
                     fragment.setArguments(arguments);
                     getSupportFragmentManager().beginTransaction()
-                            .add(R.id.item_detail_container, fragment)
+                            .add(R.id.statistics_container, fragment)
                             .commit();
                 }
             }
@@ -168,7 +168,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                 ToDoViewFragment fragment = new ToDoViewFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.item_detail_container, fragment)
+                        .add(R.id.statistics_container, fragment)
                         .commit();
             }
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_CAR) {
@@ -176,7 +176,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                 CarEditFragment fragment = new CarEditFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.item_detail_container, fragment)
+                        .add(R.id.statistics_container, fragment)
                         .commit();
             }
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_DRIVER) {
@@ -184,7 +184,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                 DriverEditFragment fragment = new DriverEditFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.item_detail_container, fragment)
+                        .add(R.id.statistics_container, fragment)
                         .commit();
             }
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_UOM) {
@@ -192,7 +192,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                 UOMEditFragment fragment = new UOMEditFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.item_detail_container, fragment)
+                        .add(R.id.statistics_container, fragment)
                         .commit();
             }
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_UOM_CONVERSION) {
@@ -200,7 +200,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                 UOMConversionEditFragment fragment = new UOMConversionEditFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.item_detail_container, fragment)
+                        .add(R.id.statistics_container, fragment)
                         .commit();
             }
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_EXPENSE_CATEGORY || activityType == CommonListActivity.ACTIVITY_TYPE_FUEL_TYPE) {
@@ -208,7 +208,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                 ExpenseFuelCategoryEditFragment fragment = new ExpenseFuelCategoryEditFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.item_detail_container, fragment)
+                        .add(R.id.statistics_container, fragment)
                         .commit();
             }
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_EXPENSE_TYPE) {
@@ -216,7 +216,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                 ExpenseTypeEditFragment fragment = new ExpenseTypeEditFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.item_detail_container, fragment)
+                        .add(R.id.statistics_container, fragment)
                         .commit();
             }
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_REIMBURSEMENT_RATE) {
@@ -224,7 +224,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                 ReimbursementRateEditFragment fragment = new ReimbursementRateEditFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.item_detail_container, fragment)
+                        .add(R.id.statistics_container, fragment)
                         .commit();
             }
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_CURRENCY) {
@@ -232,7 +232,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                 CurrencyEditFragment fragment = new CurrencyEditFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.item_detail_container, fragment)
+                        .add(R.id.statistics_container, fragment)
                         .commit();
             }
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_CURRENCY_RATE) {
@@ -240,7 +240,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                 CurrencyRateEditFragment fragment = new CurrencyRateEditFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.item_detail_container, fragment)
+                        .add(R.id.statistics_container, fragment)
                         .commit();
             }
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_BPARTNER) {
@@ -248,7 +248,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                 BPartnerEditFragment fragment = new BPartnerEditFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.item_detail_container, fragment)
+                        .add(R.id.statistics_container, fragment)
                         .commit();
             }
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_BPARTNER_LOCATION) {
@@ -256,7 +256,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                 BPartnerLocationEditFragment fragment = new BPartnerLocationEditFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.item_detail_container, fragment)
+                        .add(R.id.statistics_container, fragment)
                         .commit();
             }
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_TASK_TYPE) {
@@ -264,7 +264,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                 TaskTypeEditFragment fragment = new TaskTypeEditFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.item_detail_container, fragment)
+                        .add(R.id.statistics_container, fragment)
                         .commit();
             }
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_TASK) {
@@ -272,7 +272,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                 TaskEditFragment fragment = new TaskEditFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.item_detail_container, fragment)
+                        .add(R.id.statistics_container, fragment)
                         .commit();
             }
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_BT_CAR_LINK) {
@@ -280,7 +280,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                 BTCarLinkFragment fragment = new BTCarLinkFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.item_detail_container, fragment)
+                        .add(R.id.statistics_container, fragment)
                         .commit();
             }
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_TAG) {
@@ -288,7 +288,7 @@ public class CommonDetailActivity extends AppCompatActivity {
                 TagEditFragment fragment = new TagEditFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.item_detail_container, fragment)
+                        .add(R.id.statistics_container, fragment)
                         .commit();
             }
             else {

@@ -61,7 +61,7 @@
             tools:listitem="@layout/common_list_item" />
 
         <FrameLayout
-            android:id="@+id/item_detail_container"
+            android:id="@+id/statistics_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

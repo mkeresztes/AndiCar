@@ -209,33 +209,39 @@ public class CommonListActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mScrollToPosition = -1;
-//                mLastSelectedItemId = -1;
-//                mRecyclerViewAdapter.showDetailView(CommonListActivity.this, true, true);
-//            }
-//        });
-
         ImageButton btnAdd = findViewById(R.id.btnAdd);
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mScrollToPosition = -1;
-                mLastSelectedItemId = -1;
-                mRecyclerViewAdapter.showDetailView(CommonListActivity.this, true, true);
-            }
-        });
+        if (btnAdd != null) {
+            btnAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mScrollToPosition = -1;
+                    mLastSelectedItemId = -1;
+                    mRecyclerViewAdapter.showDetailView(CommonListActivity.this, true, true);
+                }
+            });
+        }
 
         ImageButton btnStatistics = findViewById(R.id.btnStatistics);
+        if (btnStatistics != null) {
+            btnStatistics.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(CommonListActivity.this, StatisticsActivity.class);
+                    i.putExtra(StatisticsActivity.STATISTICS_TYPE_KEY, mActivityType);
+                    i.putExtra(StatisticsActivity.WHERE_CONDITIONS_KEY, mWhereConditionsForDB);
+                    startActivity(i);
+                }
+            });
+        }
+
         ImageButton btnCharts = findViewById(R.id.btnCharts);
 
         if (!(mActivityType == ACTIVITY_TYPE_REFUEL || mActivityType == ACTIVITY_TYPE_EXPENSE
                 || mActivityType == ACTIVITY_TYPE_MILEAGE || mActivityType == ACTIVITY_TYPE_GPS_TRACK)) {
-            btnStatistics.setVisibility(View.GONE);
-            btnCharts.setVisibility(View.GONE);
+            if (btnStatistics != null)
+                btnStatistics.setVisibility(View.GONE);
+            if (btnCharts != null)
+                btnCharts.setVisibility(View.GONE);
         }
         // Show the Up button in the action bar only if the activity is not launched from the preference screen.
         //The solution is to change dynamically the parent activity for up navigation
@@ -248,8 +254,8 @@ public class CommonListActivity extends AppCompatActivity
             }
         }
         if (mActivityType == ACTIVITY_TYPE_TODO) {
-//            fab.setVisibility(View.GONE);
-            btnAdd.setVisibility(View.GONE);
+            if (btnAdd != null)
+                btnAdd.setVisibility(View.GONE);
             View separator = findViewById(R.id.separator);
             if (separator != null)
                 separator.setVisibility(View.GONE);
@@ -259,23 +265,8 @@ public class CommonListActivity extends AppCompatActivity
         // large-screen layouts (res/values-w900dp).
         // If this view is present, then the
         // activity should be in two-pane mode.
-        isTwoPane = findViewById(R.id.item_detail_container) != null;
+        isTwoPane = findViewById(R.id.statistics_container) != null;
     }
-
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//
-//        if (mCursor != null && !mCursor.isClosed()) {
-//            mCursor.close();
-//            mCursor = null;
-//        }
-//
-//        if (mReportDb != null) {
-//            mReportDb.close();
-//            mReportDb = null;
-//        }
-//    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -502,12 +493,12 @@ public class CommonListActivity extends AppCompatActivity
         }
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
 
-        if (isTwoPane && findViewById(R.id.item_detail_container) != null) {
+        if (isTwoPane && findViewById(R.id.statistics_container) != null) {
             if (mRecyclerViewAdapter.getItemCount() == 0) {
-                findViewById(R.id.item_detail_container).setVisibility(View.GONE);
+                findViewById(R.id.statistics_container).setVisibility(View.GONE);
             }
             else {
-                findViewById(R.id.item_detail_container).setVisibility(View.VISIBLE);
+                findViewById(R.id.statistics_container).setVisibility(View.VISIBLE);
             }
         }
     }

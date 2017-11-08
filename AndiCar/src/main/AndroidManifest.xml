@@ -17,9 +17,9 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="org.andicar2.activity"
-          android:versionCode="17110200"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="org.andicar2.activity"
+    android:versionCode="17110200"
     android:versionName="17.11-2">
 
     <!-- ************************************************************************************************* -->
@@ -93,13 +93,6 @@
             android:name="io.fabric.ApiKey"
             android:value="f81b6f48650b05d047c8f5224cdc68e53175a973" />
 
-        <!-- Google Analytics services -->
-        <!-- <service android:name="com.google.android.gms.analytics.AnalyticsService" -->
-        <!-- android:enabled="true" -->
-        <!-- android:exported="false"/> -->
-        <!-- <service android:name="com.google.android.gms.analytics.CampaignTrackingService" /> -->
-        <!-- End Google Analytics services -->
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -129,16 +122,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="andicar.n.activity.preference.PreferenceActivity" />
         </activity>
-
         <activity
             android:name="andicar.n.activity.miscellaneous.FileListActivity"
             android:label="@string/pref_log_files_title"
             android:parentActivityName="andicar.n.activity.preference.PreferenceActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="andicar.n.activity.preference.PreferenceActivity"/>
+                android:value="andicar.n.activity.preference.PreferenceActivity" />
         </activity>
-
         <activity
             android:name="andicar.n.activity.dialogs.GeneralNotificationDialogActivity"
             android:theme="@style/AndiCarDialog" />
@@ -204,7 +195,16 @@
         <activity
             android:name="andicar.n.activity.miscellaneous.AboutActivity"
             android:label="About AndiCar" />
-        <activity android:name="andicar.n.activity.test.TestActivity"/>
+        <activity android:name="andicar.n.activity.test.TestActivity" />
+
+        <activity
+            android:name="andicar.n.activity.StatisticsActivity"
+            android:parentActivityName="andicar.n.activity.CommonListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="andicar.n.activity.CommonListActivity" />
+        </activity>
 
         <service
             android:name="andicar.n.service.ToDoManagementService"
@@ -223,14 +223,14 @@
             android:name="andicar.n.service.SecureBackupJob"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
         <service
             android:name="andicar.n.service.ToDoNotificationJob"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
 
@@ -245,7 +245,6 @@
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name="andicar.n.broadcastreceiver.BTConnectionListener"
             android:exported="true">
@@ -255,7 +254,7 @@
             </intent-filter>
         </receiver>
 
-        <!--see https://stackoverflow.com/questions/38200282/android-os-fileuriexposedexception-file-storage-emulated-0-test-txt-exposed/38858040#38858040-->
+        <!-- see https://stackoverflow.com/questions/38200282/android-os-fileuriexposedexception-file-storage-emulated-0-test-txt-exposed/38858040#38858040 -->
         <provider
             android:name="andicar.n.persistence.AndiCarFileProvider"
             android:authorities="org.andicar2.provider"
@@ -263,7 +262,9 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
+
     </application>
+
 </manifest>
