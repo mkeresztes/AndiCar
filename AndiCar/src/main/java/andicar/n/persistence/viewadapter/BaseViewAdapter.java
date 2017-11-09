@@ -362,7 +362,7 @@ public abstract class BaseViewAdapter
             }
             else {
                 Utils.showReportableErrorDialog(ctx, ctx.getString(R.string.gen_error),
-                        String.format(ctx.getString(R.string.error_113), this.getClass().toString()), null, false);
+                        String.format(ctx.getString(R.string.error_113), this.getClass().toString()), null);
             }
 
             if (fragment != null) {

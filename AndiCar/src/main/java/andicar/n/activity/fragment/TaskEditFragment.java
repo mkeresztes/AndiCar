@@ -269,7 +269,7 @@ public class TaskEditFragment extends BaseEditFragment {
                 if (!c.moveToNext()) {//no record exist
                     c.close();
                     if (!isRecurrent && isMileageEnabled && !isTimingEnabled) {
-                        Utils.showNotReportableErrorDialog(TaskEditFragment.this.getActivity(), TaskEditFragment.this.getString(R.string.gen_warning), TaskEditFragment.this.getString(R.string.task_edit_no_cars_available_message), false);
+                        Utils.showNotReportableErrorDialog(TaskEditFragment.this.getActivity(), TaskEditFragment.this.getString(R.string.gen_warning), TaskEditFragment.this.getString(R.string.task_edit_no_cars_available_message));
                     }
                     else {
                         Utils.showInfoDialog(TaskEditFragment.this.getActivity(), TaskEditFragment.this.getString(R.string.gen_info), TaskEditFragment.this.getString(R.string.task_edit_all_cars_linked_message));
@@ -822,10 +822,10 @@ public class TaskEditFragment extends BaseEditFragment {
             if (mRowId < 0) {
                 if (mRowId == -1) //DB Error
                 {
-                    Utils.showReportableErrorDialog(getActivity(), getString(R.string.error_sorry), mDbAdapter.mErrorMessage, mDbAdapter.mException, false);
+                    Utils.showReportableErrorDialog(getActivity(), getString(R.string.error_sorry), mDbAdapter.mErrorMessage, mDbAdapter.mException);
                 }
                 else { //precondition error
-                    Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.gen_error), getString(-1 * ((Long) mRowId).intValue()), false);
+                    Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.gen_error), getString(-1 * ((Long) mRowId).intValue()));
                 }
                 return false;
             }
@@ -846,7 +846,7 @@ public class TaskEditFragment extends BaseEditFragment {
                 if (updResult == R.string.error_000) {
                     errMsg = errMsg + "\n" + mDbAdapter.mErrorMessage;
                 }
-                Utils.showReportableErrorDialog(getActivity(), getString(R.string.error_sorry), errMsg, mDbAdapter.mException, false);
+                Utils.showReportableErrorDialog(getActivity(), getString(R.string.error_sorry), errMsg, mDbAdapter.mException);
                 return false;
             }
             else {
@@ -923,7 +923,7 @@ public class TaskEditFragment extends BaseEditFragment {
                                 int deleteResult = mDbAdapter.deleteRecord(DBAdapter.TABLE_NAME_TASK_CAR, mLongClickId);
                                 if (deleteResult != -1) {
                                     Utils.showNotReportableErrorDialog(TaskEditFragment.this.getActivity(), TaskEditFragment.this.getString(R.string.gen_error),
-                                            TaskEditFragment.this.getString(deleteResult), false);
+                                            TaskEditFragment.this.getString(deleteResult));
                                 } else {
                                     fillLinkedCarsData();
                                 }

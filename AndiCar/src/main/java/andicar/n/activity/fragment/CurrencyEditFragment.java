@@ -101,11 +101,11 @@ public class CurrencyEditFragment extends BaseEditFragment {
             else {
                 if (dbRetVal == -1) //DB Error
                 {
-                    Utils.showReportableErrorDialog(getActivity(), getString(R.string.error_sorry), mDbAdapter.mErrorMessage, mDbAdapter.mException, false);
+                    Utils.showReportableErrorDialog(getActivity(), getString(R.string.error_sorry), mDbAdapter.mErrorMessage, mDbAdapter.mException);
                 }
                 else //precondition error
                 {
-                    Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.gen_error), getString(-1 * dbRetVal), false);
+                    Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.gen_error), getString(-1 * dbRetVal));
                 }
                 return false;
             }
@@ -113,7 +113,7 @@ public class CurrencyEditFragment extends BaseEditFragment {
         else {
             dbRetVal = mDbAdapter.updateRecord(DBAdapter.TABLE_NAME_CURRENCY, mRowId, cvData);
             if (dbRetVal != -1) {
-                Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.gen_error), getString(dbRetVal), false);
+                Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.gen_error), getString(dbRetVal));
                 return false;
             }
             else {

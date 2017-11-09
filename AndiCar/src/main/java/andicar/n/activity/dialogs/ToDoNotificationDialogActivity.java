@@ -93,7 +93,7 @@ public class ToDoNotificationDialogActivity extends AppCompatActivity {
 
         Bundle mBundleExtras = getIntent().getExtras();
         if (mBundleExtras == null) {
-            Utils.showReportableErrorDialog(this, getString(R.string.error_sorry), "ToDo notification dialog - no extras", null, false);
+            Utils.showReportableErrorDialog(this, getString(R.string.error_sorry), "ToDo notification dialog - no extras", null);
             return;
         }
         if (mBundleExtras.getBoolean(STARTED_FROM_NOTIFICATION_KEY, true)) {

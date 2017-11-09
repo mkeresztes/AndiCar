@@ -599,7 +599,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                         mProgress.dismiss();
                         if (msg.peekData() != null) {
                             if (msg.peekData().containsKey(ERROR_MSG_KEY)) {
-                                Utils.showNotReportableErrorDialog(getActivity(), msg.peekData().getString(ERROR_MSG_KEY), null, false);
+                                Utils.showNotReportableErrorDialog(getActivity(), msg.peekData().getString(ERROR_MSG_KEY), null);
                             }
                             else if (msg.peekData().containsKey(SUCCESS_MSG_KEY)) {
                                 Utils.showInfoDialog(getActivity(), msg.peekData().getString(SUCCESS_MSG_KEY), null);
@@ -723,7 +723,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                                     }
                                     Utils.showInfoDialog(getActivity(), getString(R.string.pref_restore_success_message), null);
                                 } else {
-                                    Utils.showNotReportableErrorDialog(getActivity(), FileUtils.mLastErrorMessage, null, false);
+                                    Utils.showNotReportableErrorDialog(getActivity(), FileUtils.mLastErrorMessage, null);
                                 }
                             }
                         });
@@ -1193,11 +1193,11 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                     getActivity().startActivityForResult(
                             ((UserRecoverableAuthIOException) e).getIntent(), ConstantValues.REQUEST_GMAIL_AUTHORIZATION);
                 } else {
-                    Utils.showReportableErrorDialog(getActivity(), errorMsg, null, e, false);
+                    Utils.showReportableErrorDialog(getActivity(), errorMsg, null, e);
                     Log.d("SendGMailTask", "The following error occurred:\n" + e.getMessage(), e);
                 }
             } else {
-                Utils.showNotReportableErrorDialog(getActivity(), errorMsg, null, false);
+                Utils.showNotReportableErrorDialog(getActivity(), errorMsg, null);
                 Log.d("SendGMailTask", "Request cancelled: " + errorMsg);
             }
 
@@ -1224,7 +1224,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                         ConstantValues.REQUEST_GOOGLE_PLAY_SERVICES);
                 dialog.show();
             } catch (Exception e) {
-                Utils.showNotReportableErrorDialog(getActivity(), e.getMessage(), "", false);
+                Utils.showNotReportableErrorDialog(getActivity(), e.getMessage(), "");
             }
         }
 
@@ -1374,7 +1374,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
 
         private void validateGoogleAccount(String method) {
             if (!Utils.isNetworkAvailable(getActivity())) {
-                Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.error_123), null, false);
+                Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.error_123), null);
             }
             mProgress = new ProgressDialog(getActivity());
             mProgress.setMessage(getResources().getString(R.string.gen_validating_google_account));
@@ -1398,7 +1398,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                         Log.e("AndiCar", e.getMessage(), e);
                     }
                     else {
-                        Utils.showReportableErrorDialog(getActivity(), null, e.getMessage(), e, false);
+                        Utils.showReportableErrorDialog(getActivity(), null, e.getMessage(), e);
                     }
                 }
             }

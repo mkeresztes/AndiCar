@@ -389,7 +389,7 @@ public class CommonListActivity extends AppCompatActivity
                 title = getString(R.string.pref_tag_title);
                 break;
             default:
-                Utils.showReportableErrorDialog(this, "Unexpected error", "Unknown activity type: " + mActivityType, new Exception("Unknown activity type: " + mActivityType), false);
+                Utils.showReportableErrorDialog(this, "Unexpected error", "Unknown activity type: " + mActivityType, new Exception("Unknown activity type: " + mActivityType));
                 finish();
                 return;
         }
@@ -475,7 +475,7 @@ public class CommonListActivity extends AppCompatActivity
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_TAG);
                 break;
             default:
-                Utils.showReportableErrorDialog(this, "Unexpected error", "Unknown activity type: " + mActivityType, new Exception("Unknown activity type: " + mActivityType), false);
+                Utils.showReportableErrorDialog(this, "Unexpected error", "Unknown activity type: " + mActivityType, new Exception("Unknown activity type: " + mActivityType));
                 finish();
         }
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
@@ -552,7 +552,7 @@ public class CommonListActivity extends AppCompatActivity
                                     CommonListActivity.this.setupRecyclerView();
                                 }
                                 else {
-                                    Utils.showNotReportableErrorDialog(CommonListActivity.this, CommonListActivity.this.getString(R.string.gen_error), CommonListActivity.this.getString(deleteResult), false);
+                                    Utils.showNotReportableErrorDialog(CommonListActivity.this, CommonListActivity.this.getString(R.string.gen_error), CommonListActivity.this.getString(deleteResult));
                                 }
                             }
                         });
@@ -977,12 +977,12 @@ public class CommonListActivity extends AppCompatActivity
         }
         else {
             progressDialog.dismiss();
-            Utils.showReportableErrorDialog(this, getString(R.string.error_035), null, null, false);
+            Utils.showReportableErrorDialog(this, getString(R.string.error_035), null, null);
             return;
         }
         if (c == null) {
             progressDialog.dismiss();
-            Utils.showReportableErrorDialog(this, getString(R.string.error_sorry), dbReportAdapter.mErrorMessage, dbReportAdapter.mException, false);
+            Utils.showReportableErrorDialog(this, getString(R.string.error_sorry), dbReportAdapter.mErrorMessage, dbReportAdapter.mException);
         }
 
         reportTitle = Utils.appendDateTime(reportTitle, false, false, null);
@@ -1013,7 +1013,7 @@ public class CommonListActivity extends AppCompatActivity
         int i = FileUtils.writeReportFile(this, reportContent, reportFileName);
         if (i != -1) { //error
             progressDialog.dismiss();
-            Utils.showNotReportableErrorDialog(this, getString(R.string.error_sorry), getString(R.string.error_034), false);
+            Utils.showNotReportableErrorDialog(this, getString(R.string.error_sorry), getString(R.string.error_034));
             return;
         }
 

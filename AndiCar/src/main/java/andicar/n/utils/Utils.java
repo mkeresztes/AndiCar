@@ -20,6 +20,7 @@
 package andicar.n.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -377,6 +378,8 @@ public class Utils {
         intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_MESSAGE_KEY, message);
         intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_DETAIL_KEY, detail);
         intent.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_INFO);
+        if (!(ctx instanceof Activity))
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ctx.startActivity(intent);
     }
 
@@ -385,25 +388,27 @@ public class Utils {
         intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_MESSAGE_KEY, message);
         intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_DETAIL_KEY, detail);
         intent.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_WARNING);
+        if (!(ctx instanceof Activity))
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ctx.startActivity(intent);
     }
 
-    public static void showNotReportableErrorDialog(Context ctx, String message, String detail, boolean fromService) {
+    public static void showNotReportableErrorDialog(Context ctx, String message, String detail) {
         try {
             Intent intent = new Intent(ctx, GeneralNotificationDialogActivity.class);
             intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_MESSAGE_KEY, message);
             intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_DETAIL_KEY, detail);
             intent.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_NOT_REPORTABLE_ERROR);
-            if (fromService) {
+            if (!(ctx instanceof Activity))
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            }
+
             ctx.startActivity(intent);
         }
         catch (Exception ignored) {
         }
     }
 
-    public static void showReportableErrorDialog(Context ctx, String message, String detail, Exception e, boolean fromService) {
+    public static void showReportableErrorDialog(Context ctx, String message, String detail, Exception e) {
         try {
             Intent intent = new Intent(ctx, GeneralNotificationDialogActivity.class);
             if (e != null) {
@@ -416,9 +421,9 @@ public class Utils {
             intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_MESSAGE_KEY, message);
             intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_DETAIL_KEY, detail);
             intent.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_REPORTABLE_ERROR);
-            if (fromService) {
+            if (!(ctx instanceof Activity))
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            }
+
             ctx.startActivity(intent);
         }
         catch (Exception ignored) {
@@ -481,7 +486,7 @@ public class Utils {
             dbcRecordCursor.close();
         }
         catch (Exception e) {
-            Utils.showReportableErrorDialog(pSpinner.getContext(), AndiCar.getAppResources().getString(R.string.error_sorry), e.getMessage(), e, false);
+            Utils.showReportableErrorDialog(pSpinner.getContext(), AndiCar.getAppResources().getString(R.string.error_sorry), e.getMessage(), e);
         }
     }
 

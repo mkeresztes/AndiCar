@@ -144,7 +144,7 @@ public class ChartDetailDialog extends AppCompatActivity {
 //        mChart.animateY(200);
         }
         catch (Exception e) {
-            Utils.showReportableErrorDialog(this, null, e.getMessage(), e, false);
+            Utils.showReportableErrorDialog(this, null, e.getMessage(), e);
         }
     }
 

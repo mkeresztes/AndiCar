@@ -669,11 +669,11 @@ public class ExpenseEditFragment extends BaseEditFragment {
             if (dbRetVal < 0) {
                 if (dbRetVal == -1) //DB Error
                 {
-                    Utils.showReportableErrorDialog(getActivity(), getString(R.string.error_sorry), mDbAdapter.mErrorMessage, mDbAdapter.mException, false);
+                    Utils.showReportableErrorDialog(getActivity(), getString(R.string.error_sorry), mDbAdapter.mErrorMessage, mDbAdapter.mException);
                 }
                 else //precondition error
                 {
-                    Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.gen_error), getString(-1 * dbRetVal), false);
+                    Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.gen_error), getString(-1 * dbRetVal));
                 }
                 return false;
             }
@@ -686,7 +686,7 @@ public class ExpenseEditFragment extends BaseEditFragment {
                 if (dbRetVal == R.string.error_000) {
                     errMsg = errMsg + "\n" + mDbAdapter.mErrorMessage;
                 }
-                Utils.showReportableErrorDialog(getActivity(), getString(R.string.error_sorry), errMsg, mDbAdapter.mException, false);
+                Utils.showReportableErrorDialog(getActivity(), getString(R.string.error_sorry), errMsg, mDbAdapter.mException);
                 return false;
             }
         }

@@ -72,7 +72,7 @@ public class GPSTrackEditFragment extends BaseEditFragment {
                 }
                 default: //new record
                     Utils.showReportableErrorDialog(this.getActivity(), "Unexpected error", "Invalid operation type: " + mOperationType,
-                            new Exception("Error"), false);
+                            new Exception("Error"));
             }
         }
         else {
@@ -223,7 +223,7 @@ public class GPSTrackEditFragment extends BaseEditFragment {
             if (updResult == R.string.error_000) {
                 errMsg = errMsg + "\n" + mDbAdapter.mErrorMessage;
             }
-            Utils.showReportableErrorDialog(getActivity(), getString(R.string.error_sorry), errMsg, mDbAdapter.mException, false);
+            Utils.showReportableErrorDialog(getActivity(), getString(R.string.error_sorry), errMsg, mDbAdapter.mException);
             return false;
         }
         else {

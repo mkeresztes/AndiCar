@@ -241,13 +241,13 @@ public class GPSTrackService extends Service {
         }
         else {
             if (intent == null) {
-                Utils.showReportableErrorDialog(this, "GPS Track Service error", "Intent is null", null, true);
+                Utils.showReportableErrorDialog(this, "GPS Track Service error", "Intent is null", null);
                 stopSelf();
                 return START_NOT_STICKY;
             }
             mArguments = intent.getExtras();
             if (mArguments == null) {
-                Utils.showReportableErrorDialog(this, "GPS Track Service error", "No argument", null, true);
+                Utils.showReportableErrorDialog(this, "GPS Track Service error", "No argument", null);
                 stopSelf();
                 return START_NOT_STICKY;
             }
@@ -313,7 +313,7 @@ public class GPSTrackService extends Service {
 
             gpsTrackId = mDbAdapter.createRecord(DBAdapter.TABLE_NAME_GPSTRACK, cvData);
             if (gpsTrackId < 0) {
-                Utils.showReportableErrorDialog(this, getString(R.string.error_sorry), mDbAdapter.mErrorMessage, mDbAdapter.mException, true);
+                Utils.showReportableErrorDialog(this, getString(R.string.error_sorry), mDbAdapter.mErrorMessage, mDbAdapter.mException);
                 stopSelf();
             }
 
@@ -333,8 +333,7 @@ public class GPSTrackService extends Service {
                 showNotification(AndiCarNotification.GPS_TRACKING_STARTED_ID);
             } catch (IOException ex) {
                 Logger.getLogger(GPSTrackService.class.getName()).log(Level.SEVERE, null, ex);
-                Utils.showNotReportableErrorDialog(getApplicationContext(), getString(R.string.error_034), ex.getMessage(), true);
-                //            showNotification(AndiCarNotification.NOTIF_FILESYSTEM_ERROR_ID, true);
+                Utils.showNotReportableErrorDialog(getApplicationContext(), getString(R.string.error_034), ex.getMessage());
                 if (isEnableDebugLog) {
                     logDebugInfo(debugLogFile, "File system error", ex);
                 }
@@ -586,7 +585,7 @@ public class GPSTrackService extends Service {
                 logDebugInfo(debugLogFile, "closeFiles exception: " + ex.getMessage(), ex);
             }
             Logger.getLogger(GPSTrackService.class.getName()).log(Level.SEVERE, null, ex);
-            Utils.showNotReportableErrorDialog(this, getString(R.string.error_034), ex.getMessage(), true);
+            Utils.showNotReportableErrorDialog(this, getString(R.string.error_034), ex.getMessage());
 //            showNotification(AndiCarNotification.NOTIFICATION_FILESYSTEM_ERROR_ID, true);
         }
     }
@@ -950,7 +949,7 @@ public class GPSTrackService extends Service {
                 stopSelf();
                 break;
             default:
-                Utils.showReportableErrorDialog(this, getString(R.string.error_sorry), "Unknown GPSTrackStatus: " + status, null, true);
+                Utils.showReportableErrorDialog(this, getString(R.string.error_sorry), "Unknown GPSTrackStatus: " + status, null);
         }
     }
 

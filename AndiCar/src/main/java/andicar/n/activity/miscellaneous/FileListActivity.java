@@ -199,10 +199,10 @@ public class FileListActivity extends AppCompatActivity implements Runnable {
                                 AndiCarCrashReporter.sendCrash(e);
                                 Log.d("AndiCar", e.getMessage(), e);
                             }
-                            Utils.showInfoDialog(getApplicationContext(), getString(R.string.pref_restore_success_message), null);
+                            Utils.showInfoDialog(FileListActivity.this, getString(R.string.pref_restore_success_message), null);
                         }
                         else {
-                            Utils.showNotReportableErrorDialog(getApplicationContext(), FileUtils.mLastErrorMessage, null, false);
+                            Utils.showNotReportableErrorDialog(getApplicationContext(), FileUtils.mLastErrorMessage, null);
                         }
                         finish();
                     }
@@ -242,12 +242,11 @@ public class FileListActivity extends AppCompatActivity implements Runnable {
                 Log.d("AndiCar", e.getMessage(), e);
             }
             mProgress.dismiss();
-            Utils.showInfoDialog(getApplicationContext(), getString(R.string.pref_restore_success_message), null);
-
+            Utils.showInfoDialog(this, getString(R.string.pref_restore_success_message), null);
         }
         else {
             mProgress.dismiss();
-            Utils.showNotReportableErrorDialog(getApplicationContext(), FileUtils.mLastErrorMessage, null, false);
+            Utils.showNotReportableErrorDialog(getApplicationContext(), FileUtils.mLastErrorMessage, null);
         }
         finish();
     }

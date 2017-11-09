@@ -293,7 +293,7 @@ public class CommonDetailActivity extends AppCompatActivity {
             }
             else {
                 Utils.showNotReportableErrorDialog(this, getString(R.string.gen_error),
-                        String.format(getString(R.string.error_113), ((Integer) activityType).toString()), false);
+                        String.format(getString(R.string.error_113), ((Integer) activityType).toString()));
             }
         }
         else {

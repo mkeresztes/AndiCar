@@ -576,7 +576,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(actionIntent);
             }
             catch (Exception e) {
-                Utils.showNotReportableErrorDialog(this, e.getMessage(), null, false);
+                Utils.showNotReportableErrorDialog(this, e.getMessage(), null);
             }
         }
         else if (id == R.id.nav_rate) {
@@ -1174,7 +1174,7 @@ public class MainActivity extends AppCompatActivity
         }
         catch (Exception e) {
             mErrorInDrawCharts = true;
-            Utils.showReportableErrorDialog(this, null, e.getMessage(), e, false);
+            Utils.showReportableErrorDialog(this, null, e.getMessage(), e);
         }
 
     }
@@ -1340,7 +1340,7 @@ public class MainActivity extends AppCompatActivity
         }
         catch (Exception e) {
             mErrorInDrawCharts = true;
-            Utils.showReportableErrorDialog(this, null, e.getMessage(), e, false);
+            Utils.showReportableErrorDialog(this, null, e.getMessage(), e);
         }
 
         try {

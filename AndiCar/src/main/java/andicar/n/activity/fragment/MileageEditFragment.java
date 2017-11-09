@@ -587,11 +587,11 @@ public class MileageEditFragment extends BaseEditFragment {
                 if (result.intValue() < 0) {
                     if (result.intValue() == -1) //DB Error
                     {
-                        Utils.showReportableErrorDialog(getActivity(), getString(R.string.error_sorry), mDbAdapter.mErrorMessage, mDbAdapter.mException, false);
+                        Utils.showReportableErrorDialog(getActivity(), getString(R.string.error_sorry), mDbAdapter.mErrorMessage, mDbAdapter.mException);
                     }
                     else //precondition error
                     {
-                        Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.gen_error), getString(-1 * result.intValue()), false);
+                        Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.gen_error), getString(-1 * result.intValue()));
                     }
                     return false;
                 }
@@ -606,14 +606,14 @@ public class MileageEditFragment extends BaseEditFragment {
             if (checkResult == -1) {
                 int updResult = mDbAdapter.updateRecord(DBAdapter.TABLE_NAME_MILEAGE, mRowId, data);
                 if (updResult != -1) {
-                    Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.gen_error), getString(updResult), false);
+                    Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.gen_error), getString(updResult));
                     return false;
                 }
             }
         }
         if (checkResult != -1) //error
         {
-            Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.gen_error), getString(checkResult), false);
+            Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.gen_error), getString(checkResult));
             return false;
         }
         else {
@@ -781,7 +781,7 @@ public class MileageEditFragment extends BaseEditFragment {
         catch (Exception e) {
             mReimbursementCanCalculated = false; //avoid subsequent exceptions
             tvReimbursementValue.setVisibility(View.GONE);
-            Utils.showReportableErrorDialog(getActivity(), getString(R.string.error_sorry), e.getMessage(), e, false);
+            Utils.showReportableErrorDialog(getActivity(), getString(R.string.error_sorry), e.getMessage(), e);
         }
     }
 

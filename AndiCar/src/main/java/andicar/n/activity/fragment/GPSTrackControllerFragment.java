@@ -282,7 +282,7 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
     @Override
     protected void showValuesInUI() {
         if (mCarId <= 0) {
-            Utils.showWarningDialog(getContext(), getString(R.string.gps_track_no_car), null);
+            Utils.showWarningDialog(getActivity(), getString(R.string.gps_track_no_car), null);
             if (getActivity() != null) {
                 getActivity().finish();
             }

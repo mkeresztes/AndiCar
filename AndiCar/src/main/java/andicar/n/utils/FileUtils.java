@@ -697,7 +697,7 @@ public class FileUtils {
             catch (IOException e) {
                 mLastException = e;
                 mLastErrorMessage = e.getMessage();
-                Utils.showReportableErrorDialog(ctx, e.getMessage(), null, e, false);
+                Utils.showReportableErrorDialog(ctx, e.getMessage(), null, e);
             }
         }
         //update background services if need (scheduled tasks, etc.)

@@ -934,7 +934,7 @@ public abstract class BaseEditFragment extends Fragment {
                                 }
                             }
                             else {
-                                Utils.showNotReportableErrorDialog(BaseEditFragment.this.getActivity(), BaseEditFragment.this.getString(R.string.gen_error), BaseEditFragment.this.getString(deleteResult), false);
+                                Utils.showNotReportableErrorDialog(BaseEditFragment.this.getActivity(), BaseEditFragment.this.getString(R.string.gen_error), BaseEditFragment.this.getString(deleteResult));
                             }
                         }
                     });

@@ -193,7 +193,7 @@ public class GPSTrackMap extends FragmentActivity {
         }
 
         if (!loadTrackAndBounds()) {
-            Utils.showNotReportableErrorDialog(this, getString(R.string.gen_error), mErrMsg, false);
+            Utils.showNotReportableErrorDialog(this, getString(R.string.gen_error), mErrMsg);
             return;
         }
 

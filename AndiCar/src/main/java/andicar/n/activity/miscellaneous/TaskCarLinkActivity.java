@@ -85,7 +85,7 @@ public class TaskCarLinkActivity extends AppCompatActivity {
         mDbAdapter = new DBAdapter(getApplicationContext());
 
         if (getIntent().getExtras() == null) {
-            Utils.showReportableErrorDialog(this, getString(R.string.error_sorry), "Task-car link no extras", null, false);
+            Utils.showReportableErrorDialog(this, getString(R.string.error_sorry), "Task-car link no extras", null);
             return;
         }
         mTaskID = getIntent().getExtras().getLong(DBAdapter.COL_NAME_TASK_CAR__TASK_ID, -1);
@@ -312,10 +312,10 @@ public class TaskCarLinkActivity extends AppCompatActivity {
             int retVal = ((Long) mDbAdapter.createRecord(DBAdapter.TABLE_NAME_TASK_CAR, data)).intValue();
             if (retVal < 0) {
                 if (retVal == -1) {
-                    Utils.showReportableErrorDialog(getApplicationContext(), getString(R.string.error_sorry), mDbAdapter.mErrorMessage, mDbAdapter.mException, false);
+                    Utils.showReportableErrorDialog(getApplicationContext(), getString(R.string.error_sorry), mDbAdapter.mErrorMessage, mDbAdapter.mException);
                 }
                 else {
-                    Utils.showNotReportableErrorDialog(getApplicationContext(), getString(R.string.gen_error), getString(-1 * retVal), false);
+                    Utils.showNotReportableErrorDialog(getApplicationContext(), getString(R.string.gen_error), getString(-1 * retVal));
                 }
                 return false;
             }
@@ -332,7 +332,7 @@ public class TaskCarLinkActivity extends AppCompatActivity {
                 String errorMessage;
                 int errCode = -1 * ((Long) retVal).intValue();
                 errorMessage = getString(errCode);
-                Utils.showReportableErrorDialog(getApplicationContext(), getString(R.string.error_sorry), errorMessage, mDbAdapter.mException, false);
+                Utils.showReportableErrorDialog(getApplicationContext(), getString(R.string.error_sorry), errorMessage, mDbAdapter.mException);
                 return false;
             }
             else {
