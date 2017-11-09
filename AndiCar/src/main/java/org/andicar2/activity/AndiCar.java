@@ -64,10 +64,12 @@ public class AndiCar extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
 
-        // Set up Crashlytics, disabled for debug builds
-        Crashlytics crashlyticsKit = new Crashlytics.Builder()
-                .core(new CrashlyticsCore.Builder().disabled(Utils.isDebugVersion()).build()).build();
-        Fabric.with(this, crashlyticsKit);
+        // Set up Fabric with Crashlytics, disabled for debug builds
+        if (!Utils.isDebugVersion()) {
+            Crashlytics crashlyticsKit = new Crashlytics.Builder()
+                    .core(new CrashlyticsCore.Builder().build()).build();
+            Fabric.with(this, crashlyticsKit);
+        }
 
         AndiCar.appResources = getResources();
         AndiCar.appPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());

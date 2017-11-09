@@ -47,8 +47,6 @@ AndiCar/src/debug/res/values/google_maps_api.xml
 AndiCar/src/release/res/values/google_maps_api.xml
 AndiCar/fabric.properties
 AndiCar/google-services.json
-AndiCar/src/debug/
-AndiCar/src/release/
 gradle/
 gradlew
 gradlew.bat
