@@ -108,6 +108,11 @@ public class GeneralNotificationDialogActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
+        if (extras == null) {
+            finish();
+            return;
+        }
+
         if (extras.getString(NOTIFICATION_MESSAGE_KEY) != null) {
             tvNotifMessage.setText(extras.getString(NOTIFICATION_MESSAGE_KEY));
             tvNotifMessage.setVisibility(View.VISIBLE);
