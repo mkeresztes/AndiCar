@@ -903,9 +903,11 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         }
 
         private static void showGDriveFolderSelector(Activity activity) {
+            if (activity == null)
+                return;
+
             IntentSender intentSender = Drive.DriveApi
                     .newOpenFileActivityBuilder()
-//                    .setMimeType(new String[]{DriveFolder.MIME_TYPE})
                     .setActivityTitle(activity.getString(R.string.pref_secure_backup_gdrive_folder_selector_title))
                     .setSelectionFilter(Filters.eq(SearchableField.MIME_TYPE, DriveFolder.MIME_TYPE))
                     .build(mGoogleApiClient);
@@ -1466,6 +1468,9 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                     mProgress.dismiss();
                 }
                 secureBkGDriveFolderPreference.setEnabled(true);
+                if (getActivity() == null)
+                    return;
+
                 if (isShouldShowGDriveFolderSelector
                         || AndiCar.getDefaultSharedPreferences().getString(getString(R.string.pref_key_secure_backup_gdrive_folder_id), "").equals("")) {
                     showGDriveFolderSelector(getActivity());
