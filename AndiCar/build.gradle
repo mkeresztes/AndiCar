@@ -103,11 +103,11 @@ dependencies {
     compile 'com.android.support:support-v13:27.0.0'
     compile 'com.android.support:multidex:1.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.android.gms:play-services-auth:11.4.2'
-    compile 'com.google.android.gms:play-services-maps:11.4.2'
-    compile 'com.google.android.gms:play-services-drive:11.4.2'
+    compile 'com.google.android.gms:play-services-auth:11.6.0'
+    compile 'com.google.android.gms:play-services-maps:11.6.0'
+    compile 'com.google.android.gms:play-services-drive:11.6.0'
     compile 'com.firebase:firebase-jobdispatcher:0.8.3'
-    compile 'com.google.firebase:firebase-core:11.4.2'
+    compile 'com.google.firebase:firebase-core:11.6.0'
     compile files('src/main/lib/activation.jar')
     compile files('src/main/lib/additionnal.jar')
     compile files('src/main/lib/mail.jar')
