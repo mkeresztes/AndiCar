@@ -92,6 +92,9 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="f81b6f48650b05d047c8f5224cdc68e53175a973" />
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="false" />
 
         <activity
             android:name=".MainActivity"
