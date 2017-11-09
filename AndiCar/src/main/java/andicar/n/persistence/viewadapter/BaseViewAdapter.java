@@ -368,7 +368,7 @@ public abstract class BaseViewAdapter
             if (fragment != null) {
                 fragment.setArguments(arguments);
                 mParentActivity.getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.statistics_container, fragment)
+                        .replace(R.id.item_detail_container, fragment)
                         .commit();
             }
         }

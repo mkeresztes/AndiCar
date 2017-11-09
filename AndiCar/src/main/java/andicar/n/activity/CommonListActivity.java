@@ -265,7 +265,7 @@ public class CommonListActivity extends AppCompatActivity
         // large-screen layouts (res/values-w900dp).
         // If this view is present, then the
         // activity should be in two-pane mode.
-        isTwoPane = findViewById(R.id.statistics_container) != null;
+        isTwoPane = findViewById(R.id.item_detail_container) != null;
     }
 
     @Override
@@ -493,12 +493,12 @@ public class CommonListActivity extends AppCompatActivity
         }
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
 
-        if (isTwoPane && findViewById(R.id.statistics_container) != null) {
+        if (isTwoPane && findViewById(R.id.item_detail_container) != null) {
             if (mRecyclerViewAdapter.getItemCount() == 0) {
-                findViewById(R.id.statistics_container).setVisibility(View.GONE);
+                findViewById(R.id.item_detail_container).setVisibility(View.GONE);
             }
             else {
-                findViewById(R.id.statistics_container).setVisibility(View.VISIBLE);
+                findViewById(R.id.item_detail_container).setVisibility(View.VISIBLE);
             }
         }
     }
