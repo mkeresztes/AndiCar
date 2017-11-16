@@ -1430,10 +1430,14 @@ public class MainActivity extends AppCompatActivity
                         break;
                     case FUEL_CONS_LINE_CHART:
                     case FUEL_EFF_LINE_CHART:
-                        String fuelConsTitle = mCarUOMVolumeCode + " / 100 " + mCarUOMLengthCode;
-                        String fuelEffTitle = mCarUOMLengthCode + " / " + mCarUOMVolumeCode;
+                        String title;
+                        if (mCarUOMVolumeCode != null)
+                            title = zoneContent.equals(FUEL_CONS_LINE_CHART) ? mCarUOMVolumeCode + " / 100 " + mCarUOMLengthCode : mCarUOMLengthCode + " / " + mCarUOMVolumeCode;
+                        else
+                            title = zoneContent.equals(FUEL_CONS_LINE_CHART) ? getString(R.string.gen_fuel_cons) : getString(R.string.gen_fuel_efficiency_long);
+
                         lineChartComponent = new LineChartComponent(this, zoneContent.equals(FUEL_CONS_LINE_CHART) ? LineChartComponent.SHOW_FUEL_CONS : LineChartComponent.SHOW_FUEL_EFF,
-                                zoneContent.equals(FUEL_CONS_LINE_CHART) ? fuelConsTitle : fuelEffTitle);
+                                title);
                         zoneContainer.addView(lineChartComponent);
                         break;
                     case FUEL_PRICE_LINE_CHART:

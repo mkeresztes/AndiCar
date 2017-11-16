@@ -211,7 +211,8 @@ public class LineChartComponent extends LinearLayout {
                     } else if (menuItem.getItemId() < 0) {
                         mSelectedFuelTypeID = -1 * menuItem.getItemId();
                         mSelectedFuelTypeName = menuItem.getTitle().toString();
-                        mChartTitle.setText(String.format(mCtx.getString(R.string.line_chart_fuel_price_title), mSelectedFuelTypeName));
+                        mChartTitle.setText(String.format(mCtx.getString(R.string.line_chart_fuel_price_title),
+                                (mSelectedFuelTypeName != null && mSelectedFuelTypeName.length() > 0 ? "(" + mSelectedFuelTypeName + ")" : "")));
                     } else
                         return false;
 
@@ -245,7 +246,8 @@ public class LineChartComponent extends LinearLayout {
             mChartTitle.setText(mChartTitleText);
         } else {
             if (mWhatData == SHOW_FUEL_PRICE_EVOLUTION) {
-                mChartTitle.setText(String.format(mCtx.getString(R.string.line_chart_fuel_price_title), mSelectedFuelTypeName));
+                mChartTitle.setText(String.format(mCtx.getString(R.string.line_chart_fuel_price_title),
+                        (mSelectedFuelTypeName != null && mSelectedFuelTypeName.length() > 0 ? "(" + mSelectedFuelTypeName + ")" : "")));
             }
         }
 
@@ -371,9 +373,10 @@ public class LineChartComponent extends LinearLayout {
             setChartsLineHeight(true);
             if (whatData == SHOW_FUEL_CONS || whatData == SHOW_FUEL_EFF) {
                 mInfo.setText(R.string.line_chart_info_1);
+                mInfo.setVisibility(VISIBLE);
             }
 
-            mChartHeader.setVisibility(GONE);
+//            mChartHeader.setVisibility(GONE);
             try {
                 mCursor.close();
                 dbReportAdapter.close();

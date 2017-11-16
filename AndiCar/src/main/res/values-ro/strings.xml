@@ -167,6 +167,9 @@
     <string name="gen_fill_mandatory">Completați câmpul obligatoriu</string>
     <string name="gen_reimbursement">Rambursare:</string>
     <string name="gen_fuel_efficiency">Consum: </string>
+    <string name="gen_fuel_efficiency_long">Eficiență combustibil</string>
+    <string name="gen_fuel_cons">Consum combustibil</string>
+
     <string name="gen_template">Şablon</string>
     <string name="gen_car_label">Maşina:</string>
     <string name="gen_driver_label">Şofer:</string>
@@ -452,7 +455,7 @@
     <string name="line_chart_info_1">Sunt necesare cel puțin 2 alimentări pline pentru a apărea ceva aici.</string>
     <string name="line_chart_info_2">Încă un plin ca să apară aici un … punctuleț :)</string>
     <string name="line_chart_info_3">Încă un plin ca să apară aici o diagramă adevărată.</string>
-    <string name="line_chart_fuel_price_title">Evoluţie preţ combustibil (%1$s)</string>
+    <string name="line_chart_fuel_price_title">Evoluţie preţ combustibil %1$s</string>
     <string name="line_chart_fuel_price_marker_text">%1$s la\n%2$s</string>
 
     <string name="search_dialog_title">Introdu criteriile</string>

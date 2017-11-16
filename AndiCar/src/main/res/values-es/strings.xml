@@ -226,6 +226,9 @@
     <string name="gen_fill_mandatory">Completar campos obligatorios</string>
     <string name="gen_reimbursement">Reembolso:</string>
     <string name="gen_fuel_efficiency">Eficiencia de combustible: </string>
+    <string name="gen_fuel_efficiency_long">Eficiencia de combustible</string>
+    <string name="gen_fuel_cons">El consumo de combustible</string>
+
     <string name="gen_template">Plantilla</string>
     <string name="gen_car_label">Automóvil:</string>
     <string name="gen_driver_label">Conductor:</string>
@@ -490,7 +493,7 @@
     <string name="line_chart_info_1">Se necesitan un mínimo de 2 LLENOS COMPLETOS para mostrar algo aquí.</string>
     <string name="line_chart_info_2">Solo un nuevo llenado completo para un hermoso … punto aquí :)</string>
     <string name="line_chart_info_3">Solo un nuevo llenado completo para mostrar un cuadro real.</string>
-    <string name="line_chart_fuel_price_title">Precios del combustible (%1$s)</string>
+    <string name="line_chart_fuel_price_title">Precios del combustible %1$s</string>
     <string name="line_chart_fuel_price_marker_text">%1$s el\n%2$s</string>
 
     <string name="mileage_type">Tipo de viaje:</string>

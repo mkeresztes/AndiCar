@@ -66,7 +66,7 @@
     <string name="line_chart_info_1">A minimum of 2 FULL fill-ups needed for showing something here.</string>
     <string name="line_chart_info_2">Just one new full fill-up for a beautiful … dot here :)</string>
     <string name="line_chart_info_3">Just one new full fill-up for showing a real chart.</string>
-    <string name="line_chart_fuel_price_title">Fuel price evolution (%1$s)</string>
+    <string name="line_chart_fuel_price_title">Fuel price evolution %1$s</string>
     <!--1.24 on 30.10.2017-->
     <string name="line_chart_fuel_price_marker_text">%1$s on\n%2$s</string>
 
@@ -350,6 +350,10 @@
     <!--GEN_Reimbursement-->
     <string name="gen_reimbursement">Reimbursement:</string>
     <string name="gen_fuel_efficiency">Fuel eff.:</string>
+
+    <string name="gen_fuel_efficiency_long">Fuel efficiency</string>
+    <string name="gen_fuel_cons">Fuel consumption</string>
+
     <!--AddOn_DataTemplate_ApplyTemplateLbl-->
     <string name="gen_template">Template:</string>
     <!--GEN_CarLabel-->
