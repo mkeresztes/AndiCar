@@ -48,6 +48,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -374,6 +375,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
         FloatingActionButton fab = findViewById(R.id.fab);
+        ImageButton btnAdd = findViewById(R.id.btnAdd);
         if (mLastSelectedCarID > -1) {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -400,6 +402,31 @@ public class MainActivity extends AppCompatActivity
                 }
             });
 
+            btnAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    switch (mPreferences.getString(getString(R.string.pref_key_main_btn_add), "")) {
+                        case "0":
+                            MainActivity.this.showPopup(view);
+                            break;
+                        case "1":
+                            showCreateEditRecordActivity(R.id.mnuTrip, -1L);
+                            break;
+                        case "2":
+                            showCreateEditRecordActivity(R.id.mnuRefuel, -1L);
+                            break;
+                        case "3":
+                            showCreateEditRecordActivity(R.id.mnuExpense, -1L);
+                            break;
+                        case "4":
+                            showCreateEditRecordActivity(R.id.mnuGPSTrack, -1L);
+                            break;
+                        default:
+                            MainActivity.this.showPopup(view);
+                    }
+                }
+            });
+
             fab.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
@@ -412,9 +439,28 @@ public class MainActivity extends AppCompatActivity
                     return true;
                 }
             });
+
+            btnAdd.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (Utils.isDebugVersion()) {
+                        startActivity(new Intent(MainActivity.this, TestActivity.class));
+                    } else {
+                        MainActivity.this.showPopup(view);
+                    }
+                    return true;
+                }
+            });
         }
         else {
             fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showDefineCar();
+                }
+            });
+
+            btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     showDefineCar();
@@ -1384,7 +1430,7 @@ public class MainActivity extends AppCompatActivity
                     zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone2_content), FUEL_PRICE_LINE_CHART);
                     break;
                 case 3:
-                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone3_content), FUEL_CONS_LINE_CHART);
+                    zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone3_content), FUEL_EFF_LINE_CHART);
                     break;
                 case 4:
                     zoneContent = mPreferences.getString(getString(R.string.pref_key_main_zone4_content), LAST_TRIP_RECORD);

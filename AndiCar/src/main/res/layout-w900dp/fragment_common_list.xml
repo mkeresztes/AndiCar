@@ -81,7 +81,7 @@
         android:contentDescription="@string/gen_add_new"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_button_add_ff5722_42dp_pad0dp" />
+        app:srcCompat="@drawable/ic_button_add_c2185b_42dp_pad0dp" />
 
     <ImageButton
         android:id="@+id/btnCharts"
