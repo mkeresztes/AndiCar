@@ -1080,9 +1080,14 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             if (isAccountChooserIsShown)
                 return;
 
-            isAccountChooserIsShown = true;
-            BackupRestorePreferenceFragment.this.startActivityForResult(
-                    mGoogleCredential.newChooseAccountIntent(), ConstantValues.REQUEST_ACCOUNT_PICKER);
+            try {
+                isAccountChooserIsShown = true;
+                BackupRestorePreferenceFragment.this.startActivityForResult(
+                        mGoogleCredential.newChooseAccountIntent(), ConstantValues.REQUEST_ACCOUNT_PICKER);
+            }
+            catch (Exception e) {
+                Utils.showNotReportableErrorDialog(getActivity(), e.getMessage(), null);
+            }
         }
 
         private void fillBKFileList() {
