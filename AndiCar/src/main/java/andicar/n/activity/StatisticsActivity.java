@@ -17,20 +17,21 @@ import android.widget.TextView;
 import org.andicar2.activity.R;
 
 import andicar.n.persistence.DBReportAdapter;
+import andicar.n.utils.ConstantValues;
+import andicar.n.utils.Utils;
 
 public class StatisticsActivity extends AppCompatActivity {
 
     //statistics type == CommonListActivity.ACTIVITY_TYPE_... (mileage, refuel, etc.)
     public static final String STATISTICS_TYPE_KEY = "StatisticsType";
-
     public static final String WHERE_CONDITIONS_KEY = "WhereConditions";
+    private int mStatisticsType;
 
     private Bundle mWhereConditions = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int statisticsType;
 
         //prevent keyboard from automatic pop up
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -49,13 +50,13 @@ public class StatisticsActivity extends AppCompatActivity {
         if (extras == null)
             return;
 
-        statisticsType = extras.getInt(STATISTICS_TYPE_KEY, -1);
-        if (statisticsType == -1)
+        mStatisticsType = extras.getInt(STATISTICS_TYPE_KEY, -1);
+        if (mStatisticsType == -1)
             return;
 
         mWhereConditions = extras.getBundle(WHERE_CONDITIONS_KEY);
 
-        switch (statisticsType) {
+        switch (mStatisticsType) {
             case CommonListActivity.ACTIVITY_TYPE_MILEAGE:
                 setTitle(String.format(getString(R.string.title_statistics_activity), getString(R.string.gen_trips)));
                 break;
@@ -75,28 +76,91 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     private void fillStatistics() {
-//        StringBuilder htmContent = new StringBuilder();
         CharSequence spanText;
 
-        TextView tvStatistics = findViewById(R.id.tvStatistics);
+        DBReportAdapter reportAdapter = new DBReportAdapter(this, null, null);
+        Cursor c;
 
-        DBReportAdapter reportAdapter = new DBReportAdapter(this, DBReportAdapter.MILEAGE_LIST_STATISTICS_SELECT_BY_TYPES, mWhereConditions);
-        Cursor c = reportAdapter.fetchReport(-1);
-        if (c == null)
-            return;
+        TextView tvStatisticsValues = findViewById(R.id.tvStatisticsValues);
 
-//        htmContent.append("<b>Trips by types:</b>");
-        spanText = apply(new CharSequence[]{"Trips by types:"}, new StyleSpan(Typeface.BOLD));
+        if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_MILEAGE) {
+            reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_MILEAGE_TOTAL, mWhereConditions);
+            c = reportAdapter.fetchReport(-1);
+            if (c == null) {
+                try {
+                    reportAdapter.close();
+                }
+                catch (Exception ignored) {
+                }
+                return;
+            }
 
-        while (c.moveToNext()) {
-//            htmContent.append("<br>    ").append(c.getString(0)).append(": ").append(c.getString(1)).append("; ").append(c.getString(2));
-            spanText = TextUtils.concat(spanText,
-                    apply(new CharSequence[]{"\n\t\t" + c.getString(0) + ": " + c.getString(1) + "; " + c.getString(2)}, new StyleSpan(Typeface.ITALIC)));
+            if (c.moveToNext()) {
+                spanText = apply(new CharSequence[]{"Total trips: " +
+                        Utils.numberToString(c.getString(0), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) +
+                        " " + c.getString(1)}, new StyleSpan(Typeface.BOLD));
+            }
+            else {
+                try {
+                    c.close();
+                    reportAdapter.close();
+                }
+                catch (Exception ignored) {
+                }
+                return;
+            }
+
+            reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_MILEAGE_BY_TYPES, mWhereConditions);
+            c = reportAdapter.fetchReport(-1);
+            if (c == null) {
+                return;
+            }
+
+            spanText = TextUtils.concat(spanText, apply(new CharSequence[]{"\n\nTrips by types:"}, new StyleSpan(Typeface.BOLD)));
+
+            while (c.moveToNext()) {
+                spanText = TextUtils.concat(spanText,
+                        apply(new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                                Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) +
+                                " " + c.getString(2)}, new StyleSpan(Typeface.ITALIC)));
+            }
+            c.close();
+
+            reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_MILEAGE_BY_TAGS, mWhereConditions);
+            c = reportAdapter.fetchReport(-1);
+            if (c == null) {
+                return;
+            }
+
+            spanText = TextUtils.concat(spanText, apply(new CharSequence[]{"\n\nTrips by tags:"}, new StyleSpan(Typeface.BOLD)));
+
+            while (c.moveToNext()) {
+                spanText = TextUtils.concat(spanText,
+                        apply(new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                                Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) +
+                                " " + c.getString(2)}, new StyleSpan(Typeface.ITALIC)));
+            }
+            c.close();
+
+            reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_MILEAGE_BY_DRIVERS, mWhereConditions);
+            c = reportAdapter.fetchReport(-1);
+            if (c == null) {
+                return;
+            }
+
+            spanText = TextUtils.concat(spanText, apply(new CharSequence[]{"\n\nTrips by drivers:"}, new StyleSpan(Typeface.BOLD)));
+
+            while (c.moveToNext()) {
+                spanText = TextUtils.concat(spanText,
+                        apply(new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                                Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) +
+                                " " + c.getString(2)}, new StyleSpan(Typeface.ITALIC)));
+            }
+            c.close();
+
+            reportAdapter.close();
+            tvStatisticsValues.setText(spanText);
         }
-        c.close();
-        reportAdapter.close();
-
-        tvStatistics.setText(spanText);
     }
 
     /**

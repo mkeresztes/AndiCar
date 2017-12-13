@@ -125,6 +125,7 @@ public class CommonListActivity extends AppCompatActivity
     private BaseViewAdapter mRecyclerViewAdapter;
     private RecyclerView mRecyclerView;
     private ProgressDialog progressDialog;
+    private ImageButton btnStatistics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,7 +222,7 @@ public class CommonListActivity extends AppCompatActivity
             });
         }
 
-        ImageButton btnStatistics = findViewById(R.id.btnStatistics);
+        btnStatistics = findViewById(R.id.btnStatistics);
         if (btnStatistics != null) {
             btnStatistics.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -315,7 +316,8 @@ public class CommonListActivity extends AppCompatActivity
         if (mCursor != null) {
             try {
                 mCursor.close();
-            } catch (Exception ignored) {
+            }
+            catch (Exception ignored) {
             }
             mCursor = null;
         }
@@ -407,7 +409,17 @@ public class CommonListActivity extends AppCompatActivity
                 return;
         }
         mCursor = mReportDb.fetchReport(-1);
-        setTitle(String.format(getString(R.string.title_list_activity), title, mCursor != null ? Utils.numberToString(mCursor.getCount(), true, 0, RoundingMode.HALF_DOWN) : 0));
+        String recordCount = (mCursor != null ? Utils.numberToString(mCursor.getCount(), true, 0, RoundingMode.HALF_DOWN) : "0");
+        setTitle(String.format(getString(R.string.title_list_activity), title, recordCount));
+
+        if (btnStatistics != null) {
+            if (recordCount.equals("0")) {
+                btnStatistics.setEnabled(false);
+            }
+            else {
+                btnStatistics.setEnabled(true);
+            }
+        }
     }
 
     private void setupRecyclerView() {

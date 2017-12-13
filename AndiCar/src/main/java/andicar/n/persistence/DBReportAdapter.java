@@ -43,7 +43,10 @@ public class DBReportAdapter extends DBAdapter {
 
     public static final String MILEAGE_LIST_SELECT_NAME = "mileageListViewSelect";
     public static final String MILEAGE_LIST_REPORT_SELECT = "mileageListReportSelect";
-    public static final String MILEAGE_LIST_STATISTICS_SELECT_BY_TYPES = "mileageListStatisticsByType";
+    public static final String LIST_STATISTICS_MILEAGE_TOTAL = "listStatisticsMileageTotal";
+    public static final String LIST_STATISTICS_MILEAGE_BY_TYPES = "listStatisticsMileageByType";
+    public static final String LIST_STATISTICS_MILEAGE_BY_TAGS = "listStatisticsMileageByTag";
+    public static final String LIST_STATISTICS_MILEAGE_BY_DRIVERS = "listStatisticsMileageByDriver";
 
     public static final String REFUEL_LIST_SELECT_NAME = "refuelListViewSelect";
     public static final String REFUEL_LIST_REPORT_SELECT = "refuelListReportSelect";
@@ -1412,19 +1415,95 @@ public class DBReportAdapter extends DBAdapter {
             " WHERE 1=1 ";
 
     //statistics selects
-    private String mileageListStatisticsByType =
+    private String listStatisticsMileageTotal =
+            "SELECT " +
+                    " SUM( " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " - " +
+                                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + "), " + //#0 - total mileage
+                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + ") " + //#1 uom
+            " FROM " + TABLE_NAME_MILEAGE +
+                    " JOIN " + TABLE_NAME_CAR + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                            " JOIN " + TABLE_NAME_UOM + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) + " = " +
+                                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
+                    " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__TAG_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
+            " WHERE 1 = 1 #WhereConditions# " +
+            " ORDER BY 1 DESC";
+
+    private String listStatisticsMileageByType =
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + ", " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " - " +
                                     sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + "), " + //#1 - total mileage
-                    " SUM(" + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE_TO) + " - " +
-                                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) + ") " + //#2 - on board time
+                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + ") " + //#2 uom
+//                    " SUM(" + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE_TO) + " - " +
+//                                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) + ") " + //#2 - on board time
             " FROM " + TABLE_NAME_MILEAGE +
                     " JOIN " + TABLE_NAME_EXPENSETYPE + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__EXPENSETYPE_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_CAR + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                            " JOIN " + TABLE_NAME_UOM + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) + " = " +
+                                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
+                    " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__TAG_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE 1 = 1 #WhereConditions# " +
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) +
+            " ORDER BY 1 DESC";
+
+
+    private String listStatisticsMileageByTag =
+            "SELECT " +
+                    "COALESCE( " + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + ", 'N/A') , " + //#0
+                    " SUM( " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " - " +
+                                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + "), " + //#1 - total mileage
+                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + ") " + //#2 uom
+//                    " SUM(" + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE_TO) + " - " +
+//                                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) + ") " + //#2 - on board time
+            " FROM " + TABLE_NAME_MILEAGE +
+                    " JOIN " + TABLE_NAME_CAR + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                            " JOIN " + TABLE_NAME_UOM + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) + " = " +
+                                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
+                    " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__TAG_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
+            " WHERE 1 = 1 #WhereConditions# " +
+            " GROUP BY COALESCE(" + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + ", 'N/A')" +
+            " ORDER BY 1 DESC";
+
+    private String listStatisticsMileageByDriver =
+            "SELECT " +
+                    sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) + ", " + //#0
+                    " SUM( " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " - " +
+                                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + "), " + //#1 - total mileage
+                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + ") " + //#2 uom
+//                    " SUM(" + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE_TO) + " - " +
+//                                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DATE) + ") " + //#2 - on board time
+            " FROM " + TABLE_NAME_MILEAGE +
+                    " JOIN " + TABLE_NAME_DRIVER + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__DRIVER_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_CAR + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                            " JOIN " + TABLE_NAME_UOM + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) + " = " +
+                                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
+                    " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__TAG_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
+            " WHERE 1 = 1 #WhereConditions# " +
+            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) +
             " ORDER BY 1 DESC";
 
 
@@ -1633,8 +1712,29 @@ public class DBReportAdapter extends DBAdapter {
                     reportSql = reportSql + whereCondition;
                 }
                 break;
-            case MILEAGE_LIST_STATISTICS_SELECT_BY_TYPES:
-                reportSql = mileageListStatisticsByType;
+            case LIST_STATISTICS_MILEAGE_TOTAL:
+                reportSql = listStatisticsMileageTotal;
+                if (whereCondition.length() > 0)
+                    reportSql = reportSql.replace("#WhereConditions#", whereCondition);
+                else
+                    reportSql = reportSql.replace("#WhereConditions#", "");
+                break;
+            case LIST_STATISTICS_MILEAGE_BY_TYPES:
+                reportSql = listStatisticsMileageByType;
+                if (whereCondition.length() > 0)
+                    reportSql = reportSql.replace("#WhereConditions#", whereCondition);
+                else
+                    reportSql = reportSql.replace("#WhereConditions#", "");
+                break;
+            case LIST_STATISTICS_MILEAGE_BY_TAGS:
+                reportSql = listStatisticsMileageByTag;
+                if (whereCondition.length() > 0)
+                    reportSql = reportSql.replace("#WhereConditions#", whereCondition);
+                else
+                    reportSql = reportSql.replace("#WhereConditions#", "");
+                break;
+            case LIST_STATISTICS_MILEAGE_BY_DRIVERS:
+                reportSql = listStatisticsMileageByDriver;
                 if (whereCondition.length() > 0)
                     reportSql = reportSql.replace("#WhereConditions#", whereCondition);
                 else

@@ -64,7 +64,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/btnAdd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btnAdd"
-        app:srcCompat="@drawable/ic_button_info_3f51b5_outlined_36dp_pad0dp"
+        app:srcCompat="@drawable/ic_button_info_selector"
         android:layout_marginLeft="16dp"/>
 
     <ImageButton
