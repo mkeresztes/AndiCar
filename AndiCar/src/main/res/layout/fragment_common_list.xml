@@ -58,13 +58,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:background="@null"
         app:layout_constraintBottom_toBottomOf="@+id/btnAdd"
-        app:layout_constraintEnd_toStartOf="@+id/btnAdd"
-        app:layout_constraintStart_toEndOf="@+id/btnCharts"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btnAdd"
-        app:srcCompat="@drawable/ic_button_info_3f51b5_outlined_36dp_pad0dp" />
+        app:srcCompat="@drawable/ic_button_info_3f51b5_outlined_36dp_pad0dp"
+        android:layout_marginLeft="16dp"/>
 
     <ImageButton
         android:id="@+id/btnCharts"
@@ -74,10 +75,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:background="@null"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/btnAdd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btnAdd"
         app:srcCompat="@drawable/ic_button_chart_4caf50_outlined_36dp_pad0dp"
-        android:layout_marginLeft="16dp" />
+        android:layout_marginLeft="16dp"/>
 
 </android.support.constraint.ConstraintLayout>
