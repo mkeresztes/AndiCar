@@ -35,28 +35,30 @@
             <TextView
                 android:id="@+id/tvStatisticsFilters"
                 android:text="Filters:"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="16dp"
+                android:paddingBottom="16dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:textIsSelectable="true"
-                android:textColor="@android:color/primary_text_light"/>
+                android:layout_gravity="center_horizontal"
+                style="@style/AndiCarDialogMessage" />
 
             <TextView
                 style="@style/AndiCarSeparatorView"
-                android:paddingTop="16dp"
                 />
 
             <TextView
                 android:id="@+id/tvStatisticsValues"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="16dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:textIsSelectable="true"
-                android:textColor="@android:color/primary_text_light"/>
+                android:layout_gravity="center_horizontal"
+                style="@style/AndiCarDialogMessage" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

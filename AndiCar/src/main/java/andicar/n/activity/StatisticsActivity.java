@@ -16,6 +16,9 @@ import android.widget.TextView;
 
 import org.andicar2.activity.R;
 
+import java.util.Set;
+
+import andicar.n.persistence.DB;
 import andicar.n.persistence.DBReportAdapter;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.Utils;
@@ -76,12 +79,90 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     private void fillStatistics() {
-        CharSequence spanText;
+        CharSequence spanTextFilters;
+        CharSequence spanTextValues;
+        Set<String> whereColumns = null;
 
         DBReportAdapter reportAdapter = new DBReportAdapter(this, null, null);
         Cursor c;
 
         TextView tvStatisticsValues = findViewById(R.id.tvStatisticsValues);
+        TextView tvStatisticsFilters = findViewById(R.id.tvStatisticsFilters);
+
+        if (mWhereConditions != null) {
+            whereColumns = mWhereConditions.keySet();
+        }
+
+        boolean isNotFiltered = true;
+        spanTextFilters = apply(new CharSequence[]{"Filters: "}, new StyleSpan(Typeface.BOLD));
+        if (whereColumns != null && whereColumns.size() > 0) {
+            for (String whereColumn : whereColumns) {
+                if (whereColumn.toUpperCase().contains("DEF_DRIVER_ID")) {
+                    spanTextFilters = TextUtils.concat(spanTextFilters,
+                            apply(new CharSequence[]{"\n\t\tDriver: " + reportAdapter.getNameById(DB.TABLE_NAME_DRIVER,
+                                    Long.decode(mWhereConditions.getString(whereColumn)))}, new StyleSpan(Typeface.ITALIC)));
+                    isNotFiltered = false;
+                }
+                if (whereColumn.toUpperCase().contains("DEF_CAR_ID")) {
+                    spanTextFilters = TextUtils.concat(spanTextFilters,
+                            apply(new CharSequence[]{"\n\t\tCar: " + reportAdapter.getNameById(DB.TABLE_NAME_CAR,
+                                    Long.decode(mWhereConditions.getString(whereColumn)))}, new StyleSpan(Typeface.ITALIC)));
+                    isNotFiltered = false;
+                }
+                if (whereColumn.toUpperCase().contains("DATE >=")) {
+                    spanTextFilters = TextUtils.concat(spanTextFilters,
+                            apply(new CharSequence[]{"\n\t\tDate from: " +
+                                    Utils.getFormattedDateTime(Long.decode(mWhereConditions.getString(whereColumn)) * 1000, true)}, new StyleSpan(Typeface.ITALIC)));
+                    isNotFiltered = false;
+                }
+                if (whereColumn.toUpperCase().contains("DATE <=")) {
+                    spanTextFilters = TextUtils.concat(spanTextFilters,
+                            apply(new CharSequence[]{"\n\t\tDate to: " +
+                                    Utils.getFormattedDateTime(Long.decode(mWhereConditions.getString(whereColumn)) * 1000, true)}, new StyleSpan(Typeface.ITALIC)));
+                    isNotFiltered = false;
+                } else if (whereColumn.toUpperCase().contains("DEF_EXPENSETYPE_ID")) {
+                    if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_MILEAGE)
+                        spanTextFilters = TextUtils.concat(spanTextFilters,
+                                apply(new CharSequence[]{"\n\t\tTrip type: " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSETYPE,
+                                        Long.decode(mWhereConditions.getString(whereColumn)))}, new StyleSpan(Typeface.ITALIC)));
+                    else if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_REFUEL)
+                        spanTextFilters = TextUtils.concat(spanTextFilters,
+                                apply(new CharSequence[]{"\n\t\tFill-up type: " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSETYPE,
+                                        Long.decode(mWhereConditions.getString(whereColumn)))}, new StyleSpan(Typeface.ITALIC)));
+                    isNotFiltered = false;
+                } else if (whereColumn.toUpperCase().contains("DEF_EXPENSECATEGORY_ID")) {
+                    if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_REFUEL)
+                        spanTextFilters = TextUtils.concat(spanTextFilters,
+                                apply(new CharSequence[]{"\n\t\tFuel type: " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSECATEGORY,
+                                        Long.decode(mWhereConditions.getString(whereColumn)))}, new StyleSpan(Typeface.ITALIC)));
+                    isNotFiltered = false;
+                } else if (whereColumn.toUpperCase().contains("USERCOMMENT") && mWhereConditions.getString(whereColumn) != null && !mWhereConditions.getString(whereColumn).equals("%")) {
+                    spanTextFilters = TextUtils.concat(spanTextFilters,
+                            apply(new CharSequence[]{"\n\t\tComment: " +
+                                    (mWhereConditions.getString(whereColumn).equals("") ? "without comment" : mWhereConditions.getString(whereColumn))}, new StyleSpan(Typeface.ITALIC)));
+                    isNotFiltered = false;
+                } else if (whereColumn.toUpperCase().contains("DEF_TAG.NAME") && mWhereConditions.getString(whereColumn) != null && !mWhereConditions.getString(whereColumn).equals("%")) {
+                    spanTextFilters = TextUtils.concat(spanTextFilters,
+                            apply(new CharSequence[]{"\n\t\tTag: " +
+                                    (mWhereConditions.getString(whereColumn).equals("") ? "without tag" : mWhereConditions.getString(whereColumn))}, new StyleSpan(Typeface.ITALIC)));
+                    isNotFiltered = false;
+                } else if (whereColumn.toUpperCase().contains("DEF_TAG_ID") && mWhereConditions.getString(whereColumn) != null) {
+                    spanTextFilters = TextUtils.concat(spanTextFilters,
+                            apply(new CharSequence[]{"\n\t\tTag: " +
+                                    (mWhereConditions.getString(whereColumn).equals("NULL") ? "without tag" :
+                                            reportAdapter.getNameById(DB.TABLE_NAME_TAG,
+                                                    Long.decode(mWhereConditions.getString(whereColumn))))}, new StyleSpan(Typeface.ITALIC)));
+                    isNotFiltered = false;
+                }
+            }
+        } else {
+            spanTextFilters = TextUtils.concat(spanTextFilters, apply(new CharSequence[]{"no filters"}, new StyleSpan(Typeface.BOLD)));
+        }
+
+        if (isNotFiltered)
+            spanTextFilters = TextUtils.concat(spanTextFilters, apply(new CharSequence[]{"no filters"}, new StyleSpan(Typeface.BOLD)));
+
+        tvStatisticsFilters.setText(spanTextFilters);
 
         if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_MILEAGE) {
             reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_MILEAGE_TOTAL, mWhereConditions);
@@ -89,78 +170,111 @@ public class StatisticsActivity extends AppCompatActivity {
             if (c == null) {
                 try {
                     reportAdapter.close();
-                }
-                catch (Exception ignored) {
+                } catch (Exception ignored) {
                 }
                 return;
             }
 
             if (c.moveToNext()) {
-                spanText = apply(new CharSequence[]{"Total trips: " +
+                spanTextValues = apply(new CharSequence[]{"Total trips: " +
                         Utils.numberToString(c.getString(0), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) +
                         " " + c.getString(1)}, new StyleSpan(Typeface.BOLD));
-            }
-            else {
+            } else {
                 try {
                     c.close();
                     reportAdapter.close();
-                }
-                catch (Exception ignored) {
+                } catch (Exception ignored) {
                 }
                 return;
             }
 
             reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_MILEAGE_BY_TYPES, mWhereConditions);
             c = reportAdapter.fetchReport(-1);
-            if (c == null) {
-                return;
-            }
+            if (c != null) {
+                spanTextValues = TextUtils.concat(spanTextValues, apply(new CharSequence[]{"\n\nTrips by types:"}, new StyleSpan(Typeface.BOLD)));
 
-            spanText = TextUtils.concat(spanText, apply(new CharSequence[]{"\n\nTrips by types:"}, new StyleSpan(Typeface.BOLD)));
-
-            while (c.moveToNext()) {
-                spanText = TextUtils.concat(spanText,
-                        apply(new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
-                                Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) +
-                                " " + c.getString(2)}, new StyleSpan(Typeface.ITALIC)));
+                while (c.moveToNext()) {
+                    spanTextValues = TextUtils.concat(spanTextValues,
+                            apply(new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                                    Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) +
+                                    " " + c.getString(2)}, new StyleSpan(Typeface.ITALIC)));
+                }
+                c.close();
             }
-            c.close();
 
             reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_MILEAGE_BY_TAGS, mWhereConditions);
             c = reportAdapter.fetchReport(-1);
-            if (c == null) {
-                return;
-            }
+            if (c != null) {
+                spanTextValues = TextUtils.concat(spanTextValues, apply(new CharSequence[]{"\n\nTrips by tags:"}, new StyleSpan(Typeface.BOLD)));
 
-            spanText = TextUtils.concat(spanText, apply(new CharSequence[]{"\n\nTrips by tags:"}, new StyleSpan(Typeface.BOLD)));
-
-            while (c.moveToNext()) {
-                spanText = TextUtils.concat(spanText,
-                        apply(new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
-                                Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) +
-                                " " + c.getString(2)}, new StyleSpan(Typeface.ITALIC)));
+                while (c.moveToNext()) {
+                    spanTextValues = TextUtils.concat(spanTextValues,
+                            apply(new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                                    Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) +
+                                    " " + c.getString(2)}, new StyleSpan(Typeface.ITALIC)));
+                }
+                c.close();
             }
-            c.close();
 
             reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_MILEAGE_BY_DRIVERS, mWhereConditions);
             c = reportAdapter.fetchReport(-1);
+            if (c != null) {
+                spanTextValues = TextUtils.concat(spanTextValues, apply(new CharSequence[]{"\n\nTrips by drivers:"}, new StyleSpan(Typeface.BOLD)));
+
+                while (c.moveToNext()) {
+                    spanTextValues = TextUtils.concat(spanTextValues,
+                            apply(new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                                    Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) +
+                                    " " + c.getString(2)}, new StyleSpan(Typeface.ITALIC)));
+                }
+                c.close();
+            }
+
+            reportAdapter.close();
+            tvStatisticsValues.setText(spanTextValues);
+        } else if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_REFUEL) {
+            reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_REFUEL_TOTAL, mWhereConditions);
+            c = reportAdapter.fetchReport(-1);
             if (c == null) {
+                try {
+                    reportAdapter.close();
+                } catch (Exception ignored) {
+                }
                 return;
             }
 
-            spanText = TextUtils.concat(spanText, apply(new CharSequence[]{"\n\nTrips by drivers:"}, new StyleSpan(Typeface.BOLD)));
-
-            while (c.moveToNext()) {
-                spanText = TextUtils.concat(spanText,
-                        apply(new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
-                                Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) +
-                                " " + c.getString(2)}, new StyleSpan(Typeface.ITALIC)));
+            if (c.moveToNext()) {
+                spanTextValues = apply(new CharSequence[]{"Total fill-ups: " +
+                                Utils.numberToString(c.getString(0), true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " " + c.getString(2) + "; " +
+                                Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " + c.getString(3)},
+                        new StyleSpan(Typeface.BOLD));
+            } else {
+                try {
+                    c.close();
+                    reportAdapter.close();
+                } catch (Exception ignored) {
+                }
+                return;
             }
-            c.close();
+
+            reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_REFUEL_BY_TYPES, mWhereConditions);
+            c = reportAdapter.fetchReport(-1);
+            if (c != null) {
+                spanTextValues = TextUtils.concat(spanTextValues, apply(new CharSequence[]{"\n\nFill-ups by types:"}, new StyleSpan(Typeface.BOLD)));
+
+                while (c.moveToNext()) {
+                    spanTextValues = TextUtils.concat(spanTextValues,
+                            apply(new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                                    Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " " + c.getString(2) + "; " +
+                                    Utils.numberToString(c.getString(3), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " + c.getString(4)}, new StyleSpan(Typeface.ITALIC)));
+                }
+                c.close();
+            }
 
             reportAdapter.close();
-            tvStatisticsValues.setText(spanText);
+            tvStatisticsValues.setText(spanTextValues);
         }
+
     }
 
     /**

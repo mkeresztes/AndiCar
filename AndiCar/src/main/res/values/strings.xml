@@ -131,7 +131,7 @@
 
     <string name="mileage_type">Trip type:</string>
     <string name="fill_up_type">Fill-up type:</string>
-    <string name="fill_up_category">Fuel category:</string>
+    <string name="fill_up_category">Fuel type:</string>
 
     <string name="search_dialog_note">Note: % means any string</string>
 

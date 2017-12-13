@@ -50,6 +50,11 @@ public class DBReportAdapter extends DBAdapter {
 
     public static final String REFUEL_LIST_SELECT_NAME = "refuelListViewSelect";
     public static final String REFUEL_LIST_REPORT_SELECT = "refuelListReportSelect";
+    public static final String LIST_STATISTICS_REFUEL_TOTAL = "listStatisticsRefuelTotal";
+    public static final String LIST_STATISTICS_REFUEL_BY_TYPES = "listStatisticsRefuelByType";
+    public static final String LIST_STATISTICS_REFUEL_BY_FUELTYPES = "listStatisticsRefuelByFuelType";
+    public static final String LIST_STATISTICS_REFUEL_BY_TAGS = "listStatisticsRefuelByTag";
+    public static final String LIST_STATISTICS_REFUEL_BY_DRIVERS = "listStatisticsRefuelByDriver";
 
     public static final String EXPENSE_LIST_SELECT_NAME = "expenseListViewSelect";
     public static final String EXPENSES_LIST_REPORT_SELECT = "expensesListReportSelect";
@@ -1458,7 +1463,6 @@ public class DBReportAdapter extends DBAdapter {
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) +
             " ORDER BY 1 DESC";
 
-
     private String listStatisticsMileageByTag =
             "SELECT " +
                     "COALESCE( " + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + ", 'N/A') , " + //#0
@@ -1506,6 +1510,58 @@ public class DBReportAdapter extends DBAdapter {
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) +
             " ORDER BY 1 DESC";
 
+    private String listStatisticsRefuelTotal =
+            "SELECT " +
+                    " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY) + "), " + //#0 - total quantity
+                    " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__AMOUNT) + "), " + //#1 - total value
+                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + "), " + //#2 uom volume
+                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + ") " + //#3 currency
+            " FROM " + TABLE_NAME_REFUEL +
+                    " JOIN " + TABLE_NAME_CAR + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                            " JOIN " + TABLE_NAME_UOM + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMVOLUME_ID) + " = " +
+                                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
+                            " JOIN " + TABLE_NAME_CURRENCY + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
+                                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
+                    " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_MILEAGE__TAG_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
+            " WHERE 1 = 1 #WhereConditions# " +
+            " ORDER BY 1 DESC";
+
+    private String listStatisticsRefuelByType =
+            "SELECT " +
+                    sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + ", " + //#0
+                    " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY) + "), " + //#1 - total quantity
+                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + "), " + //#2 uom
+                    " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__AMOUNT) + "), " + //#3 - total amount
+                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + ") " + //#4 currency
+            " FROM " + TABLE_NAME_REFUEL +
+                    " JOIN " + TABLE_NAME_EXPENSETYPE + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__EXPENSETYPE_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_CAR + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                            " JOIN " + TABLE_NAME_UOM + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMVOLUME_ID) + " = " +
+                                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
+                            " JOIN " + TABLE_NAME_CURRENCY + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
+                                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
+                    " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__TAG_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
+            " WHERE 1 = 1 #WhereConditions# " +
+            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) +
+            " ORDER BY 1 DESC";
+//    public static final String LIST_STATISTICS_REFUEL_BY_TYPES = "listStatisticsRefuelByType";
+//    public static final String LIST_STATISTICS_REFUEL_BY_FUELTYPES = "listStatisticsRefuelByFuelType";
+//    public static final String LIST_STATISTICS_REFUEL_BY_TAGS = "listStatisticsRefuelByTag";
+//    public static final String LIST_STATISTICS_REFUEL_BY_DRIVERS = "listStatisticsRefuelByDriver";
 
     private String mReportSqlName;
     private Bundle mSearchCondition;
@@ -1735,6 +1791,20 @@ public class DBReportAdapter extends DBAdapter {
                 break;
             case LIST_STATISTICS_MILEAGE_BY_DRIVERS:
                 reportSql = listStatisticsMileageByDriver;
+                if (whereCondition.length() > 0)
+                    reportSql = reportSql.replace("#WhereConditions#", whereCondition);
+                else
+                    reportSql = reportSql.replace("#WhereConditions#", "");
+                break;
+            case LIST_STATISTICS_REFUEL_TOTAL:
+                reportSql = listStatisticsRefuelTotal;
+                if (whereCondition.length() > 0)
+                    reportSql = reportSql.replace("#WhereConditions#", whereCondition);
+                else
+                    reportSql = reportSql.replace("#WhereConditions#", "");
+                break;
+            case LIST_STATISTICS_REFUEL_BY_TYPES:
+                reportSql = listStatisticsRefuelByType;
                 if (whereCondition.length() > 0)
                     reportSql = reportSql.replace("#WhereConditions#", whereCondition);
                 else
