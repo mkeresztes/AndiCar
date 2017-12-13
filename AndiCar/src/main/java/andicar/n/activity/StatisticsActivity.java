@@ -136,18 +136,23 @@ public class StatisticsActivity extends AppCompatActivity {
                                 apply(new CharSequence[]{"\n\t\tFuel type: " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSECATEGORY,
                                         Long.decode(mWhereConditions.getString(whereColumn)))}, new StyleSpan(Typeface.ITALIC)));
                     isNotFiltered = false;
-                } else if (whereColumn.toUpperCase().contains("USERCOMMENT") && mWhereConditions.getString(whereColumn) != null && !mWhereConditions.getString(whereColumn).equals("%")) {
-                    spanTextFilters = TextUtils.concat(spanTextFilters,
+                } else //noinspection ConstantConditions
+                    if (whereColumn.toUpperCase().contains("USERCOMMENT") && mWhereConditions.getString(whereColumn) != null && !mWhereConditions.getString(whereColumn).equals("%")) {
+                        //noinspection ConstantConditions
+                        spanTextFilters = TextUtils.concat(spanTextFilters,
                             apply(new CharSequence[]{"\n\t\tComment: " +
                                     (mWhereConditions.getString(whereColumn).equals("") ? "without comment" : mWhereConditions.getString(whereColumn))}, new StyleSpan(Typeface.ITALIC)));
                     isNotFiltered = false;
-                } else if (whereColumn.toUpperCase().contains("DEF_TAG.NAME") && mWhereConditions.getString(whereColumn) != null && !mWhereConditions.getString(whereColumn).equals("%")) {
-                    spanTextFilters = TextUtils.concat(spanTextFilters,
+                    } else //noinspection ConstantConditions
+                        if (whereColumn.toUpperCase().contains("DEF_TAG.NAME") && mWhereConditions.getString(whereColumn) != null && !mWhereConditions.getString(whereColumn).equals("%")) {
+                            //noinspection ConstantConditions
+                            spanTextFilters = TextUtils.concat(spanTextFilters,
                             apply(new CharSequence[]{"\n\t\tTag: " +
                                     (mWhereConditions.getString(whereColumn).equals("") ? "without tag" : mWhereConditions.getString(whereColumn))}, new StyleSpan(Typeface.ITALIC)));
                     isNotFiltered = false;
                 } else if (whereColumn.toUpperCase().contains("DEF_TAG_ID") && mWhereConditions.getString(whereColumn) != null) {
-                    spanTextFilters = TextUtils.concat(spanTextFilters,
+                            //noinspection ConstantConditions
+                            spanTextFilters = TextUtils.concat(spanTextFilters,
                             apply(new CharSequence[]{"\n\t\tTag: " +
                                     (mWhereConditions.getString(whereColumn).equals("NULL") ? "without tag" :
                                             reportAdapter.getNameById(DB.TABLE_NAME_TAG,
