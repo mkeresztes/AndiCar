@@ -135,12 +135,22 @@ public class StatisticsActivity extends AppCompatActivity {
                                 apply(new CharSequence[]{"\n\t\tFill-up type: " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSETYPE,
                                         Long.decode(mWhereConditions.getString(whereColumn)))}, new StyleSpan(Typeface.ITALIC)));
                     }
+                    else if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_EXPENSE) {
+                        spanTextFilters = TextUtils.concat(spanTextFilters,
+                                apply(new CharSequence[]{"\n\t\tExpense type: " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSETYPE,
+                                        Long.decode(mWhereConditions.getString(whereColumn)))}, new StyleSpan(Typeface.ITALIC)));
+                    }
                     isNotFiltered = false;
                 }
                 else if (whereColumn.toUpperCase().contains("DEF_EXPENSECATEGORY_ID")) {
                     if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_REFUEL) {
                         spanTextFilters = TextUtils.concat(spanTextFilters,
                                 apply(new CharSequence[]{"\n\t\tFuel type: " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSECATEGORY,
+                                        Long.decode(mWhereConditions.getString(whereColumn)))}, new StyleSpan(Typeface.ITALIC)));
+                    }
+                    else if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_EXPENSE) {
+                        spanTextFilters = TextUtils.concat(spanTextFilters,
+                                apply(new CharSequence[]{"\n\t\tExpense category: " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSECATEGORY,
                                         Long.decode(mWhereConditions.getString(whereColumn)))}, new StyleSpan(Typeface.ITALIC)));
                     }
                     isNotFiltered = false;
@@ -188,11 +198,120 @@ public class StatisticsActivity extends AppCompatActivity {
         else if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_REFUEL) {
             fillRefuelStatistics();
         }
+        else if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_EXPENSE) {
+            fillExpenseStatistics();
+        }
+
         try {
             reportAdapter.close();
         }
         catch (Exception ignored) {
         }
+    }
+
+    private void fillExpenseStatistics() {
+        CharSequence spanTextValues;
+        Cursor c;
+        reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_EXPENSE_TOTAL, mWhereConditions);
+        c = reportAdapter.fetchReport(-1);
+        if (c == null) {
+            try {
+                reportAdapter.close();
+            }
+            catch (Exception ignored) {
+            }
+            return;
+        }
+
+        if (c.moveToNext()) {
+            spanTextValues = apply(new CharSequence[]{"Total expenses: " +
+                            Utils.numberToString(c.getString(0), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
+                            c.getString(1)},
+                    new StyleSpan(Typeface.BOLD));
+        }
+        else {
+            try {
+                c.close();
+                reportAdapter.close();
+            }
+            catch (Exception ignored) {
+            }
+            return;
+        }
+
+        reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_EXPENSE_BY_TYPES, mWhereConditions);
+        c = reportAdapter.fetchReport(-1);
+        if (c != null) {
+            spanTextValues = TextUtils.concat(spanTextValues, apply(new CharSequence[]{"\n\nExpenses by types:"}, new StyleSpan(Typeface.BOLD)));
+
+            while (c.moveToNext()) {
+                spanTextValues = TextUtils.concat(spanTextValues,
+                        apply(new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                                Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
+                                c.getString(2)}, new StyleSpan(Typeface.ITALIC)));
+            }
+            try {
+                c.close();
+            }
+            catch (Exception ignored) {
+            }
+        }
+
+        reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_EXPENSE_BY_CATEGORIES, mWhereConditions);
+        c = reportAdapter.fetchReport(-1);
+        if (c != null) {
+            spanTextValues = TextUtils.concat(spanTextValues, apply(new CharSequence[]{"\n\nExpenses by categories:"}, new StyleSpan(Typeface.BOLD)));
+
+            while (c.moveToNext()) {
+                spanTextValues = TextUtils.concat(spanTextValues,
+                        apply(new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                                Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
+                                c.getString(2)}, new StyleSpan(Typeface.ITALIC)));
+            }
+            try {
+                c.close();
+            }
+            catch (Exception ignored) {
+            }
+        }
+
+        reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_EXPENSE_BY_TAGS, mWhereConditions);
+        c = reportAdapter.fetchReport(-1);
+        if (c != null) {
+            spanTextValues = TextUtils.concat(spanTextValues, apply(new CharSequence[]{"\n\nExpenses by tags:"}, new StyleSpan(Typeface.BOLD)));
+
+            while (c.moveToNext()) {
+                spanTextValues = TextUtils.concat(spanTextValues,
+                        apply(new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                                Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
+                                c.getString(2)}, new StyleSpan(Typeface.ITALIC)));
+            }
+            try {
+                c.close();
+            }
+            catch (Exception ignored) {
+            }
+        }
+
+        reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_EXPENSE_BY_DRIVERS, mWhereConditions);
+        c = reportAdapter.fetchReport(-1);
+        if (c != null) {
+            spanTextValues = TextUtils.concat(spanTextValues, apply(new CharSequence[]{"\n\nExpenses by drivers:"}, new StyleSpan(Typeface.BOLD)));
+
+            while (c.moveToNext()) {
+                spanTextValues = TextUtils.concat(spanTextValues,
+                        apply(new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                                Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
+                                c.getString(2)}, new StyleSpan(Typeface.ITALIC)));
+            }
+            try {
+                c.close();
+            }
+            catch (Exception ignored) {
+            }
+        }
+
+        tvStatisticsValues.setText(spanTextValues);
     }
 
     private void fillRefuelStatistics() {

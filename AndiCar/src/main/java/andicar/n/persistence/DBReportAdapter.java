@@ -58,6 +58,11 @@ public class DBReportAdapter extends DBAdapter {
 
     public static final String EXPENSE_LIST_SELECT_NAME = "expenseListViewSelect";
     public static final String EXPENSES_LIST_REPORT_SELECT = "expensesListReportSelect";
+    public static final String LIST_STATISTICS_EXPENSE_TOTAL = "listStatisticsExpenseTotal";
+    public static final String LIST_STATISTICS_EXPENSE_BY_TYPES = "listStatisticsExpenseByType";
+    public static final String LIST_STATISTICS_EXPENSE_BY_CATEGORIES = "listStatisticsExpenseByCategory";
+    public static final String LIST_STATISTICS_EXPENSE_BY_TAGS = "listStatisticsExpenseByTag";
+    public static final String LIST_STATISTICS_EXPENSE_BY_DRIVERS = "listStatisticsExpenseByDriver";
 
     public static final String GPS_TRACK_LIST_SELECT_NAME = "gpsTrackListViewSelect";
     public static final String GPS_TRACK_LIST_REPORT_SELECT = "gpsTrackListReportSelect";
@@ -1521,7 +1526,7 @@ public class DBReportAdapter extends DBAdapter {
                                 sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
                                     sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
                     " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
-                        sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_MILEAGE__TAG_ID) + " = " +
+                        sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__TAG_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE 1 = 1 #WhereConditions# " +
             " ORDER BY 1 DESC";
@@ -1628,6 +1633,108 @@ public class DBReportAdapter extends DBAdapter {
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__TAG_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE 1 = 1 #WhereConditions# " +
+            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) +
+            " ORDER BY 1 DESC";
+
+    private String listStatisticsExpenseTotal =
+            "SELECT " +
+                    " SUM( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__AMOUNT) + "), " + //#0 - total value
+                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + ") " + //#1 currency
+            " FROM " + TABLE_NAME_EXPENSE +
+                    " JOIN " + TABLE_NAME_CAR + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__CAR_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                            " JOIN " + TABLE_NAME_CURRENCY + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
+                                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
+                    " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__TAG_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
+            " WHERE COALESCE(" + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__FROMTABLE) + ", '') = '' #WhereConditions# " +
+            " ORDER BY 1 DESC";
+
+    private String listStatisticsExpenseByType =
+            "SELECT " +
+                    sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + ", " + //#0
+                    " SUM( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__AMOUNT) + "), " + //#1 - total amount
+                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + ") " + //#2 currency
+            " FROM " + TABLE_NAME_EXPENSE +
+                    " JOIN " + TABLE_NAME_EXPENSETYPE + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_REFUEL__EXPENSETYPE_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_CAR + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__CAR_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                            " JOIN " + TABLE_NAME_CURRENCY + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
+                                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
+                    " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__TAG_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
+            " WHERE COALESCE(" + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__FROMTABLE) + ", '') = '' #WhereConditions# " +
+            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) +
+            " ORDER BY 1 DESC";
+
+    private String listStatisticsExpenseByCategory =
+            "SELECT " +
+                    sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_NAME) + ", " + //#0
+                    " SUM( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__AMOUNT) + "), " + //#1 - total amount
+                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + ") " + //#2 currency
+            " FROM " + TABLE_NAME_EXPENSE +
+                    " JOIN " + TABLE_NAME_EXPENSECATEGORY + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__EXPENSECATEGORY_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_CAR + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__CAR_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                            " JOIN " + TABLE_NAME_CURRENCY + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
+                                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
+                    " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__TAG_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
+            " WHERE COALESCE(" + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__FROMTABLE) + ", '') = '' #WhereConditions# " +
+            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_NAME) +
+            " ORDER BY 1 DESC";
+
+    private String listStatisticsExpenseByTag =
+            "SELECT " +
+                    "COALESCE( " + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + ", 'N/A') , " + //#0
+                    " SUM( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__AMOUNT) + "), " + //#1 - total amount
+                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + ") " + //#2 currency
+            " FROM " + TABLE_NAME_EXPENSE +
+                    " JOIN " + TABLE_NAME_CAR + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__CAR_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                            " JOIN " + TABLE_NAME_CURRENCY + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
+                                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
+                    " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__TAG_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
+            " WHERE COALESCE(" + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__FROMTABLE) + ", '') = '' #WhereConditions# " +
+            " GROUP BY COALESCE(" + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + ", 'N/A')" +
+            " ORDER BY 1 DESC";
+
+    private String listStatisticsExpenseByDriver =
+            "SELECT " +
+                    sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) + ", " + //#0
+                    " SUM( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__AMOUNT) + "), " + //#1 - total amount
+                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + ") " + //#2 currency
+            " FROM " + TABLE_NAME_EXPENSE +
+                    " JOIN " + TABLE_NAME_CAR + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__CAR_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                            " JOIN " + TABLE_NAME_CURRENCY + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
+                                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_DRIVER + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__DRIVER_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_ROWID) +
+                    " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__TAG_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
+            " WHERE COALESCE(" + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__FROMTABLE) + ", '') = '' #WhereConditions# " +
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) +
             " ORDER BY 1 DESC";
 
@@ -1894,6 +2001,41 @@ public class DBReportAdapter extends DBAdapter {
                 break;
             case LIST_STATISTICS_REFUEL_BY_DRIVERS:
                 reportSql = listStatisticsRefuelByDriver;
+                if (whereCondition.length() > 0)
+                    reportSql = reportSql.replace("#WhereConditions#", whereCondition);
+                else
+                    reportSql = reportSql.replace("#WhereConditions#", "");
+                break;
+            case LIST_STATISTICS_EXPENSE_TOTAL:
+                reportSql = listStatisticsExpenseTotal;
+                if (whereCondition.length() > 0)
+                    reportSql = reportSql.replace("#WhereConditions#", whereCondition);
+                else
+                    reportSql = reportSql.replace("#WhereConditions#", "");
+                break;
+            case LIST_STATISTICS_EXPENSE_BY_TYPES:
+                reportSql = listStatisticsExpenseByType;
+                if (whereCondition.length() > 0)
+                    reportSql = reportSql.replace("#WhereConditions#", whereCondition);
+                else
+                    reportSql = reportSql.replace("#WhereConditions#", "");
+                break;
+            case LIST_STATISTICS_EXPENSE_BY_CATEGORIES:
+                reportSql = listStatisticsExpenseByCategory;
+                if (whereCondition.length() > 0)
+                    reportSql = reportSql.replace("#WhereConditions#", whereCondition);
+                else
+                    reportSql = reportSql.replace("#WhereConditions#", "");
+                break;
+            case LIST_STATISTICS_EXPENSE_BY_TAGS:
+                reportSql = listStatisticsExpenseByTag;
+                if (whereCondition.length() > 0)
+                    reportSql = reportSql.replace("#WhereConditions#", whereCondition);
+                else
+                    reportSql = reportSql.replace("#WhereConditions#", "");
+                break;
+            case LIST_STATISTICS_EXPENSE_BY_DRIVERS:
+                reportSql = listStatisticsExpenseByDriver;
                 if (whereCondition.length() > 0)
                     reportSql = reportSql.replace("#WhereConditions#", whereCondition);
                 else

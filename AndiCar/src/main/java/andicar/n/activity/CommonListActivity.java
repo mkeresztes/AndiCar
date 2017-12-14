@@ -238,7 +238,7 @@ public class CommonListActivity extends AppCompatActivity
         ImageButton btnCharts = findViewById(R.id.btnCharts);
 
         if (!(mActivityType == ACTIVITY_TYPE_REFUEL || mActivityType == ACTIVITY_TYPE_EXPENSE
-                || mActivityType == ACTIVITY_TYPE_MILEAGE || mActivityType == ACTIVITY_TYPE_GPS_TRACK)) {
+                || mActivityType == ACTIVITY_TYPE_MILEAGE)) {
             if (btnStatistics != null)
                 btnStatistics.setVisibility(View.GONE);
             if (btnCharts != null)
