@@ -127,7 +127,7 @@ public class StatisticsActivity extends AppCompatActivity {
             startActivity(shareIntent);
         }
         catch (ActivityNotFoundException e) {
-            Utils.showNotReportableErrorDialog(this, e.getMessage(), null, false);
+            Utils.showNotReportableErrorDialog(this, e.getMessage(), null);
         }
     }
 
