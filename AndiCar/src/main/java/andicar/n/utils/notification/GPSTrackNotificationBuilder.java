@@ -43,7 +43,9 @@ import static android.app.Notification.VISIBILITY_PUBLIC;
 class GPSTrackNotificationBuilder extends Notification.Builder {
 
     private static final String NOTIFICATION_CHANEL_GPSTRACK_ID = "gpsTrackNotifications";
-    private static final CharSequence NOTIFICATION_CHANEL_GPSTRACK_NAME = "AndiCar GPS Tracking notifications";
+    private static final CharSequence NOTIFICATION_CHANEL_GPSTRACK_NAME = "AndiCar GPS Tracking";
+    private static final String NOTIFICATION_CHANEL_GPSTRACK_ERROR_ID = "gpsTrackNotifications_Error";
+    private static final CharSequence NOTIFICATION_CHANEL_GPSTRACK_ERROR_NAME = "AndiCar GPS Tracking - errors";
 
     GPSTrackNotificationBuilder(Context context, int what) {
         super(context);
@@ -51,11 +53,19 @@ class GPSTrackNotificationBuilder extends Notification.Builder {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             if (notificationManager != null) {
-                NotificationChannel notificationChanel = new NotificationChannel(NOTIFICATION_CHANEL_GPSTRACK_ID, NOTIFICATION_CHANEL_GPSTRACK_NAME, NotificationManager.IMPORTANCE_HIGH);
-                notificationChanel.setDescription(NOTIFICATION_CHANEL_GPSTRACK_NAME.toString());
-                notificationChanel.enableLights(true);
-                notificationChanel.setLightColor(Color.RED);
-                notificationChanel.enableVibration(true);
+                NotificationChannel notificationChanel;
+
+                if (what == AndiCarNotification.GPS_DISABLED_ID || what == AndiCarNotification.GPS_OUT_OF_SERVICE_ID) {
+                    notificationChanel = new NotificationChannel(NOTIFICATION_CHANEL_GPSTRACK_ERROR_ID, NOTIFICATION_CHANEL_GPSTRACK_ERROR_NAME, NotificationManager.IMPORTANCE_HIGH);
+                    notificationChanel.setDescription(NOTIFICATION_CHANEL_GPSTRACK_ERROR_NAME.toString());
+                    notificationChanel.enableLights(true);
+                    notificationChanel.setLightColor(Color.RED);
+                    notificationChanel.enableVibration(true);
+                }
+                else {
+                    notificationChanel = new NotificationChannel(NOTIFICATION_CHANEL_GPSTRACK_ID, NOTIFICATION_CHANEL_GPSTRACK_NAME, NotificationManager.IMPORTANCE_HIGH);
+                    notificationChanel.setDescription(NOTIFICATION_CHANEL_GPSTRACK_NAME.toString());
+                }
                 notificationChanel.setLockscreenVisibility(VISIBILITY_PUBLIC);
                 notificationManager.createNotificationChannel(notificationChanel);
                 this.setChannelId(notificationChanel.getId());

@@ -47,6 +47,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -165,14 +166,7 @@ public class GPSTrackService extends Service {
             msg = Utils.getFormattedDateTime(System.currentTimeMillis(), true) + " -> " + msg;
             debugLogFileWriter.append("\n").append(msg).append("\n");
             if (t != null) {
-                StackTraceElement[] e = t.getStackTrace();
-                int i = 0;
-                while (i < e.length) {
-                    StackTraceElement stackTraceElement = e[i];
-                    debugLogFileWriter.append(stackTraceElement.getClassName()).append(".").append(stackTraceElement.getMethodName()).append(": ")
-                            .append(Integer.toString(stackTraceElement.getLineNumber())).append("\n");
-                    i++;
-                }
+                debugLogFileWriter.append(Utils.getStackTrace(t));
             }
             debugLogFileWriter.flush();
             debugLogFileWriter.close();
@@ -397,6 +391,10 @@ public class GPSTrackService extends Service {
     private void showNotification(int what) {
         Notification notif = AndiCarNotification.showGPSTrackNotification(this, what);
         startForeground(what, notif);
+        if (isEnableDebugLog) {
+            logDebugInfo(debugLogFile, "Notification with id = " + what + " called from:\n" +
+                    Arrays.toString(Thread.currentThread().getStackTrace()).replace(",", "\n"), null);
+        }
     }
 
     private void createCSVFile(String fileName) throws IOException {
