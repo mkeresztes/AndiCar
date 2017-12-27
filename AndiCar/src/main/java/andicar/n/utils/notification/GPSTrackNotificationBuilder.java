@@ -25,6 +25,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Icon;
 import android.os.Build;
@@ -42,9 +43,10 @@ import static android.app.Notification.VISIBILITY_PUBLIC;
 
 class GPSTrackNotificationBuilder extends Notification.Builder {
 
-    private static final String NOTIFICATION_CHANEL_GPSTRACK_ID = "gpsTrackNotifications";
+    private static final String NOTIFICATION_CHANEL_GPSTRACK_ID_OLD = "gpsTrackNotifications";
+    private static final String NOTIFICATION_CHANEL_GPSTRACK_ID = "gpsTrackNotification";
     private static final CharSequence NOTIFICATION_CHANEL_GPSTRACK_NAME = "AndiCar GPS Tracking";
-    private static final String NOTIFICATION_CHANEL_GPSTRACK_ERROR_ID = "gpsTrackNotifications_Error";
+    private static final String NOTIFICATION_CHANEL_GPSTRACK_ERROR_ID = "gpsTrackNotification_Error";
     private static final CharSequence NOTIFICATION_CHANEL_GPSTRACK_ERROR_NAME = "AndiCar GPS Tracking - errors";
 
     GPSTrackNotificationBuilder(Context context, int what) {
@@ -52,6 +54,17 @@ class GPSTrackNotificationBuilder extends Notification.Builder {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            try {
+                //force recreating the chanel without vibration
+                if (context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode <= 17110200) {
+                    if (notificationManager != null) {
+                        notificationManager.deleteNotificationChannel(NOTIFICATION_CHANEL_GPSTRACK_ID_OLD);
+                    }
+                }
+            }
+            catch (PackageManager.NameNotFoundException ignored) {
+            }
+
             if (notificationManager != null) {
                 NotificationChannel notificationChanel;
 
@@ -65,6 +78,9 @@ class GPSTrackNotificationBuilder extends Notification.Builder {
                 else {
                     notificationChanel = new NotificationChannel(NOTIFICATION_CHANEL_GPSTRACK_ID, NOTIFICATION_CHANEL_GPSTRACK_NAME, NotificationManager.IMPORTANCE_HIGH);
                     notificationChanel.setDescription(NOTIFICATION_CHANEL_GPSTRACK_NAME.toString());
+                    notificationChanel.enableLights(false);
+                    notificationChanel.enableVibration(false);
+
                 }
                 notificationChanel.setLockscreenVisibility(VISIBILITY_PUBLIC);
                 notificationManager.createNotificationChannel(notificationChanel);
