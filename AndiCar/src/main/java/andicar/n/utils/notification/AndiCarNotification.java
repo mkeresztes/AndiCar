@@ -33,10 +33,10 @@ public class AndiCarNotification {
     public static final int NOTIFICATION_TYPE_WARNING = 102;
     public static final int NOTIFICATION_TYPE_INFO = 103;
 
-    public static final int GPS_TRACKING_STARTED_ID = 1;
+    public static final int GPS_TRACKING_IN_PROGRESS_ID = 1;
     public static final int GPS_DISABLED_ID = 5;
     public static final int GPS_OUT_OF_SERVICE_ID = 6;
-    public static final int GPS_PAUSED_ID = 16;
+    public static final int GPS_TRACKING_PAUSED_ID = 16;
 
     /**
      * @param context           context
@@ -84,8 +84,8 @@ public class AndiCarNotification {
         // Builds the notification and issues it.
         Notification notification = notificationBuilder.build();
 
-        if (what == AndiCarNotification.GPS_TRACKING_STARTED_ID
-                || what == AndiCarNotification.GPS_PAUSED_ID) {
+        if (what == AndiCarNotification.GPS_TRACKING_IN_PROGRESS_ID
+                || what == AndiCarNotification.GPS_TRACKING_PAUSED_ID) {
             notification.flags |= Notification.FLAG_NO_CLEAR;
             notification.flags |= Notification.FLAG_ONGOING_EVENT;
         }

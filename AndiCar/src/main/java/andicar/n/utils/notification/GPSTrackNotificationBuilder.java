@@ -62,7 +62,7 @@ class GPSTrackNotificationBuilder extends Notification.Builder {
             }
         }
 
-        if (what == AndiCarNotification.GPS_TRACKING_STARTED_ID) {
+        if (what == AndiCarNotification.GPS_TRACKING_IN_PROGRESS_ID) {
             this.setContentTitle(context.getText(R.string.gps_track_service_track_in_progress_title));
             this.setContentText(context.getString(R.string.gps_track_service_track_in_progress_message));
             this.setSmallIcon(R.drawable.ic_notif_gpstrack);
@@ -94,7 +94,8 @@ class GPSTrackNotificationBuilder extends Notification.Builder {
                 this.addAction(actionPause);
                 this.addAction(actionStop);
             }
-        } else if (what == AndiCarNotification.GPS_PAUSED_ID) {
+        }
+        else if (what == AndiCarNotification.GPS_TRACKING_PAUSED_ID) {
             this.setContentTitle(context.getText(R.string.gps_track_service_tracking_paused_title));
             this.setContentText(context.getString(R.string.gps_track_service_tracking_paused_message));
             this.setSmallIcon(R.drawable.ic_notif_pause);

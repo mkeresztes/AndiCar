@@ -330,7 +330,7 @@ public class GPSTrackService extends Service {
                 createFiles();
 
                 // Display a notification about starting the service.
-                showNotification(AndiCarNotification.GPS_TRACKING_STARTED_ID);
+                showNotification(AndiCarNotification.GPS_TRACKING_IN_PROGRESS_ID);
             } catch (IOException ex) {
                 Logger.getLogger(GPSTrackService.class.getName()).log(Level.SEVERE, null, ex);
                 Utils.showNotReportableErrorDialog(getApplicationContext(), getString(R.string.error_034), ex.getMessage());
@@ -906,7 +906,7 @@ public class GPSTrackService extends Service {
         switch (status) {
             case GPS_TRACK_SERVICE_PAUSED:
                 mLocationManager.removeUpdates(mLocationListener);
-                showNotification(AndiCarNotification.GPS_PAUSED_ID);
+                showNotification(AndiCarNotification.GPS_TRACKING_PAUSED_ID);
                 try {
                     appendGOPTrackPoint(GPS_TRACK_POINT__PAUSE_START); //Pause Start Point
                 }
@@ -929,7 +929,7 @@ public class GPSTrackService extends Service {
                     showNotification(AndiCarNotification.GPS_DISABLED_ID);
                 }
                 else {
-                    showNotification(AndiCarNotification.GPS_TRACKING_STARTED_ID);
+                    showNotification(AndiCarNotification.GPS_TRACKING_IN_PROGRESS_ID);
                 }
                 break;
             case GPS_TRACK_SERVICE_STOPPED:
@@ -1259,7 +1259,7 @@ public class GPSTrackService extends Service {
                     showNotification(AndiCarNotification.GPS_OUT_OF_SERVICE_ID);
                 }
                 if (status == LocationProvider.AVAILABLE) {
-                    showNotification(AndiCarNotification.GPS_TRACKING_STARTED_ID);
+                    showNotification(AndiCarNotification.GPS_TRACKING_IN_PROGRESS_ID);
                 }
             }
         }
@@ -1270,7 +1270,7 @@ public class GPSTrackService extends Service {
             {
                 return;
             }
-            showNotification(AndiCarNotification.GPS_TRACKING_STARTED_ID);
+            showNotification(AndiCarNotification.GPS_TRACKING_IN_PROGRESS_ID);
         }
 
         @Override
