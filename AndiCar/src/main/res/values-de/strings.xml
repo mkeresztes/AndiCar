@@ -221,6 +221,10 @@
     <string name="gen_fill_mandatory">Benötigtes Feld ausfüllen</string>
     <string name="gen_reimbursement">Erstattung:</string>
     <string name="gen_fuel_efficiency">Fuel eff.:</string>
+
+    <string name="gen_fuel_efficiency_long">Kraftstoffeffizienz</string>
+    <string name="gen_fuel_cons">Kraftstoffverbrauch</string>
+
     <string name="gen_template">Vorlage</string>
     <string name="gen_car_label">Fahrzeug:</string>
     <string name="gen_driver_label">Fahrer:</string>
@@ -487,7 +491,7 @@
     <string name="line_chart_info_1">Ein Minimum von 2 VOLLEN Füllungen, um etwas hier zu zeigen.</string>
     <string name="line_chart_info_2">Nur eine neue volle Füllung für einen schönen … Punkt hier :)</string>
     <string name="line_chart_info_3">Nur eine neue vollständige Auffüllung für ein echtes Diagramm.</string>
-    <string name="line_chart_fuel_price_title">Treibstoffpreise (%1$s)</string>
+    <string name="line_chart_fuel_price_title">Treibstoffpreise %1$s</string>
     <string name="line_chart_fuel_price_marker_text">%1$s am\n%2$s</string>
 
     <string name="mileage_type">Art:</string>

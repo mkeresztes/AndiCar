@@ -163,6 +163,9 @@
     <string name="gen_fill_mandatory">Töltsd ki a kötelező mezőt</string>
     <string name="gen_reimbursement">Visszafizetés:</string>
     <string name="gen_fuel_efficiency">Fogyasztás: </string>
+    <string name="gen_fuel_efficiency_long">Üzemanyag hatékonyság</string>
+    <string name="gen_fuel_cons">Üzemanyag fogyasztás</string>
+
     <string name="gen_template">Sablon</string>
     <string name="gen_car_label">Autó:</string>
     <string name="gen_driver_label">Vezető:</string>
@@ -453,7 +456,7 @@
     <string name="line_chart_info_1">Legalább 2 teli tankolás szükséges ahoz, hogy itt valami megjelenjen.</string>
     <string name="line_chart_info_2">Még egy teletank, hogy megjelenjen egy szép … pötty :)</string>
     <string name="line_chart_info_3">Még egy teletank, hogy megjelenjen egy valódi grafikon.</string>
-    <string name="line_chart_fuel_price_title">Üzemanyag árváltozás (%1$s)</string>
+    <string name="line_chart_fuel_price_title">Üzemanyag árváltozás %1$s</string>
     <string name="line_chart_fuel_price_marker_text">%1$s\n%2$s</string>
 
     <string name="search_dialog_title">Kritérium megadása</string>

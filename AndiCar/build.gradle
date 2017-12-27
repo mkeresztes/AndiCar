@@ -38,7 +38,7 @@ repositories {
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.1'
+    buildToolsVersion '27.0.2'
     defaultConfig {
         applicationId "org.andicar2.activity"
         minSdkVersion 16
@@ -97,17 +97,17 @@ dependencies {
     compile 'com.github.Kunzisoft:Android-SwitchDateTimePicker:1.7'
     //https://github.com/hedzr/android-file-chooser
     compile 'com.obsez.android.lib.filechooser:filechooser:1.1.5'
-    compile 'com.android.support:appcompat-v7:27.0.0'
-    compile 'com.android.support:design:27.0.0'
-    compile 'com.android.support:support-v4:27.0.0'
-    compile 'com.android.support:support-v13:27.0.0'
+    compile 'com.android.support:appcompat-v7:27.0.2'
+    compile 'com.android.support:design:27.0.2'
+    compile 'com.android.support:support-v4:27.0.2'
+    compile 'com.android.support:support-v13:27.0.2'
     compile 'com.android.support:multidex:1.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.android.gms:play-services-auth:11.4.2'
-    compile 'com.google.android.gms:play-services-maps:11.4.2'
-    compile 'com.google.android.gms:play-services-drive:11.4.2'
+    compile 'com.google.android.gms:play-services-auth:11.6.2'
+    compile 'com.google.android.gms:play-services-maps:11.6.2'
+    compile 'com.google.android.gms:play-services-drive:11.6.2'
+    compile 'com.google.firebase:firebase-core:11.6.2'
     compile 'com.firebase:firebase-jobdispatcher:0.8.3'
-    compile 'com.google.firebase:firebase-core:11.4.2'
     compile files('src/main/lib/activation.jar')
     compile files('src/main/lib/additionnal.jar')
     compile files('src/main/lib/mail.jar')

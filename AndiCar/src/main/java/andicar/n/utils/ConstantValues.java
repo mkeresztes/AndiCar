@@ -35,7 +35,7 @@ import java.util.ArrayList;
 public class ConstantValues {
 
     //showing or not the debug info about the screen size
-    public static final boolean DEBUG_IS_SHOW_INFO_IN_FRAGMENTS = false;
+    public static final boolean DEBUG_IS_SHOW_INFO_IN_FRAGMENTS = true;
 
     public static final int DATABASE_VERSION = 503;
     public static final String DATABASE_NAME = "AndiCar.db";

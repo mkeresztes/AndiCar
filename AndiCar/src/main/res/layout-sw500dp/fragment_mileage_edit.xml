@@ -169,28 +169,32 @@
                         style="@style/AndiCarDateTimeTextView"
                         android:text="23/10/2017 11:30 PM"
                         tools:ignore="HardcodedText"/>
+                </LinearLayout>
 
-                    <!--<RelativeLayout-->
-                    <!--android:layout_width="fill_parent"-->
-                    <!--android:layout_height="wrap_content">-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_vertical|right">
+
 
                     <TextView
                         android:id="@+id/tvStartIndexLabel"
                         style="@style/AndiCarLabelStyle"
                         android:layout_marginLeft="20dp"
                         android:layout_marginStart="20dp"
-                        android:text="@string/gen_index_label"/>
+                        android:text="@string/gen_index_label" />
 
                     <EditText
                         android:id="@+id/etIndexStart"
-                        android:layout_width="match_parent"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginStart="10dp"
                         android:digits=".1234567890"
                         android:hint="@string/gen_required"
                         android:inputType="numberDecimal"
-                        android:tag="@string/gen_required"/>
+                        android:tag="@string/gen_required" />
                     <!--</RelativeLayout>-->
                 </LinearLayout>
 

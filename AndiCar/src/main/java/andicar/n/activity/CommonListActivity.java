@@ -28,7 +28,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
@@ -42,6 +41,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import org.andicar2.activity.AndiCar;
@@ -125,6 +125,7 @@ public class CommonListActivity extends AppCompatActivity
     private BaseViewAdapter mRecyclerViewAdapter;
     private RecyclerView mRecyclerView;
     private ProgressDialog progressDialog;
+    private ImageButton btnStatistics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,16 +210,40 @@ public class CommonListActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mScrollToPosition = -1;
-                mLastSelectedItemId = -1;
-                mRecyclerViewAdapter.showDetailView(CommonListActivity.this, true, true);
-            }
-        });
+        ImageButton btnAdd = findViewById(R.id.btnAdd);
+        if (btnAdd != null) {
+            btnAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mScrollToPosition = -1;
+                    mLastSelectedItemId = -1;
+                    mRecyclerViewAdapter.showDetailView(CommonListActivity.this, true, true);
+                }
+            });
+        }
 
+        btnStatistics = findViewById(R.id.btnStatistics);
+        if (btnStatistics != null) {
+            btnStatistics.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(CommonListActivity.this, StatisticsActivity.class);
+                    i.putExtra(StatisticsActivity.STATISTICS_TYPE_KEY, mActivityType);
+                    i.putExtra(StatisticsActivity.WHERE_CONDITIONS_KEY, mWhereConditionsForDB);
+                    startActivity(i);
+                }
+            });
+        }
+
+        ImageButton btnCharts = findViewById(R.id.btnCharts);
+
+        if (!(mActivityType == ACTIVITY_TYPE_REFUEL || mActivityType == ACTIVITY_TYPE_EXPENSE
+                || mActivityType == ACTIVITY_TYPE_MILEAGE)) {
+            if (btnStatistics != null)
+                btnStatistics.setVisibility(View.GONE);
+            if (btnCharts != null)
+                btnCharts.setVisibility(View.GONE);
+        }
         // Show the Up button in the action bar only if the activity is not launched from the preference screen.
         //The solution is to change dynamically the parent activity for up navigation
         if (mActivityType == ACTIVITY_TYPE_REFUEL || mActivityType == ACTIVITY_TYPE_EXPENSE
@@ -230,7 +255,11 @@ public class CommonListActivity extends AppCompatActivity
             }
         }
         if (mActivityType == ACTIVITY_TYPE_TODO) {
-            fab.setVisibility(View.GONE);
+            if (btnAdd != null)
+                btnAdd.setVisibility(View.GONE);
+            View separator = findViewById(R.id.separator);
+            if (separator != null)
+                separator.setVisibility(View.GONE);
         }
 
         // The detail container view will be present only in the
@@ -239,21 +268,6 @@ public class CommonListActivity extends AppCompatActivity
         // activity should be in two-pane mode.
         isTwoPane = findViewById(R.id.item_detail_container) != null;
     }
-
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//
-//        if (mCursor != null && !mCursor.isClosed()) {
-//            mCursor.close();
-//            mCursor = null;
-//        }
-//
-//        if (mReportDb != null) {
-//            mReportDb.close();
-//            mReportDb = null;
-//        }
-//    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -302,7 +316,8 @@ public class CommonListActivity extends AppCompatActivity
         if (mCursor != null) {
             try {
                 mCursor.close();
-            } catch (Exception ignored) {
+            }
+            catch (Exception ignored) {
             }
             mCursor = null;
         }
@@ -394,7 +409,17 @@ public class CommonListActivity extends AppCompatActivity
                 return;
         }
         mCursor = mReportDb.fetchReport(-1);
-        setTitle(String.format(getString(R.string.title_list_activity), title, mCursor != null ? Utils.numberToString(mCursor.getCount(), true, 0, RoundingMode.HALF_DOWN) : 0));
+        String recordCount = (mCursor != null ? Utils.numberToString(mCursor.getCount(), true, 0, RoundingMode.HALF_DOWN) : "0");
+        setTitle(String.format(getString(R.string.title_list_activity), title, recordCount));
+
+        if (btnStatistics != null) {
+            if (recordCount.equals("0")) {
+                btnStatistics.setEnabled(false);
+            }
+            else {
+                btnStatistics.setEnabled(true);
+            }
+        }
     }
 
     private void setupRecyclerView() {

@@ -64,7 +64,7 @@ public class AndiCar extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
 
-        // Set up Fabric with Crashlytics, disabled for debug builds
+        // Set up Crashlytics, disabled for debug builds
         if (!Utils.isDebugVersion()) {
             Crashlytics crashlyticsKit = new Crashlytics.Builder()
                     .core(new CrashlyticsCore.Builder().build()).build();

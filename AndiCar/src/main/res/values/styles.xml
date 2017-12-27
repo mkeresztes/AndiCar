@@ -34,11 +34,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="AndiCarDialog" parent="Theme.AppCompat.Light.Dialog.Alert"/>
+    <style name="AndiCarDialog" parent="Theme.AppCompat.Light.Dialog.Alert" />
 
     <style name="AndiCarDialogMessage" parent="@style/TextAppearance.AppCompat.Medium">
         <item name="android:layout_width">fill_parent</item>
@@ -160,6 +160,12 @@
         <item name="android:layout_height">1dp</item>
         <!--<item name="android:layout_marginTop">5dp</item>-->
         <!--<item name="android:layout_marginBottom">5dp</item>-->
+        <item name="android:background">@android:color/background_dark</item>
+    </style>
+
+    <style name="AndiCarVerticalSeparatorView">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:background">@android:color/background_dark</item>
     </style>
 

@@ -354,7 +354,7 @@ public class SecureBackupJob extends JobService implements AndiCarAsyncTaskListe
                 debugLogFileWriter.flush();
             }
             //remove temporary zipped file(s)
-            removeTemporaryFiles();
+//            removeTemporaryFiles();
 
             //stop the service
             if (debugLogFileWriter != null) {
