@@ -88,7 +88,7 @@ dependencies {
     compile 'com.shehabic.droppy:Droppy:0.5.1@aar'
     //the charting library
     //https://github.com/PhilJay/MPAndroidChart
-    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     //need by SendGMailTask (secure BK)
     //https://javaee.github.io/javamail/Android
     //    compile 'com.sun.mail:android-mail:1.5.5'
