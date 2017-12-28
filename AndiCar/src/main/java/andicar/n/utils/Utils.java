@@ -20,7 +20,6 @@
 package andicar.n.utils;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -378,7 +377,7 @@ public class Utils {
         intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_MESSAGE_KEY, message);
         intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_DETAIL_KEY, detail);
         intent.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_INFO);
-        if (!(ctx instanceof Activity))
+//        if (!(ctx instanceof Activity))
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ctx.startActivity(intent);
     }
@@ -388,7 +387,7 @@ public class Utils {
         intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_MESSAGE_KEY, message);
         intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_DETAIL_KEY, detail);
         intent.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_WARNING);
-        if (!(ctx instanceof Activity))
+//        if (!(ctx instanceof Activity))
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ctx.startActivity(intent);
     }
@@ -399,7 +398,7 @@ public class Utils {
             intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_MESSAGE_KEY, message);
             intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_DETAIL_KEY, detail);
             intent.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_NOT_REPORTABLE_ERROR);
-            if (!(ctx instanceof Activity))
+//            if (!(ctx instanceof Activity))
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             ctx.startActivity(intent);
@@ -421,7 +420,7 @@ public class Utils {
             intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_MESSAGE_KEY, message);
             intent.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_DETAIL_KEY, detail);
             intent.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_REPORTABLE_ERROR);
-            if (!(ctx instanceof Activity))
+//            if (!(ctx instanceof Activity))
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             ctx.startActivity(intent);
