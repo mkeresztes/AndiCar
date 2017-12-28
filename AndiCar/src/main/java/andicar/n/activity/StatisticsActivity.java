@@ -399,6 +399,27 @@ public class StatisticsActivity extends AppCompatActivity {
             }
         }
 
+        reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_EXPENSE_BY_CARS, mWhereConditions);
+        c = reportAdapter.fetchReport(-1);
+        if (c != null) {
+            cs = new CharSequence[]{"\n\nExpenses by cars:"};
+            mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
+            mEmailText_Values.append(cs[0].toString());
+
+            while (c.moveToNext()) {
+                cs = new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                        Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
+                        c.getString(2)};
+                mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.ITALIC)));
+                mEmailText_Values.append(cs[0].toString());
+            }
+            try {
+                c.close();
+            }
+            catch (Exception ignored) {
+            }
+        }
+
         tvStatisticsValues.setText(mSpanText_Values);
     }
 
@@ -529,6 +550,30 @@ public class StatisticsActivity extends AppCompatActivity {
             }
         }
 
+        reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_REFUEL_BY_CARS, mWhereConditions);
+        c = reportAdapter.fetchReport(-1);
+        if (c != null) {
+            cs = new CharSequence[]{"\n\nFill-ups by cars:"};
+            mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
+            mEmailText_Values.append(cs[0].toString());
+
+            while (c.moveToNext()) {
+                cs = new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                        Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " " +
+                        c.getString(2) + "; " +
+                        Utils.numberToString(c.getString(3), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
+                        c.getString(4)};
+                mSpanText_Values = TextUtils.concat(mSpanText_Values,
+                        apply(cs, new StyleSpan(Typeface.ITALIC)));
+                mEmailText_Values.append(cs[0].toString());
+            }
+            try {
+                c.close();
+            }
+            catch (Exception ignored) {
+            }
+        }
+
         tvStatisticsValues.setText(mSpanText_Values);
     }
 
@@ -609,6 +654,27 @@ public class StatisticsActivity extends AppCompatActivity {
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
             cs = new CharSequence[]{"\n\nTrips by drivers:"};
+            mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
+            mEmailText_Values.append(cs[0].toString());
+
+            while (c.moveToNext()) {
+                cs = new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                        Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) +
+                        " " + c.getString(2)};
+                mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.ITALIC)));
+                mEmailText_Values.append(cs[0].toString());
+            }
+            try {
+                c.close();
+            }
+            catch (Exception ignored) {
+            }
+        }
+
+        reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_MILEAGE_BY_CARS, mWhereConditions);
+        c = reportAdapter.fetchReport(-1);
+        if (c != null) {
+            cs = new CharSequence[]{"\n\nTrips by cars:"};
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
             mEmailText_Values.append(cs[0].toString());
 

@@ -47,6 +47,7 @@ public class DBReportAdapter extends DBAdapter {
     public static final String LIST_STATISTICS_MILEAGE_BY_TYPES = "listStatisticsMileageByType";
     public static final String LIST_STATISTICS_MILEAGE_BY_TAGS = "listStatisticsMileageByTag";
     public static final String LIST_STATISTICS_MILEAGE_BY_DRIVERS = "listStatisticsMileageByDriver";
+    public static final String LIST_STATISTICS_MILEAGE_BY_CARS = "listStatisticsMileageByCars";
 
     public static final String REFUEL_LIST_SELECT_NAME = "refuelListViewSelect";
     public static final String REFUEL_LIST_REPORT_SELECT = "refuelListReportSelect";
@@ -55,6 +56,7 @@ public class DBReportAdapter extends DBAdapter {
     public static final String LIST_STATISTICS_REFUEL_BY_FUELTYPES = "listStatisticsRefuelByFuelType";
     public static final String LIST_STATISTICS_REFUEL_BY_TAGS = "listStatisticsRefuelByTag";
     public static final String LIST_STATISTICS_REFUEL_BY_DRIVERS = "listStatisticsRefuelByDriver";
+    public static final String LIST_STATISTICS_REFUEL_BY_CARS = "listStatisticsRefuelByCars";
 
     public static final String EXPENSE_LIST_SELECT_NAME = "expenseListViewSelect";
     public static final String EXPENSES_LIST_REPORT_SELECT = "expensesListReportSelect";
@@ -63,6 +65,7 @@ public class DBReportAdapter extends DBAdapter {
     public static final String LIST_STATISTICS_EXPENSE_BY_CATEGORIES = "listStatisticsExpenseByCategory";
     public static final String LIST_STATISTICS_EXPENSE_BY_TAGS = "listStatisticsExpenseByTag";
     public static final String LIST_STATISTICS_EXPENSE_BY_DRIVERS = "listStatisticsExpenseByDriver";
+    public static final String LIST_STATISTICS_EXPENSE_BY_CARS = "listStatisticsExpenseByCars";
 
     public static final String GPS_TRACK_LIST_SELECT_NAME = "gpsTrackListViewSelect";
     public static final String GPS_TRACK_LIST_REPORT_SELECT = "gpsTrackListReportSelect";
@@ -1464,7 +1467,7 @@ public class DBReportAdapter extends DBAdapter {
                             sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE 1 = 1 #WhereConditions# " +
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) +
-            " ORDER BY 1 DESC";
+            " ORDER BY 2 DESC";
 
     private String listStatisticsMileageByTag =
             "SELECT " +
@@ -1484,7 +1487,7 @@ public class DBReportAdapter extends DBAdapter {
                             sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE 1 = 1 #WhereConditions# " +
             " GROUP BY COALESCE(" + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + ", 'N/A')" +
-            " ORDER BY 1 DESC";
+            " ORDER BY 2 DESC";
 
     private String listStatisticsMileageByDriver =
             "SELECT " +
@@ -1507,7 +1510,27 @@ public class DBReportAdapter extends DBAdapter {
                             sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE 1 = 1 #WhereConditions# " +
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) +
-            " ORDER BY 1 DESC";
+            " ORDER BY 2 DESC";
+
+    private String listStatisticsMileageByCars =
+            "SELECT " +
+                    sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + ", " + //#0
+                    " SUM( " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " - " +
+                                    sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + "), " + //#1 - total mileage
+                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + ") " + //#2 uom
+            " FROM " + TABLE_NAME_MILEAGE +
+                    " JOIN " + TABLE_NAME_CAR + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                            " JOIN " + TABLE_NAME_UOM + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) + " = " +
+                                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
+                    " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__TAG_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
+            " WHERE 1 = 1 #WhereConditions# " +
+            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) +
+            " ORDER BY 2 DESC";
 
     private String listStatisticsRefuelTotal =
             "SELECT " +
@@ -1556,7 +1579,7 @@ public class DBReportAdapter extends DBAdapter {
                             sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE 1 = 1 #WhereConditions# " +
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) +
-            " ORDER BY 1 DESC";
+            " ORDER BY 2 DESC";
 
     private String listStatisticsRefuelByFuelType =
             "SELECT " +
@@ -1583,7 +1606,7 @@ public class DBReportAdapter extends DBAdapter {
                             sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE 1 = 1 #WhereConditions# " +
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_NAME) +
-            " ORDER BY 1 DESC";
+            " ORDER BY 2 DESC";
 
     private String listStatisticsRefuelByTag =
             "SELECT " +
@@ -1607,7 +1630,7 @@ public class DBReportAdapter extends DBAdapter {
                             sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE 1 = 1 #WhereConditions# " +
             " GROUP BY COALESCE(" + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + ", 'N/A')" +
-            " ORDER BY 1 DESC";
+            " ORDER BY 2 DESC";
 
     private String listStatisticsRefuelByDriver =
             "SELECT " +
@@ -1634,7 +1657,31 @@ public class DBReportAdapter extends DBAdapter {
                             sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE 1 = 1 #WhereConditions# " +
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) +
-            " ORDER BY 1 DESC";
+            " ORDER BY 2 DESC";
+
+    private String listStatisticsRefuelByCars =
+            "SELECT " +
+                    sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + ", " + //#0
+                    " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY) + "), " + //#1 - total quantity
+                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + "), " + //#2 uom
+                    " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__AMOUNT) + "), " + //#3 - total amount
+                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + ") " + //#4 currency
+            " FROM " + TABLE_NAME_REFUEL +
+                    " JOIN " + TABLE_NAME_CAR + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                            " JOIN " + TABLE_NAME_UOM + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMVOLUME_ID) + " = " +
+                                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
+                            " JOIN " + TABLE_NAME_CURRENCY + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
+                                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
+                    " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__TAG_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
+            " WHERE 1 = 1 #WhereConditions# " +
+            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) +
+            " ORDER BY 2 DESC";
 
     private String listStatisticsExpenseTotal =
             "SELECT " +
@@ -1673,7 +1720,7 @@ public class DBReportAdapter extends DBAdapter {
                             sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE COALESCE(" + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__FROMTABLE) + ", '') = '' #WhereConditions# " +
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) +
-            " ORDER BY 1 DESC";
+            " ORDER BY 2 DESC";
 
     private String listStatisticsExpenseByCategory =
             "SELECT " +
@@ -1695,7 +1742,7 @@ public class DBReportAdapter extends DBAdapter {
                             sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE COALESCE(" + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__FROMTABLE) + ", '') = '' #WhereConditions# " +
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_NAME) +
-            " ORDER BY 1 DESC";
+            " ORDER BY 2 DESC";
 
     private String listStatisticsExpenseByTag =
             "SELECT " +
@@ -1714,7 +1761,7 @@ public class DBReportAdapter extends DBAdapter {
                             sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE COALESCE(" + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__FROMTABLE) + ", '') = '' #WhereConditions# " +
             " GROUP BY COALESCE(" + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + ", 'N/A')" +
-            " ORDER BY 1 DESC";
+            " ORDER BY 2 DESC";
 
     private String listStatisticsExpenseByDriver =
             "SELECT " +
@@ -1736,7 +1783,26 @@ public class DBReportAdapter extends DBAdapter {
                             sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE COALESCE(" + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__FROMTABLE) + ", '') = '' #WhereConditions# " +
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) +
-            " ORDER BY 1 DESC";
+            " ORDER BY 2 DESC";
+
+    private String listStatisticsExpenseByCars =
+            "SELECT " +
+                    sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + ", " + //#0
+                    " SUM( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__AMOUNT) + "), " + //#1 - total amount
+                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + ") " + //#2 currency
+            " FROM " + TABLE_NAME_EXPENSE +
+                    " JOIN " + TABLE_NAME_CAR + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__CAR_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
+                            " JOIN " + TABLE_NAME_CURRENCY + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
+                                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
+                    " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__TAG_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
+            " WHERE COALESCE(" + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__FROMTABLE) + ", '') = '' #WhereConditions# " +
+            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) +
+            " ORDER BY 2 DESC";
 
     private String mReportSqlName;
     private Bundle mSearchCondition;
@@ -1971,6 +2037,13 @@ public class DBReportAdapter extends DBAdapter {
                 else
                     reportSql = reportSql.replace("#WhereConditions#", "");
                 break;
+            case LIST_STATISTICS_MILEAGE_BY_CARS:
+                reportSql = listStatisticsMileageByCars;
+                if (whereCondition.length() > 0)
+                    reportSql = reportSql.replace("#WhereConditions#", whereCondition);
+                else
+                    reportSql = reportSql.replace("#WhereConditions#", "");
+                break;
             case LIST_STATISTICS_REFUEL_TOTAL:
                 reportSql = listStatisticsRefuelTotal;
                 if (whereCondition.length() > 0)
@@ -2006,6 +2079,13 @@ public class DBReportAdapter extends DBAdapter {
                 else
                     reportSql = reportSql.replace("#WhereConditions#", "");
                 break;
+            case LIST_STATISTICS_REFUEL_BY_CARS:
+                reportSql = listStatisticsRefuelByCars;
+                if (whereCondition.length() > 0)
+                    reportSql = reportSql.replace("#WhereConditions#", whereCondition);
+                else
+                    reportSql = reportSql.replace("#WhereConditions#", "");
+                break;
             case LIST_STATISTICS_EXPENSE_TOTAL:
                 reportSql = listStatisticsExpenseTotal;
                 if (whereCondition.length() > 0)
@@ -2036,6 +2116,13 @@ public class DBReportAdapter extends DBAdapter {
                 break;
             case LIST_STATISTICS_EXPENSE_BY_DRIVERS:
                 reportSql = listStatisticsExpenseByDriver;
+                if (whereCondition.length() > 0)
+                    reportSql = reportSql.replace("#WhereConditions#", whereCondition);
+                else
+                    reportSql = reportSql.replace("#WhereConditions#", "");
+                break;
+            case LIST_STATISTICS_EXPENSE_BY_CARS:
+                reportSql = listStatisticsExpenseByCars;
                 if (whereCondition.length() > 0)
                     reportSql = reportSql.replace("#WhereConditions#", whereCondition);
                 else
