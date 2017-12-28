@@ -50,17 +50,13 @@ public class BTConnectionListener extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         SharedPreferences preference = AndiCar.getDefaultSharedPreferences();
-        LogFileWriter debugLogFileWriter;
+        LogFileWriter debugLogFileWriter = null;
 
         try {
             BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
             long carId = getCarIdForBTDevice(context, device);
 
             //no linked car
-            if (carId == -1) {
-                return;
-            }
-
             try {
                     FileUtils.createFolderIfNotExists(context, ConstantValues.LOG_FOLDER);
                     File debugLogFile = new File(ConstantValues.LOG_FOLDER + "BTCBroadcast.log");
@@ -72,16 +68,26 @@ public class BTConnectionListener extends BroadcastReceiver {
             catch (Exception ignored) {
             }
 
+            if (carId == -1) {
+                if (debugLogFileWriter != null)
+                    debugLogFileWriter.appendnl("No car linked to this device. Exiting.");
+                return;
+            }
+
             IBinder binder = peekService(context, new Intent(context, GPSTrackService.class));
             GPSTrackService trackService;
             if (binder != null) {
                 trackService = ((GPSTrackService.GPSTrackServiceBinder) binder).getService();
             }
             else {
+                if (debugLogFileWriter != null)
+                    debugLogFileWriter.appendnl("Binder is null. Exiting.");
                 return;
             }
 
             if (trackService == null) {
+                if (debugLogFileWriter != null)
+                    debugLogFileWriter.appendnl("trackService is null. Exiting.");
                 return;
             }
 
@@ -95,27 +101,33 @@ public class BTConnectionListener extends BroadcastReceiver {
                         if (trackService.getServiceStatus() == GPSTrackService.GPS_TRACK_SERVICE_PAUSED //gps tracking is paused
                                 && preference.getString(context.getString(R.string.pref_key_bt_on_disconnect), "1").equals("1")) { //the preference is auto pause/resume
                             //resume tracking
+                            if (debugLogFileWriter != null)
+                                debugLogFileWriter.appendnl("Tracking is paused. Resuming.");
                             trackService.setServiceStatus(GPSTrackService.GPS_TRACK_SERVICE_RUNNING);
                         }
                     } else {
                         //gps tracking not started => launch the GPSTrackingControl activity (if linked car exists)
-                        if (carId > -1) {
-                            Intent i = new Intent(context, GPSTrackControllerDialogActivity.class);
-                            i.putExtra(BaseEditFragment.DETAIL_OPERATION_KEY, GPSTrackControllerFragment.GPS_TRACK_FROM_BT_CONNECTION);
-                            i.putExtra(GPSTrackControllerFragment.GPS_TRACK_BT_CAR_ID_KEY, carId);
-                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(i);
-                        }
+                        if (debugLogFileWriter != null)
+                            debugLogFileWriter.appendnl("Launching track controller activity");
+                        Intent i = new Intent(context, GPSTrackControllerDialogActivity.class);
+                        i.putExtra(BaseEditFragment.DETAIL_OPERATION_KEY, GPSTrackControllerFragment.GPS_TRACK_FROM_BT_CONNECTION);
+                        i.putExtra(GPSTrackControllerFragment.GPS_TRACK_BT_CAR_ID_KEY, carId);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(i);
                     }
                 }
                 else if (intent.getAction().equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
                     if (isGpsTrackOn) {
                         if (preference.getString(context.getString(R.string.pref_key_bt_on_disconnect), "1").equals("1") //the preference is auto pause/resume
                                 && trackService.getServiceStatus() == GPSTrackService.GPS_TRACK_SERVICE_RUNNING) {
+                            if (debugLogFileWriter != null)
+                                debugLogFileWriter.appendnl("Tracking is on. Pausing it.");
                             trackService.setServiceStatus(GPSTrackService.GPS_TRACK_SERVICE_PAUSED);
                         }
                         else if (preference.getString(context.getString(R.string.pref_key_bt_on_disconnect), "1").equals("2") //the preference is stop
                                 && trackService.getServiceStatus() != GPSTrackService.GPS_TRACK_SERVICE_STOPPED) {
+                            if (debugLogFileWriter != null)
+                                debugLogFileWriter.appendnl("Tracking is on. Stopping it.");
                             trackService.setServiceStatus(GPSTrackService.GPS_TRACK_SERVICE_STOPPED);
                         }
                     }
