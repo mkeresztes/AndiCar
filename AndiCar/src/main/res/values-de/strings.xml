@@ -70,8 +70,9 @@
     <string name="gen_gps_track_detail">GPS-Track-Detail</string>
     <string name="gen_menu">Menü</string>
     <string name="gen_save">Speichern</string>
-
     <string name="gen_todo_detail">To-Do-Details</string>
+    <string name="gen_no_files_selected_for_delete">Keine Datei(en) ausgewählt. Nichts zu löschen.</string>
+    <string name="gen_no_files_selected_for_share">Keine Datei(en) ausgewählt. Nichts zu teilen.</string>
 
     <string name="mileage_draft_edit">Entwurf. Füllen Sie die Ankunft aus, um sie zu vervollständigen.</string>
 

@@ -189,6 +189,8 @@
     <string name="gen_expenses">Költségek</string>
     <string name="gen_gps_tracks">GPS nyomkövetések</string>
     <string name="gen_todo_detail">A feladat részletei</string>
+    <string name="gen_no_files_selected_for_delete">Nincs kiválasztott fájl(ok). Nincs mit törölni.</string>
+    <string name="gen_no_files_selected_for_share">Nincs kiválasztott fájl(ok). Nincs mit megosztani.</string>
 
     <string name="gen_trip">Út</string>
     <string name="gen_fill_up">Tankolás</string>

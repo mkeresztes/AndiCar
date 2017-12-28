@@ -22,6 +22,7 @@ package andicar.n.activity.miscellaneous;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -29,6 +30,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -112,6 +114,7 @@ public class FileListActivity extends AppCompatActivity implements Runnable {
     public boolean onCreateOptionsMenu(Menu menu) {
         if (mListType == LIST_TYPE_LOG) {
             MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_delete, menu);
             inflater.inflate(R.menu.menu_share, menu);
             return true;
         }
@@ -136,7 +139,7 @@ public class FileListActivity extends AppCompatActivity implements Runnable {
             }
 
             if (logFilesToSend.size() == 0) {
-                Toast.makeText(this, "No file(s) selected. Nothing to share.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.gen_no_files_selected_for_share, Toast.LENGTH_LONG).show();
                 return true;
             }
 
@@ -151,6 +154,45 @@ public class FileListActivity extends AppCompatActivity implements Runnable {
         }
         else if (id == android.R.id.home) {
             finish();
+            return true;
+        }
+        else if (id == R.id.action_delete) {
+            SparseBooleanArray checkedFiles = lvFileList.getCheckedItemPositions();
+            if (checkedFiles.size() == 0) {
+                Toast.makeText(this, R.string.gen_no_files_selected_for_delete, Toast.LENGTH_LONG).show();
+                return true;
+            }
+
+            final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+            alertDialog.setTitle(R.string.gen_confirm);
+            alertDialog.setMessage(R.string.gen_delete_confirmation);
+            alertDialog.setCancelable(false);
+
+            alertDialog.setPositiveButton(R.string.gen_yes,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            int len = lvFileList.getCount();
+
+                            for (int i = 0; i < len; i++) {
+                                if (checkedFiles.get(i)) {
+                                    //noinspection ResultOfMethodCallIgnored
+                                    (new File(ConstantValues.LOG_FOLDER + mFileList.get(i))).delete();
+                                }
+                            }
+                            fillFileList();
+                        }
+                    });
+
+            alertDialog.setNegativeButton(R.string.gen_cancel,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+
+            alertDialog.show();
             return true;
         }
         else {

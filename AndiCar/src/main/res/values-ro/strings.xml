@@ -193,6 +193,8 @@
     <string name="gen_expenses">Cheltuieli</string>
     <string name="gen_gps_tracks">Trasee GPS</string>
     <string name="gen_todo_detail">Detaliu sarcină</string>
+    <string name="gen_no_files_selected_for_delete">Nu s-a selectat niciun fișier. Nimic de șters.</string>
+    <string name="gen_no_files_selected_for_share">Nu s-a selectat niciun fișier. Nimic de partajat.</string>
 
     <string name="gen_trip">Kilometraj</string>
     <string name="gen_fill_up">Alimentare</string>
