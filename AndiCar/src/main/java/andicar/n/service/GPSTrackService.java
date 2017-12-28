@@ -31,7 +31,6 @@ import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -1252,19 +1251,20 @@ public class GPSTrackService extends Service {
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-            if (provider.equals(LocationManager.GPS_PROVIDER)) {
-                if (status == LocationProvider.OUT_OF_SERVICE) {
-                    showNotification(AndiCarNotification.GPS_OUT_OF_SERVICE_ID);
-                }
-                if (status == LocationProvider.AVAILABLE) {
-                    showNotification(AndiCarNotification.GPS_TRACKING_IN_PROGRESS_ID);
-                }
-            }
+//            if (provider.equals(LocationManager.GPS_PROVIDER)) {
+//                if (status == LocationProvider.OUT_OF_SERVICE) {
+//                    showNotification(AndiCarNotification.GPS_OUT_OF_SERVICE_ID);
+//                }
+//                if (status == LocationProvider.AVAILABLE) {
+//                    showNotification(AndiCarNotification.GPS_TRACKING_IN_PROGRESS_ID);
+//                }
+//            }
         }
 
         @Override
         public void onProviderEnabled(String provider) {
-            if (lCurrentPauseStartTime > 0) //tracking in pause
+//            if (lCurrentPauseStartTime > 0) //tracking in pause
+            if (mGPSTrackServiceStatus == GPS_TRACK_SERVICE_PAUSED) //tracking in pause
             {
                 return;
             }
@@ -1273,7 +1273,8 @@ public class GPSTrackService extends Service {
 
         @Override
         public void onProviderDisabled(String provider) {
-            if (lCurrentPauseStartTime > 0) //tracking in pause
+//            if (lCurrentPauseStartTime > 0) //tracking in pause
+            if (mGPSTrackServiceStatus == GPS_TRACK_SERVICE_PAUSED) //tracking in pause
             {
                 return;
             }
