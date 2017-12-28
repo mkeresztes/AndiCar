@@ -42,15 +42,15 @@
 
     <include layout="@layout/main_activity_content" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|start"
-        android:layout_margin="@dimen/fab_margin"
-        android:background="@null"
-        app:fabSize="mini"
-        app:srcCompat="@drawable/ic_fab_add_white" />
+    <!--<android.support.design.widget.FloatingActionButton-->
+    <!--android:id="@+id/fab"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="bottom|start"-->
+    <!--android:layout_margin="@dimen/fab_margin"-->
+    <!--android:background="@null"-->
+    <!--app:fabSize="mini"-->
+    <!--app:srcCompat="@drawable/ic_fab_add_white" />-->
 
     <ImageButton
         android:id="@+id/btnAdd"
@@ -59,5 +59,6 @@
         android:layout_gravity="bottom|end"
         android:background="@null"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_button_add_c2185b_42dp_pad0dp" />
+        app:srcCompat="@drawable/ic_button_add_circle_outline_white_42dp_psd0dp"
+        android:contentDescription="@string/gen_add_new"/>
 </android.support.design.widget.CoordinatorLayout>

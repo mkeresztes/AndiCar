@@ -32,7 +32,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -374,33 +373,46 @@ public class MainActivity extends AppCompatActivity
                 tvDebugInfo.setVisibility(View.GONE);
             }
         }
-        FloatingActionButton fab = findViewById(R.id.fab);
+//        FloatingActionButton fab = findViewById(R.id.fab);
         ImageButton btnAdd = findViewById(R.id.btnAdd);
         if (mLastSelectedCarID > -1) {
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    switch (mPreferences.getString(getString(R.string.pref_key_main_btn_add), "")) {
-                        case "0":
-                            MainActivity.this.showPopup(v);
-                            break;
-                        case "1":
-                            showCreateEditRecordActivity(R.id.mnuTrip, -1L);
-                            break;
-                        case "2":
-                            showCreateEditRecordActivity(R.id.mnuRefuel, -1L);
-                            break;
-                        case "3":
-                            showCreateEditRecordActivity(R.id.mnuExpense, -1L);
-                            break;
-                        case "4":
-                            showCreateEditRecordActivity(R.id.mnuGPSTrack, -1L);
-                            break;
-                        default:
-                            MainActivity.this.showPopup(v);
-                    }
-                }
-            });
+//            fab.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    switch (mPreferences.getString(getString(R.string.pref_key_main_btn_add), "")) {
+//                        case "0":
+//                            MainActivity.this.showPopup(v);
+//                            break;
+//                        case "1":
+//                            showCreateEditRecordActivity(R.id.mnuTrip, -1L);
+//                            break;
+//                        case "2":
+//                            showCreateEditRecordActivity(R.id.mnuRefuel, -1L);
+//                            break;
+//                        case "3":
+//                            showCreateEditRecordActivity(R.id.mnuExpense, -1L);
+//                            break;
+//                        case "4":
+//                            showCreateEditRecordActivity(R.id.mnuGPSTrack, -1L);
+//                            break;
+//                        default:
+//                            MainActivity.this.showPopup(v);
+//                    }
+//                }
+//            });
+//
+//            fab.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View view) {
+//                    if (Utils.isDebugVersion()) {
+//                        startActivity(new Intent(MainActivity.this, TestActivity.class));
+//                    }
+//                    else {
+//                        MainActivity.this.showPopup(view);
+//                    }
+//                    return true;
+//                }
+//            });
 
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -427,19 +439,6 @@ public class MainActivity extends AppCompatActivity
                 }
             });
 
-            fab.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    if (Utils.isDebugVersion()) {
-                        startActivity(new Intent(MainActivity.this, TestActivity.class));
-                    }
-                    else {
-                        MainActivity.this.showPopup(view);
-                    }
-                    return true;
-                }
-            });
-
             btnAdd.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
@@ -453,12 +452,12 @@ public class MainActivity extends AppCompatActivity
             });
         }
         else {
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    showDefineCar();
-                }
-            });
+//            fab.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    showDefineCar();
+//                }
+//            });
 
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1477,10 +1476,12 @@ public class MainActivity extends AppCompatActivity
                     case FUEL_CONS_LINE_CHART:
                     case FUEL_EFF_LINE_CHART:
                         String title;
-                        if (mCarUOMVolumeCode != null)
+                        if (mCarUOMVolumeCode != null) {
                             title = zoneContent.equals(FUEL_CONS_LINE_CHART) ? mCarUOMVolumeCode + " / 100 " + mCarUOMLengthCode : mCarUOMLengthCode + " / " + mCarUOMVolumeCode;
-                        else
+                        }
+                        else {
                             title = zoneContent.equals(FUEL_CONS_LINE_CHART) ? getString(R.string.gen_fuel_cons) : getString(R.string.gen_fuel_efficiency_long);
+                        }
 
                         lineChartComponent = new LineChartComponent(this, zoneContent.equals(FUEL_CONS_LINE_CHART) ? LineChartComponent.SHOW_FUEL_CONS : LineChartComponent.SHOW_FUEL_EFF,
                                 title);

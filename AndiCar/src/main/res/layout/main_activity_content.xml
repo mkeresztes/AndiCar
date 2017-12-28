@@ -99,7 +99,7 @@
                 style="@style/ListItem.SecondLine"
                 android:layout_marginTop="8dp"
                 android:gravity="center_horizontal"
-                android:paddingBottom="10dp"
+                android:paddingBottom="42dp"
                 android:text="Manage your cars with the power of open source."
                 android:textColor="@color/primary_dark"
                 android:textSize="12sp"
