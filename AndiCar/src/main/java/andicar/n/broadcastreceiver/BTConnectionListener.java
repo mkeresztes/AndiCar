@@ -46,93 +46,77 @@ import andicar.n.utils.notification.AndiCarNotification;
 public class BTConnectionListener extends BroadcastReceiver {
     //    GPSTrackService.GPSTrackServiceBinder binder;
     private static final String LOG_TAG = "AndiCar";
-    private GPSTrackService mGPSTrackService;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         SharedPreferences preference = AndiCar.getDefaultSharedPreferences();
         LogFileWriter debugLogFileWriter;
 
-        Log.d(LOG_TAG, "onReceive: BTConnectionReceiver started");
-
         try {
+            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+            long carId = getCarIdForBTDevice(context, device);
+
+            //no linked car
+            if (carId == -1) {
+                return;
+            }
+
             try {
-//                if (FileUtils.isFileSystemAccessGranted(context)) {
                     FileUtils.createFolderIfNotExists(context, ConstantValues.LOG_FOLDER);
                     File debugLogFile = new File(ConstantValues.LOG_FOLDER + "BTCBroadcast.log");
                     debugLogFileWriter = new LogFileWriter(debugLogFile, true);
                     debugLogFileWriter.appendnl("onReceive called for: ").append(intent.getAction());
                     debugLogFileWriter.flush();
                     debugLogFileWriter.close();
-//                }
             }
             catch (Exception ignored) {
             }
 
-            DBAdapter mDb = new DBAdapter(context);
-
             IBinder binder = peekService(context, new Intent(context, GPSTrackService.class));
-//            Toast.makeText(context, "Connected", 1000).show();
+            GPSTrackService trackService;
             if (binder != null) {
-                mGPSTrackService = ((GPSTrackService.GPSTrackServiceBinder) binder).getService();
+                trackService = ((GPSTrackService.GPSTrackServiceBinder) binder).getService();
+            }
+            else {
+                return;
             }
 
-//            context.bindService(new Intent(context, GPSTrackService.class), mServiceConnection, Context.BIND_WAIVE_PRIORITY);
+            if (trackService == null) {
+                return;
+            }
 
-            boolean isGpsTrackOn = (mGPSTrackService != null &&
-                    (mGPSTrackService.getServiceStatus() == GPSTrackService.GPS_TRACK_SERVICE_RUNNING
-                            || mGPSTrackService.getServiceStatus() == GPSTrackService.GPS_TRACK_SERVICE_PAUSED));
+            boolean isGpsTrackOn = trackService.getServiceStatus() == GPSTrackService.GPS_TRACK_SERVICE_RUNNING
+                    || trackService.getServiceStatus() == GPSTrackService.GPS_TRACK_SERVICE_PAUSED;
 
             if (intent.getAction() != null) {
                 if (intent.getAction().equals(BluetoothDevice.ACTION_ACL_CONNECTED)) {
                     //check if GPS track active
                     if (isGpsTrackOn) {
-                        if (mGPSTrackService != null
-                                && mGPSTrackService.getServiceStatus() == GPSTrackService.GPS_TRACK_SERVICE_PAUSED //gps tracking is paused
+                        if (trackService.getServiceStatus() == GPSTrackService.GPS_TRACK_SERVICE_PAUSED //gps tracking is paused
                                 && preference.getString(context.getString(R.string.pref_key_bt_on_disconnect), "1").equals("1")) { //the preference is auto pause/resume
                             //resume tracking
-                            mGPSTrackService.setServiceStatus(GPSTrackService.GPS_TRACK_SERVICE_RUNNING);
+                            trackService.setServiceStatus(GPSTrackService.GPS_TRACK_SERVICE_RUNNING);
                         }
                     } else {
                         //gps tracking not started => launch the GPSTrackingControl activity (if linked car exists)
-                        BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                        if (device != null) {
-                            String deviceMAC = device.getAddress();
-                            //check if this device is linked with a car
-                            if (deviceMAC == null || deviceMAC.length() == 0) {
-                                return;
-                            }
-                            String[] selArgs = {deviceMAC};
-                            Cursor c = mDb.query(
-                                    DBAdapter.TABLE_NAME_BTDEVICE_CAR,
-                                    DBAdapter.COL_LIST_BTDEVICECAR_TABLE,
-                                    "1 = 1 " + DBAdapter.WHERE_CONDITION_ISACTIVE + " AND "
-                                            + DBAdapter.sqlConcatTableColumn(DBAdapter.TABLE_NAME_BTDEVICE_CAR, DBAdapter.COL_NAME_BTDEVICECAR__MACADDR)
-                                            + " = ?", selArgs, DBAdapter.COL_NAME_GEN_ROWID + " DESC");
-                            if (c == null) {
-                                return;
-                            }
-                            if (c.moveToFirst()) { //linked car exist
-
-                                Intent i = new Intent(context, GPSTrackControllerDialogActivity.class);
-                                i.putExtra(BaseEditFragment.DETAIL_OPERATION_KEY, GPSTrackControllerFragment.GPS_TRACK_FROM_BT_CONNECTION);
-                                Long carId = c.getLong(DBAdapter.COL_POS_BTDEVICECAR__CAR_ID);
-                                i.putExtra(GPSTrackControllerFragment.GPS_TRACK_BT_CAR_ID_KEY, carId);
-                                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(i);
-                            }
-                            c.close();
-                            mDb.close();
+                        if (carId > -1) {
+                            Intent i = new Intent(context, GPSTrackControllerDialogActivity.class);
+                            i.putExtra(BaseEditFragment.DETAIL_OPERATION_KEY, GPSTrackControllerFragment.GPS_TRACK_FROM_BT_CONNECTION);
+                            i.putExtra(GPSTrackControllerFragment.GPS_TRACK_BT_CAR_ID_KEY, carId);
+                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(i);
                         }
                     }
-                } else if (intent.getAction().equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
-                    if (isGpsTrackOn && mGPSTrackService != null) {
+                }
+                else if (intent.getAction().equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {
+                    if (isGpsTrackOn) {
                         if (preference.getString(context.getString(R.string.pref_key_bt_on_disconnect), "1").equals("1") //the preference is auto pause/resume
-                                && mGPSTrackService.getServiceStatus() == GPSTrackService.GPS_TRACK_SERVICE_RUNNING) {
-                            mGPSTrackService.setServiceStatus(GPSTrackService.GPS_TRACK_SERVICE_PAUSED);
-                        } else if (preference.getString(context.getString(R.string.pref_key_bt_on_disconnect), "1").equals("2") //the preference is stop
-                                && mGPSTrackService.getServiceStatus() != GPSTrackService.GPS_TRACK_SERVICE_STOPPED) {
-                            mGPSTrackService.setServiceStatus(GPSTrackService.GPS_TRACK_SERVICE_STOPPED);
+                                && trackService.getServiceStatus() == GPSTrackService.GPS_TRACK_SERVICE_RUNNING) {
+                            trackService.setServiceStatus(GPSTrackService.GPS_TRACK_SERVICE_PAUSED);
+                        }
+                        else if (preference.getString(context.getString(R.string.pref_key_bt_on_disconnect), "1").equals("2") //the preference is stop
+                                && trackService.getServiceStatus() != GPSTrackService.GPS_TRACK_SERVICE_STOPPED) {
+                            trackService.setServiceStatus(GPSTrackService.GPS_TRACK_SERVICE_STOPPED);
                         }
                     }
                 }
@@ -144,5 +128,44 @@ public class BTConnectionListener extends BroadcastReceiver {
             Log.e(LOG_TAG, e.getMessage(), e);
         }
 
+    }
+
+    /**
+     * Check if the bluetooth device is linked with a car.
+     *
+     * @param ctx    the context
+     * @param device the bluetooth device
+     * @return -1 if no linked car, DEF_CAR._id if a linked car exists
+     */
+    private long getCarIdForBTDevice(Context ctx, BluetoothDevice device) {
+        long retVal = -1L;
+        if (device != null) {
+            String deviceMAC = device.getAddress();
+            //check if this device is linked with a car
+            if (deviceMAC == null || deviceMAC.length() == 0) {
+                return retVal;
+            }
+            String[] selArgs = {deviceMAC};
+            DBAdapter mDb = new DBAdapter(ctx);
+            Cursor c = mDb.query(
+                    DBAdapter.TABLE_NAME_BTDEVICE_CAR,
+                    DBAdapter.COL_LIST_BTDEVICECAR_TABLE,
+                    "1 = 1 " + DBAdapter.WHERE_CONDITION_ISACTIVE + " AND "
+                            + DBAdapter.sqlConcatTableColumn(DBAdapter.TABLE_NAME_BTDEVICE_CAR, DBAdapter.COL_NAME_BTDEVICECAR__MACADDR)
+                            + " = ?", selArgs, DBAdapter.COL_NAME_GEN_ROWID + " DESC");
+            if (c == null) {
+                return retVal;
+            }
+            if (c.moveToFirst()) { //linked car exist
+                retVal = c.getLong(DBAdapter.COL_POS_BTDEVICECAR__CAR_ID);
+            }
+            try {
+                c.close();
+                mDb.close();
+            }
+            catch (Exception ignored) {
+            }
+        }
+        return retVal;
     }
 }
