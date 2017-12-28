@@ -908,7 +908,7 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
 
             IntentSender intentSender = Drive.DriveApi
                     .newOpenFileActivityBuilder()
-                    .setActivityTitle(activity.getString(R.string.pref_secure_backup_gdrive_folder_selector_title))
+                    .setActivityTitle(AndiCar.getAppResources().getString(R.string.pref_secure_backup_gdrive_folder_selector_title))
                     .setSelectionFilter(Filters.eq(SearchableField.MIME_TYPE, DriveFolder.MIME_TYPE))
                     .build(mGoogleApiClient);
             try {
