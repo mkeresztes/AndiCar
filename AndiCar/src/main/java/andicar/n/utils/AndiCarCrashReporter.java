@@ -28,10 +28,18 @@ import com.crashlytics.android.Crashlytics;
 public class AndiCarCrashReporter {
 
     public static void sendCrash(Exception e) {
-        Crashlytics.logException(e);
+        try {
+            Crashlytics.logException(e);
+        }
+        catch (IllegalStateException ignored) {
+        }
     }
 
     public static void logCrashMsg(String msg) {
-        Crashlytics.log(msg);
+        try {
+            Crashlytics.log(msg);
+        }
+        catch (IllegalStateException ignored) {
+        }
     }
 }
