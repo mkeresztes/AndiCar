@@ -102,6 +102,7 @@
     <string name="pref_key_gps_track_last_selected_expense_type_id">gps_track_last_selected_expense_type_id</string>
 
     <string name="pref_key_bt_device_link">bt_device_link</string>
+    <string name="pref_key_bt_on_connect">bt_on_connect</string>
     <string name="pref_key_bt_on_disconnect">bt_on_disconnect</string>
 
     <!--used in BaseEditFragment.setViewsEditable-->

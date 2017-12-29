@@ -141,6 +141,16 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="bt_link_connect_entries">
+        <item>Do nothing</item>
+        <item>Launch controller</item>
+    </string-array>
+
+    <string-array name="bt_link_connect_values" tools:ignore="MissingTranslation">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
     <string-array name="pref_main_btn_add_entries">
         <item>Show the menu</item>
         <item>New trip</item>

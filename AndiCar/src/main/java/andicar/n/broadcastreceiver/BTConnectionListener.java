@@ -114,14 +114,22 @@ public class BTConnectionListener extends BroadcastReceiver {
                             trackService.setServiceStatus(GPSTrackService.GPS_TRACK_SERVICE_RUNNING);
                         }
                     } else {
-                        //gps tracking not started => launch the GPSTrackingControl activity (if linked car exists)
-                        if (debugLogFileWriter != null)
-                            debugLogFileWriter.appendnl("Launching track controller activity");
-                        Intent i = new Intent(context, GPSTrackControllerDialogActivity.class);
-                        i.putExtra(BaseEditFragment.DETAIL_OPERATION_KEY, GPSTrackControllerFragment.GPS_TRACK_FROM_BT_CONNECTION);
-                        i.putExtra(GPSTrackControllerFragment.GPS_TRACK_BT_CAR_ID_KEY, carId);
-                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(i);
+                        //gps tracking not started => launch the GPSTrackingControl activity (if enabled)
+                        if (preference.getString(context.getString(R.string.pref_key_bt_on_connect), "0").equals("1")) {
+                            if (debugLogFileWriter != null) {
+                                debugLogFileWriter.appendnl("Launching track controller activity");
+                            }
+                            Intent i = new Intent(context, GPSTrackControllerDialogActivity.class);
+                            i.putExtra(BaseEditFragment.DETAIL_OPERATION_KEY, GPSTrackControllerFragment.GPS_TRACK_FROM_BT_CONNECTION);
+                            i.putExtra(GPSTrackControllerFragment.GPS_TRACK_BT_CAR_ID_KEY, carId);
+                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(i);
+                        }
+                        else {
+                            if (debugLogFileWriter != null) {
+                                debugLogFileWriter.appendnl("Launching track controller activity not activated.");
+                            }
+                        }
                     }
                 }
                 else if (intent.getAction().equals(BluetoothDevice.ACTION_ACL_DISCONNECTED)) {

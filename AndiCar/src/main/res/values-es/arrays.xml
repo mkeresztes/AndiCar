@@ -71,6 +71,11 @@
         <item>Detener seguimiento</item>
     </string-array>
 
+    <string-array name="bt_link_connect_entries">
+        <item>Hacer nada</item>
+        <item>Comience el controlador</item>
+    </string-array>
+
     <string-array name="pref_main_btn_add_entries">
         <item>Mostrar el menú</item>
         <item>Nuevo kilometraje</item>

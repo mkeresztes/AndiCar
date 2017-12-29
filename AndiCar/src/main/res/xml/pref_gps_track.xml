@@ -55,6 +55,13 @@
             android:title="@string/bt_car_link_activity_title"/>
 
         <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/bt_link_connect_entries"
+            android:entryValues="@array/bt_link_connect_values"
+            android:key="@string/pref_key_bt_on_connect"
+            android:title="@string/pref_bt_link_on_connect_label"/>
+
+        <ListPreference
             android:defaultValue="1"
             android:entries="@array/bt_link_disconnect_entries"
             android:entryValues="@array/bt_link_disconnect_values"

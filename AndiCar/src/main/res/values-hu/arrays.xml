@@ -86,6 +86,11 @@
         <item>Álitsd le a nyomkövetést</item>
     </string-array>
 
+    <string-array name="bt_link_connect_entries">
+        <item>Ne csinálj semmit</item>
+        <item>Nyitsa ki a vezérlőt</item>
+    </string-array>
+
     <string-array name="pref_main_btn_add_entries">
         <item>A menü megjelenítése</item>
         <item>Új utazás</item>

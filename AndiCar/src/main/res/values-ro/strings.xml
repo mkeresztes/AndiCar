@@ -143,6 +143,7 @@
     <string name="pref_bt_link_title">Detector legatură Bluetooth</string>
     <string name="pref_bt_link_description">Pornire automată a GPS Track la detectarea unei conexiuni Bluetooth.</string>
     <string name="pref_bt_link_on_disconnect_label">La terminarea conexiunii Bluetooth:</string>
+    <string name="pref_bt_link_on_connect_label">Când vă conectați la Bluetooth:</string>
 
     <string name="pref_title_google_account">Selectaţi un cont Google</string>
     <string name="pref_google_account_description">Acest cont se va utiliza pentru trimiterea de emailuri.</string>

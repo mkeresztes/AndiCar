@@ -1565,6 +1565,10 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
                 setDefaultPreferenceChangeListener(findPreference(getString(R.string.pref_key_bt_on_disconnect)));
             }
 
+            if (getPreferenceManager().getSharedPreferences().getString(getString(R.string.pref_key_bt_on_connect), null) != null) {
+                setDefaultPreferenceChangeListener(findPreference(getString(R.string.pref_key_bt_on_connect)));
+            }
+
         }
 
         @Override

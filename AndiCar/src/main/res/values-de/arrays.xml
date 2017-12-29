@@ -89,6 +89,11 @@
         <item>Stoppen Sie das Tracking</item>
     </string-array>
 
+    <string-array name="bt_link_connect_entries">
+        <item>Nichts tun</item>
+        <item>Starten Sie den Controller</item>
+    </string-array>
+
     <string-array name="pref_main_btn_add_entries">
         <item>Menü anzeigen</item>
         <item>Neue Kilometerstand</item>

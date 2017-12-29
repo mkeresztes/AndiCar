@@ -139,6 +139,7 @@
     <string name="pref_bt_link_title">Bluetooth csatlakozás érzékelő</string>
     <string name="pref_bt_link_description">A GPS Követő Kezelő automatikus indítása amikor Bluetooth kapcsolat egy autóval létrejött.</string>
     <string name="pref_bt_link_on_disconnect_label">A Bluetooth kapcsolat megszünésekor:</string>
+    <string name="pref_bt_link_on_connect_label">Amikor csatlakozik a Bluetooth-hoz:</string>
 
     <string name="pref_title_google_account">Válasszon ki egy Google fiókot</string>
     <string name="pref_google_account_description">Ez a fiók lesz használva az emailek küldéséhez.</string>

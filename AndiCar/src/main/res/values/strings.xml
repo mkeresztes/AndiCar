@@ -100,7 +100,8 @@
     <string name="pref_google_account_description">It will be used for sending the email with the backup file attached.</string>
     <string name="pref_show_notification_on_success_description">Show a notification on success. Regardless of this option, a notification will be shown if an error occurred.</string>
 
-    <string name="pref_bt_link_on_disconnect_label">When disconnected from Bluetooth:</string>
+    <string name="pref_bt_link_on_disconnect_label">When disconnecting from the Bluetooth:</string>
+    <string name="pref_bt_link_on_connect_label">When connecting to the Bluetooth:</string>
 
     <string name="gen_internet_access_required">Internet access required to configure this service.</string>
     <string name="gen_mail_sent">Mail sent</string>

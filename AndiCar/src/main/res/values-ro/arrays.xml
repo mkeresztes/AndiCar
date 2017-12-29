@@ -86,6 +86,11 @@
         <item>Oprește trackingul</item>
     </string-array>
 
+    <string-array name="bt_link_connect_entries">
+        <item>Nu fă nimic</item>
+        <item>Deschide controller-ul</item>
+    </string-array>
+
     <string-array name="pref_main_btn_add_entries">
         <item>Afișează meniul</item>
         <item>Kilometraj nou</item>
