@@ -906,17 +906,23 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
             if (activity == null)
                 return;
 
-            IntentSender intentSender = Drive.DriveApi
-                    .newOpenFileActivityBuilder()
-                    .setActivityTitle(AndiCar.getAppResources().getString(R.string.pref_secure_backup_gdrive_folder_selector_title))
-                    .setSelectionFilter(Filters.eq(SearchableField.MIME_TYPE, DriveFolder.MIME_TYPE))
-                    .build(mGoogleApiClient);
-            try {
-                activity.startIntentSenderForResult(
-                        intentSender, ConstantValues.REQUEST_OPEN_DRIVE_FOLDER, null, 0, 0, 0);
+            OpenFileActivityBuilder openFileActivityBuilder = Drive.DriveApi
+                    .newOpenFileActivityBuilder();
+
+            if (openFileActivityBuilder != null) {
+                IntentSender intentSender = openFileActivityBuilder.setActivityTitle(AndiCar.getAppResources().getString(R.string.pref_secure_backup_gdrive_folder_selector_title))
+                        .setSelectionFilter(Filters.eq(SearchableField.MIME_TYPE, DriveFolder.MIME_TYPE))
+                        .build(mGoogleApiClient);
+                try {
+                    activity.startIntentSenderForResult(
+                            intentSender, ConstantValues.REQUEST_OPEN_DRIVE_FOLDER, null, 0, 0, 0);
+                }
+                catch (IntentSender.SendIntentException e) {
+                    Log.i("AndiCar", "Failed to launch file chooser.");
+                }
             }
-            catch (IntentSender.SendIntentException e) {
-                Log.i("AndiCar", "Failed to launch file chooser.");
+            else {
+                Toast.makeText(activity, "Unable to open folder selector!", Toast.LENGTH_LONG).show();
             }
         }
 
