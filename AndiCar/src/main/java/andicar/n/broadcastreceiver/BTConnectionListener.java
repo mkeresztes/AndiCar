@@ -41,6 +41,7 @@ import andicar.n.service.GPSTrackService;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
 import andicar.n.utils.LogFileWriter;
+import andicar.n.utils.Utils;
 import andicar.n.utils.notification.AndiCarNotification;
 
 public class BTConnectionListener extends BroadcastReceiver {
@@ -54,6 +55,9 @@ public class BTConnectionListener extends BroadcastReceiver {
 
         try {
             BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+            IBinder binder;
+            GPSTrackService trackService = null;
+
             long carId = getCarIdForBTDevice(context, device);
 
             //no linked car
@@ -62,37 +66,41 @@ public class BTConnectionListener extends BroadcastReceiver {
                     File debugLogFile = new File(ConstantValues.LOG_FOLDER + "BTCBroadcast.log");
                     debugLogFileWriter = new LogFileWriter(debugLogFile, true);
                     debugLogFileWriter.appendnl("onReceive called for: ").append(intent.getAction());
-                    debugLogFileWriter.flush();
-                    debugLogFileWriter.close();
             }
             catch (Exception ignored) {
             }
 
             if (carId == -1) {
-                if (debugLogFileWriter != null)
+                if (debugLogFileWriter != null) {
                     debugLogFileWriter.appendnl("No car linked to this device. Exiting.");
+                    debugLogFileWriter.flush();
+                    debugLogFileWriter.close();
+                }
                 return;
             }
 
-            IBinder binder = peekService(context, new Intent(context, GPSTrackService.class));
-            GPSTrackService trackService;
+            binder = peekService(context, new Intent(context, GPSTrackService.class));
             if (binder != null) {
+                if (debugLogFileWriter != null) {
+                    debugLogFileWriter.appendnl("Binder exists.");
+                }
                 trackService = ((GPSTrackService.GPSTrackServiceBinder) binder).getService();
             }
-            else {
-                if (debugLogFileWriter != null)
-                    debugLogFileWriter.appendnl("Binder is null. Exiting.");
-                return;
+//            else {
+//                if (debugLogFileWriter != null)
+//                    debugLogFileWriter.appendnl("Binder is null. Exiting.");
+//                return;
+//            }
+
+            if (trackService != null) {
+                if (debugLogFileWriter != null) {
+                    debugLogFileWriter.appendnl("trackService exists.");
+                }
+//                return;
             }
 
-            if (trackService == null) {
-                if (debugLogFileWriter != null)
-                    debugLogFileWriter.appendnl("trackService is null. Exiting.");
-                return;
-            }
-
-            boolean isGpsTrackOn = trackService.getServiceStatus() == GPSTrackService.GPS_TRACK_SERVICE_RUNNING
-                    || trackService.getServiceStatus() == GPSTrackService.GPS_TRACK_SERVICE_PAUSED;
+            boolean isGpsTrackOn = trackService != null && (trackService.getServiceStatus() == GPSTrackService.GPS_TRACK_SERVICE_RUNNING
+                    || trackService.getServiceStatus() == GPSTrackService.GPS_TRACK_SERVICE_PAUSED);
 
             if (intent.getAction() != null) {
                 if (intent.getAction().equals(BluetoothDevice.ACTION_ACL_CONNECTED)) {
@@ -133,8 +141,25 @@ public class BTConnectionListener extends BroadcastReceiver {
                     }
                 }
             }
+            if (debugLogFileWriter != null) {
+                try {
+                    debugLogFileWriter.flush();
+                    debugLogFileWriter.close();
+                }
+                catch (Exception ignored) {
+                }
+            }
         }
         catch (Exception e) {
+            if (debugLogFileWriter != null) {
+                try {
+                    debugLogFileWriter.appendnl("Unexpected error: \n" + Utils.getStackTrace(e));
+                    debugLogFileWriter.flush();
+                    debugLogFileWriter.close();
+                }
+                catch (Exception ignored) {
+                }
+            }
             AndiCarNotification.showGeneralNotification(context, AndiCarNotification.NOTIFICATION_TYPE_REPORTABLE_ERROR,
                     (int) System.currentTimeMillis(), e.getMessage(), null, null, e);
             Log.e(LOG_TAG, e.getMessage(), e);
