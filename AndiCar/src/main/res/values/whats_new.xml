@@ -3,9 +3,10 @@
     <string name="whats_new">
         <![CDATA[
         <br><b><i>Whats new in this version:</i></b><br><br>
-		* A new chart for showing fuel price evolution. Is one of the available charts for the main screen content.<br>
-		* Enhancements in shared reports (sorting, sums).<br>
-        * Bug fixes<br>
+		* Summary reports for the lists of trips, fill-ups, and expenses. Press the ⓘ in any of these lists to see the summary of them.<br>
+		* Enhancements in Bluetooth link detector. You can choose to launch or not the GPS track controller when the link is initiated.<br>
+        * Enhancements in GPS track service.<br>
+        * Several bug fixes.<br>
         <br>Thank you for using <b><i>AndiCar</i></b>.<br><br>
         ]]>
     </string>

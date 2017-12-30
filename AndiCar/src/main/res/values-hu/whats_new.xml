@@ -3,8 +3,8 @@
     <string name="whats_new">
         <![CDATA[
         <br><b><i>Újdonságok ebben a verzióban:</i></b><br><br>
-		* Üzemanyagár-változás grafikon.<br>
-		* Bővítések a megosztott riportokban (sorrend, összegezés).<br>
+		* Összesítések az ut, tankolás és költség listákban. Ehez használd az ⓘ gombot.<br>
+		* A Bloototh csatlakozás beálításinak bővítése. Meg lehet határozni, hogy mi történjen mikor létrejön a csatlakozás.<br>
         * Hibajavítások<br>
         <br>Köszönöm, hogy az <b><i>AndiCar</i></b>-t használod.<br><br>
         ]]>
