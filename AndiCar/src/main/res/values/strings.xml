@@ -133,6 +133,8 @@
     <string name="secure_backup_mail_body">Please visit https://sites.google.com/site/andicarfree/howto#TOC-Restore-your-data-from-secure-backup if you need to restore this backup. &lt;br&gt; &lt;br&gt; Sent by AndiCar - http://www.andicar.org"</string>
 
     <string name="mileage_type">Trip type:</string>
+    <string name="expense_type">Expense type:</string>
+    <string name="expense_category">Expense category:</string>
     <string name="fill_up_type">Fill-up type:</string>
     <string name="fill_up_category">Fuel type:</string>
 
@@ -809,8 +811,27 @@
     <string name="chart_filter_custom_period_beginning_text">beginning</string>
     <string name="chart_filter_custom_period_now_text">now</string>
     <string name="chart_no_data">No data</string>
-    <string name="statistics_no_data">No data for statistics</string>
     <string name="main_screen_filters">The filter applies only to statistics and pie charts!</string>
+
+    <string name="statistics_no_data">No data for statistics</string>
+    <string name="statistics_filters_label">Filters:</string>
+    <string name="statistics_no_filters">no filters</string>
+    <string name="statistics_expenses_by_type">Expenses by types:</string>
+    <string name="statistics_expenses_by_category">Expenses by category:</string>
+    <string name="statistics_expenses_by_tag">Expenses by tags:</string>
+    <string name="statistics_expenses_by_driver">Expenses by drivers:</string>
+    <string name="statistics_expenses_by_car">Expenses by cars:</string>
+    <string name="statistics_fill_up_total">Total fill-ups:</string>
+    <string name="statistics_fill_up_by_type">Fill-ups by types:</string>
+    <string name="statistics_fill_up_by_tag">Fill-ups by tags:</string>
+    <string name="statistics_fill_up_by_fuel_type">Fill-ups by fuel type:</string>
+    <string name="statistics_fill_up_by_driver">Fill-ups by drivers:</string>
+    <string name="statistics_fill_up_by_car">Fill-ups by cars:</string>
+    <string name="statistics_trip_total">Total trips:</string>
+    <string name="statistics_trip_by_type">Trips by types:</string>
+    <string name="statistics_trip_by_tag">Trips by tags:</string>
+    <string name="statistics_trip_by_driver">Trips by drivers:</string>
+    <string name="statistics_trip_by_car">Trips by cars:</string>
 
     <string name="progress_restoring_data">Restore in progress … </string>
 

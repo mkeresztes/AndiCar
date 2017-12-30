@@ -147,21 +147,21 @@ public class StatisticsActivity extends AppCompatActivity {
         }
 
         boolean isNotFiltered = true;
-        cs = new CharSequence[]{"Filters: "};
+        cs = new CharSequence[]{getString(R.string.statistics_filters_label)};
         spanText_Filters = apply(cs, new StyleSpan(Typeface.BOLD));
         filterList.put(0, cs[0].toString());
 
         if (whereColumns != null && whereColumns.size() > 0) {
             for (String whereColumn : whereColumns) {
                 if (whereColumn.toUpperCase().contains("DEF_CAR_ID")) {
-                    cs = new CharSequence[]{"\n\t\tCar: " + reportAdapter.getNameById(DB.TABLE_NAME_CAR,
+                    cs = new CharSequence[]{"\n\t\t" + getString(R.string.gen_car_label) + " " + reportAdapter.getNameById(DB.TABLE_NAME_CAR,
                             Long.decode(mWhereConditions.getString(whereColumn)))};
                     spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
                     filterList.put(1, cs[0].toString());
                     isNotFiltered = false;
                 }
                 else if (whereColumn.toUpperCase().contains("DEF_DRIVER_ID")) {
-                    cs = new CharSequence[]{"\n\t\tDriver: " + reportAdapter.getNameById(DB.TABLE_NAME_DRIVER,
+                    cs = new CharSequence[]{"\n\t\t" + getString(R.string.gen_driver_label) + " " + reportAdapter.getNameById(DB.TABLE_NAME_DRIVER,
                             Long.decode(mWhereConditions.getString(whereColumn)))};
                     spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
                     filterList.put(2, cs[0].toString());
@@ -169,19 +169,19 @@ public class StatisticsActivity extends AppCompatActivity {
                 }
                 else if (whereColumn.toUpperCase().contains("DEF_EXPENSETYPE_ID")) {
                     if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_MILEAGE) {
-                        cs = new CharSequence[]{"\n\t\tTrip type: " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSETYPE,
+                        cs = new CharSequence[]{"\n\t\t" + getString(R.string.mileage_type) + " " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSETYPE,
                                 Long.decode(mWhereConditions.getString(whereColumn)))};
                         spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
                         filterList.put(3, cs[0].toString());
                     }
                     else if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_REFUEL) {
-                        cs = new CharSequence[]{"\n\t\tFill-up type: " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSETYPE,
+                        cs = new CharSequence[]{"\n\t\t" + getString(R.string.fill_up_type) + " " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSETYPE,
                                 Long.decode(mWhereConditions.getString(whereColumn)))};
                         spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
                         filterList.put(3, cs[0].toString());
                     }
                     else if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_EXPENSE) {
-                        cs = new CharSequence[]{"\n\t\tExpense type: " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSETYPE,
+                        cs = new CharSequence[]{"\n\t\t" + getString(R.string.expense_type) + " " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSETYPE,
                                 Long.decode(mWhereConditions.getString(whereColumn)))};
                         spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
                         filterList.put(3, cs[0].toString());
@@ -190,13 +190,13 @@ public class StatisticsActivity extends AppCompatActivity {
                 }
                 else if (whereColumn.toUpperCase().contains("DEF_EXPENSECATEGORY_ID")) {
                     if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_REFUEL) {
-                        cs = new CharSequence[]{"\n\t\tFuel type: " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSECATEGORY,
+                        cs = new CharSequence[]{"\n\t\t" + getString(R.string.fill_up_category) + " " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSECATEGORY,
                                 Long.decode(mWhereConditions.getString(whereColumn)))};
                         spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
                         filterList.put(4, cs[0].toString());
                     }
                     else if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_EXPENSE) {
-                        cs = new CharSequence[]{"\n\t\tExpense category: " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSECATEGORY,
+                        cs = new CharSequence[]{"\n\t\t" + getString(R.string.expense_category) + " " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSECATEGORY,
                                 Long.decode(mWhereConditions.getString(whereColumn)))};
                         spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
                         filterList.put(4, cs[0].toString());
@@ -204,14 +204,14 @@ public class StatisticsActivity extends AppCompatActivity {
                     isNotFiltered = false;
                 }
                 else if (whereColumn.toUpperCase().contains("DATE >=")) {
-                    cs = new CharSequence[]{"\n\t\tDate from: " +
+                    cs = new CharSequence[]{"\n\t\t" + getString(R.string.gen_date_from_label) + " " +
                             Utils.getFormattedDateTime(Long.decode(mWhereConditions.getString(whereColumn)) * 1000, true)};
                     spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
                     filterList.put(5, cs[0].toString());
                     isNotFiltered = false;
                 }
                 else if (whereColumn.toUpperCase().contains("DATE <=")) {
-                    cs = new CharSequence[]{"\n\t\tDate to: " +
+                    cs = new CharSequence[]{"\n\t\t" + getString(R.string.gen_date_to_label) + " " +
                             Utils.getFormattedDateTime(Long.decode(mWhereConditions.getString(whereColumn)) * 1000, true)};
                     spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
                     filterList.put(6, cs[0].toString());
@@ -220,7 +220,7 @@ public class StatisticsActivity extends AppCompatActivity {
                 else if (whereColumn.toUpperCase().contains("USERCOMMENT") && mWhereConditions.getString(whereColumn) != null &&
                         !mWhereConditions.getString(whereColumn).equals("%")) {
                     //noinspection ConstantConditions
-                    cs = new CharSequence[]{"\n\t\tComment: " +
+                    cs = new CharSequence[]{"\n\t\t" + getString(R.string.gen_comment_label) + " " +
                             (mWhereConditions.getString(whereColumn).equals("") ? "without comment" : mWhereConditions.getString(whereColumn))};
                     spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
                     filterList.put(7, cs[0].toString());
@@ -229,7 +229,7 @@ public class StatisticsActivity extends AppCompatActivity {
                 else if (whereColumn.toUpperCase().contains("DEF_TAG.NAME") && mWhereConditions.getString(whereColumn) != null &&
                         !mWhereConditions.getString(whereColumn).equals("%")) {
                     //noinspection ConstantConditions
-                    cs = new CharSequence[]{"\n\t\tTag: " +
+                    cs = new CharSequence[]{"\n\t\t" + getString(R.string.gen_tag) + " " +
                             (mWhereConditions.getString(whereColumn).equals("") ? "without tag" : mWhereConditions.getString(whereColumn))};
                     spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
                     filterList.put(7, cs[0].toString());
@@ -237,8 +237,8 @@ public class StatisticsActivity extends AppCompatActivity {
                 }
                 else if (whereColumn.toUpperCase().contains("DEF_TAG_ID") && mWhereConditions.getString(whereColumn) != null) {
                     //noinspection ConstantConditions
-                    cs = new CharSequence[]{"\n\t\tTag: " +
-                            (mWhereConditions.getString(whereColumn).equals("NULL") ? "without tag" :
+                    cs = new CharSequence[]{"\n\t\t" + getString(R.string.gen_tag) + " " +
+                            (mWhereConditions.getString(whereColumn).equals("NULL") ? "''" :
                                     reportAdapter.getNameById(DB.TABLE_NAME_TAG,
                                             Long.decode(mWhereConditions.getString(whereColumn))))};
                     spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
@@ -248,13 +248,13 @@ public class StatisticsActivity extends AppCompatActivity {
             }
         }
         else {
-            cs = new CharSequence[]{"no filters"};
+            cs = new CharSequence[]{" " + getString(R.string.statistics_no_filters)};
             spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.BOLD)));
             filterList.put(7, cs[0].toString());
         }
 
         if (isNotFiltered) {
-            cs = new CharSequence[]{"no filters"};
+            cs = new CharSequence[]{" " + getString(R.string.statistics_no_filters)};
             spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.BOLD)));
             filterList.put(7, cs[0].toString());
         }
@@ -299,7 +299,7 @@ public class StatisticsActivity extends AppCompatActivity {
         }
 
         if (c.moveToNext()) {
-            cs = new CharSequence[]{"Total expenses: " +
+            cs = new CharSequence[]{getString(R.string.main_activity_statistics_total_expense_label) + " " +
                     Utils.numberToString(c.getString(0), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
                     c.getString(1)};
             mSpanText_Values = apply(cs, new StyleSpan(Typeface.BOLD));
@@ -318,7 +318,7 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_EXPENSE_BY_TYPES, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\nExpenses by types:"};
+            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_expenses_by_type)};
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
             mEmailText_Values.append(cs[0].toString());
 
@@ -339,7 +339,7 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_EXPENSE_BY_CATEGORIES, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\nExpenses by categories:"};
+            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_expenses_by_category)};
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
             mEmailText_Values.append(cs[0].toString());
 
@@ -360,7 +360,7 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_EXPENSE_BY_TAGS, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\nExpenses by tags:"};
+            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_expenses_by_tag)};
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
             mEmailText_Values.append(cs[0].toString());
 
@@ -381,7 +381,7 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_EXPENSE_BY_DRIVERS, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\nExpenses by drivers:"};
+            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_expenses_by_driver)};
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
             mEmailText_Values.append(cs[0].toString());
 
@@ -402,7 +402,7 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_EXPENSE_BY_CARS, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\nExpenses by cars:"};
+            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_expenses_by_car)};
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
             mEmailText_Values.append(cs[0].toString());
 
@@ -439,7 +439,7 @@ public class StatisticsActivity extends AppCompatActivity {
         }
 
         if (c.moveToNext()) {
-            cs = new CharSequence[]{"Total fill-ups: " +
+            cs = new CharSequence[]{getString(R.string.statistics_fill_up_total) + " " +
                     Utils.numberToString(c.getString(0), true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " " +
                     c.getString(2) + "; " +
                     Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
@@ -460,7 +460,7 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_REFUEL_BY_TYPES, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\nFill-ups by types:"};
+            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_fill_up_by_type)};
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
             mEmailText_Values.append(cs[0].toString());
 
@@ -483,7 +483,7 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_REFUEL_BY_FUELTYPES, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\nFill-ups by fuel types:"};
+            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_fill_up_by_fuel_type)};
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
             mEmailText_Values.append(cs[0].toString());
 
@@ -506,7 +506,7 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_REFUEL_BY_TAGS, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\nFill-ups by tags:"};
+            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_fill_up_by_tag)};
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
             mEmailText_Values.append(cs[0].toString());
 
@@ -529,7 +529,7 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_REFUEL_BY_DRIVERS, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\nFill-ups by drivers:"};
+            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_fill_up_by_driver)};
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
             mEmailText_Values.append(cs[0].toString());
 
@@ -553,7 +553,7 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_REFUEL_BY_CARS, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\nFill-ups by cars:"};
+            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_fill_up_by_car)};
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
             mEmailText_Values.append(cs[0].toString());
 
@@ -592,7 +592,7 @@ public class StatisticsActivity extends AppCompatActivity {
         }
 
         if (c.moveToNext()) {
-            cs = new CharSequence[]{"Total trips: " +
+            cs = new CharSequence[]{getString(R.string.statistics_trip_total) + " " +
                     Utils.numberToString(c.getString(0), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) +
                     " " + c.getString(1)};
             mSpanText_Values = apply(cs, new StyleSpan(Typeface.BOLD));

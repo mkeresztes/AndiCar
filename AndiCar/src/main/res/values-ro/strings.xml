@@ -268,6 +268,8 @@
     <string name="mileage_edit_insert_ok_message">Kilometraj adăugat.</string>
     <string name="mileage_edit_update_ok_message">Kilometraj actualizat.</string>
     <string name="mileage_type">Tip kilometraj:</string>
+    <string name="expense_type">Tip cheltuială:</string>
+    <string name="expense_category">Categorie cheltuială:</string>
 
     <string name="fill_up_type">Tip alimentare:</string>
     <string name="fill_up_category">Tip combustibil:</string>
@@ -485,8 +487,26 @@
     <string name="chart_filter_custom_period_beginning_text">început</string>
     <string name="chart_filter_custom_period_now_text">acum</string>
     <string name="chart_no_data">Nu există date</string>
-    <string name="statistics_no_data">Nu există date pentru statistică</string>
     <string name="main_screen_filters">Filtrul se aplică numai statisticilor și diagramelor circulare!</string>
+    <string name="statistics_no_data">Nu există date pentru statistică</string>
+    <string name="statistics_filters_label">Filtre:</string>
+    <string name="statistics_no_filters">fără filtre</string>
+    <string name="statistics_expenses_by_type">Cheltuieli după tipuri:</string>
+    <string name="statistics_expenses_by_category">Cheltuieli după categorii:</string>
+    <string name="statistics_expenses_by_tag">Cheltuieli după etichete:</string>
+    <string name="statistics_expenses_by_driver">Cheltuieli după şoferi:</string>
+    <string name="statistics_expenses_by_car">Cheltuieli după maşini:</string>
+    <string name="statistics_fill_up_total">Total alimentări:</string>
+    <string name="statistics_fill_up_by_type">Alimentări după tipuri:</string>
+    <string name="statistics_fill_up_by_tag">Alimentări după etichete:</string>
+    <string name="statistics_fill_up_by_fuel_type">Alimentări după combustibil:</string>
+    <string name="statistics_fill_up_by_driver">Alimentări după şoferi:</string>
+    <string name="statistics_fill_up_by_car">Alimentări după maşini:</string>
+    <string name="statistics_trip_total">Total kilometraj:</string>
+    <string name="statistics_trip_by_type">Kilometraje după tipuri:</string>
+    <string name="statistics_trip_by_tag">Kilometraje după etichete:</string>
+    <string name="statistics_trip_by_driver">Kilometraje după șofer:</string>
+    <string name="statistics_trip_by_car">Kilometraje după maşini:</string>
 
     <string name="progress_restoring_data">Restaurarea e în curs … </string>
 

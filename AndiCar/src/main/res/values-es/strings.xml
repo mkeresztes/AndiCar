@@ -499,6 +499,8 @@
     <string name="line_chart_fuel_price_marker_text">%1$s el\n%2$s</string>
 
     <string name="mileage_type">Tipo de viaje:</string>
+    <string name="expense_type">Tipo de gasto:</string>
+    <string name="expense_category">Categoría de gastos:</string>
     <string name="fill_up_type">Tipo de recargas:</string>
     <string name="fill_up_category">Categoría de combustible:</string>
 
@@ -527,8 +529,26 @@
     <string name="chart_filter_custom_period_beginning_text">desde el principio</string>
     <string name="chart_filter_custom_period_now_text">ahora</string>
     <string name="chart_no_data">Sin datos</string>
-    <string name="statistics_no_data">No hay datos para las estadísticas</string>
     <string name="main_screen_filters">El filtro se aplica sólo a estadísticas y gráficos circulares!</string>
+    <string name="statistics_no_data">No hay datos para las estadísticas</string>
+    <string name="statistics_filters_label">Filtros:</string>
+    <string name="statistics_no_filters">sin filtros</string>
+    <string name="statistics_expenses_by_type">Gastos por tipos:</string>
+    <string name="statistics_expenses_by_category">Gastos por categoría:</string>
+    <string name="statistics_expenses_by_tag">Gastos por etiquetas:</string>
+    <string name="statistics_expenses_by_driver">Gastos por conductor:</string>
+    <string name="statistics_expenses_by_car">Gastos por automóviles:</string>
+    <string name="statistics_fill_up_total">Rellenos totales:</string>
+    <string name="statistics_fill_up_by_type">Rellenos por tipos:</string>
+    <string name="statistics_fill_up_by_tag">Rellenos por etiquetas:</string>
+    <string name="statistics_fill_up_by_fuel_type">Rellenos por tipo de combustible:</string>
+    <string name="statistics_fill_up_by_driver">Rellenos por conductor:</string>
+    <string name="statistics_fill_up_by_car">Rellenos por automóviles:</string>
+    <string name="statistics_trip_total">Total de viajes:</string>
+    <string name="statistics_trip_by_type">Viajes por tipos:</string>
+    <string name="statistics_trip_by_tag">Viajes por etiquetas:</string>
+    <string name="statistics_trip_by_driver">Viajes por conductor:</string>
+    <string name="statistics_trip_by_car">Viajes por automóviles:</string>
 
     <string name="progress_restoring_data">Restauración en progreso … </string>
 

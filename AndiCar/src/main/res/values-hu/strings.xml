@@ -266,6 +266,8 @@
     <string name="mileage_edit_insert_ok_message">Út hozzáadva.</string>
     <string name="mileage_edit_update_ok_message">Út frissítve.</string>
     <string name="mileage_type">Út típusa:</string>
+    <string name="expense_type">Költség típusa:</string>
+    <string name="expense_category">Költségkategória:</string>
 
     <string name="fill_up_type">Tankolás típusa:</string>
     <string name="fill_up_category">Üzemanyag típus:</string>
@@ -486,8 +488,26 @@
     <string name="chart_filter_custom_period_beginning_text">az elejétől</string>
     <string name="chart_filter_custom_period_now_text">mostanig</string>
     <string name="chart_no_data">Nincs adat</string>
-    <string name="statistics_no_data">Nincs adat a statisztikáknak</string>
     <string name="main_screen_filters">A szűrő csak a statisztikákra és a kördiagramokra vonatkozik!</string>
+    <string name="statistics_no_data">Nincs adat a statisztikáknak</string>
+    <string name="statistics_filters_label">Szűrők:</string>
+    <string name="statistics_no_filters">szűrő nélkül </string>
+    <string name="statistics_expenses_by_type">Költségek típusok szerint:</string>
+    <string name="statistics_expenses_by_category">Költségek kategóriák szerint:</string>
+    <string name="statistics_expenses_by_tag">Költségek címkék szerint:</string>
+    <string name="statistics_expenses_by_driver">Költségek vezetők szerint:</string>
+    <string name="statistics_expenses_by_car">Költségek autók szerint:</string>
+    <string name="statistics_fill_up_total">Összes tankolás:</string>
+    <string name="statistics_fill_up_by_type">Tankolások típusok szerint:</string>
+    <string name="statistics_fill_up_by_tag">Tankolások címkék szerint:</string>
+    <string name="statistics_fill_up_by_fuel_type">Tankolások üzemanyag szerint:</string>
+    <string name="statistics_fill_up_by_driver">Tankolások vezetők szerint:</string>
+    <string name="statistics_fill_up_by_car">Tankolások autók szerint:</string>
+    <string name="statistics_trip_total">Összes ut:</string>
+    <string name="statistics_trip_by_type">Utak típusok szerint:</string>
+    <string name="statistics_trip_by_tag">Utak címkék szerint:</string>
+    <string name="statistics_trip_by_driver">Utak vezető szerint:</string>
+    <string name="statistics_trip_by_car">Utak autók szerint:</string>
 
     <string name="progress_restoring_data">A helyreállítás folyamatban … </string>
 

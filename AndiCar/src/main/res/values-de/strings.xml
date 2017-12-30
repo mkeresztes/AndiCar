@@ -497,6 +497,8 @@
     <string name="line_chart_fuel_price_marker_text">%1$s am\n%2$s</string>
 
     <string name="mileage_type">Art:</string>
+    <string name="expense_type">Kostenart:</string>
+    <string name="expense_category">Kostenkategorie:</string>
     <string name="fill_up_type">Auftanken Art:</string>
     <string name="fill_up_category">Kraftstoff Kategorie:</string>
 
@@ -525,8 +527,27 @@
     <string name="chart_filter_custom_period_beginning_text">anfang</string>
     <string name="chart_filter_custom_period_now_text">jetzt</string>
     <string name="chart_no_data">Keine Daten</string>
-    <string name="statistics_no_data">Keine Daten für Statistik</string>
     <string name="main_screen_filters">Der Filter gilt nur für Statistik und Kreisdiagramme!</string>
+    <string name="statistics_no_data">Keine Daten für Statistik</string>
+
+    <string name="statistics_filters_label">Filter:</string>
+    <string name="statistics_no_filters">Keine Filter</string>
+    <string name="statistics_expenses_by_type">Ausgaben nach Typen:</string>
+    <string name="statistics_expenses_by_category">Ausgaben nach Kategorie:</string>
+    <string name="statistics_expenses_by_tag">Ausgaben nach Tags:</string>
+    <string name="statistics_expenses_by_driver">Ausgaben nach Fahrer:</string>
+    <string name="statistics_expenses_by_car">Ausgaben nach Autos:</string>
+    <string name="statistics_fill_up_total">Totale Auffüllungen:</string>
+    <string name="statistics_fill_up_by_type">Auffüllen nach Typen:</string>
+    <string name="statistics_fill_up_by_tag">Auffüllen nach Tags:</string>
+    <string name="statistics_fill_up_by_fuel_type">Auffüllen nach Kraftstofftyp:</string>
+    <string name="statistics_fill_up_by_driver">Auffüllen nach Fahrer:</string>
+    <string name="statistics_fill_up_by_car">Auffüllen nach Autos:</string>
+    <string name="statistics_trip_total">Totale Ausflügen:</string>
+    <string name="statistics_trip_by_type">Ausflüge nach Typen:</string>
+    <string name="statistics_trip_by_tag">Ausflüge nach Tags:</string>
+    <string name="statistics_trip_by_driver">Ausflüge nach Fahrer:</string>
+    <string name="statistics_trip_by_car">Ausflüge nach Autos:</string>
 
     <string name="progress_restoring_data">Wiederherstellung im Gange … </string>
 
