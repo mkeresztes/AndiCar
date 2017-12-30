@@ -3,7 +3,7 @@
     <string name="whats_new">
         <![CDATA[
         <br><b><i>Whats new in this version:</i></b><br><br>
-		* Summary reports for the lists of trips, fill-ups, and expenses. Press the ⓘ in any of these lists to see the summary of them.<br>
+		* Summary reports for the lists of trips, fill-ups, and expenses. Press the ⓘ in any of these lists to see a summary of the records.<br>
 		* Enhancements in Bluetooth link detector. You can choose to launch or not the GPS track controller when the link is initiated.<br>
         * Enhancements in GPS track service.<br>
         * Several bug fixes.<br>
