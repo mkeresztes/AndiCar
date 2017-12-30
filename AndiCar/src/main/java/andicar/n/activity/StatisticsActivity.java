@@ -1,5 +1,6 @@
 package andicar.n.activity;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.database.Cursor;
@@ -134,8 +135,9 @@ public class StatisticsActivity extends AppCompatActivity {
     private void fillStatistics() {
         Set<String> whereColumns = null;
         CharSequence spanText_Filters;
-        CharSequence[] cs;
-        HashMap<Integer, String> filterList = new HashMap<Integer, String>();
+        CharSequence cs;
+        @SuppressLint("UseSparseArrays") HashMap<Integer, String> emailFilterList = new HashMap<>();
+        @SuppressLint("UseSparseArrays") HashMap<Integer, CharSequence> screenFilterList = new HashMap<>();
 
         reportAdapter = new DBReportAdapter(this, null, null);
 
@@ -147,121 +149,129 @@ public class StatisticsActivity extends AppCompatActivity {
         }
 
         boolean isNotFiltered = true;
-        cs = new CharSequence[]{getString(R.string.statistics_filters_label)};
+        cs = getString(R.string.statistics_filters_label);
+
         spanText_Filters = apply(cs, new StyleSpan(Typeface.BOLD));
-        filterList.put(0, cs[0].toString());
+        emailFilterList.put(0, cs.toString());
 
         if (whereColumns != null && whereColumns.size() > 0) {
             for (String whereColumn : whereColumns) {
                 if (whereColumn.toUpperCase().contains("DEF_CAR_ID")) {
-                    cs = new CharSequence[]{"\n\t\t" + getString(R.string.gen_car_label) + " " + reportAdapter.getNameById(DB.TABLE_NAME_CAR,
-                            Long.decode(mWhereConditions.getString(whereColumn)))};
-                    spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                    filterList.put(1, cs[0].toString());
+                    cs = "\n\t\t" + getString(R.string.gen_car_label) + " " + reportAdapter.getNameById(DB.TABLE_NAME_CAR,
+                            Long.decode(mWhereConditions.getString(whereColumn)));
+                    screenFilterList.put(1, apply(cs, new StyleSpan(Typeface.ITALIC)));
+                    emailFilterList.put(1, cs.toString());
                     isNotFiltered = false;
                 }
                 else if (whereColumn.toUpperCase().contains("DEF_DRIVER_ID")) {
-                    cs = new CharSequence[]{"\n\t\t" + getString(R.string.gen_driver_label) + " " + reportAdapter.getNameById(DB.TABLE_NAME_DRIVER,
-                            Long.decode(mWhereConditions.getString(whereColumn)))};
-                    spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                    filterList.put(2, cs[0].toString());
+                    cs = "\n\t\t" + getString(R.string.gen_driver_label) + " " + reportAdapter.getNameById(DB.TABLE_NAME_DRIVER,
+                            Long.decode(mWhereConditions.getString(whereColumn)));
+                    screenFilterList.put(2, apply(cs, new StyleSpan(Typeface.ITALIC)));
+                    emailFilterList.put(2, cs.toString());
                     isNotFiltered = false;
                 }
                 else if (whereColumn.toUpperCase().contains("DEF_EXPENSETYPE_ID")) {
                     if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_MILEAGE) {
-                        cs = new CharSequence[]{"\n\t\t" + getString(R.string.mileage_type) + " " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSETYPE,
-                                Long.decode(mWhereConditions.getString(whereColumn)))};
-                        spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                        filterList.put(3, cs[0].toString());
+                        cs = "\n\t\t" + getString(R.string.mileage_type) + " " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSETYPE,
+                                Long.decode(mWhereConditions.getString(whereColumn)));
+                        screenFilterList.put(3, apply(cs, new StyleSpan(Typeface.ITALIC)));
+                        emailFilterList.put(3, cs.toString());
                     }
                     else if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_REFUEL) {
-                        cs = new CharSequence[]{"\n\t\t" + getString(R.string.fill_up_type) + " " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSETYPE,
-                                Long.decode(mWhereConditions.getString(whereColumn)))};
-                        spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                        filterList.put(3, cs[0].toString());
+                        cs = "\n\t\t" + getString(R.string.fill_up_type) + " " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSETYPE,
+                                Long.decode(mWhereConditions.getString(whereColumn)));
+                        screenFilterList.put(3, apply(cs, new StyleSpan(Typeface.ITALIC)));
+                        emailFilterList.put(3, cs.toString());
                     }
                     else if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_EXPENSE) {
-                        cs = new CharSequence[]{"\n\t\t" + getString(R.string.expense_type) + " " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSETYPE,
-                                Long.decode(mWhereConditions.getString(whereColumn)))};
-                        spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                        filterList.put(3, cs[0].toString());
+                        cs = "\n\t\t" + getString(R.string.expense_type) + " " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSETYPE,
+                                Long.decode(mWhereConditions.getString(whereColumn)));
+                        screenFilterList.put(3, apply(cs, new StyleSpan(Typeface.ITALIC)));
+                        emailFilterList.put(3, cs.toString());
                     }
                     isNotFiltered = false;
                 }
                 else if (whereColumn.toUpperCase().contains("DEF_EXPENSECATEGORY_ID")) {
                     if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_REFUEL) {
-                        cs = new CharSequence[]{"\n\t\t" + getString(R.string.fill_up_category) + " " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSECATEGORY,
-                                Long.decode(mWhereConditions.getString(whereColumn)))};
-                        spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                        filterList.put(4, cs[0].toString());
+                        cs = "\n\t\t" + getString(R.string.fill_up_category) + " " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSECATEGORY,
+                                Long.decode(mWhereConditions.getString(whereColumn)));
+                        screenFilterList.put(4, apply(cs, new StyleSpan(Typeface.ITALIC)));
+                        emailFilterList.put(4, cs.toString());
                     }
                     else if (mStatisticsType == CommonListActivity.ACTIVITY_TYPE_EXPENSE) {
-                        cs = new CharSequence[]{"\n\t\t" + getString(R.string.expense_category) + " " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSECATEGORY,
-                                Long.decode(mWhereConditions.getString(whereColumn)))};
-                        spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                        filterList.put(4, cs[0].toString());
+                        cs = "\n\t\t" + getString(R.string.expense_category) + " " + reportAdapter.getNameById(DB.TABLE_NAME_EXPENSECATEGORY,
+                                Long.decode(mWhereConditions.getString(whereColumn)));
+                        screenFilterList.put(4, apply(cs, new StyleSpan(Typeface.ITALIC)));
+                        emailFilterList.put(4, cs.toString());
                     }
                     isNotFiltered = false;
                 }
                 else if (whereColumn.toUpperCase().contains("DATE >=")) {
-                    cs = new CharSequence[]{"\n\t\t" + getString(R.string.gen_date_from_label) + " " +
-                            Utils.getFormattedDateTime(Long.decode(mWhereConditions.getString(whereColumn)) * 1000, true)};
-                    spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                    filterList.put(5, cs[0].toString());
+                    cs = "\n\t\t" + getString(R.string.gen_date_from_label) + " " +
+                            Utils.getFormattedDateTime(Long.decode(mWhereConditions.getString(whereColumn)) * 1000, true);
+                    screenFilterList.put(5, apply(cs, new StyleSpan(Typeface.ITALIC)));
+                    emailFilterList.put(5, cs.toString());
                     isNotFiltered = false;
                 }
                 else if (whereColumn.toUpperCase().contains("DATE <=")) {
-                    cs = new CharSequence[]{"\n\t\t" + getString(R.string.gen_date_to_label) + " " +
-                            Utils.getFormattedDateTime(Long.decode(mWhereConditions.getString(whereColumn)) * 1000, true)};
-                    spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                    filterList.put(6, cs[0].toString());
+                    cs = "\n\t\t" + getString(R.string.gen_date_to_label) + " " +
+                            Utils.getFormattedDateTime(Long.decode(mWhereConditions.getString(whereColumn)) * 1000, true);
+                    screenFilterList.put(6, apply(cs, new StyleSpan(Typeface.ITALIC)));
+                    emailFilterList.put(6, cs.toString());
                     isNotFiltered = false;
-                }
-                else if (whereColumn.toUpperCase().contains("USERCOMMENT") && mWhereConditions.getString(whereColumn) != null &&
+                } else //noinspection ConstantConditions
+                    if (whereColumn.toUpperCase().contains("USERCOMMENT") && mWhereConditions.getString(whereColumn) != null &&
                         !mWhereConditions.getString(whereColumn).equals("%")) {
                     //noinspection ConstantConditions
-                    cs = new CharSequence[]{"\n\t\t" + getString(R.string.gen_comment_label) + " " +
-                            (mWhereConditions.getString(whereColumn).equals("") ? "without comment" : mWhereConditions.getString(whereColumn))};
-                    spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                    filterList.put(7, cs[0].toString());
+                        cs = "\n\t\t" + getString(R.string.gen_comment_label) + " " +
+                                (mWhereConditions.getString(whereColumn).equals("") ? "''" : mWhereConditions.getString(whereColumn));
+                        screenFilterList.put(7, apply(cs, new StyleSpan(Typeface.ITALIC)));
+                        emailFilterList.put(7, cs.toString());
                     isNotFiltered = false;
-                }
-                else if (whereColumn.toUpperCase().contains("DEF_TAG.NAME") && mWhereConditions.getString(whereColumn) != null &&
+                } else //noinspection ConstantConditions
+                        if (whereColumn.toUpperCase().contains("DEF_TAG.NAME") && mWhereConditions.getString(whereColumn) != null &&
                         !mWhereConditions.getString(whereColumn).equals("%")) {
                     //noinspection ConstantConditions
-                    cs = new CharSequence[]{"\n\t\t" + getString(R.string.gen_tag) + " " +
-                            (mWhereConditions.getString(whereColumn).equals("") ? "without tag" : mWhereConditions.getString(whereColumn))};
-                    spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                    filterList.put(7, cs[0].toString());
+                            cs = "\n\t\t" + getString(R.string.gen_tag) + " " +
+                                    (mWhereConditions.getString(whereColumn).equals("") ? "''" : mWhereConditions.getString(whereColumn));
+                            screenFilterList.put(8, apply(cs, new StyleSpan(Typeface.ITALIC)));
+                            emailFilterList.put(8, cs.toString());
                     isNotFiltered = false;
                 }
                 else if (whereColumn.toUpperCase().contains("DEF_TAG_ID") && mWhereConditions.getString(whereColumn) != null) {
                     //noinspection ConstantConditions
-                    cs = new CharSequence[]{"\n\t\t" + getString(R.string.gen_tag) + " " +
+                            cs = "\n\t\t" + getString(R.string.gen_tag) + " " +
                             (mWhereConditions.getString(whereColumn).equals("NULL") ? "''" :
                                     reportAdapter.getNameById(DB.TABLE_NAME_TAG,
-                                            Long.decode(mWhereConditions.getString(whereColumn))))};
-                    spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                    filterList.put(7, cs[0].toString());
+                                            Long.decode(mWhereConditions.getString(whereColumn))));
+                            screenFilterList.put(8, apply(cs, new StyleSpan(Typeface.ITALIC)));
+                            emailFilterList.put(8, cs.toString());
                     isNotFiltered = false;
                 }
             }
         }
         else {
-            cs = new CharSequence[]{" " + getString(R.string.statistics_no_filters)};
-            spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.BOLD)));
-            filterList.put(7, cs[0].toString());
+            cs = " " + getString(R.string.statistics_no_filters);
+            screenFilterList.put(8, apply(cs, new StyleSpan(Typeface.BOLD)));
+            emailFilterList.put(7, cs.toString());
         }
 
         if (isNotFiltered) {
-            cs = new CharSequence[]{" " + getString(R.string.statistics_no_filters)};
-            spanText_Filters = TextUtils.concat(spanText_Filters, apply(cs, new StyleSpan(Typeface.BOLD)));
-            filterList.put(7, cs[0].toString());
+            cs = " " + getString(R.string.statistics_no_filters);
+            screenFilterList.put(7, apply(cs, new StyleSpan(Typeface.BOLD)));
+            emailFilterList.put(7, cs.toString());
+        }
+
+        Map<Integer, CharSequence> orderedScreenFilterList = new TreeMap<>(screenFilterList);
+        Set set2 = orderedScreenFilterList.entrySet();
+        for (Object aSet2 : set2) {
+            Map.Entry me2 = (Map.Entry) aSet2;
+            spanText_Filters = TextUtils.concat(spanText_Filters, apply((CharSequence) me2.getValue(), new StyleSpan(Typeface.ITALIC)));
         }
 
         tvStatisticsFilters.setText(spanText_Filters);
-        Map<Integer, String> orderedFilterList = new TreeMap<>(filterList);
-        Set set2 = orderedFilterList.entrySet();
+        Map<Integer, String> orderedEmailFilterList = new TreeMap<>(emailFilterList);
+        set2 = orderedEmailFilterList.entrySet();
         for (Object aSet2 : set2) {
             Map.Entry me2 = (Map.Entry) aSet2;
             mEmailText_Filters.append(me2.getValue());
@@ -286,7 +296,7 @@ public class StatisticsActivity extends AppCompatActivity {
 
     private void fillExpenseStatistics() {
         Cursor c;
-        CharSequence[] cs;
+        CharSequence cs;
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_EXPENSE_TOTAL, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c == null) {
@@ -299,11 +309,11 @@ public class StatisticsActivity extends AppCompatActivity {
         }
 
         if (c.moveToNext()) {
-            cs = new CharSequence[]{getString(R.string.main_activity_statistics_total_expense_label) + " " +
+            cs = getString(R.string.main_activity_statistics_total_expense_label) + " " +
                     Utils.numberToString(c.getString(0), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
-                    c.getString(1)};
+                    c.getString(1);
             mSpanText_Values = apply(cs, new StyleSpan(Typeface.BOLD));
-            mEmailText_Values.append(cs[0].toString());
+            mEmailText_Values.append(cs.toString());
         }
         else {
             try {
@@ -318,16 +328,16 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_EXPENSE_BY_TYPES, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_expenses_by_type)};
+            cs = "\n\n" + getString(R.string.statistics_expenses_by_type);
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
-            mEmailText_Values.append(cs[0].toString());
+            mEmailText_Values.append(cs.toString());
 
             while (c.moveToNext()) {
-                cs = new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                cs = "\n\t\t" + c.getString(0) + ": " +
                         Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
-                        c.getString(2)};
+                        c.getString(2);
                 mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                mEmailText_Values.append(cs[0].toString());
+                mEmailText_Values.append(cs.toString());
             }
             try {
                 c.close();
@@ -339,16 +349,16 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_EXPENSE_BY_CATEGORIES, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_expenses_by_category)};
+            cs = "\n\n" + getString(R.string.statistics_expenses_by_category);
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
-            mEmailText_Values.append(cs[0].toString());
+            mEmailText_Values.append(cs.toString());
 
             while (c.moveToNext()) {
-                cs = new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                cs = "\n\t\t" + c.getString(0) + ": " +
                         Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
-                        c.getString(2)};
+                        c.getString(2);
                 mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                mEmailText_Values.append(cs[0].toString());
+                mEmailText_Values.append(cs.toString());
             }
             try {
                 c.close();
@@ -360,16 +370,16 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_EXPENSE_BY_TAGS, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_expenses_by_tag)};
+            cs = "\n\n" + getString(R.string.statistics_expenses_by_tag);
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
-            mEmailText_Values.append(cs[0].toString());
+            mEmailText_Values.append(cs.toString());
 
             while (c.moveToNext()) {
-                cs = new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                cs = "\n\t\t" + c.getString(0) + ": " +
                         Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
-                        c.getString(2)};
+                        c.getString(2);
                 mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                mEmailText_Values.append(cs[0].toString());
+                mEmailText_Values.append(cs.toString());
             }
             try {
                 c.close();
@@ -381,16 +391,16 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_EXPENSE_BY_DRIVERS, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_expenses_by_driver)};
+            cs = "\n\n" + getString(R.string.statistics_expenses_by_driver);
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
-            mEmailText_Values.append(cs[0].toString());
+            mEmailText_Values.append(cs.toString());
 
             while (c.moveToNext()) {
-                cs = new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                cs = "\n\t\t" + c.getString(0) + ": " +
                         Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
-                        c.getString(2)};
+                        c.getString(2);
                 mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                mEmailText_Values.append(cs[0].toString());
+                mEmailText_Values.append(cs.toString());
             }
             try {
                 c.close();
@@ -402,16 +412,16 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_EXPENSE_BY_CARS, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_expenses_by_car)};
+            cs = "\n\n" + getString(R.string.statistics_expenses_by_car);
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
-            mEmailText_Values.append(cs[0].toString());
+            mEmailText_Values.append(cs.toString());
 
             while (c.moveToNext()) {
-                cs = new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                cs = "\n\t\t" + c.getString(0) + ": " +
                         Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
-                        c.getString(2)};
+                        c.getString(2);
                 mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                mEmailText_Values.append(cs[0].toString());
+                mEmailText_Values.append(cs.toString());
             }
             try {
                 c.close();
@@ -425,7 +435,7 @@ public class StatisticsActivity extends AppCompatActivity {
 
     private void fillRefuelStatistics() {
         Cursor c;
-        CharSequence[] cs;
+        CharSequence cs;
 
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_REFUEL_TOTAL, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
@@ -439,13 +449,13 @@ public class StatisticsActivity extends AppCompatActivity {
         }
 
         if (c.moveToNext()) {
-            cs = new CharSequence[]{getString(R.string.statistics_fill_up_total) + " " +
+            cs = getString(R.string.statistics_fill_up_total) + " " +
                     Utils.numberToString(c.getString(0), true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " " +
                     c.getString(2) + "; " +
                     Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
-                    c.getString(3)};
+                    c.getString(3);
             mSpanText_Values = apply(cs, new StyleSpan(Typeface.BOLD));
-            mEmailText_Values.append(cs[0].toString());
+            mEmailText_Values.append(cs.toString());
         }
         else {
             try {
@@ -460,18 +470,18 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_REFUEL_BY_TYPES, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_fill_up_by_type)};
+            cs = "\n\n" + getString(R.string.statistics_fill_up_by_type);
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
-            mEmailText_Values.append(cs[0].toString());
+            mEmailText_Values.append(cs.toString());
 
             while (c.moveToNext()) {
-                cs = new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                cs = "\n\t\t" + c.getString(0) + ": " +
                         Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " " +
                         c.getString(2) + "; " +
                         Utils.numberToString(c.getString(3), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
-                        c.getString(4)};
+                        c.getString(4);
                 mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                mEmailText_Values.append(cs[0].toString());
+                mEmailText_Values.append(cs.toString());
             }
             try {
                 c.close();
@@ -483,18 +493,18 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_REFUEL_BY_FUELTYPES, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_fill_up_by_fuel_type)};
+            cs = "\n\n" + getString(R.string.statistics_fill_up_by_fuel_type);
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
-            mEmailText_Values.append(cs[0].toString());
+            mEmailText_Values.append(cs.toString());
 
             while (c.moveToNext()) {
-                cs = new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                cs = "\n\t\t" + c.getString(0) + ": " +
                         Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " " +
                         c.getString(2) + "; " +
                         Utils.numberToString(c.getString(3), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
-                        c.getString(4)};
+                        c.getString(4);
                 mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                mEmailText_Values.append(cs[0].toString());
+                mEmailText_Values.append(cs.toString());
             }
             try {
                 c.close();
@@ -506,18 +516,18 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_REFUEL_BY_TAGS, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_fill_up_by_tag)};
+            cs = "\n\n" + getString(R.string.statistics_fill_up_by_tag);
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
-            mEmailText_Values.append(cs[0].toString());
+            mEmailText_Values.append(cs.toString());
 
             while (c.moveToNext()) {
-                cs = new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                cs = "\n\t\t" + c.getString(0) + ": " +
                         Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " " +
                         c.getString(2) + "; " +
                         Utils.numberToString(c.getString(3), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
-                        c.getString(4)};
+                        c.getString(4);
                 mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                mEmailText_Values.append(cs[0].toString());
+                mEmailText_Values.append(cs.toString());
             }
             try {
                 c.close();
@@ -529,19 +539,19 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_REFUEL_BY_DRIVERS, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_fill_up_by_driver)};
+            cs = "\n\n" + getString(R.string.statistics_fill_up_by_driver);
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
-            mEmailText_Values.append(cs[0].toString());
+            mEmailText_Values.append(cs.toString());
 
             while (c.moveToNext()) {
-                cs = new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                cs = "\n\t\t" + c.getString(0) + ": " +
                         Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " " +
                         c.getString(2) + "; " +
                         Utils.numberToString(c.getString(3), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
-                        c.getString(4)};
+                        c.getString(4);
                 mSpanText_Values = TextUtils.concat(mSpanText_Values,
                         apply(cs, new StyleSpan(Typeface.ITALIC)));
-                mEmailText_Values.append(cs[0].toString());
+                mEmailText_Values.append(cs.toString());
             }
             try {
                 c.close();
@@ -553,19 +563,19 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_REFUEL_BY_CARS, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\n" + getString(R.string.statistics_fill_up_by_car)};
+            cs = "\n\n" + getString(R.string.statistics_fill_up_by_car);
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
-            mEmailText_Values.append(cs[0].toString());
+            mEmailText_Values.append(cs.toString());
 
             while (c.moveToNext()) {
-                cs = new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                cs = "\n\t\t" + c.getString(0) + ": " +
                         Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " " +
                         c.getString(2) + "; " +
                         Utils.numberToString(c.getString(3), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
-                        c.getString(4)};
+                        c.getString(4);
                 mSpanText_Values = TextUtils.concat(mSpanText_Values,
                         apply(cs, new StyleSpan(Typeface.ITALIC)));
-                mEmailText_Values.append(cs[0].toString());
+                mEmailText_Values.append(cs.toString());
             }
             try {
                 c.close();
@@ -579,7 +589,7 @@ public class StatisticsActivity extends AppCompatActivity {
 
     private void fillMileageStatistics() {
         Cursor c;
-        CharSequence[] cs;
+        CharSequence cs;
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_MILEAGE_TOTAL, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c == null) {
@@ -592,11 +602,11 @@ public class StatisticsActivity extends AppCompatActivity {
         }
 
         if (c.moveToNext()) {
-            cs = new CharSequence[]{getString(R.string.statistics_trip_total) + " " +
+            cs = getString(R.string.statistics_trip_total) + " " +
                     Utils.numberToString(c.getString(0), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) +
-                    " " + c.getString(1)};
+                    " " + c.getString(1);
             mSpanText_Values = apply(cs, new StyleSpan(Typeface.BOLD));
-            mEmailText_Values.append(cs[0].toString());
+            mEmailText_Values.append(cs.toString());
         }
         else {
             try {
@@ -611,16 +621,16 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_MILEAGE_BY_TYPES, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\nTrips by types:"};
+            cs = "\n\n" + getString(R.string.statistics_trip_by_type);
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
-            mEmailText_Values.append(cs[0].toString());
+            mEmailText_Values.append(cs.toString());
 
             while (c.moveToNext()) {
-                cs = new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                cs = "\n\t\t" + c.getString(0) + ": " +
                         Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) +
-                        " " + c.getString(2)};
+                        " " + c.getString(2);
                 mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                mEmailText_Values.append(cs[0].toString());
+                mEmailText_Values.append(cs.toString());
             }
             try {
                 c.close();
@@ -632,16 +642,16 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_MILEAGE_BY_TAGS, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\nTrips by tags:"};
+            cs = "\n\n" + getString(R.string.statistics_trip_by_tag);
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
-            mEmailText_Values.append(cs[0].toString());
+            mEmailText_Values.append(cs.toString());
 
             while (c.moveToNext()) {
-                cs = new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                cs = "\n\t\t" + c.getString(0) + ": " +
                         Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) +
-                        " " + c.getString(2)};
+                        " " + c.getString(2);
                 mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                mEmailText_Values.append(cs[0].toString());
+                mEmailText_Values.append(cs.toString());
             }
             try {
                 c.close();
@@ -653,16 +663,16 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_MILEAGE_BY_DRIVERS, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\nTrips by drivers:"};
+            cs = "\n\n" + getString(R.string.statistics_trip_by_driver);
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
-            mEmailText_Values.append(cs[0].toString());
+            mEmailText_Values.append(cs.toString());
 
             while (c.moveToNext()) {
-                cs = new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                cs = "\n\t\t" + c.getString(0) + ": " +
                         Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) +
-                        " " + c.getString(2)};
+                        " " + c.getString(2);
                 mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                mEmailText_Values.append(cs[0].toString());
+                mEmailText_Values.append(cs.toString());
             }
             try {
                 c.close();
@@ -674,16 +684,16 @@ public class StatisticsActivity extends AppCompatActivity {
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_MILEAGE_BY_CARS, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
         if (c != null) {
-            cs = new CharSequence[]{"\n\nTrips by cars:"};
+            cs = "\n\n" + getString(R.string.statistics_trip_by_car);
             mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.BOLD)));
-            mEmailText_Values.append(cs[0].toString());
+            mEmailText_Values.append(cs.toString());
 
             while (c.moveToNext()) {
-                cs = new CharSequence[]{"\n\t\t" + c.getString(0) + ": " +
+                cs = "\n\t\t" + c.getString(0) + ": " +
                         Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH) +
-                        " " + c.getString(2)};
+                        " " + c.getString(2);
                 mSpanText_Values = TextUtils.concat(mSpanText_Values, apply(cs, new StyleSpan(Typeface.ITALIC)));
-                mEmailText_Values.append(cs[0].toString());
+                mEmailText_Values.append(cs.toString());
             }
             try {
                 c.close();
@@ -696,19 +706,16 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     /**
-     * Returns a CharSequence that concatenates the specified array of CharSequence
-     * objects and then applies a list of zero or more tags to the entire range.
+     * applies a list of zero or more tags to the char sequence.
      *
-     * @param content an array of character sequences to apply a style to
+     * @param content a character sequences to apply a style to
      * @param tags    the styled span objects to apply to the content
      *                such as android.text.style.StyleSpan
      */
-    private static CharSequence apply(CharSequence[] content, Object... tags) {
+    private static CharSequence apply(CharSequence content, Object... tags) {
         SpannableStringBuilder text = new SpannableStringBuilder();
         openTags(text, tags);
-        for (CharSequence item : content) {
-            text.append(item);
-        }
+        text.append(content);
         closeTags(text, tags);
         return text;
     }
