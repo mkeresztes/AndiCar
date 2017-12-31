@@ -73,7 +73,6 @@ import andicar.n.activity.fragment.TaskEditFragment;
 import andicar.n.activity.miscellaneous.AboutActivity;
 import andicar.n.activity.miscellaneous.GPSTrackMap;
 import andicar.n.activity.preference.PreferenceActivity;
-import andicar.n.activity.test.TestActivity;
 import andicar.n.components.LineChartComponent;
 import andicar.n.components.PieChartsComponent;
 import andicar.n.components.RecordComponent;
@@ -442,11 +441,11 @@ public class MainActivity extends AppCompatActivity
             btnAdd.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    if (Utils.isDebugVersion()) {
-                        startActivity(new Intent(MainActivity.this, TestActivity.class));
-                    } else {
+//                    if (Utils.isDebugVersion()) {
+//                        startActivity(new Intent(MainActivity.this, TestActivity.class));
+//                    } else {
                         MainActivity.this.showPopup(view);
-                    }
+//                    }
                     return true;
                 }
             });
