@@ -497,8 +497,8 @@ public class FileUtils {
             out.close();
         }
         catch (IOException e) {
-            Toast toast = Toast.makeText(ctx, "Error: " + e.getMessage(), Toast.LENGTH_LONG);
-            toast.show();
+//            Toast toast = Toast.makeText(ctx, "Error: " + e.getMessage(), Toast.LENGTH_LONG);
+//            toast.show();
             mLastException = e;
             mLastErrorMessage = e.getMessage();
             return e.getMessage();
