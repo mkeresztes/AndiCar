@@ -330,7 +330,7 @@
     <string name="gps_track_detail_var_12">Pausenzeit:</string>
 
     <string name="gps_track_edit_track_files_header_caption">Fahrt-Dateien</string>
-    <string name="gps_track_edit_track_statistics">Statistiken</string>
+    <string name="gen_statistics">Statistiken</string>
 
     <!--<string name="GPSTrackControllerActivity_FileFormatLabel">Fahrt-Dateiformat:</string>-->
     <string name="gps_track_controller_create_mileage_label">Fahrt eingeben</string>

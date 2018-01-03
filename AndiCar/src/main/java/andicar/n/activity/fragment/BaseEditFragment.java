@@ -681,7 +681,7 @@ public abstract class BaseEditFragment extends Fragment {
         //for debug
         tvDebugInfo = mRootView.findViewById(R.id.tvDebugInfo);
         if (tvDebugInfo != null) {
-            if (Utils.isDebugVersion() && ConstantValues.DEBUG_IS_SHOW_INFO_IN_FRAGMENTS) {
+            if (Utils.isDebugVersion() && ConstantValues.DEBUG_IS_SHOW_INFO_IN_FRAGMENTS && getActivity() != null) {
                 Display display = getActivity().getWindowManager().getDefaultDisplay();
                 float density = getResources().getDisplayMetrics().density;
                 Point size = new Point();

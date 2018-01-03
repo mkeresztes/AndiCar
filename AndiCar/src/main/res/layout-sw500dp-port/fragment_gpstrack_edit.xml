@@ -164,7 +164,7 @@
             style="@style/AndiCarLabelStyle"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
-            android:text="@string/gps_track_edit_track_statistics"
+            android:text="@string/gen_statistics"
             android:textStyle="bold" />
 
         <TextView

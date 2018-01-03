@@ -33,6 +33,7 @@
       <w>firstline</w>
       <w>forint</w>
       <w>fourthline</w>
+      <w>fueltypes</w>
       <w>gdrive</w>
       <w>geopoint</w>
       <w>github</w>
@@ -77,6 +78,7 @@
       <w>trkseg</w>
       <w>unixepoch</w>
       <w>unmetered</w>
+      <w>usercomment</w>
       <w>valign</w>
       <w>xcfu</w>
       <w>xchange</w>

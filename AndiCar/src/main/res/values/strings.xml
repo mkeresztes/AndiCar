@@ -529,7 +529,7 @@
     <!--GPSTrackEditActivity_TrackFilesHeaderCaption-->
     <string name="gps_track_edit_track_files_header_caption">Track files</string>
     <!--GPSTrackEditActivity_TrackStatistics-->
-    <string name="gps_track_edit_track_statistics">Statistics</string>
+    <string name="gen_statistics">Statistics</string>
 
     <!--<string name="GPSTrackControllerActivity_FileFormatLabel">Track file format:</string>-->
     <!--GPSTrackControllerActivity_CreateMileageLabel-->

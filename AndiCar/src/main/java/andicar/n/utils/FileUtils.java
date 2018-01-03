@@ -149,10 +149,9 @@ public class FileUtils {
             }
         }
 
-        if (myData != null) {
-            Collections.sort(myData, String.CASE_INSENSITIVE_ORDER);
-            Collections.reverse(myData);
-        }
+        Collections.sort(myData, String.CASE_INSENSITIVE_ORDER);
+        Collections.reverse(myData);
+
         return myData;
     }
 

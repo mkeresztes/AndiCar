@@ -295,7 +295,7 @@
     <string name="gps_controller_start_track">Új nyomkövetés indítása</string>
 
     <string name="gps_track_edit_track_files_header_caption">Nyomkövetési fájlok</string>
-    <string name="gps_track_edit_track_statistics">Statisztikák</string>
+    <string name="gen_statistics">Statisztikák</string>
     <!--<string name="GPSTrackControllerActivity_FileFormatLabel">Nyomkövetési fájl formátum:</string>-->
     <string name="gps_track_controller_create_mileage_label">Út létrehozása</string>
     <string name="gps_track_service_gps_disabled_message">Az Ön gps vevője le van tiltva!\n Kérjük engedélyezze azt.</string>

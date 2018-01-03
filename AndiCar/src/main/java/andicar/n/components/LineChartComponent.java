@@ -63,7 +63,6 @@ public class LineChartComponent extends LinearLayout {
     private static final float VALUE_FONT_SIZE = 12f;
 
     private Context mCtx;
-    private View mChartHeader;
     private TextView mChartTitle;
     private TextView mInfo;
     private LineChart mChart;
@@ -236,7 +235,7 @@ public class LineChartComponent extends LinearLayout {
             });
         }
 
-        mChartHeader = rootView.findViewById(R.id.chartHeader);
+        View chartHeader = rootView.findViewById(R.id.chartHeader);
         mInfo = rootView.findViewById(R.id.tvInfo);
         mInfo.setVisibility(GONE);
 

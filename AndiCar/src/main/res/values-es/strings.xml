@@ -333,7 +333,7 @@
     <string name="gps_track_detail_var_11">Máxima altitud.:</string>
 
     <string name="gps_track_edit_track_files_header_caption">Archivos de Rutas</string>
-    <string name="gps_track_edit_track_statistics">Estadísticas</string>
+    <string name="gen_statistics">Estadísticas</string>
 
     <!--<string name="GPSTrackControllerActivity_FileFormatLabel">Formato:</string>-->
     <string name="gps_track_controller_create_mileage_label">Crear kilómetros</string>

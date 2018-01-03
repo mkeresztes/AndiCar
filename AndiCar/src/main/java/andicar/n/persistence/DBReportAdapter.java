@@ -1428,7 +1428,7 @@ public class DBReportAdapter extends DBAdapter {
             " WHERE 1=1 ";
 
     //statistics selects
-    private String listStatisticsMileageTotal =
+    private final String listStatisticsMileageTotal =
             "SELECT " +
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " - " +
                                     sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTART) + "), " + //#0 - total mileage
@@ -1446,7 +1446,7 @@ public class DBReportAdapter extends DBAdapter {
             " WHERE 1 = 1 #WhereConditions# " +
             " ORDER BY 1 DESC";
 
-    private String listStatisticsMileageByType =
+    private final String listStatisticsMileageByType =
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + ", " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " - " +
@@ -1469,7 +1469,7 @@ public class DBReportAdapter extends DBAdapter {
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) +
             " ORDER BY 2 DESC";
 
-    private String listStatisticsMileageByTag =
+    private final String listStatisticsMileageByTag =
             "SELECT " +
                     "COALESCE( " + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + ", 'N/A') , " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " - " +
@@ -1489,7 +1489,7 @@ public class DBReportAdapter extends DBAdapter {
             " GROUP BY COALESCE(" + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + ", 'N/A')" +
             " ORDER BY 2 DESC";
 
-    private String listStatisticsMileageByDriver =
+    private final String listStatisticsMileageByDriver =
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) + ", " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " - " +
@@ -1512,7 +1512,7 @@ public class DBReportAdapter extends DBAdapter {
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) +
             " ORDER BY 2 DESC";
 
-    private String listStatisticsMileageByCars =
+    private final String listStatisticsMileageByCars =
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + ", " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__INDEXSTOP) + " - " +
@@ -1532,7 +1532,7 @@ public class DBReportAdapter extends DBAdapter {
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) +
             " ORDER BY 2 DESC";
 
-    private String listStatisticsRefuelTotal =
+    private final String listStatisticsRefuelTotal =
             "SELECT " +
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY) + "), " + //#0 - total quantity
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__AMOUNT) + "), " + //#1 - total value
@@ -1554,7 +1554,7 @@ public class DBReportAdapter extends DBAdapter {
             " WHERE 1 = 1 #WhereConditions# " +
             " ORDER BY 1 DESC";
 
-    private String listStatisticsRefuelByType =
+    private final String listStatisticsRefuelByType =
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + ", " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY) + "), " + //#1 - total quantity
@@ -1581,7 +1581,7 @@ public class DBReportAdapter extends DBAdapter {
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) +
             " ORDER BY 2 DESC";
 
-    private String listStatisticsRefuelByFuelType =
+    private final String listStatisticsRefuelByFuelType =
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_NAME) + ", " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY) + "), " + //#1 - total quantity
@@ -1608,7 +1608,7 @@ public class DBReportAdapter extends DBAdapter {
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_NAME) +
             " ORDER BY 2 DESC";
 
-    private String listStatisticsRefuelByTag =
+    private final String listStatisticsRefuelByTag =
             "SELECT " +
                     "COALESCE( " + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + ", 'N/A') , " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY) + "), " + //#1 - total quantity
@@ -1632,7 +1632,7 @@ public class DBReportAdapter extends DBAdapter {
             " GROUP BY COALESCE(" + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + ", 'N/A')" +
             " ORDER BY 2 DESC";
 
-    private String listStatisticsRefuelByDriver =
+    private final String listStatisticsRefuelByDriver =
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) + ", " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY) + "), " + //#1 - total quantity
@@ -1659,7 +1659,7 @@ public class DBReportAdapter extends DBAdapter {
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) +
             " ORDER BY 2 DESC";
 
-    private String listStatisticsRefuelByCars =
+    private final String listStatisticsRefuelByCars =
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + ", " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY) + "), " + //#1 - total quantity
@@ -1683,7 +1683,7 @@ public class DBReportAdapter extends DBAdapter {
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) +
             " ORDER BY 2 DESC";
 
-    private String listStatisticsExpenseTotal =
+    private final String listStatisticsExpenseTotal =
             "SELECT " +
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__AMOUNT) + "), " + //#0 - total value
                     " MAX(" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + ") " + //#1 currency
@@ -1700,7 +1700,7 @@ public class DBReportAdapter extends DBAdapter {
             " WHERE COALESCE(" + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__FROMTABLE) + ", '') = '' #WhereConditions# " +
             " ORDER BY 1 DESC";
 
-    private String listStatisticsExpenseByType =
+    private final String listStatisticsExpenseByType =
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + ", " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__AMOUNT) + "), " + //#1 - total amount
@@ -1722,7 +1722,7 @@ public class DBReportAdapter extends DBAdapter {
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) +
             " ORDER BY 2 DESC";
 
-    private String listStatisticsExpenseByCategory =
+    private final String listStatisticsExpenseByCategory =
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_NAME) + ", " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__AMOUNT) + "), " + //#1 - total amount
@@ -1744,7 +1744,7 @@ public class DBReportAdapter extends DBAdapter {
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_NAME) +
             " ORDER BY 2 DESC";
 
-    private String listStatisticsExpenseByTag =
+    private final String listStatisticsExpenseByTag =
             "SELECT " +
                     "COALESCE( " + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + ", 'N/A') , " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__AMOUNT) + "), " + //#1 - total amount
@@ -1763,7 +1763,7 @@ public class DBReportAdapter extends DBAdapter {
             " GROUP BY COALESCE(" + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + ", 'N/A')" +
             " ORDER BY 2 DESC";
 
-    private String listStatisticsExpenseByDriver =
+    private final String listStatisticsExpenseByDriver =
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) + ", " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__AMOUNT) + "), " + //#1 - total amount
@@ -1785,7 +1785,7 @@ public class DBReportAdapter extends DBAdapter {
             " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) +
             " ORDER BY 2 DESC";
 
-    private String listStatisticsExpenseByCars =
+    private final String listStatisticsExpenseByCars =
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + ", " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__AMOUNT) + "), " + //#1 - total amount

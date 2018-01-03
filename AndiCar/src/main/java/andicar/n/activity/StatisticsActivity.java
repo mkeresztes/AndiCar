@@ -40,8 +40,8 @@ public class StatisticsActivity extends AppCompatActivity {
     public static final String WHERE_CONDITIONS_KEY = "WhereConditions";
     private int mStatisticsType;
     private CharSequence mSpanText_Values;
-    private StringBuilder mEmailText_Filters = new StringBuilder("");
-    private StringBuilder mEmailText_Values = new StringBuilder("");
+    private final StringBuilder mEmailText_Filters = new StringBuilder("");
+    private final StringBuilder mEmailText_Values = new StringBuilder("");
 
     private Bundle mWhereConditions = null;
     private DBReportAdapter reportAdapter;
@@ -268,8 +268,8 @@ public class StatisticsActivity extends AppCompatActivity {
             Map.Entry me2 = (Map.Entry) aSet2;
             spanText_Filters = TextUtils.concat(spanText_Filters, apply((CharSequence) me2.getValue(), new StyleSpan(Typeface.ITALIC)));
         }
-
         tvStatisticsFilters.setText(spanText_Filters);
+
         Map<Integer, String> orderedEmailFilterList = new TreeMap<>(emailFilterList);
         set2 = orderedEmailFilterList.entrySet();
         for (Object aSet2 : set2) {
