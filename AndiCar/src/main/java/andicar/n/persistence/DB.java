@@ -1106,18 +1106,18 @@ public class DB {
             // create uom table
             db.execSQL(CREATE_SQL_UOM_TABLE);
             // init uom
-            String colPart = "INSERT INTO " + TABLE_NAME_UOM + " ( " + COL_NAME_GEN_NAME + ", " + COL_NAME_GEN_ISACTIVE + ", " + COL_NAME_GEN_USER_COMMENT
-                    + ", " + COL_NAME_UOM__CODE + ", " + COL_NAME_UOM__UOMTYPE + ") ";
-            db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_UOM_KmName) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_UOM_KmComment) + "', " + "'km', " + "'L' )"); // _id = 1
-            db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_UOM_MiName) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_UOM_MiComment) + "', " + "'mi', " + "'L' )"); // _id = 2 1609,344 m
-            db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_UOM_LName) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_UOM_LComment) + "', " + "'l', " + "'V' )"); // _id = 3
-            db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_UOM_USGName) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_UOM_USGComment) + "', " + "'gal US', " + "'V' )"); // _id = 4 3,785 411 784 l
-            db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_UOM_GBGName) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_UOM_GBGComment) + "', " + "'gal GB', " + "'V' )"); // _id = 5 4,546 09 l
+            String colPart = "INSERT INTO " + TABLE_NAME_UOM + " ( " + COL_NAME_GEN_NAME + ", " + COL_NAME_GEN_ISACTIVE + ", " + COL_NAME_GEN_USER_COMMENT +
+                    ", " + COL_NAME_UOM__CODE + ", " + COL_NAME_UOM__UOMTYPE + ") ";
+            db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_KmName) + "', 'Y', " +
+                    "'" + mResource.getString(R.string.DB_UOM_KmComment) + "', 'km', 'L' )"); // _id = 1
+            db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_MiName) + "', 'Y', " +
+                    "'" + mResource.getString(R.string.DB_UOM_MiComment) + "', 'mi', 'L' )"); // _id = 2 1609,344 m
+            db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_LName) + "', 'Y', " +
+                    "'" + mResource.getString(R.string.DB_UOM_LComment) + "', 'l', 'V' )"); // _id = 3
+            db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_USGName) + "', 'Y', " +
+                    "'" + mResource.getString(R.string.DB_UOM_USGComment) + "', 'gal US', 'V' )"); // _id = 4 3,785 411 784 l
+            db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_GBGName) + "', 'Y', " +
+                    "'" + mResource.getString(R.string.DB_UOM_GBGComment) + "', 'gal GB', 'V' )"); // _id = 5 4,546 09 l
         }
 
         private void createUOMConversionTable(SQLiteDatabase db) throws SQLException {
