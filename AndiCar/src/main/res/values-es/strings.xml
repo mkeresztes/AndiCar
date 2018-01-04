@@ -235,6 +235,7 @@
     <string name="gen_car_label">Automóvil:</string>
     <string name="gen_driver_label">Conductor:</string>
     <string name="gen_type_label">Tipo:</string>
+    <string name="gen_uom_type_label">Tipo de UM:</string>
     <string name="gen_start_label">Salida:</string>
     <string name="gen_index_label">Odómetro:</string>
     <string name="gen_index_label2">Odómetro</string>

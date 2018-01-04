@@ -35,6 +35,12 @@
         <item>Otro</item>
     </string-array>
 
+    <string-array name="fuel_uom_type_entries">
+        <item>Volume</item>
+        <item>Peso</item>
+        <item>Energía (eléctrica)</item>
+    </string-array>
+
     <string-array name="recurrent_periods">
         <item>Día(s)</item>
         <item>Semana(s)</item>

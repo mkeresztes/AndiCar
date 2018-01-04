@@ -58,6 +58,27 @@
             android:tag="@string/gen_required"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/llMeasurementType"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/AndiCarLabelStyle"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:text="@string/gen_uom_type_label" />
+
+        <Spinner
+            android:id="@+id/spnMeasurementType"
+            style="@style/AndiCarSpinnerStyle"
+            android:layout_width="0dp"
+            android:layout_weight="3" />
+    </LinearLayout>
+
     <CheckBox
         android:id="@+id/ckIsExcludeFromMileageCost"
         style="@style/AndiCarCheckBox"

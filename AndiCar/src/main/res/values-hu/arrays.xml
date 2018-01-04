@@ -38,6 +38,12 @@
         <item>Más</item>
     </string-array>
 
+    <string-array name="fuel_uom_type_entries">
+        <item>Térfogat</item>
+        <item>Súly</item>
+        <item>Energia (elektromos)</item>
+    </string-array>
+
     <string-array name="recurrent_periods">
         <item>Nap</item>
         <item>Hét</item>

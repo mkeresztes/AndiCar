@@ -367,6 +367,7 @@
     <string name="gen_driver_label">Driver:</string>
     <!--GEN_ExpenseTypeLabel-->
     <string name="gen_type_label">Type:</string>
+    <string name="gen_uom_type_label">UOM type:</string>
     <!--GEN_StartLabel-->
     <string name="gen_start_label">Departure:</string>
     <!--GEN_IndexLabel-->

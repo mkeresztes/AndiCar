@@ -175,6 +175,7 @@
     <string name="gen_car_label">Maşina:</string>
     <string name="gen_driver_label">Şofer:</string>
     <string name="gen_type_label">Tip:</string>
+    <string name="gen_uom_type_label">Tip UM:</string>
     <string name="gen_start_label">Plecare:</string>
     <string name="gen_index_label">Odometru:</string>
     <string name="gen_index_label2">Odometru</string>

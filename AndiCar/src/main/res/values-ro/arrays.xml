@@ -38,6 +38,12 @@
         <item>Altul</item>
     </string-array>
 
+    <string-array name="fuel_uom_type_entries">
+        <item>Volum</item>
+        <item>Greutate</item>
+        <item>Energie (electrică)</item>
+    </string-array>
+
     <string-array name="recurrent_periods">
         <item>Zi/zile</item>
         <item>Săptămaână/săptămâni</item>

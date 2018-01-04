@@ -231,6 +231,7 @@
     <string name="gen_car_label">Fahrzeug:</string>
     <string name="gen_driver_label">Fahrer:</string>
     <string name="gen_type_label">Art:</string>
+    <string name="gen_uom_type_label">Maßeinheitstyp:</string>
     <string name="gen_start_label">Start:</string>
     <string name="gen_index_label">km-Zähler:</string>
     <string name="gen_index_label2">km-Zähler</string>

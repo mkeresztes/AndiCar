@@ -171,6 +171,7 @@
     <string name="gen_car_label">Autó:</string>
     <string name="gen_driver_label">Vezető:</string>
     <string name="gen_type_label">Típus:</string>
+    <string name="gen_uom_type_label">ME Típus:</string>
     <string name="gen_start_label">Indulás:</string>
     <string name="gen_index_label">Kilométeróra:</string>
     <string name="gen_index_label2">Kilométeróra</string>

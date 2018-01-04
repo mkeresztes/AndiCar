@@ -4,11 +4,15 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.Spinner;
 
 import org.andicar2.activity.R;
 
 import andicar.n.persistence.DBAdapter;
+import andicar.n.utils.ConstantValues;
 import andicar.n.utils.Utils;
 
 /**
@@ -19,6 +23,10 @@ public class ExpenseFuelCategoryEditFragment extends BaseEditFragment {
     private boolean mIsExcludeFromMileageCost;
 
     private CheckBox ckIsExcludeFromMileageCost;
+    private View llMeasurementType;
+    private Spinner spnMeasurementType;
+
+    private String mUOMType;
     private boolean mIsFuel;
 
     @Override
@@ -50,6 +58,7 @@ public class ExpenseFuelCategoryEditFragment extends BaseEditFragment {
         mUserComment = c.getString(DBAdapter.COL_POS_GEN_USER_COMMENT);
         mIsActive = c.getString(DBAdapter.COL_POS_GEN_ISACTIVE).equals("Y");
         mIsFuel = c.getString(DBAdapter.COL_POS_EXPENSECATEGORY__ISFUEL).equals("Y");
+        mUOMType = c.getString(DBAdapter.COL_POS_EXPENSECATEGORY__UOMTYPE);
         mIsExcludeFromMileageCost = c.getString(DBAdapter.COL_POS_EXPENSECATEGORY__ISEXCLUDEFROMMILEAGECOST).equals("Y");
         c.close();
     }
@@ -66,11 +75,17 @@ public class ExpenseFuelCategoryEditFragment extends BaseEditFragment {
     protected void loadSpecificViewsFromLayoutXML() {
         ckIsActive = mRootView.findViewById(R.id.ckIsActive);
         ckIsExcludeFromMileageCost = mRootView.findViewById(R.id.ckIsExcludeFromMileageCost);
+        llMeasurementType = mRootView.findViewById(R.id.llMeasurementType);
+        spnMeasurementType = mRootView.findViewById(R.id.spnMeasurementType);
     }
 
     @Override
     protected void initSpecificControls() {
-
+        if (getActivity() != null) {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.fuel_uom_type_entries, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spnMeasurementType.setAdapter(adapter);
+        }
     }
 
     @Override
@@ -79,11 +94,36 @@ public class ExpenseFuelCategoryEditFragment extends BaseEditFragment {
         acUserComment.setText(mUserComment);
         ckIsActive.setChecked(mIsActive);
         ckIsExcludeFromMileageCost.setChecked(mIsExcludeFromMileageCost);
+
+        if (mIsFuel) {
+            if (llMeasurementType != null) {
+                if (mUOMType != null && spnMeasurementType != null) {
+                    switch (mUOMType) {
+                        case ConstantValues.UOM_TYPE_VOLUME_CODE:
+                            spnMeasurementType.setSelection(0);
+                            break;
+                        case ConstantValues.UOM_TYPE_WEIGHT_CODE:
+                            spnMeasurementType.setSelection(1);
+                            break;
+                        case ConstantValues.UOM_TYPE_ENERGY_CODE:
+                            spnMeasurementType.setSelection(2);
+                            break;
+                    }
+                }
+            }
+        }
+        setSpecificLayout();
     }
 
     @Override
     public void setSpecificLayout() {
-
+        if (mIsFuel) {
+            if (llMeasurementType != null)
+                llMeasurementType.setVisibility(View.VISIBLE);
+        } else {
+            if (llMeasurementType != null)
+                llMeasurementType.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -94,6 +134,20 @@ public class ExpenseFuelCategoryEditFragment extends BaseEditFragment {
         cvData.put(DBAdapter.COL_NAME_GEN_USER_COMMENT, acUserComment.getText().toString());
         cvData.put(DBAdapter.COL_NAME_EXPENSECATEGORY__ISEXCLUDEFROMMILEAGECOST, (ckIsExcludeFromMileageCost.isChecked() ? "Y" : "N"));
         cvData.put(DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL, mIsFuel ? "Y" : "N");
+        if (mIsFuel) {
+            switch (spnMeasurementType.getSelectedItemPosition()) {
+                case 0:
+                    cvData.put(DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE, ConstantValues.UOM_TYPE_VOLUME_CODE);
+                    break;
+                case 1:
+                    cvData.put(DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE, ConstantValues.UOM_TYPE_WEIGHT_CODE);
+                    break;
+                case 2:
+                    cvData.put(DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE, ConstantValues.UOM_TYPE_ENERGY_CODE);
+                    break;
+            }
+        } else
+            cvData.put(DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE, ConstantValues.UOM_TYPE_NONE_CODE);
 
         int dbRetVal;
         String errMsg;
