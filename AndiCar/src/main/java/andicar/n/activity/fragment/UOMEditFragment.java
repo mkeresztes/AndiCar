@@ -78,7 +78,7 @@ public class UOMEditFragment extends BaseEditFragment {
     public void initDefaultValues() {
         super.initDefaultValues();
 
-        mUOMType = ConstantValues.UOM_OTHER_TYPE_CODE;
+        mUOMType = ConstantValues.UOM_TYPE_OTHER_CODE;
     }
 
     @Override
@@ -105,14 +105,20 @@ public class UOMEditFragment extends BaseEditFragment {
         etCode.setText(mCode);
         if (mUOMType != null) {
             switch (mUOMType) {
-                case ConstantValues.UOM_LENGTH_TYPE_CODE:
+                case ConstantValues.UOM_TYPE_LENGTH_CODE:
                     spnUomType.setSelection(0);
                     break;
-                case ConstantValues.UOM_VOLUME_TYPE_CODE:
+                case ConstantValues.UOM_TYPE_VOLUME_CODE:
                     spnUomType.setSelection(1);
                     break;
-                case ConstantValues.UOM_OTHER_TYPE_CODE:
+                case ConstantValues.UOM_TYPE_WEIGHT_CODE:
                     spnUomType.setSelection(2);
+                    break;
+                case ConstantValues.UOM_TYPE_ENERGY_CODE:
+                    spnUomType.setSelection(3);
+                    break;
+                case ConstantValues.UOM_TYPE_OTHER_CODE:
+                    spnUomType.setSelection(4);
                     break;
             }
         }
@@ -131,13 +137,19 @@ public class UOMEditFragment extends BaseEditFragment {
         data.put(DBAdapter.COL_NAME_GEN_USER_COMMENT, acUserComment.getText().toString());
         data.put(DBAdapter.COL_NAME_UOM__CODE, etCode.getText().toString());
         if (spnUomType.getSelectedItemPosition() == 0) {
-            data.put(DBAdapter.COL_NAME_UOM__UOMTYPE, ConstantValues.UOM_LENGTH_TYPE_CODE);
+            data.put(DBAdapter.COL_NAME_UOM__UOMTYPE, ConstantValues.UOM_TYPE_LENGTH_CODE);
         }
         else if (spnUomType.getSelectedItemPosition() == 1) {
-            data.put(DBAdapter.COL_NAME_UOM__UOMTYPE, ConstantValues.UOM_VOLUME_TYPE_CODE);
+            data.put(DBAdapter.COL_NAME_UOM__UOMTYPE, ConstantValues.UOM_TYPE_VOLUME_CODE);
+        }
+        else if (spnUomType.getSelectedItemPosition() == 2) {
+            data.put(DBAdapter.COL_NAME_UOM__UOMTYPE, ConstantValues.UOM_TYPE_WEIGHT_CODE);
+        }
+        else if (spnUomType.getSelectedItemPosition() == 3) {
+            data.put(DBAdapter.COL_NAME_UOM__UOMTYPE, ConstantValues.UOM_TYPE_ENERGY_CODE);
         }
         else {
-            data.put(DBAdapter.COL_NAME_UOM__UOMTYPE, ConstantValues.UOM_OTHER_TYPE_CODE);
+            data.put(DBAdapter.COL_NAME_UOM__UOMTYPE, ConstantValues.UOM_TYPE_OTHER_CODE);
         }
 
         int dbRetVal;

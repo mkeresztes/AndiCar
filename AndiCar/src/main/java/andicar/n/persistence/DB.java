@@ -158,6 +158,7 @@ public class DB {
     // expense category
     public static final String COL_NAME_EXPENSECATEGORY__ISEXCLUDEFROMMILEAGECOST = "IsExcludefromMileagecost";
     public static final String COL_NAME_EXPENSECATEGORY__ISFUEL = "IsFuel";
+    public static final String COL_NAME_EXPENSECATEGORY__UOMTYPE = "UOMType"; //see ConstantValues UOM_TYPE_ ... codes
     // car expenses
     public static final String COL_NAME_EXPENSE__CAR_ID = TABLE_NAME_CAR + "_ID";
     public static final String COL_NAME_EXPENSE__DRIVER_ID = TABLE_NAME_DRIVER + "_ID";
@@ -521,7 +522,7 @@ public class DB {
             COL_NAME_REFUEL__AMOUNT, COL_NAME_REFUEL__AMOUNTENTERED, COL_NAME_REFUEL__BPARTNER_ID, COL_NAME_REFUEL__BPARTNER_LOCATION_ID,
             COL_NAME_REFUEL__TAG_ID};
     public static final String[] COL_LIST_EXPENSECATEGORY_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT,
-            COL_NAME_EXPENSECATEGORY__ISEXCLUDEFROMMILEAGECOST, COL_NAME_EXPENSECATEGORY__ISFUEL};
+            COL_NAME_EXPENSECATEGORY__ISEXCLUDEFROMMILEAGECOST, COL_NAME_EXPENSECATEGORY__ISFUEL, COL_NAME_EXPENSECATEGORY__UOMTYPE};
     public static final String[] COL_LIST_EXPENSE_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT,
             COL_NAME_EXPENSE__CAR_ID, COL_NAME_EXPENSE__DRIVER_ID, COL_NAME_EXPENSE__EXPENSECATEGORY_ID, COL_NAME_EXPENSE__EXPENSETYPE_ID,
             COL_NAME_EXPENSE__AMOUNT, COL_NAME_EXPENSE__CURRENCY_ID, COL_NAME_EXPENSE__DATE, COL_NAME_EXPENSE__DOCUMENTNO, COL_NAME_EXPENSE__INDEX,
@@ -711,7 +712,8 @@ public class DB {
                         COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
                         COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
                         COL_NAME_EXPENSECATEGORY__ISEXCLUDEFROMMILEAGECOST + " TEXT DEFAULT 'N', " +
-                        COL_NAME_EXPENSECATEGORY__ISFUEL + " TEXT DEFAULT 'N' " +
+                        COL_NAME_EXPENSECATEGORY__ISFUEL + " TEXT DEFAULT 'N', " +
+                        COL_NAME_EXPENSECATEGORY__UOMTYPE + " TEXT DEFAULT 'N' " +
                     ");";
 
     private static final String CREATE_SQL_EXPENSE_TABLE =
@@ -1109,15 +1111,19 @@ public class DB {
             String colPart = "INSERT INTO " + TABLE_NAME_UOM + " ( " + COL_NAME_GEN_NAME + ", " + COL_NAME_GEN_ISACTIVE + ", " + COL_NAME_GEN_USER_COMMENT +
                     ", " + COL_NAME_UOM__CODE + ", " + COL_NAME_UOM__UOMTYPE + ") ";
             db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_KmName) + "', 'Y', " +
-                    "'" + mResource.getString(R.string.DB_UOM_KmComment) + "', 'km', 'L' )"); // _id = 1
+                    "'" + mResource.getString(R.string.DB_UOM_KmComment) + "', 'km', '" + ConstantValues.UOM_TYPE_LENGTH_CODE + "' )"); // _id = 1
             db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_MiName) + "', 'Y', " +
-                    "'" + mResource.getString(R.string.DB_UOM_MiComment) + "', 'mi', 'L' )"); // _id = 2 1609,344 m
+                    "'" + mResource.getString(R.string.DB_UOM_MiComment) + "', 'mi', '" + ConstantValues.UOM_TYPE_LENGTH_CODE + "' )"); // _id = 2 1609,344 m
             db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_LName) + "', 'Y', " +
-                    "'" + mResource.getString(R.string.DB_UOM_LComment) + "', 'l', 'V' )"); // _id = 3
+                    "'" + mResource.getString(R.string.DB_UOM_LComment) + "', 'l', '" + ConstantValues.UOM_TYPE_VOLUME_CODE + "' )"); // _id = 3
             db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_USGName) + "', 'Y', " +
-                    "'" + mResource.getString(R.string.DB_UOM_USGComment) + "', 'gal US', 'V' )"); // _id = 4 3,785 411 784 l
+                    "'" + mResource.getString(R.string.DB_UOM_USGComment) + "', 'gal US', '" + ConstantValues.UOM_TYPE_VOLUME_CODE + "' )"); // _id = 4 3,785 411 784 l
             db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_GBGName) + "', 'Y', " +
-                    "'" + mResource.getString(R.string.DB_UOM_GBGComment) + "', 'gal GB', 'V' )"); // _id = 5 4,546 09 l
+                    "'" + mResource.getString(R.string.DB_UOM_GBGComment) + "', 'gal GB', '" + ConstantValues.UOM_TYPE_VOLUME_CODE + "' )"); // _id = 5 4,546 09 l
+            db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_KgName) + "', 'Y', " +
+                    "'" + mResource.getString(R.string.DB_UOM_KgComment) + "', 'kg', '" + ConstantValues.UOM_TYPE_WEIGHT_CODE + "' )"); // _id = 1
+            db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_KWhName) + "', 'Y', " +
+                    "'" + mResource.getString(R.string.DB_UOM_KWhComment) + "', 'kW⋅h', '" + ConstantValues.UOM_TYPE_ENERGY_CODE + "' )"); // _id = 1
         }
 
         private void createUOMConversionTable(SQLiteDatabase db) throws SQLException {
@@ -1188,38 +1194,52 @@ public class DB {
         private void createExpenseCategory(SQLiteDatabase db) throws SQLException {
             // expense category
             db.execSQL(CREATE_SQL_EXPENSECATEGORY_TABLE);
-            String colPart = "INSERT INTO " + TABLE_NAME_EXPENSECATEGORY + " ( " + COL_NAME_GEN_NAME + ", " + COL_NAME_GEN_ISACTIVE + ", "
-                    + COL_NAME_GEN_USER_COMMENT + ", " + COL_NAME_EXPENSECATEGORY__ISEXCLUDEFROMMILEAGECOST + ", " + COL_NAME_EXPENSECATEGORY__ISFUEL + " "
+            String colPart = "INSERT INTO " + TABLE_NAME_EXPENSECATEGORY + " ( " + COL_NAME_GEN_NAME + ", " + COL_NAME_GEN_ISACTIVE + ", " +
+                    COL_NAME_GEN_USER_COMMENT + ", " + COL_NAME_EXPENSECATEGORY__ISEXCLUDEFROMMILEAGECOST + ", " +
+                    COL_NAME_EXPENSECATEGORY__ISFUEL + ", " + COL_NAME_EXPENSECATEGORY__UOMTYPE + " "
                     + ") ";
 
             // fuel types
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_FuelType_Diesel1D) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_FuelType_Diesel1DComment) + "', " + "'N', 'Y' )");
+                    + mResource.getString(R.string.DB_FuelType_Diesel1DComment) + "', " + "'N', 'Y', '" + ConstantValues.UOM_TYPE_VOLUME_CODE + "'" +
+                    " )");
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_FuelType_Diesel2D) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_FuelType_Diesel2DComment) + "', " + "'N', 'Y' )");
+                    + mResource.getString(R.string.DB_FuelType_Diesel2DComment) + "', " + "'N', 'Y', '" + ConstantValues.UOM_TYPE_VOLUME_CODE + "'" +
+                    " )");
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_FuelType_DieselBio) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_FuelType_DieselBioComment) + "', " + "'N', 'Y' )");
+                    + mResource.getString(R.string.DB_FuelType_DieselBioComment) + "', " + "'N', 'Y', '" + ConstantValues.UOM_TYPE_VOLUME_CODE + "'" +
+                    " )");
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_FuelType_DieselSynthetic) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_FuelType_DieselSyntheticComment) + "', " + "'N', 'Y' )");
+                    + mResource.getString(R.string.DB_FuelType_DieselSyntheticComment) + "', " + "'N', 'Y', '" + ConstantValues.UOM_TYPE_VOLUME_CODE + "'" +
+                    " )");
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_FuelType_GasolineRegular) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_FuelType_GasolineRegularComment) + "', " + "'N', 'Y' )");
+                    + mResource.getString(R.string.DB_FuelType_GasolineRegularComment) + "', " + "'N', 'Y', '" + ConstantValues.UOM_TYPE_VOLUME_CODE + "'" +
+                    " )");
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_FuelType_GasolineMidgrade) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_FuelType_GasolineMidgradeComment) + "', " + "'N', 'Y' )");
+                    + mResource.getString(R.string.DB_FuelType_GasolineMidgradeComment) + "', " + "'N', 'Y', '" + ConstantValues.UOM_TYPE_VOLUME_CODE + "'" +
+                    " )");
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_FuelType_GasolinePremium) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_FuelType_GasolinePremiumComment) + "', " + "'N', 'Y' )");
+                    + mResource.getString(R.string.DB_FuelType_GasolinePremiumComment) + "', " + "'N', 'Y', '" + ConstantValues.UOM_TYPE_VOLUME_CODE + "'" +
+                    " )");
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_FuelType_GasolinePremium2) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_FuelType_GasolinePremiumComment2) + "', " + "'N', 'Y' )");
+                    + mResource.getString(R.string.DB_FuelType_GasolinePremiumComment2) + "', " + "'N', 'Y', '" + ConstantValues.UOM_TYPE_VOLUME_CODE + "'" +
+                    " )");
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_FuelType_LPG) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_FuelType_LPGComment) + "', " + "'N', 'Y' )");
+                    + mResource.getString(R.string.DB_FuelType_LPGComment) + "', " + "'N', 'Y', '" + ConstantValues.UOM_TYPE_VOLUME_CODE + "'" +
+                    " )");
 
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_ExpCat_ServiceName) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_ExpCat_ServiceComment) + "', " + "'N', 'N' )");
+                    + mResource.getString(R.string.DB_ExpCat_ServiceComment) + "', " + "'N', 'N', '" + ConstantValues.UOM_TYPE_NONE_CODE + "'" +
+                    " )");
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_ExpCat_RoadTollName) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_ExpCat_RoadTollComment) + "', " + "'N', 'N' )");
+                    + mResource.getString(R.string.DB_ExpCat_RoadTollComment) + "', " + "'N', 'N', '" + ConstantValues.UOM_TYPE_NONE_CODE + "'" +
+                    " )");
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_ExpCat_InsuranceName) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_ExpCat_InsuranceComment) + "', " + "'N', 'N' )");
+                    + mResource.getString(R.string.DB_ExpCat_InsuranceComment) + "', " + "'N', 'N', '" + ConstantValues.UOM_TYPE_NONE_CODE + "'" +
+                    " )");
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_ExpCat_PenaltyName) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_ExpCat_PenaltyComment) + "', " + "'Y', 'N' )");
+                    + mResource.getString(R.string.DB_ExpCat_PenaltyComment) + "', " + "'Y', 'N', '" + ConstantValues.UOM_TYPE_NONE_CODE + "'" +
+                    " )");
         }
 
         private void createExpenses(SQLiteDatabase db, boolean isUpdate) throws SQLException {
@@ -1371,6 +1391,9 @@ public class DB {
             }
             else if (oldVersion == 502) {
                 upgradeDbTo503(db, oldVersion);
+            }
+            else if (oldVersion == 503) {
+                upgradeDbTo510(db, oldVersion);
             }
 
             // !!!!!!!!!!!!!!DON'T FORGET onCREATE !!!!!!!!!!!!!!!!
@@ -1809,6 +1832,65 @@ public class DB {
                     " FROM " + TABLE_NAME_REFUEL +
                     ")";
             db.execSQL(updSql);
+            upgradeDbTo510(db, oldVersion);
+        }
+
+        private void upgradeDbTo510(SQLiteDatabase db, int oldVersion) throws SQLException {
+            String updSql;
+            if (!columnExists(db, TABLE_NAME_EXPENSECATEGORY, COL_NAME_EXPENSECATEGORY__UOMTYPE)) {
+                updSql = "ALTER TABLE " + TABLE_NAME_EXPENSECATEGORY + " ADD " + COL_NAME_EXPENSECATEGORY__UOMTYPE + " TEXT DEFAULT 'N' ";
+                db.execSQL(updSql);
+
+                updSql = "UPDATE " + TABLE_NAME_EXPENSECATEGORY +
+                        " SET " + COL_NAME_EXPENSECATEGORY__UOMTYPE + " = '" + ConstantValues.UOM_TYPE_VOLUME_CODE + "' " +
+                        " WHERE " + COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'";
+                db.execSQL(updSql);
+
+                updSql = "UPDATE " + TABLE_NAME_EXPENSECATEGORY +
+                        " SET " + COL_NAME_EXPENSECATEGORY__UOMTYPE + " = '" + ConstantValues.UOM_TYPE_NONE_CODE + "' " +
+                        " WHERE " + COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'";
+                db.execSQL(updSql);
+            }
+
+            String colPart = "INSERT INTO " + TABLE_NAME_UOM + " ( " + COL_NAME_GEN_NAME + ", " + COL_NAME_GEN_ISACTIVE + ", " + COL_NAME_GEN_USER_COMMENT +
+                    ", " + COL_NAME_UOM__CODE + ", " + COL_NAME_UOM__UOMTYPE + ") ";
+            Cursor c = db.rawQuery(
+                    "SELECT * FROM " + TABLE_NAME_UOM +
+                            " WHERE UPPER(" + COL_NAME_UOM__CODE + ") == 'KG'", null);
+            if (c.getCount() == 0) {
+                db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_KgName) + "', 'Y', " +
+                        "'" + mResource.getString(R.string.DB_UOM_KgComment) + "', 'kg', '" + ConstantValues.UOM_TYPE_WEIGHT_CODE + "' )"); // _id = 1
+            }
+            else {
+                db.execSQL("UPDATE " + TABLE_NAME_UOM +
+                        " SET " + COL_NAME_UOM__UOMTYPE + " = '" + ConstantValues.UOM_TYPE_WEIGHT_CODE + "'" +
+                        "WHERE UPPER(" + COL_NAME_UOM__CODE + ") == 'KG'");
+            }
+            try {
+                c.close();
+            }
+            catch (Exception ignored) {
+            }
+
+            c = db.rawQuery(
+                    "SELECT * FROM " + TABLE_NAME_UOM +
+                            " WHERE UPPER(" + COL_NAME_UOM__CODE + ") IN ('KW⋅H', 'KWH', 'KW H')", null);
+            if (c.getCount() == 0) {
+                db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_KWhName) + "', 'Y', " +
+                        "'" + mResource.getString(R.string.DB_UOM_KWhComment) + "', 'kW⋅h', '" + ConstantValues.UOM_TYPE_ENERGY_CODE + "' )"); // _id = 1
+            }
+            else {
+                db.execSQL("UPDATE " + TABLE_NAME_UOM +
+                        " SET " + COL_NAME_UOM__UOMTYPE + " = '" + ConstantValues.UOM_TYPE_ENERGY_CODE + "'" +
+                        "WHERE UPPER(" + COL_NAME_UOM__CODE + ") IN ('KW⋅H', 'KWH', 'KW H')");
+            }
+            try {
+                c.close();
+            }
+            catch (Exception ignored) {
+            }
+
+
         }
 
         @SuppressWarnings("BooleanMethodIsAlwaysInverted")

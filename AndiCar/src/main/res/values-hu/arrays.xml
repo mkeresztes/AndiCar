@@ -33,6 +33,8 @@
     <string-array name="uom_type_entries">
         <item>Hossz</item>
         <item>Térfogat</item>
+        <item>Súly</item>
+        <item>Energia (elektromos)</item>
         <item>Más</item>
     </string-array>
 

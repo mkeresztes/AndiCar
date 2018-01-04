@@ -33,6 +33,8 @@
     <string-array name="uom_type_entries">
         <item>Lungime</item>
         <item>Volum</item>
+        <item>Greutate</item>
+        <item>Energie (electrică)</item>
         <item>Altul</item>
     </string-array>
 

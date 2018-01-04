@@ -37,7 +37,7 @@ public class ConstantValues {
     //showing or not the debug info about the screen size
     public static final boolean DEBUG_IS_SHOW_INFO_IN_FRAGMENTS = true;
 
-    public static final int DATABASE_VERSION = 503;
+    public static final int DATABASE_VERSION = 510;
     public static final String DATABASE_NAME = "AndiCar.db";
     public static final String EXPENSES_COL_FROM_REFUEL_TABLE_NAME = "Refuel";
     public static final String DAY_OF_WEEK_NAME = "DayOfWeek";
@@ -85,9 +85,12 @@ public class ConstantValues {
      * upper the hour to 23:59.999
      */
     public static final String DATE_DECODE_TO_24 = "24";
-    public static final String UOM_LENGTH_TYPE_CODE = "L";
-    public static final String UOM_VOLUME_TYPE_CODE = "V";
-    public static final String UOM_OTHER_TYPE_CODE = "O";
+    public static final String UOM_TYPE_LENGTH_CODE = "L";
+    public static final String UOM_TYPE_VOLUME_CODE = "V";
+    public static final String UOM_TYPE_WEIGHT_CODE = "W";
+    public static final String UOM_TYPE_ENERGY_CODE = "E";
+    public static final String UOM_TYPE_OTHER_CODE = "O";
+    public static final String UOM_TYPE_NONE_CODE = "N";
     public static final String IS_INITIALIZATION_IN_PROGRESS_TAG = "InitializationInProgress";
     public static final String ANALYTICS_IS_MULTI_CURRENCY = "MultiCurrencyUsed";
     public static final String ANALYTICS_IS_TEMPLATE_USED = "TemplateUsed";

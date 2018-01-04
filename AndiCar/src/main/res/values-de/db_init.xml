@@ -85,7 +85,11 @@
     <string name="DB_FuelType_GasolinePremium2">Super premium gasoline</string>
     <string name="DB_FuelType_GasolinePremiumComment2">Oktanzahl 94 – 98</string>
     <string name="DB_FuelType_LPG">LPG</string>
-    <string name="DB_FuelType_LPGComment">Autogas</string>
+    <string name="DB_FuelType_LPGComment">Flüssiggas</string>
+    <string name="DB_FuelType_CNG">CNG</string>
+    <string name="DB_FuelType_CNGComment">Komprimiertes Erdgas</string>
+    <string name="DB_FuelType_Electric">Elektrische Energie</string>
+    <string name="DB_FuelType_ElectricComment">Elektrische Energie</string>
 
     <!-- currencies -->
     <string name="DB_Curr_EUR">Euro</string>

@@ -30,6 +30,8 @@
     <string-array name="uom_type_entries">
         <item>Largo</item>
         <item>Volume</item>
+        <item>Peso</item>
+        <item>Energía (eléctrica)</item>
         <item>Otro</item>
     </string-array>
 

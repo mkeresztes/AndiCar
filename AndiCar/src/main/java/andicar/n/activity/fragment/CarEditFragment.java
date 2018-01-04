@@ -236,10 +236,10 @@ public class CarEditFragment extends BaseEditFragment {
     @Override
     protected void initSpecificControls() {
         Utils.initSpinner(mDbAdapter, spnUomLength, DBAdapter.TABLE_NAME_UOM,
-                DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_UOM__UOMTYPE + " = '" + ConstantValues.UOM_LENGTH_TYPE_CODE + "'", mUOMLengthId, false);
+                DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_UOM__UOMTYPE + " = '" + ConstantValues.UOM_TYPE_LENGTH_CODE + "'", mUOMLengthId, false);
 
         Utils.initSpinner(mDbAdapter, spnUomVolume, DBAdapter.TABLE_NAME_UOM,
-                DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_UOM__UOMTYPE + " = '" + ConstantValues.UOM_VOLUME_TYPE_CODE + "'", mUOMVolumeId, false);
+                DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_UOM__UOMTYPE + " = '" + ConstantValues.UOM_TYPE_VOLUME_CODE + "'", mUOMVolumeId, false);
     }
 
     @SuppressLint("SetTextI18n")

@@ -35,6 +35,8 @@
     <string-array name="uom_type_entries">
         <item>Länge</item>
         <item>Volumen</item>
+        <item>Gewicht</item>
+        <item>Energie (elektrisch)</item>
         <item>Andere</item>
     </string-array>
 

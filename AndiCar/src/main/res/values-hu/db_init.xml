@@ -85,6 +85,10 @@
     <string name="DB_FuelType_GasolinePremiumComment2">94 – 98-as benzin</string>
     <string name="DB_FuelType_LPG">LPG</string>
     <string name="DB_FuelType_LPGComment">Autógáz</string>
+    <string name="DB_FuelType_CNG">CNG</string>
+    <string name="DB_FuelType_CNGComment">Sűrített földgáz</string>
+    <string name="DB_FuelType_Electric">Elektromos energia</string>
+    <string name="DB_FuelType_ElectricComment">Elektromos energia</string>
 
     <!-- 
     <string name="DB_ExpCat_FuelName">Üzemanyag</string>

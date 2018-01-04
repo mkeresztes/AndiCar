@@ -79,8 +79,12 @@
     <string name="DB_FuelType_GasolinePremiumComment">Gasolina 91 – 93 Octanos</string>
     <string name="DB_FuelType_GasolinePremium2">Gasolina Super Especial</string>
     <string name="DB_FuelType_GasolinePremiumComment2">Gasolina 94 – 98 Octanos</string>
-    <string name="DB_FuelType_LPG">GNC</string>
-    <string name="DB_FuelType_LPGComment">Gas Natural Comprimido</string>
+    <string name="DB_FuelType_LPG">GLP</string>
+    <string name="DB_FuelType_LPGComment">Gas licuado del petróleo</string>
+    <string name="DB_FuelType_CNG">GNC</string>
+    <string name="DB_FuelType_CNGComment">Gas natural comprimido</string>
+    <string name="DB_FuelType_Electric">Energía eléctrica</string>
+    <string name="DB_FuelType_ElectricComment">Energía eléctrica</string>
 
     <!-- currencies -->
     <string name="DB_Curr_EUR">Euro</string>

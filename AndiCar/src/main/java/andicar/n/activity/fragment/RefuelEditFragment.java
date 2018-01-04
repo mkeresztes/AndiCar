@@ -427,7 +427,7 @@ public class RefuelEditFragment extends BaseEditFragment {
 
     protected void initSpecificControls() {
         Utils.initSpinner(mDbAdapter, spnUomVolume, DBAdapter.TABLE_NAME_UOM,
-                DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_UOM__UOMTYPE + " = '" + ConstantValues.UOM_VOLUME_TYPE_CODE + "'", mUOMVolumeId, false);
+                DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_UOM__UOMTYPE + " = '" + ConstantValues.UOM_TYPE_VOLUME_CODE + "'", mUOMVolumeId, false);
 
         //setup bpartner adapter
         mBPartnerAdapter = null;
@@ -749,7 +749,7 @@ public class RefuelEditFragment extends BaseEditFragment {
             mCarDefaultUOMVolumeId = mUOMVolumeId;
             mCarDefaultUOMVolumeCode = mDbAdapter.getUOMCode(mCarDefaultUOMVolumeId);
             Utils.initSpinner(mDbAdapter, spnUomVolume, DBAdapter.TABLE_NAME_UOM,
-                    DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_UOM__UOMTYPE + " = '" + ConstantValues.UOM_VOLUME_TYPE_CODE + "'", mUOMVolumeId, false);
+                    DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_UOM__UOMTYPE + " = '" + ConstantValues.UOM_TYPE_VOLUME_CODE + "'", mUOMVolumeId, false);
             setBaseUOMQtyZoneVisibility(false);
         }
 
