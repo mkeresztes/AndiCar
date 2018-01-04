@@ -226,7 +226,7 @@
                     android:tag="@string/gen_required"/>
 
                 <Spinner
-                    android:id="@+id/spnUomVolume"
+                    android:id="@+id/spnUomFuel"
                     style="@style/AndiCarSpinnerStyle"
                     android:layout_width="0dp"
                     android:layout_weight="1"

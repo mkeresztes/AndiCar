@@ -106,9 +106,11 @@ public class DB {
     public static final String COL_NAME_CAR__REGISTRATIONNO = "RegistrationNo";
     public static final String COL_NAME_CAR__INDEXSTART = "IndexStart";
     public static final String COL_NAME_CAR__INDEXCURRENT = "IndexCurrent";
-    public static final String COL_NAME_CAR__UOMLENGTH_ID = TABLE_NAME_UOM + "_Length_ID";
-    public static final String COL_NAME_CAR__UOMVOLUME_ID = TABLE_NAME_UOM + "_Volume_ID";
+    public static final String COL_NAME_CAR__LENGTH_UOM_ID = TABLE_NAME_UOM + "_Length_ID";
+    public static final String COL_NAME_CAR__FUEL_UOM_ID = TABLE_NAME_UOM + "_Volume_ID";
     public static final String COL_NAME_CAR__CURRENCY_ID = TABLE_NAME_CURRENCY + "_ID";
+    public static final String COL_NAME_CAR__ISAFV = "IsAFV"; //Alternative fuel vehicle
+    public static final String COL_NAME_CAR__ALTERNATIVE_FUEL_UOM_ID = TABLE_NAME_UOM + "_AltFuel_ID";
     // uom specific column names
     public static final String COL_NAME_UOM__CODE = "Code";
     public static final String COL_NAME_UOM__UOMTYPE = "UOMType"; // V - Volume
@@ -346,9 +348,11 @@ public class DB {
     public static final int COL_POS_CAR__REGISTRATIONNO = 5;
     public static final int COL_POS_CAR__INDEXSTART = 6;
     public static final int COL_POS_CAR__INDEXCURRENT = 7;
-    public static final int COL_POS_CAR__UOMLENGTH_ID = 8;
-    public static final int COL_POS_CAR__UOMVOLUME_ID = 9;
+    public static final int COL_POS_CAR__LENGTH_UOM_ID = 8;
+    public static final int COL_POS_CAR__FUEL_UOM_ID = 9;
     public static final int COL_POS_CAR__CURRENCY_ID = 10;
+    public static final int COL_POS_CAR__ISAFV = 11;
+    public static final int COL_POS_CAR__ALTERNATIVE_FUEL_UOM_ID = 12;
     // uom specific column positions
     public static final int COL_POS_UOM__CODE = 4;
     public static final int COL_POS_UOM__UOMTYPE = 5;
@@ -502,8 +506,9 @@ public class DB {
     public static final String[] COL_LIST_DRIVER_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT,
             COL_NAME_DRIVER__LICENSE_NO};
     public static final String[] COL_LIST_CAR_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT,
-            COL_NAME_CAR__MODEL, COL_NAME_CAR__REGISTRATIONNO, COL_NAME_CAR__INDEXSTART, COL_NAME_CAR__INDEXCURRENT, COL_NAME_CAR__UOMLENGTH_ID,
-            COL_NAME_CAR__UOMVOLUME_ID, COL_NAME_CAR__CURRENCY_ID};
+            COL_NAME_CAR__MODEL, COL_NAME_CAR__REGISTRATIONNO, COL_NAME_CAR__INDEXSTART, COL_NAME_CAR__INDEXCURRENT, COL_NAME_CAR__LENGTH_UOM_ID,
+            COL_NAME_CAR__FUEL_UOM_ID, COL_NAME_CAR__CURRENCY_ID, COL_NAME_CAR__ISAFV, COL_NAME_CAR__ALTERNATIVE_FUEL_UOM_ID};
+
     public static final String[] COL_LIST_UOM_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT,
             COL_NAME_UOM__CODE, COL_NAME_UOM__UOMTYPE};
     public static final String[] COL_LIST_UOMCONVERSION_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT,
@@ -607,9 +612,11 @@ public class DB {
                         COL_NAME_CAR__REGISTRATIONNO + " TEXT NULL, " +
                         COL_NAME_CAR__INDEXSTART + " NUMERIC, " +
                         COL_NAME_CAR__INDEXCURRENT + " NUMERIC, " +
-                        COL_NAME_CAR__UOMLENGTH_ID + " INTEGER, " +
-                        COL_NAME_CAR__UOMVOLUME_ID + " INTEGER, " +
-                        COL_NAME_CAR__CURRENCY_ID + " INTEGER " +
+                        COL_NAME_CAR__LENGTH_UOM_ID + " INTEGER, " +
+                        COL_NAME_CAR__FUEL_UOM_ID + " INTEGER, " +
+                        COL_NAME_CAR__CURRENCY_ID + " INTEGER, " +
+                        COL_NAME_CAR__ISAFV + " TEXT DEFAULT 'N', " +
+                        COL_NAME_CAR__ALTERNATIVE_FUEL_UOM_ID + " INTEGER NULL " +
                     ");";
 
     private static final String CREATE_SQL_UOM_TABLE =
@@ -714,7 +721,7 @@ public class DB {
                         COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
                         COL_NAME_EXPENSECATEGORY__ISEXCLUDEFROMMILEAGECOST + " TEXT DEFAULT 'N', " +
                         COL_NAME_EXPENSECATEGORY__ISFUEL + " TEXT DEFAULT 'N', " +
-                        COL_NAME_EXPENSECATEGORY__UOMTYPE + " TEXT DEFAULT 'N' " +
+                        COL_NAME_EXPENSECATEGORY__UOMTYPE + " TEXT NOT NULL DEFAULT 'N' " +
                     ");";
 
     private static final String CREATE_SQL_EXPENSE_TABLE =
@@ -1441,7 +1448,7 @@ public class DB {
                 db.execSQL(updSql);
                 updSql = "UPDATE " + TABLE_NAME_REFUEL + " SET " + COL_NAME_REFUEL__UOMVOLUMEENTERED_ID + " = " + COL_NAME_REFUEL__UOMVOLUME_ID;
                 db.execSQL(updSql);
-                updSql = "UPDATE " + TABLE_NAME_REFUEL + " SET " + COL_NAME_REFUEL__UOMVOLUME_ID + " = " + "(SELECT " + COL_NAME_CAR__UOMVOLUME_ID + " "
+                updSql = "UPDATE " + TABLE_NAME_REFUEL + " SET " + COL_NAME_REFUEL__UOMVOLUME_ID + " = " + "(SELECT " + COL_NAME_CAR__FUEL_UOM_ID + " "
                         + "FROM " + TABLE_NAME_CAR + " " + "WHERE " + COL_NAME_GEN_ROWID + " = "
                         + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + ") ";
                 db.execSQL(updSql);
@@ -1845,7 +1852,7 @@ public class DB {
         private void upgradeDbTo510(SQLiteDatabase db, int oldVersion) throws SQLException {
             String updSql;
             if (!columnExists(db, TABLE_NAME_EXPENSECATEGORY, COL_NAME_EXPENSECATEGORY__UOMTYPE)) {
-                updSql = "ALTER TABLE " + TABLE_NAME_EXPENSECATEGORY + " ADD " + COL_NAME_EXPENSECATEGORY__UOMTYPE + " TEXT DEFAULT 'N' ";
+                updSql = "ALTER TABLE " + TABLE_NAME_EXPENSECATEGORY + " ADD " + COL_NAME_EXPENSECATEGORY__UOMTYPE + " TEXT NOT NULL DEFAULT 'N' ";
                 db.execSQL(updSql);
 
                 updSql = "UPDATE " + TABLE_NAME_EXPENSECATEGORY +
@@ -1954,6 +1961,20 @@ public class DB {
                 c.close();
             }
             catch (Exception ignored) {
+            }
+
+            db.execSQL("UPDATE " + TABLE_NAME_DATA_TEMPLATE_VALUES +
+                    " SET " + COL_NAME_GEN_NAME + " = 'spnUomFuel'" +
+                    "WHERE " + COL_NAME_GEN_NAME + " = 'spnUomVolume'");
+
+
+            if (!columnExists(db, TABLE_NAME_CAR, COL_NAME_CAR__ISAFV)) {
+                updSql = "ALTER TABLE " + TABLE_NAME_CAR + " ADD " + COL_NAME_CAR__ISAFV + " TEXT DEFAULT 'N' ";
+                db.execSQL(updSql);
+            }
+            if (!columnExists(db, TABLE_NAME_CAR, COL_NAME_CAR__ALTERNATIVE_FUEL_UOM_ID)) {
+                updSql = "ALTER TABLE " + TABLE_NAME_CAR + " ADD " + COL_NAME_CAR__ALTERNATIVE_FUEL_UOM_ID + " INTEGER NULL ";
+                db.execSQL(updSql);
             }
         }
 

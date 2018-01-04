@@ -1182,7 +1182,9 @@ public abstract class BaseEditFragment extends Fragment {
         Spinner tmpSpinner = (Spinner) arg0;
         //set the spinner text to the selected item code
         if ((tmpSpinner.equals(mRootView.findViewById(R.id.spnUomFrom)) || tmpSpinner.equals(mRootView.findViewById(R.id.spnUomTo))
-                || tmpSpinner.equals(mRootView.findViewById(R.id.spnUomLength)) || tmpSpinner.equals(mRootView.findViewById(R.id.spnUomVolume))
+                || tmpSpinner.equals(mRootView.findViewById(R.id.spnUomLength))
+                || tmpSpinner.equals(mRootView.findViewById(R.id.spnUomFuel))
+                || tmpSpinner.equals(mRootView.findViewById(R.id.spnUomAlternativeFuel))
                 || tmpSpinner.equals(mRootView.findViewById(R.id.spnUOM)))
                 && arg3 > 0) {
             code = mDbAdapter.getUOMCode(arg3);

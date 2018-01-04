@@ -165,7 +165,7 @@ public class DBReportAdapter extends DBAdapter {
                                                             "=" + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_ROWID) +
                 " JOIN " + TABLE_NAME_CAR + " ON " + sqlConcatTableColumn(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_MILEAGE__CAR_ID) +
                                                             "=" + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
-                    " JOIN " + TABLE_NAME_UOM + " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) +
+                    " JOIN " + TABLE_NAME_UOM + " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__LENGTH_UOM_ID) +
                                                             "=" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
                     " JOIN " + TABLE_NAME_CURRENCY + " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) +
                                                             "=" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
@@ -509,7 +509,7 @@ public class DBReportAdapter extends DBAdapter {
                                 "=" + sqlConcatTableColumn("DefaultVolumeUOM", COL_NAME_GEN_ROWID) +
                 " JOIN " + TABLE_NAME_CAR + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) +
                                 "=" + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
-                    " JOIN " + TABLE_NAME_UOM + " AS CarLengthUOM " + " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) +
+                    " JOIN " + TABLE_NAME_UOM + " AS CarLengthUOM " + " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__LENGTH_UOM_ID) +
                                     "=" + sqlConcatTableColumn("CarLengthUOM", COL_NAME_GEN_ROWID) +
                 " JOIN " + TABLE_NAME_CURRENCY + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCYENTERED_ID) +
                                 "=" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
@@ -618,7 +618,7 @@ public class DBReportAdapter extends DBAdapter {
                                 "=" + sqlConcatTableColumn("UomVolEntered", COL_NAME_GEN_ROWID) +
                 " JOIN " + TABLE_NAME_CAR + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) +
                                 "=" + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
-                        " JOIN " + TABLE_NAME_UOM + " AS CarLengthUOM " + " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) +
+                        " JOIN " + TABLE_NAME_UOM + " AS CarLengthUOM " + " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__LENGTH_UOM_ID) +
                                     "=" + sqlConcatTableColumn("CarLengthUOM", COL_NAME_GEN_ROWID) +
                 " JOIN " + TABLE_NAME_CURRENCY + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCY_ID) +
                                 "=" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
@@ -689,7 +689,7 @@ public class DBReportAdapter extends DBAdapter {
                                                                 sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_ROWID) +
                     " JOIN " + TABLE_NAME_CAR + " ON " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__CAR_ID) + "=" +
                                                                 sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
-                        " JOIN " + TABLE_NAME_UOM + " AS CarDefaultLengthUOM ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) + "=" +
+                        " JOIN " + TABLE_NAME_UOM + " AS CarDefaultLengthUOM ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__LENGTH_UOM_ID) + "=" +
                                                                     sqlConcatTableColumn("CarDefaultLengthUOM", COL_NAME_GEN_ROWID) +
                     " JOIN " + TABLE_NAME_CURRENCY + " ON " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__CURRENCYENTERED_ID) + "=" +
                                                                 sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
@@ -839,7 +839,7 @@ public class DBReportAdapter extends DBAdapter {
                         sqlConcatTableColumn(TABLE_NAME_GPSTRACK, COL_NAME_GPSTRACK__CAR_ID) +
                                 "=" + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
                     " JOIN " + TABLE_NAME_UOM + " ON " +
-                        sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) +
+                        sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__LENGTH_UOM_ID) +
                                 "=" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
                     " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_GPSTRACK, COL_NAME_GPSTRACK__TAG_ID) +
@@ -1097,7 +1097,7 @@ public class DBReportAdapter extends DBAdapter {
                                     " = " + sqlConcatTableColumn(TABLE_NAME_TASKTYPE, COL_NAME_GEN_ROWID) +
                     " LEFT OUTER JOIN " + TABLE_NAME_CAR + " ON " + sqlConcatTableColumn(TABLE_NAME_TODO, COL_NAME_TODO__CAR_ID) +
                                     " = " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
-                    " LEFT OUTER JOIN " + TABLE_NAME_UOM + " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) +
+                    " LEFT OUTER JOIN " + TABLE_NAME_UOM + " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__LENGTH_UOM_ID) +
                                     " = " + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
                     " LEFT OUTER JOIN " +
                             "( " +
@@ -1320,7 +1320,7 @@ public class DBReportAdapter extends DBAdapter {
                                 " = " + sqlConcatTableColumn(TABLE_NAME_TASKTYPE, COL_NAME_GEN_ROWID) +
                     " LEFT OUTER JOIN " + TABLE_NAME_CAR + " ON " + sqlConcatTableColumn(TABLE_NAME_TODO, COL_NAME_TODO__CAR_ID) +
                                 " = " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
-                    " LEFT OUTER JOIN " + TABLE_NAME_UOM + " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) +
+                    " LEFT OUTER JOIN " + TABLE_NAME_UOM + " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__LENGTH_UOM_ID) +
                                 " = " + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
                     " LEFT OUTER JOIN " +
                             "( " +
@@ -1370,9 +1370,9 @@ public class DBReportAdapter extends DBAdapter {
 
             " FROM " +
                     TABLE_NAME_CAR + " " +
-                        "JOIN " + TABLE_NAME_UOM + " AS UomLength " + " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) +
+                        "JOIN " + TABLE_NAME_UOM + " AS UomLength " + " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__LENGTH_UOM_ID) +
                                         "=" + sqlConcatTableColumn("UomLength", COL_NAME_GEN_ROWID) +
-                        " JOIN " + TABLE_NAME_UOM + " AS UomVolume " + " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMVOLUME_ID) +
+                        " JOIN " + TABLE_NAME_UOM + " AS UomVolume " + " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__FUEL_UOM_ID) +
                                         "=" + sqlConcatTableColumn("UomVolume", COL_NAME_GEN_ROWID) +
                         " JOIN " + TABLE_NAME_CURRENCY + " ON " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) +
                                         "=" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
@@ -1438,7 +1438,7 @@ public class DBReportAdapter extends DBAdapter {
                         sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
                             " JOIN " + TABLE_NAME_UOM + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) + " = " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__LENGTH_UOM_ID) + " = " +
                                     sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
                     " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__TAG_ID) + " = " +
@@ -1460,7 +1460,7 @@ public class DBReportAdapter extends DBAdapter {
                         sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
                             " JOIN " + TABLE_NAME_UOM + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) + " = " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__LENGTH_UOM_ID) + " = " +
                                     sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
                     " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__TAG_ID) + " = " +
@@ -1480,7 +1480,7 @@ public class DBReportAdapter extends DBAdapter {
                         sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
                             " JOIN " + TABLE_NAME_UOM + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) + " = " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__LENGTH_UOM_ID) + " = " +
                                     sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
                     " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__TAG_ID) + " = " +
@@ -1503,7 +1503,7 @@ public class DBReportAdapter extends DBAdapter {
                         sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
                             " JOIN " + TABLE_NAME_UOM + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) + " = " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__LENGTH_UOM_ID) + " = " +
                                     sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
                     " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__TAG_ID) + " = " +
@@ -1523,7 +1523,7 @@ public class DBReportAdapter extends DBAdapter {
                         sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
                             " JOIN " + TABLE_NAME_UOM + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMLENGTH_ID) + " = " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__LENGTH_UOM_ID) + " = " +
                                     sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
                     " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__TAG_ID) + " = " +
@@ -1543,7 +1543,7 @@ public class DBReportAdapter extends DBAdapter {
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
                             " JOIN " + TABLE_NAME_UOM + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMVOLUME_ID) + " = " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__FUEL_UOM_ID) + " = " +
                                     sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
                             " JOIN " + TABLE_NAME_CURRENCY + " ON " +
                                 sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
@@ -1569,7 +1569,7 @@ public class DBReportAdapter extends DBAdapter {
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
                             " JOIN " + TABLE_NAME_UOM + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMVOLUME_ID) + " = " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__FUEL_UOM_ID) + " = " +
                                     sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
                             " JOIN " + TABLE_NAME_CURRENCY + " ON " +
                                 sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
@@ -1596,7 +1596,7 @@ public class DBReportAdapter extends DBAdapter {
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
                             " JOIN " + TABLE_NAME_UOM + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMVOLUME_ID) + " = " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__FUEL_UOM_ID) + " = " +
                                     sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
                             " JOIN " + TABLE_NAME_CURRENCY + " ON " +
                                 sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
@@ -1620,7 +1620,7 @@ public class DBReportAdapter extends DBAdapter {
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
                             " JOIN " + TABLE_NAME_UOM + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMVOLUME_ID) + " = " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__FUEL_UOM_ID) + " = " +
                                     sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
                             " JOIN " + TABLE_NAME_CURRENCY + " ON " +
                                 sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
@@ -1644,7 +1644,7 @@ public class DBReportAdapter extends DBAdapter {
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
                             " JOIN " + TABLE_NAME_UOM + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMVOLUME_ID) + " = " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__FUEL_UOM_ID) + " = " +
                                     sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
                             " JOIN " + TABLE_NAME_CURRENCY + " ON " +
                                 sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
@@ -1671,7 +1671,7 @@ public class DBReportAdapter extends DBAdapter {
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
                             " JOIN " + TABLE_NAME_UOM + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__UOMVOLUME_ID) + " = " +
+                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__FUEL_UOM_ID) + " = " +
                                     sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
                             " JOIN " + TABLE_NAME_CURRENCY + " ON " +
                                 sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +

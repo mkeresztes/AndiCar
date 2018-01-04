@@ -584,8 +584,8 @@ import andicar.n.utils.FileUtils;
         if (tableName.equals(TABLE_NAME_UOM)) {
             if (content.containsKey(DBAdapter.COL_NAME_GEN_ISACTIVE) && content.getAsString(DBAdapter.COL_NAME_GEN_ISACTIVE).equals("N")) {
                 //check if the uom are used in an active car definition
-                checkSql = "SELECT * " + "FROM " + TABLE_NAME_CAR + " " + "WHERE " + COL_NAME_GEN_ISACTIVE + " = 'Y' " + "AND (" + COL_NAME_CAR__UOMLENGTH_ID
-                        + " = " + rowId + " OR " + COL_NAME_CAR__UOMVOLUME_ID + " = " + rowId + ") " + "LIMIT 1";
+                checkSql = "SELECT * " + "FROM " + TABLE_NAME_CAR + " " + "WHERE " + COL_NAME_GEN_ISACTIVE + " = 'Y' " + "AND (" + COL_NAME_CAR__LENGTH_UOM_ID
+                        + " = " + rowId + " OR " + COL_NAME_CAR__FUEL_UOM_ID + " = " + rowId + ") " + "LIMIT 1";
                 checkCursor = mDb.rawQuery(checkSql, null);
                 if (checkCursor.moveToFirst()) { //record exists
                     checkCursor.close();
@@ -1381,7 +1381,7 @@ import andicar.n.utils.FileUtils;
         Cursor c = fetchRecord(TABLE_NAME_CAR, COL_LIST_CAR_TABLE, carID);
         long retVal = -1;
         if (c != null) {
-            retVal = c.getLong(COL_POS_CAR__UOMVOLUME_ID);
+            retVal = c.getLong(COL_POS_CAR__FUEL_UOM_ID);
             c.close();
         }
         return retVal;
@@ -1392,7 +1392,7 @@ import andicar.n.utils.FileUtils;
         Cursor c = fetchRecord(TABLE_NAME_CAR, COL_LIST_CAR_TABLE, carID);
         long retVal = -1;
         if (c != null) {
-            retVal = c.getLong(COL_POS_CAR__UOMLENGTH_ID);
+            retVal = c.getLong(COL_POS_CAR__LENGTH_UOM_ID);
             c.close();
         }
         return retVal;

@@ -602,7 +602,9 @@
     <!--CarEditActivity_UOMLengthLabel-->
     <string name="car_edit_uom_length_label">UOM for distance:</string>
     <!--CarEditActivity_UOMVolumeLabel-->
-    <string name="car_edit_uom_volume_label">UOM for volume:</string>
+    <string name="car_edit_uom_fuel_label">UOM for fuel:</string>
+    <string name="car_edit_uom_alternative_fuel_label">UOM for alternative fuel:</string>
+    <string name="car_edit_is_alternative_fuel_vehicle">Is alternative fuel vehicle (LPG, CNG, plug-in hybrid, etc.)</string>
     <!--CarEditActivity_IndexStartLabel-->
     <string name="car_edit_index_start_label">Initial odometer:</string>
     <!--CarEditActivity_CurrencyLabel-->
@@ -748,7 +750,7 @@
     <string name="main_activity_statistics_mileage_expense_label">Mileage exp.:</string>
     <!--MainActivity_AppVersion-->
     <string name="main_activity_app_version">Application version: %1$s (DB %2$s)</string>
-    <string name="main_activity_no_car_title">First, define a car</string>
+    <string name="main_activity_no_car_title">Please define a car</string>
 
 
     <!--AddOn_BTStarter_DeviceListActivityTitle-->

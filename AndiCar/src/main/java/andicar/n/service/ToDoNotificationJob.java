@@ -108,7 +108,7 @@ public class ToDoNotificationJob extends JobService {
                 if (carCursor != null) {
                     contentText = getString(R.string.gen_car_label) + " " + carCursor.getString(DBAdapter.COL_POS_GEN_NAME);
                     carCurrentOdometer = carCursor.getLong(DBAdapter.COL_POS_CAR__INDEXCURRENT);
-                    carUOMCode = dbAdapter.getUOMCode(carCursor.getLong(DBAdapter.COL_POS_CAR__UOMLENGTH_ID));
+                    carUOMCode = dbAdapter.getUOMCode(carCursor.getLong(DBAdapter.COL_POS_CAR__LENGTH_UOM_ID));
                     carCursor.close();
                 }
             }

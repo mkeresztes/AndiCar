@@ -303,7 +303,7 @@ public class RefuelEditFragment extends BaseEditFragment {
             return;
         }
 
-        spnUomVolume = mRootView.findViewById(R.id.spnUomVolume);
+        spnUomVolume = mRootView.findViewById(R.id.spnUomFuel);
         spnUomVolume.setTag(ConstantValues.IS_INITIALIZATION_IN_PROGRESS_TAG);
         spnUomVolume.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

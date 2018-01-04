@@ -989,7 +989,7 @@ public class TaskEditFragment extends BaseEditFragment {
                         + " ON " + DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TASK_CAR, DBAdapter.COL_NAME_TASK_CAR__CAR_ID)
                             + " = " + DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_CAR, DBAdapter.COL_NAME_GEN_ROWID)
                     + " JOIN " + DBAdapter.TABLE_NAME_UOM
-                        + " ON " + DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_CAR, DBAdapter.COL_NAME_CAR__UOMLENGTH_ID)
+                        + " ON " + DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_CAR, DBAdapter.COL_NAME_CAR__LENGTH_UOM_ID)
                             + "=" + DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_UOM, DBAdapter.COL_NAME_GEN_ROWID)
                 + " WHERE "
                         + DB.sqlConcatTableColumn(DBAdapter.TABLE_NAME_TASK_CAR, DBAdapter.COL_NAME_TASK_CAR__TASK_ID) + " = ? "

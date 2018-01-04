@@ -420,11 +420,10 @@ public class DataEntryTemplate {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setCurrencyId(tmpID);
                     tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnCurrency), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_CURRENCY, tmpID));
-                }
-                else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnUomVolume")) {
+                } else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnUomFuel")) {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setUOMVolumeId(tmpID);
-                    tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnUomVolume), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_UOM, tmpID));
+                    tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnUomFuel), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_UOM, tmpID));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("etUserInput")) {
                     ((EditText) mRootView.findViewById(R.id.etUserInput)).setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
@@ -604,7 +603,7 @@ public class DataEntryTemplate {
             cv.putString("spnExpCategory", Long.toString(mEditFragment.getExpCategoryId()));
             cv.putString("spnExpType", Long.toString(mEditFragment.getExpTypeId()));
             cv.putString("spnCurrency", Long.toString(mEditFragment.getCurrencyId()));
-            cv.putString("spnUomVolume", Long.toString(((RefuelEditFragment) mEditFragment).getUOMId()));
+            cv.putString("spnUomFuel", Long.toString(((RefuelEditFragment) mEditFragment).getUOMId()));
             cv.putString("rbInsertModeAmount", ((RadioButton) mRootView.findViewById(R.id.rbInsertModeAmount)).isChecked() ? "Y" : "N");
             cv.putString("rbInsertModePrice", ((RadioButton) mRootView.findViewById(R.id.rbInsertModePrice)).isChecked() ? "Y" : "N");
             cv.putString("etUserInput", ((EditText) mRootView.findViewById(R.id.etUserInput)).getText().toString());

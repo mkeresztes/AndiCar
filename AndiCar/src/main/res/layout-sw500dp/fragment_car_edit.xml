@@ -124,7 +124,7 @@
                         android:id="@+id/tvIndexStartLabel"
                         style="@style/AndiCarLabelStyle"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:text="@string/car_edit_index_start_label"/>
 
                     <EditText
@@ -146,7 +146,7 @@
                     <TextView
                         style="@style/AndiCarLabelStyle"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:text="@string/car_edit_uom_length_label"/>
 
                     <Spinner
@@ -166,11 +166,40 @@
                     <TextView
                         style="@style/AndiCarLabelStyle"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:text="@string/car_edit_uom_volume_label"/>
+                        android:layout_weight="2"
+                        android:text="@string/car_edit_uom_fuel_label" />
 
                     <Spinner
-                        android:id="@+id/spnUomVolume"
+                        android:id="@+id/spnUomFuel"
+                        style="@style/AndiCarSpinnerStyle"
+                        android:layout_width="0dp"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/ckIsAlternativeFuelVehicle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    style="@style/AndiCarCheckBox"
+                    android:text="@string/car_edit_is_alternative_fuel_vehicle" />
+
+                <LinearLayout
+                    android:id="@+id/llUomAlternativeFuel"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/AndiCarLabelStyle"
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
+                        android:text="@string/car_edit_uom_alternative_fuel_label" />
+
+                    <Spinner
+                        android:id="@+id/spnUomAlternativeFuel"
                         style="@style/AndiCarSpinnerStyle"
                         android:layout_width="0dp"
                         android:layout_weight="1"/>

@@ -199,7 +199,7 @@ public class MileageEditFragment extends BaseEditFragment {
             }
             Cursor c = mDbAdapter.fetchRecord(DBAdapter.TABLE_NAME_CAR, DBAdapter.COL_LIST_CAR_TABLE, mCarId);
             if (c != null) {
-                mUOMLengthId = c.getLong(DBAdapter.COL_POS_CAR__UOMLENGTH_ID);
+                mUOMLengthId = c.getLong(DBAdapter.COL_POS_CAR__LENGTH_UOM_ID);
                 c.close();
             }
             mCarCurrencyCode = mDbAdapter.getCurrencyCode(mDbAdapter.getCarCurrencyID(mCarId));
