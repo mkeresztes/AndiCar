@@ -76,7 +76,7 @@
                 <EditText
                     android:id="@+id/etCode"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:hint="@string/gen_required"
                     android:tag="@string/gen_required"/>
@@ -99,7 +99,7 @@
                 <EditText
                     android:id="@+id/etName"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:layout_height="wrap_content"
                     android:hint="@string/gen_required"
                     android:tag="@string/gen_required"/>
@@ -122,7 +122,7 @@
                     android:id="@+id/spnUomType"
                     style="@style/AndiCarSpinnerStyle"
                     android:layout_width="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="2" />
             </LinearLayout>
 
             <TextView
