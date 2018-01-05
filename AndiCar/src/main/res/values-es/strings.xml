@@ -632,6 +632,7 @@
     <string name="error_013">Este UOM no puede ser borrado porque esta siendo usado en kilómetros.</string>
     <string name="error_014">Este UOM no puede ser borrado porque esta siendo usado en recarga(s).</string>
     <string name="error_015">Este UOM no puede ser borrado porque esta siendo usado en UM conversión(es).</string>
+    <string name="error_125">Esta UOM no puede ser borrado porque esta siendo usado en definiciones de vehículo(s).</string>
     <string name="error_016">Esta moneda no puede ser borrado porque esta siendo usado en definiciones de vehículo(s).</string>
     <string name="error_017">Esta moneda no puede ser borrado porque esta siendo usado en recarga(s).</string>
     <string name="error_018">Esta gasto type no puede ser borrado porque esta siendo usado en kilómetros.</string>

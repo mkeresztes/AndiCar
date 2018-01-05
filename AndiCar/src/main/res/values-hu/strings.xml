@@ -604,9 +604,10 @@
     <string name="error_010">Ez a vezető nem törölhető, mert létező tankolás hivatkozik rá.</string>
     <string name="error_011">Ez az autó nem törölhető, mert létező útak hivatkozik rá.</string>
     <string name="error_012">Ez az autó nem törölhető, mert létező tankolás hivatkozik rá.</string>
-    <string name="error_013">Ez az mértékegység nem törölhető, mert létező útak hivatkozik rá.</string>
-    <string name="error_014">Ez az mértékegység nem törölhető, mert létező tankolás hivatkozik rá.</string>
-    <string name="error_015">Ez az mértékegység nem törölhető, mert mértékegység konvertálás hivatkozik rá.</string>
+    <string name="error_013">Ez a mértékegység nem törölhető, mert létező útak hivatkozik rá.</string>
+    <string name="error_014">Ez a mértékegység nem törölhető, mert létező tankolás hivatkozik rá.</string>
+    <string name="error_015">Ez a mértékegység nem törölhető, mert mértékegység konvertálás hivatkozik rá.</string>
+    <string name="error_125">Ez a mértékegység nem törölhető, mert létező autó hivatkozik rá.</string>
     <string name="error_016">Ez a valuta nem törölhető, mert létező autó hivatkozik rá.</string>
     <string name="error_017">Ez a valuta nem törölhető, mert létező tankolás hivatkozik rá.</string>
     <string name="error_018">Ez a tipus nem törölhető, mert létező útak hivatkozik rá.</string>

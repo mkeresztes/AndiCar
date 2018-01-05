@@ -889,7 +889,7 @@ import andicar.n.utils.FileUtils;
                 checkCursor = mDb.rawQuery(checkSql, null);
                 if (checkCursor.moveToFirst()) { //record exists
                     checkCursor.close();
-                    return R.string.error_025;
+                    return R.string.error_125;
                 }
 
                 break;

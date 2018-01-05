@@ -919,6 +919,7 @@
     <string name="error_013">This UOM can not be deleted because it is used in mileage(s).</string>
     <string name="error_014">This UOM can not be deleted because it is used in fill-up(s).</string>
     <string name="error_015">This UOM can not be deleted because it is used in UOM conversion(s).</string>
+    <string name="error_125">This UOM can not be deleted because it is used in car definition(s).</string>
     <string name="error_016">This currency can not be deleted because it is used in car definition(s).</string>
     <string name="error_017">This currency can not be deleted because it is used in fill-up(s).</string>
     <string name="error_018">This expense type can not be deleted because it is used in mileage(s).</string>

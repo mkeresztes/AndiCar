@@ -631,6 +631,7 @@
     <string name="error_013">Diese Maßeinheit kann nicht gelöscht werden, weil sie in Strecke(n) verwendet wird.</string>
     <string name="error_014">Diese Maßeinheit kann nicht gelöscht werden, weil sie in Tankvorgängen verwendet wird.</string>
     <string name="error_015">Diese Maßeinheit kann nicht gelöscht werden, weil sie in Maßeinheiten verwendet wird.</string>
+    <string name="error_125">Diese Maßeinheit kann nicht gelöscht werden, weil sie in Fahrzeugdefinitionen verwendet wird.</string>
     <string name="error_016">Diese Währung kann nicht gelöscht werden, weil sie in Fahrzeugdefinitionen verwendet wird.</string>
     <string name="error_017">Diese Währung kann nicht gelöscht werden, weil sie in Tankvorgängen verwendet wird.</string>
     <string name="error_018">Diese Ausgabenart kann nicht gelöscht werden, weil sie in Strecke(n) verwendet wird.</string>

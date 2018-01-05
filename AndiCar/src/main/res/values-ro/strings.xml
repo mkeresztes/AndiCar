@@ -606,6 +606,7 @@
     <string name="error_013">Această unitate de măsura nu poate fi ștearsă deoarece este folosită în kilometraj(e).</string>
     <string name="error_014">Această unitate de măsura nu poate fi ștearsă deoarece este folosită în alimentări.</string>
     <string name="error_015">Această unitate de măsura nu poate fi ștearsă deoarece este folosită în conversii de unități de măsură.</string>
+    <string name="error_125">Această unitate de măsura nu poate fi ștearsă deoarece este folosită de cel puțin o mașină.</string>
     <string name="error_016">Această monedă nu poate fi ștearsă deoarece este folosită de cel puțin o mașină.</string>
     <string name="error_017">Această monedă nu poate fi ștearsă deoarece este folosită în alimentări.</string>
     <string name="error_018">Această monedă nu poate fi șterasă deoarece este folosită in kilometraj(e).</string>
