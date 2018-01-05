@@ -584,8 +584,13 @@ import andicar.n.utils.FileUtils;
         if (tableName.equals(TABLE_NAME_UOM)) {
             if (content.containsKey(DBAdapter.COL_NAME_GEN_ISACTIVE) && content.getAsString(DBAdapter.COL_NAME_GEN_ISACTIVE).equals("N")) {
                 //check if the uom are used in an active car definition
-                checkSql = "SELECT * " + "FROM " + TABLE_NAME_CAR + " " + "WHERE " + COL_NAME_GEN_ISACTIVE + " = 'Y' " + "AND (" + COL_NAME_CAR__LENGTH_UOM_ID
-                        + " = " + rowId + " OR " + COL_NAME_CAR__FUEL_UOM_ID + " = " + rowId + ") " + "LIMIT 1";
+                checkSql = "SELECT * " +
+                            " FROM " + TABLE_NAME_CAR +
+                            " WHERE " + COL_NAME_GEN_ISACTIVE + " = 'Y' " +
+                                    "AND (" + COL_NAME_CAR__LENGTH_UOM_ID + " = " + rowId +
+                                            " OR " + COL_NAME_CAR__FUEL_UOM_ID + " = " + rowId +
+                                            " OR " + COL_NAME_CAR__ALTERNATIVE_FUEL_UOM_ID + " = " + rowId + ") " +
+                            " LIMIT 1";
                 checkCursor = mDb.rawQuery(checkSql, null);
                 if (checkCursor.moveToFirst()) { //record exists
                     checkCursor.close();
@@ -838,7 +843,10 @@ import andicar.n.utils.FileUtils;
                 break;
             case TABLE_NAME_UOM:
                 //check if exists mileage for this driver
-                checkSql = "SELECT * " + "FROM " + TABLE_NAME_MILEAGE + " " + "WHERE " + COL_NAME_MILEAGE__UOMLENGTH_ID + " = " + rowId + " " + "LIMIT 1";
+                checkSql = "SELECT * " +
+                            " FROM " + TABLE_NAME_MILEAGE +
+                            " WHERE " + COL_NAME_MILEAGE__UOMLENGTH_ID + " = " + rowId + " " +
+                            " LIMIT 1";
                 checkCursor = mDb.rawQuery(checkSql, null);
                 if (checkCursor.moveToFirst()) { //record exists
                     checkCursor.close();
@@ -846,8 +854,11 @@ import andicar.n.utils.FileUtils;
                 }
                 checkCursor.close();
                 //check refuels
-                checkSql = "SELECT * " + "FROM " + TABLE_NAME_REFUEL + " " + "WHERE " + COL_NAME_REFUEL__UOMVOLUME_ID + " = " + rowId + " " + " OR "
-                        + COL_NAME_REFUEL__UOMVOLUMEENTERED_ID + " = " + rowId + " " + "LIMIT 1";
+                checkSql = "SELECT * " +
+                            " FROM " + TABLE_NAME_REFUEL +
+                            " WHERE " + COL_NAME_REFUEL__UOMVOLUME_ID + " = " + rowId +
+                                    " OR " + COL_NAME_REFUEL__UOMVOLUMEENTERED_ID + " = " + rowId +
+                            " LIMIT 1";
                 checkCursor = mDb.rawQuery(checkSql, null);
                 if (checkCursor.moveToFirst()) { //record exists
                     checkCursor.close();
@@ -855,14 +866,32 @@ import andicar.n.utils.FileUtils;
                 }
                 checkCursor.close();
                 //check uom conversions
-                checkSql = "SELECT * " + "FROM " + TABLE_NAME_UOMCONVERSION + " " + "WHERE " + COL_NAME_UOMCONVERSION__UOMFROM_ID + " = " + rowId + " " + "OR "
-                        + COL_NAME_UOMCONVERSION__UOMTO_ID + " = " + rowId + " " + "LIMIT 1";
+                checkSql = "SELECT * " +
+                            " FROM " + TABLE_NAME_UOMCONVERSION +
+                            " WHERE " + COL_NAME_UOMCONVERSION__UOMFROM_ID + " = " + rowId +
+                                    " OR " + COL_NAME_UOMCONVERSION__UOMTO_ID + " = " + rowId +
+                            " LIMIT 1";
                 checkCursor = mDb.rawQuery(checkSql, null);
                 if (checkCursor.moveToFirst()) { //record exists
                     checkCursor.close();
                     return R.string.error_015;
                 }
                 checkCursor.close();
+
+                //check car definitions
+                checkSql = "SELECT * " +
+                            " FROM " + TABLE_NAME_CAR +
+                            " WHERE " + COL_NAME_GEN_ISACTIVE + " = 'Y' " +
+                                    "AND (" + COL_NAME_CAR__LENGTH_UOM_ID + " = " + rowId +
+                                            " OR " + COL_NAME_CAR__FUEL_UOM_ID + " = " + rowId +
+                                            " OR " + COL_NAME_CAR__ALTERNATIVE_FUEL_UOM_ID + " = " + rowId + ") " +
+                            " LIMIT 1";
+                checkCursor = mDb.rawQuery(checkSql, null);
+                if (checkCursor.moveToFirst()) { //record exists
+                    checkCursor.close();
+                    return R.string.error_025;
+                }
+
                 break;
             case TABLE_NAME_CURRENCY:
                 //check cars
