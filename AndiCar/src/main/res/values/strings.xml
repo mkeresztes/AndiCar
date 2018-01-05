@@ -603,7 +603,7 @@
     <string name="car_edit_uom_length_label">UOM for distance:</string>
     <!--CarEditActivity_UOMVolumeLabel-->
     <string name="car_edit_uom_fuel_label">UOM for fuel:</string>
-    <string name="car_edit_uom_alternative_fuel_label">UOM for alternative fuel:</string>
+    <string name="car_edit_alternative_fuel_label">Alternative fuel:</string>
     <string name="car_edit_is_alternative_fuel_vehicle">Is alternative fuel vehicle (LPG, CNG, plug-in hybrid, etc.)</string>
     <!--CarEditActivity_IndexStartLabel-->
     <string name="car_edit_index_start_label">Initial odometer:</string>

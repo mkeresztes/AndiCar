@@ -177,7 +177,7 @@
                 android:text="@string/car_edit_is_alternative_fuel_vehicle" />
 
             <LinearLayout
-                android:id="@+id/llUomAlternativeFuel"
+                android:id="@+id/lExpCatZone"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -188,10 +188,10 @@
                     style="@style/AndiCarLabelStyle"
                     android:layout_width="0dp"
                     android:layout_weight="2"
-                    android:text="@string/car_edit_uom_alternative_fuel_label" />
+                    android:text="@string/car_edit_alternative_fuel_label" />
 
                 <Spinner
-                    android:id="@+id/spnUomAlternativeFuel"
+                    android:id="@+id/spnExpCategory"
                     style="@style/AndiCarSpinnerStyle"
                     android:layout_width="0dp"
                     android:layout_weight="1"/>

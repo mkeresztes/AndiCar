@@ -588,8 +588,7 @@ import andicar.n.utils.FileUtils;
                             " FROM " + TABLE_NAME_CAR +
                             " WHERE " + COL_NAME_GEN_ISACTIVE + " = 'Y' " +
                                     "AND (" + COL_NAME_CAR__LENGTH_UOM_ID + " = " + rowId +
-                                            " OR " + COL_NAME_CAR__FUEL_UOM_ID + " = " + rowId +
-                                            " OR " + COL_NAME_CAR__ALTERNATIVE_FUEL_UOM_ID + " = " + rowId + ") " +
+                                            " OR " + COL_NAME_CAR__FUEL_UOM_ID + " = " + rowId + ") " +
                             " LIMIT 1";
                 checkCursor = mDb.rawQuery(checkSql, null);
                 if (checkCursor.moveToFirst()) { //record exists
@@ -883,8 +882,7 @@ import andicar.n.utils.FileUtils;
                             " FROM " + TABLE_NAME_CAR +
                             " WHERE " + COL_NAME_GEN_ISACTIVE + " = 'Y' " +
                                     "AND (" + COL_NAME_CAR__LENGTH_UOM_ID + " = " + rowId +
-                                            " OR " + COL_NAME_CAR__FUEL_UOM_ID + " = " + rowId +
-                                            " OR " + COL_NAME_CAR__ALTERNATIVE_FUEL_UOM_ID + " = " + rowId + ") " +
+                                            " OR " + COL_NAME_CAR__FUEL_UOM_ID + " = " + rowId + ") " +
                             " LIMIT 1";
                 checkCursor = mDb.rawQuery(checkSql, null);
                 if (checkCursor.moveToFirst()) { //record exists

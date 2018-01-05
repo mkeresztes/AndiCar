@@ -560,7 +560,7 @@ public abstract class BaseEditFragment extends Fragment {
             }
             else {
                 lExpCatZone.setVisibility(View.VISIBLE);
-                if (this instanceof RefuelEditFragment) {
+                if (this instanceof RefuelEditFragment || this instanceof CarEditFragment) {
                     Utils.initSpinner(mDbAdapter, spnExpCategory, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
                             DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mExpCategoryId, false);
                 }
@@ -1184,7 +1184,7 @@ public abstract class BaseEditFragment extends Fragment {
         if ((tmpSpinner.equals(mRootView.findViewById(R.id.spnUomFrom)) || tmpSpinner.equals(mRootView.findViewById(R.id.spnUomTo))
                 || tmpSpinner.equals(mRootView.findViewById(R.id.spnUomLength))
                 || tmpSpinner.equals(mRootView.findViewById(R.id.spnUomFuel))
-                || tmpSpinner.equals(mRootView.findViewById(R.id.spnUomAlternativeFuel))
+                || tmpSpinner.equals(mRootView.findViewById(R.id.spnExpCategory))
                 || tmpSpinner.equals(mRootView.findViewById(R.id.spnUOM)))
                 && arg3 > 0) {
             code = mDbAdapter.getUOMCode(arg3);
