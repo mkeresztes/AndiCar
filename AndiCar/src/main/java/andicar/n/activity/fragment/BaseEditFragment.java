@@ -147,12 +147,12 @@ public abstract class BaseEditFragment extends Fragment {
     protected LinearLayout lCarZone;
     protected LinearLayout lDriverZone;
     protected LinearLayout lExpTypeZone;
-    protected LinearLayout lExpCatZone;
+    protected LinearLayout lExpCatFuelTypeZone;
     protected LinearLayout whenInDialogButtons;
     protected Spinner spnCar;
     protected Spinner spnDriver;
     protected Spinner spnExpType;
-    protected Spinner spnExpCategory;
+    protected Spinner spnExpCatOrFuelType;
     protected Spinner spnCurrency;
     protected TextView tvDateTimeValue;
     protected TextView tvDebugInfo;
@@ -339,7 +339,7 @@ public abstract class BaseEditFragment extends Fragment {
         lCarZone = mRootView.findViewById(R.id.lCarZone);
         lDriverZone = mRootView.findViewById(R.id.lDriverZone);
         lExpTypeZone = mRootView.findViewById(R.id.lExpTypeZone);
-        lExpCatZone = mRootView.findViewById(R.id.lExpCatZone);
+        lExpCatFuelTypeZone = mRootView.findViewById(R.id.lExpCatZone);
 
         spnCar = mRootView.findViewById(R.id.spnCar);
         if (spnCar != null) {
@@ -401,9 +401,9 @@ public abstract class BaseEditFragment extends Fragment {
             spnExpType.setOnTouchListener(spinnerOnTouchListener);
         }
 
-        spnExpCategory = mRootView.findViewById(R.id.spnExpCategory);
-        if (spnExpCategory != null) {
-            spnExpCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spnExpCatOrFuelType = mRootView.findViewById(R.id.spnExpCategory);
+        if (spnExpCatOrFuelType != null) {
+            spnExpCatOrFuelType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     if (adapterView.getTag() != null && adapterView.getTag().equals(ConstantValues.IS_INITIALIZATION_IN_PROGRESS_TAG)) {
@@ -552,31 +552,30 @@ public abstract class BaseEditFragment extends Fragment {
             }
         }
 
-        if (lExpCatZone != null) {
+        if (lExpCatFuelTypeZone != null) {
             checkID = mDbAdapter.isSingleActiveRecord(DBAdapter.TABLE_NAME_EXPENSECATEGORY);
             if (checkID > -1) { //one single type
                 setExpCategoryId(checkID);
-                lExpCatZone.setVisibility(View.GONE);
+                lExpCatFuelTypeZone.setVisibility(View.GONE);
             }
             else {
-                lExpCatZone.setVisibility(View.VISIBLE);
+                lExpCatFuelTypeZone.setVisibility(View.VISIBLE);
                 if (this instanceof RefuelEditFragment || this instanceof CarEditFragment) {
-                    Utils.initSpinner(mDbAdapter, spnExpCategory, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
+                    Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
                             DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mExpCategoryId, false);
                 }
                 else {
-                    Utils.initSpinner(mDbAdapter, spnExpCategory, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
+                    Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
                             DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", mExpCategoryId, false);
                 }
             }
-        }
-        else if (spnExpCategory != null) {
+        } else if (spnExpCatOrFuelType != null) {
             if (this instanceof RefuelEditFragment) {
-                Utils.initSpinner(mDbAdapter, spnExpCategory, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
+                Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
                         DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mExpCategoryId, false);
             }
             else {
-                Utils.initSpinner(mDbAdapter, spnExpCategory, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
+                Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
                         DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", mExpCategoryId, false);
             }
         }

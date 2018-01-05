@@ -408,8 +408,7 @@ public class DataEntryTemplate {
                     if (mRootView.findViewById(R.id.lExpTypeZone) != null && mRootView.findViewById(R.id.lExpTypeZone).getVisibility() == View.VISIBLE) {
                         tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnExpType), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_EXPENSETYPE, tmpID));
                     }
-                }
-                else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnExpCategory")) {
+                } else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnExpCatOrFuelType")) {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setExpCategoryId(tmpID);
                     if (mRootView.findViewById(R.id.lExpCatZone) != null && mRootView.findViewById(R.id.lExpCatZone).getVisibility() == View.VISIBLE) {
@@ -469,8 +468,7 @@ public class DataEntryTemplate {
                     if (mRootView.findViewById(R.id.lDriverZone) != null && mRootView.findViewById(R.id.lDriverZone).getVisibility() == View.VISIBLE) {
                         tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnDriver), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_DRIVER, tmpID));
                     }
-                }
-                else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnExpCategory")) {
+                } else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnExpCatOrFuelType")) {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setExpCategoryId(tmpID);
                     if (mRootView.findViewById(R.id.lExpCatZone) != null && mRootView.findViewById(R.id.lExpCatZone).getVisibility() == View.VISIBLE) {
@@ -584,7 +582,7 @@ public class DataEntryTemplate {
         else if (mEditFragment instanceof ExpenseEditFragment) {
             cv.putString("spnCar", Long.toString(mEditFragment.getCarId()));
             cv.putString("spnDriver", Long.toString(mEditFragment.getDriverId()));
-            cv.putString("spnExpCategory", Long.toString(mEditFragment.getExpCategoryId()));
+            cv.putString("spnExpCatOrFuelType", Long.toString(mEditFragment.getExpCategoryId()));
             cv.putString("spnExpType", Long.toString(mEditFragment.getExpTypeId()));
             cv.putString("spnCurrency", Long.toString(mEditFragment.getCurrencyId()));
             cv.putString("spnUOM", Long.toString(((ExpenseEditFragment) mEditFragment).getUOMId()));
@@ -600,7 +598,7 @@ public class DataEntryTemplate {
         else if (mEditFragment instanceof RefuelEditFragment) {
             cv.putString("spnCar", Long.toString(mEditFragment.getCarId()));
             cv.putString("spnDriver", Long.toString(mEditFragment.getDriverId()));
-            cv.putString("spnExpCategory", Long.toString(mEditFragment.getExpCategoryId()));
+            cv.putString("spnExpCatOrFuelType", Long.toString(mEditFragment.getExpCategoryId()));
             cv.putString("spnExpType", Long.toString(mEditFragment.getExpTypeId()));
             cv.putString("spnCurrency", Long.toString(mEditFragment.getCurrencyId()));
             cv.putString("spnUomFuel", Long.toString(((RefuelEditFragment) mEditFragment).getUOMId()));

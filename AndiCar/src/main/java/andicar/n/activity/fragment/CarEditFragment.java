@@ -218,14 +218,14 @@ public class CarEditFragment extends BaseEditFragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mIsAlternativeFuelVehicle = isChecked;
                 if (isChecked) {
-                    lExpCatZone.setVisibility(View.VISIBLE);
+                    lExpCatFuelTypeZone.setVisibility(View.VISIBLE);
                 } else {
-                    lExpCatZone.setVisibility(View.GONE);
+                    lExpCatFuelTypeZone.setVisibility(View.GONE);
                 }
             }
         });
-//        llUOMAlternativeFuel = mRootView.findViewById(R.id.lExpCatZone);
-//        spnAlternativeFuel = mRootView.findViewById(R.id.spnExpCategory);
+//        llUOMAlternativeFuel = mRootView.findViewById(R.id.lExpCatFuelTypeZone);
+//        spnAlternativeFuel = mRootView.findViewById(R.id.spnExpCatOrFuelType);
 //        spnAlternativeFuel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
 //            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -317,9 +317,9 @@ public class CarEditFragment extends BaseEditFragment {
     @Override
     public void setSpecificLayout() {
         if (mIsAlternativeFuelVehicle)
-            lExpCatZone.setVisibility(View.VISIBLE);
+            lExpCatFuelTypeZone.setVisibility(View.VISIBLE);
         else
-            lExpCatZone.setVisibility(View.GONE);
+            lExpCatFuelTypeZone.setVisibility(View.GONE);
     }
 
     @Override
