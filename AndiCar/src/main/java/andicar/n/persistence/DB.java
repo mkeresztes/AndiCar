@@ -1967,6 +1967,9 @@ public class DB {
                     " SET " + COL_NAME_GEN_NAME + " = 'spnUomFuel'" +
                     "WHERE " + COL_NAME_GEN_NAME + " = 'spnUomVolume'");
 
+            db.execSQL("UPDATE " + TABLE_NAME_DATA_TEMPLATE_VALUES +
+                    " SET " + COL_NAME_GEN_NAME + " = 'spnExpCatOrFuelType'" +
+                    "WHERE " + COL_NAME_GEN_NAME + " = 'spnExpCategory'");
 
             if (!columnExists(db, TABLE_NAME_CAR, COL_NAME_CAR__ISAFV)) {
                 updSql = "ALTER TABLE " + TABLE_NAME_CAR + " ADD " + COL_NAME_CAR__ISAFV + " TEXT DEFAULT 'N' ";

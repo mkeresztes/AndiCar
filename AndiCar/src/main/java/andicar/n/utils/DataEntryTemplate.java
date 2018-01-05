@@ -412,7 +412,7 @@ public class DataEntryTemplate {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setExpCategoryId(tmpID);
                     if (mRootView.findViewById(R.id.lExpCatZone) != null && mRootView.findViewById(R.id.lExpCatZone).getVisibility() == View.VISIBLE) {
-                        tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnExpCategory), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_EXPENSECATEGORY, tmpID));
+                        tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnExpCatOrFuelType), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_EXPENSECATEGORY, tmpID));
                     }
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnCurrency")) {
@@ -472,7 +472,7 @@ public class DataEntryTemplate {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                     tmpActivity.setExpCategoryId(tmpID);
                     if (mRootView.findViewById(R.id.lExpCatZone) != null && mRootView.findViewById(R.id.lExpCatZone).getVisibility() == View.VISIBLE) {
-                        tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnExpCategory), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_EXPENSECATEGORY, tmpID));
+                        tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnExpCatOrFuelType), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_EXPENSECATEGORY, tmpID));
                     }
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnExpType")) {

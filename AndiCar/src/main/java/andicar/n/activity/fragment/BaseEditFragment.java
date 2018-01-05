@@ -401,7 +401,7 @@ public abstract class BaseEditFragment extends Fragment {
             spnExpType.setOnTouchListener(spinnerOnTouchListener);
         }
 
-        spnExpCatOrFuelType = mRootView.findViewById(R.id.spnExpCategory);
+        spnExpCatOrFuelType = mRootView.findViewById(R.id.spnExpCatOrFuelType);
         if (spnExpCatOrFuelType != null) {
             spnExpCatOrFuelType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -1183,7 +1183,7 @@ public abstract class BaseEditFragment extends Fragment {
         if ((tmpSpinner.equals(mRootView.findViewById(R.id.spnUomFrom)) || tmpSpinner.equals(mRootView.findViewById(R.id.spnUomTo))
                 || tmpSpinner.equals(mRootView.findViewById(R.id.spnUomLength))
                 || tmpSpinner.equals(mRootView.findViewById(R.id.spnUomFuel))
-                || tmpSpinner.equals(mRootView.findViewById(R.id.spnExpCategory))
+                || tmpSpinner.equals(mRootView.findViewById(R.id.spnExpCatOrFuelType))
                 || tmpSpinner.equals(mRootView.findViewById(R.id.spnUOM)))
                 && arg3 > 0) {
             code = mDbAdapter.getUOMCode(arg3);

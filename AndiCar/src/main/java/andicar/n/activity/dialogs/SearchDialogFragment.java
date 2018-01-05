@@ -156,7 +156,7 @@ public class SearchDialogFragment extends DialogFragment {
         spnCar = view.findViewById(R.id.spnCar);
         spnDriver = view.findViewById(R.id.spnDriver);
         spnExpType = view.findViewById(R.id.spnExpType);
-        spnExpCategory = view.findViewById(R.id.spnExpCategory);
+        spnExpCategory = view.findViewById(R.id.spnExpCatOrFuelType);
         spnStatus = view.findViewById(R.id.spnStatus);
 
         acUserComment = view.findViewById(R.id.acUserComment);

@@ -191,7 +191,7 @@
                     android:text="@string/car_edit_alternative_fuel_label" />
 
                 <Spinner
-                    android:id="@+id/spnExpCategory"
+                    android:id="@+id/spnExpCatOrFuelType"
                     style="@style/AndiCarSpinnerStyle"
                     android:layout_width="0dp"
                     android:layout_weight="1"/>
