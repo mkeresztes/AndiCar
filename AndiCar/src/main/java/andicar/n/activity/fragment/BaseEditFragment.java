@@ -738,7 +738,7 @@ public abstract class BaseEditFragment extends Fragment {
 
         if (this instanceof RefuelEditFragment) {
             setExpTypeId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_refuel_last_selected_expense_type_id), -1));
-            setExpCategoryId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_refuel_last_selected_expense_category_id), -1));
+            setExpCategoryId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_refuel_last_selected_expense_category_id) + "_" + mCarId, -1));
         }
         else if (this instanceof ExpenseEditFragment) {
             setExpTypeId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_expense_last_selected_expense_type_id), -1));
@@ -764,7 +764,17 @@ public abstract class BaseEditFragment extends Fragment {
         if (mExpCategoryId == -1 ||
                 !mDbAdapter.isIDActive(DBAdapter.TABLE_NAME_EXPENSECATEGORY, mExpCategoryId)) {
             if (this instanceof RefuelEditFragment) {
-                setExpCategoryId(mDbAdapter.getFirstActiveID(DBAdapter.TABLE_NAME_EXPENSECATEGORY, " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", DBAdapter.COL_NAME_GEN_NAME));
+                String selection = DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y' ";
+                if (mDbAdapter.isAFVCar(mCarId)) {
+                    selection = selection +
+                            " AND ( " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " = '" + mDbAdapter.getCarFuelUOMType(mCarId) + "' " +
+                            " OR " + DBAdapter.COL_NAME_GEN_ROWID + " = " + mDbAdapter.getAlternateFuelID(mCarId) + ")";
+                } else {
+                    selection = selection +
+                            " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " = '" + mDbAdapter.getCarFuelUOMType(mCarId) + "'";
+                }
+                setExpCategoryId(mDbAdapter.getFirstActiveID(DBAdapter.TABLE_NAME_EXPENSECATEGORY,
+                        selection, DBAdapter.COL_NAME_GEN_NAME));
             }
             else {
                 setExpCategoryId(mDbAdapter.getFirstActiveID(DBAdapter.TABLE_NAME_EXPENSECATEGORY, " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", DBAdapter.COL_NAME_GEN_NAME));
