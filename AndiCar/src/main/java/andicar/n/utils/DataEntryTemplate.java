@@ -421,7 +421,7 @@ public class DataEntryTemplate {
                     tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnCurrency), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_CURRENCY, tmpID));
                 } else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("spnUomFuel")) {
                     tmpID = c.getLong(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
-                    tmpActivity.setUOMVolumeId(tmpID);
+                    tmpActivity.setUOMFuelId(tmpID);
                     tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnUomFuel), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_UOM, tmpID));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("etUserInput")) {

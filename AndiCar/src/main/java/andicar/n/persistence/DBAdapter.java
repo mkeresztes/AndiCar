@@ -1404,7 +1404,7 @@ import andicar.n.utils.FileUtils;
         return retVal;
     }
 
-    public long getCarUOMVolumeID(long carID) {
+    public long getCarUOMFuelID(long carID) {
         Cursor c = fetchRecord(TABLE_NAME_CAR, COL_LIST_CAR_TABLE, carID);
         long retVal = -1;
         if (c != null) {
@@ -1441,6 +1441,56 @@ import andicar.n.utils.FileUtils;
         String retVal = null;
         if (c != null) {
             retVal = c.getString(COL_POS_GEN_NAME);
+            c.close();
+        }
+        return retVal;
+    }
+
+    public boolean isAFVCar(long carID) {
+        boolean retVal = false;
+        Cursor c = fetchRecord(TABLE_NAME_CAR, COL_LIST_CAR_TABLE, carID);
+        if (c != null) {
+            retVal = c.getString(COL_POS_CAR__ISAFV).equals("Y");
+            c.close();
+        }
+        return retVal;
+    }
+
+    public long getAlternateFuelID(long carID) {
+        long retVal = -1;
+        //if not alternate fuel vehicle
+        if(!isAFVCar(carID))
+            { return retVal; }
+
+        Cursor c = fetchRecord(TABLE_NAME_CAR, COL_LIST_CAR_TABLE, carID);
+        if (c != null) {
+            retVal = c.getLong(COL_POS_CAR__ALTERNATIVE_FUEL_ID);
+            c.close();
+        }
+        return retVal;
+    }
+
+    public String getCarFuelUOMType(long carID) {
+        return getUOMType(getCarUOMFuelID(carID));
+    }
+
+    public String getUOMType(long uomID) {
+        String retVal = ConstantValues.UOM_TYPE_VOLUME_CODE;
+
+        Cursor c = fetchRecord(TABLE_NAME_UOM, COL_LIST_UOM_TABLE, uomID );
+        if (c != null) {
+            retVal = c.getString(COL_POS_UOM__UOMTYPE);
+            c.close();
+        }
+        return retVal;
+    }
+
+    public String getFuelUOMType(long fuelID) {
+        String retVal = ConstantValues.UOM_TYPE_VOLUME_CODE;
+
+        Cursor c = fetchRecord(TABLE_NAME_EXPENSECATEGORY, COL_LIST_EXPENSECATEGORY_TABLE, fuelID);
+        if (c != null) {
+            retVal = c.getString(COL_POS_EXPENSECATEGORY__UOMTYPE);
             c.close();
         }
         return retVal;

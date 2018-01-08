@@ -552,33 +552,7 @@ public abstract class BaseEditFragment extends Fragment {
             }
         }
 
-        if (lExpCatFuelTypeZone != null) {
-            checkID = mDbAdapter.isSingleActiveRecord(DBAdapter.TABLE_NAME_EXPENSECATEGORY);
-            if (checkID > -1) { //one single type
-                setExpCategoryId(checkID);
-                lExpCatFuelTypeZone.setVisibility(View.GONE);
-            }
-            else {
-                lExpCatFuelTypeZone.setVisibility(View.VISIBLE);
-                if (this instanceof RefuelEditFragment || this instanceof CarEditFragment) {
-                    Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
-                            DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mExpCategoryId, false);
-                }
-                else {
-                    Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
-                            DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", mExpCategoryId, false);
-                }
-            }
-        } else if (spnExpCatOrFuelType != null) {
-            if (this instanceof RefuelEditFragment) {
-                Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
-                        DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mExpCategoryId, false);
-            }
-            else {
-                Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
-                        DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", mExpCategoryId, false);
-            }
-        }
+        initSpnExpCatOrFuelType();
 
         if (spnCurrency != null) {
             Utils.initSpinner(mDbAdapter, spnCurrency, DBAdapter.TABLE_NAME_CURRENCY,
@@ -696,6 +670,53 @@ public abstract class BaseEditFragment extends Fragment {
 
         if (isUseTemplate) {
             mDET = new DataEntryTemplate(this, mDbAdapter);
+        }
+    }
+
+    protected void initSpnExpCatOrFuelType() {
+        long checkID;
+        if (lExpCatFuelTypeZone != null) {
+            checkID = mDbAdapter.isSingleActiveRecord(DBAdapter.TABLE_NAME_EXPENSECATEGORY);
+            if (checkID > -1) { //one single type
+                setExpCategoryId(checkID);
+                lExpCatFuelTypeZone.setVisibility(View.GONE);
+            }
+            else {
+                lExpCatFuelTypeZone.setVisibility(View.VISIBLE);
+                if (this instanceof CarEditFragment) {
+                    Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
+                            DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mExpCategoryId, false);
+                }
+                else if (this instanceof RefuelEditFragment) {
+                    //show only the fuel types with similar uom type as declared in the car UOM for fuel + the alternate fuel if the car is AFV (alternate fuel vehicle)
+                    String selection = DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y' ";
+                    if (mDbAdapter.isAFVCar(mCarId)) {
+                        selection = selection +
+                                " AND ( " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " = '" + mDbAdapter.getCarFuelUOMType(mCarId) + "' " +
+                                " OR " + DBAdapter.COL_NAME_GEN_ROWID + " = " + mDbAdapter.getAlternateFuelID(mCarId) + ")";
+                    }
+                    else {
+                        selection = selection +
+                                " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " = '" + mDbAdapter.getCarFuelUOMType(mCarId) + "'";
+                    }
+                    Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
+                            selection, mExpCategoryId, false);
+                }
+                else {
+                    Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
+                            DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", mExpCategoryId, false);
+                }
+            }
+        }
+        else if (spnExpCatOrFuelType != null) {
+            if (this instanceof RefuelEditFragment) {
+                Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
+                        DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mExpCategoryId, false);
+            }
+            else {
+                Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
+                        DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", mExpCategoryId, false);
+            }
         }
     }
 

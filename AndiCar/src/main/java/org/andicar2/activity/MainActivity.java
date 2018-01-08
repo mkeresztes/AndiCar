@@ -322,7 +322,7 @@ public class MainActivity extends AppCompatActivity
         }
         c.close();
 
-        mCarUOMVolumeCode = db.getUOMCode(db.getCarUOMVolumeID(mLastSelectedCarID));
+        mCarUOMVolumeCode = db.getUOMCode(db.getCarUOMFuelID(mLastSelectedCarID));
         mCarUOMLengthCode = db.getUOMCode(db.getCarUOMLengthID(mLastSelectedCarID));
         db.close();
 
@@ -1288,9 +1288,9 @@ public class MainActivity extends AppCompatActivity
 
                     break;
                 case FUEL_QTY_PIE_CHART:  //Fill-ups charts (quantity)
-                    String carUOMVolume = dbReportAdapter.getUOMCode(dbReportAdapter.getCarUOMVolumeID(mLastSelectedCarID));
+                    String carUOMVolume = dbReportAdapter.getUOMCode(dbReportAdapter.getCarUOMFuelID(mLastSelectedCarID));
                     if (carUOMVolume == null || carUOMVolume.length() <= 1) {
-                        carUOMVolume = dbReportAdapter.getUOMName(dbReportAdapter.getCarUOMVolumeID(mLastSelectedCarID));
+                        carUOMVolume = dbReportAdapter.getUOMName(dbReportAdapter.getCarUOMFuelID(mLastSelectedCarID));
                     }
 
                     chartData = dbReportAdapter.getRefuelsByTypeChartData(chartArguments, false);
