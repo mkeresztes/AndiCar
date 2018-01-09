@@ -370,7 +370,7 @@
     <string name="car_edit_license_plate_label">Kennzeichen:</string>
     <string name="car_edit_uom_length_label">Einheit für Entfernung:</string>
     <string name="car_edit_uom_fuel_label">Eiunheit für Kraftstoff:</string>
-    <string name="car_edit_alternative_fuel_label">Alternativer Kraftstoff:</string>
+    <string name="car_edit_uom_alternative_fuel_label">Eiunheit für Alternativer Kraftstoff:</string>
     <string name="car_edit_is_alternative_fuel_vehicle">Ist ein Fahrzeug mit alternativem Kraftstoff (LPG, CNG, Plug-in-Hybrid usw.)</string>
     <string name="car_edit_index_start_label">Anfangs-Kilometerstand:</string>
     <string name="car_edit_currency_label">Standard-Währung:</string>

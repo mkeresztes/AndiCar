@@ -33,6 +33,15 @@
     <string name="DB_UOM_USGComment">U.S. gallon</string>
     <string name="DB_UOM_GBGName">UK gallon</string>
     <string name="DB_UOM_GBGComment">UK gallon</string>
+    <string name="DB_UOM_KgName">Kilogramm</string>
+    <string name="DB_UOM_KgComment">Kilogramm</string>
+    <string name="DB_UOM_KWhName">Kilowattóra</string>
+    <string name="DB_UOM_KWhComment">Kilowattóra</string>
+    <string name="DB_UOM_GGEName">Gasoline gallon equivalent</string>
+    <string name="DB_UOM_GGEComment">Gasoline gallon equivalent</string>
+    <string name="DB_UOM_LBName">Font - tömeg</string>
+    <string name="DB_UOM_LBComment">Font - tömeg</string>
+
     <!-- UOM Conversions -->
     <string name="DB_UOMConversion_MiToKmName">mi - km</string>
     <string name="DB_UOMConversion_MiToKmComment">Mérföld - Kilométer</string>
@@ -50,6 +59,18 @@
     <string name="DB_UOMConversion_GBGToUSGComment">UK gallon - US gallon</string>
     <string name="DB_UOMConversion_USGToGBGName">US gal - UK gal</string>
     <string name="DB_UOMConversion_USGToGBGComment">US gallon - UK gallon</string>
+    <string name="DB_UOMConversion_KgToLbName">kg - lb</string>
+    <string name="DB_UOMConversion_KgToLbComment">Kilogramm - font</string>
+    <string name="DB_UOMConversion_LbToKgName">lb - kg</string>
+    <string name="DB_UOMConversion_LbToKgComment">Font - kilogramm</string>
+    <string name="DB_UOMConversion_KgToGGEName">kg - GGE</string>
+    <string name="DB_UOMConversion_KgToGGEComment">Kilogramm - gasoline gallon equivalent</string>
+    <string name="DB_UOMConversion_GGEToKgName">GGE - kg</string>
+    <string name="DB_UOMConversion_GGEToKgComment">Gasoline gallon equivalent - kilogramm</string>
+    <string name="DB_UOMConversion_LbToGGEName">lb - GGE</string>
+    <string name="DB_UOMConversion_LbToGGEComment">Font - Gasoline gallon equivalent</string>
+    <string name="DB_UOMConversion_GGEToLbName">GGE - lb</string>
+    <string name="DB_UOMConversion_GGEToLbComment">Gasoline gallon equivalent - font</string>
     <!-- expense types -->
     <string name="DB_ExpType_PersonalName">Személyes</string>
     <string name="DB_ExpType_PersonalComment">Személyes költségek</string>

@@ -37,6 +37,10 @@
     <string name="DB_UOM_KgComment">Kilogram</string>
     <string name="DB_UOM_KWhName">Kilowatt hour</string>
     <string name="DB_UOM_KWhComment">Kilowatt hour</string>
+    <string name="DB_UOM_GGEName">Gasoline gallon equivalent</string>
+    <string name="DB_UOM_GGEComment">Gasoline gallon equivalent</string>
+    <string name="DB_UOM_LBName">Pound</string>
+    <string name="DB_UOM_LBComment">Pound-mass</string>
     <!-- UOM Conversions -->
     <string name="DB_UOMConversion_MiToKmName">mi to km</string>
     <string name="DB_UOMConversion_MiToKmComment">Mile to Kilometer</string>
@@ -54,6 +58,29 @@
     <string name="DB_UOMConversion_GBGToUSGComment">Imperial gallon to US gallon</string>
     <string name="DB_UOMConversion_USGToGBGName">US gal to GB gal</string>
     <string name="DB_UOMConversion_USGToGBGComment">US gallon to Imperial gallon</string>
+    <!--1 lb=0.453592 kg-->
+    6 -> 8
+    <string name="DB_UOMConversion_KgToLbName">kg to lb</string>
+    <string name="DB_UOMConversion_KgToLbComment">Kilogram to pound</string>
+
+    8 -> 6
+    <string name="DB_UOMConversion_LbToKgName">lb to kg</string>
+    <string name="DB_UOMConversion_LbToKgComment">Pound to kilogram</string>
+    <!--1 GGE = 2.567 KG-->
+    6 -> 7
+    <string name="DB_UOMConversion_KgToGGEName">kg to GGE</string>
+    <string name="DB_UOMConversion_KgToGGEComment">Kilogram to gasoline gallon equivalent</string>
+    7 -> 6
+    <string name="DB_UOMConversion_GGEToKgName">GGE to kg</string>
+    <string name="DB_UOMConversion_GGEToKgComment">Gasoline gallon equivalent to kilogram</string>
+    <!--1 GGE = 5.660 lb-->
+    8 -> 7
+    <string name="DB_UOMConversion_LbToGGEName">lb to GGE</string>
+    <string name="DB_UOMConversion_LbToGGEComment">Pound to Gasoline gallon equivalent</string>
+    7 -> 8
+    <string name="DB_UOMConversion_GGEToLbName">GGE to lb</string>
+    <string name="DB_UOMConversion_GGEToLbComment">Gasoline gallon equivalent to pound</string>
+
     <!-- expense types -->
     <string name="DB_ExpType_PersonalName">Personal</string>
     <string name="DB_ExpType_PersonalComment">Expenses supported by you</string>

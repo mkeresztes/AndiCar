@@ -371,7 +371,7 @@
     <string name="car_edit_license_plate_label">Licencia:</string>
     <string name="car_edit_uom_length_label">UM, distancia:</string>
     <string name="car_edit_uom_fuel_label">UM, combustible:</string>
-    <string name="car_edit_alternative_fuel_label">Combustible alternativo:</string>
+    <string name="car_edit_uom_alternative_fuel_label">UM, combustible alternativo:</string>
     <string name="car_edit_is_alternative_fuel_vehicle">Es vehículo de combustible alternativo (GLP, GNC, híbrido enchufable, etc.)</string>
     <string name="car_edit_index_start_label">Odómetro inicial:</string>
     <string name="car_edit_currency_label">Moneda por defecto:</string>

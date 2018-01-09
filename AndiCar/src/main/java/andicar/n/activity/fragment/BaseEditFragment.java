@@ -692,12 +692,12 @@ public abstract class BaseEditFragment extends Fragment {
                     String selection = DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y' ";
                     if (mDbAdapter.isAFVCar(mCarId)) {
                         selection = selection +
-                                " AND ( " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " = '" + mDbAdapter.getCarFuelUOMType(mCarId) + "' " +
-                                " OR " + DBAdapter.COL_NAME_GEN_ROWID + " = " + mDbAdapter.getAlternateFuelID(mCarId) + ")";
+                                " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " IN( '" + mDbAdapter.getCarFuelUOMType(mCarId, true) + "', '" +
+                                mDbAdapter.getCarFuelUOMType(mCarId, false) + "')";
                     }
                     else {
                         selection = selection +
-                                " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " = '" + mDbAdapter.getCarFuelUOMType(mCarId) + "'";
+                                " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " = '" + mDbAdapter.getCarFuelUOMType(mCarId, true) + "'";
                     }
                     Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
                             selection, mExpCategoryId, false);
@@ -767,11 +767,11 @@ public abstract class BaseEditFragment extends Fragment {
                 String selection = DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y' ";
                 if (mDbAdapter.isAFVCar(mCarId)) {
                     selection = selection +
-                            " AND ( " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " = '" + mDbAdapter.getCarFuelUOMType(mCarId) + "' " +
-                            " OR " + DBAdapter.COL_NAME_GEN_ROWID + " = " + mDbAdapter.getAlternateFuelID(mCarId) + ")";
+                            " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " IN( '" + mDbAdapter.getCarFuelUOMType(mCarId, true) + "', '" +
+                            mDbAdapter.getCarFuelUOMType(mCarId, false) + "')";
                 } else {
                     selection = selection +
-                            " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " = '" + mDbAdapter.getCarFuelUOMType(mCarId) + "'";
+                            " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " = '" + mDbAdapter.getCarFuelUOMType(mCarId, true) + "'";
                 }
                 setExpCategoryId(mDbAdapter.getFirstActiveID(DBAdapter.TABLE_NAME_EXPENSECATEGORY,
                         selection, DBAdapter.COL_NAME_GEN_NAME));
@@ -1214,6 +1214,7 @@ public abstract class BaseEditFragment extends Fragment {
         if ((tmpSpinner.equals(mRootView.findViewById(R.id.spnUomFrom)) || tmpSpinner.equals(mRootView.findViewById(R.id.spnUomTo))
                 || tmpSpinner.equals(mRootView.findViewById(R.id.spnUomLength))
                 || tmpSpinner.equals(mRootView.findViewById(R.id.spnUomFuel))
+                || tmpSpinner.equals(mRootView.findViewById(R.id.spnUOMAltFuel))
                 || tmpSpinner.equals(mRootView.findViewById(R.id.spnExpCatOrFuelType))
                 || tmpSpinner.equals(mRootView.findViewById(R.id.spnUOM)))
                 && arg3 > 0) {

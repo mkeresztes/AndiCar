@@ -30,6 +30,14 @@
     <string name="DB_UOM_USGComment">Galón Americano</string>
     <string name="DB_UOM_GBGName">Galón Imperial</string>
     <string name="DB_UOM_GBGComment">Galón Imperial</string>
+    <string name="DB_UOM_KgName">Kilogramo</string>
+    <string name="DB_UOM_KgComment">Kilogramo</string>
+    <string name="DB_UOM_KWhName">Kilowatt hora</string>
+    <string name="DB_UOM_KWhComment">Kilowatt hora</string>
+    <string name="DB_UOM_GGEName">Gasoline gallon equivalent</string>
+    <string name="DB_UOM_GGEComment">Gasoline gallon equivalent</string>
+    <string name="DB_UOM_LBName">Libra</string>
+    <string name="DB_UOM_LBComment">Libra</string>
     <!-- UOM Conversions -->
     <string name="DB_UOMConversion_MiToKmName">millas a kilómetros</string>
     <string name="DB_UOMConversion_MiToKmComment">Millas a Kilómetros</string>
@@ -47,6 +55,19 @@
     <string name="DB_UOMConversion_GBGToUSGComment">Galón Imperial a Galón Americano</string>
     <string name="DB_UOMConversion_USGToGBGName">Galón Americano a Galón Imperial</string>
     <string name="DB_UOMConversion_USGToGBGComment">Galón Americano a Galón Imperial</string>
+    <string name="DB_UOMConversion_KgToLbName">kg a lb</string>
+    <string name="DB_UOMConversion_KgToLbComment">Kilogramo a libra</string>
+    <string name="DB_UOMConversion_LbToKgName">lb a kg</string>
+    <string name="DB_UOMConversion_LbToKgComment">Libra a kilogramo</string>
+    <string name="DB_UOMConversion_KgToGGEName">kg a GGE</string>
+    <string name="DB_UOMConversion_KgToGGEComment">Kilogramo a gasoline gallon equivalent</string>
+    <string name="DB_UOMConversion_GGEToKgName">GGE a kg</string>
+    <string name="DB_UOMConversion_GGEToKgComment">Gasoline gallon equivalent a kilogramo</string>
+    <string name="DB_UOMConversion_LbToGGEName">lb a GGE</string>
+    <string name="DB_UOMConversion_LbToGGEComment">Libra a Gasoline gallon equivalent</string>
+    <string name="DB_UOMConversion_GGEToLbName">GGE a lb</string>
+    <string name="DB_UOMConversion_GGEToLbComment">Gasoline gallon equivalent a libra</string>
+
     <!-- expense types -->
     <string name="DB_ExpType_PersonalName">Personal</string>
     <string name="DB_ExpType_PersonalComment">Gastos Personales</string>

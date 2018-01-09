@@ -19,6 +19,7 @@
 package andicar.n.persistence;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -110,7 +111,7 @@ public class DB {
     public static final String COL_NAME_CAR__FUEL_UOM_ID = TABLE_NAME_UOM + "_Volume_ID";
     public static final String COL_NAME_CAR__CURRENCY_ID = TABLE_NAME_CURRENCY + "_ID";
     public static final String COL_NAME_CAR__ISAFV = "IsAFV"; //Alternative fuel vehicle
-    public static final String COL_NAME_CAR__ALTERNATIVE_FUEL_ID = "AltFuel_ID"; // -> expensecategory id
+    public static final String COL_NAME_CAR__ALTERNATIVE_FUEL_UOM_ID = TABLE_NAME_UOM + "_AF_ID";
     // uom specific column names
     public static final String COL_NAME_UOM__CODE = "Code";
     public static final String COL_NAME_UOM__UOMTYPE = "UOMType"; // V - Volume
@@ -352,7 +353,7 @@ public class DB {
     public static final int COL_POS_CAR__FUEL_UOM_ID = 9;
     public static final int COL_POS_CAR__CURRENCY_ID = 10;
     public static final int COL_POS_CAR__ISAFV = 11;
-    public static final int COL_POS_CAR__ALTERNATIVE_FUEL_ID = 12;
+    public static final int COL_POS_CAR__ALTERNATIVE_FUEL_UOM_ID = 12;
     // uom specific column positions
     public static final int COL_POS_UOM__CODE = 4;
     public static final int COL_POS_UOM__UOMTYPE = 5;
@@ -507,7 +508,7 @@ public class DB {
             COL_NAME_DRIVER__LICENSE_NO};
     public static final String[] COL_LIST_CAR_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT,
             COL_NAME_CAR__MODEL, COL_NAME_CAR__REGISTRATIONNO, COL_NAME_CAR__INDEXSTART, COL_NAME_CAR__INDEXCURRENT, COL_NAME_CAR__LENGTH_UOM_ID,
-            COL_NAME_CAR__FUEL_UOM_ID, COL_NAME_CAR__CURRENCY_ID, COL_NAME_CAR__ISAFV, COL_NAME_CAR__ALTERNATIVE_FUEL_ID};
+            COL_NAME_CAR__FUEL_UOM_ID, COL_NAME_CAR__CURRENCY_ID, COL_NAME_CAR__ISAFV, COL_NAME_CAR__ALTERNATIVE_FUEL_UOM_ID};
 
     public static final String[] COL_LIST_UOM_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT,
             COL_NAME_UOM__CODE, COL_NAME_UOM__UOMTYPE};
@@ -616,7 +617,7 @@ public class DB {
                         COL_NAME_CAR__FUEL_UOM_ID + " INTEGER, " +
                         COL_NAME_CAR__CURRENCY_ID + " INTEGER, " +
                         COL_NAME_CAR__ISAFV + " TEXT DEFAULT 'N', " +
-                        COL_NAME_CAR__ALTERNATIVE_FUEL_ID + " INTEGER NULL " +
+                        COL_NAME_CAR__ALTERNATIVE_FUEL_UOM_ID + " INTEGER NULL " +
                     ");";
 
     private static final String CREATE_SQL_UOM_TABLE =
@@ -1129,9 +1130,13 @@ public class DB {
             db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_GBGName) + "', 'Y', " +
                     "'" + mResource.getString(R.string.DB_UOM_GBGComment) + "', 'gal GB', '" + ConstantValues.UOM_TYPE_VOLUME_CODE + "' )"); // _id = 5 4,546 09 l
             db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_KgName) + "', 'Y', " +
-                    "'" + mResource.getString(R.string.DB_UOM_KgComment) + "', 'kg', '" + ConstantValues.UOM_TYPE_WEIGHT_CODE + "' )"); // _id = 1
+                    "'" + mResource.getString(R.string.DB_UOM_KgComment) + "', 'kg', '" + ConstantValues.UOM_TYPE_WEIGHT_CODE + "' )"); // _id = 6
+            db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_GGEName) + "', 'Y', " +
+                    "'" + mResource.getString(R.string.DB_UOM_GGEComment) + "', 'gge', '" + ConstantValues.UOM_TYPE_WEIGHT_CODE + "' )"); // _id = 7
+            db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_LBName) + "', 'Y', " +
+                    "'" + mResource.getString(R.string.DB_UOM_LBComment) + "', 'lb', '" + ConstantValues.UOM_TYPE_WEIGHT_CODE + "' )"); // _id = 8
             db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_KWhName) + "', 'Y', " +
-                    "'" + mResource.getString(R.string.DB_UOM_KWhComment) + "', 'kW⋅h', '" + ConstantValues.UOM_TYPE_ENERGY_CODE + "' )"); // _id = 1
+                    "'" + mResource.getString(R.string.DB_UOM_KWhComment) + "', 'kW⋅h', '" + ConstantValues.UOM_TYPE_ENERGY_CODE + "' )"); // _id = 9
         }
 
         private void createUOMConversionTable(SQLiteDatabase db) throws SQLException {
@@ -1156,6 +1161,21 @@ public class DB {
                     + mResource.getString(R.string.DB_UOMConversion_GBGToUSGComment) + "', " + "5, " + "4, " + "1.200950 )");
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_UOMConversion_USGToGBGName) + "', " + "'Y', " + "'"
                     + mResource.getString(R.string.DB_UOMConversion_USGToGBGComment) + "', " + "4, " + "5, " + "0.832674 )");
+
+            db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_UOMConversion_KgToLbName) + "', " + "'Y', " + "'"
+                    + mResource.getString(R.string.DB_UOMConversion_KgToLbComment) + "', " + "6, " + "8, " + "2.204624 )");
+            db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_UOMConversion_LbToKgName) + "', " + "'Y', " + "'"
+                    + mResource.getString(R.string.DB_UOMConversion_LbToKgComment) + "', " + "8, " + "6, " + "0.453592 )");
+
+            db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_UOMConversion_KgToGGEName) + "', " + "'Y', " + "'"
+                    + mResource.getString(R.string.DB_UOMConversion_KgToGGEComment) + "', " + "6, " + "7, " + "0.389559 )");
+            db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_UOMConversion_GGEToKgName) + "', " + "'Y', " + "'"
+                    + mResource.getString(R.string.DB_UOMConversion_GGEToKgComment) + "', " + "7, " + "6, " + "2.567 )");
+
+            db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_UOMConversion_LbToGGEName) + "', " + "'Y', " + "'"
+                    + mResource.getString(R.string.DB_UOMConversion_LbToGGEComment) + "', " + "8, " + "7, " + "0.176678 )");
+            db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_UOMConversion_GGEToLbName) + "', " + "'Y', " + "'"
+                    + mResource.getString(R.string.DB_UOMConversion_GGEToLbComment) + "', " + "7, " + "8, " + "5.660 )");
         }
 
         private void createExpenseTypeTable(SQLiteDatabase db) throws SQLException {
@@ -1925,19 +1945,78 @@ public class DB {
             }
 
 
-            colPart = "INSERT INTO " + TABLE_NAME_UOM + " ( " + COL_NAME_GEN_NAME + ", " + COL_NAME_GEN_ISACTIVE + ", " + COL_NAME_GEN_USER_COMMENT +
-                    ", " + COL_NAME_UOM__CODE + ", " + COL_NAME_UOM__UOMTYPE + ") ";
+            //new uom's
+            long kgID; //kg
+            long ggeID; //Gasoline gallon equivalent
+            long lbID; //pound
+
+            ContentValues cv = new ContentValues();
+
             c = db.rawQuery(
                     "SELECT * FROM " + TABLE_NAME_UOM +
                             " WHERE UPPER(" + COL_NAME_UOM__CODE + ") == 'KG'", null);
-            if (c.getCount() == 0) {
-                db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_KgName) + "', 'Y', " +
-                        "'" + mResource.getString(R.string.DB_UOM_KgComment) + "', 'kg', '" + ConstantValues.UOM_TYPE_WEIGHT_CODE + "' )"); // _id = 1
-            }
-            else {
+            if (c.moveToFirst()) {
+                kgID = c.getLong(0);
                 db.execSQL("UPDATE " + TABLE_NAME_UOM +
                         " SET " + COL_NAME_UOM__UOMTYPE + " = '" + ConstantValues.UOM_TYPE_WEIGHT_CODE + "'" +
                         "WHERE UPPER(" + COL_NAME_UOM__CODE + ") == 'KG'");
+            }
+            else {
+                cv.put(COL_NAME_GEN_NAME, mResource.getString(R.string.DB_UOM_KgName));
+                cv.put(COL_NAME_GEN_USER_COMMENT, mResource.getString(R.string.DB_UOM_KgComment));
+                cv.put(COL_NAME_UOM__CODE, "kg");
+                cv.put(COL_NAME_UOM__UOMTYPE, ConstantValues.UOM_TYPE_WEIGHT_CODE);
+                cv.put(COL_NAME_GEN_ISACTIVE, "Y");
+                kgID = db.insert(TABLE_NAME_UOM, null, cv);
+                cv.clear();
+            }
+            try {
+                c.close();
+            }
+            catch (Exception ignored) {
+            }
+
+            c = db.rawQuery(
+                    "SELECT * FROM " + TABLE_NAME_UOM +
+                            " WHERE UPPER(" + COL_NAME_UOM__CODE + ") == 'GGE'", null);
+            if (c.moveToFirst()) {
+                ggeID = c.getLong(0);
+                db.execSQL("UPDATE " + TABLE_NAME_UOM +
+                        " SET " + COL_NAME_UOM__UOMTYPE + " = '" + ConstantValues.UOM_TYPE_WEIGHT_CODE + "'" +
+                        "WHERE UPPER(" + COL_NAME_UOM__CODE + ") == 'GGE'");
+            }
+            else {
+                cv.put(COL_NAME_GEN_NAME, mResource.getString(R.string.DB_UOM_GGEName));
+                cv.put(COL_NAME_GEN_USER_COMMENT, mResource.getString(R.string.DB_UOM_GGEComment));
+                cv.put(COL_NAME_UOM__CODE, "gge");
+                cv.put(COL_NAME_UOM__UOMTYPE, ConstantValues.UOM_TYPE_WEIGHT_CODE);
+                cv.put(COL_NAME_GEN_ISACTIVE, "Y");
+                ggeID = db.insert(TABLE_NAME_UOM, null, cv);
+                cv.clear();
+            }
+            try {
+                c.close();
+            }
+            catch (Exception ignored) {
+            }
+
+            c = db.rawQuery(
+                    "SELECT * FROM " + TABLE_NAME_UOM +
+                            " WHERE UPPER(" + COL_NAME_UOM__CODE + ") == 'LB'", null);
+            if (c.moveToFirst()) {
+                lbID = c.getLong(0);
+                db.execSQL("UPDATE " + TABLE_NAME_UOM +
+                        " SET " + COL_NAME_UOM__UOMTYPE + " = '" + ConstantValues.UOM_TYPE_WEIGHT_CODE + "'" +
+                        "WHERE UPPER(" + COL_NAME_UOM__CODE + ") == 'LB'");
+            }
+            else {
+                cv.put(COL_NAME_GEN_NAME, mResource.getString(R.string.DB_UOM_LBName));
+                cv.put(COL_NAME_GEN_USER_COMMENT, mResource.getString(R.string.DB_UOM_LBComment));
+                cv.put(COL_NAME_UOM__CODE, "lb");
+                cv.put(COL_NAME_UOM__UOMTYPE, ConstantValues.UOM_TYPE_WEIGHT_CODE);
+                cv.put(COL_NAME_GEN_ISACTIVE, "Y");
+                lbID = db.insert(TABLE_NAME_UOM, null, cv);
+                cv.clear();
             }
             try {
                 c.close();
@@ -1949,8 +2028,13 @@ public class DB {
                     "SELECT * FROM " + TABLE_NAME_UOM +
                             " WHERE UPPER(" + COL_NAME_UOM__CODE + ") IN ('KW⋅H', 'KWH', 'KW H')", null);
             if (c.getCount() == 0) {
-                db.execSQL(colPart + "VALUES ( '" + mResource.getString(R.string.DB_UOM_KWhName) + "', 'Y', " +
-                        "'" + mResource.getString(R.string.DB_UOM_KWhComment) + "', 'kW⋅h', '" + ConstantValues.UOM_TYPE_ENERGY_CODE + "' )"); // _id = 1
+                cv.put(COL_NAME_GEN_NAME, mResource.getString(R.string.DB_UOM_KWhName));
+                cv.put(COL_NAME_GEN_USER_COMMENT, mResource.getString(R.string.DB_UOM_KWhComment));
+                cv.put(COL_NAME_UOM__CODE, "kW⋅h");
+                cv.put(COL_NAME_UOM__UOMTYPE, ConstantValues.UOM_TYPE_ENERGY_CODE);
+                cv.put(COL_NAME_GEN_ISACTIVE, "Y");
+                db.insert(TABLE_NAME_UOM, null, cv);
+                cv.clear();
             }
             else {
                 db.execSQL("UPDATE " + TABLE_NAME_UOM +
@@ -1962,6 +2046,134 @@ public class DB {
             }
             catch (Exception ignored) {
             }
+
+            //uom conversions
+//            1 kg = 2.204624 lb
+//            1 lb = 0.453592 kg
+//            1 kg = 0.389559 gge
+//            1 gge = 2.567 kg
+//            1 lb = 0.176678 gge
+//            1 gge = 5.660 lb
+
+            String checkSql = " SELECT * " +
+                    " FROM " + TABLE_NAME_UOMCONVERSION +
+                    " WHERE " + COL_NAME_GEN_ISACTIVE + "='Y' " +
+                    " AND " + COL_NAME_UOMCONVERSION__UOMFROM_ID + " = ? " +
+                    " AND " + COL_NAME_UOMCONVERSION__UOMTO_ID + " = ?";
+
+            String[] selectionArgs = {Long.toString(kgID), Long.toString(lbID)};
+            c = db.rawQuery(checkSql, selectionArgs);
+            if (c.getCount() == 0) {
+                cv.put(COL_NAME_GEN_NAME, mResource.getString(R.string.DB_UOMConversion_KgToLbName));
+                cv.put(COL_NAME_GEN_USER_COMMENT, mResource.getString(R.string.DB_UOMConversion_KgToLbComment));
+                cv.put(COL_NAME_UOMCONVERSION__UOMFROM_ID, kgID);
+                cv.put(COL_NAME_UOMCONVERSION__UOMTO_ID, lbID);
+                cv.put(COL_NAME_UOMCONVERSION__RATE, 2.204624);
+                cv.put(COL_NAME_GEN_ISACTIVE, "Y");
+                db.insert(TABLE_NAME_UOMCONVERSION, null, cv);
+                cv.clear();
+            }
+            try {
+                c.close();
+            }
+            catch (Exception ignored) {
+            }
+
+            selectionArgs[0] = Long.toString(lbID);
+            selectionArgs[1] = Long.toString(kgID);
+            c = db.rawQuery(checkSql, selectionArgs);
+            if (c.getCount() == 0) {
+                cv.put(COL_NAME_GEN_NAME, mResource.getString(R.string.DB_UOMConversion_LbToKgName));
+                cv.put(COL_NAME_GEN_USER_COMMENT, mResource.getString(R.string.DB_UOMConversion_LbToKgComment));
+                cv.put(COL_NAME_UOMCONVERSION__UOMFROM_ID, lbID);
+                cv.put(COL_NAME_UOMCONVERSION__UOMTO_ID, kgID);
+                cv.put(COL_NAME_UOMCONVERSION__RATE, 0.453592);
+                cv.put(COL_NAME_GEN_ISACTIVE, "Y");
+                db.insert(TABLE_NAME_UOMCONVERSION, null, cv);
+                cv.clear();
+            }
+            try {
+                c.close();
+            }
+            catch (Exception ignored) {
+            }
+
+            selectionArgs[0] = Long.toString(kgID);
+            selectionArgs[1] = Long.toString(ggeID);
+            c = db.rawQuery(checkSql, selectionArgs);
+            if (c.getCount() == 0) {
+                cv.put(COL_NAME_GEN_NAME, mResource.getString(R.string.DB_UOMConversion_KgToGGEName));
+                cv.put(COL_NAME_GEN_USER_COMMENT, mResource.getString(R.string.DB_UOMConversion_KgToGGEComment));
+                cv.put(COL_NAME_UOMCONVERSION__UOMFROM_ID, kgID);
+                cv.put(COL_NAME_UOMCONVERSION__UOMTO_ID, ggeID);
+                cv.put(COL_NAME_UOMCONVERSION__RATE, 0.389559);
+                cv.put(COL_NAME_GEN_ISACTIVE, "Y");
+                db.insert(TABLE_NAME_UOMCONVERSION, null, cv);
+                cv.clear();
+            }
+            try {
+                c.close();
+            }
+            catch (Exception ignored) {
+            }
+
+            selectionArgs[0] = Long.toString(ggeID);
+            selectionArgs[1] = Long.toString(kgID);
+            c = db.rawQuery(checkSql, selectionArgs);
+            if (c.getCount() == 0) {
+                cv.put(COL_NAME_GEN_NAME, mResource.getString(R.string.DB_UOMConversion_GGEToKgName));
+                cv.put(COL_NAME_GEN_USER_COMMENT, mResource.getString(R.string.DB_UOMConversion_GGEToKgComment));
+                cv.put(COL_NAME_UOMCONVERSION__UOMFROM_ID, ggeID);
+                cv.put(COL_NAME_UOMCONVERSION__UOMTO_ID, kgID);
+                cv.put(COL_NAME_UOMCONVERSION__RATE, 2.567);
+                cv.put(COL_NAME_GEN_ISACTIVE, "Y");
+                db.insert(TABLE_NAME_UOMCONVERSION, null, cv);
+                cv.clear();
+            }
+            try {
+                c.close();
+            }
+            catch (Exception ignored) {
+            }
+
+            selectionArgs[0] = Long.toString(lbID);
+            selectionArgs[1] = Long.toString(ggeID);
+            c = db.rawQuery(checkSql, selectionArgs);
+            if (c.getCount() == 0) {
+                cv.put(COL_NAME_GEN_NAME, mResource.getString(R.string.DB_UOMConversion_LbToGGEName));
+                cv.put(COL_NAME_GEN_USER_COMMENT, mResource.getString(R.string.DB_UOMConversion_LbToGGEComment));
+                cv.put(COL_NAME_UOMCONVERSION__UOMFROM_ID, lbID);
+                cv.put(COL_NAME_UOMCONVERSION__UOMTO_ID, ggeID);
+                cv.put(COL_NAME_UOMCONVERSION__RATE, 0.176678);
+                cv.put(COL_NAME_GEN_ISACTIVE, "Y");
+                db.insert(TABLE_NAME_UOMCONVERSION, null, cv);
+                cv.clear();
+            }
+            try {
+                c.close();
+            }
+            catch (Exception ignored) {
+            }
+
+            selectionArgs[0] = Long.toString(ggeID);
+            selectionArgs[1] = Long.toString(lbID);
+            c = db.rawQuery(checkSql, selectionArgs);
+            if (c.getCount() == 0) {
+                cv.put(COL_NAME_GEN_NAME, mResource.getString(R.string.DB_UOMConversion_GGEToLbName));
+                cv.put(COL_NAME_GEN_USER_COMMENT, mResource.getString(R.string.DB_UOMConversion_GGEToLbComment));
+                cv.put(COL_NAME_UOMCONVERSION__UOMFROM_ID, ggeID);
+                cv.put(COL_NAME_UOMCONVERSION__UOMTO_ID, lbID);
+                cv.put(COL_NAME_UOMCONVERSION__RATE, 0.176678);
+                cv.put(COL_NAME_GEN_ISACTIVE, "Y");
+                db.insert(TABLE_NAME_UOMCONVERSION, null, cv);
+                cv.clear();
+            }
+            try {
+                c.close();
+            }
+            catch (Exception ignored) {
+            }
+
 
             db.execSQL("UPDATE " + TABLE_NAME_DATA_TEMPLATE_VALUES +
                     " SET " + COL_NAME_GEN_NAME + " = 'spnUomFuel'" +
@@ -1975,8 +2187,8 @@ public class DB {
                 updSql = "ALTER TABLE " + TABLE_NAME_CAR + " ADD " + COL_NAME_CAR__ISAFV + " TEXT DEFAULT 'N' ";
                 db.execSQL(updSql);
             }
-            if (!columnExists(db, TABLE_NAME_CAR, COL_NAME_CAR__ALTERNATIVE_FUEL_ID)) {
-                updSql = "ALTER TABLE " + TABLE_NAME_CAR + " ADD " + COL_NAME_CAR__ALTERNATIVE_FUEL_ID + " INTEGER NULL ";
+            if (!columnExists(db, TABLE_NAME_CAR, COL_NAME_CAR__ALTERNATIVE_FUEL_UOM_ID)) {
+                updSql = "ALTER TABLE " + TABLE_NAME_CAR + " ADD " + COL_NAME_CAR__ALTERNATIVE_FUEL_UOM_ID + " INTEGER NULL ";
                 db.execSQL(updSql);
             }
         }

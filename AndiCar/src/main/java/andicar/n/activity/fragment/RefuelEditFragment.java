@@ -191,7 +191,7 @@ public class RefuelEditFragment extends BaseEditFragment {
 
         mCarDefaultCurrencyId = mDbAdapter.getCarCurrencyID(mCarId);
         mCarDefaultCurrencyCode = mDbAdapter.getCurrencyCode(mCarDefaultCurrencyId);
-        mCarDefaultUOMVolumeId = mDbAdapter.getCarUOMFuelID(mCarId);
+        mCarDefaultUOMVolumeId = mDbAdapter.getCarUOMFuelID(mCarId, true);
         mCarDefaultUOMVolumeCode = mDbAdapter.getUOMCode(mCarDefaultUOMVolumeId);
 
         setDriverId(c.getLong(DBAdapter.COL_POS_REFUEL__DRIVER_ID));
@@ -267,7 +267,7 @@ public class RefuelEditFragment extends BaseEditFragment {
             }
         }
 
-        setUOMFuelId(mDbAdapter.getCarUOMFuelID(mCarId));
+        setUOMFuelId(mDbAdapter.getCarUOMFuelID(mCarId, true));
         mCarDefaultUOMVolumeId = mUOMFuelId;
         mCarDefaultUOMVolumeCode = mDbAdapter.getUOMCode(mCarDefaultUOMVolumeId);
 
@@ -768,7 +768,7 @@ public class RefuelEditFragment extends BaseEditFragment {
             calculatePriceAmount();
         }
 
-        long newCarUOMVolumeId = mDbAdapter.getCarUOMFuelID(mCarId);
+        long newCarUOMVolumeId = mDbAdapter.getCarUOMFuelID(mCarId, true);
         if (newCarUOMVolumeId != mUOMFuelId) {
             setUOMFuelId(newCarUOMVolumeId);
             mCarDefaultUOMVolumeId = mUOMFuelId;

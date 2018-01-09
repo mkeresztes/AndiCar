@@ -35,6 +35,14 @@
     <string name="DB_UOM_USGComment">U.S. fl. gallon</string>
     <string name="DB_UOM_GBGName">Imperial gallon</string>
     <string name="DB_UOM_GBGComment">Imperial (UK) gallon</string>
+    <string name="DB_UOM_KgName">Kilogramm</string>
+    <string name="DB_UOM_KgComment">Kilogramm</string>
+    <string name="DB_UOM_KWhName">Kilowattstunde</string>
+    <string name="DB_UOM_KWhComment">Kilowattstunde</string>
+    <string name="DB_UOM_GGEName">Gasoline gallon equivalent</string>
+    <string name="DB_UOM_GGEComment">Gasoline gallon equivalent</string>
+    <string name="DB_UOM_LBName">Pfund</string>
+    <string name="DB_UOM_LBComment">Pfund</string>
     <!-- UOM Conversions -->
     <string name="DB_UOMConversion_MiToKmName">mi zu km</string>
     <string name="DB_UOMConversion_MiToKmComment">Meile zu Kilometer</string>
@@ -52,6 +60,19 @@
     <string name="DB_UOMConversion_GBGToUSGComment">Imperial gallon zu US gallon</string>
     <string name="DB_UOMConversion_USGToGBGName">US gal zu GB gal</string>
     <string name="DB_UOMConversion_USGToGBGComment">US gallon zu Imperial gallon</string>
+    <string name="DB_UOMConversion_KgToLbName">kg zu lb</string>
+    <string name="DB_UOMConversion_KgToLbComment">Kilogramm zu pfund</string>
+    <string name="DB_UOMConversion_LbToKgName">lb zu kg</string>
+    <string name="DB_UOMConversion_LbToKgComment">Pfund zu kilogramm</string>
+    <string name="DB_UOMConversion_KgToGGEName">kg zu GGE</string>
+    <string name="DB_UOMConversion_KgToGGEComment">Kilogramm zu gasoline gallon equivalent</string>
+    <string name="DB_UOMConversion_GGEToKgName">GGE zu kg</string>
+    <string name="DB_UOMConversion_GGEToKgComment">Gasoline gallon equivalent zu kilogramm</string>
+    <string name="DB_UOMConversion_LbToGGEName">lb zu GGE</string>
+    <string name="DB_UOMConversion_LbToGGEComment">Pfund zu Gasoline gallon equivalent</string>
+    <string name="DB_UOMConversion_GGEToLbName">GGE zu lb</string>
+    <string name="DB_UOMConversion_GGEToLbComment">Gasoline gallon equivalent zu pfund</string>
+
     <!-- expense types -->
     <string name="DB_ExpType_PersonalName">Persönlich</string>
     <string name="DB_ExpType_PersonalComment">Eigene Ausgaben</string>

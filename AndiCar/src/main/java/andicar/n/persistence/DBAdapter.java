@@ -1404,11 +1404,25 @@ import andicar.n.utils.FileUtils;
         return retVal;
     }
 
-    public long getCarUOMFuelID(long carID) {
-        Cursor c = fetchRecord(TABLE_NAME_CAR, COL_LIST_CAR_TABLE, carID);
+    /**
+     * returns the ID for the base or alternative fuel
+     *
+     * @param carID
+     * @param baseFuel base or alternative fuel
+     * @return ID of ExpensetType (fuel)
+     */
+    public long getCarUOMFuelID(long carID, boolean baseFuel) {
         long retVal = -1;
+
+        if(!baseFuel && !isAFVCar(carID))
+            { return retVal; }
+
+        Cursor c = fetchRecord(TABLE_NAME_CAR, COL_LIST_CAR_TABLE, carID);
         if (c != null) {
-            retVal = c.getLong(COL_POS_CAR__FUEL_UOM_ID);
+            if(baseFuel)
+                { retVal = c.getLong(COL_POS_CAR__FUEL_UOM_ID); }
+            else
+                { retVal = c.getLong(COL_POS_CAR__ALTERNATIVE_FUEL_UOM_ID); }
             c.close();
         }
         return retVal;
@@ -1456,22 +1470,22 @@ import andicar.n.utils.FileUtils;
         return retVal;
     }
 
-    public long getAlternateFuelID(long carID) {
-        long retVal = -1;
-        //if not alternate fuel vehicle
-        if(!isAFVCar(carID))
-            { return retVal; }
-
-        Cursor c = fetchRecord(TABLE_NAME_CAR, COL_LIST_CAR_TABLE, carID);
-        if (c != null) {
-            retVal = c.getLong(COL_POS_CAR__ALTERNATIVE_FUEL_ID);
-            c.close();
-        }
-        return retVal;
-    }
-
-    public String getCarFuelUOMType(long carID) {
-        return getUOMType(getCarUOMFuelID(carID));
+//    public long getAlternateFuelID(long carID) {
+//        long retVal = -1;
+//        //if not alternate fuel vehicle
+//        if(!isAFVCar(carID))
+//            { return retVal; }
+//
+//        Cursor c = fetchRecord(TABLE_NAME_CAR, COL_LIST_CAR_TABLE, carID);
+//        if (c != null) {
+//            retVal = c.getLong(COL_POS_CAR__ALTERNATIVE_FUEL_ID);
+//            c.close();
+//        }
+//        return retVal;
+//    }
+//
+    public String getCarFuelUOMType(long carID, boolean baseFuel) {
+        return getUOMType(getCarUOMFuelID(carID, baseFuel));
     }
 
     public String getUOMType(long uomID) {

@@ -42,6 +42,7 @@ import java.math.BigDecimal;
 
 import andicar.n.activity.CommonDetailActivity;
 import andicar.n.activity.CommonListActivity;
+import andicar.n.persistence.DB;
 import andicar.n.persistence.DBAdapter;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.Utils;
@@ -51,8 +52,9 @@ import andicar.n.utils.Utils;
  */
 
 public class CarEditFragment extends BaseEditFragment {
-    private long mUOMLengthId;
-    private long mUOMFuelId;
+    private long mLengthUOMId;
+    private long mFuelUOMId;
+    private long mAltFuelUOMId;
     private String mCarModel;
     private String mCarRegNo;
     private BigDecimal mInitialIndex;
@@ -60,11 +62,13 @@ public class CarEditFragment extends BaseEditFragment {
 
     private Spinner spnUOMLength = null;
     private Spinner spnUOMFuel = null;
+    private Spinner spnUOMAltFuel = null;
     private EditText etName = null;
     private EditText etCarModel = null;
     private EditText etCarRegNo = null;
     private EditText etIndexStart = null;
     private CheckBox ckIsAlternativeFuelVehicle = null;
+    private View lAltFuelZone;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,14 +103,16 @@ public class CarEditFragment extends BaseEditFragment {
         catch (NumberFormatException ignored) {
         }
 
-        mUOMLengthId = c.getLong(DBAdapter.COL_POS_CAR__LENGTH_UOM_ID);
-        mUOMFuelId = c.getLong(DBAdapter.COL_POS_CAR__FUEL_UOM_ID);
+        mLengthUOMId = c.getLong(DBAdapter.COL_POS_CAR__LENGTH_UOM_ID);
+        mFuelUOMId = c.getLong(DBAdapter.COL_POS_CAR__FUEL_UOM_ID);
         setCurrencyId(c.getLong(DBAdapter.COL_POS_CAR__CURRENCY_ID));
         mIsAlternativeFuelVehicle = c.getString(DBAdapter.COL_POS_CAR__ISAFV).equals("Y");
-        if (c.getString(DBAdapter.COL_POS_CAR__ALTERNATIVE_FUEL_ID) == null)
-            mExpCategoryId = -1;
-        else
-            mExpCategoryId = c.getLong(DBAdapter.COL_POS_CAR__ALTERNATIVE_FUEL_ID);
+        if (c.getString(DBAdapter.COL_POS_CAR__ALTERNATIVE_FUEL_UOM_ID) == null) {
+            mAltFuelUOMId = -1;
+        }
+        else {
+            mAltFuelUOMId = c.getLong(DBAdapter.COL_POS_CAR__ALTERNATIVE_FUEL_UOM_ID);
+        }
         c.close();
     }
 
@@ -125,40 +131,40 @@ public class CarEditFragment extends BaseEditFragment {
             switch (locale) {
                 case "US":
                     setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "USD"));
-                    mUOMLengthId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "mi");
-                    mUOMFuelId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "gal US");
-
+                    mLengthUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "mi");
+                    mFuelUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "gal US");
                     break;
                 case "CA":
                     setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "CAD"));
-                    mUOMLengthId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "mi");
-                    mUOMFuelId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "gal US");
+                    mLengthUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "mi");
+                    mFuelUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "gal US");
 
                     break;
                 case "HU":
                     setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "HUF"));
-                    mUOMLengthId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "km");
-                    mUOMFuelId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "l");
+                    mLengthUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "km");
+                    mFuelUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "l");
 
                     break;
                 case "RO":
                     setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "RON"));
-                    mUOMLengthId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "km");
-                    mUOMFuelId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "l");
+                    mLengthUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "km");
+                    mFuelUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "l");
 
                     break;
                 case "GB":
                     setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "GBP"));
-                    mUOMLengthId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "mi");
-                    mUOMFuelId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "gal GB");
+                    mLengthUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "mi");
+                    mFuelUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "gal GB");
 
                     break;
                 default:
                     setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "EUR"));
-                    mUOMLengthId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "km");
-                    mUOMFuelId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "l");
+                    mLengthUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "km");
+                    mFuelUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "l");
                     break;
             }
+            mAltFuelUOMId = mFuelUOMId;
         }
 
         mCarModel = "";
@@ -182,7 +188,7 @@ public class CarEditFragment extends BaseEditFragment {
                     return;
                 }
 
-                mUOMLengthId = newId;
+                mLengthUOMId = newId;
             }
 
             @Override
@@ -203,7 +209,7 @@ public class CarEditFragment extends BaseEditFragment {
                     return;
                 }
 
-                mUOMFuelId = newId;
+                mFuelUOMId = newId;
             }
 
             @Override
@@ -218,33 +224,36 @@ public class CarEditFragment extends BaseEditFragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mIsAlternativeFuelVehicle = isChecked;
                 if (isChecked) {
-                    lExpCatFuelTypeZone.setVisibility(View.VISIBLE);
+                    lAltFuelZone.setVisibility(View.VISIBLE);
                 } else {
-                    lExpCatFuelTypeZone.setVisibility(View.GONE);
+                    lAltFuelZone.setVisibility(View.GONE);
                 }
             }
         });
-//        llUOMAlternativeFuel = mRootView.findViewById(R.id.lExpCatFuelTypeZone);
-//        spnAlternativeFuel = mRootView.findViewById(R.id.spnExpCatOrFuelType);
-//        spnAlternativeFuel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                long newId = mDbAdapter.getIdByName(DBAdapter.TABLE_NAME_UOM, adapterView.getAdapter().getItem(i).toString());
-//                setSpinnerTextToCode(adapterView, newId, view);
-//
-//                if (adapterView.getTag() != null && adapterView.getTag().equals(ConstantValues.IS_INITIALIZATION_IN_PROGRESS_TAG)) {
-//                    adapterView.setTag(null);
-//                    return;
-//                }
-//
-//                mUOMAltFuelId = newId;
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
+
+        lAltFuelZone = mRootView.findViewById(R.id.lAltFuelZone);
+
+
+        spnUOMAltFuel = mRootView.findViewById(R.id.spnUOMAltFuel);
+        spnUOMAltFuel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                long newId = mDbAdapter.getIdByName(DBAdapter.TABLE_NAME_UOM, adapterView.getAdapter().getItem(i).toString());
+                setSpinnerTextToCode(adapterView, newId, view);
+
+                if (adapterView.getTag() != null && adapterView.getTag().equals(ConstantValues.IS_INITIALIZATION_IN_PROGRESS_TAG)) {
+                    adapterView.setTag(null);
+                    return;
+                }
+
+                mAltFuelUOMId = newId;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         etName = mRootView.findViewById(R.id.etName);
         etCarModel = mRootView.findViewById(R.id.etCarModel);
@@ -281,19 +290,19 @@ public class CarEditFragment extends BaseEditFragment {
     @Override
     protected void initSpecificControls() {
         Utils.initSpinner(mDbAdapter, spnUOMLength, DBAdapter.TABLE_NAME_UOM,
-                DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_UOM__UOMTYPE + " = '" + ConstantValues.UOM_TYPE_LENGTH_CODE + "'", mUOMLengthId, false);
+                DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_UOM__UOMTYPE + " = '" + ConstantValues.UOM_TYPE_LENGTH_CODE + "'", mLengthUOMId, false);
 
         Utils.initSpinner(mDbAdapter, spnUOMFuel, DBAdapter.TABLE_NAME_UOM,
                 DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " +
                         DBAdapter.COL_NAME_UOM__UOMTYPE +
                         " IN ('" + ConstantValues.UOM_TYPE_VOLUME_CODE + "', '" + ConstantValues.UOM_TYPE_WEIGHT_CODE + "', '" + ConstantValues.UOM_TYPE_ENERGY_CODE + "')",
-                mUOMFuelId, false);
+                mFuelUOMId, false);
 
-//        Utils.initSpinner(mDbAdapter, spnAlternativeFuel, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
-//                DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " +
-//                        DBAdapter.COL_NAME_UOM__UOMTYPE +
-//                        " IN ('" + ConstantValues.UOM_TYPE_VOLUME_CODE + "', '" + ConstantValues.UOM_TYPE_WEIGHT_CODE + "', '" + ConstantValues.UOM_TYPE_ENERGY_CODE + "')",
-//                mUOMAltFuelId, false);
+        Utils.initSpinner(mDbAdapter, spnUOMAltFuel, DBAdapter.TABLE_NAME_UOM,
+                DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " +
+                        DBAdapter.COL_NAME_UOM__UOMTYPE +
+                        " IN ('" + ConstantValues.UOM_TYPE_VOLUME_CODE + "', '" + ConstantValues.UOM_TYPE_WEIGHT_CODE + "', '" + ConstantValues.UOM_TYPE_ENERGY_CODE + "')",
+                mAltFuelUOMId, false);
     }
 
     @SuppressLint("SetTextI18n")
@@ -316,10 +325,12 @@ public class CarEditFragment extends BaseEditFragment {
 
     @Override
     public void setSpecificLayout() {
-        if (mIsAlternativeFuelVehicle)
-            lExpCatFuelTypeZone.setVisibility(View.VISIBLE);
-        else
-            lExpCatFuelTypeZone.setVisibility(View.GONE);
+        if (mIsAlternativeFuelVehicle) {
+            lAltFuelZone.setVisibility(View.VISIBLE);
+        }
+        else {
+            lAltFuelZone.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -345,13 +356,15 @@ public class CarEditFragment extends BaseEditFragment {
         cvData.put(DBAdapter.COL_NAME_CAR__MODEL, etCarModel.getText().toString());
         cvData.put(DBAdapter.COL_NAME_CAR__REGISTRATIONNO, etCarRegNo.getText().toString());
         cvData.put(DBAdapter.COL_NAME_CAR__INDEXSTART, bdStartIndex != null ? bdStartIndex.toString() : BigDecimal.ZERO.toString());
-        cvData.put(DBAdapter.COL_NAME_CAR__LENGTH_UOM_ID, mUOMLengthId);
-        cvData.put(DBAdapter.COL_NAME_CAR__FUEL_UOM_ID, mUOMFuelId);
+        cvData.put(DBAdapter.COL_NAME_CAR__LENGTH_UOM_ID, mLengthUOMId);
+        cvData.put(DBAdapter.COL_NAME_CAR__FUEL_UOM_ID, mFuelUOMId);
         cvData.put(DBAdapter.COL_NAME_CAR__ISAFV, mIsAlternativeFuelVehicle ? "Y" : "N");
-        if (mIsAlternativeFuelVehicle)
-            cvData.put(DBAdapter.COL_NAME_CAR__ALTERNATIVE_FUEL_ID, mExpCategoryId);
-        else
-            cvData.put(DBAdapter.COL_NAME_CAR__ALTERNATIVE_FUEL_ID, (String) null);
+        if (mIsAlternativeFuelVehicle) {
+            cvData.put(DBAdapter.COL_NAME_CAR__ALTERNATIVE_FUEL_UOM_ID, mDbAdapter.getIdByName(DB.TABLE_NAME_UOM, spnUOMAltFuel.getSelectedItem().toString()));
+        }
+        else {
+            cvData.put(DBAdapter.COL_NAME_CAR__ALTERNATIVE_FUEL_UOM_ID, (String) null);
+        }
 
         cvData.put(DBAdapter.COL_NAME_CAR__CURRENCY_ID, mCurrencyId);
 
