@@ -192,6 +192,8 @@
     <string name="gen_todo_detail">A feladat részletei</string>
     <string name="gen_no_files_selected_for_delete">Nincs kiválasztott fájl(ok). Nincs mit törölni.</string>
     <string name="gen_no_files_selected_for_share">Nincs kiválasztott fájl(ok). Nincs mit megosztani.</string>
+    <string name="gen_manage_list">Lista szerkesztése</string>
+    <string name="gen_manage_list_vertical">"L\ni\ns\nt\na\n\ns\nz\ne\nr\nk\ne\ns\nz\nt\né\ns\ne"</string>
 
     <string name="gen_trip">Út</string>
     <string name="gen_fill_up">Tankolás</string>

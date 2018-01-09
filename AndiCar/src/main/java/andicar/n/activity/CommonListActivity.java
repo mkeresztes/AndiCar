@@ -41,6 +41,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -222,6 +223,29 @@ public class CommonListActivity extends AppCompatActivity
             });
         }
 
+        Button btnManageToDos = findViewById(R.id.btnManageToDos);
+
+        if (mActivityType == ACTIVITY_TYPE_TODO) {
+            if (btnAdd != null)
+                btnAdd.setVisibility(View.GONE);
+            if (btnManageToDos != null) {
+                btnManageToDos.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(CommonListActivity.this, CommonListActivity.class);
+                        i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_TASK);
+                        i.putExtra(CommonListActivity.SCROLL_TO_POSITION_KEY, 0);
+                        i.putExtra(CommonListActivity.IS_SHOW_SEARCH_MENU_KEY, false);
+                        startActivityForResult(i, 0);
+                    }
+                });
+            }
+        } else {
+            if (btnManageToDos != null) {
+                btnManageToDos.setVisibility(View.GONE);
+            }
+        }
+
         btnStatistics = findViewById(R.id.btnStatistics);
         if (btnStatistics != null) {
             btnStatistics.setOnClickListener(new View.OnClickListener() {
@@ -235,14 +259,14 @@ public class CommonListActivity extends AppCompatActivity
             });
         }
 
-        ImageButton btnCharts = findViewById(R.id.btnCharts);
+//        ImageButton btnCharts = findViewById(R.id.btnCharts);
 
         if (!(mActivityType == ACTIVITY_TYPE_REFUEL || mActivityType == ACTIVITY_TYPE_EXPENSE
                 || mActivityType == ACTIVITY_TYPE_MILEAGE)) {
             if (btnStatistics != null)
                 btnStatistics.setVisibility(View.GONE);
-            if (btnCharts != null)
-                btnCharts.setVisibility(View.GONE);
+//            if (btnCharts != null)
+//                btnCharts.setVisibility(View.GONE);
         }
         // Show the Up button in the action bar only if the activity is not launched from the preference screen.
         //The solution is to change dynamically the parent activity for up navigation
@@ -253,13 +277,6 @@ public class CommonListActivity extends AppCompatActivity
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
             }
-        }
-        if (mActivityType == ACTIVITY_TYPE_TODO) {
-            if (btnAdd != null)
-                btnAdd.setVisibility(View.GONE);
-            View separator = findViewById(R.id.separator);
-            if (separator != null)
-                separator.setVisibility(View.GONE);
         }
 
         // The detail container view will be present only in the

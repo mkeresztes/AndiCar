@@ -123,6 +123,8 @@
     <string name="gen_todo_detail">To-Do detail</string>
     <string name="gen_no_files_selected_for_delete">No file(s) selected. Nothing to delete.</string>
     <string name="gen_no_files_selected_for_share">No file(s) selected. Nothing to share.</string>
+    <string name="gen_manage_list">Edit To-Do list</string>
+    <string name="gen_manage_list_vertical">"E\nd\ni\nt\n\nT\no\n\nD\no\n\nl\ni\ns\nt"</string>
 
     <string name="mileage_draft_edit">Draft. Fill the arrival to complete it.</string>
 

@@ -31,7 +31,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         app:layoutManager="LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/btnAdd"
+        app:layout_constraintBottom_toTopOf="@id/llButtons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -40,46 +40,67 @@
 
     </android.support.v7.widget.RecyclerView>
 
-    <ImageButton
-        android:id="@+id/btnAdd"
-        android:layout_width="wrap_content"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/llButtons"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="@null"
+        android:background="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_button_add_c2185b_42dp_pad0dp"
-        android:layout_marginRight="16dp"
-        android:contentDescription="@string/gen_add_new" />
+        app:layout_constraintStart_toStartOf="parent">
 
-    <ImageButton
-        android:id="@+id/btnStatistics"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@null"
-        app:layout_constraintBottom_toBottomOf="@+id/btnAdd"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnAdd"
-        app:srcCompat="@drawable/ic_button_info_selector"
-        android:layout_marginLeft="16dp"/>
+        <ImageButton
+            android:id="@+id/btnAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@null"
+            app:layout_constraintBottom_toBottomOf="@id/llButtons"
+            app:layout_constraintEnd_toEndOf="@id/llButtons"
+            app:srcCompat="@drawable/ic_button_add_c2185b_42dp_pad0dp"
+            android:layout_marginRight="16dp"
+            android:contentDescription="@string/gen_add_new" />
 
-    <ImageButton
-        android:id="@+id/btnCharts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@null"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/btnAdd"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnAdd"
-        app:srcCompat="@drawable/ic_button_chart_4caf50_outlined_36dp_pad0dp"
-        android:layout_marginLeft="16dp"/>
+        <Button
+            android:id="@+id/btnManageToDos"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/llButtons"
+            app:layout_constraintStart_toStartOf="@id/llButtons"
+            app:layout_constraintEnd_toEndOf="@id/llButtons"
+            android:text="@string/gen_manage_list"
+            android:textColor="@color/primary_accent" />
 
+        <ImageButton
+            android:id="@+id/btnStatistics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@null"
+            app:layout_constraintBottom_toBottomOf="@id/btnAdd"
+            app:layout_constraintStart_toStartOf="@id/llButtons"
+            app:layout_constraintTop_toTopOf="@+id/btnAdd"
+            app:srcCompat="@drawable/ic_button_info_selector"
+            android:layout_marginLeft="16dp" />
+
+        <!--<ImageButton-->
+        <!--android:id="@+id/btnCharts"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:background="@null"-->
+        <!--android:visibility="gone"-->
+        <!--app:layout_constraintBottom_toBottomOf="@+id/btnAdd"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="@+id/btnAdd"-->
+        <!--app:srcCompat="@drawable/ic_button_chart_4caf50_outlined_36dp_pad0dp"-->
+        <!--android:layout_marginLeft="16dp"/>-->
+    </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>
