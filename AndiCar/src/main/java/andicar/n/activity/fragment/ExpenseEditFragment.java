@@ -156,7 +156,7 @@ public class ExpenseEditFragment extends BaseEditFragment {
 
         setCarId(c.getLong(DBAdapter.COL_POS_EXPENSE__CAR_ID));
         setDriverId(c.getLong(DBAdapter.COL_POS_EXPENSE__DRIVER_ID));
-        setExpCategoryId(c.getLong(DBAdapter.COL_POS_EXPENSE__EXPENSECATEGORY));
+        setExpCatOrFuelTypeId(c.getLong(DBAdapter.COL_POS_EXPENSE__EXPENSECATEGORY));
         setExpTypeId(c.getLong(DBAdapter.COL_POS_EXPENSE__EXPENSETYPE_ID));
         mlDateTimeInMillis = c.getLong(DBAdapter.COL_POS_EXPENSE__DATE) * 1000;
         initDateTimeFields();
@@ -498,7 +498,7 @@ public class ExpenseEditFragment extends BaseEditFragment {
         data.put(DBAdapter.COL_NAME_GEN_USER_COMMENT, acUserComment.getText().toString());
         data.put(DBAdapter.COL_NAME_EXPENSE__CAR_ID, mCarId);
         data.put(DBAdapter.COL_NAME_EXPENSE__DRIVER_ID, mDriverId);
-        data.put(DBAdapter.COL_NAME_EXPENSE__EXPENSECATEGORY_ID, mExpCategoryId);
+        data.put(DBAdapter.COL_NAME_EXPENSE__EXPENSECATEGORY_ID, mExpCatOrFuelTypeId);
         data.put(DBAdapter.COL_NAME_EXPENSE__EXPENSETYPE_ID, mExpTypeId);
         if (etIndex.getText().toString().length() > 0) {
             data.put(DBAdapter.COL_NAME_EXPENSE__INDEX, etIndex.getText().toString());
@@ -698,7 +698,7 @@ public class ExpenseEditFragment extends BaseEditFragment {
 
         prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_last_selected_driver_id), mDriverId);
         prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_expense_last_selected_expense_type_id), mExpTypeId);
-        prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_expense_last_selected_expense_category_id), mExpCategoryId);
+        prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_expense_last_selected_expense_category_id), mExpCatOrFuelTypeId);
         prefEditor.apply();
 
         //check if mileage to-do exists

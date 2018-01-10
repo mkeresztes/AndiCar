@@ -121,7 +121,7 @@ public abstract class BaseEditFragment extends Fragment {
     protected long mCarId = -1;
     protected long mDriverId = -1;
     protected long mExpTypeId = -1;
-    protected long mExpCategoryId = -1;
+    protected long mExpCatOrFuelTypeId = -1;
     protected long mCurrencyId = -1;
     protected long mTagId = 0;
     protected int mYear;
@@ -229,7 +229,7 @@ public abstract class BaseEditFragment extends Fragment {
             setCarId(savedInstanceState.getLong("mCarId"));
             setDriverId(savedInstanceState.getLong("mDriverId"));
             setExpTypeId(savedInstanceState.getLong("mExpTypeId"));
-            setExpCategoryId(savedInstanceState.getLong("mExpCategoryId"));
+            setExpCatOrFuelTypeId(savedInstanceState.getLong("mExpCatOrFuelTypeId"));
             setCurrencyId(savedInstanceState.getLong("mCurrencyId"));
 
             mlDateTimeInMillis = savedInstanceState.getLong("mlDateTimeInMillis");
@@ -410,7 +410,7 @@ public abstract class BaseEditFragment extends Fragment {
                         adapterView.setTag(null);
                         return;
                     }
-                    setExpCategoryId(mDbAdapter.getIdByName(DBAdapter.TABLE_NAME_EXPENSECATEGORY, adapterView.getAdapter().getItem(i).toString()));
+                    setExpCatOrFuelTypeId(mDbAdapter.getIdByName(DBAdapter.TABLE_NAME_EXPENSECATEGORY, adapterView.getAdapter().getItem(i).toString()));
                 }
 
                 @Override
@@ -678,14 +678,14 @@ public abstract class BaseEditFragment extends Fragment {
         if (lExpCatFuelTypeZone != null) {
             checkID = mDbAdapter.isSingleActiveRecord(DBAdapter.TABLE_NAME_EXPENSECATEGORY);
             if (checkID > -1) { //one single type
-                setExpCategoryId(checkID);
+                setExpCatOrFuelTypeId(checkID);
                 lExpCatFuelTypeZone.setVisibility(View.GONE);
             }
             else {
                 lExpCatFuelTypeZone.setVisibility(View.VISIBLE);
                 if (this instanceof CarEditFragment) {
                     Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
-                            DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mExpCategoryId, false);
+                            DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mExpCatOrFuelTypeId, false);
                 }
                 else if (this instanceof RefuelEditFragment) {
                     //show only the fuel types with similar uom type as declared in the car UOM for fuel + the alternate fuel if the car is AFV (alternate fuel vehicle)
@@ -700,22 +700,22 @@ public abstract class BaseEditFragment extends Fragment {
                                 " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " = '" + mDbAdapter.getCarFuelUOMType(mCarId, true) + "'";
                     }
                     Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
-                            selection, mExpCategoryId, false);
+                            selection, mExpCatOrFuelTypeId, false);
                 }
                 else {
                     Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
-                            DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", mExpCategoryId, false);
+                            DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", mExpCatOrFuelTypeId, false);
                 }
             }
         }
         else if (spnExpCatOrFuelType != null) {
             if (this instanceof RefuelEditFragment) {
                 Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
-                        DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mExpCategoryId, false);
+                        DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mExpCatOrFuelTypeId, false);
             }
             else {
                 Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
-                        DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", mExpCategoryId, false);
+                        DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", mExpCatOrFuelTypeId, false);
             }
         }
     }
@@ -738,31 +738,31 @@ public abstract class BaseEditFragment extends Fragment {
 
         if (this instanceof RefuelEditFragment) {
             setExpTypeId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_refuel_last_selected_expense_type_id), -1));
-            setExpCategoryId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_refuel_last_selected_expense_category_id) + "_" + mCarId, -1));
+            setExpCatOrFuelTypeId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_refuel_last_selected_expense_category_id) + "_" + mCarId, -1));
         }
         else if (this instanceof ExpenseEditFragment) {
             setExpTypeId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_expense_last_selected_expense_type_id), -1));
-            setExpCategoryId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_expense_last_selected_expense_category_id), -1));
+            setExpCatOrFuelTypeId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_expense_last_selected_expense_category_id), -1));
         }
         else if (this instanceof MileageEditFragment) {
             setExpTypeId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_mileage_last_selected_expense_type_id), -1));
-            setExpCategoryId(-1);
+            setExpCatOrFuelTypeId(-1);
         }
         else if (this instanceof GPSTrackControllerFragment) {
             setExpTypeId(mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_gps_track_last_selected_expense_type_id), -1));
-            setExpCategoryId(-1);
+            setExpCatOrFuelTypeId(-1);
         }
         else {
             setExpTypeId(-1);
-            setExpCategoryId(-1);
+            setExpCatOrFuelTypeId(-1);
         }
 
         if (mExpTypeId == -1 ||
                 !mDbAdapter.isIDActive(DBAdapter.TABLE_NAME_EXPENSETYPE, mExpTypeId)) {
             setExpTypeId(mDbAdapter.getFirstActiveID(DBAdapter.TABLE_NAME_EXPENSETYPE, null, DBAdapter.COL_NAME_GEN_NAME));
         }
-        if (mExpCategoryId == -1 ||
-                !mDbAdapter.isIDActive(DBAdapter.TABLE_NAME_EXPENSECATEGORY, mExpCategoryId)) {
+        if (mExpCatOrFuelTypeId == -1 ||
+                !mDbAdapter.isIDActive(DBAdapter.TABLE_NAME_EXPENSECATEGORY, mExpCatOrFuelTypeId)) {
             if (this instanceof RefuelEditFragment) {
                 String selection = DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y' ";
                 if (mDbAdapter.isAFVCar(mCarId)) {
@@ -773,11 +773,11 @@ public abstract class BaseEditFragment extends Fragment {
                     selection = selection +
                             " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " = '" + mDbAdapter.getCarFuelUOMType(mCarId, true) + "'";
                 }
-                setExpCategoryId(mDbAdapter.getFirstActiveID(DBAdapter.TABLE_NAME_EXPENSECATEGORY,
+                setExpCatOrFuelTypeId(mDbAdapter.getFirstActiveID(DBAdapter.TABLE_NAME_EXPENSECATEGORY,
                         selection, DBAdapter.COL_NAME_GEN_NAME));
             }
             else {
-                setExpCategoryId(mDbAdapter.getFirstActiveID(DBAdapter.TABLE_NAME_EXPENSECATEGORY, " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", DBAdapter.COL_NAME_GEN_NAME));
+                setExpCatOrFuelTypeId(mDbAdapter.getFirstActiveID(DBAdapter.TABLE_NAME_EXPENSECATEGORY, " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", DBAdapter.COL_NAME_GEN_NAME));
             }
         }
 
@@ -831,7 +831,7 @@ public abstract class BaseEditFragment extends Fragment {
         outState.putLong("mCarId", mCarId);
         outState.putLong("mDriverId", mDriverId);
         outState.putLong("mExpTypeId", mExpTypeId);
-        outState.putLong("mExpCategoryId", mExpCategoryId);
+        outState.putLong("mExpCatOrFuelTypeId", mExpCatOrFuelTypeId);
         outState.putLong("mCurrencyId", mCurrencyId);
         outState.putLong("mlDateTimeInMillis", mlDateTimeInMillis);
         outState.putInt("mYear", mYear);
@@ -1233,11 +1233,11 @@ public abstract class BaseEditFragment extends Fragment {
     }
 
     public long getExpCategoryId() {
-        return mExpCategoryId;
+        return mExpCatOrFuelTypeId;
     }
 
-    public void setExpCategoryId(long expCategoryId) {
-        mExpCategoryId = expCategoryId;
+    public void setExpCatOrFuelTypeId(long expCatOrFuelTypeId) {
+        mExpCatOrFuelTypeId = expCatOrFuelTypeId;
     }
 
     public long getCurrencyId() {

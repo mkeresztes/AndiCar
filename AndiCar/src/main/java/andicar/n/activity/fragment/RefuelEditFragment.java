@@ -195,7 +195,7 @@ public class RefuelEditFragment extends BaseEditFragment {
         mCarDefaultUOMVolumeCode = mDbAdapter.getUOMCode(mCarDefaultUOMVolumeId);
 
         setDriverId(c.getLong(DBAdapter.COL_POS_REFUEL__DRIVER_ID));
-        setExpCategoryId(c.getLong(DBAdapter.COL_POS_REFUEL__EXPENSECATEGORY_ID));
+        setExpCatOrFuelTypeId(c.getLong(DBAdapter.COL_POS_REFUEL__EXPENSECATEGORY_ID));
         setExpTypeId(c.getLong(DBAdapter.COL_POS_REFUEL__EXPENSETYPE_ID));
         setUOMFuelId(c.getLong(DBAdapter.COL_POS_REFUEL__UOMVOLUMEENTERED_ID));
         setCurrencyId(c.getLong(DBAdapter.COL_POS_REFUEL__CURRENCYENTERED_ID));
@@ -445,7 +445,7 @@ public class RefuelEditFragment extends BaseEditFragment {
     private void initSpnUomFuel() {
         Utils.initSpinner(mDbAdapter, spnUomFuel, DBAdapter.TABLE_NAME_UOM,
                 DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " +
-                        DBAdapter.COL_NAME_UOM__UOMTYPE + " = '" + mDbAdapter.getFuelUOMType(mExpCategoryId) + "'", mUOMFuelId, false);
+                        DBAdapter.COL_NAME_UOM__UOMTYPE + " = '" + mDbAdapter.getFuelUOMType(mExpCatOrFuelTypeId) + "'", mUOMFuelId, false);
 //                        DBAdapter.COL_NAME_UOM__UOMTYPE + " = '" + ConstantValues.UOM_TYPE_VOLUME_CODE + "'", mUOMFuelId, false);
         if (viewsLoaded) {
             long selectedUOMId = mDbAdapter.getIdByCode(DB.TABLE_NAME_UOM, spnUomFuel.getSelectedItem().toString());
@@ -523,7 +523,6 @@ public class RefuelEditFragment extends BaseEditFragment {
         }
 
         calculatePriceAmount();
-        initSpnUomFuel();
     }
 
     @Override
@@ -539,7 +538,7 @@ public class RefuelEditFragment extends BaseEditFragment {
         data.put(DBAdapter.COL_NAME_GEN_USER_COMMENT, acUserComment.getText().toString());
         data.put(DBAdapter.COL_NAME_REFUEL__CAR_ID, mCarId);
         data.put(DBAdapter.COL_NAME_REFUEL__DRIVER_ID, mDriverId);
-        data.put(DBAdapter.COL_NAME_REFUEL__EXPENSECATEGORY_ID, mExpCategoryId);
+        data.put(DBAdapter.COL_NAME_REFUEL__EXPENSECATEGORY_ID, mExpCatOrFuelTypeId);
         data.put(DBAdapter.COL_NAME_REFUEL__EXPENSETYPE_ID, mExpTypeId);
         data.put(DBAdapter.COL_NAME_REFUEL__INDEX, etIndex.getText().toString());
         data.put(DBAdapter.COL_NAME_REFUEL__QUANTITYENTERED, etQuantity.getText().toString());
@@ -707,7 +706,7 @@ public class RefuelEditFragment extends BaseEditFragment {
 
         prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_last_selected_driver_id), mDriverId);
         prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_refuel_last_selected_expense_type_id), mExpTypeId);
-        prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_refuel_last_selected_expense_category_id) + "_" + mCarId, mExpCategoryId);
+        prefEditor.putLong(AndiCar.getAppResources().getString(R.string.pref_key_refuel_last_selected_expense_category_id) + "_" + mCarId, mExpCatOrFuelTypeId);
         prefEditor.putInt(AndiCar.getAppResources().getString(R.string.pref_key_refuel_insert_mode), mInsertMode);
         prefEditor.apply();
 
@@ -736,8 +735,8 @@ public class RefuelEditFragment extends BaseEditFragment {
     }
 
     @Override
-    public void setExpCategoryId(long expCategoryId) {
-        super.setExpCategoryId(expCategoryId);
+    public void setExpCatOrFuelTypeId(long expCatOrFuelTypeId) {
+        super.setExpCatOrFuelTypeId(expCatOrFuelTypeId);
         if (!viewsLoaded) {
             return;
         }
@@ -754,7 +753,7 @@ public class RefuelEditFragment extends BaseEditFragment {
         }
 
         initSpnExpCatOrFuelType();
-        setExpCategoryId(mDbAdapter.getIdByName(DB.TABLE_NAME_EXPENSECATEGORY, spnExpCatOrFuelType.getSelectedItem().toString()));
+        setExpCatOrFuelTypeId(mDbAdapter.getIdByName(DB.TABLE_NAME_EXPENSECATEGORY, spnExpCatOrFuelType.getSelectedItem().toString()));
 
         long newCarCurrencyId = mDbAdapter.getCarCurrencyID(mCarId);
         if (newCarCurrencyId != mCurrencyId) {

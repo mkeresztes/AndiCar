@@ -171,7 +171,7 @@ public class CarEditFragment extends BaseEditFragment {
         mCarRegNo = "";
         mInitialIndex = null;
         mIsAlternativeFuelVehicle = false;
-        mExpCategoryId = -1;
+        mExpCatOrFuelTypeId = -1;
     }
 
     @Override
