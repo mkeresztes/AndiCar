@@ -93,14 +93,14 @@ public class RefuelEditFragment extends BaseEditFragment {
     private LinearLayout llConvertedAmountZone;
 
     private long mCarDefaultCurrencyId = -1;
-    private long mCarDefaultUOMVolumeId = -1;
+    private long mDefaultUOMVolumeId = -1;
     private long mUOMFuelId = -1;
     private long mBPartnerId = -1;
     private long mBPartnerLocationId = -1;
 
     private String mCarDefaultCurrencyCode = "";
     private String mCurrencyCode = "";
-    private String mCarDefaultUOMVolumeCode = "";
+    private String mDefaultUOMVolumeCode = "";
     private String mDocumentNo = "";
 
     private BigDecimal mCurrencyConversionRate = null;
@@ -131,7 +131,7 @@ public class RefuelEditFragment extends BaseEditFragment {
                 setCurrencyConversionRate(null);
             }
 
-            if (mUOMFuelId != mCarDefaultUOMVolumeId && etQuantity.toString().length() > 0) {
+            if (mUOMFuelId != mDefaultUOMVolumeId && etQuantity.toString().length() > 0) {
                 calculateBaseUOMQty();
             }
             calculatePriceAmount();
@@ -154,8 +154,8 @@ public class RefuelEditFragment extends BaseEditFragment {
             setUOMFuelId(savedInstanceState.getLong("mUOMFuelId"));
             mCarDefaultCurrencyId = savedInstanceState.getLong("mCarDefaultCurrencyId");
             mCarDefaultCurrencyCode = savedInstanceState.getString("mCarDefaultCurrencyCode");
-            mCarDefaultUOMVolumeId = savedInstanceState.getLong("mCarDefaultUOMVolumeId");
-            mCarDefaultUOMVolumeCode = savedInstanceState.getString("mCarDefaultUOMVolumeCode");
+            mDefaultUOMVolumeId = savedInstanceState.getLong("mDefaultUOMVolumeId");
+            mDefaultUOMVolumeCode = savedInstanceState.getString("mDefaultUOMVolumeCode");
 
             setSpecificLayout();
         }
@@ -191,8 +191,8 @@ public class RefuelEditFragment extends BaseEditFragment {
 
         mCarDefaultCurrencyId = mDbAdapter.getCarCurrencyID(mCarId);
         mCarDefaultCurrencyCode = mDbAdapter.getCurrencyCode(mCarDefaultCurrencyId);
-        mCarDefaultUOMVolumeId = mDbAdapter.getCarUOMFuelID(mCarId, true);
-        mCarDefaultUOMVolumeCode = mDbAdapter.getUOMCode(mCarDefaultUOMVolumeId);
+        mDefaultUOMVolumeId = mDbAdapter.getCarUOMFuelID(mCarId, true);
+        mDefaultUOMVolumeCode = mDbAdapter.getUOMCode(mDefaultUOMVolumeId);
 
         setDriverId(c.getLong(DBAdapter.COL_POS_REFUEL__DRIVER_ID));
         setExpCatOrFuelTypeId(c.getLong(DBAdapter.COL_POS_REFUEL__EXPENSECATEGORY_ID));
@@ -267,9 +267,10 @@ public class RefuelEditFragment extends BaseEditFragment {
             }
         }
 
-        setUOMFuelId(mDbAdapter.getCarUOMFuelID(mCarId, true));
-        mCarDefaultUOMVolumeId = mUOMFuelId;
-        mCarDefaultUOMVolumeCode = mDbAdapter.getUOMCode(mCarDefaultUOMVolumeId);
+        setUOMFuelId(mDbAdapter.getCarUOMFuelID(mCarId,
+                mDbAdapter.getFuelUOMType(mExpCatOrFuelTypeId).equals(mDbAdapter.getCarFuelUOMType(mCarId, true))));
+        mDefaultUOMVolumeId = mUOMFuelId;
+        mDefaultUOMVolumeCode = mDbAdapter.getUOMCode(mDefaultUOMVolumeId);
 
         if (mPreferences.getBoolean(AndiCar.getAppResources().getString(R.string.pref_key_gen_remember_last_tag), false)
                 && mPreferences.getLong(AndiCar.getAppResources().getString(R.string.pref_key_gen_last_tag_id), 0) > 0) {
@@ -473,8 +474,8 @@ public class RefuelEditFragment extends BaseEditFragment {
             acAddress.setText("");
         }
 
-        if (mCarDefaultUOMVolumeId != mUOMFuelId) {
-            tvBaseUOMQtyValue.setText(Utils.numberToString(mQuantityBaseUOM, true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " " + mCarDefaultUOMVolumeCode);
+        if (mDefaultUOMVolumeId != mUOMFuelId) {
+            tvBaseUOMQtyValue.setText(Utils.numberToString(mQuantityBaseUOM, true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " " + mDefaultUOMVolumeCode);
             setBaseUOMQtyZoneVisibility(true);
         }
 
@@ -494,14 +495,14 @@ public class RefuelEditFragment extends BaseEditFragment {
             return;
         }
 
-        if (mUOMFuelId != mCarDefaultUOMVolumeId) {
+        if (mUOMFuelId != mDefaultUOMVolumeId) {
             setBaseUOMQtyZoneVisibility(true);
         }
         else {
             setBaseUOMQtyZoneVisibility(false);
         }
 
-        mUOMVolumeConversionRate = mDbAdapter.getUOMConversionRate(mUOMFuelId, mCarDefaultUOMVolumeId);
+        mUOMVolumeConversionRate = mDbAdapter.getUOMConversionRate(mUOMFuelId, mDefaultUOMVolumeId);
         calculateBaseUOMQty();
 
         mCurrencyCode = mDbAdapter.getCurrencyCode(mCurrencyId);
@@ -559,7 +560,7 @@ public class RefuelEditFragment extends BaseEditFragment {
         data.put(DBAdapter.COL_NAME_REFUEL__DOCUMENTNO, etDocumentNo.getText().toString());
         data.put(DBAdapter.COL_NAME_REFUEL__ISFULLREFUEL, (ckIsFullRefuel.isChecked() ? "Y" : "N"));
 
-        if (mUOMFuelId == mCarDefaultUOMVolumeId) {
+        if (mUOMFuelId == mDefaultUOMVolumeId) {
             data.put(DBAdapter.COL_NAME_REFUEL__QUANTITY, etQuantity.getText().toString());
             data.put(DBAdapter.COL_NAME_REFUEL__UOMVOLUME_ID, mUOMFuelId);
             data.put(DBAdapter.COL_NAME_REFUEL__UOMVOLCONVERSIONRATE, "1");
@@ -567,7 +568,7 @@ public class RefuelEditFragment extends BaseEditFragment {
         }
         else {
             data.put(DBAdapter.COL_NAME_REFUEL__QUANTITY, mBaseUOMQty.toString());
-            data.put(DBAdapter.COL_NAME_REFUEL__UOMVOLUME_ID, mCarDefaultUOMVolumeId);
+            data.put(DBAdapter.COL_NAME_REFUEL__UOMVOLUME_ID, mDefaultUOMVolumeId);
             data.put(DBAdapter.COL_NAME_REFUEL__UOMVOLCONVERSIONRATE, mUOMVolumeConversionRate.toString());
             analyticsParams.putInt(ConstantValues.ANALYTICS_IS_MULTI_UOM, 1);
         }
@@ -730,18 +731,8 @@ public class RefuelEditFragment extends BaseEditFragment {
         outState.putLong("mUOMFuelId", mUOMFuelId);
         outState.putLong("mCarDefaultCurrencyId", mCarDefaultCurrencyId);
         outState.putString("mCarDefaultCurrencyCode", mCarDefaultCurrencyCode);
-        outState.putLong("mCarDefaultUOMVolumeId", mCarDefaultUOMVolumeId);
-        outState.putString("mCarDefaultUOMVolumeCode", mCarDefaultUOMVolumeCode);
-    }
-
-    @Override
-    public void setExpCatOrFuelTypeId(long expCatOrFuelTypeId) {
-        super.setExpCatOrFuelTypeId(expCatOrFuelTypeId);
-        if (!viewsLoaded) {
-            return;
-        }
-
-        initSpnUomFuel();
+        outState.putLong("mDefaultUOMVolumeId", mDefaultUOMVolumeId);
+        outState.putString("mDefaultUOMVolumeCode", mDefaultUOMVolumeCode);
     }
 
     @Override
@@ -751,6 +742,8 @@ public class RefuelEditFragment extends BaseEditFragment {
         if (!viewsLoaded) {
             return;
         }
+
+        mUOMFuelId = mDbAdapter.getCarUOMFuelID(mCarId, true);
 
         initSpnExpCatOrFuelType();
         setExpCatOrFuelTypeId(mDbAdapter.getIdByName(DB.TABLE_NAME_EXPENSECATEGORY, spnExpCatOrFuelType.getSelectedItem().toString()));
@@ -767,13 +760,46 @@ public class RefuelEditFragment extends BaseEditFragment {
             calculatePriceAmount();
         }
 
-        long newCarUOMVolumeId = mDbAdapter.getCarUOMFuelID(mCarId, true);
-        if (newCarUOMVolumeId != mUOMFuelId) {
-            setUOMFuelId(newCarUOMVolumeId);
-            mCarDefaultUOMVolumeId = mUOMFuelId;
-            mCarDefaultUOMVolumeCode = mDbAdapter.getUOMCode(mCarDefaultUOMVolumeId);
-            setBaseUOMQtyZoneVisibility(false);
+        setDefaultUOMId();
+    }
+
+    @Override
+    public void setExpCatOrFuelTypeId(long expCatOrFuelTypeId) {
+        long oldFuelId = mExpCatOrFuelTypeId;
+        super.setExpCatOrFuelTypeId(expCatOrFuelTypeId);
+
+        if (!viewsLoaded) {
+            return;
         }
+
+        if (!mDbAdapter.getFuelUOMType(oldFuelId).equals(mDbAdapter.getFuelUOMType(mExpCatOrFuelTypeId))) {
+            setDefaultUOMId();
+            initSpnUomFuel();
+        }
+    }
+
+    private void setDefaultUOMId() {
+        long newCarUOMVolumeId;
+
+        if (mDbAdapter.isAFVCar(mCarId)) {
+            if (mDbAdapter.getFuelUOMType(mExpCatOrFuelTypeId).equals(mDbAdapter.getCarFuelUOMType(mCarId, true))) {
+                newCarUOMVolumeId = mDbAdapter.getCarUOMFuelID(mCarId, true);
+            }
+            else {
+                newCarUOMVolumeId = mDbAdapter.getCarUOMFuelID(mCarId, false);
+            }
+        }
+        else {
+            newCarUOMVolumeId = mDbAdapter.getCarUOMFuelID(mCarId, true);
+        }
+
+//        if (newCarUOMVolumeId != mUOMFuelId) {
+            setUOMFuelId(newCarUOMVolumeId);
+        mDefaultUOMVolumeId = mUOMFuelId;
+        mDefaultUOMVolumeCode = mDbAdapter.getUOMCode(mDefaultUOMVolumeId);
+//        }
+
+        setBaseUOMQtyZoneVisibility(false);
     }
 
     @Override
@@ -897,7 +923,7 @@ public class RefuelEditFragment extends BaseEditFragment {
 
     @SuppressLint("SetTextI18n")
     private void calculateBaseUOMQty() {
-        if (mUOMFuelId == mCarDefaultUOMVolumeId || tvBaseUOMQtyValue == null) {
+        if (mUOMFuelId == mDefaultUOMVolumeId || tvBaseUOMQtyValue == null) {
             return;
         }
 
@@ -911,7 +937,7 @@ public class RefuelEditFragment extends BaseEditFragment {
             try {
                 mBaseUOMQty = (new BigDecimal(qtyStr)).multiply(mUOMVolumeConversionRate);
 
-                tvBaseUOMQtyValue.setText(Utils.numberToString(mBaseUOMQty, true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " " + mCarDefaultUOMVolumeCode);
+                tvBaseUOMQtyValue.setText(Utils.numberToString(mBaseUOMQty, true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " " + mDefaultUOMVolumeCode);
             } catch (NumberFormatException ignored) {
             }
         }
