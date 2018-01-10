@@ -511,6 +511,7 @@
     <string name="fill_up_edit_no_conversion_rate_message">No conversion rate defined for these UOMs</string>
     <!--RefuelEditActivity_GasStation-->
     <string name="fill_up_edit_gas_station">Station:</string>
+    <string name="fill_up_edit_ck_is_alternative_fuel_label">Is alternative fuel</string>
 
     <!--GPSTrackReport_GPSTrackVar_1 -> GPSTrackReport_GPSTrackVar_13 -->
     <string name="gps_track_detail_var_1">Distance:</string>

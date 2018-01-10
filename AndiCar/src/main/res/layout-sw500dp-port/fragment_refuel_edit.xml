@@ -152,6 +152,12 @@
                     android:tag="spnDriver" />
             </LinearLayout>
 
+            <CheckBox
+                android:id="@+id/ckIsAlternativeFuel"
+                style="@style/AndiCarCheckBox"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/fill_up_edit_ck_is_alternative_fuel_label"/>
+
             <TextView style="@style/AndiCarSeparatorView" />
 
             <RelativeLayout

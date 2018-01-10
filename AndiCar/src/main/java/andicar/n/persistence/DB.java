@@ -158,6 +158,7 @@ public class DB {
     public static final String COL_NAME_REFUEL__BPARTNER_ID = TABLE_NAME_BPARTNER + "_ID";
     public static final String COL_NAME_REFUEL__BPARTNER_LOCATION_ID = TABLE_NAME_BPARTNERLOCATION + "_ID";
     public static final String COL_NAME_REFUEL__TAG_ID = TABLE_NAME_TAG + "_ID";
+    public static final String COL_NAME_REFUEL__ISALTERNATIVEFUEL = "IsAlternativeFuel";
     // expense category
     public static final String COL_NAME_EXPENSECATEGORY__ISEXCLUDEFROMMILEAGECOST = "IsExcludefromMileagecost";
     public static final String COL_NAME_EXPENSECATEGORY__ISFUEL = "IsFuel";
@@ -398,6 +399,7 @@ public class DB {
     public static final int COL_POS_REFUEL__BPARTNER_ID = 24;
     public static final int COL_POS_REFUEL__BPARTNER_LOCATION_ID = 25;
     public static final int COL_POS_REFUEL__TAG_ID = 26;
+    public static final int COL_POS_REFUEL__ISALTERNATIVEFUEL = 27;
     // expense category
     public static final int COL_POS_EXPENSECATEGORY__ISEXCLUDEFROMMILEAGECOST = 4;
     public static final int COL_POS_EXPENSECATEGORY__ISFUEL = 5;
@@ -527,7 +529,7 @@ public class DB {
             COL_NAME_REFUEL__EXPENSECATEGORY_ID, COL_NAME_REFUEL__ISFULLREFUEL, COL_NAME_REFUEL__QUANTITYENTERED, COL_NAME_REFUEL__UOMVOLUMEENTERED_ID,
             COL_NAME_REFUEL__PRICEENTERED, COL_NAME_REFUEL__CURRENCYENTERED_ID, COL_NAME_REFUEL__CURRENCYRATE, COL_NAME_REFUEL__UOMVOLCONVERSIONRATE,
             COL_NAME_REFUEL__AMOUNT, COL_NAME_REFUEL__AMOUNTENTERED, COL_NAME_REFUEL__BPARTNER_ID, COL_NAME_REFUEL__BPARTNER_LOCATION_ID,
-            COL_NAME_REFUEL__TAG_ID};
+            COL_NAME_REFUEL__TAG_ID, COL_NAME_REFUEL__ISALTERNATIVEFUEL};
     public static final String[] COL_LIST_EXPENSECATEGORY_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT,
             COL_NAME_EXPENSECATEGORY__ISEXCLUDEFROMMILEAGECOST, COL_NAME_EXPENSECATEGORY__ISFUEL, COL_NAME_EXPENSECATEGORY__UOMTYPE};
     public static final String[] COL_LIST_EXPENSE_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT,
@@ -710,7 +712,8 @@ public class DB {
                         COL_NAME_REFUEL__AMOUNTENTERED + " NUMERIC NULL, " +
                         COL_NAME_REFUEL__BPARTNER_ID + " INTEGER NULL, " +
                         COL_NAME_REFUEL__BPARTNER_LOCATION_ID + " INTEGER NULL, " +
-                        COL_NAME_REFUEL__TAG_ID + " INTEGER NULL " +
+                        COL_NAME_REFUEL__TAG_ID + " INTEGER NULL, " +
+                        COL_NAME_REFUEL__ISALTERNATIVEFUEL + " TEXT DEFAULT 'N' " +
                     ");";
 
     private static final String CREATE_SQL_EXPENSECATEGORY_TABLE =
@@ -2187,8 +2190,14 @@ public class DB {
                 updSql = "ALTER TABLE " + TABLE_NAME_CAR + " ADD " + COL_NAME_CAR__ISAFV + " TEXT DEFAULT 'N' ";
                 db.execSQL(updSql);
             }
+
             if (!columnExists(db, TABLE_NAME_CAR, COL_NAME_CAR__ALTERNATIVE_FUEL_UOM_ID)) {
                 updSql = "ALTER TABLE " + TABLE_NAME_CAR + " ADD " + COL_NAME_CAR__ALTERNATIVE_FUEL_UOM_ID + " INTEGER NULL ";
+                db.execSQL(updSql);
+            }
+
+            if (!columnExists(db, TABLE_NAME_REFUEL, COL_NAME_REFUEL__ISALTERNATIVEFUEL)) {
+                updSql = "ALTER TABLE " + TABLE_NAME_REFUEL + " ADD " + COL_NAME_REFUEL__ISALTERNATIVEFUEL + " TEXT DEFAULT 'N' ";
                 db.execSQL(updSql);
             }
         }

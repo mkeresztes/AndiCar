@@ -85,6 +85,7 @@ public class RefuelEditFragment extends BaseEditFragment {
     private Spinner spnUomFuel;
 
     private CheckBox ckIsFullRefuel;
+    private CheckBox ckIsAlternativeFuel;
 
     private RadioButton rbInsertModePrice;
 
@@ -141,6 +142,7 @@ public class RefuelEditFragment extends BaseEditFragment {
     private BigDecimal mQuantityEntered = null;
     private BigDecimal mQuantityBaseUOM = null;
     private boolean mIsFullRefuel = false;
+    private boolean mIsAlternativeFuel = false;
     private ArrayAdapter<String> mAddressAdapter;
     private ArrayAdapter<String> mBPartnerAdapter;
 
@@ -238,6 +240,7 @@ public class RefuelEditFragment extends BaseEditFragment {
         mDocumentNo = c.getString(DBAdapter.COL_POS_REFUEL__DOCUMENTNO);
         mUserComment = c.getString(DBAdapter.COL_POS_GEN_USER_COMMENT);
         mIsFullRefuel = c.getString(DBAdapter.COL_POS_REFUEL__ISFULLREFUEL).equals("Y");
+        mIsAlternativeFuel = c.getString(DBAdapter.COL_POS_REFUEL__ISALTERNATIVEFUEL).equals("Y");
 
         if (mCurrencyId != mCarDefaultCurrencyId) {
             mCurrencyCode = mDbAdapter.getCurrencyCode(mCurrencyId);
@@ -295,6 +298,7 @@ public class RefuelEditFragment extends BaseEditFragment {
         setCurrencyConversionRate(null);
         mQuantityBaseUOM = null;
         mQuantityEntered = null;
+        mIsAlternativeFuel = false;
     }
 
     @Override
@@ -403,6 +407,7 @@ public class RefuelEditFragment extends BaseEditFragment {
         tvConvertedAmountLabel = mRootView.findViewById(R.id.tvConvertedAmountLabel);
 
         ckIsFullRefuel = mRootView.findViewById(R.id.ckIsFullRefuel);
+        ckIsAlternativeFuel = mRootView.findViewById(R.id.ckIsAlternativeFuel);
 
         rbInsertModePrice = mRootView.findViewById(R.id.rbInsertModePrice);
         RadioGroup rg = mRootView.findViewById(R.id.rgExpenseInsertMode);
@@ -495,6 +500,15 @@ public class RefuelEditFragment extends BaseEditFragment {
             return;
         }
 
+        if (mDbAdapter.isAFVCar(mCarId) &&
+                mDbAdapter.getCarFuelUOMType(mCarId, true).equals(mDbAdapter.getCarFuelUOMType(mCarId, false))) {
+            ckIsAlternativeFuel.setVisibility(View.VISIBLE);
+            ckIsAlternativeFuel.setChecked(mIsAlternativeFuel);
+        }
+        else {
+            ckIsAlternativeFuel.setVisibility(View.GONE);
+        }
+
         if (mUOMFuelId != mDefaultUOMVolumeId) {
             setBaseUOMQtyZoneVisibility(true);
         }
@@ -559,6 +573,7 @@ public class RefuelEditFragment extends BaseEditFragment {
         data.put(DBAdapter.COL_NAME_REFUEL__DATE, mlDateTimeInMillis / 1000);
         data.put(DBAdapter.COL_NAME_REFUEL__DOCUMENTNO, etDocumentNo.getText().toString());
         data.put(DBAdapter.COL_NAME_REFUEL__ISFULLREFUEL, (ckIsFullRefuel.isChecked() ? "Y" : "N"));
+        data.put(DBAdapter.COL_NAME_REFUEL__ISALTERNATIVEFUEL, (mIsAlternativeFuel ? "Y" : "N"));
 
         if (mUOMFuelId == mDefaultUOMVolumeId) {
             data.put(DBAdapter.COL_NAME_REFUEL__QUANTITY, etQuantity.getText().toString());
@@ -783,21 +798,24 @@ public class RefuelEditFragment extends BaseEditFragment {
 
         if (mDbAdapter.isAFVCar(mCarId)) {
             if (mDbAdapter.getFuelUOMType(mExpCatOrFuelTypeId).equals(mDbAdapter.getCarFuelUOMType(mCarId, true))) {
+                //primary fuel
                 newCarUOMVolumeId = mDbAdapter.getCarUOMFuelID(mCarId, true);
+                mIsAlternativeFuel = false;
             }
             else {
+                //alternative fuel
                 newCarUOMVolumeId = mDbAdapter.getCarUOMFuelID(mCarId, false);
+                mIsAlternativeFuel = true;
             }
         }
         else {
             newCarUOMVolumeId = mDbAdapter.getCarUOMFuelID(mCarId, true);
+            mIsAlternativeFuel = false;
         }
 
-//        if (newCarUOMVolumeId != mUOMFuelId) {
-            setUOMFuelId(newCarUOMVolumeId);
+        setUOMFuelId(newCarUOMVolumeId);
         mDefaultUOMVolumeId = mUOMFuelId;
         mDefaultUOMVolumeCode = mDbAdapter.getUOMCode(mDefaultUOMVolumeId);
-//        }
 
         setBaseUOMQtyZoneVisibility(false);
     }
