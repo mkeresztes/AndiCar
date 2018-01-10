@@ -987,7 +987,7 @@ public class CommonListActivity extends AppCompatActivity
         }
         else if (mActivityType == ACTIVITY_TYPE_EXPENSE) {
             reportTitle = "ExpenseReport_";
-            dbReportAdapter = new DBReportAdapter(this, DBReportAdapter.EXPENSES_LIST_REPORT_SELECT, mWhereConditionsForDB);
+            dbReportAdapter = new DBReportAdapter(this, DBReportAdapter.EXPENSE_LIST_REPORT_SELECT, mWhereConditionsForDB);
             c = dbReportAdapter.fetchReport(-1);
         }
         else if (mActivityType == ACTIVITY_TYPE_GPS_TRACK) {

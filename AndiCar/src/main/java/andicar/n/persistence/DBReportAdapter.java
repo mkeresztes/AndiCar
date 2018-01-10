@@ -59,7 +59,7 @@ public class DBReportAdapter extends DBAdapter {
     public static final String LIST_STATISTICS_REFUEL_BY_CARS = "listStatisticsRefuelByCars";
 
     public static final String EXPENSE_LIST_SELECT_NAME = "expenseListViewSelect";
-    public static final String EXPENSES_LIST_REPORT_SELECT = "expensesListReportSelect";
+    public static final String EXPENSE_LIST_REPORT_SELECT = "expenseListReportSelect";
     public static final String LIST_STATISTICS_EXPENSE_TOTAL = "listStatisticsExpenseTotal";
     public static final String LIST_STATISTICS_EXPENSE_BY_TYPES = "listStatisticsExpenseByType";
     public static final String LIST_STATISTICS_EXPENSE_BY_CATEGORIES = "listStatisticsExpenseByCategory";
@@ -245,10 +245,17 @@ public class DBReportAdapter extends DBAdapter {
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_MILEAGE, COL_NAME_GEN_ROWID) + ", " + //#0
 
-                    sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + " || '; ' || " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) +
-                        " || '; ' ||  '%1$s' AS " + FIRST_LINE_LIST_NAME + ", " + //#1
+                    sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + " || '; ' || " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + " || '; ' || " +
+                                " CASE " +
+                                    " WHEN (SELECT COUNT(*) " +
+                                            " FROM " + TABLE_NAME_DRIVER +
+                                            " WHERE " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_ISACTIVE) + " = 'Y') > 1 " +
+                                        " THEN " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) + " || '; ' " +
+                                    " ELSE '' " +
+                                " END " +
+                             " || '%1$s'" + " AS " + FIRST_LINE_LIST_NAME + ", " + //#1
 
-                    sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + " || ': ' || '%1$s -> %2$s = %3$s ' || " +
+                    "'%1$s -> %2$s = %3$s ' || " +
                         sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + " || ' %4$s' AS " + SECOND_LINE_LIST_NAME + ", " + //#2
 
                     " COALESCE( " + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + " || '; ', '') || " +
@@ -434,10 +441,17 @@ public class DBReportAdapter extends DBAdapter {
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_GEN_ROWID) + ", " + //#0
 
-                    sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + " || '; ' || " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) +
-                             " || '; %1$s'" + " AS " + FIRST_LINE_LIST_NAME + ", " + //#1
+                    sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + " || '; ' || " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + " || '; ' || " +
+                                " CASE " +
+                                    " WHEN (SELECT COUNT(*) " +
+                                            " FROM " + TABLE_NAME_DRIVER +
+                                            " WHERE " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_ISACTIVE) + " = 'Y') > 1 " +
+                                        " THEN " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) + " || '; ' " +
+                                    " ELSE '' " +
+                                " END " +
+                             " || '%1$s'" + " AS " + FIRST_LINE_LIST_NAME + ", " + //#1
 
-                    sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + " || '; %1$s ' || " + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + " || " +
+                    "'%1$s ' || " + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + " || " +
                                 " CASE " +
                                     "WHEN " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUME_ID) +
                                                 " <> " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUMEENTERED_ID) +
@@ -636,9 +650,16 @@ public class DBReportAdapter extends DBAdapter {
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_GEN_ROWID) + ", " + //#0
 
-                    sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + " || '; ' || " +
-                    sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) + " || '; ' || " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) +
-                            " || '; %1$s' AS " + FIRST_LINE_LIST_NAME + ", " + //#1
+
+                    sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + " || '; ' || " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + " || '; ' || " +
+                                " CASE " +
+                                    " WHEN (SELECT COUNT(*) " +
+                                            " FROM " + TABLE_NAME_DRIVER +
+                                            " WHERE " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_ISACTIVE) + " = 'Y') > 1 " +
+                                        " THEN " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) + " || '; ' " +
+                                    " ELSE '' " +
+                                " END " +
+                             " || '%1$s'" + " AS " + FIRST_LINE_LIST_NAME + ", " + //#1
 
                     sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_NAME) + " || '; %1$s ' || " +
                             sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + " || " +
@@ -701,7 +722,7 @@ public class DBReportAdapter extends DBAdapter {
                     "COALESCE(" + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__FROMTABLE) + ", '') = ''";
 
     //used in exported report
-    private static final String expensesListReportSelect =
+    private static final String expenseListReportSelect =
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_GEN_ROWID) + " AS ExpenseId, " + //#0
 
@@ -783,9 +804,16 @@ public class DBReportAdapter extends DBAdapter {
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_GPSTRACK, COL_NAME_GEN_ROWID) + ", " + //#0
 
-                    sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + " || '; ' || " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) +
-                            " || '; ' || COALESCE( " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + ", '') " +
-                                " || '; ' || '%1$s' AS " + FIRST_LINE_LIST_NAME + ", " + //#1
+                    sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + " || '; ' || " +
+                        sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + " || '; ' || " +
+                                " CASE " +
+                                    " WHEN (SELECT COUNT(*) " +
+                                            " FROM " + TABLE_NAME_DRIVER +
+                                            " WHERE " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_ISACTIVE) + " = 'Y') > 1 " +
+                                        " THEN " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) + " || '; ' " +
+                                    " ELSE '' " +
+                                " END " +
+                             " || '%1$s'" + " AS " + FIRST_LINE_LIST_NAME + ", " + //#1
 
                     "'%1$s ' || ROUND(" + sqlConcatTableColumn(TABLE_NAME_GPSTRACK, COL_NAME_GPSTRACK__DISTANCE) + ", " + ConstantValues.DECIMALS_LENGTH + ") || ' ' || " +
                             sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_UOM__CODE) + " || '; ' || '%2$s ' || ROUND("  + sqlConcatTableColumn(TABLE_NAME_GPSTRACK, COL_NAME_GPSTRACK__MAXSPEED) + ", 2) || ' ' || " +
@@ -1890,8 +1918,8 @@ public class DBReportAdapter extends DBAdapter {
 
                 reportSql = reportSql + " ORDER BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__DATE) + " DESC";
                 break;
-            case EXPENSES_LIST_REPORT_SELECT:
-                reportSql = expensesListReportSelect;
+            case EXPENSE_LIST_REPORT_SELECT:
+                reportSql = expenseListReportSelect;
                 if (whereCondition.length() > 0) {
                     reportSql = reportSql + whereCondition;
                 }
