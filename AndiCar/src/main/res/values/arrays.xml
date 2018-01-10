@@ -183,11 +183,11 @@
         <item>Last expense</item>
         <item>Last GPS Track</item>
         <item>Trip charts</item>
-        <item>Fill-up charts (quantity)</item>
-        <item>Fill-up charts (value)</item>
+        <item>Fill-up charts (quantity)\n(don\'t appear for alternative fuel vehicles)</item>
+        <item>Fill-up charts (amount)</item>
         <item>Expense charts</item>
-        <item>Fuel efficiency graph</item>
-        <item>Fuel consumption graph</item>
+        <item>Fuel efficiency graph\n(don\'t appear for alternative fuel vehicles)</item>
+        <item>Fuel consumption graph\n(don\'t appear for alternative fuel vehicles)</item>
         <item>Fuel price evolution</item>
     </string-array>
 

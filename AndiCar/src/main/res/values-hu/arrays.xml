@@ -115,11 +115,11 @@
         <item>Utolsó költség</item>
         <item>Utolsó GPS nyom</item>
         <item>Útnyilvántartás grafikonok</item>
-        <item>Tankolás grafikonok (mennyiség)</item>
+        <item>Tankolás grafikonok (mennyiség)\n(nem jelenik meg az alternatív üzemanyaggal is működő járműveknél)</item>
         <item>Tankolás grafikonok (érték)</item>
         <item>Költség grafikonok</item>
-        <item>Üzemanyag hatékonyság</item>
-        <item>Üzemanyag fogyasztás</item>
+        <item>Üzemanyag hatékonyság\n(nem jelenik meg az alternatív üzemanyaggal is működő járműveknél)</item>
+        <item>Üzemanyag fogyasztás\n(nem jelenik meg az alternatív üzemanyaggal is működő járműveknél)</item>
         <item>Üzemanyag árváltozás</item>
     </string-array>
 

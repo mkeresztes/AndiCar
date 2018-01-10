@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity
     private boolean mErrorInDrawCharts = false;
     //used to determine if the option menu need or not (for filtering chart data)
     private boolean mIsCanShowFilterMenu = false;
+    private boolean mIsAlternateFuelVehicle = false;
     private Menu mMenu;
     private int mChartFilterType = 1;
     private long mChartPeriodStartInSeconds = -1;
@@ -805,6 +806,8 @@ public class MainActivity extends AppCompatActivity
             setTitle(getString(R.string.main_activity_no_car_title));
         }
         c.close();
+
+        mIsAlternateFuelVehicle = db.isAFVCar(mLastSelectedCarID);
         db.close();
 
         if (needCallRun) {
@@ -986,7 +989,9 @@ public class MainActivity extends AppCompatActivity
                                 recordComponent.setThirdLineText("Error#1! Please contact me at andicar.support@gmail.com");
                                 return;
                             }
-                            if (oldFullRefuelIndex.compareTo(BigDecimal.ZERO) < 0 || mCursor.getString(12).equals("N")) { //this is not a full refuel
+                            if (oldFullRefuelIndex.compareTo(BigDecimal.ZERO) < 0 //this is the first full refuel => can't calculate fuel eff
+                                    || mCursor.getString(12).equals("N") //this is not a full refuel
+                                    || mCursor.getString(17).equals("Y")) { //alternate fuel vehicle => can't calculate fuel eff
                                 try {
                                     //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
                                     text = text.replace("[#01]", "");
@@ -995,43 +1000,38 @@ public class MainActivity extends AppCompatActivity
                                 catch (Exception e) {
                                     recordComponent.setThirdLineText("Error#4! Please contact me at andicar.support@gmail.com");
                                 }
-                            }
-                            // calculate the cons and fuel eff.
-                            BigDecimal distance = (new BigDecimal(mCursor.getString(11))).subtract(oldFullRefuelIndex);
-                            BigDecimal fuelQty;
-                            try {
-                                Double t = dbReportAdapter.getFuelQtyForCons(mCursor.getLong(16), oldFullRefuelIndex, mCursor.getDouble(11));
-                                fuelQty = new BigDecimal(t == null ? 0d : t);
-                            }
-                            catch (NullPointerException e) {
-                                recordComponent.setThirdLineText("Error#2! Please contact me at andicar.support@gmail.com");
-                                return;
-                            }
-                            String consStr;
-                            try {
-                                consStr = Utils.numberToString(fuelQty.multiply(new BigDecimal("100")).divide(distance, 10, RoundingMode.HALF_UP), true,
-                                        ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF)
-                                        + " "
-                                        + mCursor.getString(14)
-                                        + "/100"
-                                        + mCursor.getString(15)
-                                        + "; "
-                                        + Utils.numberToString(distance.divide(fuelQty, 10, RoundingMode.HALF_UP), true, ConstantValues.DECIMALS_FUEL_EFF,
-                                        ConstantValues.ROUNDING_MODE_FUEL_EFF) + " " + mCursor.getString(15) + "/" + mCursor.getString(14);
-                            }
-                            catch (Exception e) {
-                                //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
-                                recordComponent.setThirdLineText("Error#3! Please contact me at andicar.support@gmail.com");
-                                return;
-                            }
+                            } else {
+                                // calculate the cons and fuel eff.
+                                BigDecimal distance = (new BigDecimal(mCursor.getString(11))).subtract(oldFullRefuelIndex);
+                                BigDecimal fuelQty;
+                                try {
+                                    Double t = dbReportAdapter.getFuelQtyForCons(mCursor.getLong(16), oldFullRefuelIndex, mCursor.getDouble(11));
+                                    fuelQty = new BigDecimal(t == null ? 0d : t);
+                                } catch (NullPointerException e) {
+                                    recordComponent.setThirdLineText("Error#2! Please contact me at andicar.support@gmail.com");
+                                    return;
+                                }
+                                String consStr;
+                                try {
+                                    consStr = Utils.numberToString(fuelQty.multiply(new BigDecimal("100")).divide(distance, 10, RoundingMode.HALF_UP), true,
+                                            ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF) + " " +
+                                            mCursor.getString(14) + "/100" +
+                                            mCursor.getString(15) + "; " +
+                                            Utils.numberToString(distance.divide(fuelQty, 10, RoundingMode.HALF_UP), true, ConstantValues.DECIMALS_FUEL_EFF,
+                                                    ConstantValues.ROUNDING_MODE_FUEL_EFF) + " " + mCursor.getString(15) + "/" + mCursor.getString(14);
+                                } catch (Exception e) {
+                                    //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
+                                    recordComponent.setThirdLineText("Error#3! Please contact me at andicar.support@gmail.com");
+                                    return;
+                                }
 
-                            try {
-                                //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
-                                text = text.replace("[#01]", "\n" + AndiCar.getAppResources().getString(R.string.gen_fuel_efficiency) + " " + consStr);
-                            }
-                            catch (Exception e) {
-                                recordComponent.setThirdLineText("Error#5! Please contact me at andicar.support@gmail.com");
-                                return;
+                                try {
+                                    //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
+                                    text = text.replace("[#01]", "\n" + AndiCar.getAppResources().getString(R.string.gen_fuel_efficiency) + " " + consStr);
+                                } catch (Exception e) {
+                                    recordComponent.setThirdLineText("Error#5! Please contact me at andicar.support@gmail.com");
+                                    return;
+                                }
                             }
 
                             recordComponent.setThirdLineText(text.trim());
@@ -1465,6 +1465,13 @@ public class MainActivity extends AppCompatActivity
                 switch (zoneContent) {
                     case TRIPS_PIE_CHART:
                     case FUEL_QTY_PIE_CHART:
+                        if (!mIsAlternateFuelVehicle) {
+                            mIsCanShowFilterMenu = true;
+                            pieChartComponent = new PieChartsComponent(this);
+                            zoneContainer.addView(pieChartComponent);
+                            drawPieCharts(pieChartComponent, zoneContent);
+                        }
+                        break;
                     case FUEL_VALUE_PIE_CHART:
                     case EXPENSES_PIE_CHART:  //pie charts
                         mIsCanShowFilterMenu = true;
@@ -1474,17 +1481,18 @@ public class MainActivity extends AppCompatActivity
                         break;
                     case FUEL_CONS_LINE_CHART:
                     case FUEL_EFF_LINE_CHART:
-                        String title;
-                        if (mCarUOMVolumeCode != null) {
-                            title = zoneContent.equals(FUEL_CONS_LINE_CHART) ? mCarUOMVolumeCode + " / 100 " + mCarUOMLengthCode : mCarUOMLengthCode + " / " + mCarUOMVolumeCode;
-                        }
-                        else {
-                            title = zoneContent.equals(FUEL_CONS_LINE_CHART) ? getString(R.string.gen_fuel_cons) : getString(R.string.gen_fuel_efficiency_long);
-                        }
+                        if (!mIsAlternateFuelVehicle) {
+                            String title;
+                            if (mCarUOMVolumeCode != null) {
+                                title = zoneContent.equals(FUEL_CONS_LINE_CHART) ? mCarUOMVolumeCode + " / 100 " + mCarUOMLengthCode : mCarUOMLengthCode + " / " + mCarUOMVolumeCode;
+                            } else {
+                                title = zoneContent.equals(FUEL_CONS_LINE_CHART) ? getString(R.string.gen_fuel_cons) : getString(R.string.gen_fuel_efficiency_long);
+                            }
 
-                        lineChartComponent = new LineChartComponent(this, zoneContent.equals(FUEL_CONS_LINE_CHART) ? LineChartComponent.SHOW_FUEL_CONS : LineChartComponent.SHOW_FUEL_EFF,
-                                title);
-                        zoneContainer.addView(lineChartComponent);
+                            lineChartComponent = new LineChartComponent(this, zoneContent.equals(FUEL_CONS_LINE_CHART) ? LineChartComponent.SHOW_FUEL_CONS : LineChartComponent.SHOW_FUEL_EFF,
+                                    title);
+                            zoneContainer.addView(lineChartComponent);
+                        }
                         break;
                     case FUEL_PRICE_LINE_CHART:
                         lineChartComponent = new LineChartComponent(this, LineChartComponent.SHOW_FUEL_PRICE_EVOLUTION, null);
@@ -1801,17 +1809,18 @@ public class MainActivity extends AppCompatActivity
                     + (mileageExpenseStr != null ? mileageExpenseStr : "N/A");
             statisticsComponent.setMileageExpenseText(mileageExpenseText);
 
-            // fuel efficiency
-            Cursor c;
-            String fuelEffStr = "";
-            String lastFuelEffStr = "";
-            String sql;
-            BigDecimal tmpFullRefuelIndex;
-            BigDecimal lastFullRefuelIndex;
-            BigDecimal totalFuelQty = null;
+            if (!mIsAlternateFuelVehicle) {
+                // fuel efficiency
+                Cursor c;
+                String fuelEffStr = "";
+                String lastFuelEffStr = "";
+                String sql;
+                BigDecimal tmpFullRefuelIndex;
+                BigDecimal lastFullRefuelIndex;
+                BigDecimal totalFuelQty = null;
 
-            // select first full refuel index
-            //@formatter:off
+                // select first full refuel index
+                //@formatter:off
             sql = "SELECT " + DBAdapter.COL_NAME_REFUEL__INDEX +
                     " FROM " + DBAdapter.TABLE_NAME_REFUEL +
                     " WHERE " +
@@ -1822,14 +1831,14 @@ public class MainActivity extends AppCompatActivity
                     " ORDER BY " + DBAdapter.COL_NAME_REFUEL__INDEX + " ASC " +
                     " LIMIT 1";
             //@formatter:on
-            c = reportDb.execSelectSql(sql, null);
+                c = reportDb.execSelectSql(sql, null);
 
-            if (c.moveToFirst()) {
-                tmpFullRefuelIndex = new BigDecimal(c.getDouble(0)).setScale(ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH);
+                if (c.moveToFirst()) {
+                    tmpFullRefuelIndex = new BigDecimal(c.getDouble(0)).setScale(ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH);
 
-                c.close();
-                // get the last full refuel index
-                //@formatter:off
+                    c.close();
+                    // get the last full refuel index
+                    //@formatter:off
                 sql = "SELECT " + DBAdapter.COL_NAME_REFUEL__INDEX +
                         " FROM " + DBAdapter.TABLE_NAME_REFUEL +
                         " WHERE " +
@@ -1841,14 +1850,13 @@ public class MainActivity extends AppCompatActivity
                             (mChartPeriodEndInSeconds > 0 ? " AND Date <= " + mChartPeriodEndInSeconds : "") +
                         " ORDER BY " + DBAdapter.COL_NAME_REFUEL__INDEX + " DESC " + " LIMIT 1";
                 //@formatter:on
-                c = reportDb.execSelectSql(sql, null);
-                if (c.moveToFirst()) {
-//                    llStatisticsZone.setVisibility(View.VISIBLE);
-                    lastFullRefuelIndex = new BigDecimal(c.getDouble(0)).setScale(ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH);
-                    c.close();
-                    if (lastFullRefuelIndex != null && lastFullRefuelIndex.subtract(tmpFullRefuelIndex).signum() != 0) {
-                        // get the total fuel quantity between the first and last refuels
-                        //@formatter:off
+                    c = reportDb.execSelectSql(sql, null);
+                    if (c.moveToFirst()) {
+                        lastFullRefuelIndex = new BigDecimal(c.getDouble(0)).setScale(ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH);
+                        c.close();
+                        if (lastFullRefuelIndex != null && lastFullRefuelIndex.subtract(tmpFullRefuelIndex).signum() != 0) {
+                            // get the total fuel quantity between the first and last refuels
+                            //@formatter:off
                         sql = "SELECT SUM(" + DBAdapter.COL_NAME_REFUEL__QUANTITY + ") " +
                                 " FROM " + DBAdapter.TABLE_NAME_REFUEL +
                                 " WHERE " +
@@ -1859,39 +1867,38 @@ public class MainActivity extends AppCompatActivity
                                     " AND " + DBAdapter.COL_NAME_REFUEL__INDEX + " > " + tmpFullRefuelIndex.toPlainString() +
                                     " AND " + DBAdapter.COL_NAME_REFUEL__INDEX + " <= " + lastFullRefuelIndex.toPlainString();
                         //@formatter:on
-                        c = reportDb.execSelectSql(sql, null);
-                        if (c.moveToFirst()) {
-                            try {
-                                totalFuelQty = new BigDecimal(c.getDouble(0)).setScale(10, ConstantValues.ROUNDING_MODE_VOLUME);
-                                // new BigDecimal(c.getString(0));
+                            c = reportDb.execSelectSql(sql, null);
+                            if (c.moveToFirst()) {
+                                try {
+                                    totalFuelQty = new BigDecimal(c.getDouble(0)).setScale(10, ConstantValues.ROUNDING_MODE_VOLUME);
+                                    // new BigDecimal(c.getString(0));
+                                } catch (NumberFormatException ignored) {
+                                }
                             }
-                            catch (NumberFormatException ignored) {
-                            }
-                        }
 
-                        c.close();
-                        if (totalFuelQty != null) {
-                            // calculate the avg cons and fuel eff.
-                            BigDecimal avgCons;
-                            avgCons = totalFuelQty.multiply(new BigDecimal("100"));
-                            avgCons = avgCons.divide(lastFullRefuelIndex.subtract(tmpFullRefuelIndex), 10, RoundingMode.HALF_UP).setScale(10,
-                                    ConstantValues.ROUNDING_MODE_FUEL_EFF);
-                            fuelEffStr = Utils.numberToString(avgCons, true, ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF) + " "
-                                    + carUOMVolumeCode + "/100" + carUOMLengthCode;
-                            // efficiency: x uom length (km or mi) / uom volume (l or gallon)
-                            if (avgCons != null && avgCons.signum() != 0) {
-                                BigDecimal avgEff = (new BigDecimal("100")).divide(avgCons, 10, RoundingMode.HALF_UP).setScale(10,
+                            c.close();
+                            if (totalFuelQty != null) {
+                                // calculate the avg cons and fuel eff.
+                                BigDecimal avgCons;
+                                avgCons = totalFuelQty.multiply(new BigDecimal("100"));
+                                avgCons = avgCons.divide(lastFullRefuelIndex.subtract(tmpFullRefuelIndex), 10, RoundingMode.HALF_UP).setScale(10,
                                         ConstantValues.ROUNDING_MODE_FUEL_EFF);
-                                fuelEffStr = fuelEffStr + "; "
-                                        + Utils.numberToString(avgEff, true, ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF) + " "
-                                        + carUOMLengthCode + "/" + carUOMVolumeCode;
+                                fuelEffStr = Utils.numberToString(avgCons, true, ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF) + " "
+                                        + carUOMVolumeCode + "/100" + carUOMLengthCode;
+                                // efficiency: x uom length (km or mi) / uom volume (l or gallon)
+                                if (avgCons != null && avgCons.signum() != 0) {
+                                    BigDecimal avgEff = (new BigDecimal("100")).divide(avgCons, 10, RoundingMode.HALF_UP).setScale(10,
+                                            ConstantValues.ROUNDING_MODE_FUEL_EFF);
+                                    fuelEffStr = fuelEffStr + "; "
+                                            + Utils.numberToString(avgEff, true, ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF) + " "
+                                            + carUOMLengthCode + "/" + carUOMVolumeCode;
+                                }
                             }
-                        }
 
-                        // calculate the last fuel eff (for the last two full refuels)
+                            // calculate the last fuel eff (for the last two full refuels)
 
-                        // get the second last full refuel
-                        //@formatter:off
+                            // get the second last full refuel
+                            //@formatter:off
                         sql = "SELECT " + DBAdapter.COL_NAME_REFUEL__INDEX +
                                 " FROM " + DBAdapter.TABLE_NAME_REFUEL +
                                 " WHERE " +
@@ -1904,12 +1911,12 @@ public class MainActivity extends AppCompatActivity
                                 " ORDER BY " + DBAdapter.COL_NAME_REFUEL__INDEX + " DESC " +
                                 " LIMIT 1";
                         //@formatter:on
-                        c = reportDb.execSelectSql(sql, null);
-                        if (c.moveToFirst()) {
-                            tmpFullRefuelIndex = (new BigDecimal(c.getDouble(0)).setScale(10, ConstantValues.ROUNDING_MODE_LENGTH));
-                            c.close();
-                            // get the total fuel qty between the last two full refuels
-                            //@formatter:off
+                            c = reportDb.execSelectSql(sql, null);
+                            if (c.moveToFirst()) {
+                                tmpFullRefuelIndex = (new BigDecimal(c.getDouble(0)).setScale(10, ConstantValues.ROUNDING_MODE_LENGTH));
+                                c.close();
+                                // get the total fuel qty between the last two full refuels
+                                //@formatter:off
                             sql = "SELECT SUM(" + DBAdapter.COL_NAME_REFUEL__QUANTITY + ") " +
                                     " FROM " + DBAdapter.TABLE_NAME_REFUEL +
                                     " WHERE " +
@@ -1919,55 +1926,55 @@ public class MainActivity extends AppCompatActivity
                                         " AND " + DBAdapter.COL_NAME_GEN_ISACTIVE + " = \'Y\' " +
                                         " AND " + DBAdapter.COL_NAME_REFUEL__INDEX + " > " + tmpFullRefuelIndex.toPlainString() +
                                         " AND " + DBAdapter.COL_NAME_REFUEL__INDEX + " <= " + lastFullRefuelIndex.toPlainString();
-                            //@formatter:off
-                            c = reportDb.execSelectSql(sql, null);
-                            if (c.moveToFirst()) {
-                                if (c.getString(0) != null)
-                                    totalFuelQty = new BigDecimal(c.getString(0));
-                                else
-                                    totalFuelQty = null;
-                            }
-                            c.close();
-                            if (totalFuelQty != null) {
-                                // calculate the avg cons and fuel eff.
-                                BigDecimal avgCons;
-                                avgCons = totalFuelQty.multiply(new BigDecimal("100"));
-                                avgCons = avgCons.divide(lastFullRefuelIndex.subtract(tmpFullRefuelIndex), 10, RoundingMode.HALF_UP).setScale(10,
-                                        ConstantValues.ROUNDING_MODE_FUEL_EFF);
-                                lastFuelEffStr = Utils.numberToString(avgCons, true, ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF) + " "
-                                        + carUOMVolumeCode + "/100" + carUOMLengthCode;
-                                // //efficiency: x uom length (km or mi) / uom volume (l or gallon)
-                                if (avgCons != null && avgCons.signum() != 0) {
-                                    BigDecimal avgEff = (new BigDecimal("100")).divide(avgCons, 10, RoundingMode.HALF_UP).setScale(10,
-                                            ConstantValues.ROUNDING_MODE_FUEL_EFF);
-                                    lastFuelEffStr = lastFuelEffStr + "; "
-                                            + Utils.numberToString(avgEff, true, ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF) + " "
-                                            + carUOMLengthCode + "/" + carUOMVolumeCode;
+                            //@formatter:on
+                                c = reportDb.execSelectSql(sql, null);
+                                if (c.moveToFirst()) {
+                                    if (c.getString(0) != null)
+                                        totalFuelQty = new BigDecimal(c.getString(0));
+                                    else
+                                        totalFuelQty = null;
                                 }
-                            }
-                            c.close();
-                        } else
-                            c.close();
-                    }
+                                c.close();
+                                if (totalFuelQty != null) {
+                                    // calculate the avg cons and fuel eff.
+                                    BigDecimal avgCons;
+                                    avgCons = totalFuelQty.multiply(new BigDecimal("100"));
+                                    avgCons = avgCons.divide(lastFullRefuelIndex.subtract(tmpFullRefuelIndex), 10, RoundingMode.HALF_UP).setScale(10,
+                                            ConstantValues.ROUNDING_MODE_FUEL_EFF);
+                                    lastFuelEffStr = Utils.numberToString(avgCons, true, ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF) + " "
+                                            + carUOMVolumeCode + "/100" + carUOMLengthCode;
+                                    // //efficiency: x uom length (km or mi) / uom volume (l or gallon)
+                                    if (avgCons != null && avgCons.signum() != 0) {
+                                        BigDecimal avgEff = (new BigDecimal("100")).divide(avgCons, 10, RoundingMode.HALF_UP).setScale(10,
+                                                ConstantValues.ROUNDING_MODE_FUEL_EFF);
+                                        lastFuelEffStr = lastFuelEffStr + "; "
+                                                + Utils.numberToString(avgEff, true, ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF) + " "
+                                                + carUOMLengthCode + "/" + carUOMVolumeCode;
+                                    }
+                                }
+                                c.close();
+                            } else
+                                c.close();
+                        }
+                    } else
+                        c.close(); // no last full refuel => no 2 full refuels => cannot calculate fuel eff.
+                } else { // no full refuel recorded
+                    c.close();
+                }
+
+                if (mChartPeriodEndInSeconds > 0)
+                    lastFuelEffStr = ""; //do not show last fuel eff when the period is not current month or current year
+
+                if (fuelEffStr.length() > 0) {
+                    statisticsComponent.setAvgFuelEffText(getString(R.string.main_activity_statistics_avg_cons_label) + " " + fuelEffStr);
                 } else
-                    c.close(); // no last full refuel => no 2 full refuels => cannot calculate fuel eff.
-            } else { // no full refuel recorded
-                c.close();
+                    statisticsComponent.setAvgFuelEffText(null);
+
+                if (lastFuelEffStr.length() > 0) {
+                    statisticsComponent.setLastFuelEffText(getString(R.string.main_activity_statistics_last_cons_label) + " " + lastFuelEffStr);
+                } else
+                    statisticsComponent.setLastFuelEffText(null);
             }
-
-            if(mChartPeriodEndInSeconds > 0)
-                lastFuelEffStr = ""; //do not show last fuel eff when the period is not current month or current year
-
-            if (fuelEffStr.length() > 0) {
-                statisticsComponent.setAvgFuelEffText(getString(R.string.main_activity_statistics_avg_cons_label) + " " + fuelEffStr);
-            } else
-                statisticsComponent.setAvgFuelEffText(null);
-
-            if (lastFuelEffStr.length() > 0) {
-                statisticsComponent.setLastFuelEffText(getString(R.string.main_activity_statistics_last_cons_label) + " " + lastFuelEffStr);
-            } else
-                statisticsComponent.setLastFuelEffText(null);
-
         } else {
             statisticsComponent.setHeaderText(getString(R.string.statistics_no_data));
         }

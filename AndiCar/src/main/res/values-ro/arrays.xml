@@ -115,11 +115,11 @@
         <item>Ultima cheltuială</item>
         <item>Ultimul traseu GPS</item>
         <item>Grafice de kilometraj</item>
-        <item>Grafice de alimentări (cantitate)</item>
+        <item>Grafice de alimentări (cantitate)\n(nu apar pentru vehiculele cu combustibil alternativ)</item>
         <item>Grafice de alimentări (valoare)</item>
         <item>Grafice de cheltuieli</item>
-        <item>Eficiență combustibil</item>
-        <item>Consum combustibil</item>
+        <item>Eficiență combustibil\n(nu apar pentru vehiculele cu combustibil alternativ)</item>
+        <item>Consum combustibil\n(nu apar pentru vehiculele cu combustibil alternativ)</item>
         <item>Evoluţie preţ combustibil</item>
     </string-array>
 

@@ -100,11 +100,11 @@
         <item>Último gasto</item>
         <item>Último registro GPS</item>
         <item>Gráfico viaje</item>
-        <item>Gráfico recarga (cantidad)</item>
+        <item>Gráfico recarga (cantidad)\n(no aparece para vehículos de combustible alternativo)</item>
         <item>Gráfico recarga (suma)</item>
         <item>Gráfico gasto</item>
-        <item>Eficiencia de combustible</item>
-        <item>El consumo de combustible</item>
+        <item>Eficiencia de combustible\n(no aparece para vehículos de combustible alternativo)</item>
+        <item>El consumo de combustible\n(no aparece para vehículos de combustible alternativo)</item>
         <item>Precios del combustible</item>
     </string-array>
 

@@ -52,9 +52,9 @@
     <string name="fillUpQuantityChart1Title">Fill-ups by types - quantity (top 3)</string>
     <string name="fillUpQuantityChart2Title">Fill-ups by tags - quantity (top 3)</string>
     <string name="fillUpQuantityChart3Title">Fill-ups by fuel type - quantity (top 3)</string>
-    <string name="fillUpValueChart1Title">Fill-ups by types - value (top 3)</string>
-    <string name="fillUpValueChart2Title">Fill-ups by tags - value (top 3)</string>
-    <string name="fillUpValueChart3Title">Fill-ups by fuel type - value (top 3)</string>
+    <string name="fillUpValueChart1Title">Fill-ups by types - amount (top 3)</string>
+    <string name="fillUpValueChart2Title">Fill-ups by tags - amount (top 3)</string>
+    <string name="fillUpValueChart3Title">Fill-ups by fuel type - amount (top 3)</string>
     <string name="expenseChart1Title">Expenses by types (top 3)</string>
     <string name="expenseChart2Title">Expenses by category (top 3)</string>
     <string name="expenseChart3Title">Expenses by tags (top 3)</string>

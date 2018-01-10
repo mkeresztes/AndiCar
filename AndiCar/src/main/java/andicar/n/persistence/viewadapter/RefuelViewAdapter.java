@@ -119,7 +119,9 @@ public class RefuelViewAdapter extends BaseViewAdapter {
                 holder.mThirdLine.setText("Error#1! Please contact me at andicar.support@gmail.com");
                 return;
             }
-            if (oldFullRefuelIndex.compareTo(BigDecimal.ZERO) < 0 || mCursor.getString(12).equals("N")) { //this is not a full refuel
+            if (oldFullRefuelIndex.compareTo(BigDecimal.ZERO) < 0 //this is the first full refuel => can't calculate fuel eff
+                    || mCursor.getString(12).equals("N") //this is not a full refuel
+                    || mCursor.getString(17).equals("Y")) { //alternate fuel vehicle => can't calculate fuel eff
                 try {
                     //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
                     text = text.replace("[#01]", "");
@@ -128,43 +130,38 @@ public class RefuelViewAdapter extends BaseViewAdapter {
                 catch (Exception e) {
                     holder.mThirdLine.setText("Error#4! Please contact me at andicar.support@gmail.com");
                 }
-            }
-            // calculate the cons and fuel eff.
-            BigDecimal distance = (new BigDecimal(mCursor.getString(11))).subtract(oldFullRefuelIndex);
-            BigDecimal fuelQty;
-            try {
-                Double t = mDBAdapter.getFuelQtyForCons(mCursor.getLong(16), oldFullRefuelIndex, mCursor.getDouble(11));
-                fuelQty = new BigDecimal(t == null ? 0d : t);
-            }
-            catch (NullPointerException e) {
-                holder.mThirdLine.setText("Error#2! Please contact me at andicar.support@gmail.com");
-                return;
-            }
-            String consStr;
-            try {
-                consStr = Utils.numberToString(fuelQty.multiply(new BigDecimal("100")).divide(distance, 10, RoundingMode.HALF_UP), true,
-                        ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF)
-                        + " "
-                        + mCursor.getString(14)
-                        + "/100"
-                        + mCursor.getString(15)
-                        + "; "
-                        + Utils.numberToString(distance.divide(fuelQty, 10, RoundingMode.HALF_UP), true, ConstantValues.DECIMALS_FUEL_EFF,
-                        ConstantValues.ROUNDING_MODE_FUEL_EFF) + " " + mCursor.getString(15) + "/" + mCursor.getString(14);
-            }
-            catch (Exception e) {
-                //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
-                holder.mThirdLine.setText("Error#3! Please contact me at andicar.support@gmail.com");
-                return;
-            }
+            } else {
+                // calculate the cons and fuel eff.
+                BigDecimal distance = (new BigDecimal(mCursor.getString(11))).subtract(oldFullRefuelIndex);
+                BigDecimal fuelQty;
+                try {
+                    Double t = mDBAdapter.getFuelQtyForCons(mCursor.getLong(16), oldFullRefuelIndex, mCursor.getDouble(11));
+                    fuelQty = new BigDecimal(t == null ? 0d : t);
+                } catch (NullPointerException e) {
+                    holder.mThirdLine.setText("Error#2! Please contact me at andicar.support@gmail.com");
+                    return;
+                }
+                String consStr;
+                try {
+                    consStr = Utils.numberToString(fuelQty.multiply(new BigDecimal("100")).divide(distance, 10, RoundingMode.HALF_UP), true,
+                            ConstantValues.DECIMALS_FUEL_EFF, ConstantValues.ROUNDING_MODE_FUEL_EFF) + " "
+                            + mCursor.getString(14) + "/100"
+                            + mCursor.getString(15) + "; "
+                            + Utils.numberToString(distance.divide(fuelQty, 10, RoundingMode.HALF_UP), true, ConstantValues.DECIMALS_FUEL_EFF,
+                            ConstantValues.ROUNDING_MODE_FUEL_EFF) + " " + mCursor.getString(15) + "/" + mCursor.getString(14);
+                } catch (Exception e) {
+                    //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
+                    holder.mThirdLine.setText("Error#3! Please contact me at andicar.support@gmail.com");
+                    return;
+                }
 
-            try {
-                //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
-                text = text.replace("[#01]", "\n" + AndiCar.getAppResources().getString(R.string.gen_fuel_efficiency) + " " + consStr);
-            }
-            catch (Exception e) {
-                holder.mThirdLine.setText("Error#5! Please contact me at andicar.support@gmail.com");
-                return;
+                try {
+                    //do not use String.format... ! See: https://github.com/mkeresztes/AndiCar/issues/10
+                    text = text.replace("[#01]", "\n" + AndiCar.getAppResources().getString(R.string.gen_fuel_efficiency) + " " + consStr);
+                } catch (Exception e) {
+                    holder.mThirdLine.setText("Error#5! Please contact me at andicar.support@gmail.com");
+                    return;
+                }
             }
 
             if (text.trim().length() > 0) {

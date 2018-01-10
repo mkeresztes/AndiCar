@@ -508,7 +508,9 @@ public class DBReportAdapter extends DBAdapter {
 
                     sqlConcatTableColumn("CarLengthUOM", COL_NAME_UOM__CODE) + " AS CarUOMLength, " + //#15
 
-                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + //#16
+                    sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + ", " +//#16
+
+                    sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__ISAFV) + //#17
 
         " FROM " + TABLE_NAME_REFUEL +
                 " JOIN " + TABLE_NAME_EXPENSECATEGORY + " ON " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__EXPENSECATEGORY_ID) +
