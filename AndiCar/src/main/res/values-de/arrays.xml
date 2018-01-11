@@ -118,11 +118,11 @@
         <item>Letztes Ausgaben</item>
         <item>Letzter GPS Track</item>
         <item>Fahrdiagramm</item>
-        <item>Auftanken Diagramm (quantität)\n(erscheinen nicht für Fahrzeuge mit alternativem Kraftstoff)</item>
+        <item>Auftanken Diagramm (quantität)\n(nicht verfügbar für Fahrzeuge mit alternativem Kraftstoff)</item>
         <item>Auftanken Diagramm (betrag)</item>
         <item>Ausgaben Diagramm</item>
-        <item>Kraftstoffeffizienz\n(erscheinen nicht für Fahrzeuge mit alternativem Kraftstoff)</item>
-        <item>Kraftstoffverbrauch\n(erscheinen nicht für Fahrzeuge mit alternativem Kraftstoff)</item>
+        <item>Kraftstoffeffizienz\n(nicht verfügbar für Fahrzeuge mit alternativem Kraftstoff)</item>
+        <item>Kraftstoffverbrauch\n(nicht verfügbar für Fahrzeuge mit alternativem Kraftstoff)</item>
         <item>Treibstoffpreise</item>
     </string-array>
 
