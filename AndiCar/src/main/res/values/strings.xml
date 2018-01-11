@@ -606,6 +606,7 @@
     <string name="car_edit_uom_fuel_label">UOM for fuel:</string>
     <string name="car_edit_uom_alternative_fuel_label">UOM for alternative fuel:</string>
     <string name="car_edit_is_alternative_fuel_vehicle">Is alternative fuel vehicle (LPG, CNG, plug-in hybrid, etc.)</string>
+    <string name="car_edit_alternative_fuel_vehicle_message">Alternative fuel vehicle support is a new feature. Please contact me at andicar.support@gmail.com If you find any issue or have some improvement tips.\n\nFuel efficiency/consumption info and some charts are not available for this type of vehicles.</string>
     <!--CarEditActivity_IndexStartLabel-->
     <string name="car_edit_index_start_label">Initial odometer:</string>
     <!--CarEditActivity_CurrencyLabel-->

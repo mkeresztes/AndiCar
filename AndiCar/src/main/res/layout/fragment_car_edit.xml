@@ -131,6 +131,36 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tvCurrencyLabel"
+                    style="@style/AndiCarLabelStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:text="@string/car_edit_currency_label"/>
+
+                <Spinner
+                    android:id="@+id/spnCurrency"
+                    style="@style/AndiCarSpinnerStyle"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"/>
+
+                <ImageButton
+                    android:id="@+id/btnNewCurrency"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:contentDescription="@string/gen_add_new"
+                    app:srcCompat="@drawable/ic_button_add_black_dark_selector"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
                     style="@style/AndiCarLabelStyle"
                     android:layout_width="0dp"
                     android:layout_weight="2"
@@ -176,50 +206,35 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginStart="24dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <TextView
-                    style="@style/AndiCarLabelStyle"
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:text="@string/car_edit_uom_alternative_fuel_label"/>
-
-                <Spinner
-                    android:id="@+id/spnUOMAltFuel"
-                    style="@style/AndiCarSpinnerStyle"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tvCurrencyLabel"
-                    style="@style/AndiCarLabelStyle"
-                    android:layout_width="0dp"
-                    android:layout_weight="5"
-                    android:text="@string/car_edit_currency_label"/>
-
-                <Spinner
-                    android:id="@+id/spnCurrency"
-                    style="@style/AndiCarSpinnerStyle"
-                    android:layout_width="0dp"
-                    android:layout_weight="4"/>
-
-                <ImageButton
-                    android:id="@+id/btnNewCurrency"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:contentDescription="@string/gen_add_new"
-                    app:srcCompat="@drawable/ic_button_add_black_dark_selector"/>
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/AndiCarLabelStyle"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/car_edit_uom_alternative_fuel_label"/>
+
+                    <Spinner
+                        android:id="@+id/spnUOMAltFuel"
+                        style="@style/AndiCarSpinnerStyle"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+                <TextView
+                    style="@style/AndiCarLabelStyle"
+                    android:paddingTop="10dp"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:text="@string/car_edit_alternative_fuel_vehicle_message"/>
+
             </LinearLayout>
 
             <LinearLayout
