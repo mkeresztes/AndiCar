@@ -1566,31 +1566,33 @@ public class DBReportAdapter extends DBAdapter {
             "SELECT " +
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY) + "), " + //#0 - total quantity
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__AMOUNT) + "), " + //#1 - total value
-                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + "), " + //#2 uom volume
-                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + ") " + //#3 currency
+                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + ", " + //#2 uom
+                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + " " + //#3 currency
             " FROM " + TABLE_NAME_REFUEL +
                     " JOIN " + TABLE_NAME_CAR + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
-                            " JOIN " + TABLE_NAME_UOM + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__FUEL_UOM_ID) + " = " +
-                                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
-                            " JOIN " + TABLE_NAME_CURRENCY + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
+                    " JOIN " + TABLE_NAME_CURRENCY + " ON " +
+                                sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCY_ID) + " = " +
                                     sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_UOM + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUME_ID) + " = " +
+                                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
                     " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__TAG_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE 1 = 1 #WhereConditions# " +
+            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + ", " +
+                            sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) +
             " ORDER BY 1 DESC";
 
     private final String listStatisticsRefuelByType =
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + ", " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY) + "), " + //#1 - total quantity
-                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + "), " + //#2 uom
+                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + ", " + //#2 uom
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__AMOUNT) + "), " + //#3 - total amount
-                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + ") " + //#4 currency
+                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + " " + //#4 currency
             " FROM " + TABLE_NAME_REFUEL +
                     " JOIN " + TABLE_NAME_EXPENSETYPE + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__EXPENSETYPE_ID) + " = " +
@@ -1598,26 +1600,28 @@ public class DBReportAdapter extends DBAdapter {
                     " JOIN " + TABLE_NAME_CAR + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
-                            " JOIN " + TABLE_NAME_UOM + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__FUEL_UOM_ID) + " = " +
+                    " JOIN " + TABLE_NAME_UOM + " ON " +
+                            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUME_ID) + " = " +
                                     sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
-                            " JOIN " + TABLE_NAME_CURRENCY + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
+                    " JOIN " + TABLE_NAME_CURRENCY + " ON " +
+                            sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCY_ID) + " = " +
                                     sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
                     " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__TAG_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE 1 = 1 #WhereConditions# " +
-            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) +
-            " ORDER BY 2 DESC";
+            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSETYPE, COL_NAME_GEN_NAME) + ", " +
+                            sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + ", " +
+                            sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) +
+            " ORDER BY 1, 2 DESC";
 
     private final String listStatisticsRefuelByFuelType =
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_NAME) + ", " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY) + "), " + //#1 - total quantity
-                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + "), " + //#2 uom
+                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + ", " + //#2 uom
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__AMOUNT) + "), " + //#3 - total amount
-                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + ") " + //#4 currency
+                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + " " + //#4 currency
             " FROM " + TABLE_NAME_REFUEL +
                     " JOIN " + TABLE_NAME_EXPENSECATEGORY + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__EXPENSECATEGORY_ID) + " = " +
@@ -1625,60 +1629,64 @@ public class DBReportAdapter extends DBAdapter {
                     " JOIN " + TABLE_NAME_CAR + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
-                            " JOIN " + TABLE_NAME_UOM + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__FUEL_UOM_ID) + " = " +
-                                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
-                            " JOIN " + TABLE_NAME_CURRENCY + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
-                                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_UOM + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUME_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_CURRENCY + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCY_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
                     " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__TAG_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE 1 = 1 #WhereConditions# " +
-            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_NAME) +
-            " ORDER BY 2 DESC";
+            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_EXPENSECATEGORY, COL_NAME_GEN_NAME) + ", " +
+                            sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + ", " +
+                            sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) +
+            " ORDER BY 1, 2 DESC";
 
     private final String listStatisticsRefuelByTag =
             "SELECT " +
                     "COALESCE( " + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + ", 'N/A') , " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY) + "), " + //#1 - total quantity
-                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + "), " + //#2 uom
+                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + ", " + //#2 uom
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__AMOUNT) + "), " + //#3 - total amount
-                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + ") " + //#4 currency
+                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + " " + //#4 currency
             " FROM " + TABLE_NAME_REFUEL +
                     " JOIN " + TABLE_NAME_CAR + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
-                            " JOIN " + TABLE_NAME_UOM + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__FUEL_UOM_ID) + " = " +
-                                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
-                            " JOIN " + TABLE_NAME_CURRENCY + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
-                                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_UOM + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUME_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_CURRENCY + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCY_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
                     " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__TAG_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE 1 = 1 #WhereConditions# " +
-            " GROUP BY COALESCE(" + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + ", 'N/A')" +
-            " ORDER BY 2 DESC";
+            " GROUP BY COALESCE(" + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + ", 'N/A')" + ", " +
+                            sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + ", " +
+                            sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) +
+            " ORDER BY 1, 2 DESC";
 
     private final String listStatisticsRefuelByDriver =
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) + ", " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY) + "), " + //#1 - total quantity
-                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + "), " + //#2 uom
+                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + ", " + //#2 uom
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__AMOUNT) + "), " + //#3 - total amount
-                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + ") " + //#4 currency
+                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + " " + //#4 currency
             " FROM " + TABLE_NAME_REFUEL +
                     " JOIN " + TABLE_NAME_CAR + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
-                            " JOIN " + TABLE_NAME_UOM + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__FUEL_UOM_ID) + " = " +
-                                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
-                            " JOIN " + TABLE_NAME_CURRENCY + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
-                                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_UOM + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUME_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_CURRENCY + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCY_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
                     " JOIN " + TABLE_NAME_DRIVER + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__DRIVER_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_ROWID) +
@@ -1686,32 +1694,36 @@ public class DBReportAdapter extends DBAdapter {
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__TAG_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE 1 = 1 #WhereConditions# " +
-            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) +
-            " ORDER BY 2 DESC";
+            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_DRIVER, COL_NAME_GEN_NAME) + ", " +
+                            sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + ", " +
+                            sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) +
+            " ORDER BY 1, 2 DESC";
 
     private final String listStatisticsRefuelByCars =
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + ", " + //#0
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__QUANTITY) + "), " + //#1 - total quantity
-                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + "), " + //#2 uom
+                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + ", " + //#2 uom
                     " SUM( " + sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__AMOUNT) + "), " + //#3 - total amount
-                    " MAX(" + sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + ") " + //#4 currency
+                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) + " " + //#4 currency
             " FROM " + TABLE_NAME_REFUEL +
                     " JOIN " + TABLE_NAME_CAR + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) +
-                            " JOIN " + TABLE_NAME_UOM + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__FUEL_UOM_ID) + " = " +
-                                    sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
-                            " JOIN " + TABLE_NAME_CURRENCY + " ON " +
-                                sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__CURRENCY_ID) + " = " +
-                                    sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_UOM + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__UOMVOLUME_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_ROWID) +
+                    " JOIN " + TABLE_NAME_CURRENCY + " ON " +
+                        sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CURRENCY_ID) + " = " +
+                            sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_GEN_ROWID) +
                     " LEFT OUTER JOIN " + TABLE_NAME_TAG + " ON " +
                         sqlConcatTableColumn(TABLE_NAME_REFUEL, COL_NAME_REFUEL__TAG_ID) + " = " +
                             sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ROWID) +
             " WHERE 1 = 1 #WhereConditions# " +
-            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) +
-            " ORDER BY 2 DESC";
+            " GROUP BY " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + ", " +
+                            sqlConcatTableColumn(TABLE_NAME_UOM, COL_NAME_GEN_NAME) + ", " +
+                            sqlConcatTableColumn(TABLE_NAME_CURRENCY, COL_NAME_CURRENCY__CODE) +
+            " ORDER BY 1, 2 DESC";
 
     private final String listStatisticsExpenseTotal =
             "SELECT " +

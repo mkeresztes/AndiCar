@@ -439,8 +439,11 @@ public class StatisticsActivity extends AppCompatActivity {
 
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_REFUEL_TOTAL, mWhereConditions);
         c = reportAdapter.fetchReport(-1);
-        if (c == null) {
+        if (c == null || c.getCount() == 0) {
             try {
+                if (c != null) {
+                    c.close();
+                }
                 reportAdapter.close();
             }
             catch (Exception ignored) {
@@ -448,23 +451,15 @@ public class StatisticsActivity extends AppCompatActivity {
             return;
         }
 
-        if (c.moveToNext()) {
-            cs = getString(R.string.statistics_fill_up_total) + " " +
+        cs = getString(R.string.statistics_fill_up_total);
+        while (c.moveToNext()) {
+            cs = cs + "\n\t\t" +
                     Utils.numberToString(c.getString(0), true, ConstantValues.DECIMALS_VOLUME, ConstantValues.ROUNDING_MODE_VOLUME) + " " +
                     c.getString(2) + "; " +
                     Utils.numberToString(c.getString(1), true, ConstantValues.DECIMALS_AMOUNT, ConstantValues.ROUNDING_MODE_AMOUNT) + " " +
                     c.getString(3);
             mSpanText_Values = apply(cs, new StyleSpan(Typeface.BOLD));
             mEmailText_Values.append(cs.toString());
-        }
-        else {
-            try {
-                c.close();
-                reportAdapter.close();
-            }
-            catch (Exception ignored) {
-            }
-            return;
         }
 
         reportAdapter.setReportSql(DBReportAdapter.LIST_STATISTICS_REFUEL_BY_TYPES, mWhereConditions);
