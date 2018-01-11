@@ -736,6 +736,9 @@ public class RefuelEditFragment extends BaseEditFragment {
 
         analyticsParams.putInt(ConstantValues.ANALYTICS_IS_TEMPLATE_USED, isTemplateUsed ? 1 : 0);
         Utils.sendAnalyticsEvent(getActivity(), "RefuelEdit", analyticsParams, false);
+        analyticsParams.clear();
+        analyticsParams.putInt(ConstantValues.ANALYTICS_IS_AFV, mDbAdapter.isAFVCar(mCarId) ? 1 : 0);
+        Utils.sendAnalyticsEvent(getActivity(), "Common", analyticsParams, false);
 
         return true;
     }

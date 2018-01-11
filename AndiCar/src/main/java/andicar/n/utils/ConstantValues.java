@@ -97,6 +97,7 @@ public class ConstantValues {
     public static final String ANALYTICS_IS_CREATE_MILEAGE = "CreateMileage";
     public static final String ANALYTICS_IS_FROM_BT_CONNECTION = "FromBTConnection";
     public static final String ANALYTICS_IS_MULTI_UOM = "MultiUOMUsed";
+    public static final String ANALYTICS_IS_AFV = "IsAFV";
     public static String BASE_FOLDER;
     public static String REPORT_FOLDER;
     public static String BACKUP_FOLDER;
