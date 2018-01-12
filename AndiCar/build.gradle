@@ -85,7 +85,7 @@ dependencies {
     //third party libraries
     //used by the main activity drop-down menu launched by the FloatingActionButton
     //https://github.com/shehabic/Droppy
-    compile 'com.shehabic.droppy:Droppy:0.5.1@aar'
+    compile 'com.shehabic.droppy:Droppy:0.6.0@aar'
     //the charting library
     //https://github.com/PhilJay/MPAndroidChart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
@@ -94,7 +94,7 @@ dependencies {
     //    compile 'com.sun.mail:android-mail:1.5.5'
     //    compile 'com.sun.mail:android-activation:1.5.5'
     //https://material.uplabs.com/posts/android-switchdatetimepicker
-    compile 'com.github.Kunzisoft:Android-SwitchDateTimePicker:1.7'
+    compile 'com.github.Kunzisoft:Android-SwitchDateTimePicker:1.8'
     //https://github.com/hedzr/android-file-chooser
     compile 'com.obsez.android.lib.filechooser:filechooser:1.1.5'
     compile 'com.android.support:appcompat-v7:27.0.2'
