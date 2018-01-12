@@ -106,7 +106,7 @@
     <string name="DB_FuelType_GasolinePremiumComment">Cifra octanică 91 – 93</string>
     <string name="DB_FuelType_GasolinePremium2">Benzină Super Premium</string>
     <string name="DB_FuelType_GasolinePremiumComment2">Cifra octanică 94 – 98</string>
-    <string name="DB_FuelType_LPG">LPG</string>
+    <string name="DB_FuelType_LPG">GPL</string>
     <string name="DB_FuelType_LPGComment">Gaz petrolifer lichefiat</string>
     <string name="DB_FuelType_CNG">CNG</string>
     <string name="DB_FuelType_CNGComment">Gaz natural comprimat</string>
