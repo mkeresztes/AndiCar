@@ -345,6 +345,7 @@
     <string name="car_edit_uom_fuel_label">Üzemanyag mértékegység:</string>
     <string name="car_edit_uom_alternative_fuel_label">Alternatív üzemanyag ME:</string>
     <string name="car_edit_is_alternative_fuel_vehicle">Alternatív üzemanyagot is használ (LPG, CNG, plug-in hibrid stb.)</string>
+    <string name="car_edit_alternative_fuel_vehicle_message">Ez egy új funkció. Ha bármilyen problémát észlel, vagy javítási tippjei vannak, kérem küldjön egy emailt az andicar.support@gmail.com címre.\n\nAz ilyen tipusú járművekhez nem állnak rendelkezésre a fogyasztási adatok és néhány graficon.</string>
     <string name="car_edit_index_start_label">Kezdő kilométer állás:</string>
     <string name="car_edit_currency_label">Alap pénznem:</string>
 

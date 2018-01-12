@@ -349,6 +349,7 @@
     <string name="car_edit_uom_fuel_label">UM pt. carburant:</string>
     <string name="car_edit_uom_alternative_fuel_label">UM pt. carburant alternativ:</string>
     <string name="car_edit_is_alternative_fuel_vehicle">Este vehiculul cu carburant alternativ (GPL, CNG, hibrid plug-in etc.)</string>
+    <string name="car_edit_alternative_fuel_vehicle_message">Aceasta este o funcționalitate nouă. Vă rog să mă contactați la adresa andicar.support@gmail.com dacă întâmpinați probleme sau aveți idei de îmbunătățire.\n\nDatele referitoare la consum și unele grafice nu sunt disponibile pentru aceste tipuri de vehicule.</string>
     <string name="car_edit_index_start_label">Odometru inițial:</string>
     <string name="car_edit_currency_label">Moneda implicită:</string>
 
