@@ -697,7 +697,8 @@ public abstract class BaseEditFragment extends Fragment {
                     }
                     else {
                         selection = selection +
-                                " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " = '" + mDbAdapter.getCarFuelUOMType(mCarId, true) + "'";
+                                " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " = '" + mDbAdapter.getCarFuelUOMType(mCarId, true) + "' AND " +
+                                "UPPER(" + DBAdapter.COL_NAME_GEN_NAME + ") <> UPPER('" + getString(R.string.DB_FuelType_LPG) + "')";
                     }
                     Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
                             selection, mExpCatOrFuelTypeId, false);
