@@ -17,6 +17,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
+<!--suppress XmlUnboundNsPrefix -->
 <resources>
     <bool name="firebase_analytics_collection_enabled_value" translatable="false">
         true

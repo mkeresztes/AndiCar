@@ -24,6 +24,7 @@
         Ha korábban használtad az AndiCar-t, lehetőség van arra, hogy visszaállítsd a régi adatokat (ha létezik biztonsági mentés).</string>
     <string name="main_activity_welcome_restore">Visszaállítás</string>
     <string name="main_activity_welcome_car_info">Autó</string>
+    <string name="activity_gps_track_controller">GPS kezelő</string>
 
     <string name="activity_new_trip">AndiCar új út</string>
 
@@ -278,6 +279,7 @@
     <string name="fill_up_edit_qty_in_base_uom_label">Mennyiség alap megységben:</string>
     <string name="fill_up_edit_no_conversion_rate_message">Nincs átváltás a mértékegységekhez</string>
     <string name="fill_up_edit_gas_station">Töltőállomás:</string>
+    <string name="fill_up_edit_ck_is_alternative_fuel_label">Alternatív üzemanyag</string>
 
     <string name="whats_new_dialog_btn_five_stars_caption">Ez\n★★★★★\nérdemel!</string>
 
@@ -595,6 +597,7 @@
     <string name="expenseChart3Title">Költségek címkék szerint (top 3)</string>
     <string name="chartFooterText">Összesen: %1$s</string>
     <string name="title_list_activity" tools:ignore="PluralsCandidate">%1$s: %2$s rekord</string>
+    <string name="title_statistics_activity">Statisztikák (%1$s)</string>
     <string name="error_sorry">Bocsi! Egy váratlan hiba\ncsúszott be :(</string>
     <string name="error_report_sent">Köszi, hogy segítesz AndiCart jobbá tenni!</string>
     <string name="error_000">Adatbázis hiba.</string>

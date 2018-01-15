@@ -1409,7 +1409,7 @@ import andicar.n.utils.FileUtils;
      *
      * @param carID
      * @param baseFuel base or alternative fuel
-     * @return ID of ExpensetType (fuel)
+     * @return ID of ExpenseType (fuel)
      */
     public long getCarUOMFuelID(long carID, boolean baseFuel) {
         long retVal = -1;
@@ -1488,7 +1488,7 @@ import andicar.n.utils.FileUtils;
         return getUOMType(getCarUOMFuelID(carID, baseFuel));
     }
 
-    public String getUOMType(long uomID) {
+    private String getUOMType(long uomID) {
         String retVal = ConstantValues.UOM_TYPE_VOLUME_CODE;
 
         Cursor c = fetchRecord(TABLE_NAME_UOM, COL_LIST_UOM_TABLE, uomID );

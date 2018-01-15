@@ -28,6 +28,7 @@
     <string name="activity_new_trip">AndiCar registro de viaje</string>
 
     <string name="title_list_activity" tools:ignore="PluralsCandidate">%1$s: %2$s registros</string>
+    <string name="title_statistics_activity">Estadísticas (%1$s)</string>
     <string name="error_report_sent">¡Gracias por ayudar a mejorar AndiCar!</string>
 
     <string name="pref_backup_now_title">Copia ahora</string>
@@ -85,7 +86,7 @@
 
     <string name="secure_backup_mail_body">Visite https://sites.google.com/site/andicarfree/howto#TOC-Restore-your-data-from-secure-backup si necesita restaurar esta copia de seguridad. &lt;br&gt; &lt;br&gt; Enviado por AndiCar - http://www.andicar.org"</string>
 
-    <string name="search_dialog_note">Nota: % significa cualquier cadena</string>
+    <string name="search_dialog_note" tools:ignore="StringFormatInvalid">Nota: % significa cualquier cadena</string>
 
     <string name="gps_controller_start_track">Comience un nuevo seguimiento de GPS</string>
 
@@ -320,6 +321,7 @@
     <string name="fill_up_edit_qty_in_base_uom_label">Cantidad en base UM:</string>
     <string name="fill_up_edit_no_conversion_rate_message">No hay relacion de conversion definida para estos UM\'s</string>
     <string name="fill_up_edit_gas_station">Estación:</string>
+    <string name="fill_up_edit_ck_is_alternative_fuel_label">Es combustible alternativo</string>
 
     <string name="activity_gps_track_controller">Controlador de seguimiento GPS</string>
 
