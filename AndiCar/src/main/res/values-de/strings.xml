@@ -74,6 +74,8 @@
     <string name="gen_todo_detail">To-Do-Details</string>
     <string name="gen_no_files_selected_for_delete">Keine Datei(en) ausgewählt. Nichts zu löschen.</string>
     <string name="gen_no_files_selected_for_share">Keine Datei(en) ausgewählt. Nichts zu teilen.</string>
+    <string name="gen_manage_list">To-Do-Liste editieren</string>
+    <string name="gen_manage_list_vertical">"T\no\n\nD\no\n\nL\ni\ns\nt\ne\n\ne\nd\ni\nt\ni\ne\nr\ne\nn"</string>
 
     <string name="mileage_draft_edit">Entwurf. Füllen Sie die Ankunft aus, um sie zu vervollständigen.</string>
 

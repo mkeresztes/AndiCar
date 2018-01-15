@@ -93,8 +93,7 @@
         app:layout_constraintEnd_toEndOf="@+id/btnAdd"
         app:layout_constraintStart_toStartOf="@+id/btnAdd"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_button_chart_4caf50_outlined_36dp_pad0dp"
-        android:contentDescription="@string/gen_statistics"/>
+        app:srcCompat="@drawable/ic_button_chart_4caf50_outlined_36dp_pad0dp"/>
 
     <ImageButton
         android:id="@+id/btnStatistics"
@@ -105,8 +104,7 @@
         app:layout_constraintEnd_toEndOf="@+id/btnAdd"
         app:layout_constraintStart_toStartOf="@+id/btnAdd"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_button_info_3f51b5_outlined_36dp_pad0dp"
-        android:contentDescription="@string/gen_statistics"/>
+        app:srcCompat="@drawable/ic_button_info_3f51b5_outlined_36dp_pad0dp"/>
 
     <TextView
         android:id="@+id/separator"
@@ -116,6 +114,5 @@
         app:layout_constraintEnd_toStartOf="@+id/btnAdd"
         app:layout_constraintStart_toEndOf="@+id/linearLayout"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="8dp"
-        tools:ignore="InconsistentLayout"/>
+        android:layout_marginRight="8dp" />
 </android.support.constraint.ConstraintLayout>
