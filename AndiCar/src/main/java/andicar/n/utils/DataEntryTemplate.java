@@ -449,6 +449,9 @@ public class DataEntryTemplate {
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("rbInsertModePrice")) {
                     ((RadioButton) mRootView.findViewById(R.id.rbInsertModePrice)).setChecked(c.getString(
                             DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE).equals("Y"));
+                } else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("ckIsAlternativeFuel")) {
+                    ((CheckBox) mRootView.findViewById(R.id.ckIsAlternativeFuel))
+                            .setChecked(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE).equals("Y"));
                 }
             }
         }
@@ -609,6 +612,7 @@ public class DataEntryTemplate {
             cv.putString("acAddress", ((AutoCompleteTextView) mRootView.findViewById(R.id.acAddress)).getText().toString());
             cv.putString("acTag", ((AutoCompleteTextView) mRootView.findViewById(R.id.acTag)).getText().toString());
             cv.putString("acUserComment", ((AutoCompleteTextView) mRootView.findViewById(R.id.acUserComment)).getText().toString());
+            cv.putString("ckIsAlternativeFuel", ((CheckBox) mRootView.findViewById(R.id.ckIsAlternativeFuel)).isChecked() ? "Y" : "N");
         }
         else if (mEditFragment instanceof GPSTrackControllerFragment) {
             cv.putString("spnCar", Long.toString(mEditFragment.getCarId()));
