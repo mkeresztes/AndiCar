@@ -20,7 +20,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="org.andicar2.activity"
     android:versionCode="18011600"
-    android:versionName="18.01">
+    android:versionName="18.02 beta">
 
     <!-- ************************************************************************************************* -->
     <!-- Normal Permissions (https://developer.android.com/guide/topics/security/normal-permissions.html) -->
