@@ -36,6 +36,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -408,6 +409,13 @@ public class RefuelEditFragment extends BaseEditFragment {
 
         ckIsFullRefuel = mRootView.findViewById(R.id.ckIsFullRefuel);
         ckIsAlternativeFuel = mRootView.findViewById(R.id.ckIsAlternativeFuel);
+        ckIsAlternativeFuel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (viewsLoaded)
+                    mIsAlternativeFuel = isChecked;
+            }
+        });
 
         rbInsertModePrice = mRootView.findViewById(R.id.rbInsertModePrice);
         RadioGroup rg = mRootView.findViewById(R.id.rgExpenseInsertMode);
