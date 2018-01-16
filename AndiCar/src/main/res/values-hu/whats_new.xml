@@ -3,9 +3,8 @@
     <string name="whats_new">
         <![CDATA[
         <br><b><i>Újdonságok ebben a verzióban:</i></b><br><br>
-		* Összesítések az ut, tankolás és költség listákban. Ehez használd az ⓘ gombot.<br>
-		* A Bloototh csatlakozás beálításainak bővítése. Meg lehet határozni, hogy mi történjen mikor létrejön a csatlakozás.<br>
-        * Hibajavítások<br>
+		* Alternatív üzemanyagú (LPG, CNG, plugin-hibrid) járművek támogatása. Ehhez újra kellett írni a tankolások képernyő logikáját. Kérem, értsítsen az andicar.support@gmail.com címen, ha bármilyen problémát észlel ezzel a képernyővel. Köszönöm.<br>
+		* Egyéb kisebb fejlesztések és hibajavítások.<br>
         <br>Köszönöm, hogy az <b><i>AndiCar</i></b>-t használod.<br><br>
         ]]>
     </string>

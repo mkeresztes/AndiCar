@@ -3,10 +3,8 @@
     <string name="whats_new">
         <![CDATA[
         <br><b><i>Noutăţi în această versiune:</i></b><br><br>
-		* Informaţii sumarizate în listele de kilometraje, alimentări şi cheltuieli. Apasă pe butonul ⓘ pentru a le accesa.<br>
-		* Înbunătăţiri în setările detectorului de legătură Bluetooth. De acum se poate specifica ce să se întâmple când se realizează legaătura.<br>
-        * Înbunătăţiri în serviciul de urmărire GPS (track service).<br>
-        * Corecţii de erori.<br>
+		* Suport pentru vehiculele cu combustibil alternativ (GPL, CNG, plugin-hibrid). Aceasta a necesitat rescrierea logicii ecranului de alimentări. Vă rog să mă contactați la adresa andicar.support@gmail.com dacă găsiți vreo problemă cu acest ecran. Mulțumesc.<br>
+		* Alte înbunătăţiri şi corecţii de erori.<br>
         <br>Mulţumesc că utilizezi <b><i>AndiCar</i></b>.<br><br>
         ]]>
     </string>
