@@ -368,11 +368,12 @@ public class DataEntryTemplate {
                     etUserInputStr = c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE);
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("acTag")) {
-                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acTag)).setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
+                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acTag))
+                            .setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("acUserComment")) {
-                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acUserComment)).setText(c
-                            .getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
+                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acUserComment))
+                            .setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
                 }
             }
             if (isMileageInsertMode && etUserInputStr != null) {
@@ -425,30 +426,32 @@ public class DataEntryTemplate {
                     tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnUomFuel), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_UOM, tmpID));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("etUserInput")) {
-                    ((EditText) mRootView.findViewById(R.id.etUserInput)).setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
+                    ((EditText) mRootView.findViewById(R.id.etUserInput))
+                            .setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("acBPartner")) {
-                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acBPartner)).setText(c
-                            .getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
+                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acBPartner))
+                            .setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("acAddress")) {
-                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acAddress)).setText(c
-                            .getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
+                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acAddress))
+                            .setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("acTag")) {
-                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acTag)).setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
+                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acTag))
+                            .setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("acUserComment")) {
-                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acUserComment)).setText(c
-                            .getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
+                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acUserComment))
+                            .setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("rbInsertModeAmount")) {
-                    ((RadioButton) mRootView.findViewById(R.id.rbInsertModeAmount)).setChecked(c.getString(
-                            DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE).equals("Y"));
+                    ((RadioButton) mRootView.findViewById(R.id.rbInsertModeAmount))
+                            .setChecked(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE).equals("Y"));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("rbInsertModePrice")) {
-                    ((RadioButton) mRootView.findViewById(R.id.rbInsertModePrice)).setChecked(c.getString(
-                            DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE).equals("Y"));
+                    ((RadioButton) mRootView.findViewById(R.id.rbInsertModePrice))
+                            .setChecked(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE).equals("Y"));
                 } else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("ckIsAlternativeFuel")) {
                     ((CheckBox) mRootView.findViewById(R.id.ckIsAlternativeFuel))
                             .setChecked(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE).equals("Y"));
@@ -496,33 +499,36 @@ public class DataEntryTemplate {
                     tmpActivity.setSpinnerSelectedID(mRootView.findViewById(R.id.spnUOM), mDbAdapter.getNameById(DBAdapter.TABLE_NAME_UOM, tmpID));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("etQuantity")) {
-                    ((EditText) mRootView.findViewById(R.id.etQuantity)).setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
+                    ((EditText) mRootView.findViewById(R.id.etQuantity))
+                            .setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("etUserInput")) {
-                    ((EditText) mRootView.findViewById(R.id.etUserInput)).setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
+                    ((EditText) mRootView.findViewById(R.id.etUserInput))
+                            .setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("acBPartner")) {
-                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acBPartner)).setText(c
-                            .getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
+                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acBPartner))
+                            .setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("acAddress")) {
-                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acAddress)).setText(c
-                            .getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
+                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acAddress))
+                            .setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("acTag")) {
-                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acTag)).setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
+                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acTag))
+                            .setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("acUserComment")) {
-                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acUserComment)).setText(c
-                            .getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
+                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acUserComment))
+                            .setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("rbInsertModeAmount")) {
-                    ((RadioButton) mRootView.findViewById(R.id.rbInsertModeAmount)).setChecked(c.getString(
-                            DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE).equals("Y"));
+                    ((RadioButton) mRootView.findViewById(R.id.rbInsertModeAmount))
+                            .setChecked(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE).equals("Y"));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("rbInsertModePrice")) {
-                    ((RadioButton) mRootView.findViewById(R.id.rbInsertModePrice)).setChecked(c.getString(
-                            DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE).equals("Y"));
+                    ((RadioButton) mRootView.findViewById(R.id.rbInsertModePrice))
+                            .setChecked(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE).equals("Y"));
                 }
             }
         }
@@ -551,18 +557,20 @@ public class DataEntryTemplate {
                     }
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("etName")) {
-                    ((EditText) mRootView.findViewById(R.id.etName)).setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
+                    ((EditText) mRootView.findViewById(R.id.etName))
+                            .setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("acTag")) {
-                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acTag)).setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
+                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acTag))
+                            .setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("acUserComment")) {
-                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acUserComment)).setText(c
-                            .getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
+                    ((AutoCompleteTextView) mRootView.findViewById(R.id.acUserComment))
+                            .setText(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE));
                 }
                 else if (c.getString(DBAdapter.COL_POS_GEN_NAME).equals("ckIsCreateMileage")) {
-                    ((CheckBox) mRootView.findViewById(R.id.ckIsCreateMileage)).setChecked(c.getString(
-                            DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE).equals("Y"));
+                    ((CheckBox) mRootView.findViewById(R.id.ckIsCreateMileage))
+                            .setChecked(c.getString(DBAdapter.COL_POS_DATATEMPLATEVALUES__VALUE).equals("Y"));
                 }
             }
         }
