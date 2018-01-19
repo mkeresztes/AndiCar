@@ -711,4 +711,5 @@
     <string name="error_122">Authentifizierungsfehler. Öffnen Sie Einstellungen -> Backup &amp; Stellen Sie Ihr Google-Konto wieder her und versuchen Sie es erneut.</string>
     <string name="error_123">Keine Netzwerk Verbindung. Das Konto kann nicht validiert werden.</string>
     <string name="error_124">Außerhalb des Speicherfehler. Bitte wechseln Sie das sichere Backup-Ziel auf Google Drive (Einstellungen -> Sichern &amp; Wiederherstellen).</string>
+    <string name="error_126">Keine Umrechnungsrate von %1s nach %2s.</string>
 </resources>

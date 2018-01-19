@@ -712,4 +712,5 @@
     <string name="error_122">Error de autenticación. Abrir configuración &amp; Copia de seguridad y amp; Restaure y trate de revalidar su cuenta de Google.</string>
     <string name="error_123">No hay conexion de red. No se puede validar la cuenta.</string>
     <string name="error_124">Error de memoria insuficiente. Cambie el destino de la copia de seguridad segura a Google Drive (Configuración -> Copia de seguridad &amp; Restaurar).</string>
+    <string name="error_126">Sin tasa de conversión de %1s a %2s.</string>
 </resources>

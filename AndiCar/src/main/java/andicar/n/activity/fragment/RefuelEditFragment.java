@@ -550,6 +550,12 @@ public class RefuelEditFragment extends BaseEditFragment {
 
     @Override
     protected boolean saveData() {
+        if (mBaseUOMQty == null) {
+            Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.gen_error),
+                    String.format(getString(R.string.error_126), mDbAdapter.getUOMCode(mUOMFuelId), mDefaultUOMVolumeCode));
+            return false;
+        }
+
         Bundle analyticsParams = new Bundle();
 
         calculatePriceAmount();

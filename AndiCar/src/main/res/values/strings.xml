@@ -923,7 +923,6 @@
     <string name="error_013">This UOM can not be deleted because it is used in mileage(s).</string>
     <string name="error_014">This UOM can not be deleted because it is used in fill-up(s).</string>
     <string name="error_015">This UOM can not be deleted because it is used in UOM conversion(s).</string>
-    <string name="error_125">This UOM can not be deleted because it is used in car definition(s).</string>
     <string name="error_016">This currency can not be deleted because it is used in car definition(s).</string>
     <string name="error_017">This currency can not be deleted because it is used in fill-up(s).</string>
     <string name="error_018">This expense type can not be deleted because it is used in mileage(s).</string>
@@ -1005,4 +1004,6 @@
     <string name="error_122">Authentication error. Open Settings -> Backup &amp; Restore and try to revalidate your Google account.</string>
     <string name="error_123">No network connection. Can\'t validate the account.</string>
     <string name="error_124">Out of memory error. Please switch the secure backup destination to Google Drive (Settings -> Backup &amp; Restore).</string>
+    <string name="error_125">This UOM can not be deleted because it is used in car definition(s).</string>
+    <string name="error_126">No conversion rate from %1s to %2s.</string>
 </resources>
