@@ -874,7 +874,7 @@ public class MileageEditFragment extends BaseEditFragment {
 
     private void getStartIndex() throws SQLException {
         try {
-            if (mStartIndex.equals(new BigDecimal("0"))) {
+            if (mStartIndex.equals(BigDecimal.ZERO)) {
                 mStartIndex = mDbAdapter.getCarLastMileageIndex(mCarId);
             }
         }
