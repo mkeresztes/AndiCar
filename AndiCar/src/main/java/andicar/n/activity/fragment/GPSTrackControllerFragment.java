@@ -133,6 +133,13 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
     }
 
     @Override
+    public void setCarId(long carId) {
+        super.setCarId(carId);
+        if (viewsLoaded)
+            etIndexStart.setText(Utils.numberToString(mDbAdapter.getCarLastMileageIndex(mCarId), false, ConstantValues.DECIMALS_LENGTH, ConstantValues.ROUNDING_MODE_LENGTH));
+    }
+
+    @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if (getActivity() != null) {
