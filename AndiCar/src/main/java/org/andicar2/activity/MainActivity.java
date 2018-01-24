@@ -230,16 +230,10 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-//        if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("google.message_id")
-//                && getIntent().getExtras().getString("msg.title", "").length() > 0
-//                && getIntent().getExtras().getString("msg.body", "").length() > 0) {
-//            Utils.showInfoDialog(this, getIntent().getExtras().getString("msg.title", ""), getIntent().getExtras().getString("msg.body", ""));
-//            Intent notif = new Intent(this, GeneralNotificationDialogActivity.class);
-//            notif.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_MESSAGE_KEY, getIntent().getExtras().getString("msg.title", ""));
-//            notif.putExtra(GeneralNotificationDialogActivity.NOTIFICATION_DETAIL_KEY, getIntent().getExtras().getString("msg.body", ""));
-//            notif.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_INFO);
-//            startActivity(notif);
-//        }
+        if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("google.message_id")) {
+            Utils.showMessageDialog(getApplicationContext(), getIntent().getExtras().getString("google.message_id"),
+                    getIntent().getExtras().getString("andicar.msg_title"), getIntent().getExtras().getString("andicar.msg_body"));
+        }
 
         try {
             if (mPreferences.getBoolean(getString(R.string.pref_key_show_welcome_screen), false)) {

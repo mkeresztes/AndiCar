@@ -69,6 +69,7 @@ import java.util.Date;
 import java.util.List;
 
 import andicar.n.activity.dialogs.GeneralNotificationDialogActivity;
+import andicar.n.activity.dialogs.MessageDialog;
 import andicar.n.persistence.DB;
 import andicar.n.persistence.DBAdapter;
 import andicar.n.persistence.DBReportAdapter;
@@ -379,6 +380,15 @@ public class Utils {
         intent.putExtra(GeneralNotificationDialogActivity.DIALOG_TYPE_KEY, GeneralNotificationDialogActivity.DIALOG_TYPE_INFO);
 //        if (!(ctx instanceof Activity))
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ctx.startActivity(intent);
+    }
+
+    public static void showMessageDialog(Context ctx, String msgID, String title, String body) {
+        Intent intent = new Intent(ctx, MessageDialog.class);
+        intent.putExtra(MessageDialog.MSG_ID_KEY, msgID);
+        intent.putExtra(MessageDialog.MSG_TITLE_KEY, title);
+        intent.putExtra(MessageDialog.MSG_BODY_KEY, body);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ctx.startActivity(intent);
     }
 

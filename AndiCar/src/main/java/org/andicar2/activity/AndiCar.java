@@ -31,6 +31,7 @@ import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,6 +70,9 @@ public class AndiCar extends MultiDexApplication {
             Crashlytics crashlyticsKit = new Crashlytics.Builder()
                     .core(new CrashlyticsCore.Builder().build()).build();
             Fabric.with(this, crashlyticsKit);
+        } else {
+            //subscribe to Debug topic on FBMessaging
+            FirebaseMessaging.getInstance().subscribeToTopic("Debug");
         }
 
         AndiCar.appResources = getResources();

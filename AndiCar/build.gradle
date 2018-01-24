@@ -107,6 +107,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:11.8.0'
     compile 'com.google.android.gms:play-services-drive:11.8.0'
     compile 'com.google.firebase:firebase-core:11.8.0'
+    compile 'com.google.firebase:firebase-messaging:11.8.0'
     compile 'com.firebase:firebase-jobdispatcher:0.8.3'
     compile files('src/main/lib/activation.jar')
     compile files('src/main/lib/additionnal.jar')
