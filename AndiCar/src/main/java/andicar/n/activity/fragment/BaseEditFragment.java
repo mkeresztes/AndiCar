@@ -641,20 +641,32 @@ public abstract class BaseEditFragment extends Fragment {
     }
 
     protected void initSpnExpCatOrFuelType() {
+        long checkID;
         if (spnExpCatOrFuelType != null) {
             if (this instanceof RefuelEditFragment) {
+                //show only the fuel types with similar uom type as declared in the car UOM for fuel + the alternate fuel if the car is AFV (alternate fuel vehicle)
+                String selection = DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y' ";
+                if (mDbAdapter.isAFVCar(mCarId)) {
+                    selection = selection +
+                            " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " IN( '" + mDbAdapter.getCarFuelUOMType(mCarId, true) + "', '" +
+                            mDbAdapter.getCarFuelUOMType(mCarId, false) + "')";
+                } else {
+                    selection = selection +
+                            " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " = '" + mDbAdapter.getCarFuelUOMType(mCarId, true) + "' AND " +
+                            "UPPER(" + DBAdapter.COL_NAME_GEN_NAME + ") <> UPPER('" + getString(R.string.DB_FuelType_LPG) + "')";
+                }
                 mExpCatOrFuelTypeId = Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
-                        DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mExpCatOrFuelTypeId, mRowId > 0, false);
+                        selection, mExpCatOrFuelTypeId, mRowId > 0, false);
             }
             else {
                 mExpCatOrFuelTypeId = Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
                         DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", mExpCatOrFuelTypeId, mRowId > 0, false);
             }
+
             if (spnExpCatOrFuelType.getAdapter().getCount() == 1 && lExpCatFuelTypeZone != null)
                 lExpCatFuelTypeZone.setVisibility(View.GONE);
             else if (lExpCatFuelTypeZone != null)
                 lExpCatFuelTypeZone.setVisibility(View.VISIBLE);
-
         }
     }
 
