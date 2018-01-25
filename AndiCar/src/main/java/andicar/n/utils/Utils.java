@@ -437,11 +437,12 @@ public class Utils {
      * @param tableName     fill from this table
      * @param selection     where clause
      * @param selectedId    set the spinner selected item to this id
+     * @param addSelectedId include the selectedId even if it not found in the selection (is inactive for example)
      * @param addEmptyValue add an empty value on the first position with id = -1
      * @return returns the selectedId if is exists in the selection. If not, returns the id of the current selected item.
      */
     public static long initSpinner(DBAdapter dbAdapter, View pSpinner,
-                                   String tableName, String selection, long selectedId, boolean addEmptyValue) {
+                                   String tableName, String selection, long selectedId, boolean addSelectedId, boolean addEmptyValue) {
 
         boolean selectedIDExists = false;
         Spinner spnCurrentSpinner = (Spinner) pSpinner;
@@ -460,16 +461,27 @@ public class Utils {
                                 DBAdapter.COL_NAME_GEN_ROWID +
                                 ", " + DBAdapter.COL_NAME_GEN_NAME +
                         " FROM " + tableName +
-                        " WHERE 1 = 1 ";
+                        " WHERE (1 = 1 ";
                 if (selection != null && selection.length() > 0) {
-                    selectSql = selectSql + selection;
+                    selectSql = selectSql + selection + ")";
                 }
+                else
+                    selectSql = selectSql + ")";
+
+                if(addSelectedId)
+                    selectSql = selectSql + " OR (" + DBAdapter.COL_NAME_GEN_ROWID + " = " + selectedId + ")";
+
                 selectSql = selectSql + " ORDER BY " + DBAdapter.COL_NAME_GEN_NAME;
 
                 dbcRecordCursor = dbAdapter.execSelectSql(selectSql, null);
             }
             else {
-                dbcRecordCursor = dbAdapter.query(tableName, DBAdapter.COL_LIST_GEN_ROWID_NAME, "1 = 1 " + selection, null, DBAdapter.COL_NAME_GEN_NAME);
+                selection = "(1 = 1 " + (selection == null ? ")" : selection + ")");
+                if(addSelectedId)
+                    selection = selection + " OR (" + DBAdapter.COL_NAME_GEN_ROWID + " = " + selectedId + ")";
+
+                dbcRecordCursor = dbAdapter.query(tableName, DBAdapter.COL_LIST_GEN_ROWID_NAME,
+                        selection, null, DBAdapter.COL_NAME_GEN_NAME);
             }
             //@formatter:on
 

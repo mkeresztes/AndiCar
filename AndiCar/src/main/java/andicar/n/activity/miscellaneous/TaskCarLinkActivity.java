@@ -217,7 +217,7 @@ public class TaskCarLinkActivity extends AppCompatActivity {
                     " AND " + DBAdapter.COL_NAME_CAR__INDEXCURRENT + " < " + mStartingMileageText;
         }
 
-        mCarID = Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, mLinkDialogCarSelectCondition, mCarID, false);
+        mCarID = Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, mLinkDialogCarSelectCondition, mCarID, mRowId > 0, false);
         if (mRowId == -1) {
             spnCar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @SuppressLint("SetTextI18n")

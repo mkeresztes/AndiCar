@@ -168,17 +168,17 @@ public class SearchDialogFragment extends DialogFragment {
             mCarId = Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, DBAdapter.WHERE_CONDITION_ISACTIVE +
                     " OR (" + DBAdapter.COL_NAME_GEN_ROWID + " IN (SELECT " + DBAdapter.COL_NAME_TODO__CAR_ID +
                     " FROM " + DBAdapter.TABLE_NAME_TODO +
-                    " WHERE " + DBAdapter.COL_NAME_TODO__ISDONE + " = 'N'))", mCarId, true);
+                    " WHERE " + DBAdapter.COL_NAME_TODO__ISDONE + " = 'N'))", mCarId, false, true);
 
-            Utils.initSpinner(mDbAdapter, spnExpType, DBAdapter.TABLE_NAME_TASKTYPE, null, mSearchArgs.getLong(TYPE_ID_KEY, -1), true);
+            Utils.initSpinner(mDbAdapter, spnExpType, DBAdapter.TABLE_NAME_TASKTYPE, null, mSearchArgs.getLong(TYPE_ID_KEY, -1), false, true);
             lExpCatZone.setVisibility(View.GONE);
             lStatusZone.setVisibility(View.VISIBLE);
             lDriverZone.setVisibility(View.GONE);
             lTagZone.setVisibility(View.GONE);
         }
         else {
-            mCarId = Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, null, mCarId, true);
-            Utils.initSpinner(mDbAdapter, spnExpType, DBAdapter.TABLE_NAME_EXPENSETYPE, null, mSearchArgs.getLong(TYPE_ID_KEY, -1), true);
+            mCarId = Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, null, mCarId, false, true);
+            Utils.initSpinner(mDbAdapter, spnExpType, DBAdapter.TABLE_NAME_EXPENSETYPE, null, mSearchArgs.getLong(TYPE_ID_KEY, -1), false, true);
             if (mSearchType == SEARCH_TYPE_MILEAGE || mSearchType == SEARCH_TYPE_GPS_TRACK) {
                 lExpCatZone.setVisibility(View.GONE);
             }
@@ -187,11 +187,11 @@ public class SearchDialogFragment extends DialogFragment {
                 if (mSearchType == SEARCH_TYPE_REFUEL) {
                     tvExpCategoryLabel.setText(R.string.fill_up_category);
                     Utils.initSpinner(mDbAdapter, spnExpCategory, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
-                            " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mSearchArgs.getLong(CATEGORY_ID_KEY, -1), true);
+                            " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mSearchArgs.getLong(CATEGORY_ID_KEY, -1), false, true);
                 }
                 else {
                     Utils.initSpinner(mDbAdapter, spnExpCategory, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
-                            " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", mSearchArgs.getLong(CATEGORY_ID_KEY, -1), true);
+                            " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", mSearchArgs.getLong(CATEGORY_ID_KEY, -1), false, true);
                 }
             }
             lStatusZone.setVisibility(View.GONE);
@@ -200,7 +200,7 @@ public class SearchDialogFragment extends DialogFragment {
             setTagAdapters();
         }
 
-        Utils.initSpinner(mDbAdapter, spnDriver, DBAdapter.TABLE_NAME_DRIVER, null, mSearchArgs.getLong(DRIVER_ID_KEY, -1), true);
+        Utils.initSpinner(mDbAdapter, spnDriver, DBAdapter.TABLE_NAME_DRIVER, null, mSearchArgs.getLong(DRIVER_ID_KEY, -1), false, true);
 
 
         spnCar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

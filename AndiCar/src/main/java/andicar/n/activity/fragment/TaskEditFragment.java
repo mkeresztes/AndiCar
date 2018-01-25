@@ -473,7 +473,7 @@ public class TaskEditFragment extends BaseEditFragment {
 
     @Override
     protected void initSpecificControls() {
-        mTaskTypeId = Utils.initSpinner(mDbAdapter, spnTaskType, DBAdapter.TABLE_NAME_TASKTYPE, DBAdapter.WHERE_CONDITION_ISACTIVE, mTaskTypeId, false);
+        mTaskTypeId = Utils.initSpinner(mDbAdapter, spnTaskType, DBAdapter.TABLE_NAME_TASKTYPE, DBAdapter.WHERE_CONDITION_ISACTIVE, mTaskTypeId, mRowId > 0, false);
     }
 
     @Override

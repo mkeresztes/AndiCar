@@ -348,11 +348,11 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
         }
         Bundle serviceArguments = mGPSTrackService.getArguments();
         setCarId(serviceArguments.getLong(GPS_TRACK_ARGUMENT_CAR_ID, mCarId));
-        mCarId = Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, DBAdapter.WHERE_CONDITION_ISACTIVE, mCarId, false);
+        mCarId = Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, DBAdapter.WHERE_CONDITION_ISACTIVE, mCarId, false, false);
         setDriverId(serviceArguments.getLong(GPS_TRACK_ARGUMENT_DRIVER_ID, mDriverId));
-        mDriverId = Utils.initSpinner(mDbAdapter, spnDriver, DBAdapter.TABLE_NAME_DRIVER, DBAdapter.WHERE_CONDITION_ISACTIVE, mDriverId, false);
+        mDriverId = Utils.initSpinner(mDbAdapter, spnDriver, DBAdapter.TABLE_NAME_DRIVER, DBAdapter.WHERE_CONDITION_ISACTIVE, mDriverId, false, false);
         setExpTypeId(serviceArguments.getLong(GPS_TRACK_ARGUMENT_EXPENSE_TYPE_ID, mExpTypeId));
-        mExpTypeId = Utils.initSpinner(mDbAdapter, spnExpType, DBAdapter.TABLE_NAME_EXPENSETYPE, DBAdapter.WHERE_CONDITION_ISACTIVE, mExpTypeId, false);
+        mExpTypeId = Utils.initSpinner(mDbAdapter, spnExpType, DBAdapter.TABLE_NAME_EXPENSETYPE, DBAdapter.WHERE_CONDITION_ISACTIVE, mExpTypeId, false, false);
         etName.setText(serviceArguments.getString(GPS_TRACK_ARGUMENT_NAME, ""));
         acUserComment.setText(serviceArguments.getString(GPS_TRACK_ARGUMENT_COMMENT, ""));
         acTag.setText(serviceArguments.getString(GPS_TRACK_ARGUMENT_TAG, null));

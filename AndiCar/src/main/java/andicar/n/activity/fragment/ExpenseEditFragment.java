@@ -419,7 +419,7 @@ public class ExpenseEditFragment extends BaseEditFragment {
     @Override
     protected void initSpecificControls() {
         ArrayAdapter<String> mBPartnerAdapter;
-        mUOMId = Utils.initSpinner(mDbAdapter, spnUOM, DBAdapter.TABLE_NAME_UOM, DBAdapter.WHERE_CONDITION_ISACTIVE, mUOMId, true);
+        mUOMId = Utils.initSpinner(mDbAdapter, spnUOM, DBAdapter.TABLE_NAME_UOM, DBAdapter.WHERE_CONDITION_ISACTIVE, mUOMId, mRowId > 0, true);
         //setup bpartner adapter
         mBPartnerAdapter = null;
         if (getContext() != null) {

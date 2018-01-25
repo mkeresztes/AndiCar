@@ -1717,34 +1717,6 @@ import andicar.n.utils.FileUtils;
     }
 
     /**
-     * check if only one active record exist in a given table
-     *
-     * @param table the table where we look
-     * @return if one record exists the id of the record, otherwise -1
-     */
-    public long isSingleActiveRecord(String table) {
-        String selectSql;
-        Cursor selectCursor;
-        long retVal = -1;
-
-        //if max == min => one single record
-        //@formatter:off
-        selectSql = " SELECT MAX(" + DBAdapter.COL_NAME_GEN_ROWID + "), MIN(" + DBAdapter.COL_NAME_GEN_ROWID + ") " +
-                " FROM " + table +
-                " WHERE " + DBAdapter.COL_NAME_GEN_ISACTIVE + "='Y' ";
-        //@formatter:on
-
-        selectCursor = execSelectSql(selectSql, null);
-        if (selectCursor.moveToFirst()) {
-            if (selectCursor.getLong(0) == selectCursor.getLong(1)) { // one single active record
-                retVal = selectCursor.getLong(0);
-            }
-        }
-        selectCursor.close();
-        return retVal;
-    }
-
-    /**
      * @return the first record ID
      */
     public long getFirstActiveID(String table, String optionalWhere, @SuppressWarnings("SameParameterValue") String orderBy) {

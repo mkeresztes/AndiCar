@@ -89,7 +89,7 @@ public class BTCarLinkFragment extends BaseEditFragment {
                         " AND " + DBAdapter.COL_NAME_BTDEVICECAR__CAR_ID + " != " + mCarId + " )";
         //@formatter:on
 
-        mCarId = Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, DBAdapter.WHERE_CONDITION_ISACTIVE + extraWhere, mCarId, false);
+        mCarId = Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, DBAdapter.WHERE_CONDITION_ISACTIVE + extraWhere, mCarId, false, false);
 
         BluetoothAdapter mBtAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mRowId < 0) {
