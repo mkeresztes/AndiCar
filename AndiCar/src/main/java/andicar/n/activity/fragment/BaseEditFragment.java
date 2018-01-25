@@ -519,10 +519,10 @@ public abstract class BaseEditFragment extends Fragment {
 
         if (spnExpType != null) {
             mExpTypeId = Utils.initSpinner(mDbAdapter, spnExpType, DBAdapter.TABLE_NAME_EXPENSETYPE, DBAdapter.WHERE_CONDITION_ISACTIVE, mExpTypeId, mRowId > 0, false);
-            if (spnExpType.getAdapter().getCount() == 1 && lExpTypeZone != null)
-                lExpTypeZone.setVisibility(View.GONE);
-            else if (lExpTypeZone != null)
-                lExpTypeZone.setVisibility(View.VISIBLE);
+//            if (spnExpType.getAdapter().getCount() == 1 && lExpTypeZone != null)
+//                lExpTypeZone.setVisibility(View.GONE);
+//            else if (lExpTypeZone != null)
+//                lExpTypeZone.setVisibility(View.VISIBLE);
         }
 
         initSpnExpCatOrFuelType();
@@ -663,10 +663,10 @@ public abstract class BaseEditFragment extends Fragment {
                         DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", mExpCatOrFuelTypeId, mRowId > 0, false);
             }
 
-            if (spnExpCatOrFuelType.getAdapter().getCount() == 1 && lExpCatFuelTypeZone != null)
-                lExpCatFuelTypeZone.setVisibility(View.GONE);
-            else if (lExpCatFuelTypeZone != null)
-                lExpCatFuelTypeZone.setVisibility(View.VISIBLE);
+//            if (spnExpCatOrFuelType.getAdapter().getCount() == 1 && lExpCatFuelTypeZone != null)
+//                lExpCatFuelTypeZone.setVisibility(View.GONE);
+//            else if (lExpCatFuelTypeZone != null)
+//                lExpCatFuelTypeZone.setVisibility(View.VISIBLE);
         }
     }
 
