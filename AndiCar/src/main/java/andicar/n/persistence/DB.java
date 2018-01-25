@@ -46,6 +46,8 @@ import andicar.n.utils.Utils;
  */
 @SuppressWarnings({"unused", "SpellCheckingInspection", "WeakerAccess"})
 public class DB {
+    private static final String TAG = "DBAdapter";
+
     //@formatter:off
 
     // drivers
@@ -94,6 +96,16 @@ public class DB {
      * links between bluetooth devices and cars
      */
     public static final String TABLE_NAME_BTDEVICE_CAR = "AO_BTDEVICE_CAR";
+
+    //used in MainActivity to prevent multiple display of the same message. the message id is in the "Name" column.
+    public static final String TABLE_NAME_DISPLAYED_MESSAGES = "MSG_DISPLAYED_MESSAGES";
+    /**
+     * mappings:
+     *  Name -> message title
+     *  UserComment -> message body
+     */
+    public static final String TABLE_NAME_MESSAGES = "MSG_MESSAGES";
+
     // column names. Some is general (GEN_) some is particular
     // generic columns must be first and must be created for ALL TABLES
     public static final String COL_NAME_GEN_ROWID = "_id";
@@ -313,6 +325,14 @@ public class DB {
      * if this to-do is done {Y|N}
      */
     public static final String COL_NAME_TODO__ISDONE = "IsDone";
+    /**
+     * the date when this to-do was done
+     */
+    private static final String COL_NAME_TODO__DONEDATE = "DoneDate";
+    /**
+     * stop the notification for this to-do, even if is not done
+     */
+    private static final String COL_NAME_TODO__ISSTOPNOTIFICATION = "IsStopNotification";
 
     public static final String COL_NAME_TASK_CAR__TASK_ID = TABLE_NAME_TASK + "_ID";
     public static final String COL_NAME_TASK_CAR__CAR_ID = TABLE_NAME_CAR + "_ID";
@@ -337,6 +357,12 @@ public class DB {
 
     public static final String COL_NAME_BTDEVICECAR__MACADDR = "DeviceMACAddress";
     public static final String COL_NAME_BTDEVICECAR__CAR_ID = TABLE_NAME_CAR + "_ID";
+
+    public static final String COL_NAME_MESSAGES_MSG_ID = "MessageID";
+    public static final String COL_NAME_MESSAGES_MSG_DATE = "MessageDate";
+    public static final String COL_NAME_MESSAGES_MSG_STARRED = "IsStarred";
+
+
     // column positions. Some is general (GEN_) some is particular
     // generic columns must be first and must be created for ALL TABLES
     public static final int COL_POS_GEN_ROWID = 0;
@@ -506,6 +532,10 @@ public class DB {
     public static final int COL_POS_BTDEVICECAR__MACADDR = 4;
     public static final int COL_POS_BTDEVICECAR__CAR_ID = 5;
 
+    public static final int COL_POS_MESSAGES_MSG_ID = 4;
+    public static final int COL_POS_MESSAGES_MSG_DATE = 5;
+    public static final int COL_POS_MESSAGES_MSG_STARRED = 6;
+
     public static final String[] COL_LIST_DRIVER_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT,
             COL_NAME_DRIVER__LICENSE_NO};
     public static final String[] COL_LIST_CAR_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT,
@@ -577,19 +607,15 @@ public class DB {
             COL_NAME_GEN_USER_COMMENT, COL_NAME_DATATEMPLATEVALUES__TEMPLATE_ID, COL_NAME_DATATEMPLATEVALUES__VALUE};
     public static final String[] COL_LIST_BTDEVICECAR_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE,
             COL_NAME_GEN_USER_COMMENT, COL_NAME_BTDEVICECAR__MACADDR, COL_NAME_BTDEVICECAR__CAR_ID};
-    public static final String WHERE_CONDITION_ISACTIVE = " AND " + COL_NAME_GEN_ISACTIVE + "='Y' ";
-    private static final String TAG = "DBAdapter";
-    /**
-     * the date when this to-do was done
-     */
-    private static final String COL_NAME_TODO__DONEDATE = "DoneDate";
-    /**
-     * stop the notification for this to-do, even if is not done
-     */
-    private static final String COL_NAME_TODO__ISSTOPNOTIFICATION = "IsStopNotification";
     public static final String[] COL_LIST_TODO_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT,
             COL_NAME_TODO__TASK_ID, COL_NAME_TODO__CAR_ID, COL_NAME_TODO__DUEDATE, COL_NAME_TODO__DUEMILEAGE, COL_NAME_TODO__NOTIFICATIONDATE,
             COL_NAME_TODO__NOTIFICATIONMILEAGE, COL_NAME_TODO__ISDONE, COL_NAME_TODO__DONEDATE, COL_NAME_TODO__ISSTOPNOTIFICATION};
+
+    public static final String[] COL_LIST_DISPLAYED_MESSAGES_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT};
+    public static final String[] COL_LIST_MESSAGES_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT,
+            COL_NAME_MESSAGES_MSG_ID, COL_NAME_MESSAGES_MSG_DATE, COL_NAME_MESSAGES_MSG_STARRED};
+
+    public static final String WHERE_CONDITION_ISACTIVE = " AND " + COL_NAME_GEN_ISACTIVE + "='Y' ";
     /**
      * Database creation sql statements
      */
