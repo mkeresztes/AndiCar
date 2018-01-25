@@ -165,7 +165,7 @@ public class SearchDialogFragment extends DialogFragment {
         mCarId = mSearchArgs.getLong(CAR_ID_KEY, -1);
 
         if (mSearchType == SEARCH_TYPE_TODO) {
-            Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, DBAdapter.WHERE_CONDITION_ISACTIVE +
+            mCarId = Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, DBAdapter.WHERE_CONDITION_ISACTIVE +
                     " OR (" + DBAdapter.COL_NAME_GEN_ROWID + " IN (SELECT " + DBAdapter.COL_NAME_TODO__CAR_ID +
                     " FROM " + DBAdapter.TABLE_NAME_TODO +
                     " WHERE " + DBAdapter.COL_NAME_TODO__ISDONE + " = 'N'))", mCarId, true);
@@ -177,7 +177,7 @@ public class SearchDialogFragment extends DialogFragment {
             lTagZone.setVisibility(View.GONE);
         }
         else {
-            Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, null, mCarId, true);
+            mCarId = Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, null, mCarId, true);
             Utils.initSpinner(mDbAdapter, spnExpType, DBAdapter.TABLE_NAME_EXPENSETYPE, null, mSearchArgs.getLong(TYPE_ID_KEY, -1), true);
             if (mSearchType == SEARCH_TYPE_MILEAGE || mSearchType == SEARCH_TYPE_GPS_TRACK) {
                 lExpCatZone.setVisibility(View.GONE);

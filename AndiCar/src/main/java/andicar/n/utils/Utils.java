@@ -429,12 +429,25 @@ public class Utils {
         }
     }
 
-    public static void initSpinner(DBAdapter dbAdapter, View pSpinner,
+    /**
+     * Fills the spinner with values from database
+     *
+     * @param dbAdapter     an open database adapter
+     * @param pSpinner      target spinner
+     * @param tableName     fill from this table
+     * @param selection     where clause
+     * @param selectedId    set the spinner selected item to this id
+     * @param addEmptyValue add an empty value on the first position with id = -1
+     * @return returns the selectedId if is exists in the selection. If not, returns the id of the current selected item.
+     */
+    public static long initSpinner(DBAdapter dbAdapter, View pSpinner,
                                    String tableName, String selection, long selectedId, boolean addEmptyValue) {
-        try {
-            Spinner spnCurrentSpinner = (Spinner) pSpinner;
-            spnCurrentSpinner.setTag(ConstantValues.IS_INITIALIZATION_IN_PROGRESS_TAG);
 
+        boolean selectedIDExists = false;
+        Spinner spnCurrentSpinner = (Spinner) pSpinner;
+        spnCurrentSpinner.setTag(ConstantValues.IS_INITIALIZATION_IN_PROGRESS_TAG);
+
+        try {
             Cursor dbcRecordCursor;
             //@formatter:off
             if (addEmptyValue) {
@@ -461,7 +474,7 @@ public class Utils {
             //@formatter:on
 
             if (dbcRecordCursor == null)
-                return;
+                return -1;
 
             List<String> recordsList = new ArrayList<>();
             while (dbcRecordCursor.moveToNext()) {
@@ -477,15 +490,24 @@ public class Utils {
                 for (int i = 0; i < dbcRecordCursor.getCount(); i++) {
                     if (dbcRecordCursor.getLong(DBAdapter.COL_POS_GEN_ROWID) == selectedId) {
                         spnCurrentSpinner.setSelection(i);
+                        selectedIDExists = true;
                         break;
                     }
                     dbcRecordCursor.moveToNext();
                 }
-            }
+            } else
+                selectedIDExists = true;
+
             dbcRecordCursor.close();
+
+            if (selectedIDExists)
+                return selectedId;
+            else
+                return dbAdapter.getIdByName(tableName, spnCurrentSpinner.getSelectedItem().toString());
         }
         catch (Exception e) {
             Utils.showReportableErrorDialog(pSpinner.getContext(), AndiCar.getAppResources().getString(R.string.error_sorry), e.getMessage(), e);
+            return -1;
         }
     }
 
