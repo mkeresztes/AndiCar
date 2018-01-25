@@ -457,7 +457,7 @@ public class RefuelEditFragment extends BaseEditFragment {
     }
 
     private void initSpnUomFuel() {
-        Utils.initSpinner(mDbAdapter, spnUomFuel, DBAdapter.TABLE_NAME_UOM,
+        mUOMFuelId = Utils.initSpinner(mDbAdapter, spnUomFuel, DBAdapter.TABLE_NAME_UOM,
                 DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " +
                         DBAdapter.COL_NAME_UOM__UOMTYPE + " = '" + mDbAdapter.getFuelUOMType(mExpCatOrFuelTypeId) + "'", mUOMFuelId, false);
 //                        DBAdapter.COL_NAME_UOM__UOMTYPE + " = '" + ConstantValues.UOM_TYPE_VOLUME_CODE + "'", mUOMFuelId, false);
@@ -786,7 +786,7 @@ public class RefuelEditFragment extends BaseEditFragment {
             mCarDefaultCurrencyId = mCurrencyId;
             mCarDefaultCurrencyCode = mDbAdapter.getCurrencyCode(mCarDefaultCurrencyId);
             setCurrencyConversionRate(null);
-            Utils.initSpinner(mDbAdapter, spnCurrency, DBAdapter.TABLE_NAME_CURRENCY, DBAdapter.WHERE_CONDITION_ISACTIVE, mCurrencyId, false);
+            mCurrencyId = Utils.initSpinner(mDbAdapter, spnCurrency, DBAdapter.TABLE_NAME_CURRENCY, DBAdapter.WHERE_CONDITION_ISACTIVE, mCurrencyId, false);
 
             setConversionRateVisibility(false);
             calculatePriceAmount();

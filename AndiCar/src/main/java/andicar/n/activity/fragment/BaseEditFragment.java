@@ -510,12 +510,12 @@ public abstract class BaseEditFragment extends Fragment {
             }
             else {
                 lCarZone.setVisibility(View.VISIBLE);
-                Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, DBAdapter.WHERE_CONDITION_ISACTIVE, mCarId, false);
+                mCarId = Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, DBAdapter.WHERE_CONDITION_ISACTIVE, mCarId, false);
             }
         }
         else {
             if (spnCar != null) {
-                Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, DBAdapter.WHERE_CONDITION_ISACTIVE, mCarId, false);
+                mCarId = Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, DBAdapter.WHERE_CONDITION_ISACTIVE, mCarId, false);
             }
         }
         if (lDriverZone != null) {
@@ -526,12 +526,12 @@ public abstract class BaseEditFragment extends Fragment {
             }
             else {
                 lDriverZone.setVisibility(View.VISIBLE);
-                Utils.initSpinner(mDbAdapter, spnDriver, DBAdapter.TABLE_NAME_DRIVER, DBAdapter.WHERE_CONDITION_ISACTIVE, mDriverId, false);
+                mDriverId = Utils.initSpinner(mDbAdapter, spnDriver, DBAdapter.TABLE_NAME_DRIVER, DBAdapter.WHERE_CONDITION_ISACTIVE, mDriverId, false);
             }
         }
         else {
             if (spnDriver != null) {
-                Utils.initSpinner(mDbAdapter, spnDriver, DBAdapter.TABLE_NAME_DRIVER, DBAdapter.WHERE_CONDITION_ISACTIVE, mDriverId, false);
+                mDriverId = Utils.initSpinner(mDbAdapter, spnDriver, DBAdapter.TABLE_NAME_DRIVER, DBAdapter.WHERE_CONDITION_ISACTIVE, mDriverId, false);
             }
         }
 
@@ -543,19 +543,19 @@ public abstract class BaseEditFragment extends Fragment {
             }
             else {
                 lExpTypeZone.setVisibility(View.VISIBLE);
-                Utils.initSpinner(mDbAdapter, spnExpType, DBAdapter.TABLE_NAME_EXPENSETYPE, DBAdapter.WHERE_CONDITION_ISACTIVE, mExpTypeId, false);
+                mExpTypeId = Utils.initSpinner(mDbAdapter, spnExpType, DBAdapter.TABLE_NAME_EXPENSETYPE, DBAdapter.WHERE_CONDITION_ISACTIVE, mExpTypeId, false);
             }
         }
         else {
             if (spnExpType != null) {
-                Utils.initSpinner(mDbAdapter, spnExpType, DBAdapter.TABLE_NAME_EXPENSETYPE, DBAdapter.WHERE_CONDITION_ISACTIVE, mExpTypeId, false);
+                mExpTypeId = Utils.initSpinner(mDbAdapter, spnExpType, DBAdapter.TABLE_NAME_EXPENSETYPE, DBAdapter.WHERE_CONDITION_ISACTIVE, mExpTypeId, false);
             }
         }
 
         initSpnExpCatOrFuelType();
 
         if (spnCurrency != null) {
-            Utils.initSpinner(mDbAdapter, spnCurrency, DBAdapter.TABLE_NAME_CURRENCY,
+            mCurrencyId = Utils.initSpinner(mDbAdapter, spnCurrency, DBAdapter.TABLE_NAME_CURRENCY,
                     DBAdapter.WHERE_CONDITION_ISACTIVE, mCurrencyId, false);
         }
 
@@ -684,7 +684,7 @@ public abstract class BaseEditFragment extends Fragment {
             else {
                 lExpCatFuelTypeZone.setVisibility(View.VISIBLE);
                 if (this instanceof CarEditFragment) {
-                    Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
+                    mExpCatOrFuelTypeId = Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
                             DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mExpCatOrFuelTypeId, false);
                 }
                 else if (this instanceof RefuelEditFragment) {
@@ -700,22 +700,22 @@ public abstract class BaseEditFragment extends Fragment {
                                 " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " = '" + mDbAdapter.getCarFuelUOMType(mCarId, true) + "' AND " +
                                 "UPPER(" + DBAdapter.COL_NAME_GEN_NAME + ") <> UPPER('" + getString(R.string.DB_FuelType_LPG) + "')";
                     }
-                    Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
+                    mExpCatOrFuelTypeId = Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
                             selection, mExpCatOrFuelTypeId, false);
                 }
                 else {
-                    Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
+                    mExpCatOrFuelTypeId = Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
                             DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", mExpCatOrFuelTypeId, false);
                 }
             }
         }
         else if (spnExpCatOrFuelType != null) {
             if (this instanceof RefuelEditFragment) {
-                Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
+                mExpCatOrFuelTypeId = Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
                         DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mExpCatOrFuelTypeId, false);
             }
             else {
-                Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
+                mExpCatOrFuelTypeId = Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
                         DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", mExpCatOrFuelTypeId, false);
             }
         }
@@ -883,7 +883,7 @@ public abstract class BaseEditFragment extends Fragment {
             actionDone(false);
             initDefaultValues();
             if (spnCurrency != null) {
-                Utils.initSpinner(mDbAdapter, spnCurrency, DBAdapter.TABLE_NAME_CURRENCY,
+                mCurrencyId = Utils.initSpinner(mDbAdapter, spnCurrency, DBAdapter.TABLE_NAME_CURRENCY,
                         DBAdapter.WHERE_CONDITION_ISACTIVE, mCurrencyId, false);
             }
             showDateTime();
