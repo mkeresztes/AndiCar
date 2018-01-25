@@ -117,7 +117,7 @@ public class UOMConversionEditFragment extends BaseEditFragment {
         });
 
         mUOMFromId = Utils.initSpinner(mDbAdapter, spnUomFrom, DBAdapter.TABLE_NAME_UOM,
-                DBAdapter.WHERE_CONDITION_ISACTIVE, mUOMFromId, false);
+                DBAdapter.WHERE_CONDITION_ISACTIVE, mUOMFromId, mRowId > 0, false);
         spnUomFrom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -133,7 +133,7 @@ public class UOMConversionEditFragment extends BaseEditFragment {
 
                 mUOMToId = Utils.initSpinner(mDbAdapter, spnUomTo, DBAdapter.TABLE_NAME_UOM,
                         DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_UOM__UOMTYPE + "='" + mUOMFromType + "' " + " AND " + DBAdapter.COL_NAME_GEN_ROWID + " <> " + mUOMFromId,
-                        mUOMToId, false);
+                        mUOMToId, mRowId > 0, false);
             }
 
             @Override

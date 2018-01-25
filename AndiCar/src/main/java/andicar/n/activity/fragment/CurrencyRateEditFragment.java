@@ -146,7 +146,8 @@ public class CurrencyRateEditFragment extends BaseEditFragment {
     @Override
     protected void initSpecificControls() {
         mCurrencyToId = Utils.initSpinner(mDbAdapter, spnCurrencyTo, DBAdapter.TABLE_NAME_CURRENCY,
-                DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_GEN_ROWID + " <> " + mCurrencyId, mCurrencyToId != mCurrencyId ? mCurrencyToId : -1, false);
+                DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_GEN_ROWID + " <> " + mCurrencyId,
+                mCurrencyToId != mCurrencyId ? mCurrencyToId : -1, mRowId > 0, false);
     }
 
     @Override
@@ -225,7 +226,8 @@ public class CurrencyRateEditFragment extends BaseEditFragment {
 
         tvCurrencyRateLabel.setText(String.format(getString(R.string.currency_rate_edit_rate_label), mDbAdapter.getCurrencyCode(mCurrencyId)));
         mCurrencyToId = Utils.initSpinner(mDbAdapter, spnCurrencyTo, DBAdapter.TABLE_NAME_CURRENCY,
-                DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_GEN_ROWID + " <> " + mCurrencyId, mCurrencyToId != mCurrencyId ? mCurrencyToId : -1, false);
+                DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_GEN_ROWID + " <> " + mCurrencyId,
+                mCurrencyToId != mCurrencyId ? mCurrencyToId : -1, mRowId > 0, false);
         calculateShowInverseRate();
     }
 

@@ -191,7 +191,7 @@ public class DataEntryTemplate {
             Utils.initSpinner(mDbAdapter, spnTemplate, DBAdapter.TABLE_NAME_DATA_TEMPLATE,
                     DBAdapter.WHERE_CONDITION_ISACTIVE + " AND "
                             + DBAdapter.COL_NAME_DATATEMPLATE__CLASS + " = '" + mActivityClass + "'", -1,
-                    true);
+                    false, true);
             spnTemplate.setOnTouchListener(mEditFragment.spinnerOnTouchListener);
 
             spnTemplate.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -308,7 +308,7 @@ public class DataEntryTemplate {
 
         Utils.initSpinner(mDbAdapter, spnTemplate, DBAdapter.TABLE_NAME_DATA_TEMPLATE,
                 DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_DATATEMPLATE__CLASS + " = '" + mActivityClass + "'",
-                newID, true);
+                newID, false, true);
     }
 
     private void fillFromTemplate(long templateID) {

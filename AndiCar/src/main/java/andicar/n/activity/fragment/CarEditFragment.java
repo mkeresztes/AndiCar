@@ -283,26 +283,28 @@ public class CarEditFragment extends BaseEditFragment {
 
         if (newId > 0) {
             setCurrencyId(newId);
-            mCurrencyId = Utils.initSpinner(mDbAdapter, spnCurrency, DBAdapter.TABLE_NAME_CURRENCY, DBAdapter.WHERE_CONDITION_ISACTIVE, mCurrencyId, false);
+            mCurrencyId = Utils.initSpinner(mDbAdapter, spnCurrency, DBAdapter.TABLE_NAME_CURRENCY, DBAdapter.WHERE_CONDITION_ISACTIVE,
+                    mCurrencyId, mRowId > 0, false);
         }
     }
 
     @Override
     protected void initSpecificControls() {
         mLengthUOMId = Utils.initSpinner(mDbAdapter, spnUOMLength, DBAdapter.TABLE_NAME_UOM,
-                DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_UOM__UOMTYPE + " = '" + ConstantValues.UOM_TYPE_LENGTH_CODE + "'", mLengthUOMId, false);
+                DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_UOM__UOMTYPE + " = '" + ConstantValues.UOM_TYPE_LENGTH_CODE + "'",
+                mLengthUOMId, mRowId > 0, false);
 
         mFuelUOMId = Utils.initSpinner(mDbAdapter, spnUOMFuel, DBAdapter.TABLE_NAME_UOM,
                 DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " +
                         DBAdapter.COL_NAME_UOM__UOMTYPE +
                         " IN ('" + ConstantValues.UOM_TYPE_VOLUME_CODE + "', '" + ConstantValues.UOM_TYPE_WEIGHT_CODE + "', '" + ConstantValues.UOM_TYPE_ENERGY_CODE + "')",
-                mFuelUOMId, false);
+                mFuelUOMId, mRowId > 0, false);
 
         mAltFuelUOMId = Utils.initSpinner(mDbAdapter, spnUOMAltFuel, DBAdapter.TABLE_NAME_UOM,
                 DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " +
                         DBAdapter.COL_NAME_UOM__UOMTYPE +
                         " IN ('" + ConstantValues.UOM_TYPE_VOLUME_CODE + "', '" + ConstantValues.UOM_TYPE_WEIGHT_CODE + "', '" + ConstantValues.UOM_TYPE_ENERGY_CODE + "')",
-                mAltFuelUOMId, false);
+                mAltFuelUOMId, mRowId > 0, false);
     }
 
     @SuppressLint("SetTextI18n")

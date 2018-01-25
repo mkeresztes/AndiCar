@@ -501,74 +501,41 @@ public abstract class BaseEditFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     protected void initCommonControls() {
         long checkID;
-        if (lCarZone != null) {
-            checkID = mDbAdapter.isSingleActiveRecord(DBAdapter.TABLE_NAME_CAR);
-            if (checkID > -1) { //one single car
-                if (mCarId != checkID && mRowId == -1)
-                    setCarId(checkID);
+        if (spnCar != null) {
+            mCarId = Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, DBAdapter.WHERE_CONDITION_ISACTIVE, mCarId, mRowId > 0, false);
+            if (spnCar.getAdapter().getCount() == 1 && lCarZone != null)
                 lCarZone.setVisibility(View.GONE);
-            }
-            else {
+            else if (lCarZone != null)
                 lCarZone.setVisibility(View.VISIBLE);
-                mCarId = Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, DBAdapter.WHERE_CONDITION_ISACTIVE, mCarId, false);
-            }
-        }
-        else {
-            if (spnCar != null) {
-                mCarId = Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, DBAdapter.WHERE_CONDITION_ISACTIVE, mCarId, false);
-            }
-        }
-        if (lDriverZone != null) {
-            checkID = mDbAdapter.isSingleActiveRecord(DBAdapter.TABLE_NAME_DRIVER);
-            if (checkID > -1) { //one single driver
-                setDriverId(checkID);
-                lDriverZone.setVisibility(View.GONE);
-            }
-            else {
-                lDriverZone.setVisibility(View.VISIBLE);
-                mDriverId = Utils.initSpinner(mDbAdapter, spnDriver, DBAdapter.TABLE_NAME_DRIVER, DBAdapter.WHERE_CONDITION_ISACTIVE, mDriverId, false);
-            }
-        }
-        else {
-            if (spnDriver != null) {
-                mDriverId = Utils.initSpinner(mDbAdapter, spnDriver, DBAdapter.TABLE_NAME_DRIVER, DBAdapter.WHERE_CONDITION_ISACTIVE, mDriverId, false);
-            }
         }
 
-        if (lExpTypeZone != null) {
-            checkID = mDbAdapter.isSingleActiveRecord(DBAdapter.TABLE_NAME_EXPENSETYPE);
-            if (checkID > -1) { //one single type
-                setExpTypeId(checkID);
-                lExpTypeZone.setVisibility(View.GONE);
-            }
-            else {
-                lExpTypeZone.setVisibility(View.VISIBLE);
-                mExpTypeId = Utils.initSpinner(mDbAdapter, spnExpType, DBAdapter.TABLE_NAME_EXPENSETYPE, DBAdapter.WHERE_CONDITION_ISACTIVE, mExpTypeId, false);
-            }
+        if (spnDriver != null) {
+            mDriverId = Utils.initSpinner(mDbAdapter, spnDriver, DBAdapter.TABLE_NAME_DRIVER, DBAdapter.WHERE_CONDITION_ISACTIVE, mDriverId, mRowId > 0, false);
+            if (spnDriver.getAdapter().getCount() == 1 && lDriverZone != null)
+                lDriverZone.setVisibility(View.GONE);
+            else if (lDriverZone != null)
+                lDriverZone.setVisibility(View.VISIBLE);
         }
-        else {
-            if (spnExpType != null) {
-                mExpTypeId = Utils.initSpinner(mDbAdapter, spnExpType, DBAdapter.TABLE_NAME_EXPENSETYPE, DBAdapter.WHERE_CONDITION_ISACTIVE, mExpTypeId, false);
-            }
+
+        if (spnExpType != null) {
+            mExpTypeId = Utils.initSpinner(mDbAdapter, spnExpType, DBAdapter.TABLE_NAME_EXPENSETYPE, DBAdapter.WHERE_CONDITION_ISACTIVE, mExpTypeId, mRowId > 0, false);
+            if (spnExpType.getAdapter().getCount() == 1 && lExpTypeZone != null)
+                lExpTypeZone.setVisibility(View.GONE);
+            else if (lExpTypeZone != null)
+                lExpTypeZone.setVisibility(View.VISIBLE);
         }
 
         initSpnExpCatOrFuelType();
 
         if (spnCurrency != null) {
             mCurrencyId = Utils.initSpinner(mDbAdapter, spnCurrency, DBAdapter.TABLE_NAME_CURRENCY,
-                    DBAdapter.WHERE_CONDITION_ISACTIVE, mCurrencyId, false);
+                    DBAdapter.WHERE_CONDITION_ISACTIVE, mCurrencyId, mRowId > 0, false);
         }
 
-//		if (acAddress != null)
-//			acAddress.setOnKeyListener(this);
-//		if (acBPartner != null)
-//			acBPartner.setOnKeyListener(this);
         if (acTag != null) {
-//            acTag.setOnKeyListener(this);
             setTagAdapter();
         }
         if (acUserComment != null) {
-//            acUserComment.setOnKeyListener(this);
             setUserCommentAdapter();
         }
 
@@ -674,50 +641,20 @@ public abstract class BaseEditFragment extends Fragment {
     }
 
     protected void initSpnExpCatOrFuelType() {
-        long checkID;
-        if (lExpCatFuelTypeZone != null) {
-            checkID = mDbAdapter.isSingleActiveRecord(DBAdapter.TABLE_NAME_EXPENSECATEGORY);
-            if (checkID > -1) { //one single type
-                setExpCatOrFuelTypeId(checkID);
-                lExpCatFuelTypeZone.setVisibility(View.GONE);
-            }
-            else {
-                lExpCatFuelTypeZone.setVisibility(View.VISIBLE);
-                if (this instanceof CarEditFragment) {
-                    mExpCatOrFuelTypeId = Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
-                            DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mExpCatOrFuelTypeId, false);
-                }
-                else if (this instanceof RefuelEditFragment) {
-                    //show only the fuel types with similar uom type as declared in the car UOM for fuel + the alternate fuel if the car is AFV (alternate fuel vehicle)
-                    String selection = DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y' ";
-                    if (mDbAdapter.isAFVCar(mCarId)) {
-                        selection = selection +
-                                " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " IN( '" + mDbAdapter.getCarFuelUOMType(mCarId, true) + "', '" +
-                                mDbAdapter.getCarFuelUOMType(mCarId, false) + "')";
-                    }
-                    else {
-                        selection = selection +
-                                " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__UOMTYPE + " = '" + mDbAdapter.getCarFuelUOMType(mCarId, true) + "' AND " +
-                                "UPPER(" + DBAdapter.COL_NAME_GEN_NAME + ") <> UPPER('" + getString(R.string.DB_FuelType_LPG) + "')";
-                    }
-                    mExpCatOrFuelTypeId = Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
-                            selection, mExpCatOrFuelTypeId, false);
-                }
-                else {
-                    mExpCatOrFuelTypeId = Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
-                            DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", mExpCatOrFuelTypeId, false);
-                }
-            }
-        }
-        else if (spnExpCatOrFuelType != null) {
+        if (spnExpCatOrFuelType != null) {
             if (this instanceof RefuelEditFragment) {
                 mExpCatOrFuelTypeId = Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
-                        DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mExpCatOrFuelTypeId, false);
+                        DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'Y'", mExpCatOrFuelTypeId, mRowId > 0, false);
             }
             else {
                 mExpCatOrFuelTypeId = Utils.initSpinner(mDbAdapter, spnExpCatOrFuelType, DBAdapter.TABLE_NAME_EXPENSECATEGORY,
-                        DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", mExpCatOrFuelTypeId, false);
+                        DBAdapter.WHERE_CONDITION_ISACTIVE + " AND " + DBAdapter.COL_NAME_EXPENSECATEGORY__ISFUEL + " = 'N'", mExpCatOrFuelTypeId, mRowId > 0, false);
             }
+            if (spnExpCatOrFuelType.getAdapter().getCount() == 1 && lExpCatFuelTypeZone != null)
+                lExpCatFuelTypeZone.setVisibility(View.GONE);
+            else if (lExpCatFuelTypeZone != null)
+                lExpCatFuelTypeZone.setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -884,7 +821,7 @@ public abstract class BaseEditFragment extends Fragment {
             initDefaultValues();
             if (spnCurrency != null) {
                 mCurrencyId = Utils.initSpinner(mDbAdapter, spnCurrency, DBAdapter.TABLE_NAME_CURRENCY,
-                        DBAdapter.WHERE_CONDITION_ISACTIVE, mCurrencyId, false);
+                        DBAdapter.WHERE_CONDITION_ISACTIVE, mCurrencyId, false, false);
             }
             showDateTime();
             showValuesInUI();
