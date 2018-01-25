@@ -550,7 +550,7 @@ public class RefuelEditFragment extends BaseEditFragment {
 
     @Override
     protected boolean saveData() {
-        if (mBaseUOMQty == null) {
+        if (mBaseUOMQty == null && !mDbAdapter.getUOMCode(mUOMFuelId).equals(mDefaultUOMVolumeCode)) {
             Utils.showNotReportableErrorDialog(getActivity(), getString(R.string.gen_error),
                     String.format(getString(R.string.error_126), mDbAdapter.getUOMCode(mUOMFuelId), mDefaultUOMVolumeCode));
             return false;
