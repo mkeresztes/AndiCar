@@ -226,7 +226,7 @@
     <string name="gen_quantity_label">Mennyiség:</string>
     <string name="gen_currency_label">Pénznem:</string>
     <string name="gen_rate_label">Árfolyam:</string>
-    <string name="gen_amount_label">Öszeg</string>
+    <string name="gen_amount_label">Összeg</string>
     <string name="gen_price_label">Ár:</string>
     <string name="gen_address">Cím:</string>
     <string name="gen_bpartner_address_info"><![CDATA[További részletek a Beállítások -> Pénzügyi beállítások -> Benzinkutak …]]></string>

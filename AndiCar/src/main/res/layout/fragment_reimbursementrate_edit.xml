@@ -147,7 +147,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:text="@string/gen_rate_label"/>
+                android:text="@string/gen_amount_label" />
 
             <EditText
                 android:id="@+id/etRate"
