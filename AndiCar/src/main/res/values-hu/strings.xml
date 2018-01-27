@@ -691,4 +691,5 @@
     <string name="error_123">Nincs hálózati kapcsolat. Nem lehet ellenőrizni a fiókot.</string>
     <string name="error_124">Elégtelen memória. Váltson át a Google Drive-ra (Beálítások -> Biztonsági mentés &amp; visszaállítás).</string>
     <string name="error_126">Nincs átváltási arány a két mértékegység között (%1s -> %2s).</string>
+    <string name="error_127">Az üzenet nem található!</string>
 </resources>

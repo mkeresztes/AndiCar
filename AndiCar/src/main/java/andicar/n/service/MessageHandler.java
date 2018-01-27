@@ -1,11 +1,12 @@
 package andicar.n.service;
 
-import android.util.Log;
+import android.content.ContentValues;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import andicar.n.utils.Utils;
+import andicar.n.persistence.DBAdapter;
+import andicar.n.utils.notification.AndiCarNotification;
 
 /**
  * Created by miki on 24.01.2018.
@@ -13,30 +14,29 @@ import andicar.n.utils.Utils;
 
 public class MessageHandler extends FirebaseMessagingService {
 
-    private static final String TAG = "AndiCar";
-
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        // TODO(developer): Handle FCM messages here.
-        // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
-        Log.d(TAG, "MessageId: " + remoteMessage.getMessageId());
-        Log.d(TAG, "MessageType: " + remoteMessage.getMessageType());
-        Log.d(TAG, "CollapseKey: " + remoteMessage.getCollapseKey());
-        Log.d(TAG, "To: " + remoteMessage.getTo());
-
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
-            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-            Utils.showMessageDialog(getApplicationContext(), remoteMessage.getMessageId(),
-                    remoteMessage.getData().get("andicar.msg_title"), remoteMessage.getData().get("andicar.msg_body"));
-        }
+            //save the message
+            ContentValues data = new ContentValues();
+            DBAdapter dbAdapter = new DBAdapter(this);
+            data.put(DBAdapter.COL_NAME_GEN_NAME, remoteMessage.getData().get("andicar.msg_title"));
+            data.put(DBAdapter.COL_NAME_GEN_USER_COMMENT, remoteMessage.getData().get("andicar.msg_body"));
+            data.put(DBAdapter.COL_NAME_MESSAGES__MESSAGE_ID, remoteMessage.getMessageId());
+            data.put(DBAdapter.COL_NAME_MESSAGES__DATE, System.currentTimeMillis() / 1000);
+            data.put(DBAdapter.COL_NAME_MESSAGES__IS_READ, "N");
+            data.put(DBAdapter.COL_NAME_MESSAGES__IS_STARRED, "N");
+            dbAdapter.createRecord(DBAdapter.TABLE_NAME_MESSAGES, data);
 
-        // Check if message contains a notification payload.
-        if (remoteMessage.getNotification() != null) {
-            //this is the message text from FB Console
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-            Log.d(TAG, "Message Notification Title: " + remoteMessage.getNotification().getTitle());
+            data.clear();
+            data.put(DBAdapter.COL_NAME_GEN_NAME, remoteMessage.getMessageId());
+            dbAdapter.createRecord(DBAdapter.TABLE_NAME_DISPLAYED_MESSAGES, data);
+
+            dbAdapter.close();
+
+//            Utils.showMessageDialog(getApplicationContext(), remoteMessage.getMessageId());
+            AndiCarNotification.showMessageNotification(getApplicationContext(), remoteMessage.getMessageId(), remoteMessage.getData().get("andicar.msg_title"));
         }
     }
 }

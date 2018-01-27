@@ -383,11 +383,9 @@ public class Utils {
         ctx.startActivity(intent);
     }
 
-    public static void showMessageDialog(Context ctx, String msgID, String title, String body) {
+    public static void showMessageDialog(Context ctx, String msgID) {
         Intent intent = new Intent(ctx, MessageDialog.class);
         intent.putExtra(MessageDialog.MSG_ID_KEY, msgID);
-        intent.putExtra(MessageDialog.MSG_TITLE_KEY, title);
-        intent.putExtra(MessageDialog.MSG_BODY_KEY, body);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         ctx.startActivity(intent);
     }

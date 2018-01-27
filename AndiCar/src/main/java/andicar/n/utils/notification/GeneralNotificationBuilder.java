@@ -40,8 +40,8 @@ import andicar.n.utils.Utils;
  */
 class GeneralNotificationBuilder extends Notification.Builder {
 
-    private static final String NOTIFICATION_CHANEL_GENERAL_ID = "generalNotifications";
-    private static final CharSequence NOTIFICATION_CHANEL_GENERAL_NAME = "AndiCar general notifications";
+    public static final String NOTIFICATION_CHANEL_GENERAL_ID = "generalNotifications";
+    public static final CharSequence NOTIFICATION_CHANEL_GENERAL_NAME = "AndiCar general notifications";
     /**
      * @param context           context
      * @param notificationType  : see AndiCarNotification class constants

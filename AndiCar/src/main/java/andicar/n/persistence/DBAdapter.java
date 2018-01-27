@@ -1587,6 +1587,12 @@ import andicar.n.utils.FileUtils;
         return retVal;
     }
 
+    /**
+     * returns the ID of a record for the given name
+     * @param tableName the table from the record is selected
+     * @param name the name of the record
+     * @return the ID of the record or -1 if not exists
+     */
     public long getIdByName(String tableName, String name) {
         String selection = COL_NAME_GEN_NAME + " = ?";
         String[] selectionArgs = {name};
@@ -1803,6 +1809,27 @@ import andicar.n.utils.FileUtils;
                 { retVal.add(new Pair<>(selectCursor.getLong(0), selectCursor.getString(1))); }
         }
 
+        selectCursor.close();
+        return retVal;
+    }
+
+    /**
+     * returns the _id for a given messageID
+     * @param messageId
+     * @return the _id if exists -1 otherwise
+     */
+    public long getMessageRowId(String messageId) {
+        String selectSql;
+        Cursor selectCursor;
+        long retVal = -1;
+        selectSql = " SELECT " + DBAdapter.COL_NAME_GEN_ROWID +
+                    " FROM " + DBAdapter.TABLE_NAME_MESSAGES +
+                    " WHERE " + DBAdapter.COL_NAME_MESSAGES__MESSAGE_ID + " = '" + messageId + "'";
+
+        selectCursor = execSelectSql(selectSql, null);
+        if (selectCursor.moveToFirst()) {
+            retVal = selectCursor.getLong(0);
+        }
         selectCursor.close();
         return retVal;
     }

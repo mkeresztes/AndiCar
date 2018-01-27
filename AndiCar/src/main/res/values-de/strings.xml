@@ -712,4 +712,6 @@
     <string name="error_123">Keine Netzwerk Verbindung. Das Konto kann nicht validiert werden.</string>
     <string name="error_124">Außerhalb des Speicherfehler. Bitte wechseln Sie das sichere Backup-Ziel auf Google Drive (Einstellungen -> Sichern &amp; Wiederherstellen).</string>
     <string name="error_126">Keine Umrechnungsrate von %1s nach %2s.</string>
+    <string name="error_127">Nachricht nicht gefunden!</string>
+
 </resources>

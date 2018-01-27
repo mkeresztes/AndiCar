@@ -21,6 +21,7 @@ package org.andicar2.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -231,8 +232,27 @@ public class MainActivity extends AppCompatActivity
 
 
         if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("google.message_id")) {
-            Utils.showMessageDialog(getApplicationContext(), getIntent().getExtras().getString("google.message_id"),
-                    getIntent().getExtras().getString("andicar.msg_title"), getIntent().getExtras().getString("andicar.msg_body"));
+            try{
+                DBAdapter db = new DBAdapter(this);
+                if(db.getIdByName(DB.TABLE_NAME_DISPLAYED_MESSAGES, getIntent().getExtras().getString("google.message_id")) < 0){ //new message
+                    ContentValues data = new ContentValues();
+                    data.put(DBAdapter.COL_NAME_GEN_NAME, getIntent().getExtras().getString("andicar.msg_title"));
+                    data.put(DBAdapter.COL_NAME_GEN_USER_COMMENT, getIntent().getExtras().getString("andicar.msg_body"));
+                    data.put(DBAdapter.COL_NAME_MESSAGES__MESSAGE_ID, getIntent().getExtras().getString("google.message_id"));
+                    data.put(DBAdapter.COL_NAME_MESSAGES__DATE, System.currentTimeMillis() / 1000);
+                    data.put(DBAdapter.COL_NAME_MESSAGES__IS_READ, "N");
+                    data.put(DBAdapter.COL_NAME_MESSAGES__IS_STARRED, "N");
+                    db.createRecord(DBAdapter.TABLE_NAME_MESSAGES, data);
+
+                    data.clear();
+                    data.put(DBAdapter.COL_NAME_GEN_NAME, getIntent().getExtras().getString("google.message_id"));
+                    db.createRecord(DBAdapter.TABLE_NAME_DISPLAYED_MESSAGES, data);
+
+                    Utils.showMessageDialog(getApplicationContext(), getIntent().getExtras().getString("google.message_id"));
+                }
+                db.close();
+            }
+            catch (Exception ignored){}
         }
 
         try {

@@ -35,6 +35,7 @@ public class AndiCarNotification {
 
     public static final int GPS_TRACKING_IN_PROGRESS_ID = 1;
     public static final int GPS_DISABLED_ID = 5;
+    @SuppressWarnings("WeakerAccess")
     public static final int GPS_OUT_OF_SERVICE_ID = 6;
     public static final int GPS_TRACKING_PAUSED_ID = 16;
 
@@ -92,4 +93,18 @@ public class AndiCarNotification {
 
         return notification;
     }
+
+    public static void showMessageNotification(Context context, String messageId, String title) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        MessageNotificationBuilder messageNotificationBuilder =
+                new MessageNotificationBuilder(context, notificationManager, messageId, title);
+
+        Notification n = messageNotificationBuilder.build();
+        n.flags |= Notification.FLAG_NO_CLEAR;
+        if (notificationManager != null) {
+            notificationManager.notify((int) System.currentTimeMillis(), n);
+        }
+    }
+
 }

@@ -97,7 +97,11 @@ public class DB {
      */
     public static final String TABLE_NAME_BTDEVICE_CAR = "AO_BTDEVICE_CAR";
 
-    //used in MainActivity to prevent multiple display of the same message. the message id is in the "Name" column.
+    /**
+     * used in MainActivity to prevent multiple display of the same message.
+     * mappings:
+     *  Name -> the message id
+     */
     public static final String TABLE_NAME_DISPLAYED_MESSAGES = "MSG_DISPLAYED_MESSAGES";
     /**
      * mappings:
@@ -358,9 +362,10 @@ public class DB {
     public static final String COL_NAME_BTDEVICECAR__MACADDR = "DeviceMACAddress";
     public static final String COL_NAME_BTDEVICECAR__CAR_ID = TABLE_NAME_CAR + "_ID";
 
-    public static final String COL_NAME_MESSAGES_MSG_ID = "MessageID";
-    public static final String COL_NAME_MESSAGES_MSG_DATE = "MessageDate";
-    public static final String COL_NAME_MESSAGES_MSG_STARRED = "IsStarred";
+    public static final String COL_NAME_MESSAGES__MESSAGE_ID = "MessageID";
+    public static final String COL_NAME_MESSAGES__DATE = "MessageDate";
+    public static final String COL_NAME_MESSAGES__IS_STARRED = "IsStarred";
+    public static final String COL_NAME_MESSAGES__IS_READ = "IsRead";
 
 
     // column positions. Some is general (GEN_) some is particular
@@ -532,9 +537,10 @@ public class DB {
     public static final int COL_POS_BTDEVICECAR__MACADDR = 4;
     public static final int COL_POS_BTDEVICECAR__CAR_ID = 5;
 
-    public static final int COL_POS_MESSAGES_MSG_ID = 4;
-    public static final int COL_POS_MESSAGES_MSG_DATE = 5;
-    public static final int COL_POS_MESSAGES_MSG_STARRED = 6;
+    public static final int COL_POS_MESSAGES__MESSAGE_ID = 4;
+    public static final int COL_POS_MESSAGES__DATE = 5;
+    public static final int COL_POS_MESSAGES__IS_STARRED = 6;
+    public static final int COL_POS_MESSAGES__IS_READ = 7;
 
     public static final String[] COL_LIST_DRIVER_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT,
             COL_NAME_DRIVER__LICENSE_NO};
@@ -613,7 +619,7 @@ public class DB {
 
     public static final String[] COL_LIST_DISPLAYED_MESSAGES_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT};
     public static final String[] COL_LIST_MESSAGES_TABLE = {COL_NAME_GEN_ROWID, COL_NAME_GEN_NAME, COL_NAME_GEN_ISACTIVE, COL_NAME_GEN_USER_COMMENT,
-            COL_NAME_MESSAGES_MSG_ID, COL_NAME_MESSAGES_MSG_DATE, COL_NAME_MESSAGES_MSG_STARRED};
+            COL_NAME_MESSAGES__MESSAGE_ID, COL_NAME_MESSAGES__DATE, COL_NAME_MESSAGES__IS_STARRED, COL_NAME_MESSAGES__IS_READ};
 
     public static final String WHERE_CONDITION_ISACTIVE = " AND " + COL_NAME_GEN_ISACTIVE + "='Y' ";
     /**
@@ -995,6 +1001,28 @@ public class DB {
                         COL_NAME_BTDEVICECAR__MACADDR + " TEXT NOT NULL, " +
                         COL_NAME_BTDEVICECAR__CAR_ID + " INTEGER NOT NULL " +
                     ");";
+
+    private static final String CREATE_SQL_DISPLAYED_MESSAGES_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_DISPLAYED_MESSAGES +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL" +
+                    ");";
+
+    private static final String CREATE_SQL_MESSAGES_TABLE =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME_MESSAGES +
+                    " ( " +
+                        COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME_GEN_NAME + " TEXT NOT NULL, " +
+                        COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+                        COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+                        COL_NAME_MESSAGES__MESSAGE_ID + " TEXT NULL," +
+                        COL_NAME_MESSAGES__DATE + " DATE NOT NULL, " +
+                        COL_NAME_MESSAGES__IS_STARRED + " TEXT DEFAULT 'N', " +
+                        COL_NAME_MESSAGES__IS_READ + " TEXT DEFAULT 'N' " +
+                    ");";
     //@formatter:on
 
     private final Context mCtx;
@@ -1126,6 +1154,8 @@ public class DB {
             createBTDeviceCarTable(db);
 
             createReimbursementCarRatesTable(db);
+
+            createMessageTables(db);
 
             // create indexes
             createIndexes(db);
@@ -1391,6 +1421,18 @@ public class DB {
             db.execSQL(CREATE_SQL_REIMBURSEMENT_CAR_RATES_TABLE);
         }
 
+        private void createMessageTables(SQLiteDatabase db) throws SQLException {
+            db.execSQL(CREATE_SQL_DISPLAYED_MESSAGES_TABLE);
+            db.execSQL("CREATE INDEX IF NOT EXISTS " + TABLE_NAME_DISPLAYED_MESSAGES + "_IX1 " + " ON " +
+                    TABLE_NAME_DISPLAYED_MESSAGES + " (" + COL_NAME_GEN_NAME + ")");
+
+            db.execSQL(CREATE_SQL_MESSAGES_TABLE);
+            db.execSQL("CREATE INDEX IF NOT EXISTS " + TABLE_NAME_MESSAGES + "_IX1 " + " ON " +
+                    TABLE_NAME_MESSAGES + " (" + COL_NAME_MESSAGES__DATE + " DESC )");
+            db.execSQL("CREATE INDEX IF NOT EXISTS " + TABLE_NAME_MESSAGES + "_IX2 " + " ON " +
+                    TABLE_NAME_MESSAGES + " (" + COL_NAME_MESSAGES__IS_READ + " ASC )");
+        }
+
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
@@ -1457,6 +1499,9 @@ public class DB {
             }
             else if (oldVersion == 503) {
                 upgradeDbTo510(db, oldVersion);
+            }
+            else if (oldVersion == 510) {
+                upgradeDbTo511(db, oldVersion);
             }
 
             // !!!!!!!!!!!!!!DON'T FORGET onCREATE !!!!!!!!!!!!!!!!
@@ -2226,6 +2271,12 @@ public class DB {
                 updSql = "ALTER TABLE " + TABLE_NAME_REFUEL + " ADD " + COL_NAME_REFUEL__ISALTERNATIVEFUEL + " TEXT DEFAULT 'N' ";
                 db.execSQL(updSql);
             }
+
+            upgradeDbTo511(db, oldVersion);
+        }
+
+        private void upgradeDbTo511(SQLiteDatabase db, int oldVersion) throws SQLException {
+            createMessageTables(db);
         }
 
         @SuppressWarnings("BooleanMethodIsAlwaysInverted")

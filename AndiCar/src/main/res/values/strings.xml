@@ -1006,4 +1006,5 @@
     <string name="error_124">Out of memory error. Please switch the secure backup destination to Google Drive (Settings -> Backup &amp; Restore).</string>
     <string name="error_125">This UOM can not be deleted because it is used in car definition(s).</string>
     <string name="error_126">No conversion rate from %1s to %2s.</string>
+    <string name="error_127">Message not found!</string>
 </resources>

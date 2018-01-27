@@ -690,4 +690,5 @@
     <string name="error_123">Nu există conexiune la rețea. Nu se poate valida contul.</string>
     <string name="error_124">Memorie insuficientă. Schimbați destinația la Google Drive (Setări -> Copie de siguranță &amp; restaurare date).</string>
     <string name="error_126">Nu există rată de conversie de la %1s la %2s.</string>
+    <string name="error_127">Mesajul nu a fost găsit!</string>
 </resources>
