@@ -3,8 +3,7 @@
     <string name="whats_new">
         <![CDATA[
         <br><b><i>Noutăţi în această versiune:</i></b><br><br>
-		* Suport pentru vehiculele cu combustibil alternativ (GPL, CNG, plugin-hibrid). Aceasta a necesitat rescrierea logicii ecranului de alimentări. Vă rog să mă contactați la adresa andicar.support@gmail.com dacă găsiți vreo problemă cu acest ecran. Mulțumesc.<br>
-		* Alte înbunătăţiri şi corecţii de erori.<br>
+		* Corecţie la selectarea tipurilor de combustibil.<br>
         <br>Mulţumesc că utilizezi <b><i>AndiCar</i></b>.<br><br>
         ]]>
     </string>
