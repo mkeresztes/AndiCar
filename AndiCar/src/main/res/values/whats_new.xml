@@ -3,8 +3,7 @@
     <string name="whats_new">
         <![CDATA[
         <br><b><i>Whats new in this version:</i></b><br><br>
-		* Support for alternative fuel (LPG, CNG, plugin-hybrid) vehicles. This required a rewrite of the fill-up screen logic. So, please contact me at andicar.support@gmail.com if you find any problem with this screen. Thanks.<br>
-		* Other enhancements and bug fixes.<br>
+		* Bug fix for fuel type selection.<br>
         <br>Thank you for using <b><i>AndiCar</i></b>.<br><br>
         ]]>
     </string>
