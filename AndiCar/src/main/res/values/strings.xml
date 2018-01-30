@@ -18,20 +18,12 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name" tools:ignore="MissingTranslation">AndiCar</string>
 
     <!-- _______________________________________ -->
 
     <!--not translated -->
     <!-- _______________________________________ -->
 
-
-    <string name="navigation_drawer_open" tools:ignore="MissingTranslation">Open navigation drawer</string>
-    <string name="navigation_drawer_close" tools:ignore="MissingTranslation">Close navigation drawer</string>
-    <string name="navigation_drawer_logo_description" tools:ignore="MissingTranslation">AndiCar logo</string>
-    <string name="navigation_drawer_expand_collapse_description" tools:ignore="MissingTranslation">Expand / Collapse menu</string>
-
-    <string name="content_description_dialog_icon" tools:ignore="MissingTranslation">DialogIcon</string>
 
     <!--APP_Activity_GPSTrackController-->
     <string name="activity_gps_track_controller">GPS Track controller</string>
@@ -841,9 +833,6 @@
     <string name="statistics_trip_by_car">Trips by cars:</string>
 
     <string name="progress_restoring_data">Restore in progress … </string>
-
-    <!--APP_Description-->
-    <string name="app_description" tools:ignore="MissingTranslation">Free and open source vehicle management software.</string>
 
     <!--LM_MAIN_ACTIVITY_SHORT_ABOUT-->
     <string name="app_short_about">

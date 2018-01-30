@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" tools:ignore="MissingTranslation">AndiCar</string>
+    <!--APP_Description-->
+    <string name="app_description" tools:ignore="MissingTranslation">Free and open source vehicle management software.</string>
+
+    <string name="navigation_drawer_open" tools:ignore="MissingTranslation">Open navigation drawer</string>
+    <string name="navigation_drawer_close" tools:ignore="MissingTranslation">Close navigation drawer</string>
+    <string name="navigation_drawer_logo_description" tools:ignore="MissingTranslation">AndiCar logo</string>
+    <string name="navigation_drawer_expand_collapse_description" tools:ignore="MissingTranslation">Expand / Collapse menu</string>
+
+    <string name="content_description_dialog_icon" tools:ignore="MissingTranslation">DialogIcon</string>
+
+
+    <!-- report file formats  -->
+    <string-array name="report_formats" tools:ignore="MissingTranslation">
+        <item>CSV</item>
+        <item>HTML</item>
+    </string-array>
+
+    <string-array name="todo_is_done_status">
+        <!--suppress CheckTagEmptyBody -->
+        <item></item>
+        <item>@string/gen_yes</item>
+        <item>@string/gen_no</item>
+    </string-array>
+
+    <!-- values in seconds -->
+    <string-array name="gpstrack_preference_min_time_values" tools:ignore="MissingTranslation">
+        <item>0</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>300</item>
+        <item>600</item>
+    </string-array>
+
+    <!-- values in meter -->
+    <string-array name="gpstrack_preference_max_accuracy_values" tools:ignore="MissingTranslation">
+        <item>10</item>
+        <item>20</item>
+        <item>50</item>
+        <item>100</item>
+        <item>250</item>
+        <item>500</item>
+        <item>9999999</item>
+    </string-array>
+
+    <string-array name="secure_backup_method_values" tools:ignore="MissingTranslation">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="bt_link_disconnect_values" tools:ignore="MissingTranslation">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="bt_link_connect_values" tools:ignore="MissingTranslation">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="pref_main_btn_add_values" tools:ignore="MissingTranslation">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="pref_main_zone_content_chooser_values" tools:ignore="MissingTranslation">
+        <item>DNU</item> <!--Do not use-->
+        <item>STS</item> <!--Statistics-->
+        <item>LTR</item> <!--Last trip-->
+        <item>LFU</item> <!--Last fill-up-->
+        <item>LEX</item> <!--Last expense-->
+        <item>LGT</item> <!--Last GPS Track-->
+        <item>CTR</item> <!--Trip charts-->
+        <item>CFQ</item> <!--Fill-ups charts (quantity)-->
+        <item>CFV</item> <!--Fill-ups charts (value)-->
+        <item>CEX</item> <!--Expense charts-->
+        <item>CFE</item> <!--Fuel efficiency-->
+        <item>CFC</item> <!--Fuel consumption-->
+        <item>CFP</item> <!--Fuel price evolution-->
+    </string-array>
+</resources>
