@@ -45,6 +45,10 @@
     <item android:title="@string/gen_other">
         <menu>
             <item
+                android:id="@+id/nav_messages"
+                android:icon="@drawable/ic_menu_message_black_24dp_pad4dp"
+                android:title="@string/gen_menu_messages"/>
+            <item
                 android:id="@+id/nav_settings"
                 android:icon="@drawable/ic_menu_settings_black"
                 android:title="@string/gen_settings"/>
