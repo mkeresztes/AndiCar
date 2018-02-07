@@ -74,6 +74,7 @@ public class AndiCar extends MultiDexApplication {
             //subscribe to Debug topic on FBMessaging
             FirebaseMessaging.getInstance().subscribeToTopic("Debug");
         }
+        FirebaseMessaging.getInstance().subscribeToTopic("General");
 
         AndiCar.appResources = getResources();
         AndiCar.appPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
