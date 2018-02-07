@@ -614,7 +614,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_trip || id == R.id.nav_refuel || id == R.id.nav_expense
-                || id == R.id.nav_gpstrack || id == R.id.nav_todo) {
+                || id == R.id.nav_gpstrack || id == R.id.nav_todo
+                || id == R.id.nav_messages) {
             showListActivity(id);
         }
         else if (id == R.id.nav_settings) {
@@ -711,6 +712,14 @@ public class MainActivity extends AppCompatActivity
             i.putExtra(CommonListActivity.SCROLL_TO_POSITION_KEY, 0);
             i.putExtra(CommonListActivity.IS_SHOW_SEARCH_MENU_KEY, true);
             i.putExtra(CommonListActivity.IS_SHOW_SHARE_MENU_KEY, true);
+            startActivity(i);
+        }
+        else if (id == R.id.nav_messages) {
+            Intent i = new Intent(MainActivity.this, CommonListActivity.class);
+            i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_MESSAGE);
+            i.putExtra(CommonListActivity.SCROLL_TO_POSITION_KEY, 0);
+            i.putExtra(CommonListActivity.IS_SHOW_SEARCH_MENU_KEY, true);
+            i.putExtra(CommonListActivity.IS_SHOW_SHARE_MENU_KEY, false);
             startActivity(i);
         }
     }

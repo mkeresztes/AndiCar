@@ -590,6 +590,7 @@
     <string name="activity_bt_starter_device_link_edit">"Link device to car"</string>
     <!--APP_Activity_TagEdit-->
     <string name="activity_tag_edit">Edit tag</string>
+    <string name="activity_messages">Messages</string>
 
     <!--CarEditActivity_ModelLabel-->
     <string name="car_edit_model_label">Model:</string>

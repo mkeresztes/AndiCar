@@ -21,6 +21,7 @@ package andicar.n.persistence.viewadapter;
 
 import android.annotation.SuppressLint;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -63,12 +64,22 @@ public class Simple3LineViewAdapter extends BaseViewAdapter {
             line2Content = String.format(line2Content, Utils.getFormattedDateTime(mCursor.getLong(4) * 1000, true), Utils.getFormattedDateTime(mCursor.getLong(5) * 1000, true),
                     Utils.numberToString(mCursor.getDouble(6), true, ConstantValues.DECIMALS_RATES, ConstantValues.ROUNDING_MODE_RATES));
         }
+        else if (mViewAdapterType == VIEW_ADAPTER_TYPE_MESSAGE) {
+            line2Content = Utils.getFormattedDateTime(mCursor.getLong(4) * 1000, false);
+            holder.isSecondLineBold = mCursor.getString(5).equals("N"); //unread message
+        }
 
         if (holder.mSecondLine != null) { //three line lists
             holder.mFirstLine.setText(line1Content);
             if (line2Content != null && line2Content.length() > 0) {
                 holder.mSecondLine.setVisibility(View.VISIBLE);
                 holder.mSecondLine.setText(line2Content);
+                if (holder.isSecondLineBold) {
+                    holder.mSecondLine.setTypeface(null, Typeface.BOLD);
+                }
+                else {
+                    holder.mSecondLine.setTypeface(null, Typeface.NORMAL);
+                }
             } else {
                 holder.mSecondLine.setVisibility(View.GONE);
             }

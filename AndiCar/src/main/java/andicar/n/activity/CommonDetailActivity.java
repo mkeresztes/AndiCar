@@ -40,6 +40,7 @@ import andicar.n.activity.fragment.ExpenseFuelCategoryEditFragment;
 import andicar.n.activity.fragment.ExpenseTypeEditFragment;
 import andicar.n.activity.fragment.GPSTrackControllerFragment;
 import andicar.n.activity.fragment.GPSTrackEditFragment;
+import andicar.n.activity.fragment.MessageViewFragment;
 import andicar.n.activity.fragment.MileageEditFragment;
 import andicar.n.activity.fragment.RefuelEditFragment;
 import andicar.n.activity.fragment.ReimbursementRateEditFragment;
@@ -286,6 +287,14 @@ public class CommonDetailActivity extends AppCompatActivity {
             else if (activityType == CommonListActivity.ACTIVITY_TYPE_TAG) {
                 setTitle(R.string.activity_tag_edit);
                 TagEditFragment fragment = new TagEditFragment();
+                fragment.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.item_detail_container, fragment)
+                        .commit();
+            }
+            else if (activityType == CommonListActivity.ACTIVITY_TYPE_MESSAGE) {
+                setTitle(R.string.activity_messages);
+                MessageViewFragment fragment = new MessageViewFragment();
                 fragment.setArguments(arguments);
                 getSupportFragmentManager().beginTransaction()
                         .add(R.id.item_detail_container, fragment)

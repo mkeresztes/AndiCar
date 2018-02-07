@@ -38,5 +38,9 @@
     <color name="todo_blue_text_color">#2962FF</color>
     <!--red 100-->
     <color name="main_activity_list_header_color">#FFCDD2</color>
+    <!--red 100-->
+    <color name="message_title_color">#FFCDD2</color>
+    <!--red 50-->
+    <color name="message_body_color">#FFEBEE</color>
 
 </resources>

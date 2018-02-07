@@ -52,6 +52,7 @@ import andicar.n.activity.fragment.ExpenseFuelCategoryEditFragment;
 import andicar.n.activity.fragment.ExpenseTypeEditFragment;
 import andicar.n.activity.fragment.GPSTrackControllerFragment;
 import andicar.n.activity.fragment.GPSTrackEditFragment;
+import andicar.n.activity.fragment.MessageViewFragment;
 import andicar.n.activity.fragment.MileageEditFragment;
 import andicar.n.activity.fragment.RefuelEditFragment;
 import andicar.n.activity.fragment.ReimbursementRateEditFragment;
@@ -96,6 +97,7 @@ public abstract class BaseViewAdapter
     public static final int VIEW_ADAPTER_TYPE_TASK = 33;
     public static final int VIEW_ADAPTER_TYPE_BT_CAR_LINK = 34;
     public static final int VIEW_ADAPTER_TYPE_TAG = 35;
+    public static final int VIEW_ADAPTER_TYPE_MESSAGE = 36;
     final AppCompatActivity mParentActivity;
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -361,6 +363,9 @@ public abstract class BaseViewAdapter
             else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TAG) {
                 fragment = new TagEditFragment();
             }
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_MESSAGE) {
+                fragment = new MessageViewFragment();
+            }
             else {
                 Utils.showReportableErrorDialog(ctx, ctx.getString(R.string.gen_error),
                         String.format(ctx.getString(R.string.error_113), this.getClass().toString()), null);
@@ -441,6 +446,9 @@ public abstract class BaseViewAdapter
             }
             else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TAG) {
                 intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_TAG);
+            }
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_MESSAGE) {
+                intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_MESSAGE);
             }
             else {
                 intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, 0);
@@ -574,6 +582,7 @@ public abstract class BaseViewAdapter
         final TextView mSecondLine;
         final TextView mThirdLine;
         long mRecordID;
+        boolean isSecondLineBold = false;
 
         DefaultViewHolder(View view) {
             super(view);

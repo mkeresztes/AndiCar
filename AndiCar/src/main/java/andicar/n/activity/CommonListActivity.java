@@ -105,6 +105,7 @@ public class CommonListActivity extends AppCompatActivity
     public static final int ACTIVITY_TYPE_TASK = 19;
     public static final int ACTIVITY_TYPE_BT_CAR_LINK = 20;
     public static final int ACTIVITY_TYPE_TAG = 21;
+    public static final int ACTIVITY_TYPE_MESSAGE = 22;
     private static final String LAST_SELECTED_ITEM_ID_KEY = "LastSelectedItemId";
     private static final String WHERE_CONDITION_FOR_DB_KEY = "WhereConditionsForFB";
     private static final String WHERE_CONDITION_FOR_SEARCH_INIT_KEY = "WhereConditionsForSearchInit";
@@ -420,6 +421,10 @@ public class CommonListActivity extends AppCompatActivity
                 mReportDb.setReportSql(DBReportAdapter.TAG_LIST_SELECT_NAME, mWhereConditionsForDB);
                 title = getString(R.string.pref_tag_title);
                 break;
+            case ACTIVITY_TYPE_MESSAGE:
+                mReportDb.setReportSql(DBReportAdapter.MESSAGE_LIST_SELECT_NAME, mWhereConditionsForDB);
+                title = getString(R.string.activity_messages);
+                break;
             default:
                 Utils.showReportableErrorDialog(this, "Unexpected error", "Unknown activity type: " + mActivityType, new Exception("Unknown activity type: " + mActivityType));
                 finish();
@@ -515,6 +520,10 @@ public class CommonListActivity extends AppCompatActivity
             case ACTIVITY_TYPE_TAG:
                 mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_TAG);
+                break;
+            case ACTIVITY_TYPE_MESSAGE:
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_MESSAGE);
                 break;
             default:
                 Utils.showReportableErrorDialog(this, "Unexpected error", "Unknown activity type: " + mActivityType, new Exception("Unknown activity type: " + mActivityType));

@@ -65,7 +65,7 @@ public class MessageDialog extends AppCompatActivity {
         });
 
 
-        tvTitle.setBackgroundResource(R.drawable.ui_message_header_shape);
+        tvTitle.setBackgroundResource(R.drawable.ui_message_title_shape);
         tvTitle.setText(c.getString(DBAdapter.COL_POS_GEN_NAME));
         tvBody.setMovementMethod(LinkMovementMethod.getInstance());
 

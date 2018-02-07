@@ -87,6 +87,7 @@ public class DBReportAdapter extends DBAdapter {
     public static final String TASK_LIST_SELECT_NAME = "taskListViewSelect";
     public static final String BT_CAR_LINK_LIST_SELECT_NAME = "btCarLinkListViewSelect";
     public static final String TAG_LIST_SELECT_NAME = "tagListViewSelect";
+    public static final String MESSAGE_LIST_SELECT_NAME = "messageListViewSelect";
     public static final String STATISTICS_SELECT_NAME = "statisticsMainViewSelect";
 
 
@@ -239,6 +240,18 @@ public class DBReportAdapter extends DBAdapter {
                     sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ISACTIVE) + " AS " + THIRD_LINE_LIST_NAME +
             " FROM " + TABLE_NAME_TAG +
             " ORDER BY " + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_ISACTIVE) + " DESC, lower(" + sqlConcatTableColumn(TABLE_NAME_TAG, COL_NAME_GEN_NAME) + ")";
+
+    private static final String messageListViewSelect =
+            "SELECT " +
+                    sqlConcatTableColumn(TABLE_NAME_MESSAGES, COL_NAME_GEN_ROWID) + ", " + //#0
+                    sqlConcatTableColumn(TABLE_NAME_MESSAGES, COL_NAME_GEN_NAME) + " AS " + FIRST_LINE_LIST_NAME + ", " + //#1
+                    "null AS " + SECOND_LINE_LIST_NAME + ", " + //#2
+                    "null AS " + THIRD_LINE_LIST_NAME + ", " + //#3
+                    sqlConcatTableColumn(TABLE_NAME_MESSAGES, COL_NAME_MESSAGES__DATE) + " AS MsgDate" + ", " +//#4
+                    sqlConcatTableColumn(TABLE_NAME_MESSAGES, COL_NAME_MESSAGES__IS_READ) + " AS IsRead " + //#5
+            " FROM " + TABLE_NAME_MESSAGES +
+            " ORDER BY " + sqlConcatTableColumn(TABLE_NAME_MESSAGES, COL_NAME_MESSAGES__IS_READ) + " ASC, " +
+                    sqlConcatTableColumn(TABLE_NAME_MESSAGES, COL_NAME_MESSAGES__DATE + " DESC");
 
     //used in main activity and mileage list activity
     private static final String mileageListViewSelect =
@@ -2020,6 +2033,9 @@ public class DBReportAdapter extends DBAdapter {
                 break;
             case TAG_LIST_SELECT_NAME:
                 reportSql = tagListViewSelect;
+                break;
+            case MESSAGE_LIST_SELECT_NAME:
+                reportSql = messageListViewSelect;
                 break;
             case STATISTICS_SELECT_NAME:
                 reportSql = statisticsMainViewSelect;
