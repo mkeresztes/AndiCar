@@ -31,9 +31,9 @@ import andicar.n.utils.Utils;
  * Created by Miklos Keresztes on 09.01.2017.
  */
 
-public class SettingsDefaultViewAdapter extends BaseViewAdapter {
+public class Simple3LineViewAdapter extends BaseViewAdapter {
 
-    public SettingsDefaultViewAdapter(Cursor cursor, AppCompatActivity parentActivity, boolean isTwoPane, int scrollToPosition, long lastSelectedItemId) {
+    public Simple3LineViewAdapter(Cursor cursor, AppCompatActivity parentActivity, boolean isTwoPane, int scrollToPosition, long lastSelectedItemId) {
         super(cursor, parentActivity, isTwoPane, scrollToPosition, lastSelectedItemId);
     }
 

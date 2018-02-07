@@ -63,7 +63,7 @@ import andicar.n.persistence.viewadapter.ExpenseViewAdapter;
 import andicar.n.persistence.viewadapter.GPSTrackViewAdapter;
 import andicar.n.persistence.viewadapter.MileageViewAdapter;
 import andicar.n.persistence.viewadapter.RefuelViewAdapter;
-import andicar.n.persistence.viewadapter.SettingsDefaultViewAdapter;
+import andicar.n.persistence.viewadapter.Simple3LineViewAdapter;
 import andicar.n.persistence.viewadapter.ToDoViewAdapter;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
@@ -457,63 +457,63 @@ public class CommonListActivity extends AppCompatActivity
                 mRecyclerViewAdapter = new ToDoViewAdapter(this, mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 break;
             case ACTIVITY_TYPE_CAR:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_CAR);
                 break;
             case ACTIVITY_TYPE_DRIVER:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_DRIVER);
                 break;
             case ACTIVITY_TYPE_UOM:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_UOM);
                 break;
             case ACTIVITY_TYPE_UOM_CONVERSION:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_UOM_CONVERSION);
                 break;
             case ACTIVITY_TYPE_EXPENSE_CATEGORY:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_EXPENSE_CATEGORY);
                 break;
             case ACTIVITY_TYPE_FUEL_TYPE:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_FUEL_TYPE);
                 break;
             case ACTIVITY_TYPE_EXPENSE_TYPE:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_EXPENSE_TYPE);
                 break;
             case ACTIVITY_TYPE_REIMBURSEMENT_RATE:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_REIMBURSEMENT_RATE);
                 break;
             case ACTIVITY_TYPE_CURRENCY:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_CURRENCY);
                 break;
             case ACTIVITY_TYPE_CURRENCY_RATE:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_CURRENCY_RATE);
                 break;
             case ACTIVITY_TYPE_BPARTNER:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_BPARTNER);
                 break;
             case ACTIVITY_TYPE_TASK_TYPE:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_TASK_TYPE);
                 break;
             case ACTIVITY_TYPE_TASK:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_TASK);
                 break;
             case ACTIVITY_TYPE_BT_CAR_LINK:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_BT_CAR_LINK);
                 break;
             case ACTIVITY_TYPE_TAG:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_TAG);
                 break;
             default:
