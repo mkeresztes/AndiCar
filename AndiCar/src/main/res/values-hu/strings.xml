@@ -264,6 +264,7 @@
     <string name="gen_current_index">Jelenlegi km állás:</string>
     <string name="gen_is_gas_station">Benzinkút</string>
     <string name="gen_menu_rate_app">Értékelje az alkalmazást</string>
+    <string name="gen_menu_messages">AndiCar üzenetek</string>
 
     <string name="mileage_draft_edit">Vázlat. Töltsd ki az érkezési adatokat, hogy befelyezd.</string>
     <string name="mileage_edit_option_mileage_label">Táv</string>

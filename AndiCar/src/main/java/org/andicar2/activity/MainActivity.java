@@ -288,6 +288,9 @@ public class MainActivity extends AppCompatActivity
         if (mNavigationView.getMenu().findItem(R.id.nav_rate) != null && Utils.isCanShowRateApp(this)) {
             mNavigationView.getMenu().findItem(R.id.nav_rate).setVisible(true);
         }
+        if (mNavigationView.getMenu().findItem(R.id.nav_messages) != null && Utils.isCanShowMessagesMenu(this)) {
+            mNavigationView.getMenu().findItem(R.id.nav_messages).setVisible(true);
+        }
 
         //
         // get the list of active cars from the database

@@ -490,7 +490,7 @@
     <string name="gen_is_gas_station">Is gas station</string>
 
     <string name="gen_menu_rate_app">Rate this app</string>
-    <string name="gen_menu_messages">Messages</string>
+    <string name="gen_menu_messages">Messages from AndiCar</string>
 
     <!--MileageEditActivity_OptionMileageLabel-->
     <string name="mileage_edit_option_mileage_label">Distance</string>

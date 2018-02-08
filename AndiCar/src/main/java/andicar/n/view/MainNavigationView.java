@@ -132,6 +132,9 @@ public class MainNavigationView extends android.support.design.widget.Navigation
             if (this.getMenu().findItem(R.id.nav_rate) != null && Utils.isCanShowRateApp(getContext())) {
                 this.getMenu().findItem(R.id.nav_rate).setVisible(true);
             }
+            if (this.getMenu().findItem(R.id.nav_messages) != null && Utils.isCanShowMessagesMenu(getContext())) {
+                this.getMenu().findItem(R.id.nav_messages).setVisible(true);
+            }
             mArrowIcon.setImageResource(R.drawable.ic_menu_drop_down_white);
             this.setMenuType(MENU_TYPE_PRIMARY);
         }
