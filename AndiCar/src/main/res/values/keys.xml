@@ -125,4 +125,6 @@
     <string name="pref_key_no_of_records_for_fuel_prices">no_of_records_for_fuel_prices</string>
     <string name="pref_key_selected_fuel_type_id_for_fuel_prices">selected_fuel_type_id_for_fuel_prices</string>
     <string name="pref_key_selected_fuel_type_name_for_fuel_prices">selected_fuel_type_name_for_fuel_prices</string>
+
+    <string name="pref_key_fb_message_token">firebase_message_token</string>
 </resources>

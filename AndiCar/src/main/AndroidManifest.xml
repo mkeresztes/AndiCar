@@ -243,11 +243,14 @@
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
-        <service android:name="andicar.n.service.MessageHandler">
+        <service android:name="andicar.n.service.FirebaseMessageHandler">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
+        <service
+            android:name="andicar.n.service.FirebaseTokenHandler"
+            android:enabled="true"/>
 
         <receiver
             android:name="andicar.n.broadcastreceiver.ServiceStarter"
