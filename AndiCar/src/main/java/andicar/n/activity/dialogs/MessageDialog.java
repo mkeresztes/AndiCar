@@ -29,6 +29,7 @@ public class MessageDialog extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setFinishOnTouchOutside(false);
+        setTitle("New message");
 
         setContentView(R.layout.dialog_message);
         TextView tvTitle = findViewById(R.id.tvTitle);
@@ -65,7 +66,7 @@ public class MessageDialog extends AppCompatActivity {
         });
 
 
-        tvTitle.setBackgroundResource(R.drawable.ui_message_title_shape);
+//        tvTitle.setBackgroundResource(R.drawable.ui_message_title_shape);
         tvTitle.setText(c.getString(DBAdapter.COL_POS_GEN_NAME));
         tvBody.setMovementMethod(LinkMovementMethod.getInstance());
 

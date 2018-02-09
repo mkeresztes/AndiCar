@@ -12,6 +12,12 @@
               android:paddingLeft="8dp"
               android:paddingRight="8dp">
 
+    <TextView
+        android:id="@+id/tvSeparatorH"
+        style="@style/AndiCarDialogButtonSeparatorView"
+        android:layout_marginTop="8dp"
+        />
+
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -21,7 +27,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="16dp">
+            android:paddingTop="8dp">
 
             <TextView
                 android:id="@+id/tvTitle"
@@ -32,7 +38,9 @@
                 android:paddingBottom="8dp"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:gravity="center_vertical|center_horizontal"/>
+                android:gravity="center_vertical|center_horizontal"
+                android:background="@drawable/ui_message_title_shape"
+                />
 
             <TextView
                 android:id="@+id/tvBody"
@@ -44,12 +52,13 @@
                 android:paddingBottom="8dp"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
+                android:background="@drawable/ui_message_body_shape"
                 />
         </LinearLayout>
     </ScrollView>
 
     <TextView
-        android:id="@+id/tvSeparator"
+        android:id="@+id/tvSeparatorF"
         style="@style/AndiCarDialogButtonSeparatorView"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/tvBody"/>

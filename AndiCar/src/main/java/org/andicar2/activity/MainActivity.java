@@ -721,7 +721,7 @@ public class MainActivity extends AppCompatActivity
             Intent i = new Intent(MainActivity.this, CommonListActivity.class);
             i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_MESSAGE);
             i.putExtra(CommonListActivity.SCROLL_TO_POSITION_KEY, 0);
-            i.putExtra(CommonListActivity.IS_SHOW_SEARCH_MENU_KEY, true);
+            i.putExtra(CommonListActivity.IS_SHOW_SEARCH_MENU_KEY, false);
             i.putExtra(CommonListActivity.IS_SHOW_SHARE_MENU_KEY, false);
             startActivity(i);
         }

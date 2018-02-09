@@ -74,10 +74,11 @@ public class MessageViewFragment extends BaseEditFragment {
     @Override
     protected void loadSpecificViewsFromLayoutXML() {
         tvTitle = mRootView.findViewById(R.id.tvTitle);
-        tvTitle.setBackgroundResource(R.drawable.ui_message_title_shape);
+//        tvTitle.setBackgroundResource(R.drawable.ui_message_title_shape);
         tvBody = mRootView.findViewById(R.id.tvBody);
-        tvBody.setBackgroundResource(R.drawable.ui_message_body_shape);
-        mRootView.findViewById(R.id.tvSeparator).setVisibility(View.GONE);
+//        tvBody.setBackgroundResource(R.drawable.ui_message_body_shape);
+        mRootView.findViewById(R.id.tvSeparatorH).setVisibility(View.GONE);
+        mRootView.findViewById(R.id.tvSeparatorF).setVisibility(View.GONE);
         mRootView.findViewById(R.id.llButtonBar).setVisibility(View.GONE);
     }
 

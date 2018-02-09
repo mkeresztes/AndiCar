@@ -308,6 +308,7 @@
     <string name="gen_is_gas_station">Ist Tankstelle</string>
     <string name="gen_menu_rate_app">Bewerte diese App</string>
     <string name="gen_menu_messages">Nachrichten von AndiCar</string>
+    <string name="gen_new_message">Neue Nachricht</string>
     <string name="gen_close">Schließen</string>
 
     <string name="mileage_edit_option_mileage_label">Entfernung</string>

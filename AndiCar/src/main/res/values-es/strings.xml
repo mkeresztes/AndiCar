@@ -312,6 +312,7 @@
     <string name="gen_is_gas_station">Es una gasolinera</string>
     <string name="gen_menu_rate_app">Califica esta aplicación</string>
     <string name="gen_menu_messages">Mensajes de AndiCar</string>
+    <string name="gen_new_message">Nuevo mensaje</string>
     <string name="gen_close">Cerca</string>
 
     <string name="mileage_edit_option_mileage_label">Distancia</string>

@@ -491,6 +491,7 @@
 
     <string name="gen_menu_rate_app">Rate this app</string>
     <string name="gen_menu_messages">Messages from AndiCar</string>
+    <string name="gen_new_message">New message</string>
 
     <!--MileageEditActivity_OptionMileageLabel-->
     <string name="mileage_edit_option_mileage_label">Distance</string>

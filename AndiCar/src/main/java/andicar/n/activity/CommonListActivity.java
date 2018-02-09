@@ -212,6 +212,39 @@ public class CommonListActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
+        setUpButtons();
+
+        // Show the Up button in the action bar only if the activity is not launched from the preference screen.
+        //The solution is to change dynamically the parent activity for up navigation
+        if (mActivityType == ACTIVITY_TYPE_REFUEL || mActivityType == ACTIVITY_TYPE_EXPENSE
+                || mActivityType == ACTIVITY_TYPE_MILEAGE || mActivityType == ACTIVITY_TYPE_TODO
+                || mActivityType == ACTIVITY_TYPE_GPS_TRACK) {
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
+        }
+
+        // The detail container view will be present only in the
+        // large-screen layouts (res/values-w900dp).
+        // If this view is present, then the
+        // activity should be in two-pane mode.
+        isTwoPane = findViewById(R.id.item_detail_container) != null;
+    }
+
+    private void setUpButtons() {
+        if (mActivityType == ACTIVITY_TYPE_MESSAGE) {
+            View llButtons = findViewById(R.id.llButtons);
+            if (llButtons != null) {
+                llButtons.setVisibility(View.GONE);
+            }
+            View separator = findViewById(R.id.separator);
+            if (separator != null) {
+                separator.setVisibility(View.GONE);
+            }
+            return;
+        }
+
         ImageButton btnAdd = findViewById(R.id.btnAdd);
         if (btnAdd != null) {
             btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -269,22 +302,6 @@ public class CommonListActivity extends AppCompatActivity
 //            if (btnCharts != null)
 //                btnCharts.setVisibility(View.GONE);
         }
-        // Show the Up button in the action bar only if the activity is not launched from the preference screen.
-        //The solution is to change dynamically the parent activity for up navigation
-        if (mActivityType == ACTIVITY_TYPE_REFUEL || mActivityType == ACTIVITY_TYPE_EXPENSE
-                || mActivityType == ACTIVITY_TYPE_MILEAGE || mActivityType == ACTIVITY_TYPE_TODO
-                || mActivityType == ACTIVITY_TYPE_GPS_TRACK) {
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-            }
-        }
-
-        // The detail container view will be present only in the
-        // large-screen layouts (res/values-w900dp).
-        // If this view is present, then the
-        // activity should be in two-pane mode.
-        isTwoPane = findViewById(R.id.item_detail_container) != null;
     }
 
     @Override
@@ -551,10 +568,15 @@ public class CommonListActivity extends AppCompatActivity
             inflater.inflate(R.menu.menu_share, menu);
         }
 
-        if (isTwoPane && mActivityType != ACTIVITY_TYPE_TODO) {
-            inflater.inflate(R.menu.menu_delete, menu);
-            inflater.inflate(R.menu.menu_edit, menu);
+        if (isTwoPane) {
+            if (mActivityType != ACTIVITY_TYPE_TODO) {
+                inflater.inflate(R.menu.menu_delete, menu);
+                if (mActivityType != ACTIVITY_TYPE_MESSAGE) {
+                    inflater.inflate(R.menu.menu_edit, menu);
+                }
+            }
         }
+
         if (isShowSearchMenu) {
             inflater.inflate(R.menu.menu_search, menu);
         }

@@ -267,6 +267,7 @@
     <string name="gen_is_gas_station">Este benzinărie</string>
     <string name="gen_menu_rate_app">Evaluați aplicația</string>
     <string name="gen_menu_messages">Mesaje de la AndiCar</string>
+    <string name="gen_new_message">Mesaj nou</string>
 
     <string name="mileage_draft_edit">Schiță. Completați datele de sosire pentru a termina.</string>
     <string name="mileage_edit_option_mileage_label">Distanţa</string>
