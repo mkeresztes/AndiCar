@@ -121,14 +121,14 @@ public class CarEditFragment extends BaseEditFragment {
         super.initDefaultValues();
 
         if (getContext() != null && getContext().getResources() != null) {
-            String locale;
+            String country;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                locale = getContext().getResources().getConfiguration().getLocales().get(0).getCountry();
+                country = getContext().getResources().getConfiguration().getLocales().get(0).getCountry();
             } else {
                 //noinspection deprecation
-                locale = getContext().getResources().getConfiguration().locale.getCountry();
+                country = getContext().getResources().getConfiguration().locale.getCountry();
             }
-            switch (locale) {
+            switch (country.toUpperCase()) {
                 case "US":
                     setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "USD"));
                     mLengthUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "mi");
