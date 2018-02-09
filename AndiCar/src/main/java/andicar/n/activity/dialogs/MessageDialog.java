@@ -29,7 +29,7 @@ public class MessageDialog extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setFinishOnTouchOutside(false);
-        setTitle("New message");
+        setTitle(R.string.gen_new_message);
 
         setContentView(R.layout.dialog_message);
         TextView tvTitle = findViewById(R.id.tvTitle);
