@@ -371,6 +371,7 @@
     <string name="activity_reimbursement_rate_edit">Rate editieren</string>
     <string name="activity_bt_starter_device_link_edit">Gerät mit Fahrzeug verbinden</string>
     <string name="activity_tag_edit">Tag editieren</string>
+    <string name="activity_messages">Mitteilungen</string>
 
     <string name="car_edit_model_label">Modell:</string>
     <string name="car_edit_license_plate_label">Kennzeichen:</string>

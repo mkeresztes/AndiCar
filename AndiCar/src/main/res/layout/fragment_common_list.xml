@@ -22,7 +22,8 @@
                                              xmlns:tools="http://schemas.android.com/tools"
                                              android:layout_width="match_parent"
                                              android:background="@android:color/white"
-                                             android:layout_height="match_parent">
+                                             android:layout_height="match_parent"
+                                             tools:ignore="Overdraw">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/item_list"
@@ -86,7 +87,8 @@
             app:layout_constraintStart_toStartOf="@id/llButtons"
             app:layout_constraintTop_toTopOf="@+id/btnAdd"
             app:srcCompat="@drawable/ic_button_info_selector"
-            android:layout_marginLeft="16dp"/>
+            android:layout_marginLeft="16dp"
+            android:contentDescription="@string/gen_statistics"/>
 
         <!--<ImageButton-->
         <!--android:id="@+id/btnCharts"-->

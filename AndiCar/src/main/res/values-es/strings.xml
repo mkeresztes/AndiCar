@@ -372,6 +372,7 @@
     <string name="activity_reimbursement_rate_edit">Editar tasa</string>
     <string name="activity_bt_starter_device_link_edit">Asociar dispositivo al automóvil</string>
     <string name="activity_tag_edit">Editar Etiqueta</string>
+    <string name="activity_messages">Mensajes</string>
 
     <string name="car_edit_model_label">Modelo:</string>
     <string name="car_edit_license_plate_label">Licencia:</string>

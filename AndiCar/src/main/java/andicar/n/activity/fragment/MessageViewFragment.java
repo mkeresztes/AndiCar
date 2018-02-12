@@ -39,9 +39,9 @@ import andicar.n.persistence.DBAdapter;
  */
 
 public class MessageViewFragment extends BaseEditFragment {
-    TextView tvTitle;
-    TextView tvBody;
-    private boolean isMessgeUnRead = false;
+    private TextView tvTitle;
+    private TextView tvBody;
+    private boolean isMessageUnRead = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class MessageViewFragment extends BaseEditFragment {
 
         mName = c.getString(DBAdapter.COL_POS_GEN_NAME);
         mUserComment = c.getString(DBAdapter.COL_POS_GEN_USER_COMMENT);
-        isMessgeUnRead = c.getString(DBAdapter.COL_POS_MESSAGES__IS_READ).equals("N");
+        isMessageUnRead = c.getString(DBAdapter.COL_POS_MESSAGES__IS_READ).equals("N");
         c.close();
     }
 
@@ -100,7 +100,7 @@ public class MessageViewFragment extends BaseEditFragment {
         }
 
         //mark the message as read
-        if (isMessgeUnRead) {
+        if (isMessageUnRead) {
             ContentValues cvData = new ContentValues();
             cvData.put(DBAdapter.COL_NAME_MESSAGES__IS_READ, "Y");
             mDbAdapter.updateRecord(DBAdapter.TABLE_NAME_MESSAGES, mRowId, cvData);

@@ -344,6 +344,7 @@
     <string name="activity_reimbursement_rate_edit">Visszajáró díj szerkesztése</string>
     <string name="activity_bt_starter_device_link_edit">BT Eszköz párosítása autóhoz</string>
     <string name="activity_tag_edit">Címke szerkesztése</string>
+    <string name="activity_messages">Üzenetek</string>
 
     <string name="car_edit_model_label">Tipus:</string>
     <string name="car_edit_license_plate_label">Rendszámtábla:</string>

@@ -348,6 +348,7 @@
     <string name="activity_reimbursement_rate_edit">Editare rată rambursare</string>
     <string name="activity_bt_starter_device_link_edit">Aparat BT conectat la mașină</string>
     <string name="activity_tag_edit">Editare etichetă</string>
+    <string name="activity_messages">Mesaje</string>
 
     <string name="car_edit_model_label">Model:</string>
     <string name="car_edit_license_plate_label">Nr.înmatriculare:</string>
