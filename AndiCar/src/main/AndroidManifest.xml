@@ -17,10 +17,10 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.andicar2.activity"
-    android:versionCode="18012800"
-    android:versionName="18.02 Beta">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="org.andicar2.activity"
+          android:versionCode="18020100"
+          android:versionName="18.02 Beta">
 
     <!-- ************************************************************************************************* -->
     <!-- Normal Permissions (https://developer.android.com/guide/topics/security/normal-permissions.html) -->
