@@ -490,6 +490,8 @@
     <string name="gen_is_gas_station">Is gas station</string>
 
     <string name="gen_menu_rate_app">Rate this app</string>
+    <string name="gen_menu_messages">Messages from AndiCar</string>
+    <string name="gen_new_message">New message</string>
 
     <!--MileageEditActivity_OptionMileageLabel-->
     <string name="mileage_edit_option_mileage_label">Distance</string>
@@ -589,6 +591,7 @@
     <string name="activity_bt_starter_device_link_edit">"Link device to car"</string>
     <!--APP_Activity_TagEdit-->
     <string name="activity_tag_edit">Edit tag</string>
+    <string name="activity_messages">Messages</string>
 
     <!--CarEditActivity_ModelLabel-->
     <string name="car_edit_model_label">Model:</string>

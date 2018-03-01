@@ -315,6 +315,9 @@ public abstract class BaseEditFragment extends Fragment {
         else if (this instanceof TagEditFragment) {
             mRootView = inflater.inflate(R.layout.fragment_tag_edit, container, false);
         }
+        else if (this instanceof MessageViewFragment) {
+            mRootView = inflater.inflate(R.layout.dialog_message, container, false);
+        }
 
         View v;
         v = mRootView.findViewById(R.id.fakeFocus);
@@ -484,7 +487,9 @@ public abstract class BaseEditFragment extends Fragment {
         // load the specific UI elements for each type of fragment
         loadSpecificViewsFromLayoutXML();
 
-        setViewsEditable(vgRoot, mIsEditable);
+        if (vgRoot != null) {
+            setViewsEditable(vgRoot, mIsEditable);
+        }
 
         initCommonControls();
         initSpecificControls();
@@ -904,6 +909,9 @@ public abstract class BaseEditFragment extends Fragment {
                                 deleteResult = mDbAdapter.deleteRecord(DBAdapter.TABLE_NAME_BTDEVICE_CAR, mRowId);
                             } else if (BaseEditFragment.this instanceof TagEditFragment) {
                                 deleteResult = mDbAdapter.deleteRecord(DBAdapter.TABLE_NAME_TAG, mRowId);
+                            }
+                            else if (BaseEditFragment.this instanceof MessageViewFragment) {
+                                deleteResult = mDbAdapter.deleteRecord(DBAdapter.TABLE_NAME_MESSAGES, mRowId);
                             }
 
                             if (deleteResult == -1) {

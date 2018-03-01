@@ -17,10 +17,10 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.andicar2.activity"
-    android:versionCode="18012800"
-    android:versionName="18.02 Beta">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="org.andicar2.activity"
+          android:versionCode="18020100"
+          android:versionName="18.02 Beta">
 
     <!-- ************************************************************************************************* -->
     <!-- Normal Permissions (https://developer.android.com/guide/topics/security/normal-permissions.html) -->
@@ -95,6 +95,9 @@
         <meta-data
             android:name="firebase_analytics_collection_enabled"
             android:value="@bool/firebase_analytics_collection_enabled_value" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notif_andicar_message"/>
 
         <activity
             android:name=".MainActivity"
@@ -142,6 +145,10 @@
         <activity
             android:name="andicar.n.activity.dialogs.WhatsNewDialog"
             android:theme="@style/AndiCarDialog" />
+        <activity
+            android:name="andicar.n.activity.dialogs.MessageDialog"
+            android:theme="@style/AndiCarDialog"/>
+
         <activity
             android:name="andicar.n.activity.dialogs.GPSTrackControllerDialogActivity"
             android:icon="@mipmap/ic_launcher_gpstrack"
@@ -236,6 +243,16 @@
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
+        <service
+            android:name="andicar.n.service.FirebaseMessageHandler"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="andicar.n.service.FirebaseTokenHandler"
+            android:enabled="true"/>
 
         <receiver
             android:name="andicar.n.broadcastreceiver.ServiceStarter"

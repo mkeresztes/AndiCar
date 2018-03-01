@@ -74,6 +74,29 @@ public class AndiCar extends MultiDexApplication {
             //subscribe to Debug topic on FBMessaging
             FirebaseMessaging.getInstance().subscribeToTopic("Debug");
         }
+        FirebaseMessaging.getInstance().subscribeToTopic("General");
+
+        //subscribe to language specific topics
+        String language;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            language = getApplicationContext().getResources().getConfiguration().getLocales().get(0).getLanguage();
+        }
+        else {
+            language = getApplicationContext().getResources().getConfiguration().locale.getLanguage();
+        }
+        if (language == null) {
+            language = "en_US";
+        }
+        switch (language.toUpperCase().substring(0, 2)) {
+            case "HU":
+                FirebaseMessaging.getInstance().subscribeToTopic("GeneralHU");
+                break;
+            case "RO":
+                FirebaseMessaging.getInstance().subscribeToTopic("GeneralRO");
+                break;
+            default:
+                FirebaseMessaging.getInstance().subscribeToTopic("GeneralEN");
+        }
 
         AndiCar.appResources = getResources();
         AndiCar.appPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());

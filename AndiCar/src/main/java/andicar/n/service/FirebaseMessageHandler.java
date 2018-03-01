@@ -12,7 +12,7 @@ import andicar.n.utils.notification.AndiCarNotification;
  * Created by miki on 24.01.2018.
  */
 
-public class MessageHandler extends FirebaseMessagingService {
+public class FirebaseMessageHandler extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {

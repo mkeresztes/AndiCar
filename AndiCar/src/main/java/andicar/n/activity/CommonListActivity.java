@@ -63,7 +63,7 @@ import andicar.n.persistence.viewadapter.ExpenseViewAdapter;
 import andicar.n.persistence.viewadapter.GPSTrackViewAdapter;
 import andicar.n.persistence.viewadapter.MileageViewAdapter;
 import andicar.n.persistence.viewadapter.RefuelViewAdapter;
-import andicar.n.persistence.viewadapter.SettingsDefaultViewAdapter;
+import andicar.n.persistence.viewadapter.Simple3LineViewAdapter;
 import andicar.n.persistence.viewadapter.ToDoViewAdapter;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
@@ -105,6 +105,7 @@ public class CommonListActivity extends AppCompatActivity
     public static final int ACTIVITY_TYPE_TASK = 19;
     public static final int ACTIVITY_TYPE_BT_CAR_LINK = 20;
     public static final int ACTIVITY_TYPE_TAG = 21;
+    public static final int ACTIVITY_TYPE_MESSAGE = 22;
     private static final String LAST_SELECTED_ITEM_ID_KEY = "LastSelectedItemId";
     private static final String WHERE_CONDITION_FOR_DB_KEY = "WhereConditionsForFB";
     private static final String WHERE_CONDITION_FOR_SEARCH_INIT_KEY = "WhereConditionsForSearchInit";
@@ -211,6 +212,39 @@ public class CommonListActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
+        setUpButtons();
+
+        // Show the Up button in the action bar only if the activity is not launched from the preference screen.
+        //The solution is to change dynamically the parent activity for up navigation
+        if (mActivityType == ACTIVITY_TYPE_REFUEL || mActivityType == ACTIVITY_TYPE_EXPENSE
+                || mActivityType == ACTIVITY_TYPE_MILEAGE || mActivityType == ACTIVITY_TYPE_TODO
+                || mActivityType == ACTIVITY_TYPE_GPS_TRACK) {
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
+        }
+
+        // The detail container view will be present only in the
+        // large-screen layouts (res/values-w900dp).
+        // If this view is present, then the
+        // activity should be in two-pane mode.
+        isTwoPane = findViewById(R.id.item_detail_container) != null;
+    }
+
+    private void setUpButtons() {
+        if (mActivityType == ACTIVITY_TYPE_MESSAGE) {
+            View llButtons = findViewById(R.id.llButtons);
+            if (llButtons != null) {
+                llButtons.setVisibility(View.GONE);
+            }
+            View separator = findViewById(R.id.separator);
+            if (separator != null) {
+                separator.setVisibility(View.GONE);
+            }
+            return;
+        }
+
         ImageButton btnAdd = findViewById(R.id.btnAdd);
         if (btnAdd != null) {
             btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -268,22 +302,6 @@ public class CommonListActivity extends AppCompatActivity
 //            if (btnCharts != null)
 //                btnCharts.setVisibility(View.GONE);
         }
-        // Show the Up button in the action bar only if the activity is not launched from the preference screen.
-        //The solution is to change dynamically the parent activity for up navigation
-        if (mActivityType == ACTIVITY_TYPE_REFUEL || mActivityType == ACTIVITY_TYPE_EXPENSE
-                || mActivityType == ACTIVITY_TYPE_MILEAGE || mActivityType == ACTIVITY_TYPE_TODO
-                || mActivityType == ACTIVITY_TYPE_GPS_TRACK) {
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-            }
-        }
-
-        // The detail container view will be present only in the
-        // large-screen layouts (res/values-w900dp).
-        // If this view is present, then the
-        // activity should be in two-pane mode.
-        isTwoPane = findViewById(R.id.item_detail_container) != null;
     }
 
     @Override
@@ -420,6 +438,10 @@ public class CommonListActivity extends AppCompatActivity
                 mReportDb.setReportSql(DBReportAdapter.TAG_LIST_SELECT_NAME, mWhereConditionsForDB);
                 title = getString(R.string.pref_tag_title);
                 break;
+            case ACTIVITY_TYPE_MESSAGE:
+                mReportDb.setReportSql(DBReportAdapter.MESSAGE_LIST_SELECT_NAME, mWhereConditionsForDB);
+                title = getString(R.string.activity_messages);
+                break;
             default:
                 Utils.showReportableErrorDialog(this, "Unexpected error", "Unknown activity type: " + mActivityType, new Exception("Unknown activity type: " + mActivityType));
                 finish();
@@ -457,64 +479,68 @@ public class CommonListActivity extends AppCompatActivity
                 mRecyclerViewAdapter = new ToDoViewAdapter(this, mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 break;
             case ACTIVITY_TYPE_CAR:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_CAR);
                 break;
             case ACTIVITY_TYPE_DRIVER:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_DRIVER);
                 break;
             case ACTIVITY_TYPE_UOM:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_UOM);
                 break;
             case ACTIVITY_TYPE_UOM_CONVERSION:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_UOM_CONVERSION);
                 break;
             case ACTIVITY_TYPE_EXPENSE_CATEGORY:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_EXPENSE_CATEGORY);
                 break;
             case ACTIVITY_TYPE_FUEL_TYPE:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_FUEL_TYPE);
                 break;
             case ACTIVITY_TYPE_EXPENSE_TYPE:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_EXPENSE_TYPE);
                 break;
             case ACTIVITY_TYPE_REIMBURSEMENT_RATE:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_REIMBURSEMENT_RATE);
                 break;
             case ACTIVITY_TYPE_CURRENCY:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_CURRENCY);
                 break;
             case ACTIVITY_TYPE_CURRENCY_RATE:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_CURRENCY_RATE);
                 break;
             case ACTIVITY_TYPE_BPARTNER:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_BPARTNER);
                 break;
             case ACTIVITY_TYPE_TASK_TYPE:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_TASK_TYPE);
                 break;
             case ACTIVITY_TYPE_TASK:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_TASK);
                 break;
             case ACTIVITY_TYPE_BT_CAR_LINK:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_BT_CAR_LINK);
                 break;
             case ACTIVITY_TYPE_TAG:
-                mRecyclerViewAdapter = new SettingsDefaultViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
                 mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_TAG);
+                break;
+            case ACTIVITY_TYPE_MESSAGE:
+                mRecyclerViewAdapter = new Simple3LineViewAdapter(mCursor, this, isTwoPane, mScrollToPosition, mLastSelectedItemId);
+                mRecyclerViewAdapter.setViewAdapterType(BaseViewAdapter.VIEW_ADAPTER_TYPE_MESSAGE);
                 break;
             default:
                 Utils.showReportableErrorDialog(this, "Unexpected error", "Unknown activity type: " + mActivityType, new Exception("Unknown activity type: " + mActivityType));
@@ -542,10 +568,15 @@ public class CommonListActivity extends AppCompatActivity
             inflater.inflate(R.menu.menu_share, menu);
         }
 
-        if (isTwoPane && mActivityType != ACTIVITY_TYPE_TODO) {
-            inflater.inflate(R.menu.menu_delete, menu);
-            inflater.inflate(R.menu.menu_edit, menu);
+        if (isTwoPane) {
+            if (mActivityType != ACTIVITY_TYPE_TODO) {
+                inflater.inflate(R.menu.menu_delete, menu);
+                if (mActivityType != ACTIVITY_TYPE_MESSAGE) {
+                    inflater.inflate(R.menu.menu_edit, menu);
+                }
+            }
         }
+
         if (isShowSearchMenu) {
             inflater.inflate(R.menu.menu_search, menu);
         }

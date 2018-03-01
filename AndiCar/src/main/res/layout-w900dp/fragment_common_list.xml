@@ -73,7 +73,8 @@
         app:layout_constraintEnd_toStartOf="@+id/llButtons"
         app:layout_constraintStart_toEndOf="@+id/linearLayout"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="8dp"/>
+        android:layout_marginRight="8dp"
+        tools:ignore="InconsistentLayout"/>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/llButtons"
@@ -120,7 +121,8 @@
             app:layout_constraintEnd_toEndOf="@+id/btnAdd"
             app:layout_constraintStart_toStartOf="@+id/btnAdd"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_button_info_3f51b5_outlined_36dp_pad0dp"/>
+            app:srcCompat="@drawable/ic_button_info_3f51b5_outlined_36dp_pad0dp"
+            android:contentDescription="@string/gen_statistics"/>
 
         <!--<ImageButton-->
         <!--android:id="@+id/btnCharts"-->

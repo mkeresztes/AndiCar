@@ -31,6 +31,7 @@ import android.os.Build;
 import org.andicar2.activity.R;
 
 import andicar.n.activity.dialogs.MessageDialog;
+import andicar.n.utils.Utils;
 
 /**
  * Created by Miklos Keresztes on 9/6/16.
@@ -65,6 +66,7 @@ class MessageNotificationBuilder extends Notification.Builder {
         this.setTicker("AndiCar message");
         this.setWhen(System.currentTimeMillis());
         this.setContentTitle(title);
+        this.setSubText(Utils.getFormattedDateTime(System.currentTimeMillis(), false));
 
         Intent i = new Intent(context, MessageDialog.class);
         i.putExtra(MessageDialog.MSG_ID_KEY, messageId);

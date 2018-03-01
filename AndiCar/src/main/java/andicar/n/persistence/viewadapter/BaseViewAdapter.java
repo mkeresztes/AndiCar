@@ -52,6 +52,7 @@ import andicar.n.activity.fragment.ExpenseFuelCategoryEditFragment;
 import andicar.n.activity.fragment.ExpenseTypeEditFragment;
 import andicar.n.activity.fragment.GPSTrackControllerFragment;
 import andicar.n.activity.fragment.GPSTrackEditFragment;
+import andicar.n.activity.fragment.MessageViewFragment;
 import andicar.n.activity.fragment.MileageEditFragment;
 import andicar.n.activity.fragment.RefuelEditFragment;
 import andicar.n.activity.fragment.ReimbursementRateEditFragment;
@@ -96,6 +97,7 @@ public abstract class BaseViewAdapter
     public static final int VIEW_ADAPTER_TYPE_TASK = 33;
     public static final int VIEW_ADAPTER_TYPE_BT_CAR_LINK = 34;
     public static final int VIEW_ADAPTER_TYPE_TAG = 35;
+    public static final int VIEW_ADAPTER_TYPE_MESSAGE = 36;
     final AppCompatActivity mParentActivity;
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -314,51 +316,55 @@ public abstract class BaseViewAdapter
             else if (this instanceof ToDoViewAdapter) {
                 fragment = new ToDoViewFragment();
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_CAR) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_CAR) {
                 fragment = new CarEditFragment();
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_DRIVER) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_DRIVER) {
                 fragment = new DriverEditFragment();
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_UOM) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_UOM) {
                 fragment = new UOMEditFragment();
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_UOM_CONVERSION) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_UOM_CONVERSION) {
                 fragment = new UOMConversionEditFragment();
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_EXPENSE_CATEGORY) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_EXPENSE_CATEGORY) {
                 arguments.putBoolean(BaseEditFragment.IS_FUEL_KEY, false);
                 fragment = new ExpenseFuelCategoryEditFragment();
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_FUEL_TYPE) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_FUEL_TYPE) {
                 arguments.putBoolean(BaseEditFragment.IS_FUEL_KEY, true);
                 fragment = new ExpenseFuelCategoryEditFragment();
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_EXPENSE_TYPE) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_EXPENSE_TYPE) {
                 fragment = new ExpenseTypeEditFragment();
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_REIMBURSEMENT_RATE) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_REIMBURSEMENT_RATE) {
                 fragment = new ReimbursementRateEditFragment();
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_CURRENCY) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_CURRENCY) {
                 fragment = new CurrencyEditFragment();
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_CURRENCY_RATE) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_CURRENCY_RATE) {
                 fragment = new CurrencyRateEditFragment();
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_BPARTNER) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_BPARTNER) {
                 fragment = new BPartnerEditFragment();
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TASK_TYPE) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TASK_TYPE) {
                 fragment = new TaskTypeEditFragment();
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TASK) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TASK) {
                 fragment = new TaskEditFragment();
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_BT_CAR_LINK) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_BT_CAR_LINK) {
                 fragment = new BTCarLinkFragment();
-            } else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TAG) {
+            }
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TAG) {
                 fragment = new TagEditFragment();
+            }
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_MESSAGE) {
+                fragment = new MessageViewFragment();
             }
             else {
                 Utils.showReportableErrorDialog(ctx, ctx.getString(R.string.gen_error),
@@ -394,52 +400,55 @@ public abstract class BaseViewAdapter
             else if (this instanceof ToDoViewAdapter) {
                 intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_TODO);
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_CAR) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_CAR) {
                 intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_CAR);
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_DRIVER) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_DRIVER) {
                 intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_DRIVER);
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_UOM) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_UOM) {
                 intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_UOM);
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_UOM_CONVERSION) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_UOM_CONVERSION) {
                 intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_UOM_CONVERSION);
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_EXPENSE_CATEGORY) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_EXPENSE_CATEGORY) {
                 intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_EXPENSE_CATEGORY);
                 intent.putExtra(BaseEditFragment.IS_FUEL_KEY, false);
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_FUEL_TYPE) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_FUEL_TYPE) {
                 intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_FUEL_TYPE);
                 intent.putExtra(BaseEditFragment.IS_FUEL_KEY, true);
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_EXPENSE_TYPE) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_EXPENSE_TYPE) {
                 intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_EXPENSE_TYPE);
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_REIMBURSEMENT_RATE) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_REIMBURSEMENT_RATE) {
                 intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_REIMBURSEMENT_RATE);
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_CURRENCY) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_CURRENCY) {
                 intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_CURRENCY);
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_CURRENCY_RATE) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_CURRENCY_RATE) {
                 intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_CURRENCY_RATE);
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_BPARTNER) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_BPARTNER) {
                 intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_BPARTNER);
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TASK_TYPE) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TASK_TYPE) {
                 intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_TASK_TYPE);
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TASK) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TASK) {
                 intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_TASK);
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_BT_CAR_LINK) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_BT_CAR_LINK) {
                 intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_BT_CAR_LINK);
             }
-            else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TAG) {
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TAG) {
                 intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_TAG);
+            }
+            else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_MESSAGE) {
+                intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_MESSAGE);
             }
             else {
                 intent.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, 0);
@@ -509,47 +518,47 @@ public abstract class BaseViewAdapter
         else if (this instanceof GPSTrackViewAdapter) {
             tableName = DBAdapter.TABLE_NAME_GPSTRACK;
         }
-        else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_CAR) {
+        else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_CAR) {
             tableName = DBAdapter.TABLE_NAME_CAR;
         }
-        else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_DRIVER) {
+        else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_DRIVER) {
             tableName = DBAdapter.TABLE_NAME_DRIVER;
         }
-        else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_UOM) {
+        else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_UOM) {
             tableName = DBAdapter.TABLE_NAME_UOM;
         }
-        else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_UOM_CONVERSION) {
+        else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_UOM_CONVERSION) {
             tableName = DBAdapter.TABLE_NAME_UOMCONVERSION;
         }
-        else if (this instanceof SettingsDefaultViewAdapter &&
+        else if (this instanceof Simple3LineViewAdapter &&
                 (mViewAdapterType == VIEW_ADAPTER_TYPE_EXPENSE_CATEGORY || mViewAdapterType == VIEW_ADAPTER_TYPE_FUEL_TYPE)) {
             tableName = DBAdapter.TABLE_NAME_EXPENSECATEGORY;
         }
-        else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_EXPENSE_TYPE) {
+        else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_EXPENSE_TYPE) {
             tableName = DBAdapter.TABLE_NAME_EXPENSETYPE;
         }
-        else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_REIMBURSEMENT_RATE) {
+        else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_REIMBURSEMENT_RATE) {
             tableName = DBAdapter.TABLE_NAME_REIMBURSEMENT_CAR_RATES;
         }
-        else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_CURRENCY) {
+        else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_CURRENCY) {
             tableName = DBAdapter.TABLE_NAME_CURRENCY;
         }
-        else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_CURRENCY_RATE) {
+        else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_CURRENCY_RATE) {
             tableName = DBAdapter.TABLE_NAME_CURRENCYRATE;
         }
-        else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_BPARTNER) {
+        else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_BPARTNER) {
             tableName = DBAdapter.TABLE_NAME_BPARTNER;
         }
-        else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TASK_TYPE) {
+        else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TASK_TYPE) {
             tableName = DBAdapter.TABLE_NAME_TASKTYPE;
         }
-        else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_BT_CAR_LINK) {
+        else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_BT_CAR_LINK) {
             tableName = DBAdapter.TABLE_NAME_BTDEVICE_CAR;
         }
-        else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TASK) {
+        else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TASK) {
             tableName = DBAdapter.TABLE_NAME_TASK;
         }
-        else if (this instanceof SettingsDefaultViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TAG) {
+        else if (this instanceof Simple3LineViewAdapter && mViewAdapterType == VIEW_ADAPTER_TYPE_TAG) {
             tableName = DBAdapter.TABLE_NAME_TAG;
         }
 
@@ -573,6 +582,7 @@ public abstract class BaseViewAdapter
         final TextView mSecondLine;
         final TextView mThirdLine;
         long mRecordID;
+        boolean isSecondLineBold = false;
 
         DefaultViewHolder(View view) {
             super(view);

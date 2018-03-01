@@ -10,7 +10,8 @@
         android:id="@+id/btn1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose account"/>
+        android:text="Choose account"
+        tools:ignore="HardcodedText"/>
 
     <TextView
         android:id="@+id/text1"
@@ -21,7 +22,8 @@
         android:id="@+id/btn2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose folder"/>
+        android:text="Choose folder"
+        tools:ignore="HardcodedText"/>
 
     <TextView
         android:id="@+id/text2"
@@ -32,13 +34,15 @@
         android:id="@+id/btn3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Write file"/>
+        android:text="Write file"
+        tools:ignore="HardcodedText"/>
 
     <Button
         android:id="@+id/btn4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send in background" />
+        android:text="Send in background"
+        tools:ignore="HardcodedText"/>
 
     <TextView
         android:id="@+id/text3"

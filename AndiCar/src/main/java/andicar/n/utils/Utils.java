@@ -319,6 +319,34 @@ public class Utils {
     }
 
     /**
+     * The messages menu is shown only if at least one message exists.
+     *
+     * @param ctx Context
+     * @return true if the menu can be shown, false otherwise
+     */
+    public static boolean isCanShowMessagesMenu(Context ctx) {
+        boolean retVal = false;
+        DBAdapter mDbAdapter = new DBAdapter(ctx);
+        //@formatter:off
+        String sql =
+                "SELECT COUNT(*) " +
+                "FROM " + DBAdapter.TABLE_NAME_MESSAGES;
+        //@formatter:on
+        try {
+            Cursor c = mDbAdapter.execSelectSql(sql, null);
+            if (c.moveToNext()) {
+                retVal = c.getInt(0) > 0;
+            }
+            c.close();
+            mDbAdapter.close();
+        }
+        catch (Exception ignored) {
+        }
+
+        return retVal;
+    }
+
+    /**
      * @param hourOfDay hour of the day in 24h format [0-23]
      * @param minute    minute
      * @return a string represented the formatted date and time
