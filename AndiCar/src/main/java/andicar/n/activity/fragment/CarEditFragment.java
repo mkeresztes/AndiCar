@@ -24,7 +24,6 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -122,12 +121,7 @@ public class CarEditFragment extends BaseEditFragment {
 
         if (getContext() != null && getContext().getResources() != null) {
             String country;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                country = getContext().getResources().getConfiguration().getLocales().get(0).getCountry();
-            } else {
-                //noinspection deprecation
-                country = getContext().getResources().getConfiguration().locale.getCountry();
-            }
+            country = Utils.getDeviceCountryCode(getContext());
             switch (country.toUpperCase()) {
                 case "US":
                     setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "USD"));

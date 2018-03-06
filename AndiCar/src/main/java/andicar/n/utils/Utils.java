@@ -914,4 +914,14 @@ public class Utils {
         }
         ctx.startActivity(Intent.createChooser(emailIntent, mRes.getString(R.string.gen_share)));
     }
+
+    public static String getDeviceCountryCode(Context ctx) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return ctx.getResources().getConfiguration().getLocales().get(0).getCountry();
+        }
+        else {
+            //noinspection deprecation
+            return ctx.getResources().getConfiguration().locale.getCountry();
+        }
+    }
 }
