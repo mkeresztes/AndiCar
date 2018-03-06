@@ -112,6 +112,7 @@
     <string name="pref_key_show_whats_new_dialog">show_whats_new_dialog</string>
     <string name="pref_key_show_welcome_screen">show_welcome_screen</string>
     <string name="pref_key_app_version">appVersionCode</string>
+    <string name="pref_key_car_created">carCreated</string>
 
 
     <string name="chart_key_legendAtRight">legendAtRight</string>

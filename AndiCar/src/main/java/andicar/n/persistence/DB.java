@@ -1169,36 +1169,48 @@ public class DB {
                                 COL_NAME_CAR__CURRENCY_ID + " " +
                                 ") " +
                                 "VALUES ('" + mResource.getString(R.string.DB_InitCar_Name) + "', ?, ?, ?)";
+                SharedPreferences.Editor e = AndiCar.getDefaultSharedPreferences().edit();
+                String appCreatedKey = mResource.getString(R.string.pref_key_car_created);
                 switch (Utils.getDeviceCountryCode(mCtx).toUpperCase()) {
                     case "US":
                         db.execSQL(sql, new Integer[]{2, 4, 2}); //US
+                        e.putBoolean(appCreatedKey, true);
                         break;
                     case "CA":
                         db.execSQL(sql, new Integer[]{2, 4, 5}); //CA
+                        e.putBoolean(appCreatedKey, true);
                         break;
                     case "HU":
                         db.execSQL(sql, new Integer[]{1, 3, 3}); //HU
+                        e.putBoolean(appCreatedKey, true);
                         break;
                     case "RO":
                         db.execSQL(sql, new Integer[]{1, 3, 4}); //RO
+                        e.putBoolean(appCreatedKey, true);
                         break;
                     case "GB":
                         db.execSQL(sql, new Integer[]{2, 5, 6}); //GB
+                        e.putBoolean(appCreatedKey, true);
                         break;
                     case "AU":
                         db.execSQL(sql, new Integer[]{1, 3, 8}); //Australia
+                        e.putBoolean(appCreatedKey, true);
                         break;
                     case "ZA":
                         db.execSQL(sql, new Integer[]{1, 3, 7}); //South Africa
+                        e.putBoolean(appCreatedKey, true);
                         break;
                     case "MX":
                         db.execSQL(sql, new Integer[]{1, 3, 9}); //Mexico
+                        e.putBoolean(appCreatedKey, true);
                         break;
                     default:
                         if (Currency.getInstance(Utils.getDeviceDefaultLocale(mCtx)).getCurrencyCode().toUpperCase().equals("EUR")) {
                             db.execSQL(sql, new Integer[]{1, 3, 1}); //EU
+                            e.putBoolean(appCreatedKey, true);
                         }
                 }
+                e.apply();
             } catch (Exception ignored) {
             }
 

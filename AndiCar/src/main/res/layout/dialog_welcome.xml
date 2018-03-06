@@ -53,8 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal|center_vertical"
-            android:layout_marginTop="8dp"
-            android:text="@string/main_activity_welcome_message"/>
+            android:layout_marginTop="8dp" />
 
         <TextView
             style="@style/AndiCarDialogButtonSeparatorView"

@@ -19,11 +19,17 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="main_activity_welcome_title">Üdvözöljük az AndiCar alkalmazásban</string>
-    <string name="main_activity_welcome_message">Szia! Köszönjük, hogy telepítetted az AndiCart.\n\n
+    <string name="main_activity_welcome_message">Szia! Köszönöm, hogy telepítetted az AndiCart.\n\n
         Az alkalmazás első lépése az autó / jármű aktuális információinak megadása.\n\n
         Ha korábban használtad az AndiCar-t, lehetőség van arra, hogy visszaállítsd a régi adatokat (ha létezik biztonsági mentés).</string>
     <string name="main_activity_welcome_restore">Visszaállítás</string>
     <string name="main_activity_welcome_car_info">Autó</string>
+    <string name="main_activity_welcome_message_car_created">Szia! Köszönöm, hogy telepítetted az AndiCart.\n\n
+        Az eszköz helyszíne alapján egy új autót hoztam létre.\n\n
+        Mielőtt használnád, javaslom, hogy ellenőrizd és módosítsd / javítsd ki az autó részleteit (mértékegységek és alapértelmezett pénznem).\n\n
+        Ez a Beállítások -> Általános beállítások -> Autók menüpontban végezhető el.
+    </string>
+
     <string name="activity_gps_track_controller">GPS kezelő</string>
 
     <string name="activity_new_trip">AndiCar új út</string>

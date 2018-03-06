@@ -24,6 +24,11 @@
         Si ya había usado AndiCar, existe la posibilidad de restaurar los datos antiguos (si existen copias de seguridad de datos).</string>
     <string name="main_activity_welcome_restore">Restaurar</string>
     <string name="main_activity_welcome_car_info">Auto</string>
+    <string name="main_activity_welcome_message_car_created">¡Hola! Gracias por instalar AndiCar.\n\n
+        En función de la configuración regional de su dispositivo, un automóvil nuevo creado en nombre suyo.\n\n
+        Le recomiendo que verifique, modifique y corrija los detalles de este automóvil (unidades de medida y moneda predeterminada) antes de usarlo.\n\n
+        Esto se puede hacer desde Preferencias -> Configuración general -> Automóviles.
+    </string>
 
     <string name="activity_new_trip">AndiCar registro de viaje</string>
 

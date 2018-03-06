@@ -254,26 +254,6 @@ public class MainActivity extends AppCompatActivity
             }
             catch (Exception ignored){}
         }
-
-        try {
-            if (mPreferences.getBoolean(getString(R.string.pref_key_show_welcome_screen), false)) {
-                WelcomeDialog dialog = new WelcomeDialog(this);
-                dialog.show();
-                SharedPreferences.Editor e = mPreferences.edit();
-                e.putBoolean(getString(R.string.pref_key_show_welcome_screen), false);
-                e.apply();
-            }
-            else if (mPreferences.getBoolean(getString(R.string.pref_key_show_whats_new_dialog), false)) {
-                SharedPreferences.Editor e = mPreferences.edit();
-                e.putBoolean(getString(R.string.pref_key_show_whats_new_dialog), false);
-                e.apply();
-                Intent whatsNewIntent = new Intent(this, WhatsNewDialog.class);
-                whatsNewIntent.putExtra(WhatsNewDialog.IS_SHOW_FIVE_STARS_BUTTON_KEY, true);
-                startActivity(whatsNewIntent);
-            }
-        }
-        catch (Exception ignored) {
-        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -486,6 +466,23 @@ public class MainActivity extends AppCompatActivity
 
         //charting
         fillContent();
+        try {
+            if (mPreferences.getBoolean(getString(R.string.pref_key_show_welcome_screen), false)) {
+                WelcomeDialog dialog = new WelcomeDialog(this);
+                dialog.show();
+                SharedPreferences.Editor e = mPreferences.edit();
+                e.putBoolean(getString(R.string.pref_key_show_welcome_screen), false);
+                e.apply();
+            } else if (mPreferences.getBoolean(getString(R.string.pref_key_show_whats_new_dialog), false)) {
+                SharedPreferences.Editor e = mPreferences.edit();
+                e.putBoolean(getString(R.string.pref_key_show_whats_new_dialog), false);
+                e.apply();
+                Intent whatsNewIntent = new Intent(this, WhatsNewDialog.class);
+                whatsNewIntent.putExtra(WhatsNewDialog.IS_SHOW_FIVE_STARS_BUTTON_KEY, true);
+                startActivity(whatsNewIntent);
+            }
+        } catch (Exception ignored) {
+        }
     }
 
     private String getChartDataPeriodText() {

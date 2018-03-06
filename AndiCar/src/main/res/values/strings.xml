@@ -165,6 +165,10 @@
         If you had used AndiCar before, there is a possibility to restore the old data (if data backups exist).</string>
     <string name="main_activity_welcome_restore">Restore</string>
     <string name="main_activity_welcome_car_info">Car</string>
+    <string name="main_activity_welcome_message_car_created">Hi! Thank you for installing AndiCar.\n\n
+        Based on your device locale, a new car created on behalf of you.\n\n
+        I strongly recommend you to verify and change/correct the details of this car (units of measure and default currency) before using it.\n\n
+        This can be done from Settings -> General settings -> Cars.</string>
 
     <!--ES / DE translated by Google-->
     <string name="pref_general_title">General settings</string>
