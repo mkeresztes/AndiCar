@@ -1111,10 +1111,12 @@ public class DB {
 
     private class DatabaseHelper extends SQLiteOpenHelper {
         Resources mResource = null;
+        Context mCtx;
 
         DatabaseHelper(Context context) {
             super(context, ConstantValues.DATABASE_NAME, null, ConstantValues.DATABASE_VERSION);
             mResource = context.getResources();
+            mCtx = context;
         }
 
         @Override
@@ -1170,6 +1172,29 @@ public class DB {
 
         private void createCarTable(SQLiteDatabase db) {
             db.execSQL(CREATE_SQL_CAR_TABLE);
+            //insert a default car
+            String sql =
+                    "INSERT INTO " + TABLE_NAME_CAR + " " +
+                            "( " +
+                            COL_NAME_GEN_NAME + ", " +
+                            COL_NAME_CAR__LENGTH_UOM_ID + ", " +
+                            COL_NAME_CAR__FUEL_UOM_ID + ", " +
+                            COL_NAME_CAR__CURRENCY_ID + " " +
+                            ") VALUES ('My Car', ?, ?, ?)";
+//            db.execSQL();
+
+            /*
+            COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COL_NAME_GEN_ISACTIVE + " TEXT DEFAULT 'Y', " +
+            COL_NAME_GEN_USER_COMMENT + " TEXT NULL, " +
+            COL_NAME_CAR__MODEL + " TEXT NULL, " +
+            COL_NAME_CAR__REGISTRATIONNO + " TEXT NULL, " +
+            COL_NAME_CAR__INDEXSTART + " NUMERIC, " +
+            COL_NAME_CAR__INDEXCURRENT + " NUMERIC, " +
+            COL_NAME_CAR__ISAFV + " TEXT DEFAULT 'N', " +
+            COL_NAME_CAR__ALTERNATIVE_FUEL_UOM_ID + " INTEGER NULL " +
+
+             */
         }
 
         private void createUOMTable(SQLiteDatabase db) throws SQLException {
