@@ -121,6 +121,8 @@
     <string name="DB_Curr_CAD">Dolari canadieni</string>
     <string name="DB_Curr_GBP">Liră sterlină</string>
 
+    <string name="DB_InitCar_Name">Maşina mea</string>
+
     <string name="DB_TaskType_ServiceName">Service</string>
     <string name="DB_TaskType_ServiceComment">Mentenanta recurenta</string>
     <string name="DB_TaskType_ReminderName">Notificare</string>

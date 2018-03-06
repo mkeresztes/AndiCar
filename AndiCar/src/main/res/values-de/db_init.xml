@@ -120,6 +120,8 @@
     <string name="DB_Curr_CAD">Kanada Dollar</string>
     <string name="DB_Curr_GBP">Britisches Pfund</string>
 
+    <string name="DB_InitCar_Name">Mein Auto</string>
+
     <string name="DB_TaskType_ServiceName">Service</string>
     <string name="DB_TaskType_ServiceComment">Wiederkehrende Wartung</string>
     <string name="DB_TaskType_ReminderName">Erinnerung</string>

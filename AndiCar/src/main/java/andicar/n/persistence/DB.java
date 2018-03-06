@@ -34,6 +34,7 @@ import org.andicar2.activity.AndiCar;
 import org.andicar2.activity.R;
 
 import java.util.Calendar;
+import java.util.Currency;
 
 import andicar.n.utils.AndiCarCrashReporter;
 import andicar.n.utils.ConstantValues;
@@ -1121,45 +1122,30 @@ public class DB {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            // create drivers table
-            createDriverTable(db);
-            // create cars table
-            createCarTable(db);
             createUOMTable(db);
-
-            // create uom conversions table
             createUOMConversionTable(db);
-
             createExpenseTypeTable(db);
-
-            createMileageTable(db);
-
-            // create & init currencies
             createCurrencyTable(db);
-            createRefuelTable(db);
-            createExpenseCategory(db);
-            // expenses table
-            createExpenses(db, false);
-            // currency rate
             createCurrencyRateTable(db);
+            createExpenseCategory(db);
 
-            // gps track
-            createGPSTrackTables(db);
+            createDriverTable(db);
+            createCarTable(db);
             createBPartnerTable(db);
-
             createTagTable(db);
             createSecureBKSettingsTable(db);
-
-            createTaskToDoTables(db);
-
             createDataTemplateTables(db);
             createBTDeviceCarTable(db);
-
             createReimbursementCarRatesTable(db);
+            createTaskToDoTables(db);
+
+            createMileageTable(db);
+            createRefuelTable(db);
+            createExpenses(db, false);
+            createGPSTrackTables(db);
 
             createMessageTables(db);
 
-            // create indexes
             createIndexes(db);
         }
 
@@ -1173,15 +1159,48 @@ public class DB {
         private void createCarTable(SQLiteDatabase db) {
             db.execSQL(CREATE_SQL_CAR_TABLE);
             //insert a default car
-            String sql =
-                    "INSERT INTO " + TABLE_NAME_CAR + " " +
-                            "( " +
-                            COL_NAME_GEN_NAME + ", " +
-                            COL_NAME_CAR__LENGTH_UOM_ID + ", " +
-                            COL_NAME_CAR__FUEL_UOM_ID + ", " +
-                            COL_NAME_CAR__CURRENCY_ID + " " +
-                            ") VALUES ('My Car', ?, ?, ?)";
-//            db.execSQL();
+            try {
+                String sql =
+                        "INSERT INTO " + TABLE_NAME_CAR + " " +
+                                "( " +
+                                COL_NAME_GEN_NAME + ", " +
+                                COL_NAME_CAR__LENGTH_UOM_ID + ", " +
+                                COL_NAME_CAR__FUEL_UOM_ID + ", " +
+                                COL_NAME_CAR__CURRENCY_ID + " " +
+                                ") " +
+                                "VALUES ('" + mResource.getString(R.string.DB_InitCar_Name) + "', ?, ?, ?)";
+                switch (Utils.getDeviceCountryCode(mCtx).toUpperCase()) {
+                    case "US":
+                        db.execSQL(sql, new Integer[]{2, 4, 2}); //US
+                        break;
+                    case "CA":
+                        db.execSQL(sql, new Integer[]{2, 4, 5}); //CA
+                        break;
+                    case "HU":
+                        db.execSQL(sql, new Integer[]{1, 3, 3}); //HU
+                        break;
+                    case "RO":
+                        db.execSQL(sql, new Integer[]{1, 3, 4}); //RO
+                        break;
+                    case "GB":
+                        db.execSQL(sql, new Integer[]{2, 5, 6}); //GB
+                        break;
+                    case "AU":
+                        db.execSQL(sql, new Integer[]{1, 3, 8}); //Australia
+                        break;
+                    case "ZA":
+                        db.execSQL(sql, new Integer[]{1, 3, 7}); //South Africa
+                        break;
+                    case "MX":
+                        db.execSQL(sql, new Integer[]{1, 3, 9}); //Mexico
+                        break;
+                    default:
+                        if (Currency.getInstance(Utils.getDeviceDefaultLocale(mCtx)).getCurrencyCode().toUpperCase().equals("EUR")) {
+                            db.execSQL(sql, new Integer[]{1, 3, 1}); //EU
+                        }
+                }
+            } catch (Exception ignored) {
+            }
 
             /*
             COL_NAME_GEN_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -1286,23 +1305,23 @@ public class DB {
             String colPart = "INSERT INTO " + TABLE_NAME_CURRENCY + " ( " + COL_NAME_GEN_NAME + ", " + COL_NAME_GEN_ISACTIVE + ", " + COL_NAME_GEN_USER_COMMENT
                     + ", " + COL_NAME_CURRENCY__CODE + ") ";
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_Curr_EUR) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_Curr_EUR) + "', " + "'EUR' )");
+                    + mResource.getString(R.string.DB_Curr_EUR) + "', " + "'EUR' )"); // #1
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_Curr_USD) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_Curr_USD) + "', " + "'USD' )");
+                    + mResource.getString(R.string.DB_Curr_USD) + "', " + "'USD' )"); // #2
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_Curr_HUF) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_Curr_HUF) + "', " + "'HUF' )");
+                    + mResource.getString(R.string.DB_Curr_HUF) + "', " + "'HUF' )"); // #3
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_Curr_RON) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_Curr_RON) + "', " + "'RON' )");
+                    + mResource.getString(R.string.DB_Curr_RON) + "', " + "'RON' )"); // #4
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_Curr_CAD) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_Curr_CAD) + "', " + "'CAD' )");
+                    + mResource.getString(R.string.DB_Curr_CAD) + "', " + "'CAD' )"); // #5
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_Curr_GBP) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_Curr_GBP) + "', " + "'GBP' )");
+                    + mResource.getString(R.string.DB_Curr_GBP) + "', " + "'GBP' )"); // #6
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_Curr_ZAR) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_Curr_ZAR) + "', " + "'ZAR' )");
+                    + mResource.getString(R.string.DB_Curr_ZAR) + "', " + "'ZAR' )"); // #7
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_Curr_AUD) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_Curr_AUD) + "', " + "'AUD' )");
+                    + mResource.getString(R.string.DB_Curr_AUD) + "', " + "'AUD' )"); // #8
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_Curr_MXN) + "', " + "'Y', " + "'"
-                    + mResource.getString(R.string.DB_Curr_MXN) + "', " + "'MXN' )");
+                    + mResource.getString(R.string.DB_Curr_MXN) + "', " + "'MXN' )"); // #9
         }
 
         private void createRefuelTable(SQLiteDatabase db) throws SQLException {

@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -133,14 +134,15 @@ public abstract class BaseViewAdapter
         this.mViewAdapterType = adapterType;
     }
 
+    @NonNull
     @Override
-    public DefaultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DefaultViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new DefaultViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.common_list_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final DefaultViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(@NonNull final DefaultViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
         //bind the cursor data to the ui views
         //TODO see why this can be happened https://github.com/mkeresztes/AndiCar/issues/3

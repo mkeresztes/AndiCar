@@ -115,6 +115,8 @@
     <string name="DB_Curr_CAD">Dolares Canadiense</string>
     <string name="DB_Curr_GBP">libra Esterlina</string>
 
+    <string name="DB_InitCar_Name">Mi coche</string>
+
     <string name="DB_TaskType_ServiceName">Servicio</string>
     <string name="DB_TaskType_ServiceComment">Mantenimiento Recurrente</string>
     <string name="DB_TaskType_ReminderName">Recordatorio</string>

@@ -98,7 +98,8 @@ public class DBReportAdapter extends DBAdapter {
     private static final String carListViewSelect =
             "SELECT " +
                     sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ROWID) + ", " +
-                    sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + " || '; ' || " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__REGISTRATIONNO) + " AS " + FIRST_LINE_LIST_NAME +
+                    sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_NAME) + " || " +
+                    " COALESCE('; ' || " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_CAR__REGISTRATIONNO) + ",'') AS " + FIRST_LINE_LIST_NAME +
                     ", " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_USER_COMMENT) + " AS " + SECOND_LINE_LIST_NAME +
                     ", " + sqlConcatTableColumn(TABLE_NAME_CAR, COL_NAME_GEN_ISACTIVE) + " AS " + THIRD_LINE_LIST_NAME +
             " FROM " + TABLE_NAME_CAR +

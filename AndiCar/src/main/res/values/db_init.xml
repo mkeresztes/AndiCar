@@ -130,6 +130,8 @@
     <string name="DB_Curr_AUD">Australian dollar</string>
     <string name="DB_Curr_MXN">Mexican peso</string>
 
+    <string name="DB_InitCar_Name">My Car</string>
+
     <string name="DB_TaskType_ServiceName">Service</string>
     <string name="DB_TaskType_ServiceComment">Recurrent maintenance</string>
     <string name="DB_TaskType_ReminderName">Reminder</string>

@@ -97,7 +97,8 @@ public class CarEditFragment extends BaseEditFragment {
         mCarModel = c.getString(DBAdapter.COL_POS_CAR__MODEL);
         mCarRegNo = c.getString(DBAdapter.COL_POS_CAR__REGISTRATIONNO);
         try {
-            mInitialIndex = new BigDecimal(c.getString(DBAdapter.COL_POS_CAR__INDEXSTART));
+            if (c.getString(DBAdapter.COL_POS_CAR__INDEXSTART) != null)
+                mInitialIndex = new BigDecimal(c.getString(DBAdapter.COL_POS_CAR__INDEXSTART));
         }
         catch (NumberFormatException ignored) {
         }

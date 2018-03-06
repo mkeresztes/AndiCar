@@ -123,6 +123,8 @@
     <string name="DB_Curr_CAD">Kanadai Dollár</string>
     <string name="DB_Curr_GBP">Angol Font</string>
 
+    <string name="DB_InitCar_Name">Az én autóm</string>
+
     <string name="DB_TaskType_ServiceName">Szervíz</string>
     <string name="DB_TaskType_ServiceComment">Időszakos karbantartás</string>
     <string name="DB_TaskType_ReminderName">Emlékeztető</string>

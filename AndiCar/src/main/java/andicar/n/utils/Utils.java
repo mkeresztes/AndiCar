@@ -67,6 +67,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import andicar.n.activity.dialogs.GeneralNotificationDialogActivity;
 import andicar.n.activity.dialogs.MessageDialog;
@@ -922,6 +923,15 @@ public class Utils {
         else {
             //noinspection deprecation
             return ctx.getResources().getConfiguration().locale.getCountry();
+        }
+    }
+
+    public static Locale getDeviceDefaultLocale(Context ctx) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return ctx.getResources().getConfiguration().getLocales().get(0);
+        } else {
+            //noinspection deprecation
+            return ctx.getResources().getConfiguration().locale;
         }
     }
 }
