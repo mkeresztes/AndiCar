@@ -126,6 +126,9 @@
     <string name="DB_Curr_RON">Romania Lei</string>
     <string name="DB_Curr_CAD">Canada Dollar</string>
     <string name="DB_Curr_GBP">United Kingdom Pounds</string>
+    <string name="DB_Curr_ZAR">South African Rand</string>
+    <string name="DB_Curr_AUD">Australian dollar</string>
+    <string name="DB_Curr_MXN">Mexican peso</string>
 
     <string name="DB_TaskType_ServiceName">Service</string>
     <string name="DB_TaskType_ServiceComment">Recurrent maintenance</string>

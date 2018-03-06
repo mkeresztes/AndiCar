@@ -152,6 +152,21 @@ public class CarEditFragment extends BaseEditFragment {
                     mFuelUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "gal GB");
 
                     break;
+                case "AU":
+                    setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "AUD"));
+                    mLengthUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "km");
+                    mFuelUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "l");
+                    break;
+                case "ZA": //south africa
+                    setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "ZAR"));
+                    mLengthUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "km");
+                    mFuelUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "l");
+                    break;
+                case "MX": //mexico
+                    setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "MXN"));
+                    mLengthUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "km");
+                    mFuelUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "l");
+                    break;
                 default:
                     setCurrencyId(mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_CURRENCY, "EUR"));
                     mLengthUOMId = mDbAdapter.getIdByCode(DBAdapter.TABLE_NAME_UOM, "km");

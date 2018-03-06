@@ -1272,6 +1272,12 @@ public class DB {
                     + mResource.getString(R.string.DB_Curr_CAD) + "', " + "'CAD' )");
             db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_Curr_GBP) + "', " + "'Y', " + "'"
                     + mResource.getString(R.string.DB_Curr_GBP) + "', " + "'GBP' )");
+            db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_Curr_ZAR) + "', " + "'Y', " + "'"
+                    + mResource.getString(R.string.DB_Curr_ZAR) + "', " + "'ZAR' )");
+            db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_Curr_AUD) + "', " + "'Y', " + "'"
+                    + mResource.getString(R.string.DB_Curr_AUD) + "', " + "'AUD' )");
+            db.execSQL(colPart + "VALUES ( " + "'" + mResource.getString(R.string.DB_Curr_MXN) + "', " + "'Y', " + "'"
+                    + mResource.getString(R.string.DB_Curr_MXN) + "', " + "'MXN' )");
         }
 
         private void createRefuelTable(SQLiteDatabase db) throws SQLException {
