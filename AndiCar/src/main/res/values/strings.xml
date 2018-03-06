@@ -416,6 +416,7 @@
     <string name="gen_set_date">Set date/time</string>
     <!--GEN_DeleteConfirmation-->
     <string name="gen_delete_confirmation">Are you sure you want to delete the selected record?</string>
+    <string name="gen_delete_confirmation_car">Are you sure you want to permanently delete the selected car with all of the linked records (trips, fill-ups, expenses, etc.)?</string>
 
     <string name="gen_search">Search/filter</string>
     <!--GEN_DateTimeLabel-->

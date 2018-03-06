@@ -274,6 +274,7 @@
     <string name="gen_done_and_new">Erledigt &amp; Hinzufügen</string>
     <string name="gen_set_date">Datum/Zeit einstellen</string>
     <string name="gen_delete_confirmation">Soll die ausgewählte Aufzeichnung gelöscht werden?</string>
+    <string name="gen_delete_confirmation_car">Sind Sie sicher, dass Sie das ausgewählte Fahrzeug mit allen verknüpften Datensätzen (Fahrten, Auffüllungen, Spesen usw.) endgültig löschen möchten?</string>
     <string name="gen_search">Suchen/filtern</string>
     <string name="gen_date_time_label">Datum und Zeit:</string>
     <string name="gen_quantity_label">Menge:</string>

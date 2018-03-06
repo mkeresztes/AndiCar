@@ -846,7 +846,11 @@ public abstract class BaseEditFragment extends Fragment {
         } else if (id == R.id.action_delete && getActivity() != null) {
             final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
             alertDialog.setTitle(R.string.gen_confirm);
-            alertDialog.setMessage(R.string.gen_delete_confirmation);
+            if (BaseEditFragment.this instanceof CarEditFragment)
+                alertDialog.setMessage(R.string.gen_delete_confirmation_car);
+            else
+                alertDialog.setMessage(R.string.gen_delete_confirmation);
+
             alertDialog.setCancelable(false);
 
             alertDialog.setPositiveButton(R.string.gen_yes,

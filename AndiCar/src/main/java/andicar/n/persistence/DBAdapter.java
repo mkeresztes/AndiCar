@@ -36,12 +36,16 @@ import java.util.Locale;
 
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
+import andicar.n.utils.Utils;
 
 //@formatter:off
 @SuppressWarnings("JavaDoc") public class DBAdapter extends DB {
 
+    private Context mCtx;
+
     public DBAdapter(Context ctx) {
         super(ctx);
+        mCtx = ctx;
     }
 
     public int getVersion() {
@@ -638,10 +642,11 @@ import andicar.n.utils.FileUtils;
      * see errors.xml
      */
     public int deleteRecord(String tableName, long rowId) {
-        int retVal;
+        int retVal = -1;
         try {
             Cursor c;
-            retVal = canDelete(tableName, rowId);
+            if(!tableName.equals(TABLE_NAME_CAR)) //if a car is deleted all related records will be deleted
+                retVal = canDelete(tableName, rowId);
             // 1 -> -1
             if (retVal == -1) {
                 switch (tableName) {
@@ -749,8 +754,28 @@ import andicar.n.utils.FileUtils;
                         mDb.delete(TABLE_NAME_TODO, COL_NAME_TODO__CAR_ID + "=" + rowId, null);
                         mDb.delete(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__CAR_ID + "=" + rowId, null);
                         mDb.delete(TABLE_NAME_BTDEVICE_CAR, COL_NAME_BTDEVICECAR__CAR_ID + "=" + rowId, null);
+                        mDb.delete(TABLE_NAME_DATA_TEMPLATE,
+                                COL_NAME_GEN_ROWID + " IN (SELECT " + COL_NAME_DATATEMPLATEVALUES__TEMPLATE_ID + " " +
+                                                            "FROM " + TABLE_NAME_DATA_TEMPLATE_VALUES + " " +
+                                                            "WHERE Name = 'spnCar' " +
+                                                                    "AND " + COL_NAME_DATATEMPLATEVALUES__VALUE + " = '" + rowId + "')", null);
+                        mDb.delete(TABLE_NAME_DATA_TEMPLATE_VALUES,
+                                COL_NAME_DATATEMPLATEVALUES__TEMPLATE_ID + " NOT IN (SELECT " + COL_NAME_GEN_ROWID + " " +
+                                                            "FROM " + TABLE_NAME_DATA_TEMPLATE + ")", null);
+                        mDb.delete(TABLE_NAME_EXPENSE, COL_NAME_EXPENSE__CAR_ID + "=" + rowId, null);
+                        mDb.delete(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID + "=" + rowId, null);
+                        mDb.delete(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID + "=" + rowId, null);
+                        mDb.delete(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID + "=" + rowId, null);
+                        mDb.delete(TABLE_NAME_GPSTRACKDETAIL,
+                                COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID + " IN (SELECT " + COL_NAME_GEN_ROWID + " " +
+                                                            "FROM " + TABLE_NAME_GPSTRACK + " " +
+                                                            "WHERE " + COL_NAME_GPSTRACK__CAR_ID + " = " + rowId + ")", null);
+                        mDb.delete(TABLE_NAME_GPSTRACK, COL_NAME_GPSTRACK__CAR_ID + "=" + rowId, null);
+                        mDb.delete(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__CAR_ID + "=" + rowId, null);
 
                         retVal = (-1 * mDb.delete(tableName, COL_NAME_GEN_ROWID + "=" + rowId, null));
+                        Utils.setToDoNextRun(mCtx);
+
                         break;
                     case TABLE_NAME_TASK:
                         //also delete the locations
