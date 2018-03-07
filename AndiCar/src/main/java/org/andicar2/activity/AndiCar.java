@@ -153,7 +153,13 @@ public class AndiCar extends MultiDexApplication {
 
     private void updateApp(int oldAppVersion) {
         SharedPreferences.Editor e = appPreferences.edit();
-        //version upgrade
+        //clean directories
+        try {
+            FileUtils.cleanDirectory(new File(ConstantValues.LOG_FOLDER));
+            FileUtils.cleanDirectory(new File(ConstantValues.REPORT_FOLDER));
+        } catch (IOException ignored) {
+        }
+
         if (oldAppVersion <= 17092000) {
             //migrate the main screen zones
             e.putString(getString(R.string.pref_key_main_zone10_content), appPreferences.getString(getString(R.string.pref_key_main_zone8_content), "LGT"));
@@ -166,13 +172,6 @@ public class AndiCar extends MultiDexApplication {
             e.putString(getString(R.string.pref_key_main_zone3_content), appPreferences.getString(getString(R.string.pref_key_main_zone1_content), "LTR"));
             e.remove(getString(R.string.pref_key_main_zone2_content)); //this will be initialized in the main screen, based on current car volume uom (Fuel Eff or Fuel Cons)
             e.putString(getString(R.string.pref_key_main_zone1_content), "STS");
-
-            //delete the old log files
-            try {
-                FileUtils.cleanDirectory(new File(ConstantValues.LOG_FOLDER));
-            }
-            catch (IOException ignored) {
-            }
         }
         if (oldAppVersion <= 17100500) {
             //correct the location of the files (log, gpstracks, etc.) if the internal storage is used
@@ -327,6 +326,10 @@ public class AndiCar extends MultiDexApplication {
             e.putString(getString(R.string.pref_key_main_zone2_content), appPreferences.getString(getString(R.string.pref_key_main_zone1_content), "STS"));
             e.putString(getString(R.string.pref_key_main_zone1_content), "CFP");
         }
+        if (oldAppVersion <= 18012800) {
+            FileUtils.deleteFile(ConstantValues.TRACK_FOLDER + "AndiCarGPSTrack.zip");
+        }
+
         e.apply();
     }
 
