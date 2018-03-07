@@ -419,7 +419,7 @@ public class GPSTrackService extends Service {
         ContentValues cvData = new ContentValues();
         cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID, gpsTrackId);
         cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__FILEFORMAT, CSV_FORMAT);
-        cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__FILE, gpsTrackDetailCSVFile.getAbsolutePath());
+        cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__FILE, gpsTrackDetailCSVFile.getName());
         mDbAdapter.createRecord(DBAdapter.TABLE_NAME_GPSTRACKDETAIL, cvData);
         gpsTrackDetailCSVFileWriter.flush();
 
@@ -439,7 +439,7 @@ public class GPSTrackService extends Service {
         ContentValues cvData = new ContentValues();
         cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID, gpsTrackId);
         cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__FILEFORMAT, GOP_FORMAT);
-        cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__FILE, gpsTrackDetailGOPFile.getAbsolutePath());
+        cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__FILE, gpsTrackDetailGOPFile.getName());
         mDbAdapter.createRecord(DBAdapter.TABLE_NAME_GPSTRACKDETAIL, cvData);
 
         gpsTrackDetailGOPFileWriter.flush();
@@ -456,7 +456,7 @@ public class GPSTrackService extends Service {
         ContentValues cvData = new ContentValues();
         cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID, gpsTrackId);
         cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__FILEFORMAT, KML_FORMAT);
-        cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__FILE, gpsTrackDetailKMLFile.getAbsolutePath());
+        cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__FILE, gpsTrackDetailKMLFile.getName());
         mDbAdapter.createRecord(DBAdapter.TABLE_NAME_GPSTRACKDETAIL, cvData);
 
         //initialize the file header
@@ -487,7 +487,7 @@ public class GPSTrackService extends Service {
         ContentValues cvData = new ContentValues();
         cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID, gpsTrackId);
         cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__FILEFORMAT, GPX_FORMAT);
-        cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__FILE, gpsTrackDetailGPXFile.getAbsolutePath());
+        cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__FILE, gpsTrackDetailGPXFile.getName());
         mDbAdapter.createRecord(DBAdapter.TABLE_NAME_GPSTRACKDETAIL, cvData);
 
         gpsTrackDetailGPXFileWriter.append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"yes\"?>\n"

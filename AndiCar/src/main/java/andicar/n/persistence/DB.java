@@ -1564,6 +1564,8 @@ public class DB {
             }
             else if (oldVersion == 510) {
                 upgradeDbTo511(db, oldVersion);
+            } else if (oldVersion == 511) {
+                upgradeDbTo512(db, oldVersion);
             }
 
             // !!!!!!!!!!!!!!DON'T FORGET onCREATE !!!!!!!!!!!!!!!!
@@ -2339,6 +2341,12 @@ public class DB {
 
         private void upgradeDbTo511(SQLiteDatabase db, int oldVersion) throws SQLException {
             createMessageTables(db);
+            upgradeDbTo512(db, oldVersion);
+        }
+
+        private void upgradeDbTo512(SQLiteDatabase db, int oldVersion) throws SQLException {
+            //remove the folder from the gps track
+            db.execSQL("update gps_trackdetail set File = substr(File, instr(File, gps_track_id))");
         }
 
         @SuppressWarnings("BooleanMethodIsAlwaysInverted")

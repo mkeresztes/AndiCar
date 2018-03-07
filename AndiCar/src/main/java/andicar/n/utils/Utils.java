@@ -905,11 +905,11 @@ public class Utils {
         String trackFile;
         while (c.moveToNext()) {
             trackFile = c.getString(DBAdapter.COL_POS_GPSTRACKDETAIL__FILE);
-            trackFiles.putString(trackFile.replace(ConstantValues.TRACK_FOLDER, ""), trackFile);
+            trackFiles.putString(trackFile, ConstantValues.TRACK_FOLDER + trackFile);
         }
 
         //create the zip file
-        Uri trackFileZip = FileUtils.zipFiles(ctx, trackFiles, ConstantValues.TRACK_FOLDER + "AndiCarGPSTrack.zip");
+        Uri trackFileZip = FileUtils.zipFiles(ctx, trackFiles, ConstantValues.TEMP_FOLDER + "AndiCarGPSTrack.zip");
         if (trackFileZip != null) {
             emailIntent.putExtra(Intent.EXTRA_STREAM, trackFileZip);
         }

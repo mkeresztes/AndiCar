@@ -711,16 +711,12 @@ import andicar.n.utils.Utils;
                     }
                     case TABLE_NAME_GPSTRACK: {
                         //delete gps track details
-                        String fileName;
                         String selection = COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID + "= ?";
                         String[] selectionArgs = {Long.toString(rowId)};
                         c = query(TABLE_NAME_GPSTRACKDETAIL, COL_LIST_GPSTRACKDETAIL_TABLE, selection, selectionArgs, null);
                         while (c.moveToNext()) {
                             //delete track files
-                            fileName = c.getString(COL_POS_GPSTRACKDETAIL__FILE);
-                            if (fileName != null) {
-                                FileUtils.deleteFile(fileName);
-                            }
+                            FileUtils.deleteFile(ConstantValues.TRACK_FOLDER + c.getString(COL_POS_GPSTRACKDETAIL__FILE));
                             //delete from gpstrack detail
                             deleteRecord(TABLE_NAME_GPSTRACKDETAIL, c.getInt(COL_POS_GEN_ROWID));
                         }
