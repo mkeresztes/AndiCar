@@ -766,11 +766,15 @@ import andicar.n.utils.Utils;
                         mDb.delete(TABLE_NAME_MILEAGE, COL_NAME_MILEAGE__CAR_ID + "=" + rowId, null);
                         mDb.delete(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID + "=" + rowId, null);
                         mDb.delete(TABLE_NAME_REFUEL, COL_NAME_REFUEL__CAR_ID + "=" + rowId, null);
-                        mDb.delete(TABLE_NAME_GPSTRACKDETAIL,
-                                COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID + " IN (SELECT " + COL_NAME_GEN_ROWID + " " +
-                                                            "FROM " + TABLE_NAME_GPSTRACK + " " +
-                                                            "WHERE " + COL_NAME_GPSTRACK__CAR_ID + " = " + rowId + ")", null);
-                        mDb.delete(TABLE_NAME_GPSTRACK, COL_NAME_GPSTRACK__CAR_ID + "=" + rowId, null);
+
+                        String selection = COL_NAME_GPSTRACK__CAR_ID + " = ?";
+                        String[] selectionArgs = {Long.toString(rowId)};
+                        Cursor cursor = query(TABLE_NAME_GPSTRACK, COL_LIST_GEN_ROWID, selection, selectionArgs, null);
+                        while (cursor.moveToNext()) {
+                            deleteRecord(TABLE_NAME_GPSTRACK, cursor.getInt(0));
+                        }
+                        cursor.close();
+
                         mDb.delete(TABLE_NAME_REIMBURSEMENT_CAR_RATES, COL_NAME_REIMBURSEMENT_CAR_RATES__CAR_ID + "=" + rowId, null);
 
                         retVal = (-1 * mDb.delete(tableName, COL_NAME_GEN_ROWID + "=" + rowId, null));
