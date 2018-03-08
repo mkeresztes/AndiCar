@@ -492,7 +492,7 @@ public abstract class BaseViewAdapter
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         //-3 for position the last clicked item below to the top of the view
         recyclerView.scrollToPosition(mSelectedPosition >= 3 ? mSelectedPosition - 3 : 0);
     }

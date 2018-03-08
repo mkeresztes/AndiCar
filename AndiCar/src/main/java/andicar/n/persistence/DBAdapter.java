@@ -41,7 +41,7 @@ import andicar.n.utils.Utils;
 //@formatter:off
 @SuppressWarnings("JavaDoc") public class DBAdapter extends DB {
 
-    private Context mCtx;
+    private final Context mCtx;
 
     public DBAdapter(Context ctx) {
         super(ctx);

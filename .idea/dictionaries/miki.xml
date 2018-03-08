@@ -25,6 +25,7 @@
       <w>droppy</w>
       <w>due dat</w>
       <w>duemileage</w>
+      <w>expensecategory</w>
       <w>expensetype</w>
       <w>fifthline</w>
       <w>fileuriexposedexception</w>
@@ -78,6 +79,7 @@
       <w>trkseg</w>
       <w>unixepoch</w>
       <w>unmetered</w>
+      <w>uomtype</w>
       <w>usercomment</w>
       <w>valign</w>
       <w>xcfu</w>

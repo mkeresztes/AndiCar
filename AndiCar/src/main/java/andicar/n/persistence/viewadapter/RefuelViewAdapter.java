@@ -22,6 +22,7 @@ package andicar.n.persistence.viewadapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -51,7 +52,7 @@ public class RefuelViewAdapter extends BaseViewAdapter {
     }
 
     @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
         if (mDBAdapter != null) {
             mDBAdapter.close();
