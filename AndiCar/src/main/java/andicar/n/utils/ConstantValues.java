@@ -37,7 +37,7 @@ public class ConstantValues {
     //showing or not the debug info about the screen size
     public static final boolean DEBUG_IS_SHOW_INFO_IN_FRAGMENTS = true;
 
-    public static final int DATABASE_VERSION = 512;
+    public static final int DATABASE_VERSION = 511;
     public static final String DATABASE_NAME = "AndiCar.db";
     public static final String EXPENSES_COL_FROM_REFUEL_TABLE_NAME = "Refuel";
     public static final String DAY_OF_WEEK_NAME = "DayOfWeek";
