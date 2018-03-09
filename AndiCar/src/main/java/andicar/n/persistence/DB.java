@@ -2340,7 +2340,7 @@ public class DB {
         private void upgradeDbTo511(SQLiteDatabase db, int oldVersion) throws SQLException {
             createMessageTables(db);
             //remove the folder from the gps track
-            db.execSQL("update gps_trackdetail set File = substr(File, instr(File, gps_track_id))");
+//            db.execSQL("update gps_trackdetail set File = substr(File, instr(File, gps_track_id))");
         }
 
         @SuppressWarnings("BooleanMethodIsAlwaysInverted")

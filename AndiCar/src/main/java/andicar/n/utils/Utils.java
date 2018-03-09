@@ -895,23 +895,31 @@ public class Utils {
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
 
         //get the track files
-        FileUtils.createFolderIfNotExists(ctx, ConstantValues.TRACK_FOLDER);
-        String selection = DBAdapter.COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID + "= ? ";
-        String[] selectionArgs = {Long.toString(gpsTrackID)};
-        c = mDbAdapter.query(DBAdapter.TABLE_NAME_GPSTRACKDETAIL, DBAdapter.COL_LIST_GPSTRACKDETAIL_TABLE, selection, selectionArgs,
-                DBAdapter.COL_NAME_GPSTRACKDETAIL__FILE);
+//        Bundle trackFiles = new Bundle();
+//        FileUtils.createFolderIfNotExists(ctx, ConstantValues.TRACK_FOLDER);
+//        String selection = DBAdapter.COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID + "= ? ";
+//        String[] selectionArgs = {Long.toString(gpsTrackID)};
+//        c = mDbAdapter.query(DBAdapter.TABLE_NAME_GPSTRACKDETAIL, DBAdapter.COL_LIST_GPSTRACKDETAIL_TABLE, selection, selectionArgs,
+//                DBAdapter.COL_NAME_GPSTRACKDETAIL__FILE);
+//
+//        String trackFile;
+//        while (c.moveToNext()) {
+//            trackFile = c.getString(DBAdapter.COL_POS_GPSTRACKDETAIL__FILE);
+//            trackFiles.putString(trackFile, ConstantValues.TRACK_FOLDER + trackFile);
+//        }
 
-        Bundle trackFiles = new Bundle();
-        String trackFile;
-        while (c.moveToNext()) {
-            trackFile = c.getString(DBAdapter.COL_POS_GPSTRACKDETAIL__FILE);
-            trackFiles.putString(trackFile, ConstantValues.TRACK_FOLDER + trackFile);
-        }
-
-        //create the zip file
-        Uri trackFileZip = FileUtils.zipFiles(ctx, trackFiles, ConstantValues.TEMP_FOLDER + "AndiCarGPSTrack.zip");
-        if (trackFileZip != null) {
-            emailIntent.putExtra(Intent.EXTRA_STREAM, trackFileZip);
+        ArrayList<String> trackFiles;
+        Bundle trackFilesToSend = new Bundle();
+        trackFiles = FileUtils.getFileNames(ctx, ConstantValues.TRACK_FOLDER, gpsTrackID + "_[0-9][0-9][0-9].*");
+        if (trackFiles != null) {
+            for (String file : trackFiles) {
+                trackFilesToSend.putString(file, ConstantValues.TRACK_FOLDER + file);
+            }
+            //create the zip file
+            Uri trackFileZip = FileUtils.zipFiles(ctx, trackFilesToSend, ConstantValues.TEMP_FOLDER + "AndiCarGPSTrack.zip");
+            if (trackFileZip != null) {
+                emailIntent.putExtra(Intent.EXTRA_STREAM, trackFileZip);
+            }
         }
         ctx.startActivity(Intent.createChooser(emailIntent, mRes.getString(R.string.gen_share)));
     }
