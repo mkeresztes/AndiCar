@@ -1639,10 +1639,15 @@ import andicar.n.utils.Utils;
         String sql =
                 "SELECT MAX( " + DBAdapter.COL_NAME_MILEAGE__INDEXSTOP + "), 1 As Pos " +
                 "FROM " + DBAdapter.TABLE_NAME_MILEAGE + " " +
-                "WHERE "
-                    + DBAdapter.COL_NAME_GEN_ISACTIVE + " = 'Y' " + "AND " + DBAdapter.COL_NAME_MILEAGE__CAR_ID + " = ? " + "UNION " + "SELECT "
-                    + DBAdapter.COL_NAME_CAR__INDEXCURRENT + ", 2 As Pos " + "FROM " + DBAdapter.TABLE_NAME_CAR + " " + "WHERE "
-                    + DBAdapter.COL_NAME_GEN_ROWID + " = ? " +
+                "WHERE " +
+                    DBAdapter.COL_NAME_GEN_ISACTIVE + " = 'Y' " +
+                    "AND " + DBAdapter.COL_NAME_MILEAGE__CAR_ID + " = ? " +
+                "UNION " +
+                "SELECT " +
+                    DBAdapter.COL_NAME_CAR__INDEXCURRENT + ", 2 As Pos " +
+                "FROM " + DBAdapter.TABLE_NAME_CAR + " " +
+                "WHERE " +
+                    DBAdapter.COL_NAME_GEN_ROWID + " = ? " +
                 "ORDER BY Pos ASC";
         //@formatter:on
         String[] selectionArgs = {Long.toString(mCarId), Long.toString(mCarId)};
