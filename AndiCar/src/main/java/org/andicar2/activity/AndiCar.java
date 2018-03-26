@@ -330,6 +330,28 @@ public class AndiCar extends MultiDexApplication {
             FileUtils.deleteFile(ConstantValues.TRACK_FOLDER + "AndiCarGPSTrack.zip");
         }
 
+        if (oldAppVersion <= 18032601) {
+            DBAdapter db = new DBAdapter(getApplicationContext());
+            String sql = "SELECT _id, GPS_TRACK_ID, File FROM gps_trackdetail ORDER BY _id DESC";
+            Cursor c = db.execSelectSql(sql, null);
+            long id, gpsTrackId;
+            String file;
+            while (c.moveToNext()) {
+                id = c.getLong(0);
+                gpsTrackId = c.getLong(1);
+                file = c.getString(2);
+                if (file.contains("/")) {
+                    file = file.substring(file.indexOf(Long.toString(gpsTrackId)));
+                    sql = "UPDATE " + DBAdapter.TABLE_NAME_GPSTRACKDETAIL +
+                            " SET " + DBAdapter.COL_NAME_GPSTRACKDETAIL__FILE + " = '" + file + "'" +
+                            " WHERE " + DBAdapter.COL_NAME_GEN_ROWID + " = " + id;
+                    db.execUpdate(sql);
+                }
+            }
+            c.close();
+            db.close();
+        }
+
         e.apply();
     }
 
