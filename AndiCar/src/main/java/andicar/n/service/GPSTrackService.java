@@ -42,6 +42,7 @@ import android.widget.Toast;
 import org.andicar2.activity.AndiCar;
 import org.andicar2.activity.R;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -110,13 +111,14 @@ public class GPSTrackService extends Service {
     private long lOldLocationTime = 0;
     private double dDistanceBetweenLocations = 0;
     private long gpsTrackId = 0;
-    private FileWriter gpsTrackDetailGOPFileWriter = null;
-    private FileWriter gpsTrackDetailCSVFileWriter = null;
-    private File gpsTrackDetailCSVFile = null;
-    private FileWriter gpsTrackDetailKMLFileWriter = null;
-    private File gpsTrackDetailKMLFile = null;
-    private FileWriter gpsTrackDetailGPXFileWriter = null;
-    private File gpsTrackDetailGPXFile = null;
+    private BufferedWriter mGOPWriter = null;
+    //    private FileWriter gpsTrackDetailGOPFileWriter = null;
+    private BufferedWriter mCSVWriter = null;
+    //    private FileWriter gpsTrackDetailCSVFileWriter = null;
+    private BufferedWriter mKMLWriter = null;
+    //    private FileWriter gpsTrackDetailKMLFileWriter = null;
+    private BufferedWriter mGPXWriter = null;
+    //    private FileWriter gpsTrackDetailGPXFileWriter = null;
     /* tmp values */
     private String sName = null;
     private boolean isUseKML = false;
@@ -358,20 +360,13 @@ public class GPSTrackService extends Service {
         if (isUseKML) {
             createKMLFile(fileName);
         }
-        else {
-            gpsTrackDetailKMLFile = null;
-        }
+
         if (isUseGPX) {
             createGPXFile(fileName);
         }
-        else {
-            gpsTrackDetailGPXFile = null;
-        }
+
         if (isUseCSV) {
             createCSVFile(fileName);
-        }
-        else {
-            gpsTrackDetailCSVFile = null;
         }
 
         if (mDbAdapter != null) {
@@ -397,11 +392,11 @@ public class GPSTrackService extends Service {
     }
 
     private void createCSVFile(String fileName) throws IOException {
-        gpsTrackDetailCSVFile = FileUtils.createGpsTrackDetailFile(CSV_FORMAT, fileName);
-        gpsTrackDetailCSVFileWriter = new FileWriter(gpsTrackDetailCSVFile);
+        File gpsTrackDetailCSVFile = FileUtils.createGpsTrackDetailFile(CSV_FORMAT, fileName);
+        mCSVWriter = new BufferedWriter(new FileWriter(gpsTrackDetailCSVFile));
 
         //create the header
-        gpsTrackDetailCSVFileWriter.append(DBAdapter.COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID)
+        mCSVWriter.append(DBAdapter.COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID)
                 .append(",Accuracy").append(isUseMetricUnits ? " [m]" : " [yd]")
                 .append(",Altitude").append(isUseMetricUnits ? " [m]" : " [yd]")
                 .append(",Latitude")
@@ -413,15 +408,15 @@ public class GPSTrackService extends Service {
                 .append(",Bearing")
                 .append(",TrackPointCount")
                 .append(",InvalidTrackPointCount")
-                .append(",IsValidPoint")
-                .append("\n");
+                .append(",IsValidPoint");
+        mCSVWriter.newLine();
 
         ContentValues cvData = new ContentValues();
         cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID, gpsTrackId);
         cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__FILEFORMAT, CSV_FORMAT);
         cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__FILE, gpsTrackDetailCSVFile.getName());
         mDbAdapter.createRecord(DBAdapter.TABLE_NAME_GPSTRACKDETAIL, cvData);
-        gpsTrackDetailCSVFileWriter.flush();
+        mCSVWriter.flush();
 
         if (isEnableDebugLog) {
             logDebugInfo(debugLogFile, "createCSVFile: File created. gpsTrackDetailCSVFile = " + fileName, null);
@@ -431,10 +426,11 @@ public class GPSTrackService extends Service {
 
     private void createGOPFile(String fileName) throws IOException {
         File gpsTrackDetailGOPFile = FileUtils.createGpsTrackDetailFile(GOP_FORMAT, fileName);
-        gpsTrackDetailGOPFileWriter = new FileWriter(gpsTrackDetailGOPFile);
+        mGOPWriter = new BufferedWriter(new FileWriter(gpsTrackDetailGOPFile));
 
         //create the header
-        gpsTrackDetailGOPFileWriter.append("LatitudeE6,LongitudeE6,PointType\n");
+        mGOPWriter.append("LatitudeE6,LongitudeE6,PointType");
+        mGOPWriter.newLine();
 
         ContentValues cvData = new ContentValues();
         cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID, gpsTrackId);
@@ -442,7 +438,7 @@ public class GPSTrackService extends Service {
         cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__FILE, gpsTrackDetailGOPFile.getName());
         mDbAdapter.createRecord(DBAdapter.TABLE_NAME_GPSTRACKDETAIL, cvData);
 
-        gpsTrackDetailGOPFileWriter.flush();
+        mGOPWriter.flush();
 
         if (isEnableDebugLog) {
             logDebugInfo(debugLogFile, "createGOPFile: File created. gpsTrackDetailGOPFile = " + fileName, null);
@@ -450,8 +446,8 @@ public class GPSTrackService extends Service {
     }
 
     private void createKMLFile(String fileName) throws IOException {
-        gpsTrackDetailKMLFile = FileUtils.createGpsTrackDetailFile(KML_FORMAT, fileName);
-        gpsTrackDetailKMLFileWriter = new FileWriter(gpsTrackDetailKMLFile);
+        File gpsTrackDetailKMLFile = FileUtils.createGpsTrackDetailFile(KML_FORMAT, fileName);
+        mKMLWriter = new BufferedWriter(new FileWriter(gpsTrackDetailKMLFile));
 
         ContentValues cvData = new ContentValues();
         cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID, gpsTrackId);
@@ -461,18 +457,18 @@ public class GPSTrackService extends Service {
 
         //initialize the file header
 
-        gpsTrackDetailKMLFileWriter.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<kml xmlns=\"http://earth.google.com/kml/2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n"
-                + "<Document>\n"
-                + "<atom:author><atom:name>AndiCar</atom:name></atom:author>\n"
-                + "<name><![CDATA[").append(sName).append("]]></name>\n")
+        mKMLWriter.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+                .append("<kml xmlns=\"http://earth.google.com/kml/2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n")
+                .append("<Document>\n")
+                .append("<atom:author><atom:name>AndiCar</atom:name></atom:author>\n")
+                .append("<name><![CDATA[").append(sName).append("]]></name>\n")
                 .append("<description><![CDATA[Recorded with <a href='http://www.andicar.org'>AndiCar</a>]]></description>\n")
                 .append("<Style id=\"track\"><LineStyle><color>7f0000ff</color><width>4</width></LineStyle></Style>\n")
                 .append("<Style id=\"sh_green-circle\"><IconStyle><scale>1.3</scale><Icon><href>http://maps.google.com/mapfiles/kml/paddle/grn-circle.png</href></Icon><hotSpot x=\"32\" y=\"1\" xunits=\"pixels\" yunits=\"pixels\"/></IconStyle></Style>\n")
                 .append("<Style id=\"sh_red-circle\"><IconStyle><scale>1.3</scale><Icon><href>http://maps.google.com/mapfiles/kml/paddle/red-circle.png</href></Icon><hotSpot x=\"32\" y=\"1\" xunits=\"pixels\" yunits=\"pixels\"/></IconStyle></Style>\n")
                 .append("<Style id=\"icon28\"><IconStyle><scale>1.3</scale><Icon><href>http://maps.google.com/mapfiles/kml/pal4/icon28.png</href></Icon><hotSpot x=\"20\" y=\"2\" xunits=\"pixels\" yunits=\"pixels\"/></IconStyle></Style>\n")
                 .append("<Style id=\"icon29\"><IconStyle><scale>1.3</scale><Icon><href>http://maps.google.com/mapfiles/kml/pal4/icon29.png</href></Icon><hotSpot x=\"20\" y=\"2\" xunits=\"pixels\" yunits=\"pixels\"/></IconStyle></Style>");
-        gpsTrackDetailKMLFileWriter.flush();
+        mKMLWriter.flush();
 
         if (isEnableDebugLog) {
             logDebugInfo(debugLogFile, "createKMLFile: File created. gpsTrackDetailKMLFile = " + fileName, null);
@@ -481,8 +477,8 @@ public class GPSTrackService extends Service {
     }
 
     private void createGPXFile(String fileName) throws IOException {
-        gpsTrackDetailGPXFile = FileUtils.createGpsTrackDetailFile(GPX_FORMAT, fileName);
-        gpsTrackDetailGPXFileWriter = new FileWriter(gpsTrackDetailGPXFile);
+        File gpsTrackDetailGPXFile = FileUtils.createGpsTrackDetailFile(GPX_FORMAT, fileName);
+        mGPXWriter = new BufferedWriter(new FileWriter(gpsTrackDetailGPXFile));
 
         ContentValues cvData = new ContentValues();
         cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__GPSTRACK_ID, gpsTrackId);
@@ -490,21 +486,21 @@ public class GPSTrackService extends Service {
         cvData.put(DBAdapter.COL_NAME_GPSTRACKDETAIL__FILE, gpsTrackDetailGPXFile.getName());
         mDbAdapter.createRecord(DBAdapter.TABLE_NAME_GPSTRACKDETAIL, cvData);
 
-        gpsTrackDetailGPXFileWriter.append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"yes\"?>\n"
-                + "<?xml-stylesheet type=\"text/xsl\" href=\"details.xsl\"?>\n"
-                + "<gpx\n"
-                + "version=\"1.0\"\n"
-                + "creator=\"AndiCar\"\n"
-                + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
-                + "xmlns=\"http://www.topografix.com/GPX/1/0\"\n"
-                + "xmlns:topografix=\"http://www.topografix.com/GPX/Private/TopoGrafix/0/1\" "
-                + "xsi:schemaLocation=\"http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd http://www.topografix.com/GPX/Private/TopoGrafix/0/1 http://www.topografix.com/GPX/Private/TopoGrafix/0/1/topografix.xsd\">\n"
-                + "<trk>\n" + "<name><![CDATA[Trip record for '").append(sName).append("']]></name>\n")
+        mGPXWriter.append("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"yes\"?>\n")
+                .append("<?xml-stylesheet type=\"text/xsl\" href=\"details.xsl\"?>\n")
+                .append("<gpx\n")
+                .append("version=\"1.0\"\n")
+                .append("creator=\"AndiCar\"\n")
+                .append("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n")
+                .append("xmlns=\"http://www.topografix.com/GPX/1/0\"\n")
+                .append("xmlns:topografix=\"http://www.topografix.com/GPX/Private/TopoGrafix/0/1\" ")
+                .append("xsi:schemaLocation=\"http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd http://www.topografix.com/GPX/Private/TopoGrafix/0/1 http://www.topografix.com/GPX/Private/TopoGrafix/0/1/topografix.xsd\">\n")
+                .append("<trk>\n" + "<name><![CDATA[Trip record for '").append(sName).append("']]></name>\n")
                 .append("<desc><![CDATA[Recorded with <a href='http://www.andicar.org'>AndiCar</a><br>")
-                .append(Utils.getFormattedDateTime(System.currentTimeMillis(), true)).append("]]></desc>\n").
-                append("<topografix:color>c0c0c0</topografix:color>\n")
+                .append(Utils.getFormattedDateTime(System.currentTimeMillis(), true)).append("]]></desc>\n")
+                .append("<topografix:color>c0c0c0</topografix:color>\n")
                 .append("<trkseg>\n");
-        gpsTrackDetailGPXFileWriter.flush();
+        mGPXWriter.flush();
 
         if (isEnableDebugLog) {
             logDebugInfo(debugLogFile, "createGPXFile: File created. gpsTrackDetailGPXFile = " + fileName, null);
@@ -555,23 +551,19 @@ public class GPSTrackService extends Service {
                 logDebugInfo(debugLogFile, "closeFiles started", null);
             }
 
-            if (gpsTrackDetailCSVFileWriter != null) {
-                gpsTrackDetailCSVFileWriter.flush();
-                gpsTrackDetailCSVFileWriter.close();
+            if (mCSVWriter != null) {
+                mCSVWriter.close();
             }
-            if (gpsTrackDetailGOPFileWriter != null) {
-                gpsTrackDetailGOPFileWriter.flush();
-                gpsTrackDetailGOPFileWriter.close();
+            if (mGOPWriter != null) {
+                mGOPWriter.close();
             }
-            if (gpsTrackDetailKMLFileWriter != null) {
+            if (mKMLWriter != null) {
                 appendKMLFooter();
-                gpsTrackDetailKMLFileWriter.flush();
-                gpsTrackDetailKMLFileWriter.close();
+                mKMLWriter.close();
             }
-            if (gpsTrackDetailGPXFileWriter != null) {
+            if (mGPXWriter != null) {
                 appendGPXFooter();
-                gpsTrackDetailGPXFileWriter.flush();
-                gpsTrackDetailGPXFileWriter.close();
+                mGPXWriter.close();
             }
             if (isEnableDebugLog) {
                 logDebugInfo(debugLogFile, "closeFiles terminated", null);
@@ -588,7 +580,7 @@ public class GPSTrackService extends Service {
     }
 
     private void appendKMLFooter(/*boolean isLastFile*/) {
-        if (gpsTrackDetailKMLFileWriter == null) {
+        if (mKMLWriter == null) {
             if (isEnableDebugLog) {
                 logDebugInfo(debugLogFile, "appendKMLFooter: File writer is NULL!", null);
             }
@@ -676,7 +668,7 @@ public class GPSTrackService extends Service {
                     + lastGoodLocationLongitude + "," + lastGoodLocationLatitude + "," + lastGoodLocationAltitude + "</coordinates>\n" + "</Point>\n"
                     + "</Placemark>\n"
                     + "</Document>\n" + "</kml>\n";
-            gpsTrackDetailKMLFileWriter.append(footerTxt);
+            mKMLWriter.append(footerTxt);
 
             if (isEnableDebugLog) {
                 logDebugInfo(debugLogFile, "appendKMLFooter: Footer added", null);
@@ -691,14 +683,14 @@ public class GPSTrackService extends Service {
     }
 
     private void appendGPXFooter() {
-        if (gpsTrackDetailGPXFileWriter == null) {
+        if (mGPXWriter == null) {
             if (isEnableDebugLog) {
                 logDebugInfo(debugLogFile, "appendGPXFooter: File writer is NULL!", null);
             }
             return;
         }
         try {
-            gpsTrackDetailGPXFileWriter.append("</trkseg>\n" + "</trk>\n" + "</gpx>");
+            mGPXWriter.append("</trkseg>\n" + "</trk>\n" + "</gpx>");
 
             if (isEnableDebugLog) {
                 logDebugInfo(debugLogFile, "appendGPXFooter: Footer added", null);
@@ -712,7 +704,7 @@ public class GPSTrackService extends Service {
     }
 
     private void appendKMLStartPoint() {
-        if (gpsTrackDetailKMLFileWriter == null) {
+        if (mKMLWriter == null) {
             if (isEnableDebugLog) {
                 logDebugInfo(debugLogFile, "appendKMLStartPoint: File writer is NULL!", null);
             }
@@ -728,7 +720,7 @@ public class GPSTrackService extends Service {
             pointDescription = "Start of trip '" + sName + "'<br>"
                     + Utils.getFormattedDateTime(lStartTime, false);
 
-            gpsTrackDetailKMLFileWriter.append("<Placemark>\n" + "<name><![CDATA[").append(pointName).append("]]></name>\n").append("<description><![CDATA[")
+            mKMLWriter.append("<Placemark>\n" + "<name><![CDATA[").append(pointName).append("]]></name>\n").append("<description><![CDATA[")
                     .append(pointDescription).append("]]></description>\n").append("<styleUrl>").append(pointStyle).append("</styleUrl>\n").append("<Point>\n").append("<coordinates>")
                     .append(Double.toString(dCurrentLocationLongitude)).append(",")
                     .append(Double.toString(dCurrentLocationLatitude)).append(",")
@@ -762,7 +754,7 @@ public class GPSTrackService extends Service {
      * Create a pause placemark
      */
     private void appendKMLPausePoint() {
-        if (gpsTrackDetailKMLFileWriter == null) {
+        if (mKMLWriter == null) {
             if (isEnableDebugLog) {
                 logDebugInfo(debugLogFile, "appendKMLPausePoint: File writer is NULL!", null);
             }
@@ -785,7 +777,7 @@ public class GPSTrackService extends Service {
                         + "<description><![CDATA[]]></description>\n" + "<styleUrl>#track</styleUrl>\n" + "<MultiGeometry>\n" + "<LineString>\n"
                         + "<coordinates>\n";
 
-                gpsTrackDetailKMLFileWriter.append(kmlTxt);
+                mKMLWriter.append(kmlTxt);
             }
             else { //create two points for pause (Start and End)
                 kmlTxt = "\n</coordinates>\n" + "</LineString>\n" + "</MultiGeometry>\n" + "</Placemark>\n"
@@ -805,7 +797,7 @@ public class GPSTrackService extends Service {
                         + "<description><![CDATA[]]></description>\n" + "<styleUrl>#track</styleUrl>\n" + "<MultiGeometry>\n" + "<LineString>\n"
                         + "<coordinates>\n";
 
-                gpsTrackDetailKMLFileWriter.append(kmlTxt);
+                mKMLWriter.append(kmlTxt);
             }
             if (isEnableDebugLog) {
                 logDebugInfo(debugLogFile, "appendKMLPausePoint: Point added", null);
@@ -820,7 +812,7 @@ public class GPSTrackService extends Service {
     }
 
     private void appendCSVTrackPoint(boolean isValid) throws IOException {
-        gpsTrackDetailCSVFileWriter.append(Long.toString(gpsTrackId)).append(",")
+        mCSVWriter.append(Long.toString(gpsTrackId)).append(",")
                 .append(isUseMetricUnits ? Double.toString(dCurrentAccuracy) : Double.toString(dCurrentAccuracy * 1.093613)).append(",")
                 .append(isUseMetricUnits ? Double.toString(dCurrentLocationAltitude) : Double.toString(dCurrentLocationAltitude * 1.093613)).append(",")
                 .append(Double.toString(dCurrentLocationLatitude)).append(",").append(Double.toString(dCurrentLocationLongitude)).append(",")
@@ -828,11 +820,12 @@ public class GPSTrackService extends Service {
                 .append(Long.toString(lCurrentLocationTime)).append(",")
                 .append(isUseMetricUnits ? Double.toString(dDistanceBetweenLocations) : Double.toString(dDistanceBetweenLocations * 1.093613)).append(",")
                 .append(Double.toString(dCurrentLocationBearing)).append(",").append(Double.toString(dTotalTrackPoints)).append(",")
-                .append(Double.toString(dTotalSkippedTrackPoints)).append(",").append(isValid ? "Yes" : "No").append("\n");
+                .append(Double.toString(dTotalSkippedTrackPoints)).append(",").append(isValid ? "Yes" : "No");
+        mCSVWriter.newLine();
 
         csvPointsCount++;
         if (csvPointsCount == 20) {
-            gpsTrackDetailCSVFileWriter.flush();
+            mCSVWriter.flush();
             csvPointsCount = 0;
         }
 
@@ -859,27 +852,29 @@ public class GPSTrackService extends Service {
         @SuppressLint("WrongConstant") String currentLocationDateTimeGPXStr = currentLocationDateTime.get(Calendar.YEAR) + "-" + Utils.pad(currentLocationDateTime.get(Calendar.MONTH) + 1, 2) + "-"
                 + Utils.pad(currentLocationDateTime.get(Calendar.DAY_OF_MONTH), 2) + "T" + Utils.pad(currentLocationDateTime.get(Calendar.HOUR_OF_DAY), 2)
                 + ":" + Utils.pad(currentLocationDateTime.get(Calendar.MINUTE), 2) + ":" + Utils.pad(currentLocationDateTime.get(Calendar.SECOND), 2) + "Z";
-        gpsTrackDetailGPXFileWriter.append("<trkpt lat=\"").append(Double.toString(dCurrentLocationLatitude)).append("\" lon=\"")
-                .append(Double.toString(dCurrentLocationLongitude)).append("\">\n").append("<ele>").append(Double.toString(dCurrentLocationAltitude)).append("</ele>\n")
-                .append("<time>").append(currentLocationDateTimeGPXStr).append("</time>\n").append("<cmt>Current speed: ").append(speed.toPlainString())
-                .append(isUseMetricUnits ? " km/h" : " mi/h").append("</cmt>\n").append("</trkpt>\n");
+        mGPXWriter.append("<trkpt lat=\"").append(Double.toString(dCurrentLocationLatitude)).append("\" lon=\"")
+                .append(Double.toString(dCurrentLocationLongitude)).append("\">").append("<ele>").append(Double.toString(dCurrentLocationAltitude)).append("</ele>")
+                .append("<time>").append(currentLocationDateTimeGPXStr).append("</time>").append("<cmt>Current speed: ").append(speed.toPlainString())
+                .append(isUseMetricUnits ? " km/h" : " mi/h").append("</cmt>").append("</trkpt>");
+        mGPXWriter.newLine();
 
         gpxPointsCount++;
         if (gpxPointsCount == 20) {
-            gpsTrackDetailGPXFileWriter.flush();
+            mGPXWriter.flush();
             gpxPointsCount = 0;
         }
 
     }
 
     private void appendKMLTrackPoint() throws IOException {
-        gpsTrackDetailKMLFileWriter.append(Double.toString(dCurrentLocationLongitude)).append(",")
+        mKMLWriter.append(Double.toString(dCurrentLocationLongitude)).append(",")
                 .append(Double.toString(dCurrentLocationLatitude))
-                .append(",").append(Double.toString(dCurrentLocationAltitude)).append(" \n");
+                .append(",").append(Double.toString(dCurrentLocationAltitude));
+        mKMLWriter.newLine();
 
         kmlPointsCount++;
         if (kmlPointsCount == 20) {
-            gpsTrackDetailKMLFileWriter.flush();
+            mKMLWriter.flush();
             kmlPointsCount = 0;
         }
     }
@@ -965,11 +960,12 @@ public class GPSTrackService extends Service {
             gopLine += "," + lCurrentLocationTime + "," + lCurrentPauseTime;
         }
 
-        gpsTrackDetailGOPFileWriter.append(gopLine).append("\n");
+        mGOPWriter.append(gopLine);
+        mGOPWriter.newLine();
 
         gopPointsCount++;
         if (gopPointsCount == 20) {
-            gpsTrackDetailGOPFileWriter.flush();
+            mGOPWriter.flush();
             gopPointsCount = 0;
         }
     }
@@ -1121,7 +1117,7 @@ public class GPSTrackService extends Service {
                     dTotalValidTrackPoints++;
                     if (isFirstPoint) {
                         //the first valid location => write the starting point
-                        if (gpsTrackDetailKMLFileWriter != null) { //this is the first track file (multiple track file can be used)
+                        if (mKMLWriter != null) {
                             appendKMLStartPoint();
                         }
                         appendGOPTrackPoint(GPS_TRACK_POINT__START); //Start Point
@@ -1136,8 +1132,7 @@ public class GPSTrackService extends Service {
                     }
                 }
 
-
-                if (gpsTrackDetailCSVFileWriter != null) {
+                if (mCSVWriter != null) {
                     appendCSVTrackPoint(isValid);
                 }
 
@@ -1153,7 +1148,7 @@ public class GPSTrackService extends Service {
 
                     appendGOPTrackPoint(GPS_TRACK_POINT__PAUSE_END); //Pause End Point
 
-                    if (gpsTrackDetailKMLFileWriter != null) {
+                    if (mKMLWriter != null) {
                         appendKMLPausePoint();
                     }
 
@@ -1218,11 +1213,11 @@ public class GPSTrackService extends Service {
                     fSensorMaxSpeed = fSensorCurrentSpeed;
                 }
 
-                if (gpsTrackDetailKMLFileWriter != null && dDistanceBetweenLocations != 0) {
+                if (mKMLWriter != null && dDistanceBetweenLocations != 0) {
                     appendKMLTrackPoint();
                 }
 
-                if (gpsTrackDetailGPXFileWriter != null && dDistanceBetweenLocations != 0) {
+                if (mGPXWriter != null && dDistanceBetweenLocations != 0) {
                     appendGPXTrackPoint();
                 }
 
