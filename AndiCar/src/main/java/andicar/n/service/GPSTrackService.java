@@ -112,13 +112,9 @@ public class GPSTrackService extends Service {
     private double dDistanceBetweenLocations = 0;
     private long gpsTrackId = 0;
     private BufferedWriter mGOPWriter = null;
-    //    private FileWriter gpsTrackDetailGOPFileWriter = null;
     private BufferedWriter mCSVWriter = null;
-    //    private FileWriter gpsTrackDetailCSVFileWriter = null;
     private BufferedWriter mKMLWriter = null;
-    //    private FileWriter gpsTrackDetailKMLFileWriter = null;
     private BufferedWriter mGPXWriter = null;
-    //    private FileWriter gpsTrackDetailGPXFileWriter = null;
     /* tmp values */
     private String sName = null;
     private boolean isUseKML = false;
