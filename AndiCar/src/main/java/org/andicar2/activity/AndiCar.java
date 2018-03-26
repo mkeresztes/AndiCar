@@ -127,9 +127,6 @@ public class AndiCar extends MultiDexApplication {
         try {
             appVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
             oldAppVersion = appPreferences.getInt(getString(R.string.pref_key_app_version), getPackageManager().getPackageInfo(getPackageName(), 0).versionCode);
-            Log.d("AndiCar", "Internal file storage: " + getApplicationContext().getFilesDir().getAbsolutePath());
-            Log.d("AndiCar", "External file storage: " + getApplicationContext().getApplicationInfo().dataDir);
-            Log.d("AndiCar", "BASE_FOLDER: " + ConstantValues.BASE_FOLDER);
 
             if (!appPreferences.contains(getString(R.string.pref_key_app_version))) {
                 e.putInt(getString(R.string.pref_key_app_version), appVersion);
@@ -331,25 +328,29 @@ public class AndiCar extends MultiDexApplication {
         }
 
         if (oldAppVersion <= 18032601) {
-            DBAdapter db = new DBAdapter(getApplicationContext());
-            String sql = "SELECT _id, GPS_TRACK_ID, File FROM gps_trackdetail ORDER BY _id DESC";
-            Cursor c = db.execSelectSql(sql, null);
-            long id, gpsTrackId;
-            String file;
-            while (c.moveToNext()) {
-                id = c.getLong(0);
-                gpsTrackId = c.getLong(1);
-                file = c.getString(2);
-                if (file.contains("/")) {
-                    file = file.substring(file.indexOf(Long.toString(gpsTrackId)));
-                    sql = "UPDATE " + DBAdapter.TABLE_NAME_GPSTRACKDETAIL +
-                            " SET " + DBAdapter.COL_NAME_GPSTRACKDETAIL__FILE + " = '" + file + "'" +
-                            " WHERE " + DBAdapter.COL_NAME_GEN_ROWID + " = " + id;
-                    db.execUpdate(sql);
+            try {
+                DBAdapter db = new DBAdapter(getApplicationContext());
+                String sql = "SELECT _id, GPS_TRACK_ID, File FROM gps_trackdetail ORDER BY _id DESC";
+                Cursor c = db.execSelectSql(sql, null);
+                long id, gpsTrackId;
+                String file;
+                while (c.moveToNext()) {
+                    id = c.getLong(0);
+                    gpsTrackId = c.getLong(1);
+                    file = c.getString(2);
+                    if (file.contains("/")) {
+                        file = file.substring(file.indexOf(Long.toString(gpsTrackId)));
+                        sql = "UPDATE " + DBAdapter.TABLE_NAME_GPSTRACKDETAIL +
+                                " SET " + DBAdapter.COL_NAME_GPSTRACKDETAIL__FILE + " = '" + file + "'" +
+                                " WHERE " + DBAdapter.COL_NAME_GEN_ROWID + " = " + id;
+                        db.execUpdate(sql);
+                    }
                 }
+                c.close();
+                db.close();
+            } catch (Exception e2) {
+                AndiCarCrashReporter.sendCrash(e2);
             }
-            c.close();
-            db.close();
         }
 
         e.apply();
