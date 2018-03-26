@@ -38,7 +38,7 @@ repositories {
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.0 rc1'
     defaultConfig {
         applicationId "org.andicar2.activity"
         minSdkVersion 16
@@ -103,11 +103,11 @@ dependencies {
     compile 'com.android.support:support-v13:27.1.0'
     compile 'com.android.support:multidex:1.0.3'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.android.gms:play-services-auth:11.8.0'
-    compile 'com.google.android.gms:play-services-maps:11.8.0'
-    compile 'com.google.android.gms:play-services-drive:11.8.0'
-    compile 'com.google.firebase:firebase-core:11.8.0'
-    compile 'com.google.firebase:firebase-messaging:11.8.0'
+    compile 'com.google.android.gms:play-services-auth:12.0.0'
+    compile 'com.google.android.gms:play-services-maps:12.0.0'
+    compile 'com.google.android.gms:play-services-drive:12.0.0'
+    compile 'com.google.firebase:firebase-core:12.0.0'
+    compile 'com.google.firebase:firebase-messaging:12.0.0'
     compile 'com.firebase:firebase-jobdispatcher:0.8.3'
     compile files('src/main/lib/activation.jar')
     compile files('src/main/lib/additionnal.jar')
