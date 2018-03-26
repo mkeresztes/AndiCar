@@ -189,34 +189,6 @@ public class GPSTrackService extends Service {
         }
 
         mLocationListener = new AndiCarLocationListener();
-        try {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                logDebugInfo(debugLogFile, "onCreate() terminated due location permissions restrictions", null);
-                Toast.makeText(this, R.string.error_069, Toast.LENGTH_LONG).show();
-                return;
-            }
-
-//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-            if (!FileUtils.isFileSystemAccessGranted(this)) {
-                Toast.makeText(this, R.string.error_070, Toast.LENGTH_LONG).show();
-                stopSelf();
-                return;
-            }
-
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                    Long.parseLong(mPreferences.getString(AndiCar.getAppResources().getString(R.string.pref_key_gps_track_min_time), "0")) * 1000, 0, mLocationListener);
-        }
-        catch (Exception e) {
-            Toast.makeText(this, R.string.error_068, Toast.LENGTH_LONG).show();
-            stopSelf();
-        }
-
-
-        //send an event for statistics
-//        if(mPreferences.getBoolean("SendUsageStatistics", true)) {
-//            AndiCar application = (AndiCar) getApplication();
-//            application.sendGAEvent("GPSTrackService", "ServiceStart", null);
-//        }
     }
 
     @Override
@@ -323,9 +295,6 @@ public class GPSTrackService extends Service {
             //create the track detail file(s)
             try {
                 createFiles();
-
-                // Display a notification about starting the service.
-                showNotification(AndiCarNotification.GPS_TRACKING_IN_PROGRESS_ID);
             } catch (IOException ex) {
                 Logger.getLogger(GPSTrackService.class.getName()).log(Level.SEVERE, null, ex);
                 Utils.showNotReportableErrorDialog(getApplicationContext(), getString(R.string.error_034), ex.getMessage());
@@ -334,6 +303,30 @@ public class GPSTrackService extends Service {
                 }
                 stopSelf();
             }
+
+            // Display a notification about starting the service.
+            showNotification(AndiCarNotification.GPS_TRACKING_IN_PROGRESS_ID);
+            try {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    logDebugInfo(debugLogFile, "onCreate() terminated due location permissions restrictions", null);
+                    Toast.makeText(this, R.string.error_069, Toast.LENGTH_LONG).show();
+                    stopSelf();
+                }
+
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                if (!FileUtils.isFileSystemAccessGranted(this)) {
+                    Toast.makeText(this, R.string.error_070, Toast.LENGTH_LONG).show();
+                    stopSelf();
+                    stopSelf();
+                }
+
+                mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                        Long.parseLong(mPreferences.getString(AndiCar.getAppResources().getString(R.string.pref_key_gps_track_min_time), "0")) * 1000, 0, mLocationListener);
+            } catch (Exception e) {
+                Toast.makeText(this, R.string.error_068, Toast.LENGTH_LONG).show();
+                stopSelf();
+            }
+
             //close the database
             if (mDbAdapter != null) {
                 mDbAdapter.close();
