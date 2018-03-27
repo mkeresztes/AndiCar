@@ -58,6 +58,7 @@ import andicar.n.activity.CommonListActivity;
 import andicar.n.activity.fragment.BaseEditFragment;
 import andicar.n.activity.fragment.GPSTrackControllerFragment;
 import andicar.n.persistence.DBAdapter;
+import andicar.n.utils.AndiCarCrashReporter;
 import andicar.n.utils.ConstantValues;
 import andicar.n.utils.FileUtils;
 import andicar.n.utils.Utils;
@@ -1227,7 +1228,11 @@ public class GPSTrackService extends Service {
                 }
 
                 Logger.getLogger(GPSTrackService.class.getName()).log(Level.SEVERE, null, ex);
-                Toast.makeText(GPSTrackService.this, "File error!\n" + ex.getMessage(), Toast.LENGTH_LONG).show();
+                //ignore crashes when stopping the service
+                if (mGPSTrackServiceStatus != GPS_TRACK_SERVICE_STOPPED) {
+                    AndiCarCrashReporter.sendCrash(ex);
+                    Toast.makeText(GPSTrackService.this, "File error!\n" + ex.getMessage(), Toast.LENGTH_LONG).show();
+                }
                 stopSelf();
             }
 
