@@ -354,6 +354,11 @@ public class GPSTrackControllerFragment extends BaseEditFragment {
         if (mGPSTrackService == null || mGPSTrackService.getArguments() == null || !viewsLoaded) {
             return;
         }
+
+        if (mDbAdapter == null || mDbAdapter.getDb() == null) {
+            mDbAdapter = new DBAdapter(getContext());
+        }
+
         Bundle serviceArguments = mGPSTrackService.getArguments();
         setCarId(serviceArguments.getLong(GPS_TRACK_ARGUMENT_CAR_ID, mCarId));
         mCarId = Utils.initSpinner(mDbAdapter, spnCar, DBAdapter.TABLE_NAME_CAR, DBAdapter.WHERE_CONDITION_ISACTIVE, mCarId, false, false);
