@@ -370,47 +370,9 @@ public class MainActivity extends AppCompatActivity
                 tvDebugInfo.setVisibility(View.GONE);
             }
         }
-//        FloatingActionButton fab = findViewById(R.id.fab);
+
         ImageButton btnAdd = findViewById(R.id.btnAdd);
         if (mLastSelectedCarID > -1) {
-//            fab.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    switch (mPreferences.getString(getString(R.string.pref_key_main_btn_add), "")) {
-//                        case "0":
-//                            MainActivity.this.showPopup(v);
-//                            break;
-//                        case "1":
-//                            showCreateEditRecordActivity(R.id.mnuTrip, -1L);
-//                            break;
-//                        case "2":
-//                            showCreateEditRecordActivity(R.id.mnuRefuel, -1L);
-//                            break;
-//                        case "3":
-//                            showCreateEditRecordActivity(R.id.mnuExpense, -1L);
-//                            break;
-//                        case "4":
-//                            showCreateEditRecordActivity(R.id.mnuGPSTrack, -1L);
-//                            break;
-//                        default:
-//                            MainActivity.this.showPopup(v);
-//                    }
-//                }
-//            });
-//
-//            fab.setOnLongClickListener(new View.OnLongClickListener() {
-//                @Override
-//                public boolean onLongClick(View view) {
-//                    if (Utils.isDebugVersion()) {
-//                        startActivity(new Intent(MainActivity.this, TestActivity.class));
-//                    }
-//                    else {
-//                        MainActivity.this.showPopup(view);
-//                    }
-//                    return true;
-//                }
-//            });
-
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -449,13 +411,6 @@ public class MainActivity extends AppCompatActivity
             });
         }
         else {
-//            fab.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    showDefineCar();
-//                }
-//            });
-
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -468,11 +423,11 @@ public class MainActivity extends AppCompatActivity
         fillContent();
         try {
             if (mPreferences.getBoolean(getString(R.string.pref_key_show_welcome_screen), false)) {
-                WelcomeDialog dialog = new WelcomeDialog(this);
-                dialog.show();
                 SharedPreferences.Editor e = mPreferences.edit();
                 e.putBoolean(getString(R.string.pref_key_show_welcome_screen), false);
                 e.apply();
+                WelcomeDialog dialog = new WelcomeDialog(this);
+                dialog.show();
             } else if (mPreferences.getBoolean(getString(R.string.pref_key_show_whats_new_dialog), false)) {
                 SharedPreferences.Editor e = mPreferences.edit();
                 e.putBoolean(getString(R.string.pref_key_show_whats_new_dialog), false);
