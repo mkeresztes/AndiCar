@@ -114,6 +114,12 @@ import andicar.n.utils.Utils;
 public class PreferenceActivity extends AppCompatPreferenceActivity {
     private static GoogleApiClient mGoogleApiClient;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setupActionBar();
+    }
+
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -180,12 +186,6 @@ public class PreferenceActivity extends AppCompatPreferenceActivity {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         return dpWidth >= 900;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setupActionBar();
     }
 
     /**
