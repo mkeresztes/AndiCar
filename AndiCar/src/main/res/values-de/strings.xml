@@ -24,7 +24,8 @@
         Wenn Sie AndiCar zuvor verwendet haben, besteht die Möglichkeit, die alten Daten wiederherzustellen (falls Datensicherungen vorhanden sind).
     </string>
     <string name="main_activity_welcome_restore">Wiederherstellen</string>
-    <string name="main_activity_welcome_car_info">Auto</string>
+    <string name="main_activity_welcome_create_car">Auto</string>
+    <string name="main_activity_welcome_view_car">Autodetails</string>
     <string name="main_activity_welcome_message_car_created">Hallo! Danke, dass Sie AndiCar installiert haben.\n\n
         Basierend auf Ihrer Geräteeinstellung wird ein neues Auto für Sie erstellt.\n\n
         Ich empfehle Ihnen dringend, die Details dieses Autos (Maßeinheiten und Standardwährung) zu überprüfen und zu ändern / zu korrigieren, bevor Sie es verwenden.\n\n

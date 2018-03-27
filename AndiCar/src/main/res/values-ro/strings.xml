@@ -23,7 +23,8 @@
         Primul pas pentru a utiliza această aplicație este să introduci informațiile despre mașină / vehicul.\n\n
         Dacă ai folosit anterior AndiCar, există posibilitatea de a restaura datele vechi (dacă există copii de sigutanță).</string>
     <string name="main_activity_welcome_restore">Restaurare</string>
-    <string name="main_activity_welcome_car_info">Mașină</string>
+    <string name="main_activity_welcome_create_car">Mașină nouă</string>
+    <string name="main_activity_welcome_view_car">Detaliile mașinii</string>
     <string name="main_activity_welcome_message_car_created">Bună! Îți mulțumesc că ai instalat AndiCar.\n\n
         O mașină a fost creată pe baza localizării dispozitivului.\n\n
         Înainte de a o utiliza, îţi recomand să verifici și să modifici / corectezi detaliile acestei mașini (unități de măsură și valuta implicită).\n\n

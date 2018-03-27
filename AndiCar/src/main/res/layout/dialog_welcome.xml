@@ -81,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/main_activity_welcome_car_info"
+                android:text="@string/main_activity_welcome_create_car"
                 android:textColor="@color/primary_accent"/>
 
             <Button
@@ -90,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/gen_ok"
+                android:text="@string/gen_close_x"
                 android:textColor="@color/primary_accent"/>
 
         </LinearLayout>

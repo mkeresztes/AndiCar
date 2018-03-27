@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.andicar2.activity.AndiCar;
@@ -35,11 +36,26 @@ public class WelcomeDialog extends Dialog {
         setContentView(R.layout.dialog_welcome);
 
         TextView tvWelcomeMessage = findViewById(R.id.tvWelcomeMessage);
-        View btnAddCar = findViewById(R.id.btnAddCar);
+        Button btnAddCar = findViewById(R.id.btnAddCar);
+        Button btnClose = findViewById(R.id.btnClose);
         View btnRestore = findViewById(R.id.btnRestore);
         if (AndiCar.getDefaultSharedPreferences().getBoolean(getContext().getString(R.string.pref_key_car_created), false)) {
             tvWelcomeMessage.setText(R.string.main_activity_welcome_message_car_created);
-            btnAddCar.setVisibility(View.GONE);
+//            btnAddCar.setVisibility(View.GONE);
+            btnAddCar.setText(R.string.main_activity_welcome_view_car);
+            btnClose.setText(R.string.gen_close);
+            btnAddCar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(getContext(), CommonDetailActivity.class);
+                    i.putExtra(CommonListActivity.ACTIVITY_TYPE_KEY, CommonListActivity.ACTIVITY_TYPE_CAR);
+                    i.putExtra(BaseEditFragment.RECORD_ID_KEY, 1L);
+                    i.putExtra(BaseEditFragment.DETAIL_OPERATION_KEY, BaseEditFragment.DETAIL_OPERATION_EDIT);
+                    getContext().startActivity(i);
+                    hide();
+                }
+            });
+
             btnRestore.setVisibility(View.GONE);
         } else {
             tvWelcomeMessage.setText(R.string.main_activity_welcome_message);

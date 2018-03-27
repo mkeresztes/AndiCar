@@ -3,6 +3,7 @@
     <string name="app_name" tools:ignore="MissingTranslation">AndiCar</string>
     <!--APP_Description-->
     <string name="app_description" tools:ignore="MissingTranslation">Free and open source vehicle management software.</string>
+    <string name="gen_close_x" tools:ignore="MissingTranslation"> X </string>
 
     <string name="navigation_drawer_open" tools:ignore="MissingTranslation">Open navigation drawer</string>
     <string name="navigation_drawer_close" tools:ignore="MissingTranslation">Close navigation drawer</string>

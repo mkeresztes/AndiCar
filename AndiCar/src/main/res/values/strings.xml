@@ -164,7 +164,8 @@
         The first step to use this app is to enter your car / vehicle current info.\n\n
         If you had used AndiCar before, there is a possibility to restore the old data (if data backups exist).</string>
     <string name="main_activity_welcome_restore">Restore</string>
-    <string name="main_activity_welcome_car_info">Car</string>
+    <string name="main_activity_welcome_create_car">Create car</string>
+    <string name="main_activity_welcome_view_car">View car details</string>
     <string name="main_activity_welcome_message_car_created">Hi! Thank you for installing AndiCar.\n\n
         Based on your device locale, a new car created on behalf of you.\n\n
         I strongly recommend you to verify and change/correct the details of this car (units of measure and default currency) before using it.\n\n
