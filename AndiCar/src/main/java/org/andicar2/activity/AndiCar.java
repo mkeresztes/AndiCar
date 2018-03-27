@@ -30,7 +30,7 @@ import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
+import com.crashlytics.android.answers.Answers;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
@@ -67,9 +67,7 @@ public class AndiCar extends MultiDexApplication {
 
         // Set up Crashlytics, disabled for debug builds
         if (!Utils.isDebugVersion()) {
-            Crashlytics crashlyticsKit = new Crashlytics.Builder()
-                    .core(new CrashlyticsCore.Builder().build()).build();
-            Fabric.with(this, crashlyticsKit);
+            Fabric.with(this, new Answers(), new Crashlytics());
         } else {
             //subscribe to Debug topic on FBMessaging
             FirebaseMessaging.getInstance().subscribeToTopic("Debug");
