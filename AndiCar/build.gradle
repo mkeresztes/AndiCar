@@ -97,7 +97,7 @@ dependencies {
     //noinspection GradleDependency
     compile 'com.github.Kunzisoft:Android-SwitchDateTimePicker:1.7'
     //https://github.com/hedzr/android-file-chooser
-    compile 'com.obsez.android.lib.filechooser:filechooser:1.1.5'
+    compile 'com.obsez.android.lib.filechooser:filechooser:1.1.6'
     compile 'com.android.support:appcompat-v7:27.1.0'
     compile 'com.android.support:design:27.1.0'
     compile 'com.android.support:support-v4:27.1.0'
