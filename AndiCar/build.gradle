@@ -94,6 +94,7 @@ dependencies {
     //    compile 'com.sun.mail:android-mail:1.5.5'
     //    compile 'com.sun.mail:android-activation:1.5.5'
     //https://material.uplabs.com/posts/android-switchdatetimepicker
+    //noinspection GradleDependency
     compile 'com.github.Kunzisoft:Android-SwitchDateTimePicker:1.7'
     //https://github.com/hedzr/android-file-chooser
     compile 'com.obsez.android.lib.filechooser:filechooser:1.1.5'
