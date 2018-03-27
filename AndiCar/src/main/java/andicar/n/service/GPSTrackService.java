@@ -193,14 +193,16 @@ public class GPSTrackService extends Service {
         super.onStartCommand(intent, flags, startId);
 
         if (intent != null && intent.getAction() != null) {
-            if (intent.getAction().equals(ACTION_PAUSE)) {
-                setServiceStatus(GPSTrackService.GPS_TRACK_SERVICE_PAUSED);
-            }
-            else if (intent.getAction().equals(ACTION_RESUME)) {
-                setServiceStatus(GPSTrackService.GPS_TRACK_SERVICE_RUNNING);
-            }
-            else if (intent.getAction().equals(ACTION_STOP)) {
-                setServiceStatus(GPSTrackService.GPS_TRACK_SERVICE_STOPPED);
+            switch (intent.getAction()) {
+                case ACTION_PAUSE:
+                    setServiceStatus(GPSTrackService.GPS_TRACK_SERVICE_PAUSED);
+                    break;
+                case ACTION_RESUME:
+                    setServiceStatus(GPSTrackService.GPS_TRACK_SERVICE_RUNNING);
+                    break;
+                case ACTION_STOP:
+                    setServiceStatus(GPSTrackService.GPS_TRACK_SERVICE_STOPPED);
+                    break;
             }
         }
         else {
@@ -1062,17 +1064,6 @@ public class GPSTrackService extends Service {
             boolean isValid = true;
             double gopDistance = 0;
 
-//            if (gpsTrackDetailCSVFileWriter == null) {
-//                if (isEnableDebugLog) {
-//                    logDebugInfo(debugLogFile, "onLocationChanged: Error: gpsTrackDetailCSVFileWriter == null", null);
-//                }
-//
-//                Toast.makeText(GPSTrackService.this, "No File Writer!", Toast.LENGTH_LONG).show();
-//                stopSelf();
-//                return;
-//            }
-            //            Log.w("GPSTrackService", "onLocationChanged: dTotalTrackPoints = " + dTotalTrackPoints);
-
             if (loc == null) {
                 if (isEnableDebugLog) {
                     logDebugInfo(debugLogFile, "onLocationChanged: Error: loc == null", null);
@@ -1227,7 +1218,6 @@ public class GPSTrackService extends Service {
                     logDebugInfo(debugLogFile, "onLocationChanged: Exception: " + ex.getMessage(), ex);
                 }
 
-                Logger.getLogger(GPSTrackService.class.getName()).log(Level.SEVERE, null, ex);
                 //ignore crashes when stopping the service
                 if (mGPSTrackServiceStatus != GPS_TRACK_SERVICE_STOPPED) {
                     AndiCarCrashReporter.sendCrash(ex);
@@ -1240,14 +1230,6 @@ public class GPSTrackService extends Service {
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-//            if (provider.equals(LocationManager.GPS_PROVIDER)) {
-//                if (status == LocationProvider.OUT_OF_SERVICE) {
-//                    showNotification(AndiCarNotification.GPS_OUT_OF_SERVICE_ID);
-//                }
-//                if (status == LocationProvider.AVAILABLE) {
-//                    showNotification(AndiCarNotification.GPS_TRACKING_IN_PROGRESS_ID);
-//                }
-//            }
         }
 
         @Override
